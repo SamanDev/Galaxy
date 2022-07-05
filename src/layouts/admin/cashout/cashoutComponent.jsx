@@ -1,0 +1,25 @@
+import React, { useState } from "react";
+import PerfectMoney from "./PerfectMoney";
+import Transfer from "./Transfer";
+import USDT from "./USDT";
+import BTC from "./BTC";
+import Toman from "./Toman";
+import Ticket from "./Ticket";
+import AddCart from "./AddCart";
+
+const depositArea = (props) => {
+  const [depMode] = useState(props.cashMode);
+  return (
+    <span className="myaccount popupmenu">
+      {depMode === "Ticket" && <Ticket {...props} />}
+      {depMode === "addCart" && <AddCart />}
+      {depMode === "Transfer" && <Transfer />}
+      {depMode == "USDT" && <USDT mode="USDT" />}
+      {depMode == "Bitcoin" && <BTC mode="BTC" />}
+      {depMode == "Toman" && <Toman mode="Toman" />}
+      {depMode == "PerfectMoney" && <PerfectMoney mode="PerfectMoney" />}
+    </span>
+  );
+};
+
+export default depositArea;
