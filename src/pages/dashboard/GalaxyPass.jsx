@@ -1,0 +1,63 @@
+import React from "react";
+import {
+  Icon,
+  Label,
+  Comment,
+  List,
+  Image,
+  Button,
+  Divider,
+} from "semantic-ui-react";
+import { doCurrency, levelPassReward, levelPassList } from "../../const";
+import LevelIcon from "../../utils/LevelIcon";
+import GiftsDesc from "../../utils/GiftsDesc";
+const LevelList = () => {
+  var totalReward = 0;
+  return (
+    <span className="myaccount popupmenu">
+      <List divided inverted verticalAlign="middle" className="myaccount">
+        <List.Item>
+          <List.Content className="rtl text-center">
+            <GiftsDesc
+              desc={"گلکسی پَس از دهم تا پانزدهم هر ماه میلادی  برگزار می شود."}
+              desc2={
+                " هر بازیکن با 5 ساعت بازی روی میزهای 15K/15K و بالاتر طی مدت 24 ساعت (18:00 تا 18:00) جایزه آن روز را دریافت می نماید و به مرحله بعدی خواهد رفت."
+              }
+              desc3={
+                "در ساعت 18:00 هر روز گلکسی پَس ریست خواهد شد و مرحله جدید برای بازیکنانی که مرحله قبل را تمام کرده اند شروع به کار خواهد کرد و بازیکنانی که مرحله قبل را تمام نکرده اند مجددا 24 ساعت زمان دارند تا این مرحله را تمام کنند."
+              }
+              amount="110000000"
+              subtitle="تومان برای هر بازیکن"
+            />
+          </List.Content>
+        </List.Item>
+        {Array.apply(0, Array(levelPassList.length)).map(function (x, i) {
+          totalReward += levelPassReward(i);
+          return (
+            <List.Item key={i} id={"lvl" + (i + 1)}>
+              <List.Content floated="right" className="rtl">
+                <span className="text-gold">
+                  {doCurrency(levelPassReward(i))}{" "}
+                </span>
+                <span className="mysmall">
+                  <small className="farsi">تومان پاداش</small>
+                </span>
+                <div className="mysmall">
+                  {doCurrency(totalReward)}{" "}
+                  <small className="farsi mysmall">مجموع پاداش</small>
+                </div>
+              </List.Content>
+              <LevelIcon
+                icon="fab fa-google big star"
+                level={i + 1}
+                text={"Level " + (i + 1)}
+              />
+            </List.Item>
+          );
+        })}
+      </List>
+    </span>
+  );
+};
+
+export default LevelList;

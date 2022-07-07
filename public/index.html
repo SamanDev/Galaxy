@@ -17,13 +17,13 @@
     <link rel="stylesheet" href="/assets/fontawesome/css/all.css" />
 
     <link rel="stylesheet" href="/assets/css/style.css" />
+
     <link
       type="text/css"
       rel="stylesheet"
       href="/assets/mmenu-js-master/dist/mmenu.css"
       />
-    <script src="/assets/mburger-webcomponent-master/dist/mburger/index.js"
-      type="module"></script>
+
     <meta name="theme-color" content="#000000" />
     <meta
       name="description"
@@ -43,126 +43,11 @@
 
     <script src="/assets/js/bootstrap.bundle.min.js"></script>
     <script src="/assets/mmenu-js-master/dist/mmenu.js"></script>
+
+    <script src="/assets/mburger-webcomponent-master/dist/mburger/index.js"
+      type="module"></script>
     <script src="/assets/js/chart.js"></script>
     <script src="/assets/js/main.js"></script>
-    <script>
-      function createMenu(){
-        const menu = new Mmenu(
-          "#menuleft",
-          {
-            setSelected: {
-              hover: true,
-              parent: true,
-            },
-            iconbar: {
-                        use: "(min-width: 450px)",
-                        top: [
-                            '<a href="#/"><i class="fas fa-home" style="left:0"></i></a>',
-                        ],
-                        bottom: [
-                            '<a href="#/"><span class="fa fa-twitter"></span></a>',
-                            '<a href="#/"><span class="fa fa-facebook"></span></a>',
-                            '<a href="#/"><span class="fa fa-youtube"></span></a>',
-                        ],
-                    },
-                    iconPanels: {
-                        add: false,
-                        visible: 1,
-                    },
-            hooks: {
-              "openPanel:before": (panel) => {
-                console.log("Started opening pane: " + panel.id);
-              },
-            },
-            offCanvas: {
-              position: "left",
-            },
 
-            sidebar: {
-              expanded: {
-                use: "(min-width: 1024px)",
-                initial: "closed",
-              },
-            },
-            theme: "dark",
-          },
-          {
-            offCanvas: {
-              menu: {
-                insertSelector: "#root",
-              },
-              page: {
-                selector: ".App",
-              },
-            },
-          }
-        );
-
-       
-        const panel = new Mmenu(
-          "#panelright",
-          {
-            
-            offCanvas: {
-              
-              position: "right-front",
-            },
-            theme: "black",
-            
-          },
-          {
-            
-            offCanvas: {
-              menu: {
-                insertSelector: "body",
-              },
-              page: {
-                selector: "#root",
-              },
-            },
-            
-          }
-        );
-        new Mmenu(
-          "#paneldeposit",
-          {
-            
-            offCanvas: {
-              
-              position: "right-front",
-            },
-            theme: "light",
-            
-          },
-          {
-            
-            offCanvas: {
-              menu: {
-                insertSelector: "body",
-              },
-              page: {
-                selector: "#root",
-              },
-            },
-            
-          }
-        );
-        
-
-      }
-      document.addEventListener("DOMContentLoaded", () => {
-        
-try {
-  createMenu()
-} catch (error) {
-  setTimeout(() => {
-    createMenu()
-  },200)
-  
-}
-
-
-      });
-    </script>
   </body>
 </html>

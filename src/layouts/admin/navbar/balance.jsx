@@ -2,59 +2,26 @@ import React from "react";
 import { Segment, Icon, Label, Popup, Progress } from "semantic-ui-react";
 import DepositArea from "../deposit/index.jsx";
 import CashoutArea from "../cashout/index.jsx";
-
-const Balance = () => (
+import LevelIcon from "../../../utils/LevelIcon";
+const Balance = (prop) => (
   <>
-    <Segment
-      basic
-      inverted
-      style={{
-        margin: 0,
-        padding: 0,
-        background: "transparent",
-        marginRight: 20,
-        paddingTop: 12,
-        paddingLeft: 15,
-      }}
-    >
-      <mm-burger
-        id="openMenu"
-        menu="menuleft"
-        fx="spin"
-        ease="funky"
-        role="button"
-        tabindex="0"
-        title="Open the menu"
-      ></mm-burger>
-    </Segment>
-
     <Segment
       className="myaccount"
       inverted
       style={{ margin: 0, padding: 10, color: "#fff" }}
     >
-      <Icon
-        name="star"
-        inverted
-        size="big"
-        className="lv30"
-        style={{ position: "relative", textAlign: "center", top: -3 }}
-      >
-        <Label
-          size="tiny"
-          style={{
-            margin: 0,
-            padding: 0,
-            color: "#fff",
-            background: "transparent",
-            position: "relative",
-            top: "-120%",
-            fontFamily: "Lato,'Helvetica Neue',Arial,Helvetica,sans-serif",
-          }}
-        >
-          30
-        </Label>
-      </Icon>
+      <LevelIcon
+        level={61}
+        style={{
+          position: "relative",
+          textAlign: "center",
+          top: -3,
+          cursor: "pointer",
+        }}
+        onClick={() => {
+          prop.openPanel(".levels", "#lvl45");
+        }}
+      />
       <Label color="black" className="balanceLable">
         HangOver
       </Label>
