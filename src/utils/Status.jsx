@@ -4,27 +4,32 @@ import Accordion from "../pages/dashboard/AccordionCashier";
 const LabelExampleBasic = (prop) => {
   if (prop.status === "Done") {
     return (
-      <Label {...prop}>
-        <Icon name="check" /> {prop.status}
+      <Label size={prop.size} color={prop.color ? prop.color : "green"}>
+        <Icon name="check" color={prop.icon && "green"} />
+        {!prop.icon && <> {prop.status}</>}
       </Label>
     );
   }
   if (prop.status === "Canceled") {
     return (
-      <Label {...prop}>
-        <Icon name="times" /> {prop.status}
+      <Label size={prop.size} color={prop.color ? prop.color : "red"}>
+        <Icon name="times" color={prop.icon && "red"} />
+        {!prop.icon && <> {prop.status}</>}
       </Label>
     );
   }
   if (prop.status === "Pending") {
     return (
-      <Label {...prop}>
-        <Icon name="spinner" loading /> {prop.status}
+      <Label size={prop.size} color={prop.color ? prop.color : "teal"}>
+        <Icon name="spinner" loading />
+        {!prop.icon && <> {prop.status}</>}
       </Label>
     );
   }
   if (prop.status === "Info") {
-    return <Accordion {...prop} />;
+    return (
+      <Accordion size={prop.size} color={prop.color ? prop.color : "blue"} />
+    );
   }
 };
 

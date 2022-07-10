@@ -10,6 +10,8 @@ import {
 } from "semantic-ui-react";
 import { doCurrency, levelPassReward, levelPassList } from "../../const";
 import LevelIcon from "../../utils/LevelIcon";
+import AddCalendar from "../../utils/AddCalendar";
+import GalaxyIcon from "../../utils/GalaxyIcon";
 import GiftsDesc from "../../utils/GiftsDesc";
 const LevelList = () => {
   var totalReward = 0;
@@ -18,14 +20,30 @@ const LevelList = () => {
       <List divided inverted verticalAlign="middle" className="myaccount">
         <List.Item>
           <List.Content className="rtl text-center">
+            <GalaxyIcon
+              mode="gpass"
+              level=""
+              text="GPass"
+              style={{
+                width: 32,
+                margin: "auto",
+                transform: "scale(1.5)",
+                direction: "ltr",
+              }}
+            />
+            <AddCalendar start="1" dur="15" format="0000" title="GallaxyPass" />
             <GiftsDesc
-              desc={"گلکسی پَس از دهم تا پانزدهم هر ماه میلادی  برگزار می شود."}
+              desc={
+                "گلکسی پَس از اول تا پانزدهم هر ماه میلادی طی دو هفته برگزار می شود."
+              }
               desc2={
-                " هر بازیکن با 5 ساعت بازی روی میزهای 15K/15K و بالاتر طی مدت 24 ساعت (18:00 تا 18:00) جایزه آن روز را دریافت می نماید و به مرحله بعدی خواهد رفت."
+                " هر بازیکن با 5 ساعت بازی روی میزهای 15K/15K و بالاتر طی مدت 24 ساعت  جایزه آن روز را دریافت می نماید و به مرحله بعدی خواهد رفت."
               }
               desc3={
-                "در ساعت 18:00 هر روز گلکسی پَس ریست خواهد شد و مرحله جدید برای بازیکنانی که مرحله قبل را تمام کرده اند شروع به کار خواهد کرد و بازیکنانی که مرحله قبل را تمام نکرده اند مجددا 24 ساعت زمان دارند تا این مرحله را تمام کنند."
+                "در ساعت 00:01 هر روز گلکسی پَس ریست خواهد شد و مرحله جدید برای بازیکنانی که مرحله قبل را تمام کرده اند شروع به کار خواهد کرد و بازیکنانی که مرحله قبل را تمام نکرده اند مجددا 24 ساعت زمان دارند تا این مرحله را تمام کنند."
               }
+              desc4="برای شرکت در گلکسی پَس یا باید لول شما  7 یا بالاتر باشد. یا موجودی اکانت شما بیش از 10,000,000 تومان  باشد."
+              desc5="توجه داشته باشید اگر لِوِل شما کمتر از 7 باشد، برداشت و انتقال شما به مدت 72 ساعت بسته خواهد شد."
               amount="110000000"
               subtitle="تومان برای هر بازیکن"
             />

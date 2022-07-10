@@ -1,19 +1,46 @@
-import { FastField } from 'formik';
-import React from 'react';
-
-const Input = ({formik,type,name,icon,label}) => {
-    return (
-        <div 
-        className={`wrap-input100 validate-input ${formik.errors[name] && formik.touched[name] ? 'alert-validate' : null}`}
-        data-validate = {formik.errors[name]}
+import { FastField } from "formik";
+import React from "react";
+import {
+  Label,
+  Input,
+  Header,
+  Divider,
+  Icon,
+  Button,
+  Segment,
+  Message,
+  Form,
+} from "semantic-ui-react";
+const InputF = ({ formik, type, name, icon, label, labelcolor, size }) => {
+  console.log(formik);
+  return (
+    <Form as="div">
+      {formik.errors[name] && formik.touched[name] && (
+        <Label className="farsi" basic color="red" pointing="below" size={size}>
+          {formik.errors[name]}
+        </Label>
+      )}
+      <Form.Input
+        size={size}
+        fluid
+        labelPosition="left"
+        defaultValue=""
+        style={{ marginBottom: 10 }}
+      >
+        <Label
+          size="tiny"
+          pointing="right"
+          color={
+            formik.errors[name] && formik.touched[name] ? "red" : labelcolor
+          }
+          className="farsi"
         >
-            <FastField className="input100 " type={type} name={name} placeholder={label} />
-            <span className="focus-input100"></span>
-            <span className="symbol-input100">
-                <i className={icon}></i>
-            </span>
-        </div>
-    );
-}
+          {label}
+        </Label>
+        <FastField type={type} name={name} placeholder={name} />
+      </Form.Input>
+    </Form>
+  );
+};
 
-export default Input;
+export default InputF;

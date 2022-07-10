@@ -1842,7 +1842,7 @@ var _list = [
     coinValue: null,
     startBalance: 2.0,
     endBalance: 7.0,
-    status: "Pending",
+    status: "Done",
     mode: "Deposit",
     gateway: "PerfectMoney",
     coin: null,
@@ -1884,7 +1884,7 @@ const ListExampleInverted = (prop) => {
   }
 
   return (
-    <List inverted divided className="mylist" size="small">
+    <List inverted divided size="mini" className="mylist">
       {_list.map(function (item, i) {
         return (
           <List.Item key={i}>
@@ -1914,9 +1914,7 @@ const ListExampleInverted = (prop) => {
                   </List.Description>
                   <List.Description>
                     <AmountColor amount={item.amount} />
-                    <div>
-                      {item.mode} {item.gateway && " - " + item.gateway}
-                    </div>
+                    <div className="text-gold">{item.mode}</div>
                     {(prop.mode == "BTC" ||
                       prop.mode == "USDT" ||
                       prop.mode == "PerfectMoney") && (

@@ -2,9 +2,12 @@ import React from "react";
 import ProductTable from "./pages/dashboard/ProductTable";
 import Table from "./pages/dashboard/Table";
 import Accordion from "./pages/dashboard/Accordion";
+import Invite from "./pages/dashboard/Invite";
+import InviteLink from "./pages/dashboard/InviteLink";
 import ActiveTable from "./pages/dashboard/ActiveTable";
 import LevelList from "./pages/dashboard/Levels";
 import PassList from "./pages/dashboard/GalaxyPass";
+import VIP from "./pages/dashboard/VIP";
 import League from "./pages/dashboard/League";
 import UserList from "./pages/dashboard/Users";
 import DepositComponent from "./layouts/admin/deposit/depositComponent.jsx";
@@ -176,16 +179,28 @@ export const menuData = [
     idname: "login",
     submenu: [
       {
-        label: "Commition",
-        helper: "21%",
+        label: "کمیسیون",
+        bonus: "21%",
         icon: "fas fa-heart",
         component: <ProductTable />,
       },
       {
-        label: "Rackback",
-        helper: "10%",
+        label: "ریک بک پوکر",
+        bonus: "10%",
         icon: "fas fa-heart",
         component: <ProductTable />,
+      },
+      {
+        label: "ساخت اکانت برای دوستان",
+        icon: "fas fa-plus",
+        idname: "register",
+        component: <Invite />,
+      },
+      {
+        label: "دعوت دوستان با لینک اختصاصی",
+        icon: "fas fa-link",
+        idname: "invitelink",
+        component: <InviteLink />,
       },
     ],
   },
@@ -197,19 +212,19 @@ export const menuData = [
       {
         label: "پاداش لِوِل ها",
         idname: "levels",
-        icon: "fas fa-star text-gold",
+        icon: "fas fa-star yellow",
         component: <LevelList />,
       },
       {
         label: "گلکسی پَس",
         idname: "gpass",
         bonus: "Level 7",
-        icon: "fab fa-google text-danger",
+        icon: "fab fa-google yellow",
         submenu: [
           {
             label: "نتایج زنده",
             icon: "fas fa-stream",
-            component: <League />,
+            component: <LevelList />,
           },
           {
             component: <PassList />,
@@ -217,35 +232,32 @@ export const menuData = [
         ],
       },
       {
-        label: "لیگ هفتگی",
-        idname: "league",
-        icon: "fas fa-medal text-warning",
+        label: "VIP 25/50K",
+        idname: "vip",
+        bonus: "Level 25",
+        icon: "fab fa-viacoin yellow",
         submenu: [
           {
-            label: "آخرین نتایج",
-            icon: "fas fa-stream",
-            component: <League />,
-          },
-          {
-            component: <League />,
+            component: <VIP />,
           },
         ],
       },
       {
-        label: "VIP 25/50K",
-        idname: "vip",
-        icon: "fas fa-heartbeat text-danger",
+        label: "لیگ روزانه",
+        idname: "league",
+        icon: "fas fa-medal yellow",
         submenu: [
           {
             label: "آخرین نتایج",
             icon: "fas fa-stream",
-            component: <League />,
+            component: <LevelList />,
           },
           {
             component: <League />,
           },
         ],
       },
+
       {
         label: "Rackback",
         helper: "10%",

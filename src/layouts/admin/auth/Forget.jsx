@@ -18,14 +18,13 @@ import * as Yup from "yup";
 import { Alert } from "../../../utils/alerts";
 
 const initialValues = {
-  username: "",
+  email: "",
   password: "",
 };
 const validationSchema = Yup.object({
-  username: Yup.string()
-    .required("نام کاربری حداقل باشد 3 کاراگتر باشد.")
-    .min(3, "نام کاربری حداقل باشد 3 کاراگتر باشد.")
-    .max(12, "نام کاربری حداکثر باشد 12 کاراگتر باشد."),
+  email: Yup.string()
+    .required("لطفا یک ایمیل معتبر وارد کنید.")
+    .email("لطفا یک ایمیل معتبر وارد کنید."),
   password: Yup.string()
     .required("کلمه عبور حداقل باشد 6 کاراگتر باشد.")
     .min(6, "کلمه عبور حداقل باشد 6 کاراگتر باشد."),
@@ -50,13 +49,7 @@ const depositArea = (prop) => {
   const [depMode, setDepMode] = useState(false);
   const navigate = useNavigate();
   return (
-    <Formik
-      initialValues={initialValues}
-      onSubmit={(values, submitMethods) =>
-        onSubmit(values, submitMethods, navigate)
-      }
-      validationSchema={validationSchema}
-    >
+    <Formik initialValues={initialValues} validationSchema={validationSchema}>
       {(formik) => {
         return (
           <Form>
@@ -71,16 +64,16 @@ const depositArea = (prop) => {
               }}
             >
               <Header as="h2" inverted className="farsi">
-                ورود به گلکسی
+                بازیابی کلمه عبور
               </Header>
               <Divider hidden />
 
               <AuthFormikControl
                 formik={formik}
                 control="input"
-                type="text"
-                name="username"
-                label="نام کاربری"
+                type="email"
+                name="email"
+                label="ایمیل"
                 labelcolor={prop.labelcolor}
                 size={prop.size}
               />
@@ -93,26 +86,39 @@ const depositArea = (prop) => {
                 labelcolor={prop.labelcolor}
                 size={prop.size}
               />
-
-              <Label
-                color="black"
-                className="farsi-inline"
-                style={{
-                  textAlign: "right",
-                  display: "block",
-                  padding: "10px 10px",
-                }}
+              <AuthFormikControl
+                formik={formik}
+                control="input"
+                type="password"
+                name="password2"
+                label="تکرار کلمه عبور"
+                labelcolor={prop.labelcolor}
+                size={prop.size}
+              />
+              <Divider inverted />
+              <Message
+                color={prop.labelcolor}
+                compact
+                className="mymessage"
                 size="mini"
-                onClick={() => {
-                  prop.setFirstOpen(false);
-                  prop.setThirdOpen(true);
-                }}
+                icon
               >
-                کلمه عبور را فراموش کرده اید؟
-              </Label>
+                <Icon
+                  circular
+                  inverted
+                  color="black"
+                  name="info"
+                  style={{ fontSize: 20 }}
+                />
+
+                <Message.Content className="farsi">
+                  کلمه عبور به ایمیل شما ارسال خواهد شد. لطفا در وارد کردن آن
+                  دقت نمایید.
+                </Message.Content>
+              </Message>
 
               <Button
-                content="ورود"
+                content="ارسال لینک  فعالسازی"
                 fluid
                 type="submit"
                 size={prop.size}
@@ -122,20 +128,6 @@ const depositArea = (prop) => {
                 className="farsi"
                 color="red"
               />
-              <Divider inverted />
-
-              <Button
-                color="black"
-                fluid
-                className="farsi-inline"
-                size="mini"
-                onClick={() => {
-                  prop.setFirstOpen(false);
-                  prop.setSecondOpen(true);
-                }}
-              >
-                اکانت ندارید؟ ثبت نام کنید
-              </Button>
             </Segment>
           </Form>
         );

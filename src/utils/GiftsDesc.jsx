@@ -39,7 +39,18 @@ const LevelIcon = (prop) => {
           <div className="farsi mywrap">{prop.desc3}</div>
         </>
       )}
-      <div id="flipcountdownbox1"></div>
+      {prop.desc4 && (
+        <>
+          <Divider />
+          <div className="farsi mywrap">{prop.desc4}</div>
+        </>
+      )}
+      {prop.desc5 && (
+        <>
+          <Divider />
+          <div className="farsi mywrap">{prop.desc5}</div>
+        </>
+      )}
     </Segment>
   );
 };

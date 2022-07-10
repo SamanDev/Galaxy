@@ -1,8 +1,16 @@
 import React from "react";
-import { Segment, Icon, Label, Popup, Progress } from "semantic-ui-react";
+import {
+  Segment,
+  Icon,
+  Label,
+  Popup,
+  Progress,
+  Divider,
+} from "semantic-ui-react";
 import DepositArea from "../deposit/index.jsx";
 import CashoutArea from "../cashout/index.jsx";
 import LevelIcon from "../../../utils/LevelIcon";
+import List from "../../../pages/dashboard/ListCashier";
 const Balance = (prop) => (
   <>
     <Segment
@@ -12,11 +20,11 @@ const Balance = (prop) => (
     >
       <LevelIcon
         level={61}
+        link
         style={{
           position: "relative",
           textAlign: "center",
           top: -3,
-          cursor: "pointer",
         }}
         onClick={() => {
           prop.openPanel(".levels", "#lvl45");
@@ -36,7 +44,7 @@ const Balance = (prop) => (
         offset={[-50, 0]}
         basic
         trigger={
-          <Icon circular size="small" inverted name="plus" color="green" />
+          <Icon circular size="small" inverted name="plus" color="green" link />
         }
       >
         <DepositArea />
@@ -49,7 +57,7 @@ const Balance = (prop) => (
         offset={[-78, 0]}
         basic
         trigger={
-          <Icon circular size="small" inverted color="red" name="minus" />
+          <Icon circular size="small" inverted color="red" name="minus" link />
         }
       >
         <CashoutArea />
@@ -77,20 +85,9 @@ const Balance = (prop) => (
           Total:
           <Label.Detail>1,0500,000</Label.Detail>
         </Label>
-        <br />
-        <Progress
-          percent={90}
-          inverted
-          indicating
-          size="small"
-          style={{
-            margin: 0,
 
-            marginTop: 5,
-          }}
-        >
-          50%
-        </Progress>
+        <Divider />
+        <List status="Pending" />
       </Popup>
       <Progress
         percent={50}

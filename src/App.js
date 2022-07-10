@@ -1,12 +1,17 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import AdminLayout from "./layouts/admin/Index";
-import { Image } from "semantic-ui-react";
+import { Image, Modal } from "semantic-ui-react";
 import { menuData, panelData } from "./const";
 import { Link } from "react-router-dom";
 import { useIsLogin } from "./hook/authHook";
 import $ from "jquery";
-
+import { Route, Routes } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import LoginArea from "./layouts/admin/auth/Login.jsx";
+import RegisterArea from "./layouts/admin/auth/Register.jsx";
+import ForgetArea from "./layouts/admin/auth/Forget";
+import { Dimmer, Loader, Segment } from "semantic-ui-react";
 var menu = false;
 var panelMenu = false;
 var api;
@@ -249,14 +254,24 @@ const openPanel = (id, toId) => {
   }
 };
 
-function App() {
+function App(prop) {
   const [loading, isLogin] = useIsLogin();
+  const [firstOpen, setFirstOpen] = useState(false);
+  const [secondOpen, setSecondOpen] = useState(false);
+  const [thirdOpen, setThirdOpen] = useState(false);
+  const navigate = useNavigate();
+
   menu = false;
 
   const location = useLocation();
 
   useEffect(() => {
-    if (menu == false) {
+    if (window.location.href.toString().indexOf("/login") > -1) {
+      setFirstOpen(true);
+    }
+  }, [window.location.href]);
+  useEffect(() => {
+    if (menu == false && !loading) {
       menu = new Mmenu(
         "#menuleft",
         {
@@ -338,32 +353,130 @@ function App() {
         includeHTML();
       });
     }
-  }, []);
+  }, [loading]);
   useEffect(() => {
-    api.close();
+    try {
+      api.close();
+    } catch (error) {}
   }, [location.pathname]);
-
-  return (
-    <>
-      <nav id="menuleft">
-        <ul>
-          {menuData.map(function (menu, i) {
-            return doMenu(menu, i);
-          })}
-        </ul>
-      </nav>
-      <div className="App">
-        <AdminLayout openPanel={openPanel} />
-      </div>
-      <nav id="panelright">
-        <ul>
-          {panelData.map(function (menu, i) {
-            return doMenu(menu, i);
-          })}
-        </ul>
-      </nav>
-    </>
-  );
+  if (loading) {
+    return (
+      <Dimmer active>
+        <Loader className="farsi-inline">لطفا صبر کنید...</Loader>
+      </Dimmer>
+    );
+  } else {
+    return (
+      <>
+        <nav id="menuleft">
+          <ul>
+            {menuData.map(function (menu, i) {
+              return doMenu(menu, i);
+            })}
+          </ul>
+        </nav>
+        <div className="App">
+          <Modal
+            basic
+            size="tiny"
+            className="myaccount popupmenu"
+            onClose={() => {
+              setFirstOpen(false);
+              navigate("/");
+            }}
+            onOpen={() => setFirstOpen(true)}
+            open={firstOpen || prop.showLogin}
+          >
+            <LoginArea
+              setFirstOpen={setFirstOpen}
+              setSecondOpen={setSecondOpen}
+              setThirdOpen={setThirdOpen}
+              size="small"
+              labelcolor="orange"
+            />
+          </Modal>
+          <Modal
+            basic
+            size="tiny"
+            className="myaccount popupmenu"
+            onClose={() => {
+              setThirdOpen(false);
+              setFirstOpen(true);
+            }}
+            onOpen={() => setThirdOpen(true)}
+            open={thirdOpen}
+          >
+            <ForgetArea
+              setFirstOpen={setFirstOpen}
+              setSecondOpen={setSecondOpen}
+              setThirdOpen={setThirdOpen}
+              size="small"
+              labelcolor="blue"
+            />
+          </Modal>
+          <Modal
+            basic
+            size="tiny"
+            className="myaccount popupmenu"
+            onClose={() => {
+              setSecondOpen(false);
+              navigate("/");
+            }}
+            onOpen={() => setSecondOpen(true)}
+            open={secondOpen || prop.showRegister}
+          >
+            <RegisterArea
+              setFirstOpen={setFirstOpen}
+              setSecondOpen={setSecondOpen}
+              size="small"
+              labelcolor="green"
+            />
+          </Modal>
+          <Routes>
+            <Route
+              path="/login"
+              element={
+                <AdminLayout
+                  openPanel={openPanel}
+                  showLogin={true}
+                  setFirstOpen={setFirstOpen}
+                  setSecondOpen={setSecondOpen}
+                />
+              }
+            />
+            <Route
+              path="/register"
+              element={
+                <AdminLayout
+                  openPanel={openPanel}
+                  showRegister={true}
+                  setFirstOpen={setFirstOpen}
+                  setSecondOpen={setSecondOpen}
+                />
+              }
+            />
+            <Route
+              path="*"
+              element={
+                <AdminLayout
+                  openPanel={openPanel}
+                  setFirstOpen={setFirstOpen}
+                  setSecondOpen={setSecondOpen}
+                />
+              }
+            />
+          </Routes>
+        </div>
+        <nav id="panelright" className="fadeout">
+          <ul>
+            {panelData.map(function (menu, i) {
+              return doMenu(menu, i);
+            })}
+          </ul>
+        </nav>
+      </>
+    );
+  }
 }
 
 export default App;

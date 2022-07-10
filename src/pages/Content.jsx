@@ -22,13 +22,16 @@ import Attributes from "./category/attrs/Attributes";
 
 const Content = (prop) => {
   const { showSidebar } = useContext(AdminContext);
+
   return (
     <section id="content_section" className={`py-2 px-3`}>
       <Routes>
         <Route path="/" element={<Dashboard {...prop} />} />
-        <Route path="/games" element={<Games />}>
+
+        <Route path="/games" element={<Games {...prop} />}>
           <Route path=":gameId" />
         </Route>
+
         <Route
           path="/categories/:categoryId/attributes"
           element={<Attributes />}

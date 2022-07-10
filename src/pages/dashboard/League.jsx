@@ -12,6 +12,8 @@ import {
 import { doCurrency, levelLeagueReward, levelLeagueList } from "../../const";
 import LevelIcon from "../../utils/LevelIcon";
 import GiftsDesc from "../../utils/GiftsDesc";
+import AddCalendar from "../../utils/AddCalendar";
+import GalaxyIcon from "../../utils/GalaxyIcon";
 const LevelList = () => {
   var totalReward = 0;
   return (
@@ -19,15 +21,29 @@ const LevelList = () => {
       <List divided inverted verticalAlign="middle" className="myaccount">
         <List.Item>
           <List.Content className="rtl text-center">
+            <GalaxyIcon
+              mode="league"
+              level=""
+              text="League"
+              style={{
+                width: 32,
+                margin: "auto",
+                transform: "scale(1.5)",
+                direction: "ltr",
+              }}
+            />
+            <AddCalendar start="24" dur="8" format="0000" title="League" />
             <GiftsDesc
-              desc={"لیگ هفتگی از شنبه تا جمعه شب هر هفته برگزار می شود."}
+              desc={
+                "لیگ گلکسی هر روز از بیست و چهارم تا پایان هر ماه میلادی  برگزار می شود."
+              }
               desc2={
                 "برای " +
                 levelLeagueList.length +
-                " نفری که بیشترین امتیاز را در طول یک هفته از گلکسی کسب کرده اند."
+                " نفری که بیشترین امتیاز را در طول هر روز از گلکسی کسب کرده اند."
               }
               amount="45000000"
-              subtitle="تومان هر هفته"
+              subtitle="تومان هر روز"
             />
           </List.Content>
         </List.Item>
