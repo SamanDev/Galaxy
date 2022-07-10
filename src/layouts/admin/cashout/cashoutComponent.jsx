@@ -12,7 +12,7 @@ const depositArea = (props) => {
   return (
     <span className="myaccount popupmenu">
       {depMode === "Ticket" && <Ticket {...props} />}
-      {depMode === "addCart" && <AddCart />}
+      {depMode === "addCart" && <AddCart size="mini" />}
       {depMode === "Transfer" && <Transfer />}
       {depMode == "USDT" && <USDT mode="USDT" />}
       {depMode == "Bitcoin" && <BTC mode="BTC" />}
