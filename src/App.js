@@ -70,8 +70,8 @@ function App(prop) {
               {menu.label && isPanel != "panel" ? (
                 <ul>
                   {menu.title && (
-                    <li className="menutitle">
-                      <span>{menu.title}</span>
+                    <li className="menutitle menutitleinside mm-listitem">
+                      <span className="mm-listitem__text">{menu.title}</span>
                     </li>
                   )}
                   {activeMenu == menu.label && !activePanel && (
@@ -264,31 +264,33 @@ function App(prop) {
     api.open();
     const panel = document.querySelector(_id);
     api.openPanel(panel);
-
-    if (toId) {
-      var scrollTo = $(_id).find(toId + ":visible");
-      var scrollDiv = scrollTo.closest(".mm-panel");
-      scrollTo.addClass("active");
-      scrollDiv.animate(
-        {
-          scrollTop:
-            scrollTo.offset().top -
-            scrollDiv.offset().top +
-            scrollDiv.scrollTop() -
-            scrollTo.height(),
-        },
-        1000
-      );
-    } else {
-      var scrollTo = $(_id);
-      var scrollDiv = scrollTo.closest(".mm-panel");
-      scrollDiv.animate(
-        {
-          scrollTop: 0,
-        },
-        1000
-      );
-    }
+    setTimeout(() => {
+      console.log(toId);
+      if (toId) {
+        var scrollTo = $(_id).find(toId + ":visible");
+        var scrollDiv = scrollTo.closest(".mm-panel");
+        scrollTo.addClass("active");
+        scrollDiv.animate(
+          {
+            scrollTop:
+              scrollTo.offset().top -
+              scrollDiv.offset().top +
+              scrollDiv.scrollTop() -
+              scrollTo.height(),
+          },
+          1000
+        );
+      } else {
+        var scrollTo = $(_id);
+        var scrollDiv = scrollTo.closest(".mm-panel");
+        scrollDiv.animate(
+          {
+            scrollTop: 0,
+          },
+          1000
+        );
+      }
+    }, 1000);
   };
   useEffect(() => {
     if (window.location.href.toString().indexOf("/login") > -1) {

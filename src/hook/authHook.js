@@ -26,5 +26,5 @@ export const useIsLogin = () => {
     }
   }, []);
 
-  return [loading, true];
+  return [loading, isLogin];
 };

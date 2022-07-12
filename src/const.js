@@ -10,6 +10,7 @@ import PassList from "./pages/dashboard/GalaxyPass";
 import VIP from "./pages/dashboard/VIP";
 import League from "./pages/dashboard/League";
 import UserList from "./pages/dashboard/Users";
+import TopUsers from "./pages/dashboard/TopUsers";
 import DepositComponent from "./layouts/admin/deposit/depositComponent.jsx";
 import CashoutComponent from "./layouts/admin/cashout/cashoutComponent.jsx";
 
@@ -145,12 +146,14 @@ export const menuData = [
       },
       {
         label: "انتقال",
+        title: "انتقال",
         idname: "login",
         icon: "fas fa-exchange-alt",
         component: <CashoutComponent cashMode="Transfer" />,
       },
       {
         label: "تراکنش های مالی",
+        title: "تراکنش های مالی",
         icon: "fas fa-stream",
         idname: "login",
         component: <Table />,
@@ -199,18 +202,21 @@ export const menuData = [
     submenu: [
       {
         label: "پاداش لِوِل ها",
+        title: "پاداش لِوِل ها",
         idname: "levels",
         icon: "fas fa-star yellow",
         component: <LevelList />,
       },
       {
         label: "گلکسی پَس",
+
         idname: "gpass",
         bonus: "Level 10",
         icon: "fab fa-google yellow",
         submenu: [
           {
             label: "نتایج زنده",
+            title: "نتایج زنده",
             icon: "fas fa-stream",
             component: <LevelList />,
           },
@@ -222,6 +228,7 @@ export const menuData = [
       {
         label: "VIP 25/50K",
         idname: "vip",
+
         bonus: "Level 25",
         icon: "fab fa-viacoin yellow",
         submenu: [
@@ -232,6 +239,7 @@ export const menuData = [
       },
       {
         label: "لیگ روزانه",
+
         idname: "league",
         bonus: "Level 5",
         icon: "fas fa-medal yellow",
@@ -270,7 +278,7 @@ export const menuData = [
     icon: "fas fa-users",
     submenu: [
       {
-        component: <UserList />,
+        component: <TopUsers />,
       },
     ],
   },
@@ -341,6 +349,7 @@ function doCashout() {
     cashoutData.map((game) =>
       _games.push({
         label: game.text,
+        title: game.text,
         helper: game.limit,
         bonus: game.bonus,
         icon: game.icon,

@@ -16,6 +16,7 @@ import { useNavigate } from "react-router-dom";
 import { FastField, Form, Formik } from "formik";
 import * as Yup from "yup";
 import { Alert } from "../../../utils/alerts";
+import { loginService } from "../../../services/auth";
 
 const initialValues = {
   username: "",
@@ -31,6 +32,7 @@ const validationSchema = Yup.object({
     .min(6, "کلمه عبور حداقل باشد 6 کاراگتر باشد."),
 });
 const onSubmit = async (values, submitMethods, navigate) => {
+  console.log(values);
   try {
     const res = await loginService(values);
     if (res.status == 200) {

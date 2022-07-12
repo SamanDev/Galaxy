@@ -12,7 +12,6 @@ import {
   Form,
 } from "semantic-ui-react";
 const InputF = ({ formik, type, name, icon, label, labelcolor, size }) => {
-  console.log(formik);
   return (
     <Form as="div">
       {formik.errors[name] && formik.touched[name] && (

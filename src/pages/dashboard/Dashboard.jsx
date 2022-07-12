@@ -53,7 +53,9 @@ const Banner = (prop) => {
     </div>
   );
 };
+var _width = document.body.clientWidth;
 const Dashboard = (prop) => {
+  console.log(_width);
   return (
     <>
       <div
@@ -107,14 +109,16 @@ const Dashboard = (prop) => {
                 {...prop}
               />
             </div>
-            <div className="carousel-item " data-bs-interval="100000">
-              <Banner
-                image="/assets/images/calendar.gif"
-                title="بیش از ۵۰۰ میلیون"
-                text="جوایز ماهانه"
-                {...prop}
-              />
-            </div>
+            {_width > 500 && (
+              <div className="carousel-item " data-bs-interval="100000">
+                <Banner
+                  image="/assets/images/calendar.gif"
+                  title="بیش از ۵۰۰ میلیون"
+                  text="جوایز ماهانه"
+                  {...prop}
+                />
+              </div>
+            )}
           </div>
           <button
             className="carousel-control-prev"
