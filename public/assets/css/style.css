@@ -116,7 +116,8 @@ a {
   font-weight: 600;
 }
 
-.activetable .title > span {
+.activetable .title > span,
+.menutitle {
   display: block;
   position: relative;
 
@@ -126,6 +127,20 @@ a {
   text-align: center;
   line-height: 40px !important;
   font-weight: 700;
+}
+.menutitleinside {
+  position: relative;
+  left: -20px;
+  top: 0px;
+  width: 120%;
+}
+.menutitle,
+.menutitle .mm-listitem__text {
+  padding-right: 0 !important;
+  margin: 0 !important;
+}
+.menutitle.mm-listitem:after {
+  right: 0 !important;
 }
 .framegame {
   width: calc(100%);
@@ -400,8 +415,8 @@ i.star.big {
   height: 40px;
   cursor: pointer;
   display: block;
-  margin: 4px 7px 0 0;
-  opacity: 0.4;
+  padding: 4px 7px 0 0;
+  opacity: 0.7;
 }
 .menu-link {
   width: 100%;
@@ -594,7 +609,10 @@ i.star.big {
 .bonuslist .ui.label > .icon {
   margin: 0 !important;
 }
-.bonuslist::-webkit-scrollbar {
+*::-webkit-scrollbar,
+#content_section::-webkit-scrollbar,
+.bonuslist::-webkit-scrollbar,
+.mm-navbar__breadcrumbs::-webkit-scrollbar {
   display: none;
 }
 .bonuslist .item {

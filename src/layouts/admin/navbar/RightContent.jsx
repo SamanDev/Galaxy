@@ -26,7 +26,6 @@ const Rightcontent = (prop) => {
               position="bottom center"
               offset={[-78, 0]}
               basic
-              defaultOpen
               trigger={
                 <Icon name="gift" size="large" link inverted color="red">
                   <Label

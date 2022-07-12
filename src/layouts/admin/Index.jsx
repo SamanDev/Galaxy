@@ -7,7 +7,7 @@ import Sidebar from "./sidebar/Index";
 import { Dimmer, Loader, Segment } from "semantic-ui-react";
 const Index = (prop) => {
   const [loading, isLogin] = useIsLogin();
-  console.log(prop);
+
   return (
     <AdminContextContainer>
       {loading ? (

@@ -194,8 +194,8 @@ const depositArea = (prop) => {
               />
             ))}
             <CashoutButton val="ثبت" color="olive" />
-            <Divider inverted fitted />
-            <List />
+
+            <List title="کارت های بانکی" />
           </Form>
         );
       }}

@@ -32,23 +32,6 @@ const Content = (prop) => {
           <Route path=":gameId" />
         </Route>
 
-        <Route
-          path="/categories/:categoryId/attributes"
-          element={<Attributes />}
-        />
-        <Route path="/galaxypass" element={<GalaxyPass />} />
-        <Route path="/poker" element={<Games game="poker" />} />
-        <Route path="/guaranties" element={<Guaranties />} />
-        <Route path="/brands" element={<Brands />} />
-        <Route path="/discounts" element={<Discounts />} />
-        <Route path="/carts" element={<Carts />} />
-        <Route path="/orders" element={<Orders />} />
-        <Route path="/deliveries" element={<Deliveries />} />
-        <Route path="/users" element={<Users />} />
-        <Route path="/roles" element={<Roles />} />
-        <Route path="/permissions" element={<Permissions />} />
-        <Route path="/questions" element={<Questions />} />
-        <Route path="/comments" element={<Comments />} />
         <Route path="/logout" element={<Logout />} />
       </Routes>
     </section>

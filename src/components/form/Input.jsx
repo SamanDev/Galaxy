@@ -22,7 +22,6 @@ const InputF = ({
   placeholder,
   className,
 }) => {
-  console.log(formik);
   return (
     <Form as="div">
       {formik.errors[name] && formik.touched[name] && (

@@ -11,7 +11,7 @@ const defCol = "black";
 const selCol = "green";
 const defColBtn = "grey";
 const selColBtn = "orange";
-const depositArea = () => {
+const depositArea = (prop) => {
   const [depMode, setDepMode] = useState(false);
   return (
     <>
@@ -21,7 +21,7 @@ const depositArea = () => {
         </Header>
         <Divider inverted />
         <Button.Group size="mini" vertical labeled icon fluid>
-          {cashoutData.map(function(dep, i) {
+          {cashoutData.map(function (dep, i) {
             return (
               <Button
                 key={i}
@@ -70,6 +70,7 @@ const depositArea = () => {
           className="farsi"
           style={{ cursor: "pointer", textAlign: "left" }}
           onClick={() => {
+            setDepMode(false);
             $(".deparea").hide();
             $("#dep1").show();
           }}

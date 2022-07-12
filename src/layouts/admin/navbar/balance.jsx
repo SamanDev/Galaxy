@@ -47,7 +47,7 @@ const Balance = (prop) => (
           <Icon circular size="small" inverted name="plus" color="green" link />
         }
       >
-        <DepositArea />
+        <DepositArea {...prop} />
       </Popup>{" "}
       <Popup
         on="click"
@@ -56,11 +56,14 @@ const Balance = (prop) => (
         position="bottom center"
         offset={[-78, 0]}
         basic
+        onClose={() => {
+          prop.setActiveMenu("main");
+        }}
         trigger={
           <Icon circular size="small" inverted color="red" name="minus" link />
         }
       >
-        <CashoutArea />
+        <CashoutArea {...prop} />
       </Popup>{" "}
       <Popup
         on="click"

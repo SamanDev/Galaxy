@@ -12,6 +12,7 @@ import League from "./pages/dashboard/League";
 import UserList from "./pages/dashboard/Users";
 import DepositComponent from "./layouts/admin/deposit/depositComponent.jsx";
 import CashoutComponent from "./layouts/admin/cashout/cashoutComponent.jsx";
+
 import { useNavigate } from "react-router-dom";
 
 export const gameDataMain = "poker,backgammon,boom,bet".split(",");
@@ -156,25 +157,10 @@ export const menuData = [
       },
     ],
   },
-  {
-    label: "پشتیبانی",
-    icon: "fas fa-envelope-open-text",
-    idname: "login support",
-    submenu: [
-      {
-        label: "New Ticket",
-        icon: "fas fa-plus",
 
-        component: <CashoutComponent cashMode="Ticket" />,
-      },
-      {
-        component: <Accordion />,
-      },
-    ],
-  },
   {
     label: "کمیسیون و کسب درآمد",
-    icon: "fas fa-heart  text-danger",
+    icon: "fas fa-heart red",
     bonus: "40%",
     idname: "login",
     submenu: [
@@ -192,21 +178,23 @@ export const menuData = [
       },
       {
         label: "ساخت اکانت برای دوستان",
+        title: "ساخت اکانت برای دوستان",
         icon: "fas fa-plus",
         idname: "register",
-        component: <Invite />,
+        component: <Invite title="ساخت اکانت برای دوستان" />,
       },
       {
         label: "دعوت دوستان با لینک اختصاصی",
+        title: "دعوت دوستان با لینک اختصاصی",
         icon: "fas fa-link",
         idname: "invitelink",
-        component: <InviteLink />,
+        component: <InviteLink title="دعوت دوستان با لینک اختصاصی" />,
       },
     ],
   },
   {
     label: "جوایز و پاداش ها ",
-    icon: "fas fa-gift",
+    icon: "fas fa-gift yellow",
     idname: "gifts",
     submenu: [
       {
@@ -218,7 +206,7 @@ export const menuData = [
       {
         label: "گلکسی پَس",
         idname: "gpass",
-        bonus: "Level 7",
+        bonus: "Level 10",
         icon: "fab fa-google yellow",
         submenu: [
           {
@@ -245,6 +233,7 @@ export const menuData = [
       {
         label: "لیگ روزانه",
         idname: "league",
+        bonus: "Level 5",
         icon: "fas fa-medal yellow",
         submenu: [
           {
@@ -257,12 +246,22 @@ export const menuData = [
           },
         ],
       },
-
+    ],
+  },
+  {
+    label: "پشتیبانی",
+    icon: "fas fa-envelope-open-text",
+    idname: "login support",
+    submenu: [
       {
-        label: "Rackback",
-        helper: "10%",
-        icon: "fas fa-heart",
-        component: <ProductTable />,
+        label: "ثبت تیکت جدید",
+        title: "ثبت تیکت جدید",
+        icon: "fas fa-plus",
+
+        component: <CashoutComponent cashMode="Ticket" />,
+      },
+      {
+        component: <Accordion />,
       },
     ],
   },
@@ -282,25 +281,30 @@ export const menuData = [
     submenu: [
       {
         label: "کارت های بانکی",
+        title: "ثبت کارت  بانکی",
 
         icon: "fas fa-plus text-danger",
-        component: <CashoutComponent cashMode="addCart" />,
+        component: (
+          <CashoutComponent cashMode="addCart" title="کارت های بانکی" />
+        ),
       },
       {
         label: "تغییر رمز عبور",
+        title: "تغییر رمز عبور",
         icon: "fas fa-lock",
-        component: <CashoutComponent cashMode="Transfer" />,
+        component: (
+          <CashoutComponent cashMode="ChangePass" title="تغییر رمز عبور" />
+        ),
       },
     ],
   },
 ];
 export const panelData = [
   {
-    component: (
-      <>
-        <ActiveTable />
-      </>
-    ),
+    label: "panel",
+    title: "میز های فعال",
+
+    component: <ActiveTable title="میز های فعال" />,
   },
 ];
 function doGame() {
@@ -321,6 +325,7 @@ function doDeposit() {
     depositData.map((game) =>
       _games.push({
         label: game.text,
+        title: game.text,
         helper: game.limit,
         bonus: game.bonus,
         icon: game.icon,

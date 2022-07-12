@@ -12,6 +12,7 @@
     "react": "^18.0.0",
     "react-add-to-calendar-hoc": "^1.0.10",
     "react-bootstrap": "^2.3.1",
+    "react-copy-to-clipboard": "^5.1.0",
     "react-currency-input-field": "^3.6.4",
     "react-dom": "^18.0.0",
     "react-moment": "^1.1.2",

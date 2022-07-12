@@ -1,45 +1,80 @@
-import React, { Component } from "react";
-import { Message, Label, Input } from "semantic-ui-react";
-import Register from "../../layouts/admin/auth/Invite";
-export default class AccordionExampleStandard extends Component {
-  state = { activeIndex: 0 };
+import React, { useState } from "react";
+import {
+  Message,
+  Label,
+  Input,
+  Button,
+  Icon,
+  Segment,
+} from "semantic-ui-react";
 
-  handleClick = (e, titleProps) => {
-    const { index } = titleProps;
-    const { activeIndex } = this.state;
-    const newIndex = activeIndex === index ? -1 : index;
+import Swal from "sweetalert2";
+import { CopyToClipboard } from "react-copy-to-clipboard";
+import MyMsg from "../../utils/MsgDesc";
+const Toast = Swal.mixin({
+  toast: false,
+  position: "center",
+  showConfirmButton: false,
+  timer: 1000,
+  timerProgressBar: false,
+});
 
-    this.setState({ activeIndex: newIndex });
+const depositArea = () => {
+  const [copy, setCopy] = useState(false);
+
+  const copyDo = () => {
+    setCopy(true);
+    setTimeout(() => {
+      setCopy(false);
+    }, 3000);
   };
 
-  render() {
-    const { activeIndex } = this.state;
+  return (
+    <span className="myaccount popupmenu">
+      <MyMsg
+        icon="linkify"
+        color="red"
+        text="برای معرفی دوستان خود کافیست لینک زیر را برای ایشان ارسال نمایید."
+      />
 
-    return (
-      <span className="myaccount popupmenu">
-        <Message color="red" compact className="mymessage" size="mini">
-          <Message.Content className="farsi">
-            برای معرفی دوستان خود کافیست لینک زیر را برای ایشان ارسال نمایید.
-          </Message.Content>
-        </Message>
-        <Input
-          size="mini"
-          readOnly
-          fluid
-          label={
-            <Label
-              size="tiny"
-              pointing="right"
-              color="yellow"
-              className="farsi"
-            >
-              لینک شما
-            </Label>
-          }
+      <Input
+        size="mini"
+        readOnly
+        fluid
+        label={
+          <Label size="tiny" pointing="right" color="yellow" className="farsi">
+            لینک شما
+          </Label>
+        }
+        labelPosition="left"
+        defaultValue="https://galaxy10g.site/ref/HangOver"
+      />
+
+      <CopyToClipboard
+        text="https://galaxy10g.site/ref/HangOver"
+        onCopy={() => copyDo()}
+      >
+        <Button
+          icon
           labelPosition="left"
-          defaultValue="https://galaxy10g.site/ref/HangOver"
-        />
-      </span>
-    );
-  }
-}
+          size="small"
+          color={copy ? "green" : "orange"}
+          fluid
+          className="farsi"
+        >
+          {!copy ? (
+            <>
+              <Icon name="copy outline" />
+              کپی کردن لینک
+            </>
+          ) : (
+            <>
+              <Icon name="check" /> کپی شد
+            </>
+          )}
+        </Button>
+      </CopyToClipboard>
+    </span>
+  );
+};
+export default depositArea;

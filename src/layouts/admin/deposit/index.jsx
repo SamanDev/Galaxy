@@ -14,7 +14,7 @@ const defCol = "black";
 const selCol = "green";
 const defColBtn = "grey";
 const selColBtn = "orange";
-const depositArea = () => {
+const depositArea = (prop) => {
   const [depMode, setDepMode] = useState(false);
   return (
     <>
@@ -24,7 +24,7 @@ const depositArea = () => {
         </Header>
         <Divider inverted />
         <Button.Group size="mini" vertical labeled icon fluid>
-          {depositData.map(function(dep, i) {
+          {depositData.map(function (dep, i) {
             return (
               <Button
                 key={i}
@@ -73,12 +73,14 @@ const depositArea = () => {
           className="farsi"
           style={{ cursor: "pointer", textAlign: "left" }}
           onClick={() => {
+            setDepMode(false);
             $(".deparea").hide();
             $("#dep1").show();
           }}
         >
           بازگشت <Icon name="arrow alternate circle left outline" />
         </div>
+
         <Divider inverted />
         {depMode.value == "USDT" && <USDT />}
         {depMode.value == "Bank Transfer" && <BankTransfer />}

@@ -47,7 +47,7 @@ const depositArea = (prop) => {
         fluid
         style={{ margin: "10px 0" }}
         className="farsi"
-        color="red"
+        color="orange"
       />
     </>
   );

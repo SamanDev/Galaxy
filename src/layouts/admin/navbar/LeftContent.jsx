@@ -12,29 +12,22 @@ const Leftcontent = (prop) => {
         basic
         inverted
         style={{
-          margin: 0,
-          padding: 0,
-          background: "transparent",
-          marginRight: 20,
-          paddingTop: 12,
-          paddingLeft: 15,
+          color: "#fff",
+          position: "relative",
+          top: 3,
+          padding: "0 20px",
         }}
-      >
-        <mm-burger
-          menu="menuleft"
-          tabIndex="0"
-          fx="spin"
-          ease="funky"
-          role="button"
-          title=""
-        ></mm-burger>
-      </Segment>
+        menu="menuleft"
+        tabIndex="0"
+        fx="spin"
+        ease="funky"
+        role="button"
+        as="mm-burger"
+      ></Segment>
       {loading ? (
         <h1 className="text-center waiting_center">لطفا صبر کنید...</h1>
       ) : !isLogin ? (
-        <div className="container-login100">
-          <Login {...prop} />
-        </div>
+        <Login {...prop} />
       ) : (
         <Balance {...prop} />
       )}

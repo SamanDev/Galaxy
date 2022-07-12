@@ -12,16 +12,20 @@ const Balance = (prop) => {
       <Segment
         className="myaccount"
         inverted
+        size="tiny"
+        basic
         style={{
           margin: 0,
           padding: 10,
           color: "#fff",
           background: "transparent",
+          position: "relative",
+          top: 2,
         }}
       >
         <Button
           color="orange"
-          size="mini"
+          size="small"
           className="farsi"
           id="openLogin"
           onClick={() => prop.setFirstOpen(true)}
@@ -30,7 +34,7 @@ const Balance = (prop) => {
         </Button>{" "}
         <Button
           color="yellow"
-          size="mini"
+          size="small"
           basic
           className="farsi"
           id="openRegister"

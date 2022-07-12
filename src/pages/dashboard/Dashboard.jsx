@@ -165,47 +165,6 @@ const Dashboard = (prop) => {
           </Grid>
         </Container>
       </div>
-      <div className="dashboard_section main_section d-none">
-        <Container>
-          <Grid divided="vertically">
-            <Grid.Row columns={2}>
-              {gameDataMain.map((game, i) => (
-                <Grid.Column key={i}>
-                  <Image
-                    className="fadeout"
-                    as={Link}
-                    to={"/games/" + game}
-                    src={
-                      "https://galaxy10g.site/images/g/dfa/" +
-                      gameDataMainCode[i] +
-                      ".png"
-                    }
-                    rounded
-                    fluid
-                  />
-                </Grid.Column>
-              ))}
-            </Grid.Row>
-
-            <Grid.Row columns={3}>
-              {gameData.map((game, i) => (
-                <Grid.Column key={i}>
-                  <Image
-                    className="fadeout"
-                    src={
-                      "https://galaxy10g.site/images/g/dfa/" +
-                      gameDataCode[i] +
-                      ".png"
-                    }
-                    rounded
-                    fluid
-                  />
-                </Grid.Column>
-              ))}
-            </Grid.Row>
-          </Grid>
-        </Container>
-      </div>
     </>
   );
 };
