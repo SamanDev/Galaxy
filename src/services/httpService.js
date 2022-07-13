@@ -27,7 +27,7 @@ axios.interceptors.response.use(
 const httpService = (url, method, data = null) => {
   const tokenInfo = JSON.parse(localStorage.getItem("loginToken"));
   return axios({
-    url: apiPath + "/api/" + url,
+    url: apiPath + "/api" + url,
     method,
     data,
     headers: {
