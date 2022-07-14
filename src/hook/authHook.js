@@ -18,7 +18,11 @@ export const useIsLogin = () => {
   };
   useEffect(() => {
     const loginToken = JSON.parse(localStorage.getItem("loginToken"));
-    if (loginToken) {
+
+    if (
+      loginToken &&
+      window.location.href.toString().indexOf("/logout") == -1
+    ) {
       handleCheckLogin();
     } else {
       setIsLogin(false);

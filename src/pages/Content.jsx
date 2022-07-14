@@ -31,8 +31,6 @@ const Content = (prop) => {
         <Route path="/games" element={<Games {...prop} />}>
           <Route path=":gameId" />
         </Route>
-
-        <Route path="/logout" element={<Logout />} />
       </Routes>
     </section>
   );

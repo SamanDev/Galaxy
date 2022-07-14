@@ -1,35 +1,60 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Segment, Icon, Label, Popup, Progress } from "semantic-ui-react";
 import Balance from "./balance";
 import Login from "./login";
-import { useIsLogin } from "../../../hook/authHook";
+
 const Leftcontent = (prop) => {
-  const [loading, isLogin] = useIsLogin();
+  const [isUser, setIsUser] = useState(prop.isLogin);
+  useEffect(() => {
+    setIsUser(prop.isLogin);
+  });
+
   return (
     <div className="left_content d-flex">
-      <Segment
-        basic
-        inverted
-        style={{
-          color: "#fff",
-          position: "relative",
-          top: 3,
-          padding: "0 20px",
-        }}
-        menu="menuleft"
-        tabIndex="0"
-        fx="spin"
-        ease="funky"
-        role="button"
-        as="mm-burger"
-      ></Segment>
-      {loading ? (
-        <h1 className="text-center waiting_center">لطفا صبر کنید...</h1>
-      ) : !isLogin ? (
-        <Login {...prop} />
+      {!isUser ? (
+        <>
+          <a href="#menuleft">
+            <Segment
+              basic
+              inverted
+              style={{
+                color: "#fff",
+                position: "relative",
+                top: 2,
+                padding: "14px 20px",
+              }}
+              menu="menuleft"
+              tabIndex="0"
+              fx="spin"
+              ease="funky"
+              role="button"
+              as="mm-burger"
+            ></Segment>
+          </a>
+          <Login {...prop} />
+        </>
       ) : (
-        <Balance {...prop} />
+        <>
+          <Segment
+            basic
+            inverted
+            style={{
+              color: "#fff",
+              position: "relative",
+              top: 2,
+              padding: "0 20px",
+            }}
+            menu="menuleft"
+            tabIndex="0"
+            fx="spin"
+            ease="funky"
+            role="button"
+            as="mm-burger"
+          ></Segment>
+
+          <Balance {...prop} />
+        </>
       )}
     </div>
   );

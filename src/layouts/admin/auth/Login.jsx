@@ -31,13 +31,14 @@ const validationSchema = Yup.object({
     .required("کلمه عبور حداقل باشد 6 کاراگتر باشد.")
     .min(6, "کلمه عبور حداقل باشد 6 کاراگتر باشد."),
 });
-const onSubmit = async (values, submitMethods, navigate) => {
+const onSubmit = async (values, submitMethods, navigate, prop) => {
   console.log(values);
+
   try {
     const res = await loginService(values);
     if (res.status == 200) {
       localStorage.setItem("loginToken", JSON.stringify(res.data));
-      navigate("/");
+      prop.setIsUser(true);
     } else {
       Alert("متاسفم...!", res.data.message, "error");
     }
@@ -55,7 +56,7 @@ const depositArea = (prop) => {
     <Formik
       initialValues={initialValues}
       onSubmit={(values, submitMethods) =>
-        onSubmit(values, submitMethods, navigate)
+        onSubmit(values, submitMethods, navigate, prop)
       }
       validationSchema={validationSchema}
     >

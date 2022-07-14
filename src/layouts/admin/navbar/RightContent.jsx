@@ -3,16 +3,10 @@ import React from "react";
 import { Segment, Icon, Label, Popup } from "semantic-ui-react";
 import BonusArea from "../bonus/index.jsx";
 
-import { useIsLogin } from "../../../hook/authHook";
 const Rightcontent = (prop) => {
-  const [loading, isLogin] = useIsLogin();
   return (
     <div className="right_content  d-flex">
-      {loading ? (
-        <h1 className="text-center waiting_center">لطفا صبر کنید...</h1>
-      ) : !isLogin ? (
-        <></>
-      ) : (
+      {prop.isLogin && (
         <>
           <Segment
             basic

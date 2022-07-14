@@ -1,6 +1,6 @@
 import React from "react";
 import ProductTable from "./pages/dashboard/ProductTable";
-import Table from "./pages/dashboard/Table";
+import Report from "./pages/dashboard/Report";
 import Accordion from "./pages/dashboard/Accordion";
 import Invite from "./pages/dashboard/Invite";
 import InviteLink from "./pages/dashboard/InviteLink";
@@ -121,6 +121,7 @@ export const menuData = [
     icon: "fas fa-home ",
     link: "/",
   },
+
   {
     label: "بازی ها",
     icon: "fas fa-receipt ",
@@ -156,7 +157,7 @@ export const menuData = [
         title: "تراکنش های مالی",
         icon: "fas fa-stream",
         idname: "login",
-        component: <Table />,
+        component: <Report />,
       },
     ],
   },
@@ -306,6 +307,11 @@ export const menuData = [
       },
     ],
   },
+  {
+    label: "خروج",
+    icon: "fas icon sign-out alternate ",
+    link: "/logout",
+  },
 ];
 export const panelData = [
   {
@@ -332,7 +338,7 @@ function doDeposit() {
   {
     depositData.map((game) =>
       _games.push({
-        label: game.text,
+        label: game.text + " ",
         title: game.text,
         helper: game.limit,
         bonus: game.bonus,

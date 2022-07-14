@@ -1,4 +1,4 @@
 {
-  "onlinePath": "http://192.168.1.3:8081",
+  "onlinePath": "https://loole.gg:8443",
   "offlinePath": "http://127.0.0.1:8000"
 }

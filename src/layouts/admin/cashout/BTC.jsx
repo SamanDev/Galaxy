@@ -3,7 +3,7 @@ import { Label, Input, Divider } from "semantic-ui-react";
 import Amount from "../input/Amount";
 import Password from "../input/Password";
 import CashoutButton from "../input/CashoutButton";
-import List from "../../../pages/dashboard/ListCashier";
+
 const BTC = (prop) => (
   <>
     <Amount dollar={true} />

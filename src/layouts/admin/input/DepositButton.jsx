@@ -1,7 +1,7 @@
 import React from "react";
 import { Button, Divider } from "semantic-ui-react";
 import $ from "jquery";
-import List from "../../../pages/dashboard/ListDeposit";
+import Report from "../../../pages/dashboard/ReportDep";
 const DepositButton = (prop) => (
   <>
     <Button
@@ -17,8 +17,13 @@ const DepositButton = (prop) => (
     />
     {prop.mode && (
       <>
-        <Divider inverted fitted />
-        <List mode={prop.mode} />
+        <ul className="mm-listview">
+          <li className="menutitle menutitleinside mm-listitem">
+            <span className="mm-listitem__text"></span>
+          </li>
+        </ul>
+
+        <Report mode={prop.mode} />
       </>
     )}
   </>

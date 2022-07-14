@@ -195,7 +195,7 @@ const depositArea = (prop) => {
             ))}
             <CashoutButton val="ثبت" color="olive" />
 
-            <List title="کارت های بانکی" />
+            <List title="کارت های بانکی" mode="cart" />
           </Form>
         );
       }}

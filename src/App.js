@@ -18,7 +18,8 @@ var api;
 var apiPanel;
 
 function App(prop) {
-  const [loading, isLogin] = useIsLogin();
+  const [loadingLogin, isLogin] = useIsLogin();
+  const [isUser, setIsUser] = useState(false);
   const [firstOpen, setFirstOpen] = useState(false);
   const [secondOpen, setSecondOpen] = useState(false);
   const [thirdOpen, setThirdOpen] = useState(false);
@@ -29,10 +30,13 @@ function App(prop) {
   const navigate = useNavigate();
 
   const location = useLocation();
-  function doMenu(menu, y, isPanel) {
+  function doMenu(menu, y, isPanel, isUser) {
     if (!menu.submenu) {
       return (
-        <li key={y + menu.label}>
+        <li
+          key={y + menu.label}
+          className={menu.link == "/logout" && !isUser ? "hiddenmenu" : ""}
+        >
           {menu.label && !menu.component && (
             <Link
               to={menu.link}
@@ -241,7 +245,7 @@ function App(prop) {
                   </li>
                 );
               } else {
-                return doMenu(submenu);
+                return doMenu(submenu, y, isPanel, isUser);
               }
             })}
           </ul>
@@ -293,12 +297,14 @@ function App(prop) {
     }, 1000);
   };
   useEffect(() => {
-    if (window.location.href.toString().indexOf("/login") > -1) {
-      setFirstOpen(true);
+    if (window.location.href.toString().indexOf("/logout") > -1) {
+      setIsUser(false);
+      localStorage.removeItem("loginToken");
+      navigate("/");
     }
   }, [window.location.href]);
   useEffect(() => {
-    if (!loading) {
+    if (!loadingLogin) {
       menu = new Mmenu(
         "#menuleft",
         {
@@ -404,7 +410,7 @@ function App(prop) {
         setActivePanel(false);
       });
     }
-  }, [loading]);
+  }, [loadingLogin]);
   useEffect(() => {
     try {
       api.close();
@@ -420,8 +426,26 @@ function App(prop) {
       setActiveMenu(activeMenuOld);
     }
   }, [activePanel]);
+  useEffect(() => {
+    if (!loadingLogin) {
+      setIsUser(isLogin);
+    }
+  }, [isLogin]);
+  useEffect(() => {
+    if (window.location.href.toString().indexOf("/login") > -1) {
+      if (isUser == false) {
+        setFirstOpen(true);
+      } else {
+        navigate("/");
+      }
+    }
 
-  if (loading) {
+    if (isUser) {
+      setFirstOpen(!isUser);
+    }
+  }, [isUser]);
+
+  if (loadingLogin) {
     return (
       <Dimmer active>
         <Loader className="farsi-inline">لطفا صبر کنید...</Loader>
@@ -433,7 +457,14 @@ function App(prop) {
         <nav id="menuleft">
           <ul>
             {menuData.map(function (menu, i) {
-              return doMenu(menu, i);
+              return doMenu(menu, i, false, isUser);
+            })}
+          </ul>
+        </nav>
+        <nav id="panelright" className="fadeout">
+          <ul>
+            {panelData.map(function (menu, i) {
+              return doMenu(menu, i, "panel");
             })}
           </ul>
         </nav>
@@ -447,12 +478,15 @@ function App(prop) {
               navigate("/");
             }}
             onOpen={() => setFirstOpen(true)}
-            open={firstOpen || prop.showLogin}
+            open={firstOpen}
           >
             <LoginArea
               setFirstOpen={setFirstOpen}
               setSecondOpen={setSecondOpen}
               setThirdOpen={setThirdOpen}
+              isLogin={isUser}
+              loadingLogin={loadingLogin}
+              setIsUser={setIsUser}
               size="small"
               labelcolor="orange"
             />
@@ -500,9 +534,12 @@ function App(prop) {
               element={
                 <AdminLayout
                   openPanel={openPanel}
-                  showLogin={true}
+                  showLogin={isUser ? false : true}
                   setFirstOpen={setFirstOpen}
                   setSecondOpen={setSecondOpen}
+                  isLogin={isUser}
+                  loadingLogin={loadingLogin}
+                  setIsUser={setIsUser}
                 />
               }
             />
@@ -514,6 +551,9 @@ function App(prop) {
                   showRegister={true}
                   setFirstOpen={setFirstOpen}
                   setSecondOpen={setSecondOpen}
+                  isLogin={isUser}
+                  loadingLogin={loadingLogin}
+                  setIsUser={setIsUser}
                 />
               }
             />
@@ -527,18 +567,14 @@ function App(prop) {
                   setActiveMenu={setActiveMenu}
                   activeMenu={activeMenu}
                   setActivePanel={setActivePanel}
+                  isLogin={isUser}
+                  loadingLogin={loadingLogin}
+                  setIsUser={setIsUser}
                 />
               }
             />
           </Routes>
         </div>
-        <nav id="panelright" className="fadeout">
-          <ul>
-            {panelData.map(function (menu, i) {
-              return doMenu(menu, i, "panel");
-            })}
-          </ul>
-        </nav>
       </>
     );
   }

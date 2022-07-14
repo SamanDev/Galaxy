@@ -66,6 +66,9 @@ a {
 .carousel i.big {
   font-size: 32px !important;
 }
+.hiddenmenu{
+  display: none !important
+}
 .mm-navbars:before {
   display: block;
 
@@ -240,10 +243,40 @@ a {
   color: rgba(255, 255, 255, 0.5) !important;
   float: right;
 }
+.menuloader{
+  height: 200px;
+  margin-bottom: 300px;
+ 
+  
+  
+  }
+.menuloader > div{
+
+  background: transparent !important;
+  
+  display: block !important;
+  opacity: 1  !important;
+  
+}
+.menuloader > div > div{
+
+   
+    
+  top: -150px;
+  position: relative;
+
+}
 div.date {
   color: rgba(255, 255, 255, 0.5) !important;
   text-align: right !important;
   font-size: 10px !important;
+}
+div.date .time {
+  color: rgba(255, 255, 255, 0.9) !important;
+
+  font-size: 11px !important;
+  display: inline-block;
+  padding-left:2px
 }
 .ui.comments .comment .avatar {
   font-size: 30px;
@@ -655,6 +688,12 @@ i.star.big {
 .popupmenu .item .content.cashlist,
 .popupmenu .item div.cashlist {
   line-height: 20px !important;
+}
+.rightfloat {
+  float: right !important;
+}
+.pad10tb{
+  margin: 10px 0;
 }
 .ui.floating.label.myfloatmenubonus {
   top: 15px;

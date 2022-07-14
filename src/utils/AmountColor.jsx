@@ -2,16 +2,12 @@ import React from "react";
 import { Icon, Label } from "semantic-ui-react";
 import { doCurrency } from "../const";
 const LabelExampleBasic = (prop) => {
-  if (prop.amount.toString().indexOf("-") > -1) {
-    return <span className="text-danger fs-6">{doCurrency(prop.amount)}</span>;
-  } else if (prop.amount.toString().indexOf("+") > -1) {
-    return <span className="text-success fs-6">{doCurrency(prop.amount)}</span>;
+  if (prop.amount.toString().indexOf("-") > -1 || prop.sign < 0) {
+    return <span className="text-danger">-{doCurrency(prop.amount)}</span>;
+  } else if (prop.amount.toString().indexOf("+") > -1 || prop.sign > 0) {
+    return <span className="text-success">+{doCurrency(prop.amount)}</span>;
   } else {
-    return (
-      <span className={"text-gold " + prop.className}>
-        {doCurrency(prop.amount)}
-      </span>
-    );
+    return <span className={prop.className}>{doCurrency(prop.amount)}</span>;
   }
 };
 

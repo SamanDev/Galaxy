@@ -31,8 +31,7 @@ const httpService = (url, method, data = null) => {
     method,
     data,
     headers: {
-      Authorization: tokenInfo ? `Bearer ${tokenInfo.token}` : null,
-      "Content-Type": "application/json",
+      Authorization: tokenInfo ? `LooLe  ${tokenInfo.accessToken}` : null,
     },
   });
 };
