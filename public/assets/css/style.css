@@ -172,6 +172,7 @@ a {
 }
 body.fullscreen #content_section{
   top:0;
+  height: calc(100vh) !important;
   z-index: 10000;
 }
 .banner {
