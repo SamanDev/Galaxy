@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 
 import { Link } from "react-router-dom";
 import { useParams } from "react-router-dom";
-import { Navigate, Route, Routes } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import {
   Grid,
   Image,
@@ -71,6 +71,7 @@ const Banner = (prop) => {
 var _width = document.body.clientWidth;
 
 const Dashboard = (prop) => {
+  const navigate = useNavigate();
   const [curPage, setCurPage] = useState("dashboard");
   const params = useParams();
   const [activeIndex, setActiveIndex] = useState(0);
@@ -149,6 +150,13 @@ const Dashboard = (prop) => {
     }
     setGameOptions(_gameOptions);
   }, []);
+  useEffect(() => {
+    if (!prop.isLogin && curPage == "game") {
+      setCurPage("dashboard");
+      prop.setFirstOpen(true);
+      navigate("/");
+    }
+  }, [curPage, prop.isLogin]);
 
   const panes = [
     {
@@ -189,10 +197,7 @@ const Dashboard = (prop) => {
       ),
     },
   ];
-  if (!prop.isLogin && curPage == "game") {
-    prop.setFirstOpen(true);
-    return <Navigate to={"/"} />;
-  }
+
   return (
     <>
       {curPage == "dashboard" && (
@@ -310,7 +315,7 @@ const Dashboard = (prop) => {
           </div>
         </div>
       )}
-      {curPage == "game" && (
+      {curPage == "game" && prop.isLogin && (
         <div className="mainsection dashboard_section main_section">
           <Tab
             onTabChange={handleTabChange}
