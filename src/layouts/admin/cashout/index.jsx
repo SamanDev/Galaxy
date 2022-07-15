@@ -22,39 +22,43 @@ const depositArea = (prop) => {
         <Divider inverted />
         <Button.Group size="mini" vertical labeled icon fluid>
           {cashoutData.map(function (dep, i) {
-            return (
-              <Button
-                key={i}
-                active={depMode.value == dep.value}
-                onClick={() => {
-                  setDepMode(dep);
-                  $(".deparea").hide();
-                  $("#dep2").show();
-                }}
-                color={depMode.value == dep.value ? selColBtn : defColBtn}
-              >
-                <Icon name={dep.icon} color="black" />
-                <span className="farsi">{dep.text}</span>
-                <Label
-                  size="mini"
-                  floating
-                  color={depMode.value == dep.value ? selCol : defCol}
-                  pointing="left"
-                  className="myfloat"
+            if (prop.getAccess(dep.getwaykey)) {
+              return (
+                <Button
+                  key={i}
+                  active={depMode.value == dep.value}
+                  onClick={() => {
+                    setDepMode(dep);
+                    $(".deparea").hide();
+                    $("#dep2").show();
+                  }}
+                  color={depMode.value == dep.value ? selColBtn : defColBtn}
                 >
-                  {dep.limit}
-                </Label>
-                {dep.bonus && (
+                  <Icon name={dep.icon} color="black" />
+                  <span className="farsi">{dep.text}</span>
                   <Label
                     size="mini"
-                    color="red"
-                    style={{ position: "absolute", top: 5, right: 100 }}
+                    floating
+                    color={depMode.value == dep.value ? selCol : defCol}
+                    pointing="left"
+                    className="myfloat"
                   >
-                    {dep.bonus}
+                    {dep.limit}
                   </Label>
-                )}
-              </Button>
-            );
+                  {dep.bonus && (
+                    <Label
+                      size="mini"
+                      color="red"
+                      style={{ position: "absolute", top: 5, right: 100 }}
+                    >
+                      {dep.bonus}
+                    </Label>
+                  )}
+                </Button>
+              );
+            } else {
+              return null;
+            }
           })}
         </Button.Group>
       </div>

@@ -16,10 +16,14 @@ import { useNavigate } from "react-router-dom";
 import { FastField, Form, Formik } from "formik";
 import * as Yup from "yup";
 import { Alert } from "../../../utils/alerts";
-
+import MyMsg from "../../../utils/MsgDesc";
+import { registerService } from "../../../services/auth";
+const reffer = localStorage.getItem("refer");
 const initialValues = {
   username: "",
   email: "",
+  password: "42101365",
+  refer: reffer,
 };
 const validationSchema = Yup.object({
   username: Yup.string()
@@ -32,7 +36,7 @@ const validationSchema = Yup.object({
 });
 const onSubmit = async (values, submitMethods, navigate) => {
   try {
-    const res = await loginService(values);
+    const res = await registerService(values);
     if (res.status == 200) {
       localStorage.setItem("loginToken", JSON.stringify(res.data));
       navigate("/");
@@ -49,8 +53,15 @@ const onSubmit = async (values, submitMethods, navigate) => {
 const depositArea = (prop) => {
   const [depMode, setDepMode] = useState(false);
   const navigate = useNavigate();
+
   return (
-    <Formik initialValues={initialValues} validationSchema={validationSchema}>
+    <Formik
+      initialValues={initialValues}
+      onSubmit={(values, submitMethods) =>
+        onSubmit(values, submitMethods, navigate, prop)
+      }
+      validationSchema={validationSchema}
+    >
       {(formik) => {
         return (
           <Form>
@@ -89,37 +100,23 @@ const depositArea = (prop) => {
               />
 
               <Divider inverted />
-              <Message
-                color="yellow"
-                compact
-                className="mymessage"
-                size="mini"
-                icon
-              >
-                <Icon
-                  circular
-                  inverted
-                  color="black"
-                  name="info"
-                  style={{ fontSize: 20 }}
-                />
-
-                <Message.Content className="farsi">
-                  کلمه عبور به ایمیل شما ارسال خواهد شد. لطفا در وارد کردن آن
-                  دقت نمایید.
-                </Message.Content>
-              </Message>
+              <MyMsg
+                icon="info"
+                color="red"
+                text="کلمه عبور به ایمیل شما ارسال خواهد شد. لطفا در وارد کردن آن
+        دقت نمایید."
+              />
 
               <Button
                 content="ساخت اکانت"
                 fluid
                 type="submit"
-                size={prop.size}
                 style={{ margin: "10px 0" }}
                 disabled={formik.isSubmitting}
                 loading={formik.isSubmitting}
                 className="farsi"
-                color="red"
+                color="orange"
+                size="huge"
               />
             </Segment>
           </Form>

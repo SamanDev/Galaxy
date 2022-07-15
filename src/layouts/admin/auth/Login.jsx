@@ -32,8 +32,6 @@ const validationSchema = Yup.object({
     .min(6, "کلمه عبور حداقل باشد 6 کاراگتر باشد."),
 });
 const onSubmit = async (values, submitMethods, navigate, prop) => {
-  console.log(values);
-
   try {
     const res = await loginService(values);
     if (res.status == 200) {
@@ -45,6 +43,7 @@ const onSubmit = async (values, submitMethods, navigate, prop) => {
     submitMethods.setSubmitting(false);
   } catch (error) {
     submitMethods.setSubmitting(false);
+
     Alert("متاسفم...!", "متاسفانه مشکلی از سمت سرور رخ داده", "error");
   }
 };
@@ -103,7 +102,8 @@ const depositArea = (prop) => {
                 style={{
                   textAlign: "right",
                   display: "block",
-                  padding: "10px 10px",
+                  padding: "20px 10px",
+                  cursor: "pointer",
                 }}
                 size="mini"
                 onClick={() => {
@@ -118,7 +118,7 @@ const depositArea = (prop) => {
                 content="ورود"
                 fluid
                 type="submit"
-                size={prop.size}
+                size="huge"
                 style={{ margin: "10px 0" }}
                 disabled={formik.isSubmitting}
                 loading={formik.isSubmitting}

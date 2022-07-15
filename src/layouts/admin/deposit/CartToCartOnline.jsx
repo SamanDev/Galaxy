@@ -28,10 +28,24 @@ const cartOptions = [
   },
 ];
 
-const countryOptions = [{ key: "af", value: "دیجی پی", text: "دیجی پی" }];
+const loginToken = JSON.parse(localStorage.getItem("loginToken"));
+
+var countryOptions = [];
+if (loginToken) {
+  loginToken?.cashierGateways.map((item, i) => {
+    if (item.mode == "IranShetab" && item.active) {
+      countryOptions.push({
+        key: i.toString(),
+        value: item.name,
+        text: item.name,
+      });
+    }
+  });
+}
+
 const USDT = (prop) => (
   <>
-    <Input size="mini" fluid labelPosition="left">
+    <Input size={prop.size} fluid labelPosition="left">
       <Label size="tiny" pointing="right" color="yellow" className="farsi">
         واریز از
       </Label>
@@ -43,8 +57,8 @@ const USDT = (prop) => (
         defaultValue={cartOptions[0].value}
       />
     </Input>
-    <Amount def="100000" />
-    <Input size="mini" fluid labelPosition="left">
+    <Amount def="100000" size={prop.size} />
+    <Input size={prop.size} fluid labelPosition="left">
       <Label size="tiny" pointing="right" color="yellow" className="farsi">
         توسط
       </Label>
@@ -53,11 +67,11 @@ const USDT = (prop) => (
         className="farsi"
         fluid
         options={countryOptions}
-        defaultValue={countryOptions[0].value}
+        defaultValue={countryOptions[0].value ? countryOptions[0].value : null}
       />
     </Input>
     <Input
-      size="mini"
+      size={prop.size}
       fluid
       label={
         <Label size="tiny" color="red" pointing="right" className="farsi">
@@ -94,7 +108,7 @@ const USDT = (prop) => (
       <Divider inverted />
 
       <Input
-        size="mini"
+        size={prop.size}
         fluid
         label={
           <Label size="tiny" color="blue" pointing="right" className="farsi">
@@ -116,7 +130,7 @@ const USDT = (prop) => (
     <div className="onarea online2" style={{ display: "none" }}>
       <Divider inverted />
       <Input
-        size="mini"
+        size={prop.size}
         fluid
         label={
           <Label size="tiny" color="green" pointing="right" className="farsi">

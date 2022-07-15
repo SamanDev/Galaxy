@@ -10,6 +10,7 @@ import BTC from "./BTC";
 import { Icon, Label, Button, Header, Divider } from "semantic-ui-react";
 const depositArea = (props) => {
   const [depMode, setDepMode] = useState(props.depMode);
+
   return (
     <span className="myaccount popupmenu">
       {props.title && (
@@ -23,7 +24,7 @@ const depositArea = (props) => {
       )}
       {depMode == "Bank Transfer" && <BankTransfer mode="Bank Transfer" />}
       {depMode == "Online Cart to Cart" && (
-        <CartToCartOnline mode="Online Cart to Cart" />
+        <CartToCartOnline mode="Online Cart to Cart" size="mini" />
       )}
       {depMode == "Cart to Cart" && <CartToCart mode="Cart to Cart" />}
       {depMode == "USDT" && <USDT mode="USDT" />}

@@ -11,8 +11,10 @@ import DepositArea from "../deposit/index.jsx";
 import CashoutArea from "../cashout/index.jsx";
 import LevelIcon from "../../../utils/LevelIcon";
 import List from "../../../pages/dashboard/ListCashier";
+import { doCurrency } from "../../../const";
 const Balance = (prop) => {
   const loginToken = JSON.parse(localStorage.getItem("loginToken"));
+
   if (loginToken) {
     return (
       <>
@@ -34,10 +36,10 @@ const Balance = (prop) => {
             }}
           />
           <Label color="black" className="balanceLable">
-            {loginToken?.username}
+            {loginToken.username}
           </Label>
           <Label color="black" className="balanceLable amount">
-            {loginToken?.balance}
+            {doCurrency(loginToken.balance)}
           </Label>
           <Popup
             on="click"

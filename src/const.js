@@ -27,6 +27,7 @@ export const gameDataCode =
 export const cashoutData = [
   {
     key: "Toman",
+    getwaykey: "IranShetab",
     text: "تومان",
     value: "Toman",
     icon: "cc mastercard",
@@ -35,6 +36,7 @@ export const cashoutData = [
 
   {
     key: "Bitcoin",
+    getwaykey: "Bitcoin",
     text: "بیت کوین",
     value: "Bitcoin",
     icon: "btc",
@@ -43,6 +45,7 @@ export const cashoutData = [
   },
   {
     key: "USDT",
+    getwaykey: "USDT",
     text: "USDT Trc20",
     value: "USDT",
     icon: "dollar",
@@ -52,6 +55,7 @@ export const cashoutData = [
 
   {
     key: "PerfectMoney",
+    getwaykey: "PerfectMoney",
     text: "پرفکت مانی",
     value: "PerfectMoney",
     icon: "dollar",
@@ -59,9 +63,12 @@ export const cashoutData = [
     bonus: "-2%",
   },
 ];
+export const depositDataActive = [];
+export const cashoutDataActive = [];
 export const depositData = [
   {
     key: "Online Cart to Cart",
+    getwaykey: "IranShetab",
     text: "درگاه کارت به کارت",
     value: "Online Cart to Cart",
     icon: "cc mastercard",
@@ -69,6 +76,7 @@ export const depositData = [
   },
   {
     key: "Cart to Cart",
+    getwaykey: "CarttoCart",
     text: "کارت به کارت",
     value: "Cart to Cart",
     icon: "mobile alternate",
@@ -76,6 +84,7 @@ export const depositData = [
   },
   {
     key: "Bank Transfer",
+    getwaykey: "BankTransfer",
     text: "انتقال بین بانکی",
     value: "Bank Transfer",
     icon: "exchange",
@@ -84,6 +93,7 @@ export const depositData = [
   },
   {
     key: "Bitcoin",
+    getwaykey: "Bitcoin",
     text: "بیت کوین",
     value: "Bitcoin",
     icon: "btc",
@@ -92,6 +102,7 @@ export const depositData = [
   },
   {
     key: "USDT",
+    getwaykey: "USDT",
     text: "USDT Trc20",
     value: "USDT",
     icon: "dollar",
@@ -101,6 +112,7 @@ export const depositData = [
 
   {
     key: "VisaGiftCode",
+    getwaykey: "VisaGiftCode",
     text: "ویزا گیفت کد",
     value: "VisaGiftCode",
     icon: "closed captioning outline",
@@ -108,6 +120,7 @@ export const depositData = [
   },
   {
     key: "PerfectMoney",
+    getwaykey: "PerfectMoney",
     text: "پرفکت مانی",
     value: "PerfectMoney",
     icon: "dollar",
@@ -125,7 +138,7 @@ export const menuData = [
   {
     label: "بازی ها",
     icon: "fas fa-receipt ",
-    idname: "login",
+
     submenu: doGame(),
   },
 
@@ -136,12 +149,12 @@ export const menuData = [
       {
         label: "خرید چیپ",
         icon: "fas fa-plus text-danger",
-        idname: "login",
+
         submenu: doDeposit(),
       },
       {
         label: "برداشت",
-        idname: "login",
+
         icon: "fas fa-dollar",
         submenu: doCashout(),
       },
@@ -149,6 +162,7 @@ export const menuData = [
         label: "انتقال",
         title: "انتقال",
         idname: "login",
+        getwaykey: "Transfer",
         icon: "fas fa-exchange-alt",
         component: <CashoutComponent cashMode="Transfer" />,
       },
@@ -287,6 +301,7 @@ export const menuData = [
     label: "حساب کاربری",
     icon: "fas fa-user ",
     idname: "login",
+    link: "/logout",
     submenu: [
       {
         label: "کارت های بانکی",
@@ -325,43 +340,62 @@ function doGame() {
   var _games = [];
 
   gameDataMain.map((game, i) =>
-    _games.push({ label: game, textclass: "nof", image: gameDataMainCode[i] })
+    _games.push({
+      label: game,
+      idname: "login",
+      textclass: "nof",
+      image: gameDataMainCode[i],
+    })
   );
   gameData.map((game, i) =>
-    _games.push({ label: game, textclass: "nof", image: gameDataCode[i] })
+    _games.push({
+      label: game,
+      idname: "login",
+      textclass: "nof",
+      image: gameDataCode[i],
+    })
   );
 
   return _games;
 }
 function doDeposit() {
   var _games = [];
+
   {
-    depositData.map((game) =>
+    depositData.map((game) => {
+      depositDataActive.push(game);
       _games.push({
         label: game.text + " ",
         title: game.text,
         helper: game.limit,
+        getwaykey: game.getwaykey,
         bonus: game.bonus,
         icon: game.icon,
+        idname: "login",
         component: <DepositComponent depMode={game.value} />,
-      })
-    );
+      });
+    });
   }
+  console.log(depositDataActive);
   return _games;
 }
 function doCashout() {
   var _games = [];
+
   {
-    cashoutData.map((game) =>
+    cashoutData.map((game) => {
+      cashoutDataActive.push(game);
       _games.push({
-        label: game.text,
+        label: game.text + " ",
         title: game.text,
         helper: game.limit,
+        getwaykey: game.getwaykey,
         bonus: game.bonus,
         icon: game.icon,
-        component: <CashoutComponent cashMode={game.value} />,
-      })
-    );
+        idname: "login",
+        component: <CashoutComponent depMode={game.value} />,
+      });
+    });
   }
   return _games;
 }

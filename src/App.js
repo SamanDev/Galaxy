@@ -30,227 +30,241 @@ function App(prop) {
   const navigate = useNavigate();
 
   const location = useLocation();
+  const loginToken = JSON.parse(localStorage.getItem("loginToken"));
+
   function doMenu(menu, y, isPanel, isUser) {
-    if (!menu.submenu) {
-      return (
-        <li
-          key={y + menu.label}
-          className={menu.link == "/logout" && !isUser ? "hiddenmenu" : ""}
-        >
-          {menu.label && !menu.component && (
-            <Link
-              to={menu.link}
-              as="a"
-              onClick={(e) => closeMenu()}
-              className="mm-btn mm-btn--next mm-listitem__btn mm-listitem__text"
-            >
-              {menu.image ? (
-                <>{menu.image}</>
-              ) : (
-                <>
-                  {menu.icon && (
-                    <i
-                      className={`${menu.icon} mx-3 ${
-                        menu.icon.indexOf("fas ") == -1 &&
-                        menu.icon.indexOf("fab ") == -1
-                          ? " icon"
-                          : ""
-                      }`}
-                    ></i>
-                  )}{" "}
-                  <span
-                    className={
-                      !menu.textclass ? "farsi mymenu " + menu.idname : "mymenu"
-                    }
-                  >
-                    {menu.label}
-                  </span>
-                </>
-              )}
-            </Link>
-          )}
-          {menu.component && (
-            <>
-              {menu.label && isPanel != "panel" ? (
-                <ul>
-                  {menu.title && (
-                    <li className="menutitle menutitleinside mm-listitem">
-                      <span className="mm-listitem__text">{menu.title}</span>
-                    </li>
-                  )}
-                  {activeMenu == menu.label && !activePanel && (
-                    <li>
-                      <span>{menu.component}</span>
-                    </li>
-                  )}
-                </ul>
-              ) : (
-                <>
-                  <span className="image">
+    if (getAccess(menu.getwaykey)) {
+      if (!menu.submenu) {
+        return (
+          <li
+            key={y + menu.label}
+            className={menu.link == "/logout" && !isUser ? "hiddenmenu" : null}
+          >
+            {menu.label && !menu.component && (
+              <Link
+                to={menu.link}
+                as="a"
+                onClick={(e) => closeMenu()}
+                className="mm-btn mm-btn--next mm-listitem__btn mm-listitem__text"
+              >
+                {menu.image ? (
+                  <>{menu.image}</>
+                ) : (
+                  <>
+                    {menu.icon && (
+                      <i
+                        className={`${menu.icon} mx-3 ${
+                          menu.icon.indexOf("fas ") == -1 &&
+                          menu.icon.indexOf("fab ") == -1
+                            ? " icon"
+                            : ""
+                        }`}
+                      ></i>
+                    )}{" "}
+                    <span
+                      className={
+                        !menu.textclass
+                          ? "farsi mymenu " + menu.idname
+                          : "mymenu"
+                      }
+                    >
+                      {menu.label}
+                    </span>
+                  </>
+                )}
+              </Link>
+            )}
+            {menu.component && (
+              <>
+                {menu.label && isPanel != "panel" ? (
+                  <ul>
                     {menu.title && (
-                      <>
-                        <ul className="mm-listview">
-                          <li className="menutitle menutitleinside mm-listitem">
-                            <span className="mm-listitem__text">
-                              {menu.title}
-                            </span>
-                          </li>
-                          <li>
-                            {(activeMenu == menu.label ||
-                              (activePanel && activeMenu == "main")) && (
-                              <>{menu.component}</>
-                            )}
-                          </li>
-                        </ul>
-                      </>
+                      <li className="menutitle menutitleinside mm-listitem">
+                        <span className="mm-listitem__text">{menu.title}</span>
+                      </li>
                     )}
-                  </span>
-                </>
-              )}
-            </>
-          )}
-        </li>
-      );
-    } else {
-      return (
-        <li key={y + menu.label}>
-          <span>
-            {menu.label}
-            {menu.icon && (
-              <i
-                className={`${menu.icon} mx-3${
-                  menu.icon.indexOf("fas ") == -1 &&
-                  menu.icon.indexOf("fab ") == -1
-                    ? " icon"
-                    : ""
-                }`}
-              ></i>
-            )}{" "}
+                    {activeMenu == menu.label && !activePanel && (
+                      <li>
+                        <span>{menu.component}</span>
+                      </li>
+                    )}
+                  </ul>
+                ) : (
+                  <>
+                    <span className="image">
+                      {menu.title && (
+                        <>
+                          <ul className="mm-listview">
+                            <li className="menutitle menutitleinside mm-listitem">
+                              <span className="mm-listitem__text">
+                                {menu.title}
+                              </span>
+                            </li>
+                            <li>
+                              {(activeMenu == menu.label ||
+                                (activePanel && activeMenu == "main")) && (
+                                <>{menu.component}</>
+                              )}
+                            </li>
+                          </ul>
+                        </>
+                      )}
+                    </span>
+                  </>
+                )}
+              </>
+            )}
+          </li>
+        );
+      } else {
+        return (
+          <li key={y + menu.label}>
             <span
               className={
-                !menu.textclass ? "farsi mymenu " + menu.idname : "mymenu"
+                menu.link == "/logout" && !isUser ? "hiddenmenu" : null
               }
             >
               {menu.label}
-            </span>
-            {menu.helper && (
-              <small className="float-end text-danger ui black left pointing mini floating label myfloat">
-                {menu.helper}
-              </small>
-            )}
-            {menu.bonus && (
-              <small
-                className="ui red  mini floating label myfloatmenu"
-                style={{ minWidth: "auto" }}
+              {menu.icon && (
+                <i
+                  className={`${menu.icon} mx-3${
+                    menu.icon.indexOf("fas ") == -1 &&
+                    menu.icon.indexOf("fab ") == -1
+                      ? " icon"
+                      : ""
+                  }`}
+                ></i>
+              )}{" "}
+              <span
+                className={
+                  !menu.textclass ? "farsi mymenu " + menu.idname : "mymenu"
+                }
               >
-                {menu.bonus}
-              </small>
-            )}
-          </span>
+                {menu.label}
+              </span>
+              {menu.helper && (
+                <small className="float-end text-danger ui black left pointing mini floating label myfloat">
+                  {menu.helper}
+                </small>
+              )}
+              {menu.bonus && (
+                <small
+                  className="ui red  mini floating label myfloatmenu"
+                  style={{ minWidth: "auto" }}
+                >
+                  {menu.bonus}
+                </small>
+              )}
+            </span>
 
-          <ul>
-            {menu.submenu.map(function (submenu, i) {
-              if (!submenu.submenu) {
-                return (
-                  <li key={i + submenu.label}>
-                    {submenu.image ? (
-                      <>
-                        {activeMenu == menu.label && (
-                          <Image
-                            className="fadeout"
-                            as={Link}
-                            to={"/games/" + submenu.label}
-                            onClick={(e) => closeMenu()}
-                            src={
-                              "https://galaxy10g.site/images/g/dfa/" +
-                              submenu.image +
-                              ".png"
-                            }
-                            fluid
-                          />
-                        )}
-                      </>
-                    ) : (
-                      <>
-                        {submenu.label && (
-                          <span className={submenu?.id}>
-                            {submenu.label}
-                            {submenu.icon && (
-                              <i
-                                className={`${submenu.icon} mx-3 ${
-                                  submenu.icon.indexOf("fas ") == -1 &&
-                                  submenu.icon.indexOf("fab ") == -1
-                                    ? "icon"
-                                    : ""
-                                }`}
-                              ></i>
-                            )}{" "}
-                            <span
-                              className={
-                                !submenu.textclass
-                                  ? "farsi mymenu " + submenu.idname
-                                  : "mymenu"
-                              }
-                            >
-                              {submenu.label}
-                            </span>
-                            {submenu.helper && (
-                              <small className="ui grey  mini floating label myfloatmenu">
-                                {submenu.helper}
-                              </small>
+            <ul>
+              {menu.submenu.map(function (submenu, i) {
+                if (!submenu.submenu) {
+                  if (getAccess(submenu.getwaykey)) {
+                    return (
+                      <li key={i + submenu.label}>
+                        {submenu.image ? (
+                          <>
+                            {activeMenu == menu.label && (
+                              <Image
+                                className="fadeout"
+                                as={Link}
+                                to={"/games/" + submenu.label}
+                                onClick={(e) => closeMenu()}
+                                src={
+                                  "https://galaxy10g.site/images/g/dfa/" +
+                                  submenu.image +
+                                  ".png"
+                                }
+                                fluid
+                              />
                             )}
-                            {submenu.bonus && (
-                              <small className="ui red  mini floating label myfloatmenubonus">
-                                {submenu.bonus}
-                              </small>
-                            )}
-                          </span>
-                        )}
-                      </>
-                    )}
-                    {submenu.component && (
-                      <>
-                        {submenu.label ? (
-                          <ul>
-                            {submenu.title && (
-                              <li className="menutitle">
-                                <span>{submenu.title}</span>
-                              </li>
-                            )}
-                            {activeMenu == submenu.label && !activePanel && (
-                              <li>
-                                <span>{submenu.component}</span>
-                              </li>
-                            )}
-                          </ul>
+                          </>
                         ) : (
-                          <span>
-                            {submenu.title && (
-                              <>
-                                <ul className="mm-listview">
+                          <>
+                            {submenu.label && (
+                              <span className={submenu?.id}>
+                                {submenu.label}
+                                {submenu.icon && (
+                                  <i
+                                    className={`${submenu.icon} mx-3 ${
+                                      submenu.icon.indexOf("fas ") == -1 &&
+                                      submenu.icon.indexOf("fab ") == -1
+                                        ? "icon"
+                                        : ""
+                                    }`}
+                                  ></i>
+                                )}{" "}
+                                <span
+                                  className={
+                                    !submenu.textclass
+                                      ? "farsi mymenu " + submenu.idname
+                                      : "mymenu"
+                                  }
+                                >
+                                  {submenu.label}
+                                </span>
+                                {submenu.helper && (
+                                  <small className="ui grey  mini floating label myfloatmenu">
+                                    {submenu.helper}
+                                  </small>
+                                )}
+                                {submenu.bonus && (
+                                  <small className="ui red  mini floating label myfloatmenubonus">
+                                    {submenu.bonus}
+                                  </small>
+                                )}
+                              </span>
+                            )}
+                          </>
+                        )}
+                        {submenu.component && (
+                          <>
+                            {submenu.label ? (
+                              <ul>
+                                {submenu.title && (
                                   <li className="menutitle">
                                     <span>{submenu.title}</span>
                                   </li>
-                                  <li></li>
-                                </ul>
-                              </>
+                                )}
+                                {activeMenu == submenu.label && !activePanel && (
+                                  <li>
+                                    <span>{submenu.component}</span>
+                                  </li>
+                                )}
+                              </ul>
+                            ) : (
+                              <span>
+                                {submenu.title && (
+                                  <>
+                                    <ul className="mm-listview">
+                                      <li className="menutitle">
+                                        <span>{submenu.title}</span>
+                                      </li>
+                                      <li></li>
+                                    </ul>
+                                  </>
+                                )}
+                                {activeMenu == menu.label &&
+                                  !activePanel &&
+                                  submenu.component}
+                              </span>
                             )}
-                            {activeMenu == menu.label &&
-                              !activePanel &&
-                              submenu.component}
-                          </span>
+                          </>
                         )}
-                      </>
-                    )}
-                  </li>
-                );
-              } else {
-                return doMenu(submenu, y, isPanel, isUser);
-              }
-            })}
-          </ul>
-        </li>
-      );
+                      </li>
+                    );
+                  } else {
+                    return null;
+                  }
+                } else {
+                  return doMenu(submenu, y, isPanel, isUser);
+                }
+              })}
+            </ul>
+          </li>
+        );
+      }
     }
   }
   const closeMenu = () => {
@@ -258,6 +272,75 @@ function App(prop) {
       api.close();
     } catch (error) {}
   };
+  const getAccess = (keyAccess) => {
+    if (!keyAccess) {
+      return true;
+    }
+    var userMethods = [
+      {
+        id: 1,
+        name: "PerfectMoney",
+        mode: "PerfectMoney",
+        active: true,
+      },
+      {
+        id: 8,
+        name: "Bitcoin",
+        mode: "Bitcoin",
+        active: true,
+      },
+      {
+        id: 9,
+        name: "USDT",
+        mode: "USDT",
+        active: true,
+      },
+      {
+        id: 6,
+        name: "Haft80",
+        mode: "IranShetab",
+        active: true,
+      },
+      {
+        id: 5,
+        name: "Hamrahcart",
+        mode: "IranShetab",
+        active: true,
+      },
+
+      {
+        id: 2,
+        name: "Digipay",
+        mode: "IranShetab",
+        active: true,
+      },
+      {
+        id: 10,
+        name: "Transfer",
+        mode: "Transfer",
+        active: true,
+      },
+    ];
+
+    if (loginToken) {
+      userMethods = loginToken.cashierGateways;
+    }
+    userMethods = userMethods.filter(
+      (li, idx, self) => self.map((itm) => itm.mode).indexOf(li.mode) === idx
+    );
+    userMethods.sort((a, b) => (a.mode > b.mode ? 1 : -1));
+
+    var canAdd = false;
+    {
+      userMethods.map(function (cashierGateway, u) {
+        if (cashierGateway.mode == keyAccess && cashierGateway.active) {
+          canAdd = true;
+        }
+      });
+    }
+    return canAdd;
+  };
+
   const openPanel = (id, toId) => {
     var _id = id;
 
@@ -439,6 +522,19 @@ function App(prop) {
         navigate("/");
       }
     }
+    if (window.location.href.toString().indexOf("/register") > -1) {
+      if (isUser == false) {
+        setSecondOpen(true);
+      } else {
+        navigate("/");
+      }
+    }
+    if (window.location.href.toString().indexOf("/ref/") > -1) {
+      var arrAdd = window.location.href.toString().split("/");
+      localStorage.setItem("refer", arrAdd[arrAdd.length - 1]);
+      navigate("/register");
+      setSecondOpen(true);
+    }
 
     if (isUser) {
       setFirstOpen(!isUser);
@@ -448,7 +544,9 @@ function App(prop) {
   if (loadingLogin) {
     return (
       <Dimmer active>
-        <Loader className="farsi-inline">لطفا صبر کنید...</Loader>
+        <Loader className="farsi-inline" size="large">
+          لطفا صبر کنید...
+        </Loader>
       </Dimmer>
     );
   } else {
@@ -570,6 +668,7 @@ function App(prop) {
                   isLogin={isUser}
                   loadingLogin={loadingLogin}
                   setIsUser={setIsUser}
+                  getAccess={getAccess}
                 />
               }
             />

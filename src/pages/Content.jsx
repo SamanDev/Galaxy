@@ -28,7 +28,7 @@ const Content = (prop) => {
       <Routes>
         <Route path="/" element={<Dashboard {...prop} />} />
 
-        <Route path="/games" element={<Games {...prop} />}>
+        <Route path="/games" element={<Dashboard {...prop} />}>
           <Route path=":gameId" />
         </Route>
       </Routes>

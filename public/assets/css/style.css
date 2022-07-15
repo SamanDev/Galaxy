@@ -146,14 +146,33 @@ a {
   right: 0 !important;
 }
 .framegame {
-  width: calc(100%);
-  height: calc(100vh - 64px);
+  width: calc(100%) !important;
+  min-width: 700px !important;
+  height: calc(100vh - 94px) !important;
   position: flex;
   top: 64px;
   left: 0;
   overflow: auto;
   transition: all 100ms ease;
   -webkit-font-smoothing: antialiased;
+  background: rgba(0, 0, 0, 0.9);
+}
+.framegame.fullscreen {
+  width: calc(100vw) !important;
+  min-width: calc(100vw) !important;
+  
+  height: calc(100vh) !important;
+  position: fixed;
+  top: 0;
+  left: 0;
+  overflow: hidden;
+  transition: all 100ms ease;
+  -webkit-font-smoothing: antialiased;
+  background: rgba(0, 0, 0, 0.9);
+}
+body.fullscreen #content_section{
+  top:0;
+  z-index: 10000;
 }
 .banner {
   width: calc(100%);
@@ -169,9 +188,10 @@ a {
 .banner img {
   position: absolute !important;
   right: 14%;
-  height: 40%;
+  max-height: 40%;
   top: 25%;
   filter: contrast(125%);
+  max-width: 32% !important;
 }
 .banner h1 {
   position: relative;
@@ -579,8 +599,58 @@ i.star.big {
 }
 .myaccount.popup .input .label,
 .myaccount.popupmenu .input .label {
-  width: 110px;
+  width: 120px;
   text-align: right;
+  font-weight: 300 !important;
+
+}
+.myaccount.popup .button ,
+.myaccount.popupmenu .button {
+ 
+  font-weight: 300 !important;
+
+}
+.mainsection .menu{
+  display: none;
+}
+.mainsection .tab{
+  background: transparent !important;
+  border: none !important;
+  margin: 0 !important;
+  width: 100% !important;
+  max-width: calc(100vw) !important;
+    overflow: scroll;
+    box-sizing: border-box;
+}
+.mainsection .dropdown{
+  position:absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 10;
+  background: transparent !important;
+}
+.mainsection .dropdown .menu{
+  width:200px !important;
+}
+.changegame{
+  position:fixed;
+  bottom: 4px;
+  left: 10px;
+  z-index: 10;
+  opacity: .6;
+}
+.modal .myaccount.popup .input .label,
+.modal .myaccount.popupmenu .input .label {
+  width: 150px;
+  text-align: right;
+  font-weight: 300 !important;
+
+}
+.myaccount.popup .ui.pointing.label.below,
+.myaccount.popupmenu .ui.pointing.label.below {
+
+  font-weight: 500 !important;
+ padding:15px;
 }
 .myaccount.popup .ui.fluid.input,
 .myaccount.popupmenu .ui.fluid.input {
