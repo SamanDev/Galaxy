@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 
 import { Link } from "react-router-dom";
 import { useParams } from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
 import {
   Grid,
   Image,
@@ -147,9 +148,6 @@ const Dashboard = (prop) => {
       });
     }
     setGameOptions(_gameOptions);
-    console.log(mainGame);
-    console.log(secondaryGame);
-    console.log(gameOptions);
   }, []);
 
   const panes = [
@@ -191,6 +189,10 @@ const Dashboard = (prop) => {
       ),
     },
   ];
+  if (!prop.isLogin && curPage == "game") {
+    prop.setFirstOpen(true);
+    return <Navigate to={"/"} />;
+  }
   return (
     <>
       {curPage == "dashboard" && (
