@@ -35,10 +35,10 @@ export const cashoutData = [
   },
 
   {
-    key: "Bitcoin",
+    key: "BTC",
     getwaykey: "Bitcoin",
     text: "بیت کوین",
-    value: "Bitcoin",
+    value: "BTC",
     icon: "btc",
     limit: "$100 - $10K",
     bonus: "-2%",
@@ -92,10 +92,10 @@ export const depositData = [
     bonus: "+3%",
   },
   {
-    key: "Bitcoin",
+    key: "BTC",
     getwaykey: "Bitcoin",
     text: "بیت کوین",
-    value: "Bitcoin",
+    value: "BTC",
     icon: "btc",
     limit: "Unlimited",
     bonus: "+10%",
@@ -308,9 +308,7 @@ export const menuData = [
         title: "ثبت کارت  بانکی",
 
         icon: "fas fa-plus text-danger",
-        component: (
-          <CashoutComponent cashMode="addCart" title="کارت های بانکی" />
-        ),
+        component: <CashoutComponent cashMode="addCart" />,
       },
       {
         label: "تغییر رمز عبور",
@@ -371,14 +369,18 @@ function doDeposit() {
         getwaykey: game.getwaykey,
         bonus: game.bonus,
         icon: game.icon,
-        idname: "login",
+        idname: "login Deposit" + game.value,
         component: (
-          <DepositComponent depMode={game.value} getwaykey={game.mode} />
+          <DepositComponent
+            compmode="deposit"
+            depMode={game.value}
+            getwaykey={game.getwaykey}
+          />
         ),
       });
     });
   }
-  console.log(depositDataActive);
+
   return _games;
 }
 function doCashout() {
@@ -388,19 +390,27 @@ function doCashout() {
     cashoutData.map((game) => {
       cashoutDataActive.push(game);
       _games.push({
-        label: game.text + " ",
+        label: game.text,
         title: game.text,
         helper: game.limit,
         getwaykey: game.getwaykey,
         bonus: game.bonus,
         icon: game.icon,
-        idname: "login",
-        component: <CashoutComponent depMode={game.value} />,
+        idname: "login Cashout" + game.value,
+        component: (
+          <DepositComponent
+            compmode="cashout"
+            depMode={game.value}
+            getwaykey={game.getwaykey}
+          />
+        ),
       });
     });
   }
   return _games;
 }
+console.log(depositDataActive);
+console.log(cashoutDataActive);
 export const doCurrency = (value) => {
   return value.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
 };

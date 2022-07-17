@@ -290,6 +290,7 @@ const depositArea = (prop) => {
                   control="input"
                   name="code"
                   label="کد فعالسازی"
+                  autoComplete="one-time-code"
                   labelcolor="blue"
                   size={prop.size}
                   inputmode="numeric"
@@ -321,14 +322,13 @@ const depositArea = (prop) => {
                   size={prop.size}
                   inputmode="numeric"
                 />
-
-                <DepositButton
-                  {...prop}
-                  type="submit"
-                  disabled={formik.isSubmitting}
-                  loading={formik.isSubmitting}
-                />
               </div>
+              <DepositButton
+                {...prop}
+                type="submit"
+                disabled={formik.isSubmitting || formik.values.pin == ""}
+                loading={formik.isSubmitting}
+              />
             </Form>
           );
         }}

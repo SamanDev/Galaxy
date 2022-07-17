@@ -23,6 +23,7 @@ const InputF = ({
   className,
   inputmode,
   readOnly,
+  autoComplete,
 }) => {
   return (
     <Form as="div">
@@ -49,6 +50,7 @@ const InputF = ({
           className={className}
           inputMode={inputmode}
           readOnly={readOnly}
+          autoComplete={autoComplete}
         />
       </Form.Input>
     </Form>

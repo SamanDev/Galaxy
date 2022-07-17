@@ -10,7 +10,7 @@ import {
 import DepositArea from "../depositComponent/index.jsx";
 import CashoutArea from "../cashout/index.jsx";
 import LevelIcon from "../../../utils/LevelIcon";
-import List from "../../../pages/dashboard/ListCashier";
+import Report from "../../../pages/dashboard/ReportPen";
 import { doCurrency } from "../../../const";
 const Balance = (prop) => {
   const loginToken = JSON.parse(localStorage.getItem("loginToken"));
@@ -60,7 +60,7 @@ const Balance = (prop) => {
               />
             }
           >
-            <DepositArea {...prop} />
+            <DepositArea compmode="deposit" {...prop} />
           </Popup>{" "}
           <Popup
             on="click"
@@ -69,6 +69,7 @@ const Balance = (prop) => {
             position="bottom center"
             offset={[-78, 0]}
             basic
+            pinned
             onClose={() => {
               prop.setActiveMenu("main");
             }}
@@ -83,7 +84,7 @@ const Balance = (prop) => {
               />
             }
           >
-            <CashoutArea {...prop} />
+            <DepositArea compmode="cashout" {...prop} />
           </Popup>{" "}
           <Popup
             on="click"
@@ -92,6 +93,7 @@ const Balance = (prop) => {
             position="bottom center"
             offset={[-106, 0]}
             basic
+            pinned
             trigger={<i className="fas fa-ellipsis-h  d-none d-sm-inline"></i>}
           >
             <Label color="black">
@@ -110,7 +112,7 @@ const Balance = (prop) => {
             </Label>
 
             <Divider />
-            <List status="Pending" />
+            <Report mode="Pending" count={3} {...prop} />
           </Popup>
           <Progress
             percent={50}

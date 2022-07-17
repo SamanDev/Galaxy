@@ -20,7 +20,7 @@ import { Alert } from "../../../utils/alerts";
 
 import CashoutButton from "../input/CashoutButton";
 import List from "../../../pages/dashboard/List";
-import SelectInput from "../input/Select";
+import { cashierService } from "../../../services/cashier";
 const SelectB =
   "بانک ملّی ایران,بانک اقتصاد نوین,بانک قرض‌الحسنه مهر ایران,بانک سپه,بانک پارسیان,بانک قرض‌الحسنه رسالت,بانک صنعت و معدن,بانک کارآفرین,بانک کشاورزی,بانک سامان,بانک مسکن,بانک سینا,بانک توسعه صادرات ایران,بانک خاور میانه,بانک توسعه تعاون,بانک شهر,پست بانک ایران,بانک دی,بانک صادرات,بانک ملت,بانک تجارت,بانک رفاه,بانک حکمت ایرانیان,بانک گردشگری,بانک ایران زمین,بانک قوامین,بانک انصار,بانک سرمایه,بانک پاسارگاد,بانک مشترک ایران-ونزوئلا".split(
     ","
@@ -50,6 +50,7 @@ const validationSchema = Yup.object({
   name: Yup.string()
     .required("نام کامل خود را به فارسی وارد کنید.")
     .min(5, "نام کامل خود را به فارسی وارد کنید."),
+  bankname: Yup.string().required("لطفا بانک خود را انتخاب کنید."),
   mobile: Yup.string()
     .required("لطفا این فیلد را وارد کنید.")
     .min(11, "لطفا این فیلد را درست وارد کنید.")
@@ -78,18 +79,19 @@ const validationSchema = Yup.object({
     .min(1401, "حداقل این فیلد 1401 است.")
     .max(1421, "حداکثر این فیلد 1430 است."),
 });
-const onSubmit = async (values, submitMethods, navigate) => {
+const onSubmit = async (values, submitMethods, navigate, prop) => {
   try {
-    const res = await loginService(values);
+    const res = await cashierService(values, "addCart", "");
     if (res.status == 200) {
-      localStorage.setItem("loginToken", JSON.stringify(res.data));
-      navigate("/");
+      if (res.data) {
+      }
     } else {
       Alert("متاسفم...!", res.data.message, "error");
     }
     submitMethods.setSubmitting(false);
   } catch (error) {
     submitMethods.setSubmitting(false);
+
     Alert("متاسفم...!", "متاسفانه مشکلی از سمت سرور رخ داده", "error");
   }
 };
@@ -98,7 +100,13 @@ const depositArea = (prop) => {
   const [depMode, setDepMode] = useState(false);
   const navigate = useNavigate();
   return (
-    <Formik initialValues={initialValues} validationSchema={validationSchema}>
+    <Formik
+      initialValues={initialValues}
+      validationSchema={validationSchema}
+      onSubmit={(values, submitMethods) =>
+        onSubmit(values, submitMethods, navigate, prop)
+      }
+    >
       {(formik) => {
         return (
           <Form>
@@ -123,25 +131,17 @@ const depositArea = (prop) => {
               inputmode="numeric"
             />
             <Divider inverted />
-            <Input size="mini" fluid labelPosition="left">
-              <Label
-                size="tiny"
-                pointing="right"
-                color="black"
-                className="farsi"
-              >
-                نام بانک
-              </Label>
-              <Select
-                name="bank"
-                className="farsi"
-                formik={formik}
-                name="bankname"
-                fluid
-                options={bankOptions}
-                defaultValue={bankOptions[0].value}
-              />
-            </Input>
+            <FormikControl
+              formik={formik}
+              control="select"
+              name="bankname"
+              label=" نام بانک"
+              labelcolor="black"
+              size={prop.size}
+              className="farsi"
+              options={bankOptions}
+              value={bankOptions[0].value}
+            />
 
             <Divider inverted />
             <Message
@@ -209,9 +209,16 @@ const depositArea = (prop) => {
                 size={prop.size}
               />
             ))}
-            <CashoutButton val="ثبت" color="olive" />
+            <Button
+              content={"ثبت"}
+              fluid
+              style={{ margin: "10px 0" }}
+              className="farsi"
+              type="submit"
+              color="olive"
+            />
 
-            <List title="کارت های بانکی" mode="cart" />
+            <List title="کارت های بانکی" mode="cart" {...prop} />
           </Form>
         );
       }}

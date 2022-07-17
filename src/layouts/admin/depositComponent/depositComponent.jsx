@@ -6,6 +6,7 @@ import BankTransfer from "./BankTransfer";
 import PerfectMoney from "./PerfectMoney";
 import USDT from "./USDT";
 import BTC from "./BTC";
+import Cashout from "../cashout/cashoutComponent";
 
 import { Icon, Label, Button, Header, Divider } from "semantic-ui-react";
 const depositArea = (prop) => {
@@ -22,52 +23,65 @@ const depositArea = (prop) => {
           <Divider inverted section />
         </>
       )}
-
-      {depMode == "Bank Transfer" && (
-        <BankTransfer
-          mode={depMode}
-          size="mini"
-          labelcolor="orange"
-          list={true}
-        />
-      )}
-      {depMode == "Online Cart to Cart" && (
-        <CartToCartOnline
-          mode={depMode}
-          size="mini"
-          labelcolor="orange"
-          list={true}
-        />
-      )}
-      {depMode == "Cart to Cart" && (
-        <CartToCart
-          mode={depMode}
-          size="mini"
-          labelcolor="orange"
-          list={true}
-        />
-      )}
-      {depMode == "USDT" && (
-        <USDT mode={depMode} size="mini" labelcolor="orange" list={true} />
-      )}
-      {depMode == "Bitcoin" && (
-        <BTC mode={depMode} size="mini" labelcolor="orange" list={true} />
-      )}
-      {depMode == "VisaGiftCode" && (
-        <VisaGiftCode
-          mode={depMode}
-          size="mini"
-          labelcolor="orange"
-          list={true}
-        />
-      )}
-      {depMode == "PerfectMoney" && (
-        <PerfectMoney
-          mode={depMode}
-          size="mini"
-          labelcolor="orange"
-          list={true}
-        />
+      {prop.compmode == "deposit" ? (
+        <>
+          {depMode == "Bank Transfer" && (
+            <BankTransfer
+              mode={depMode}
+              size="mini"
+              labelcolor="orange"
+              list={true}
+            />
+          )}
+          {depMode == "Online Cart to Cart" && (
+            <CartToCartOnline
+              mode={depMode}
+              size="mini"
+              labelcolor="orange"
+              list={true}
+            />
+          )}
+          {depMode == "Cart to Cart" && (
+            <CartToCart
+              mode={depMode}
+              size="mini"
+              labelcolor="orange"
+              list={true}
+            />
+          )}
+          {depMode == "USDT" && (
+            <USDT mode={depMode} size="mini" labelcolor="orange" list={true} />
+          )}
+          {depMode == "BTC" && (
+            <BTC mode={depMode} size="mini" labelcolor="orange" list={true} />
+          )}
+          {depMode == "VisaGiftCode" && (
+            <VisaGiftCode
+              mode={depMode}
+              size="mini"
+              labelcolor="orange"
+              list={true}
+            />
+          )}
+          {depMode == "PerfectMoney" && (
+            <PerfectMoney
+              mode={depMode}
+              size="mini"
+              labelcolor="orange"
+              list={true}
+            />
+          )}
+        </>
+      ) : (
+        <>
+          <Cashout
+            mode={depMode}
+            cashMode={depMode}
+            size="mini"
+            labelcolor="orange"
+            list={true}
+          />
+        </>
       )}
     </span>
   );

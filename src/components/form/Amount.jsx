@@ -81,7 +81,18 @@ const Amount = (prop) => {
               disabled={prop.disabled}
             />
           </span>
-
+          {prop.formik.errors[prop.name] && prop.formik.touched[prop.name] && (
+            <Label
+              className="farsi"
+              basic
+              color="red"
+              pointing="below"
+              size={prop.size}
+              disabled={prop.disabled}
+            >
+              {prop.formik.errors[prop.name]}
+            </Label>
+          )}
           <Input size="mini" fluid labelPosition="left">
             <Label
               pointing="right"

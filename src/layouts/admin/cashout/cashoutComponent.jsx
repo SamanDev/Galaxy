@@ -13,18 +13,34 @@ const depositArea = (props) => {
   const [depMode] = useState(props.cashMode);
 
   return (
-    <span className="myaccount popupmenu">
+    <>
       {depMode === "Ticket" && <Ticket {...props} />}
-      {depMode === "addCart" && <AddCart size="mini" />}
-      {depMode === "ChangePass" && (
-        <ChangePass size="mini" labelcolor="yellow" />
+      {depMode === "addCart" && (
+        <span className="myaccount popupmenu">
+          {props.title && (
+            <>
+              <Header
+                as="h4"
+                inverted
+                className="farsi"
+                style={{ marginTop: 10 }}
+              >
+                {props.title}
+              </Header>
+
+              <Divider inverted section />
+            </>
+          )}
+          <AddCart size="mini" labelcolor="orange" list={true} />
+        </span>
       )}
+      {depMode === "ChangePass" && <ChangePass {...props} />}
       {depMode === "Transfer" && <Transfer />}
-      {depMode == "USDT" && <USDT mode="USDT" />}
-      {depMode == "Bitcoin" && <BTC mode="BTC" />}
-      {depMode == "Toman" && <Toman mode="Toman" />}
+      {depMode == "USDT" && <USDT mode={depMode} />}
+      {depMode == "BTC" && <BTC mode={depMode} {...props} />}
+      {depMode == "Toman" && <Toman mode={depMode} />}
       {depMode == "PerfectMoney" && <PerfectMoney mode="PerfectMoney" />}
-    </span>
+    </>
   );
 };
 

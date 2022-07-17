@@ -37,6 +37,7 @@ const onSubmit = async (values, submitMethods, navigate, prop) => {
     if (res.status == 200) {
       localStorage.setItem("loginToken", JSON.stringify(res.data));
       prop.setIsUser(true);
+      window.location.reload();
     } else {
       Alert("متاسفم...!", res.data.message, "error");
     }

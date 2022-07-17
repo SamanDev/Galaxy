@@ -82,11 +82,13 @@ const depositArea = (prop) => {
           بازگشت <Icon name="arrow alternate circle left outline" />
         </div>
         <Divider inverted />
-        {depMode.value == "Toman" && <Toman />}
-        {depMode.value == "USDT" && <USDT />}
-        {depMode.value == "Bitcoin" && <BTC />}
+        {depMode.value == "Toman" && <Toman mode={depMode.value} {...prop} />}
+        {depMode.value == "USDT" && <USDT mode={depMode.value} {...prop} />}
+        {depMode.value == "BTC" && <BTC mode={depMode.value} {...prop} />}
 
-        {depMode.value == "PerfectMoney" && <PerfectMoney />}
+        {depMode.value == "PerfectMoney" && (
+          <PerfectMoney mode={depMode.value} {...prop} />
+        )}
       </div>
     </>
   );

@@ -2,6 +2,7 @@ import React from "react";
 import { Button, Divider } from "semantic-ui-react";
 import $ from "jquery";
 import Report from "../../../pages/dashboard/ReportDep";
+import ReportPen from "../../../pages/dashboard/ReportPen";
 const DepositButton = (prop) => (
   <>
     <Button
@@ -39,7 +40,7 @@ const DepositButton = (prop) => (
           </li>
         </ul>
         <div style={{ overflow: "auto", maxHeight: 300, marginTop: 10 }}>
-          <Report mode={prop.mode} pending={true} {...prop} />
+          <ReportPen mode={prop.mode} pending={true} count={-1} {...prop} />
         </div>
       </div>
     )}

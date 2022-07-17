@@ -76,7 +76,7 @@ const Report = (prop) => {
                     )}
 
                     <div className="cashlist">
-                      {(prop.mode == "Bitcoin" ||
+                      {(prop.mode == "BTC" ||
                         prop.mode == "USDT" ||
                         prop.mode == "PerfectMoney") && (
                         <>
@@ -101,7 +101,7 @@ const Report = (prop) => {
                           </span>
                         </>
                       )}
-                      {(prop.mode == "Bitcoin" || prop.mode == "USDT") &&
+                      {(prop.mode == "BTC" || prop.mode == "USDT") &&
                         canShowPending && (
                           <>
                             <QR note={item} doCurrency={doCurrency} />

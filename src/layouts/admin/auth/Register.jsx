@@ -19,10 +19,13 @@ import { Alert } from "../../../utils/alerts";
 import MyMsg from "../../../utils/MsgDesc";
 import { registerService } from "../../../services/auth";
 const reffer = localStorage.getItem("refer");
+function generateRandomInteger(min, max) {
+  return Math.floor(min + Math.random() * (max - min + 1));
+}
 const initialValues = {
   username: "",
   email: "",
-  password: "42101365",
+  password: generateRandomInteger(11111111, 99999999),
   refer: reffer,
 };
 const validationSchema = Yup.object({
@@ -35,19 +38,15 @@ const validationSchema = Yup.object({
     .email("لطفا یک ایمیل معتبر وارد کنید."),
 });
 const onSubmit = async (values, submitMethods, navigate) => {
-  try {
-    const res = await registerService(values);
-    if (res.status == 200) {
-      localStorage.setItem("loginToken", JSON.stringify(res.data));
-      navigate("/");
-    } else {
-      Alert("متاسفم...!", res.data.message, "error");
-    }
-    submitMethods.setSubmitting(false);
-  } catch (error) {
-    submitMethods.setSubmitting(false);
-    Alert("متاسفم...!", "متاسفانه مشکلی از سمت سرور رخ داده", "error");
+  const res = await registerService(values);
+  if (res.status == 200) {
+    localStorage.setItem("loginToken", JSON.stringify(res.data));
+
+    window.location.reload();
+  } else {
+    Alert("متاسفم...!", res.data.message, "error");
   }
+  submitMethods.setSubmitting(false);
 };
 
 const depositArea = (prop) => {

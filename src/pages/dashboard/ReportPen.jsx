@@ -16,10 +16,7 @@ const Report = (prop) => {
   const handleGetReports = async (mode) => {
     setLoading(true);
     try {
-      const res = await getReportService(
-        loginToken.id,
-        mode.replace(/ /g, "") + "Cashout"
-      );
+      const res = await getReportService(loginToken.id, mode.replace(/ /g, ""));
       if (res.status === 200) {
         setData(res.data);
       }
@@ -36,7 +33,7 @@ const Report = (prop) => {
   var canShow = true;
   var canShowPending = true;
   if (loading) {
-    if (!prop.pending) {
+    if (prop.pending) {
       return <MenuLoader />;
     } else {
       return null;
@@ -46,14 +43,19 @@ const Report = (prop) => {
       <List divided inverted size="small" className="mylist">
         {data.map((item, i) => {
           if ((item.status == "Pending" || !prop.pending) && canShow) {
-            if (prop.pending) {
+            if (i > prop.count) {
               canShow = false;
             }
             if (item.status == "Pending" && i > 0) {
               canShowPending = false;
             }
             return (
-              <List.Item key={i}>
+              <List.Item
+                key={i}
+                onClick={() => {
+                  prop.openPanel("." + item.mode + item.coin.split(".")[0]);
+                }}
+              >
                 <List.Content>
                   <List.Description className="rightfloat">
                     {convertDateToJalali(item.createDate)}
@@ -70,7 +72,7 @@ const Report = (prop) => {
                     />
                     {!prop.pending && (
                       <div>
-                        {item.gateway && item.gateway}{" "}
+                        {item.mode && item.mode}{" "}
                         {item.coin && " - " + item.coin}
                       </div>
                     )}
@@ -102,6 +104,12 @@ const Report = (prop) => {
                         </>
                       )}
                     </div>
+                    {(prop.mode == "BTC" || prop.mode == "USDT") &&
+                      canShowPending && (
+                        <>
+                          <QR note={item} doCurrency={doCurrency} />
+                        </>
+                      )}
                   </List.Description>
                 </List.Content>
               </List.Item>

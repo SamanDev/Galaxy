@@ -343,7 +343,7 @@ function App(prop) {
 
   const openPanel = (id, toId) => {
     var _id = id;
-
+    $(".popup").remove();
     if (_id.indexOf("#") == -1) {
       _id = $(_id).closest("[href]").attr("href");
     }
@@ -383,7 +383,7 @@ function App(prop) {
     if (window.location.href.toString().indexOf("/logout") > -1) {
       setIsUser(false);
       localStorage.removeItem("loginToken");
-      navigate("/");
+      window.location = "/";
     }
   }, [window.location.href]);
   useEffect(() => {
