@@ -86,22 +86,24 @@ const depositArea = (prop) => {
         </div>
 
         <Divider inverted />
-        {depMode.value == "USDT" && (
+        {depMode.value == "USDT" && prop.getAccess(depMode.getwaykey) && (
           <USDT mode={depMode.value} size="mini" labelcolor="orange" />
         )}
         {depMode.value == "Bank Transfer" && (
           <BankTransfer mode={depMode.value} size="mini" labelcolor="orange" />
         )}
-        {depMode.value == "Cart to Cart" && (
-          <CartToCart mode={depMode.value} size="mini" labelcolor="orange" />
-        )}
-        {depMode.value == "Online Cart to Cart" && (
-          <CartToCartOnline
-            mode={depMode.value}
-            size="mini"
-            labelcolor="orange"
-          />
-        )}
+        {depMode.value == "Cart to Cart" &&
+          prop.getAccess(depMode.getwaykey) && (
+            <CartToCart mode={depMode.value} size="mini" labelcolor="orange" />
+          )}
+        {depMode.value == "Online Cart to Cart" &&
+          prop.getAccess(depMode.getwaykey) && (
+            <CartToCartOnline
+              mode={depMode.value}
+              size="mini"
+              labelcolor="orange"
+            />
+          )}
         {depMode.value == "Bitcoin" && (
           <BTC mode={depMode.value} size="mini" labelcolor="orange" />
         )}

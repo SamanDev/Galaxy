@@ -11,7 +11,7 @@ import VIP from "./pages/dashboard/VIP";
 import League from "./pages/dashboard/League";
 import UserList from "./pages/dashboard/Users";
 import TopUsers from "./pages/dashboard/TopUsers";
-import DepositComponent from "./layouts/admin/deposit/depositComponent.jsx";
+import DepositComponent from "./layouts/admin/depositComponent/depositComponent.jsx";
 import CashoutComponent from "./layouts/admin/cashout/cashoutComponent.jsx";
 
 import { useNavigate } from "react-router-dom";
@@ -46,7 +46,7 @@ export const cashoutData = [
   {
     key: "USDT",
     getwaykey: "USDT",
-    text: "USDT Trc20",
+    text: "USDT TRC20",
     value: "USDT",
     icon: "dollar",
     limit: "$100 - $10K",
@@ -103,7 +103,7 @@ export const depositData = [
   {
     key: "USDT",
     getwaykey: "USDT",
-    text: "USDT Trc20",
+    text: "USDT TRC20",
     value: "USDT",
     icon: "dollar",
     limit: "Unlimited",
@@ -372,7 +372,9 @@ function doDeposit() {
         bonus: game.bonus,
         icon: game.icon,
         idname: "login",
-        component: <DepositComponent depMode={game.value} />,
+        component: (
+          <DepositComponent depMode={game.value} getwaykey={game.mode} />
+        ),
       });
     });
   }

@@ -21,6 +21,8 @@ const InputF = ({
   size,
   placeholder,
   className,
+  inputmode,
+  readOnly,
 }) => {
   return (
     <Form as="div">
@@ -45,6 +47,8 @@ const InputF = ({
           name={name}
           placeholder={placeholder}
           className={className}
+          inputMode={inputmode}
+          readOnly={readOnly}
         />
       </Form.Input>
     </Form>

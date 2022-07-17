@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Popup, Label, Segment } from "semantic-ui-react";
 import Swal from "sweetalert2";
-import copy from "copy-to-clipboard";
-
+import { CopyToClipboard } from "react-copy-to-clipboard";
 const Toast = Swal.mixin({
   toast: false,
   position: "center",
@@ -10,20 +9,22 @@ const Toast = Swal.mixin({
   timer: 1000,
   timerProgressBar: false,
 });
-function copyDo(txxt) {
-  //alert();
-  copy(txxt);
-  //navigator.clipboard.writeText(txxt.toString());
-  Toast.fire({
-    icon: "success",
-    title: "Text Copied.",
-  });
-}
+
 function copyText(prop) {
   const [item, setItem] = useState(prop.text);
   const [myID, setMyID] = useState(prop.myid);
   const [alter, setAlter] = useState(prop.alter);
   const [size, setSize] = useState(prop.size);
+  const [copy, setCopy] = useState(false);
+
+  const copyDo = () => {
+    setCopy(true);
+
+    setTimeout(() => {
+      setCopy(false);
+    }, 3000);
+  };
+
   useEffect(() => {
     setItem(prop.text);
   }, [prop.text]);
@@ -44,10 +45,20 @@ function copyText(prop) {
         {...prop}
         position="top center"
         trigger={
-          <Label as="a" {...prop} onClick={() => copyDo(item)}>
-            {item}
-            {alter && <Label.Detail>{alter}</Label.Detail>}
-          </Label>
+          <CopyToClipboard text={item} onCopy={() => copyDo()}>
+            <Label
+              color={copy ? "green" : prop.color}
+              style={{
+                width: "100%",
+                textAlign: "center",
+                marginBottom: 5,
+                current: "pointer",
+              }}
+            >
+              {item}
+              {alter && <Label.Detail>{alter}</Label.Detail>}
+            </Label>
+          </CopyToClipboard>
         }
       />
     );

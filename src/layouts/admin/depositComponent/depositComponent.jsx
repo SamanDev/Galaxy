@@ -8,20 +8,21 @@ import USDT from "./USDT";
 import BTC from "./BTC";
 
 import { Icon, Label, Button, Header, Divider } from "semantic-ui-react";
-const depositArea = (props) => {
-  const [depMode, setDepMode] = useState(props.depMode);
+const depositArea = (prop) => {
+  const [depMode, setDepMode] = useState(prop.depMode);
 
   return (
     <span className="myaccount popupmenu">
-      {props.title && (
+      {prop.title && (
         <>
           <Header as="h4" inverted className="farsi" style={{ marginTop: 10 }}>
-            {props.title}
+            {prop.title}
           </Header>
 
           <Divider inverted section />
         </>
       )}
+
       {depMode == "Bank Transfer" && (
         <BankTransfer
           mode={depMode}

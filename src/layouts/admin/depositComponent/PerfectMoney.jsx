@@ -24,19 +24,23 @@ const initialValues = {
   voucherCode: "",
 };
 const validationSchema = Yup.object({
-  voucherNumber: Yup.string()
+  voucherNumber: Yup.number()
     .required("لطفا این فیلد را وارد کنید.")
-    .min(8, "لطفا این فیلد را درست وارد کنید."),
+    .min(100, "لطفا این فیلد را درست وارد کنید.")
+    .integer(),
   voucherCode: Yup.string()
     .required("لطفا این فیلد را وارد کنید.")
     .min(8, "لطفا این فیلد را درست وارد کنید."),
 });
 const onSubmit = async (values, submitMethods, navigate, prop) => {
   try {
-    const res = await cashierService(values, "Deposit", prop.mode);
+    const res = await cashierService(values, "createDepositPM", "");
     if (res.status == 200) {
-      localStorage.setItem("loginToken", JSON.stringify(res.data));
-      prop.setIsUser(true);
+      if (res.data == "Ok") {
+        Alert("Done", res.data, "success");
+      } else {
+        Alert("متاسفم...!", res.data, "error");
+      }
     } else {
       Alert("متاسفم...!", res.data.message, "error");
     }
@@ -66,7 +70,7 @@ const depositArea = (prop) => {
               formik={formik}
               control="input"
               type="text"
-              inputMode="number"
+              inputmode="numeric"
               name="voucherNumber"
               label="eVoucher Number"
               labelcolor={prop.labelcolor}
@@ -76,7 +80,7 @@ const depositArea = (prop) => {
               formik={formik}
               control="input"
               type="text"
-              inputMode="number"
+              inputmode="numeric"
               name="voucherCode"
               label="Activition Code"
               labelcolor={prop.labelcolor}

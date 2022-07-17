@@ -37,6 +37,7 @@ SelectB.map(function (bank, i) {
 });
 const initialValues = {
   name: "",
+  mobile: "09",
   bankname: "",
   shebano: "",
   accountno: "",
@@ -49,6 +50,11 @@ const validationSchema = Yup.object({
   name: Yup.string()
     .required("نام کامل خود را به فارسی وارد کنید.")
     .min(5, "نام کامل خود را به فارسی وارد کنید."),
+  mobile: Yup.string()
+    .required("لطفا این فیلد را وارد کنید.")
+    .min(11, "لطفا این فیلد را درست وارد کنید.")
+    .max(11, "لطفا این فیلد را درست وارد کنید."),
+
   shebano: Yup.string()
     .required("لطفا این فیلد را وارد کنید.")
     .min(24, "لطفا این فیلد را درست وارد کنید.")
@@ -107,6 +113,16 @@ const depositArea = (prop) => {
               size={prop.size}
               className="farsi"
             />
+            <FormikControl
+              formik={formik}
+              control="input"
+              name="mobile"
+              label=" شماره همراه"
+              labelcolor="red"
+              size={prop.size}
+              inputmode="numeric"
+            />
+            <Divider inverted />
             <Input size="mini" fluid labelPosition="left">
               <Label
                 size="tiny"

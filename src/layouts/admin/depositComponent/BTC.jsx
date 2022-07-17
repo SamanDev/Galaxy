@@ -9,7 +9,7 @@ import {
   Segment,
   Message,
 } from "semantic-ui-react";
-import Amount from "../input/Amount";
+
 import DepositButton from "../input/DepositButton";
 
 import FormikControl from "../../../components/form/FormikControl";
@@ -20,23 +20,26 @@ import { Alert } from "../../../utils/alerts";
 import { cashierService } from "../../../services/cashier";
 
 const initialValues = {
-  voucherNumber: "",
-  voucherCode: "",
+  action: "deposit",
+  amount: 0,
+  coin: "BTC",
+  amountDollar: 100,
 };
 const validationSchema = Yup.object({
-  voucherNumber: Yup.string()
+  amount: Yup.number().required("لطفا این فیلد را وارد کنید.").integer(),
+
+  amountDollar: Yup.number()
     .required("لطفا این فیلد را وارد کنید.")
-    .min(8, "لطفا این فیلد را درست وارد کنید."),
-  voucherCode: Yup.string()
-    .required("لطفا این فیلد را وارد کنید.")
-    .min(8, "لطفا این فیلد را درست وارد کنید."),
+    .min(100, "لطفا این فیلد را درست وارد کنید.")
+    .integer(),
 });
-const onSubmit = async (values, submitMethods, navigate, prop) => {
+const onSubmit = async (values, submitMethods, navigate, prop, setRefresh) => {
   try {
-    const res = await cashierService(values, "Deposit", prop.mode);
+    const res = await cashierService(values, "coinPayments", "");
     if (res.status == 200) {
-      localStorage.setItem("loginToken", JSON.stringify(res.data));
-      prop.setIsUser(true);
+      if (res.data?.address) {
+        setRefresh(true);
+      }
     } else {
       Alert("متاسفم...!", res.data.message, "error");
     }
@@ -49,13 +52,13 @@ const onSubmit = async (values, submitMethods, navigate, prop) => {
 };
 
 const depositArea = (prop) => {
-  const [depMode, setDepMode] = useState(false);
+  const [refresh, setRefresh] = useState(false);
   const navigate = useNavigate();
   return (
     <Formik
       initialValues={initialValues}
       onSubmit={(values, submitMethods) =>
-        onSubmit(values, submitMethods, navigate, prop)
+        onSubmit(values, submitMethods, navigate, prop, setRefresh)
       }
       validationSchema={validationSchema}
     >
@@ -64,26 +67,19 @@ const depositArea = (prop) => {
           <Form>
             <FormikControl
               formik={formik}
-              control="input"
-              type="text"
-              inputMode="number"
-              name="voucherNumber"
-              label="eVoucher Number"
+              control="amount"
+              name="amount"
               labelcolor={prop.labelcolor}
               size={prop.size}
+              dollar={true}
             />
-            <FormikControl
-              formik={formik}
-              control="input"
-              type="text"
-              inputMode="number"
-              name="voucherCode"
-              label="Activition Code"
-              labelcolor={prop.labelcolor}
-              size={prop.size}
+
+            <DepositButton
+              {...prop}
+              disabled={formik.isSubmitting}
+              loading={formik.isSubmitting}
+              refresh={refresh}
             />
-            <Amount rate={true} />
-            <DepositButton {...prop} />
           </Form>
         );
       }}

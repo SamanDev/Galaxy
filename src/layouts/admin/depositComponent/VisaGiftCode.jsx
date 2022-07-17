@@ -20,31 +20,26 @@ import { Alert } from "../../../utils/alerts";
 import { cashierService } from "../../../services/cashier";
 
 const initialValues = {
-  voucherNumber: "",
   voucherCode: "",
 };
 const validationSchema = Yup.object({
-  voucherNumber: Yup.string()
-    .required("لطفا این فیلد را وارد کنید.")
-    .min(8, "لطفا این فیلد را درست وارد کنید."),
   voucherCode: Yup.string()
     .required("لطفا این فیلد را وارد کنید.")
     .min(8, "لطفا این فیلد را درست وارد کنید."),
 });
 const onSubmit = async (values, submitMethods, navigate, prop) => {
   try {
-    const res = await cashierService(values, "Deposit", prop.mode);
+    const res = await cashierService(values, "visaGiftCodeVoucher", "");
     if (res.status == 200) {
-      localStorage.setItem("loginToken", JSON.stringify(res.data));
-      prop.setIsUser(true);
+      Alert("Done", res.data?.message, "success");
     } else {
-      Alert("متاسفم...!", res.data.message, "error");
+      Alert("متاسفم...!", res.data, "error");
     }
     submitMethods.setSubmitting(false);
   } catch (error) {
     submitMethods.setSubmitting(false);
 
-    Alert("متاسفم...!", "متاسفانه مشکلی از سمت سرور رخ داده", "error");
+    Alert("متاسفم...!", error.response.data, "error");
   }
 };
 
@@ -66,24 +61,17 @@ const depositArea = (prop) => {
               formik={formik}
               control="input"
               type="text"
-              inputMode="number"
-              name="voucherNumber"
-              label="eVoucher Number"
-              labelcolor={prop.labelcolor}
-              size={prop.size}
-            />
-            <FormikControl
-              formik={formik}
-              control="input"
-              type="text"
-              inputMode="number"
               name="voucherCode"
-              label="Activition Code"
+              label="Visa Gift Code"
               labelcolor={prop.labelcolor}
               size={prop.size}
             />
-            <Amount rate={true} />
-            <DepositButton {...prop} />
+
+            <DepositButton
+              {...prop}
+              disabled={formik.isSubmitting}
+              loading={formik.isSubmitting}
+            />
           </Form>
         );
       }}

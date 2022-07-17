@@ -7,7 +7,7 @@ import {
   Progress,
   Divider,
 } from "semantic-ui-react";
-import DepositArea from "../deposit/index.jsx";
+import DepositArea from "../depositComponent/index.jsx";
 import CashoutArea from "../cashout/index.jsx";
 import LevelIcon from "../../../utils/LevelIcon";
 import List from "../../../pages/dashboard/ListCashier";
@@ -48,6 +48,7 @@ const Balance = (prop) => {
             position="bottom center"
             offset={[-50, 0]}
             basic
+            pinned
             trigger={
               <Icon
                 circular

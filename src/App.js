@@ -638,6 +638,7 @@ function App(prop) {
                   isLogin={isUser}
                   loadingLogin={loadingLogin}
                   setIsUser={setIsUser}
+                  getAccess={getAccess}
                 />
               }
             />
@@ -652,6 +653,7 @@ function App(prop) {
                   isLogin={isUser}
                   loadingLogin={loadingLogin}
                   setIsUser={setIsUser}
+                  getAccess={getAccess}
                 />
               }
             />

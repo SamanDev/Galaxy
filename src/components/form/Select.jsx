@@ -1,5 +1,5 @@
 import { FastField } from "formik";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
   Label,
   Input,
@@ -10,9 +10,23 @@ import {
   Segment,
   Message,
   Form,
+  Select,
 } from "semantic-ui-react";
-const InputF = ({ formik, type, name, icon, label, labelcolor, size }) => {
-  console.log(formik);
+const InputF = ({
+  formik,
+  type,
+  name,
+  icon,
+  label,
+  labelcolor,
+  size,
+  placeholder,
+  className,
+  options,
+  defaultValue,
+  namemix,
+  updateCartInfo,
+}) => {
   return (
     <Form as="div">
       {formik.errors[name] && formik.touched[name] && (
@@ -31,7 +45,21 @@ const InputF = ({ formik, type, name, icon, label, labelcolor, size }) => {
         >
           {label}
         </Label>
-        <FastField type={type} name={name} placeholder={name} />
+        <FastField
+          id={name}
+          name={name}
+          placeholder={placeholder}
+          className={className}
+          fluid
+          options={options}
+          onChange={(value) => {
+            formik.setFieldValue(name, value.target.outerText);
+            if (namemix) {
+              updateCartInfo(value.target.outerText, formik);
+            }
+          }}
+          as={Select}
+        />
       </Form.Input>
     </Form>
   );

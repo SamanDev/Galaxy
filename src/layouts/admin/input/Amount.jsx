@@ -79,7 +79,7 @@ const Amount = (prop) => {
                   allowDecimals={true}
                   decimalsLimit={2}
                   maxLength="6"
-                  onValueChange={(value, name) => setVal(name, value)}
+                  handleChange={(value, name) => setVal(name, value)}
                 />
               </Input>
               <Input
