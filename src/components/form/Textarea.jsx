@@ -1,17 +1,51 @@
-import { ErrorMessage, FastField } from 'formik';
-import React from 'react';
-import FormikError from './FormikError';
+import { FastField } from "formik";
+import React from "react";
+import {
+  Label,
+  Input,
+  Header,
+  Divider,
+  Icon,
+  Button,
+  Segment,
+  Message,
+  Form,
+} from "semantic-ui-react";
+const InputF = ({
+  formik,
+  type,
+  name,
+  icon,
+  label,
+  labelcolor,
+  size,
+  placeholder,
+  className,
+  inputmode,
+  readOnly,
+  autoComplete,
+}) => {
+  return (
+    <Form as="div">
+      {formik.errors[name] && formik.touched[name] && (
+        <Label className="farsi" basic color="red" pointing="below" size={size}>
+          {formik.errors[name]}
+        </Label>
+      )}
+      <Form.Input size={size} fluid>
+        <FastField
+          type={type}
+          name={name}
+          placeholder={placeholder}
+          className={className}
+          inputMode={inputmode}
+          readOnly={readOnly}
+          as="textarea"
+          rows={4}
+        />
+      </Form.Input>
+    </Form>
+  );
+};
 
-const Textarea = ({name, label, className, placeholder}) => {
-    return (
-        <div className={`col-12 ${className}`}>
-            <div className="input-group mb-3 dir_ltr">
-                <FastField as="textarea" name={name} className="form-control" placeholder={placeholder} />
-                <span className="input-group-text w_6rem justify-content-center"> {label} </span>
-            </div>
-            <ErrorMessage name={name} component={FormikError}/>
-        </div>
-    );
-}
-
-export default Textarea;
+export default InputF;

@@ -7,6 +7,7 @@ import Category from "./category/Category";
 import Games from "./Games/Index";
 import Comments from "./comments/Comments";
 import Dashboard from "./dashboard/Dashboard";
+import Admin from "./admin/Index";
 import Deliveries from "./deliveries/Deliveries";
 import Discounts from "./discounts/Discounts";
 import Guaranties from "./guaranties/Guaranties";
@@ -27,7 +28,7 @@ const Content = (prop) => {
     <section id="content_section" className={`py-2 px-3`}>
       <Routes>
         <Route path="/" element={<Dashboard {...prop} />} />
-
+        <Route path="/admin" element={<Admin {...prop} />} />
         <Route path="/games" element={<Dashboard {...prop} />}>
           <Route path=":gameId" />
         </Route>

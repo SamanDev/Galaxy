@@ -14,7 +14,11 @@ const depositArea = (props) => {
 
   return (
     <>
-      {depMode === "Ticket" && <Ticket {...props} />}
+      {depMode === "Ticket" && (
+        <span className="myaccount popupmenu">
+          <Ticket size="mini" labelcolor="orange" list={true} />
+        </span>
+      )}
       {depMode === "addCart" && (
         <span className="myaccount popupmenu">
           {props.title && (
@@ -34,7 +38,11 @@ const depositArea = (props) => {
           <AddCart size="mini" labelcolor="orange" list={true} />
         </span>
       )}
-      {depMode === "ChangePass" && <ChangePass {...props} />}
+      {depMode === "ChangePass" && (
+        <span className="myaccount popupmenu">
+          <ChangePass size="mini" labelcolor="orange" list={true} />
+        </span>
+      )}
       {depMode === "Transfer" && <Transfer />}
       {depMode == "USDT" && <USDT mode={depMode} />}
       {depMode == "BTC" && <BTC mode={depMode} {...props} />}

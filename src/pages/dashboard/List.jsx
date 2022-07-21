@@ -1,5 +1,5 @@
 import React from "react";
-import { List, Divider, Header } from "semantic-ui-react";
+import { List, Icon, Header } from "semantic-ui-react";
 import Status from "../../utils/Status";
 import AmountColor from "../../utils/AmountColor";
 
@@ -18,6 +18,26 @@ const ListExampleInverted = (prop) => {
       )}
 
       <List divided inverted size="small" className="mylist">
+        {loginToken.bankInfos.length == 0 && (
+          <>
+            <List.Item>
+              <List.Content>
+                <List.Description className="farsi text-center">
+                  <Icon
+                    circular
+                    color="teal"
+                    name="clipboard outline"
+                    size="big"
+                    inverted
+                  />
+                  <br />
+                  <br />
+                  هیچ رکوردی یافت نشد.
+                </List.Description>
+              </List.Content>
+            </List.Item>
+          </>
+        )}
         {loginToken?.bankInfos.map((item, i) => {
           return (
             <List.Item key={i}>

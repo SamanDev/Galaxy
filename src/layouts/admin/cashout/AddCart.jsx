@@ -216,6 +216,8 @@ const depositArea = (prop) => {
               className="farsi"
               type="submit"
               color="olive"
+              disabled={formik.isSubmitting}
+              loading={formik.isSubmitting}
             />
 
             <List title="کارت های بانکی" mode="cart" {...prop} />

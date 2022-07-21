@@ -22,6 +22,7 @@ export const gameData =
   "blackjack3,blackjacks,roulette,roulette3D,baccarat,slotramses,slotfruits,jacksorbetter,deuceswild,wheeloffortune,slotarabian,highlow,slotsoccer,slotluckychristmas,caribbeanstud,slotspace".split(
     ","
   );
+
 export const gameDataCode =
   "bj3,bj,r,r3,br,slr,slf,jb,dw,wf,sla,hl,sls,slc,st,slsp".split(",");
 export const cashoutData = [
@@ -133,6 +134,12 @@ export const menuData = [
     label: "صفحه اصلی",
     icon: "fas fa-home ",
     link: "/",
+  },
+  {
+    label: "Admin",
+    icon: "fas fa-users ",
+    link: "/admin",
+    idname: "admin",
   },
 
   {
@@ -356,6 +363,7 @@ function doGame() {
 
   return _games;
 }
+
 function doDeposit() {
   var _games = [];
 
@@ -471,4 +479,43 @@ export const levelRewardPercent = (lvl) => {
   } else {
     return 50;
   }
+};
+export const haveAdmin = (userTags) => {
+  var isAdmin = false;
+  if (userTags) {
+    userTags.map(function (tag) {
+      if (tag.name == "ROLE_ADMIN") {
+        isAdmin = true;
+      }
+    });
+  }
+
+  return isAdmin;
+};
+export const haveModerator = (userTags) => {
+  var isAdmin = false;
+  if (userTags) {
+    userTags.map(function (tag) {
+      if (tag.name == "ROLE_MODERATOR") {
+        isAdmin = true;
+      }
+    });
+  }
+
+  return isAdmin;
+};
+export const isJson = (item) => {
+  item = typeof item !== "string" ? JSON.stringify(item) : item;
+
+  try {
+    item = JSON.parse(item);
+  } catch (e) {
+    return false;
+  }
+
+  if (typeof item === "object" && item !== null) {
+    return true;
+  }
+
+  return false;
 };

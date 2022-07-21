@@ -24,6 +24,17 @@ axios.interceptors.response.use(
   }
 );
 
+export const httpServiceTest = (url, method, data = null) => {
+  const tokenInfo = JSON.parse(localStorage.getItem("loginToken"));
+  return axios({
+    url: url,
+    method,
+    data,
+    headers: {
+      Authorization: tokenInfo ? `LooLe  ${tokenInfo.accessToken}` : null,
+    },
+  });
+};
 const httpService = (url, method, data = null) => {
   const tokenInfo = JSON.parse(localStorage.getItem("loginToken"));
   return axios({

@@ -18,30 +18,34 @@ const CashoutButton = (prop) => (
         $("#dep2").show();
       }}
     />
-    {prop.mode && prop.list ? (
+    {prop.mode && (
       <>
-        <ul className="mm-listview">
-          <li className="menutitle menutitleinside mm-listitem">
-            <span className="mm-listitem__text"></span>
-          </li>
-        </ul>
+        {prop.mode && prop.list ? (
+          <>
+            <ul className="mm-listview">
+              <li className="menutitle menutitleinside mm-listitem">
+                <span className="mm-listitem__text"></span>
+              </li>
+            </ul>
 
-        <Report mode={prop.mode} {...prop} />
+            <Report mode={prop.mode} {...prop} />
+          </>
+        ) : (
+          <div style={{ overflow: "hidden" }}>
+            <ul
+              className="mm-listview"
+              style={{ opacity: 0.2, position: "relative", top: -12 }}
+            >
+              <li className="menutitle menutitleinside mm-listitem">
+                <span className="mm-listitem__text"></span>
+              </li>
+            </ul>
+            <div style={{ overflow: "auto", maxHeight: 300, marginTop: 10 }}>
+              <ReportPen mode={prop.mode} pending={true} {...prop} />
+            </div>
+          </div>
+        )}
       </>
-    ) : (
-      <div style={{ overflow: "hidden" }}>
-        <ul
-          className="mm-listview"
-          style={{ opacity: 0.2, position: "relative", top: -12 }}
-        >
-          <li className="menutitle menutitleinside mm-listitem">
-            <span className="mm-listitem__text"></span>
-          </li>
-        </ul>
-        <div style={{ overflow: "auto", maxHeight: 300, marginTop: 10 }}>
-          <ReportPen mode={prop.mode} pending={true} {...prop} />
-        </div>
-      </div>
     )}
   </>
 );

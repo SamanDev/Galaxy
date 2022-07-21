@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import AdminLayout from "./layouts/admin/Index";
 import { Image, Modal } from "semantic-ui-react";
-import { menuData, panelData } from "./const";
+import { menuData, panelData, haveAdmin } from "./const";
 import { Link } from "react-router-dom";
 import { useIsLogin } from "./hook/authHook";
 import $ from "jquery";
@@ -35,87 +35,93 @@ function App(prop) {
   function doMenu(menu, y, isPanel, isUser) {
     if (getAccess(menu.getwaykey)) {
       if (!menu.submenu) {
-        return (
-          <li
-            key={y + menu.label}
-            className={menu.link == "/logout" && !isUser ? "hiddenmenu" : null}
-          >
-            {menu.label && !menu.component && (
-              <Link
-                to={menu.link}
-                as="a"
-                onClick={(e) => closeMenu()}
-                className="mm-btn mm-btn--next mm-listitem__btn mm-listitem__text"
-              >
-                {menu.image ? (
-                  <>{menu.image}</>
-                ) : (
-                  <>
-                    {menu.icon && (
-                      <i
-                        className={`${menu.icon} mx-3 ${
-                          menu.icon.indexOf("fas ") == -1 &&
-                          menu.icon.indexOf("fab ") == -1
-                            ? " icon"
-                            : ""
-                        }`}
-                      ></i>
-                    )}{" "}
-                    <span
-                      className={
-                        !menu.textclass
-                          ? "farsi mymenu " + menu.idname
-                          : "mymenu"
-                      }
-                    >
-                      {menu.label}
-                    </span>
-                  </>
-                )}
-              </Link>
-            )}
-            {menu.component && (
-              <>
-                {menu.label && isPanel != "panel" ? (
-                  <ul>
-                    {menu.title && (
-                      <li className="menutitle menutitleinside mm-listitem">
-                        <span className="mm-listitem__text">{menu.title}</span>
-                      </li>
-                    )}
-                    {activeMenu == menu.label && !activePanel && (
-                      <li>
-                        <span>{menu.component}</span>
-                      </li>
-                    )}
-                  </ul>
-                ) : (
-                  <>
-                    <span className="image">
+        if (menu.idname != "admin" || haveAdmin(loginToken?.roles)) {
+          return (
+            <li
+              key={y + menu.label}
+              className={
+                menu.link == "/logout" && !isUser ? "hiddenmenu" : null
+              }
+            >
+              {menu.label && !menu.component && (
+                <Link
+                  to={menu.link}
+                  as="a"
+                  onClick={(e) => closeMenu()}
+                  className="mm-btn mm-btn--next mm-listitem__btn mm-listitem__text"
+                >
+                  {menu.image ? (
+                    <>{menu.image}</>
+                  ) : (
+                    <>
+                      {menu.icon && (
+                        <i
+                          className={`${menu.icon} mx-3 ${
+                            menu.icon.indexOf("fas ") == -1 &&
+                            menu.icon.indexOf("fab ") == -1
+                              ? " icon"
+                              : ""
+                          }`}
+                        ></i>
+                      )}{" "}
+                      <span
+                        className={
+                          !menu.textclass
+                            ? "farsi mymenu " + menu.idname
+                            : "mymenu"
+                        }
+                      >
+                        {menu.label}
+                      </span>
+                    </>
+                  )}
+                </Link>
+              )}
+              {menu.component && (
+                <>
+                  {menu.label && isPanel != "panel" ? (
+                    <ul>
                       {menu.title && (
-                        <>
-                          <ul className="mm-listview">
-                            <li className="menutitle menutitleinside mm-listitem">
-                              <span className="mm-listitem__text">
-                                {menu.title}
-                              </span>
-                            </li>
-                            <li>
-                              {(activeMenu == menu.label ||
-                                (activePanel && activeMenu == "main")) && (
-                                <>{menu.component}</>
-                              )}
-                            </li>
-                          </ul>
-                        </>
+                        <li className="menutitle menutitleinside mm-listitem">
+                          <span className="mm-listitem__text">
+                            {menu.title}
+                          </span>
+                        </li>
                       )}
-                    </span>
-                  </>
-                )}
-              </>
-            )}
-          </li>
-        );
+                      {activeMenu == menu.label && !activePanel && (
+                        <li>
+                          <span>{menu.component}</span>
+                        </li>
+                      )}
+                    </ul>
+                  ) : (
+                    <>
+                      <span className="image">
+                        {menu.title && (
+                          <>
+                            <ul className="mm-listview">
+                              <li className="menutitle menutitleinside mm-listitem">
+                                <span className="mm-listitem__text">
+                                  {menu.title}
+                                </span>
+                              </li>
+                              <li>
+                                {(activeMenu == menu.label ||
+                                  (activePanel && activeMenu == "main")) && (
+                                  <>{menu.component}</>
+                                )}
+                              </li>
+                            </ul>
+                          </>
+                        )}
+                      </span>
+                    </>
+                  )}
+                </>
+              )}
+            </li>
+          );
+        }
       } else {
         return (
           <li key={y + menu.label}>

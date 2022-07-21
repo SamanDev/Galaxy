@@ -4,7 +4,7 @@ import LevelIcon from "../../utils/Level";
 import Ticket from "../../layouts/admin/cashout/Ticket";
 const CommentExampleMinimal = () => (
   <Comment.Group size="mini">
-    <Ticket departman="2" />
+    <Ticket departman="پشتیبانی فنی" />
     <Divider inverted />
     <Comment>
       <Comment.Avatar as={LevelIcon} level={30} />

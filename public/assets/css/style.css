@@ -426,9 +426,9 @@ i.star.big {
   outline: transparent !important;
   outline-offset: 0px;
 }
-.ui.input > input:focus,
-.ui.selection.dropdown,
-.ui.selection.dropdown:focus {
+.myaccount .ui.input > input:focus,
+.myaccount .ui.selection.dropdown,
+.myaccount .ui.selection.dropdown:focus {
   border-color: transparent !important;
   border-top-left-radius: 0 !important;
   border-bottom-left-radius: 0 !important;
