@@ -168,7 +168,8 @@ const depositArea = (prop) => {
         key: i.toString(),
         id: item.id,
         value: item.cardNumber,
-        text: <ConvertCart isLock cartNo={item.cardNumber} />,
+        text: item.cardNumber,
+        // text: <ConvertCart isLock cartNo={item.cardNumber} />,
       });
     });
 

@@ -247,6 +247,7 @@ const depositArea = (prop) => {
                 label={item}
                 labelcolor="yellow"
                 size={prop.size}
+                inputmode="numeric"
               />
             ))}
             <Divider inverted />
@@ -280,6 +281,7 @@ const depositArea = (prop) => {
                 label={item}
                 labelcolor="orange"
                 size={prop.size}
+                inputmode="numeric"
               />
             ))}
             <Button
