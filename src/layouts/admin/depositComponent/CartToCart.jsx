@@ -19,8 +19,10 @@ import { FastField, Form, Formik } from "formik";
 import * as Yup from "yup";
 import { Alert } from "../../../utils/alerts";
 import MyMsg from "../../../utils/MsgDesc";
+
+import ConvertCart from "../../../utils/convertCart";
 import { cashierService } from "../../../services/cashier";
-const countryOptions = [
+var countryOptions = [
   {
     key: "a4f",
     value: "6662502250225050",
@@ -29,12 +31,14 @@ const countryOptions = [
   },
   { key: "af", value: "5022502250225050", text: "5022502250225050" },
 ];
+var carts = [];
+var cartOptions = [];
 const initialValues = {
   amount: 100000,
 
   tocart: countryOptions[0].value,
   tocartname: countryOptions[0].name,
-  cardNumber: countryOptions[0].value,
+  cardNumber: "",
 };
 const validationSchema = Yup.object({
   amount: Yup.number()
@@ -64,104 +68,128 @@ const depositArea = (prop) => {
   const [depMode, setDepMode] = useState(false);
   const navigate = useNavigate();
   const [copy, setCopy] = useState(false);
-
+  const loginToken = JSON.parse(localStorage.getItem("loginToken"));
   const copyDo = () => {
     setCopy(true);
     setTimeout(() => {
       setCopy(false);
     }, 3000);
   };
-  return (
-    <Formik
-      initialValues={initialValues}
-      onSubmit={(values, submitMethods) =>
-        onSubmit(values, submitMethods, navigate, prop)
-      }
-      validationSchema={validationSchema}
-    >
-      {(formik) => {
-        return (
-          <Form>
-            <MyMsg
-              icon="fire"
-              color="red"
-              text="ابتدا مبلغ مورد نظر (یک تا سه میلیون) را به کارت زیر انتقال
+  if (loginToken) {
+    cartOptions = [];
+    loginToken?.bankInfos.map((item, i) => {
+      cartOptions.push(item);
+    });
+    carts = [];
+    cartOptions.map((item, i) => {
+      carts.push({
+        key: i.toString(),
+        id: item.id,
+        value: item.cardNumber,
+        text: <ConvertCart isLock cartNo={item.cardNumber} />,
+      });
+    });
+    return (
+      <Formik
+        initialValues={{
+          amount: 100000,
+
+          tocart: countryOptions[0].value,
+          tocartname: countryOptions[0].name,
+
+          cardNumber: carts[0] ? carts[0].value : "",
+        }}
+        onSubmit={(values, submitMethods) =>
+          onSubmit(values, submitMethods, navigate, prop)
+        }
+        validationSchema={validationSchema}
+      >
+        {(formik) => {
+          return (
+            <Form>
+              <MyMsg
+                icon="fire"
+                color="red"
+                text="ابتدا مبلغ مورد نظر (یک تا سه میلیون) را به کارت زیر انتقال
               دهید."
-            />
-            <CopyToClipboard
-              text={formik.values.tocart}
-              onCopy={() => copyDo()}
-            >
-              <Button
-                icon
-                size="tiny"
-                color={copy ? "green" : "yellow"}
-                type="button"
-                className="farsi"
-                style={{ position: "absolute", zIndex: 3 }}
+              />
+              <CopyToClipboard
+                text={formik.values.tocart}
+                onCopy={() => copyDo()}
               >
-                {!copy ? (
-                  <>
-                    <Icon name="copy outline" /> کپی
-                  </>
-                ) : (
-                  <>
-                    <Icon name="check" /> کپی
-                  </>
-                )}
-              </Button>
-            </CopyToClipboard>
-            <FormikControl
-              formik={formik}
-              control="input"
-              name="tocart"
-              label="واریز به"
-              labelcolor="red"
-              size={prop.size}
-              readOnly
-            />
+                <Button
+                  icon
+                  size="tiny"
+                  color={copy ? "green" : "yellow"}
+                  type="button"
+                  className="farsi"
+                  style={{ position: "absolute", zIndex: 3 }}
+                >
+                  {!copy ? (
+                    <>
+                      <Icon name="copy outline" /> کپی
+                    </>
+                  ) : (
+                    <>
+                      <Icon name="check" /> کپی
+                    </>
+                  )}
+                </Button>
+              </CopyToClipboard>
+              <FormikControl
+                formik={formik}
+                control="input"
+                name="tocart"
+                label="واریز به"
+                labelcolor="red"
+                size={prop.size}
+                readOnly
+              />
 
-            <FormikControl
-              formik={formik}
-              control="input"
-              name="tocartname"
-              label="به نام"
-              labelcolor="red"
-              size={prop.size}
-              readOnly
-            />
+              <FormikControl
+                formik={formik}
+                control="input"
+                name="tocartname"
+                label="به نام"
+                labelcolor="red"
+                size={prop.size}
+                readOnly
+              />
 
-            <Divider inverted />
-            <MyMsg
-              icon="check"
-              color="red"
-              text="سپس اطلاعات زیر را وارد نمایید و منتظر تائید باشید."
-            />
+              <Divider inverted />
+              <MyMsg
+                icon="check"
+                color="red"
+                text="سپس اطلاعات زیر را وارد نمایید و منتظر تائید باشید."
+              />
 
-            <FormikControl
-              formik={formik}
-              control="select"
-              name="cardNumber"
-              label="واریز از"
-              labelcolor={prop.labelcolor}
-              size={prop.size}
-              options={countryOptions}
-            />
-            <FormikControl
-              formik={formik}
-              control="amount"
-              name="amount"
-              labelcolor={prop.labelcolor}
-              size={prop.size}
-              def="1000000"
-            />
+              <FormikControl
+                formik={formik}
+                control="select"
+                name="cardNumber"
+                label="واریز از"
+                labelcolor={prop.labelcolor}
+                size={prop.size}
+                options={carts}
+              />
+              <FormikControl
+                formik={formik}
+                control="amount"
+                name="amount"
+                labelcolor={prop.labelcolor}
+                size={prop.size}
+                def="1000000"
+              />
 
-            <DepositButton {...prop} />
-          </Form>
-        );
-      }}
-    </Formik>
-  );
+              <DepositButton {...prop} />
+            </Form>
+          );
+        }}
+      </Formik>
+    );
+  } else {
+    return null;
+  }
 };
 
 export default depositArea;

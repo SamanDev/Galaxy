@@ -14,6 +14,7 @@ const DepositButton = (prop) => (
       type="submit"
       loading={prop.loading}
       disabled={prop.disabled}
+      hidden={prop.hidden}
       onClick={() => {
         $("#dep1").hide();
         $("#dep2").show();

@@ -4,6 +4,7 @@ import Status from "../../utils/Status";
 import AmountColor from "../../utils/AmountColor";
 
 import { convertDateToJalali } from "../../utils/convertDate";
+import ConvertCart from "../../utils/convertCart";
 const ListExampleInverted = (prop) => {
   const loginToken = JSON.parse(localStorage.getItem("loginToken"));
   return (
@@ -44,20 +45,24 @@ const ListExampleInverted = (prop) => {
               <List.Content>
                 <List.Description className="rightfloat">
                   {convertDateToJalali(item.date)}
+                  <div className="text-end pad10tb">
+                    <Status status={item.active} size="mini" />
+                  </div>
                 </List.Description>
                 <List.Description>
-                  <AmountColor amount="بانک ملّی ایران" className="farsi" />
-
-                  <div className="cashlist">
-                    Cart No &nbsp;&nbsp;
-                    <span className="text-gold">{item.cardNumber}</span>
-                    <br />
-                    Hesab No &nbsp;
-                    <span className="text-gold">8910794789</span>
-                    <br />
-                    Sheba No &nbsp;
-                    <span className="text-gold">502250225022505050225021</span>
-                  </div>
+                  <AmountColor
+                    amount={item.bankName}
+                    className="farsi text-gold fw-bold"
+                  />
+                  <br />
+                  <small className="fw-bold">
+                    <ConvertCart cartNo={item.cardNumber} />
+                  </small>
+                  <br />
+                  <small>{item.accountNumber}</small>
+                  <br />
+                  <small>IR{item.shebaNumber}</small>
+                  <br />
                 </List.Description>
               </List.Content>
             </List.Item>

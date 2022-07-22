@@ -6,6 +6,9 @@ export const apiPath = config.onlinePath;
 
 axios.interceptors.response.use(
   (res) => {
+    if (res.status == 200 && res.data?.accessToken) {
+      localStorage.setItem("loginToken", JSON.stringify(res.data));
+    }
     if (res.status != 200 && res.status != 201) {
       if (typeof res.data == "object") {
         let message = "";
@@ -24,17 +27,6 @@ axios.interceptors.response.use(
   }
 );
 
-export const httpServiceTest = (url, method, data = null) => {
-  const tokenInfo = JSON.parse(localStorage.getItem("loginToken"));
-  return axios({
-    url: url,
-    method,
-    data,
-    headers: {
-      Authorization: tokenInfo ? `LooLe  ${tokenInfo.accessToken}` : null,
-    },
-  });
-};
 const httpService = (url, method, data = null) => {
   const tokenInfo = JSON.parse(localStorage.getItem("loginToken"));
   return axios({

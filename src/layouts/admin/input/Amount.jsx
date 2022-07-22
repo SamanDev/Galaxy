@@ -13,7 +13,11 @@ const Amount = (prop) => {
     var _value = value;
     if (name == "amount") {
       if (_value == null || _value == "") {
-        _value = rate * 100;
+        if (prop.dollar) {
+          _value = rate * 100;
+        } else {
+          _value = 100000;
+        }
       }
       setAmount(_value);
       setAmountDollar(_value / rate);

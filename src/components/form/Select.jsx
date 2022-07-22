@@ -27,6 +27,12 @@ const InputF = ({
   namemix,
   updateCartInfo,
 }) => {
+  React.useEffect(() => {
+    try {
+      formik.setFieldValue("txID", "");
+    } catch (error) {}
+  }, [formik.values[name]]);
+
   return (
     <Form as="div">
       {formik.errors[name] && formik.touched[name] && (

@@ -18,32 +18,32 @@ import { useNavigate } from "react-router-dom";
 import { FastField, Form, Formik } from "formik";
 import * as Yup from "yup";
 import { Alert } from "../../../utils/alerts";
+import ConvertCart from "../../../utils/convertCart";
 import MyMsg from "../../../utils/MsgDesc";
 import { cashierService } from "../../../services/cashier";
-const cartOptions = [
-  {
-    id: 2,
-    value: "6104337830282164",
-    text: "6104337830282164",
-    date: "2022-04-19T04:48:34.122+00:00",
-    cardNumber: "6104337830282164",
-    holdername: "محمد عباسی",
-    cvv: "237",
-    expiration: "0302",
-    mobile: "09122266208",
-    gateway: "IranShetab",
-    gatewayname: "Hamrahcart",
-    active: true,
-  },
-];
-const carts = [];
+var cartOptions = [];
+var carts = [];
 
 var countryOptions = [];
+var initialValues = {
+  amount: 100000,
 
+  geteway: "",
+  mobile: "",
+
+  cvv: "",
+  expiration: "",
+  pin: "",
+  code: "",
+  txID: "",
+
+  cardNumber: "",
+};
 const validationSchema = Yup.object({
   amount: Yup.number()
     .required("لطفا این فیلد را وارد کنید.")
     .min(100000, "لطفا این فیلد را درست وارد کنید.")
+    .max(10000000, "لطفا این فیلد را درست وارد کنید.")
     .integer(),
 });
 const onSendCode = async (formik, prop, setBtnLoading) => {
@@ -60,10 +60,10 @@ const onSendCode = async (formik, prop, setBtnLoading) => {
       Alert("متاسفم...!", res.data.message, "error");
     }
     setBtnLoading(false);
-    submitMethods.setSubmitting(false);
+    formik.setSubmitting(false);
   } catch (error) {
     setBtnLoading(false);
-    submitMethods.setSubmitting(false);
+    formik.setSubmitting(false);
 
     Alert("متاسفم...!", "متاسفانه مشکلی از سمت سرور رخ داده", "error");
   }
@@ -82,10 +82,10 @@ const onSendCodeVerify = async (formik, prop, setBtnLoading) => {
       Alert("متاسفم...!", res.data.message, "error");
     }
     setBtnLoading(false);
-    submitMethods.setSubmitting(false);
+    formik.setSubmitting(false);
   } catch (error) {
     setBtnLoading(false);
-    submitMethods.setSubmitting(false);
+    formik.setSubmitting(false);
 
     Alert("متاسفم...!", "متاسفانه مشکلی از سمت سرور رخ داده", "error");
   }
@@ -105,10 +105,10 @@ const onSendPass = async (formik, prop, setBtnLoading) => {
       Alert("متاسفم...!", res.data.message, "error");
     }
     setBtnLoading(false);
-    submitMethods.setSubmitting(false);
+    formik.setSubmitting(false);
   } catch (error) {
     setBtnLoading(false);
-    submitMethods.setSubmitting(false);
+    formik.setSubmitting(false);
 
     Alert("متاسفم...!", "متاسفانه مشکلی از سمت سرور رخ داده", "error");
   }
@@ -138,7 +138,7 @@ const updateCartInfo = (id, formik) => {
 
   console.log(selectedCart);
   formik.setFieldValue("cvv", selectedCart.cvv);
-  formik.setFieldValue("expire", selectedCart.expiration);
+  formik.setFieldValue("expiration", selectedCart.expiration);
 };
 const depositArea = (prop) => {
   const [depMode, setDepMode] = useState(false);
@@ -146,20 +146,7 @@ const depositArea = (prop) => {
   const navigate = useNavigate();
 
   const loginToken = JSON.parse(localStorage.getItem("loginToken"));
-  var initialValues = {
-    amount: 100000,
 
-    geteway: countryOptions[0] ? countryOptions[0].value : "",
-    mobile: cartOptions[0].mobile,
-
-    cvv: cartOptions[0].cvv,
-    expire: cartOptions[0].expiration,
-    pin: "",
-    code: "",
-    txID: "",
-
-    cardNumber: carts[0] ? carts[0].value : "",
-  };
   if (loginToken) {
     countryOptions = [];
     loginToken?.cashierGateways.map((item, i) => {
@@ -171,39 +158,36 @@ const depositArea = (prop) => {
         });
       }
     });
-
+    cartOptions = [];
     loginToken?.bankInfos.map((item, i) => {
-      if (item.active) {
-        cartOptions.push(item);
-      }
+      cartOptions.push(item);
     });
-
+    carts = [];
     cartOptions.map((item, i) => {
       carts.push({
         key: i.toString(),
         id: item.id,
         value: item.cardNumber,
-        text: item.cardNumber,
+        text: <ConvertCart isLock cartNo={item.cardNumber} />,
       });
     });
-    initialValues = {
-      amount: 100000,
-
-      geteway: countryOptions[0] ? countryOptions[0].value : "",
-      mobile: cartOptions[0].mobile,
-
-      cvv: cartOptions[0].cvv,
-      expire: cartOptions[0].expiration,
-      pin: "",
-      code: "",
-      txID: "",
-
-      cardNumber: carts[0] ? carts[0].value : "",
-    };
 
     return (
       <Formik
-        initialValues={initialValues}
+        initialValues={{
+          amount: 100000,
+
+          geteway: countryOptions[0] ? countryOptions[0].value : "",
+          mobile: cartOptions[0].mobile,
+
+          cvv: cartOptions[0].cvv,
+          expiration: cartOptions[0].expiration,
+          pin: "",
+          code: "",
+          txID: "",
+
+          cardNumber: carts[0] ? carts[0].value : "",
+        }}
         onSubmit={(values, submitMethods) =>
           onSubmit(values, submitMethods, navigate, prop)
         }
@@ -249,19 +233,15 @@ const depositArea = (prop) => {
                 labelcolor="red"
                 size={prop.size}
                 inputmode="numeric"
+                readOnly
               />
               <Divider inverted />
-              <Button.Group
-                fluid
-                size="mini"
-                widths="2"
-                style={{ marginTop: "10px" }}
-              >
+              <Button.Group fluid size="mini" widths="2">
                 <Button
                   className="farsi"
                   color="blue"
                   loading={btnLoading}
-                  disabled={btnLoading}
+                  disabled={btnLoading || !formik.isValid}
                   type="button"
                   onClick={() => {
                     onSendCode(formik, prop, setBtnLoading);
@@ -272,10 +252,10 @@ const depositArea = (prop) => {
                 <Button.Or text="یا" className="farsi" />
                 <Button
                   loading={btnLoading}
-                  disabled={btnLoading}
                   color="green"
                   className="farsi"
                   type="button"
+                  disabled={btnLoading || !formik.isValid}
                   onClick={() => {
                     onSendPass(formik, prop, setBtnLoading);
                   }}
@@ -312,21 +292,30 @@ const depositArea = (prop) => {
                 />
               </div>
               <div className="onarea online2" style={{ display: "none" }}>
-                <Divider inverted />
-                <FormikControl
-                  formik={formik}
-                  control="input"
-                  name="pin"
-                  label="رمز پویا"
-                  labelcolor="green"
-                  size={prop.size}
-                  inputmode="numeric"
-                />
+                <span
+                  className={
+                    formik.values.txID == "" || !formik.isValid
+                      ? "hiddenmenu"
+                      : ""
+                  }
+                >
+                  <Divider inverted />
+                  <FormikControl
+                    formik={formik}
+                    control="input"
+                    name="pin"
+                    label="رمز پویا"
+                    labelcolor="green"
+                    size={prop.size}
+                    inputmode="numeric"
+                  />
+                </span>
               </div>
               <DepositButton
                 {...prop}
                 type="submit"
                 disabled={formik.isSubmitting || formik.values.pin == ""}
+                hidden={formik.values.txID == "" || !formik.isValid}
                 loading={formik.isSubmitting}
               />
             </Form>

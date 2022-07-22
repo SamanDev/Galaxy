@@ -32,8 +32,16 @@ const Amount = (prop) => {
     var _value = value;
     if (name == "amount") {
       if (_value == null || _value == "") {
-        _value = rate * 100;
+        if (prop.dollar) {
+          _value = rate * 100;
+        } else {
+          _value = 100000;
+        }
       }
+      try {
+        prop.formik.setFieldValue("txID", "");
+      } catch (error) {}
+
       setAmount(_value);
       if (prop.dollar) setAmountDollar(_value / rate);
       prop.formik.setFieldValue("amount", _value);
@@ -81,7 +89,7 @@ const Amount = (prop) => {
               disabled={prop.disabled}
             />
           </span>
-          {prop.formik.errors[prop.name] && prop.formik.touched[prop.name] && (
+          {prop.formik.errors[prop.name] && (
             <Label
               className="farsi"
               basic
@@ -96,11 +104,7 @@ const Amount = (prop) => {
           <Input size="mini" fluid labelPosition="left">
             <Label
               pointing="right"
-              color={
-                prop.formik.errors[prop.name] && prop.formik.touched[prop.name]
-                  ? "red"
-                  : prop.labelcolor
-              }
+              color={prop.formik.errors[prop.name] ? "red" : prop.labelcolor}
               size={prop.size}
               className="farsi"
             >

@@ -2,6 +2,12 @@ import React from "react";
 import { Icon, Label } from "semantic-ui-react";
 import Accordion from "../pages/dashboard/AccordionCashier";
 const LabelExampleBasic = (prop) => {
+  if (prop.status === true) {
+    return <Icon name="check" color="green" />;
+  }
+  if (prop.status === false) {
+    return <Icon name="spinner" loading />;
+  }
   if (prop.status === "Done") {
     return (
       <Label size={prop.size} color={prop.color ? prop.color : "green"}>
