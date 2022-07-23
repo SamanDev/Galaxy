@@ -37,6 +37,7 @@ const onSubmit = async (values, submitMethods, navigate, prop, setRefresh) => {
   try {
     const res = await cashierService(values, "coinPayments", "");
     if (res.status == 200) {
+      submitMethods.resetForm();
       if (res.data?.address) {
         setRefresh(true);
       }

@@ -81,7 +81,9 @@ const Report = (prop) => {
                         prop.mode == "PerfectMoney") && (
                         <>
                           Amount &nbsp;
-                          <span className="text-gold">${doCurrency(120)}</span>
+                          <span className="text-gold">
+                            ${doCurrency(item.amount)}
+                          </span>
                           <br />
                           Rate &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{" "}
                           <span className="text-gold">{doCurrency(32520)}</span>

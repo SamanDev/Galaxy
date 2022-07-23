@@ -313,7 +313,7 @@ export const menuData = [
       {
         label: "کارت های بانکی",
         title: "ثبت کارت  بانکی",
-
+        idname: "addcart",
         icon: "fas fa-plus text-danger",
         component: <CashoutComponent cashMode="addCart" />,
       },

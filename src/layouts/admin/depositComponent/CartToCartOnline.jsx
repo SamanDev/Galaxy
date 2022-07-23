@@ -11,34 +11,44 @@ import {
 } from "semantic-ui-react";
 import Select from "../input/Select";
 import DepositButton from "../input/DepositButton";
+import Carts from "../../../components/form/Carts";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import $ from "jquery";
 import FormikControl from "../../../components/form/FormikControl";
+import AmountSelect from "../../../components/form/AmountSelect";
 import { useNavigate } from "react-router-dom";
 import { FastField, Form, Formik } from "formik";
 import * as Yup from "yup";
 import { Alert } from "../../../utils/alerts";
-import ConvertCart from "../../../utils/convertCart";
+
 import MyMsg from "../../../utils/MsgDesc";
 import { cashierService } from "../../../services/cashier";
-var cartOptions = [];
-var carts = [];
 
 var countryOptions = [];
-var initialValues = {
-  amount: 100000,
-
-  geteway: "",
-  mobile: "",
-
-  cvv: "",
-  expiration: "",
-  pin: "",
-  code: "",
-  txID: "",
-
-  cardNumber: "",
-};
+var amounts = [
+  { value: 100000 },
+  { value: 150000 },
+  { value: 200000 },
+  { value: 250000 },
+  { value: 300000 },
+  { value: 350000 },
+  { value: 400000 },
+  { value: 450000 },
+  { value: 500000 },
+  { value: 600000 },
+  { value: 700000 },
+  { value: 800000 },
+  { value: 900000 },
+  { value: 1000000 },
+  { value: 1250000 },
+  { value: 1500000 },
+  { value: 1750000 },
+  { value: 2000000 },
+  { value: 2250000 },
+  { value: 2500000 },
+  { value: 2750000 },
+  { value: 3000000 },
+];
 const validationSchema = Yup.object({
   amount: Yup.number()
     .required("لطفا این فیلد را وارد کنید.")
@@ -46,6 +56,14 @@ const validationSchema = Yup.object({
     .max(10000000, "لطفا این فیلد را درست وارد کنید.")
     .integer(),
 });
+const localAmount = (values, prop) => {
+  var getAmount = JSON.parse(localStorage.getItem(prop.mode));
+  if (!getAmount) {
+    getAmount = [];
+  }
+  getAmount.push(values);
+  localStorage.setItem(prop.mode, JSON.stringify(getAmount));
+};
 const onSendCode = async (formik, prop, setBtnLoading) => {
   setBtnLoading(true);
   try {
@@ -92,6 +110,7 @@ const onSendCodeVerify = async (formik, prop, setBtnLoading) => {
 };
 const onSendPass = async (formik, prop, setBtnLoading) => {
   setBtnLoading(true);
+  localAmount(formik.values, prop);
   try {
     const res = await cashierService(
       formik.values,
@@ -99,6 +118,7 @@ const onSendPass = async (formik, prop, setBtnLoading) => {
     );
     if (res.status == 200 && res.data?.txID) {
       formik.setFieldValue("txID", res.data.txID);
+      localAmount(formik.values, prop);
       $(".onarea").hide();
       $(".online2").show();
     } else {
@@ -120,6 +140,7 @@ const onSubmit = async (values, submitMethods, navigate, prop) => {
       "createDepositShetabDoTransaction"
     );
     if (res.status == 200) {
+      localAmount(values, prop);
       if (res.data?.message) {
         Alert("متاسفم...!", res.data.message, "error");
       }
@@ -133,12 +154,17 @@ const onSubmit = async (values, submitMethods, navigate, prop) => {
     Alert("متاسفم...!", "متاسفانه مشکلی از سمت سرور رخ داده", "error");
   }
 };
-const updateCartInfo = (id, formik) => {
+const updateCartInfo = (cartOptions, id, formik) => {
   var selectedCart = cartOptions.filter((d) => d.cardNumber == id)[0];
 
-  console.log(selectedCart);
+  formik.setFieldValue("cardNumber", id);
   formik.setFieldValue("cvv", selectedCart.cvv);
+  formik.setFieldValue("bankName", selectedCart.bankName);
   formik.setFieldValue("expiration", selectedCart.expiration);
+  formik.setFieldValue("mobile", selectedCart.mobile);
+};
+const updateAmount = (id, formik, mode) => {
+  formik.setFieldValue("amount", id);
 };
 const depositArea = (prop) => {
   const [depMode, setDepMode] = useState(false);
@@ -158,20 +184,6 @@ const depositArea = (prop) => {
         });
       }
     });
-    cartOptions = [];
-    loginToken?.bankInfos.map((item, i) => {
-      cartOptions.push(item);
-    });
-    carts = [];
-    cartOptions.map((item, i) => {
-      carts.push({
-        key: i.toString(),
-        id: item.id,
-        value: item.cardNumber,
-        text: item.cardNumber,
-        // text: <ConvertCart isLock cartNo={item.cardNumber} />,
-      });
-    });
 
     return (
       <Formik
@@ -179,15 +191,16 @@ const depositArea = (prop) => {
           amount: 100000,
 
           geteway: countryOptions[0] ? countryOptions[0].value : "",
-          mobile: cartOptions[0].mobile,
+          mobile: "",
 
-          cvv: cartOptions[0].cvv,
-          expiration: cartOptions[0].expiration,
+          cvv: "",
+          expiration: "",
           pin: "",
           code: "",
           txID: "",
 
-          cardNumber: carts[0] ? carts[0].value : "",
+          cardNumber: "",
+          bankName: "",
         }}
         onSubmit={(values, submitMethods) =>
           onSubmit(values, submitMethods, navigate, prop)
@@ -197,25 +210,25 @@ const depositArea = (prop) => {
         {(formik) => {
           return (
             <Form>
-              <FormikControl
+              <Carts
                 formik={formik}
-                control="select"
                 name="cardNumber"
-                namemix="cardNumberSelect"
                 label="واریز از"
                 labelcolor={prop.labelcolor}
                 size={prop.size}
-                options={carts}
+                namemix
                 updateCartInfo={updateCartInfo}
               />
-              <FormikControl
+              <AmountSelect
                 formik={formik}
-                control="amount"
                 name="amount"
                 labelcolor={prop.labelcolor}
                 size={prop.size}
-                def="1000000"
+                mode={prop.mode}
+                amounts={amounts}
+                updateAmount={updateAmount}
               />
+
               <FormikControl
                 formik={formik}
                 control="select"

@@ -1,74 +1,217 @@
-import React from "react";
-import Amount from "../input/Amount";
-import DepositButton from "../input/DepositButton";
-import { Label, Input, Message, Icon, Divider } from "semantic-ui-react";
+import React, { useState, useEffect } from "react";
+import {
+  Label,
+  Input,
+  Header,
+  Divider,
+  Icon,
+  Button,
+  Segment,
+  Message,
+} from "semantic-ui-react";
 import Select from "../input/Select";
+import DepositButton from "../input/DepositButton";
+import { CopyToClipboard } from "react-copy-to-clipboard";
+import Carts from "../../../components/form/Carts";
+import AmountSelect from "../../../components/form/AmountSelect";
+import FormikControl from "../../../components/form/FormikControl";
+import { useNavigate } from "react-router-dom";
+import { FastField, Form, Formik } from "formik";
+import * as Yup from "yup";
+import { Alert } from "../../../utils/alerts";
+import CopyBtn from "../../../utils/copyInputBtn";
+import MyMsg from "../../../utils/MsgDesc";
+import { doCurrency } from "../../../const";
+import ConvertCart from "../../../utils/convertCart";
+import $ from "jquery";
+import { cashierService } from "../../../services/cashier";
+function generateRandomInteger(min, max) {
+  return Math.floor(min + Math.random() * (max - min + 1));
+}
+
+var carts = [];
+var cartOptions = [];
+var amounts = [
+  { value: "5 تا 10 میلیون" },
+  { value: "11 تا 20 میلیون" },
+  { value: "21 تا 50 میلیون" },
+];
 const countryOptions = [
   { key: "1", value: "5 تا 10 میلیون", text: "5 تا 10 میلیون" },
   { key: "2", value: "11 تا 20 میلیون", text: "11 تا 20 میلیون" },
   { key: "3", value: "21 تا 50 میلیون", text: "21 تا 50 میلیون" },
 ];
-const bankOptions = [{ key: "af", value: "ملی", text: "ملی" }];
-const USDT = (prop) => (
-  <>
-    <Message color="red" compact className="mymessage" size="mini" icon>
-      <Icon circular inverted color="black" style={{ fontSize: 20 }}>
-        <span>1</span>
-      </Icon>
-      <Message.Content className="farsi">
-        ابتدا مبلغ مورد نظر و نام بانک خود انتخاب کنید و همراه با شماره واتس اپ
-        خود ارسال نمایید.
-      </Message.Content>
-    </Message>
+const validationSchema = Yup.object({
+  mobile: Yup.string()
+    .required("لطفا این فیلد را وارد کنید.")
+    .min(13, "لطفا این فیلد را درست وارد کنید.")
+    .max(13, "لطفا این فیلد را درست وارد کنید."),
+});
 
-    <Input size="mini" fluid labelPosition="left">
-      <Label size="tiny" pointing="right" color="yellow" className="farsi">
-        مبلغ به تومان
-      </Label>
-      <Select
-        name="amount"
-        className="farsi"
-        fluid
-        options={countryOptions}
-        defaultValue={countryOptions[0].value}
-      />
-    </Input>
-    <Input size="mini" fluid labelPosition="left">
-      <Label size="tiny" pointing="right" color="yellow" className="farsi">
-        نام بانک
-      </Label>
-      <Select
-        name="bank"
-        className="farsi"
-        fluid
-        options={bankOptions}
-        defaultValue={bankOptions[0].value}
-      />
-    </Input>
-    <Input
-      size="mini"
-      fluid
-      label={
-        <Label size="tiny" color="teal" pointing="right" className="farsi">
-          شماره واتس اپ
-        </Label>
-      }
-      labelPosition="left"
-      defaultValue="+98912"
-    />
-    <Divider inverted />
-    <Message color="yellow" compact className="mymessage" size="mini" icon>
-      <Icon circular inverted color="black" style={{ fontSize: 20 }}>
-        <span>2</span>
-      </Icon>
-      <Message.Content className="farsi">
-        دقایقی پس از ارسال، برای هماهنگی و ارسال شماره حساب با شما تماس خواهیم
-        گرفت.
-      </Message.Content>
-    </Message>
+const localAmount = (values, prop) => {
+  var getAmount = JSON.parse(localStorage.getItem(prop.mode));
+  if (!getAmount) {
+    getAmount = [];
+  }
+  getAmount.push(values);
+  localStorage.setItem(prop.mode, JSON.stringify(getAmount));
+};
+const onGetCart = async (formik, prop, setBtnLoading) => {
+  setBtnLoading(true);
+  localAmount(formik.values, prop);
+  try {
+    const res = await cashierService(formik.values, "getCart");
+    if (res.status == 200) {
+      $(".onarea").hide();
+      $(".online2").show();
+    } else {
+      $(".onarea").hide();
+      $(".online2").show();
+      //Alert("متاسفم...!", res.data.message, "error");
+    }
+    setBtnLoading(false);
+    formik.setSubmitting(false);
+  } catch (error) {
+    setBtnLoading(false);
+    formik.setSubmitting(false);
+    $(".onarea").hide();
+    $(".online2").show();
+    //Alert("متاسفم...!", "متاسفانه مشکلی از سمت سرور رخ داده", "error");
+  }
+};
+const onSubmit = async (values, submitMethods, navigate, prop) => {
+  try {
+    const res = await cashierService(values, "Deposit", prop.mode);
+    if (res.status == 200) {
+      localAmount(values, prop);
+    } else {
+      Alert("متاسفم...!", res.data.message, "error");
+    }
+    submitMethods.setSubmitting(false);
+  } catch (error) {
+    submitMethods.setSubmitting(false);
 
-    <DepositButton {...prop} val="ارسال" />
-  </>
-);
+    Alert("متاسفم...!", "متاسفانه مشکلی از سمت سرور رخ داده", "error");
+  }
+};
+const updateCartInfo = (cartOptions, id, formik) => {
+  var selectedCart = cartOptions.filter((d) => d.cardNumber == id)[0];
 
-export default USDT;
+  formik.setFieldValue("cardNumber", id);
+
+  formik.setFieldValue("bankName", selectedCart.bankName);
+
+  formik.setFieldValue("mobile", "+98" + selectedCart.mobile.substring(1, 11));
+};
+const updateAmount = (id, formik, mode) => {
+  formik.setFieldValue("amount", id);
+};
+const depositArea = (prop) => {
+  const [depMode, setDepMode] = useState(false);
+  const navigate = useNavigate();
+  const [btnLoading, setBtnLoading] = useState(false);
+  const loginToken = JSON.parse(localStorage.getItem("loginToken"));
+
+  if (loginToken) {
+    return (
+      <Formik
+        initialValues={{
+          amount: 0,
+          code: "بابت بدهی " + generateRandomInteger(11111111, 99999999),
+          tocart: countryOptions[0].value,
+          tocartname: countryOptions[0].name,
+          mobile: "",
+          cardNumber: "",
+          bankName: "",
+          dateCreated: new Date(),
+        }}
+        onSubmit={(values, submitMethods) =>
+          onSubmit(values, submitMethods, navigate, prop)
+        }
+        validationSchema={validationSchema}
+      >
+        {(formik) => {
+          return (
+            <Form>
+              <Message
+                color="red"
+                compact
+                className="mymessage"
+                size="mini"
+                icon
+              >
+                <Icon circular inverted color="black" style={{ fontSize: 20 }}>
+                  <span className="msgiconnum">1</span>
+                </Icon>
+                <Message.Content className="farsi lh-lg">
+                  ابتدا مبلغ مورد نظر و نام بانک خود انتخاب کنید و همراه با
+                  شماره واتس اپ خود ارسال نمایید.
+                </Message.Content>
+              </Message>
+              <Carts
+                formik={formik}
+                name="cardNumber"
+                className="farsi"
+                label="نام بانک"
+                labelcolor={prop.labelcolor}
+                size={prop.size}
+                namemix
+                updateCartInfo={updateCartInfo}
+                bankNameVal
+              />
+
+              <AmountSelect
+                formik={formik}
+                name="amount"
+                className="farsi"
+                labelcolor={prop.labelcolor}
+                size={prop.size}
+                mode={prop.mode}
+                amounts={amounts}
+                updateAmount={updateAmount}
+              />
+              <Divider inverted />
+              <FormikControl
+                formik={formik}
+                control="input"
+                name="mobile"
+                label="شماره واتس اپ"
+                labelcolor="teal"
+                size={prop.size}
+                inputmode="tel"
+              />
+
+              <Divider inverted />
+              <Message
+                color="yellow"
+                compact
+                className="mymessage"
+                size="mini"
+                icon
+              >
+                <Icon circular inverted color="black" style={{ fontSize: 20 }}>
+                  <span className="msgiconnum">2</span>
+                </Icon>
+                <Message.Content className="farsi lh-lg">
+                  دقایقی پس از ارسال، برای هماهنگی و ارسال شماره حساب با شما
+                  تماس خواهیم گرفت.
+                </Message.Content>
+              </Message>
+              <DepositButton
+                {...prop}
+                type="submit"
+                disabled={formik.isSubmitting}
+                val="ارسال"
+                loading={formik.isSubmitting}
+              />
+            </Form>
+          );
+        }}
+      </Formik>
+    );
+  } else {
+    return null;
+  }
+};
+
+export default depositArea;

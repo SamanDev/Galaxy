@@ -6,6 +6,7 @@ import PerfectMoney from "./PerfectMoney";
 import BankTransfer from "./BankTransfer";
 import CartToCart from "./CartToCart";
 import CartToCartOnline from "./CartToCartOnline";
+import AddCartMsg from "./addCartMsg";
 import USDT from "./USDT";
 import BTC from "./BTC";
 import { depositData } from "../../../const";
@@ -17,6 +18,7 @@ const defColBtn = "grey";
 const selColBtn = "orange";
 const depositArea = (prop) => {
   const [depMode, setDepMode] = useState(false);
+  const loginToken = JSON.parse(localStorage.getItem("loginToken"));
   return (
     <>
       {prop.compmode == "deposit" ? (
@@ -93,27 +95,57 @@ const depositArea = (prop) => {
               <USDT mode={depMode.value} size="mini" labelcolor="orange" />
             )}
             {depMode.value == "Bank Transfer" && (
-              <BankTransfer
-                mode={depMode.value}
-                size="mini"
-                labelcolor="orange"
-              />
+              <>
+                {loginToken?.bankInfos.length > 0 ? (
+                  <>
+                    <BankTransfer
+                      mode={depMode.value}
+                      size="mini"
+                      labelcolor="orange"
+                    />
+                  </>
+                ) : (
+                  <>
+                    <AddCartMsg {...prop} />
+                  </>
+                )}
+              </>
             )}
             {depMode.value == "Cart to Cart" &&
               prop.getAccess(depMode.getwaykey) && (
-                <CartToCart
-                  mode={depMode.value}
-                  size="mini"
-                  labelcolor="orange"
-                />
+                <>
+                  {loginToken?.bankInfos.length > 0 ? (
+                    <>
+                      <CartToCart
+                        mode={depMode.value}
+                        size="mini"
+                        labelcolor="orange"
+                      />
+                    </>
+                  ) : (
+                    <>
+                      <AddCartMsg {...prop} />
+                    </>
+                  )}
+                </>
               )}
             {depMode.value == "Online Cart to Cart" &&
               prop.getAccess(depMode.getwaykey) && (
-                <CartToCartOnline
-                  mode={depMode.value}
-                  size="mini"
-                  labelcolor="orange"
-                />
+                <>
+                  {loginToken?.bankInfos.length > 0 ? (
+                    <>
+                      <CartToCartOnline
+                        mode={depMode.value}
+                        size="mini"
+                        labelcolor="orange"
+                      />
+                    </>
+                  ) : (
+                    <>
+                      <AddCartMsg {...prop} />
+                    </>
+                  )}
+                </>
               )}
             {depMode.value == "BTC" && (
               <BTC mode={depMode.value} size="mini" labelcolor="orange" />

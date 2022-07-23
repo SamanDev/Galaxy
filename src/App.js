@@ -484,7 +484,7 @@ function App(prop) {
         setActivePanel(false);
       });
       api.bind("close:after", () => {
-        setActivePanel(true);
+        // setActivePanel(true);
       });
       apiPanel.bind("open:before", () => {
         setActivePanel(true);

@@ -5,6 +5,7 @@ import PerfectMoney from "./PerfectMoney";
 import USDT from "./USDT";
 import BTC from "./BTC";
 import Toman from "./Toman";
+import AddCartMsg from "../depositComponent/addCartMsg";
 import { cashoutData } from "../../../const";
 
 const defCol = "black";
@@ -13,6 +14,7 @@ const defColBtn = "grey";
 const selColBtn = "orange";
 const depositArea = (prop) => {
   const [depMode, setDepMode] = useState(false);
+  const loginToken = JSON.parse(localStorage.getItem("loginToken"));
   return (
     <>
       <div id="dep1" className="deparea" style={{ margin: "5px 0" }}>
@@ -82,7 +84,19 @@ const depositArea = (prop) => {
           بازگشت <Icon name="arrow alternate circle left outline" />
         </div>
         <Divider inverted />
-        {depMode.value == "Toman" && <Toman mode={depMode.value} {...prop} />}
+        {depMode.value == "Toman" && (
+          <>
+            {loginToken?.bankInfos.length > 0 ? (
+              <>
+                <Toman mode={depMode.value} {...prop} />
+              </>
+            ) : (
+              <>
+                <AddCartMsg {...prop} />
+              </>
+            )}
+          </>
+        )}
         {depMode.value == "USDT" && <USDT mode={depMode.value} {...prop} />}
         {depMode.value == "BTC" && <BTC mode={depMode.value} {...prop} />}
 

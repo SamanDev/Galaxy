@@ -42,26 +42,6 @@ const bankOptions = [];
 SelectB.map(function (bank, i) {
   bankOptions.push({ key: i, value: bank, text: bank });
 });
-const loginToken = JSON.parse(localStorage.getItem("loginToken"));
-var _name = "";
-var _mobile = "09";
-if (loginToken?.bankInfos.length > 0) {
-  _name = loginToken.bankInfos[0].holderName;
-  _mobile = loginToken.bankInfos[0].mobile;
-}
-
-const initialValues = {
-  holderName: _name,
-  mobile: _mobile,
-  bankName: "",
-  shebaNumber: "",
-  accountNumber: "",
-  cardNumber: "",
-  cvv: "",
-  monthno: "",
-  yearno: "",
-  expiration: "",
-};
 const nameRegex =
   /^['\u0621-\u0628\u062A-\u063A\u0641-\u0642\u0644-\u0648\u064E-\u0651\u0655\u067E\u0686\u0698\u06A9\u06AF\u06BE\u06CC\u0020']+$/;
 
@@ -104,7 +84,12 @@ const onSubmit = async (values, submitMethods, navigate, prop) => {
     const res = await cashierService(values, "addUserBankInfo", "");
     if (res.status == 200) {
       if (res.data) {
-        submitMethods.resetForm();
+        if (res.data?.accessToken) {
+          if (prop.setRefresh) {
+            prop.setRefresh(true);
+          }
+          submitMethods.resetForm();
+        }
       }
     } else {
       Alert("متاسفم...!", res.data.message, "error");
@@ -116,6 +101,8 @@ const onSubmit = async (values, submitMethods, navigate, prop) => {
     Alert("متاسفم...!", "متاسفانه مشکلی از سمت سرور رخ داده", "error");
   }
 };
+var _name = "";
+var _mobile = "09";
 const MyField = (props) => {
   const {
     values: { yearno, monthno, holderName, mobile },
@@ -132,7 +119,11 @@ const MyField = (props) => {
       touched.yearno &&
       touched.monthno
     ) {
-      var expiration = yearno.slice(-2) + "/" + monthno;
+      var _mon = monthno;
+      if (_mon.length < 2) {
+        _mon = "0" + monthno;
+      }
+      var expiration = yearno.slice(-2) + "/" + _mon;
 
       setFieldValue(props.name, expiration);
     }
@@ -168,9 +159,27 @@ const MyField = (props) => {
 const depositArea = (prop) => {
   const [depMode, setDepMode] = useState(false);
   const navigate = useNavigate();
+  const loginToken = JSON.parse(localStorage.getItem("loginToken"));
+
+  if (loginToken?.bankInfos.length > 0) {
+    _name = loginToken.bankInfos[0].holderName;
+    _mobile = loginToken.bankInfos[0].mobile;
+  }
+
   return (
     <Formik
-      initialValues={initialValues}
+      initialValues={{
+        holderName: _name,
+        mobile: _mobile,
+        bankName: "",
+        shebaNumber: "",
+        accountNumber: "",
+        cardNumber: "",
+        cvv: "",
+        monthno: "",
+        yearno: "",
+        expiration: "",
+      }}
       validationSchema={validationSchema}
       onSubmit={(values, submitMethods) => {
         onSubmit(values, submitMethods, navigate, prop);

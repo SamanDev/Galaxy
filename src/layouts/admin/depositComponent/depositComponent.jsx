@@ -8,10 +8,13 @@ import USDT from "./USDT";
 import BTC from "./BTC";
 import Cashout from "../cashout/cashoutComponent";
 
+import AddCartMsg from "../cashout/AddCart";
+
 import { Icon, Label, Button, Header, Divider } from "semantic-ui-react";
 const depositArea = (prop) => {
   const [depMode, setDepMode] = useState(prop.depMode);
-
+  const [refresh, setRefresh] = useState(false);
+  const loginToken = JSON.parse(localStorage.getItem("loginToken"));
   return (
     <span className="myaccount popupmenu">
       {prop.title && (
@@ -26,29 +29,75 @@ const depositArea = (prop) => {
       {prop.compmode == "deposit" ? (
         <>
           {depMode == "Bank Transfer" && (
-            <BankTransfer
-              mode={depMode}
-              size="mini"
-              labelcolor="orange"
-              list={true}
-            />
+            <>
+              {loginToken?.bankInfos.length > 0 ? (
+                <>
+                  <BankTransfer
+                    mode={depMode}
+                    size="mini"
+                    labelcolor="orange"
+                    list={true}
+                  />
+                </>
+              ) : (
+                <>
+                  <AddCartMsg
+                    size="mini"
+                    labelcolor="orange"
+                    list={true}
+                    setRefresh={setRefresh}
+                  />
+                </>
+              )}
+            </>
           )}
           {depMode == "Online Cart to Cart" && (
-            <CartToCartOnline
-              mode={depMode}
-              size="mini"
-              labelcolor="orange"
-              list={true}
-            />
+            <>
+              {loginToken?.bankInfos.length > 0 ? (
+                <>
+                  <CartToCartOnline
+                    mode={depMode}
+                    size="mini"
+                    labelcolor="orange"
+                    list={true}
+                  />
+                </>
+              ) : (
+                <>
+                  <AddCartMsg
+                    size="mini"
+                    labelcolor="orange"
+                    list={true}
+                    setRefresh={setRefresh}
+                  />
+                </>
+              )}
+            </>
           )}
           {depMode == "Cart to Cart" && (
-            <CartToCart
-              mode={depMode}
-              size="mini"
-              labelcolor="orange"
-              list={true}
-            />
+            <>
+              {loginToken?.bankInfos.length > 0 ? (
+                <>
+                  <CartToCart
+                    mode={depMode}
+                    size="mini"
+                    labelcolor="orange"
+                    list={true}
+                  />
+                </>
+              ) : (
+                <>
+                  <AddCartMsg
+                    size="mini"
+                    labelcolor="orange"
+                    list={true}
+                    setRefresh={setRefresh}
+                  />
+                </>
+              )}
+            </>
           )}
+
           {depMode == "USDT" && (
             <USDT mode={depMode} size="mini" labelcolor="orange" list={true} />
           )}

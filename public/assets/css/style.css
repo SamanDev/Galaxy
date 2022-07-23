@@ -1,6 +1,7 @@
 @font-face {
   font-family: "BYekan";
   src: url("../fonts/yekan/Sans.eot") format("eot"),
+    url("../fonts/yekan/Sans.svg") format("svg"),
     url("../fonts/yekan/Sans.woff") format("woff"),
     url("../fonts/yekan/Sans.ttf") format("truetype");
   font-weight: normal;
@@ -62,6 +63,10 @@ body {
 }
 a {
   text-decoration: none !important;
+}
+.dropbank{
+  display: block;
+  margin-bottom: 5px;
 }
 .carousel i.big {
   font-size: 32px !important;
@@ -326,6 +331,11 @@ i.star.big {
 }
 .popupmenu .userblock i.big {
   font-size: 32px !important;
+}
+.msgiconnum{
+  font-family: Lato, "Helvetica Neue", Arial, Helvetica, sans-serif;
+  font-size: 24px;
+  line-height: 18px;
 }
 .levelText {
   color: rgb(255, 255, 255);
@@ -1247,6 +1257,7 @@ i.inverted.circular.black {
 
 .dir_ltr {
   direction: ltr !important;
+  display: inline-block;
 }
 
 .w_6rem {

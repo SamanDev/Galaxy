@@ -12,16 +12,22 @@ import {
 import Select from "../input/Select";
 import DepositButton from "../input/DepositButton";
 import { CopyToClipboard } from "react-copy-to-clipboard";
-
+import Carts from "../../../components/form/Carts";
+import AmountSelect from "../../../components/form/AmountSelect";
 import FormikControl from "../../../components/form/FormikControl";
 import { useNavigate } from "react-router-dom";
 import { FastField, Form, Formik } from "formik";
 import * as Yup from "yup";
 import { Alert } from "../../../utils/alerts";
+import CopyBtn from "../../../utils/copyInputBtn";
 import MyMsg from "../../../utils/MsgDesc";
-
+import { doCurrency } from "../../../const";
 import ConvertCart from "../../../utils/convertCart";
+import $ from "jquery";
 import { cashierService } from "../../../services/cashier";
+function generateRandomInteger(min, max) {
+  return Math.floor(min + Math.random() * (max - min + 1));
+}
 var countryOptions = [
   {
     key: "a4f",
@@ -33,26 +39,61 @@ var countryOptions = [
 ];
 var carts = [];
 var cartOptions = [];
-const initialValues = {
-  amount: 100000,
-
-  tocart: countryOptions[0].value,
-  tocartname: countryOptions[0].name,
-  cardNumber: "",
-};
+var amounts = [
+  { value: 1000000 },
+  { value: 1250000 },
+  { value: 1500000 },
+  { value: 1750000 },
+  { value: 2000000 },
+  { value: 2250000 },
+  { value: 2500000 },
+  { value: 2750000 },
+  { value: 3000000 },
+];
 const validationSchema = Yup.object({
   amount: Yup.number()
     .required("لطفا این فیلد را وارد کنید.")
     .min(100000, "لطفا این فیلد را درست وارد کنید.")
     .integer(),
 });
+
+const localAmount = (values, prop) => {
+  var getAmount = JSON.parse(localStorage.getItem(prop.mode));
+  if (!getAmount) {
+    getAmount = [];
+  }
+  getAmount.push(values);
+  localStorage.setItem(prop.mode, JSON.stringify(getAmount));
+};
+const onGetCart = async (formik, prop, setBtnLoading) => {
+  setBtnLoading(true);
+  localAmount(formik.values, prop);
+  try {
+    const res = await cashierService(formik.values, "getCart");
+    if (res.status == 200) {
+      $(".onarea").hide();
+      $(".online2").show();
+    } else {
+      $(".onarea").hide();
+      $(".online2").show();
+      //Alert("متاسفم...!", res.data.message, "error");
+    }
+    setBtnLoading(false);
+    formik.setSubmitting(false);
+  } catch (error) {
+    setBtnLoading(false);
+    formik.setSubmitting(false);
+    $(".onarea").hide();
+    $(".online2").show();
+    //Alert("متاسفم...!", "متاسفانه مشکلی از سمت سرور رخ داده", "error");
+  }
+};
 const onSubmit = async (values, submitMethods, navigate, prop) => {
-  console.log(values);
   try {
     const res = await cashierService(values, "Deposit", prop.mode);
     if (res.status == 200) {
-      localStorage.setItem("loginToken", JSON.stringify(res.data));
-      prop.setIsUser(true);
+      localAmount(values, prop);
+      submitMethods.resetForm();
     } else {
       Alert("متاسفم...!", res.data.message, "error");
     }
@@ -63,41 +104,36 @@ const onSubmit = async (values, submitMethods, navigate, prop) => {
     Alert("متاسفم...!", "متاسفانه مشکلی از سمت سرور رخ داده", "error");
   }
 };
+const updateCartInfo = (cartOptions, id, formik) => {
+  var selectedCart = cartOptions.filter((d) => d.cardNumber == id)[0];
 
+  formik.setFieldValue("cardNumber", id);
+
+  formik.setFieldValue("bankName", selectedCart.bankName);
+
+  formik.setFieldValue("mobile", selectedCart.mobile);
+};
+const updateAmount = (id, formik, mode) => {
+  formik.setFieldValue("amount", id);
+};
 const depositArea = (prop) => {
   const [depMode, setDepMode] = useState(false);
   const navigate = useNavigate();
-  const [copy, setCopy] = useState(false);
+  const [btnLoading, setBtnLoading] = useState(false);
   const loginToken = JSON.parse(localStorage.getItem("loginToken"));
-  const copyDo = () => {
-    setCopy(true);
-    setTimeout(() => {
-      setCopy(false);
-    }, 3000);
-  };
+
   if (loginToken) {
-    cartOptions = [];
-    loginToken?.bankInfos.map((item, i) => {
-      cartOptions.push(item);
-    });
-    carts = [];
-    cartOptions.map((item, i) => {
-      carts.push({
-        key: i.toString(),
-        id: item.id,
-        value: item.cardNumber,
-        text: <ConvertCart isLock cartNo={item.cardNumber} />,
-      });
-    });
     return (
       <Formik
         initialValues={{
-          amount: 100000,
-
+          amount: 0,
+          code: "بابت بدهی " + generateRandomInteger(11111111, 99999999),
           tocart: countryOptions[0].value,
           tocartname: countryOptions[0].name,
-
-          cardNumber: carts[0] ? carts[0].value : "",
+          mobile: "",
+          cardNumber: "",
+          bankName: "",
+          dateCreated: new Date(),
         }}
         onSubmit={(values, submitMethods) =>
           onSubmit(values, submitMethods, navigate, prop)
@@ -107,81 +143,143 @@ const depositArea = (prop) => {
         {(formik) => {
           return (
             <Form>
-              <MyMsg
-                icon="fire"
-                color="red"
-                text="ابتدا مبلغ مورد نظر (یک تا سه میلیون) را به کارت زیر انتقال
-              دهید."
-              />
-              <CopyToClipboard
-                text={formik.values.tocart}
-                onCopy={() => copyDo()}
-              >
-                <Button
+              <div className="onarea online1">
+                <Message
+                  color="yellow"
+                  compact
+                  className="mymessage"
+                  size="mini"
                   icon
-                  size="tiny"
-                  color={copy ? "green" : "yellow"}
-                  type="button"
-                  className="farsi"
-                  style={{ position: "absolute", zIndex: 3 }}
                 >
-                  {!copy ? (
-                    <>
-                      <Icon name="copy outline" /> کپی
-                    </>
-                  ) : (
-                    <>
-                      <Icon name="check" /> کپی
-                    </>
-                  )}
+                  <Icon
+                    circular
+                    inverted
+                    color="black"
+                    style={{ fontSize: 20 }}
+                  >
+                    <span className="msgiconnum">1</span>
+                  </Icon>
+                  <Message.Content className="farsi lh-lg">
+                    ابتدا مبلغ مورد نظر و نام بانک خود انتخاب کنید.
+                  </Message.Content>
+                </Message>
+                <Carts
+                  formik={formik}
+                  name="cardNumber"
+                  label="واریز از"
+                  labelcolor={prop.labelcolor}
+                  size={prop.size}
+                  namemix
+                  updateCartInfo={updateCartInfo}
+                />
+                <AmountSelect
+                  formik={formik}
+                  name="amount"
+                  labelcolor={prop.labelcolor}
+                  size={prop.size}
+                  mode={prop.mode}
+                  amounts={amounts}
+                  updateAmount={updateAmount}
+                />
+                <Divider inverted />
+                <Button
+                  className="farsi"
+                  color="red"
+                  size="mini"
+                  fluid
+                  loading={btnLoading}
+                  disabled={btnLoading || !formik.isValid}
+                  type="button"
+                  onClick={() => {
+                    onGetCart(formik, prop, setBtnLoading);
+                  }}
+                >
+                  ادامه
                 </Button>
-              </CopyToClipboard>
-              <FormikControl
-                formik={formik}
-                control="input"
-                name="tocart"
-                label="واریز به"
-                labelcolor="red"
-                size={prop.size}
-                readOnly
-              />
+              </div>
+              <div className="onarea online2" style={{ display: "none" }}>
+                <Message
+                  color="olive"
+                  compact
+                  className="mymessage"
+                  size="mini"
+                  icon
+                >
+                  <Icon
+                    circular
+                    inverted
+                    color="black"
+                    style={{ fontSize: 20 }}
+                  >
+                    <span className="msgiconnum">2</span>
+                  </Icon>
+                  <Message.Content className="farsi lh-lg">
+                    سپس از کارت{" "}
+                    <span className="dir_ltr text-danger">
+                      <ConvertCart isLock cartNo={formik.values.cardNumber} />
+                    </span>{" "}
+                    مبلغ{" "}
+                    <span className="text-danger">
+                      {doCurrency(formik.values.amount)} تومان
+                    </span>{" "}
+                    را به کارت زیر انتقال دهید.
+                  </Message.Content>
+                </Message>
+                <Message
+                  color="red"
+                  compact
+                  className="mymessage"
+                  size="mini"
+                  icon
+                >
+                  <Icon
+                    circular
+                    inverted
+                    color="red"
+                    name="info"
+                    style={{ fontSize: 20 }}
+                  />
+                  <Message.Content className="farsi lh-lg">
+                    حتما در توضیحات انتقال ذکر شود:
+                    <br />
+                    <span className="text-danger">{formik.values.code}</span>
+                  </Message.Content>
+                </Message>
+                <Divider inverted />
+                <CopyBtn text={formik.values.tocart} />
 
-              <FormikControl
-                formik={formik}
-                control="input"
-                name="tocartname"
-                label="به نام"
-                labelcolor="red"
-                size={prop.size}
-                readOnly
-              />
+                <FormikControl
+                  formik={formik}
+                  control="input"
+                  name="tocart"
+                  label="واریز به"
+                  labelcolor="red"
+                  size={prop.size}
+                  readOnly
+                />
+                <CopyBtn text={formik.values.code} />
+                <FormikControl
+                  formik={formik}
+                  control="input"
+                  name="code"
+                  label="توضیحات"
+                  labelcolor="red"
+                  size={prop.size}
+                  className="farsi"
+                  readOnly
+                />
+                <FormikControl
+                  formik={formik}
+                  control="input"
+                  name="tocartname"
+                  label="به نام"
+                  labelcolor="red"
+                  size={prop.size}
+                  readOnly
+                />
 
-              <Divider inverted />
-              <MyMsg
-                icon="check"
-                color="red"
-                text="سپس اطلاعات زیر را وارد نمایید و منتظر تائید باشید."
-              />
-
-              <FormikControl
-                formik={formik}
-                control="select"
-                name="cardNumber"
-                label="واریز از"
-                labelcolor={prop.labelcolor}
-                size={prop.size}
-                options={carts}
-              />
-              <FormikControl
-                formik={formik}
-                control="amount"
-                name="amount"
-                labelcolor={prop.labelcolor}
-                size={prop.size}
-                def="1000000"
-              />
-
-              <DepositButton {...prop} />
+                <DepositButton {...prop} />
+              </div>
             </Form>
           );
         }}
