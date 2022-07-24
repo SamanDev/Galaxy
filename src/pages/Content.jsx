@@ -30,7 +30,7 @@ const Content = (prop) => {
         <Route path="/" element={<Dashboard {...prop} />} />
         <Route path="/admin" element={<Admin {...prop} />} />
         <Route path="/games" element={<Dashboard {...prop} />}>
-          <Route path=":gameId" />
+          <Route path=":gameId" element={<Dashboard {...prop} />} />
         </Route>
       </Routes>
     </section>

@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import { getUserService } from "../../services/auth";
 import {
   Grid,
   Image,
@@ -24,6 +25,7 @@ import {
 } from "../../const";
 import GalaxyIcon from "../../utils/GalaxyIcon";
 import $ from "jquery";
+
 const Banner = (prop) => {
   return (
     <div className="banner">
@@ -72,7 +74,18 @@ var _width = document.body.clientWidth;
 
 const Dashboard = (prop) => {
   const navigate = useNavigate();
+  const handleCheckLogin = async () => {
+    try {
+      const res = await getUserService();
+    } catch (error) {}
+  };
   const [curPage, setCurPage] = useState("dashboard");
+  const [isFull, setIsFull] = useState(false);
+  const [screenOrientation, setScreenOrientation] = useState(
+    screen?.orientation?.type
+  );
+
+  const [gameLoader, setGameLoader] = useState(true);
   const params = useParams();
   const [activeIndex, setActiveIndex] = useState(0);
   const [gameOptions, setGameOptions] = useState([]);
@@ -86,16 +99,23 @@ const Dashboard = (prop) => {
   );
 
   const handleChange = (e, { name, value }) => {
+    setGameLoader(true);
     setSecondaryGame(value);
+    setActiveIndex(1);
     localStorage.setItem("secondaryGame", value);
   };
 
   const handleRangeChange = (e) => setActiveIndex(activeIndex == 0 ? 1 : 0);
   const handleFullscreen = (e) => {
     $(".framegame,body").toggleClass("fullscreen");
+    setIsFull(!isFull);
   };
   const handleReload = (e) => {
+    setGameLoader(true);
     $(".framegame:visible").attr("src", $(".framegame:visible").attr("src"));
+  };
+  const removeFrameLoad = (e) => {
+    setGameLoader(false);
   };
   const handleTabChange = (e, { activeIndex }) => setActiveIndex(activeIndex);
   useEffect(() => {
@@ -106,6 +126,17 @@ const Dashboard = (prop) => {
       setCurPage("dashboard");
     }
   }, [window.location.href]);
+  useEffect(() => {
+    if (_width < 800) {
+      if (screenOrientation.indexOf("landscape") > -1) {
+        $(".framegame,body").addClass("fullscreen");
+        setIsFull(true);
+      } else {
+        setIsFull(false);
+        $(".framegame,body").removeClass("fullscreen");
+      }
+    }
+  }, [screenOrientation]);
   const panes33 = [
     {
       menuItem: "poker",
@@ -157,27 +188,59 @@ const Dashboard = (prop) => {
       navigate("/");
     }
   }, [curPage, prop.isLogin]);
+  useEffect(() => {
+    if (prop.isLogin && curPage == "game") {
+      handleCheckLogin();
+    }
+  }, [curPage]);
+  useEffect(() => {
+    console.log($("#gamesec1").scrollLeft());
+
+    $("#gamesec1").scrollLeft($("#gamesec1").width() / 2);
+    $("#gamesec2").scrollLeft($("#gamesec2").width() / 2);
+  }, [gameLoader]);
 
   const panes = [
     {
       menuItem: "Tab 1",
       pane: (
         <Tab.Pane key="tab1" attached={false}>
-          {mainGame == "poker" ? (
-            <iframe
-              src="https://glxypkr.com:2053?LoginName=HangOver&amp;SessionKey=4AC558DE44D51B611B01"
-              className="framegame"
-            ></iframe>
-          ) : (
-            <iframe
-              src={
-                "https://glxypkr.com:8443/secured/games/" +
-                mainGame +
-                ".html?code=E14AB11A9CFD83028B5F273261AC8D47E472739FA49E98690BAF485791D2CB9A"
-              }
-              className="framegame"
-            ></iframe>
-          )}
+          <div id="gamesec1" style={{ overflow: "auto" }}>
+            {gameLoader && (
+              <div
+                className={
+                  isFull ? "framegame loader fullscreen" : "framegame loader"
+                }
+              >
+                <Dimmer active>
+                  <Loader className="farsi-inline" size="large">
+                    لطفا صبر کنید...
+                  </Loader>
+                </Dimmer>
+              </div>
+            )}
+            {mainGame == "poker" ? (
+              <>
+                <iframe
+                  src="https://glxypkr.com:2053?LoginName=HangOver&amp;SessionKey=4AC558DE44D51B611B01"
+                  className="framegame"
+                  onLoad={removeFrameLoad}
+                ></iframe>
+              </>
+            ) : (
+              <>
+                <iframe
+                  srdc={
+                    "https://glxypkr.com:8443/secured/games/" +
+                    mainGame +
+                    ".html?code=E14AB11A9CFD83028B5F273261AC8D47E472739FA49E98690BAF485791D2CB9A"
+                  }
+                  className="framegame"
+                  onLoad={removeFrameLoad}
+                ></iframe>
+              </>
+            )}
+          </div>
         </Tab.Pane>
       ),
     },
@@ -185,14 +248,30 @@ const Dashboard = (prop) => {
       menuItem: "Tab 2",
       pane: (
         <Tab.Pane key="tab2" attached={false}>
-          <iframe
-            src={
-              "https://glxypkr.com:8443/secured/games/" +
-              secondaryGame +
-              ".html?code=E14AB11A9CFD83028B5F273261AC8D47E472739FA49E98690BAF485791D2CB9A"
-            }
-            className="framegame"
-          ></iframe>
+          <div id="gamesec2" style={{ overflow: "auto" }}>
+            {gameLoader && (
+              <div
+                className={
+                  isFull ? "framegame loader fullscreen" : "framegame loader"
+                }
+              >
+                <Dimmer active>
+                  <Loader className="farsi-inline" size="large">
+                    لطفا صبر کنید...
+                  </Loader>
+                </Dimmer>
+              </div>
+            )}
+            <iframe
+              src={
+                "https://glxypkr.com:8443/secured/games/" +
+                secondaryGame +
+                ".html?code=E14AB11A9CFD83028B5F273261AC8D47E472739FA49E98690BAF485791D2CB9A"
+              }
+              className="framegame frame2"
+              onLoad={removeFrameLoad}
+            ></iframe>
+          </div>
         </Tab.Pane>
       ),
     },
@@ -324,61 +403,85 @@ const Dashboard = (prop) => {
             activeIndex={activeIndex}
             menu={{ attached: false }}
           />
-          <Icon
-            circular
-            inverted
-            link
-            color="grey"
-            className="changegame"
-            onClick={handleRangeChange}
-            style={{ left: 4 }}
-          >
-            <i className="fas fa-retweet"></i>
-          </Icon>
-          <Icon
-            circular
-            inverted
-            link
-            color="grey"
-            className="changegame"
-            onClick={handleReload}
-            style={{ left: 40 }}
-          >
-            <i className="fas fa-sync-alt"></i>
-          </Icon>
-          <Icon
-            circular
-            inverted
-            link
-            color="grey"
-            className="changegame"
-            onClick={handleFullscreen}
-            style={{ left: 76 }}
-          >
-            <i className="fas fa-expand-arrows-alt"></i>
-          </Icon>
-          {activeIndex == 1 && (
-            <Dropdown
-              value={secondaryGame}
-              options={gameOptions}
-              selectOnNavigation={false}
-              name="false"
-              direction="left"
-              compact
-              scrolling
-              onChange={handleChange}
-              trigger={
-                <Icon
-                  circular
-                  inverted
-                  link
-                  color="grey"
-                  style={{ right: -25, zIndex: 20, position: "relative" }}
-                >
-                  <i className="fas fa-angle-double-down"></i>
-                </Icon>
-              }
-            />
+          {!gameLoader && (
+            <div className="gameicons">
+              <Icon
+                circular
+                inverted
+                link
+                color="grey"
+                onClick={handleFullscreen}
+              >
+                <i
+                  className={
+                    isFull
+                      ? "fas fa-compress-arrows-alt"
+                      : "fas fa-expand-arrows-alt"
+                  }
+                ></i>
+              </Icon>
+              <Icon circular inverted link color="grey" onClick={handleReload}>
+                <i className="fas fa-sync-alt"></i>
+              </Icon>
+
+              <Icon
+                circular
+                inverted
+                link
+                color={activeIndex == 0 ? "orange" : "grey"}
+                onClick={handleRangeChange}
+                style={{
+                  fontSize: 25,
+                  right: -10,
+                }}
+              >
+                <i
+                  className={
+                    activeIndex == 0
+                      ? "fas fa-angle-right"
+                      : "fas fa-angle-left"
+                  }
+                ></i>
+              </Icon>
+
+              <Dropdown
+                value={secondaryGame}
+                options={gameOptions}
+                selectOnNavigation={false}
+                name="false"
+                direction="left"
+                className="selectgame"
+                style={
+                  activeIndex == 0
+                    ? {
+                        transform: "translateY(-250px) translateX(-50px)",
+                        transformOrigin: "center right",
+                        opacity: 0,
+                      }
+                    : {
+                        transform: "translateY(-180px) translateX(-50px)",
+                        transformOrigin: "center right",
+                      }
+                }
+                compact
+                scrolling
+                onChange={handleChange}
+                trigger={
+                  <Icon
+                    circular
+                    inverted
+                    link
+                    color="orange"
+                    style={{
+                      transform: "translateX(28px) translateY(28px) ",
+                      transformOrigin: "center right",
+                    }}
+                  >
+                    <i className="fas fa-angle-double-down"></i>
+                  </Icon>
+                }
+              />
+            </div>
           )}
         </div>
       )}

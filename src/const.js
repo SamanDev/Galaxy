@@ -417,8 +417,7 @@ function doCashout() {
   }
   return _games;
 }
-console.log(depositDataActive);
-console.log(cashoutDataActive);
+
 export const doCurrency = (value) => {
   return value.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
 };

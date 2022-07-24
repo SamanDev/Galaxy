@@ -18,7 +18,8 @@ const Report = (prop) => {
     try {
       const res = await getReportService(
         loginToken.id,
-        mode.replace(/ /g, "") + "Deposit"
+        "Deposit",
+        mode.replace(/ /g, "")
       );
       if (res.status === 200) {
         setData(res.data);

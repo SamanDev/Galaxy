@@ -9,12 +9,9 @@ export const useIsLogin = () => {
     try {
       const res = await getUserService();
       setIsLogin(res.status == 200 ? true : false);
-      if (res.data?.accessToken) {
-        localStorage.setItem("loginToken", JSON.stringify(res.data));
-      }
+
       setLoading(false);
     } catch (error) {
-      localStorage.removeItem("loginToken");
       setIsLogin(false);
       setLoading(false);
     }

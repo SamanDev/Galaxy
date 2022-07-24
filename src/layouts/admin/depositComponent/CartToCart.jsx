@@ -143,7 +143,7 @@ const depositArea = (prop) => {
         {(formik) => {
           return (
             <Form>
-              <div className="onarea online1">
+              <div className="onarea online1" style={{ overflow: "visible" }}>
                 <Message
                   color="yellow"
                   compact
@@ -225,6 +225,7 @@ const depositArea = (prop) => {
                     را به کارت زیر انتقال دهید.
                   </Message.Content>
                 </Message>
+                <Divider inverted fitted hidden />
                 <Message
                   color="red"
                   compact

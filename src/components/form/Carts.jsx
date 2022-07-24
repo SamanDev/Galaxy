@@ -56,6 +56,7 @@ const editAmount = (amounts, formik, bankNameVal) => {
   });
 
   cartsOptions = [];
+  cartOptions.sort((a, b) => (a.id < b.id ? 1 : -1));
   cartOptions.map((item, i) => {
     if (bankNameVal) {
       cartsOptions.push({

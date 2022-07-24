@@ -35,9 +35,14 @@ const onSubmit = async (values, submitMethods, navigate, prop) => {
   try {
     const res = await loginService(values);
     if (res.status == 200) {
-      localStorage.setItem("loginToken", JSON.stringify(res.data));
-      prop.setIsUser(true);
-      window.location.reload();
+      if (res.data.accessToken) {
+        if (res.data.userBlock) {
+          Alert("متاسفم...!", "اکانت شما مسدود می باشد.", "error");
+        } else {
+          prop.setIsUser(true);
+          window.location.reload();
+        }
+      }
     } else {
       Alert("متاسفم...!", res.data.message, "error");
     }

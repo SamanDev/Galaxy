@@ -15,7 +15,7 @@ const Report = (prop) => {
   const handleGetReports = async () => {
     setLoading(true);
     try {
-      const res = await getReportService(loginToken.id, prop.mode);
+      const res = await getReportService(loginToken.id, "", prop.mode);
       if (res.status === 200) {
         setData(res.data);
       }

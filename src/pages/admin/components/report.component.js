@@ -1,21 +1,23 @@
 import React, { useEffect, useState } from "react";
-import { List, Divider } from "semantic-ui-react";
+import { List, Divider, Button } from "semantic-ui-react";
 import Status from "../../../utils/Status";
 import MenuLoader from "../../../utils/menuLoader";
 import { convertDateToJalali } from "../../../utils/convertDate";
 import AmountColor from "../../../utils/AmountColor";
 import { getReportService } from "../../../services/report";
 import { doCurrency } from "../../../const";
-
+const dataReport = ["deposit", "cashout", "transfer"];
+const getGateways = JSON.parse(localStorage.getItem("getGateways"));
 const Report = (prop) => {
   const loginToken = JSON.parse(localStorage.getItem("loginToken"));
   const [data, setData] = useState([]);
+  const [mode, setMode] = useState(prop.mode);
 
   const [loading, setLoading] = useState(false);
   const handleGetReports = async () => {
     setLoading(true);
     try {
-      const res = await getReportService(prop?.user?.id, prop.mode);
+      const res = await getReportService(prop?.user?.id, mode, mode);
       if (res.status === 200) {
         setData(res.data);
       }
@@ -28,13 +30,27 @@ const Report = (prop) => {
 
   useEffect(() => {
     handleGetReports();
-  }, []);
+  }, [mode]);
+
   if (loading) {
     return <MenuLoader />;
   } else {
     return (
-      <span className="myaccount popupmenu">
-        <List divided size="small" className="mylist">
+      <span className="myaccount popupmenu ">
+        <Button.Group widths={dataReport.length}>
+          {dataReport.map((item, i) => {
+            return (
+              <Button
+                key={i}
+                active={mode == item ? true : false}
+                onClick={() => setMode(item)}
+              >
+                {item}
+              </Button>
+            );
+          })}
+        </Button.Group>
+        <List divided inverted size="small" className="mylist">
           {data.map((item, i) => {
             return (
               <List.Item key={i}>
@@ -46,6 +62,15 @@ const Report = (prop) => {
                     </div>
                   </List.Description>
                   <List.Description>
+                    <a
+                      href="#"
+                      onClick={() =>
+                        prop.addTabData(item.username, getGateways)
+                      }
+                    >
+                      {item.username}
+                    </a>
+                    <br />
                     <AmountColor amount={item.startBalance} />
                     <br />
                     <AmountColor
@@ -60,7 +85,7 @@ const Report = (prop) => {
                       className="text-gold"
                     />
                     <div className="pad10tb">
-                      From Casino To {item.username} ({item.mode})
+                      {item.mode} - {item.gateway}
                     </div>
                   </List.Description>
                 </List.Content>

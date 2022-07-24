@@ -7,7 +7,16 @@ const headerRow = ["Name", "Value"];
 function capitalizeTxt(txt) {
   return txt.charAt(0).toUpperCase() + txt.slice(1); //or if you want lowercase the rest txt.slice(1).toLowerCase();
 }
-function isDate(name, myDate, user, setActiveIndex, getwaysList) {
+
+function isDate(
+  name,
+  myDate,
+  user,
+  setActiveIndex,
+  getwaysList,
+  removeTabData,
+  addTabData
+) {
   if (name === "country") {
     var res = (
       <>
@@ -18,25 +27,17 @@ function isDate(name, myDate, user, setActiveIndex, getwaysList) {
   } else if (name === "balance") {
     var res = doCurrency(myDate);
   } else if (name === "bankInfos") {
-    var res = (
-      <a
-        href="#"
-        onClick={() => {
-          setActiveIndex(2);
-        }}
-      >
-        {myDate}
-      </a>
-    );
+    var res = myDate;
   } else if (name === "cashierGateways") {
     var res = (
-      <a
-        href="#"
-        onClick={() => {
-          setActiveIndex(3);
-        }}
-      >
+      <>
         {myDate}/{getwaysList.length}
+      </>
+    );
+  } else if (name === "refer") {
+    var res = (
+      <a href="#" onClick={() => addTabData(myDate, getwaysList)}>
+        {myDate}
       </a>
     );
   } else {
@@ -71,12 +72,14 @@ const TableExampleWarningShorthand = (prop) => {
         ? {
             key: `statusrow-${i}`,
             content: (
-              <CheckboxToggle
-                check={value}
-                user={user}
-                userkey={name}
-                onChange={prop.updateUserObj}
-              />
+              <span style={{ float: "right" }}>
+                <CheckboxToggle
+                  check={value}
+                  user={user}
+                  userkey={name}
+                  onChange={prop.updateUserObj}
+                />
+              </span>
             ),
           }
         : {
@@ -88,7 +91,9 @@ const TableExampleWarningShorthand = (prop) => {
               value,
               user,
               prop.setActiveIndex,
-              prop.getwaysList
+              prop.getwaysList,
+              prop.removeTabData,
+              prop.addTabData
             ),
           },
     ],
@@ -98,7 +103,9 @@ const TableExampleWarningShorthand = (prop) => {
     <Table
       striped
       color="red"
+      unstackable
       renderBodyRow={renderBodyRow}
+      className="farsi-inline"
       tableData={
         prop.data[0] || [{ name: undefined, value: undefined, user: undefined }]
       }

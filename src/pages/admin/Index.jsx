@@ -14,18 +14,6 @@ function Admin(prop) {
   useEffect(() => {
     panes = [
       {
-        menuItem: "UsersTest",
-        pane: (
-          <Tab.Pane key="UsersTest">
-            <UsersTest
-              addTabData={addTabData}
-              setGetwaysData={setGetwaysData}
-              removeTabData={removeTabData}
-            />
-          </Tab.Pane>
-        ),
-      },
-      {
         menuItem: "Users",
         pane: (
           <Tab.Pane key="Users">
@@ -42,8 +30,12 @@ function Admin(prop) {
       {
         menuItem: "Report",
         pane: (
-          <Tab.Pane key="Report">
-            <Report mode="deposit" />
+          <Tab.Pane key="Report" className="ui inverted segment">
+            <Report
+              mode="deposit"
+              removeTabData={removeTabData}
+              addTabData={addTabData}
+            />
           </Tab.Pane>
         ),
       },
@@ -77,11 +69,16 @@ function Admin(prop) {
       newPanes.push({
         menuItem: username,
         pane: (
-          <Tab.Pane key={username + "profile"}>
+          <Tab.Pane
+            key={username + "profile"}
+            className="ui inverted segment"
+            style={{ height: "calc(100vh - 150px)", overflow: "auto" }}
+          >
             <User
               username={username}
               removeTabData={removeTabData}
               getwaysList={getwaysList}
+              addTabData={addTabData}
             />
           </Tab.Pane>
         ),

@@ -16,7 +16,11 @@ const Report = (prop) => {
   const handleGetReports = async (mode) => {
     setLoading(true);
     try {
-      const res = await getReportService(loginToken.id, mode.replace(/ /g, ""));
+      const res = await getReportService(
+        loginToken.id,
+        "",
+        mode.replace(/ /g, "")
+      );
       if (res.status === 200) {
         setData(res.data);
       }

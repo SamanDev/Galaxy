@@ -54,13 +54,7 @@ function getPathOfKey(object, keys, getwaysList) {
                   }
                   if (x == "bankInfos") {
                     finalObj.push({
-                      name:
-                        newO2["gatewayName"] +
-                        " - " +
-                        newO2["cardNumber"] +
-                        " - " +
-                        newO2["holderName"],
-
+                      name: newO2["bankName"] + " - " + newO2["cardNumber"],
                       value: newO2[z],
                       user: newO,
                     });
@@ -153,7 +147,7 @@ function getPathOfKey2(object, keys, getwaysList) {
       });
     }
   });
-
+  finalObj.sort((a, b) => (a.name > b.name ? 1 : -1));
   //finalObj.push({'data':newOb})
 
   return finalObj;
@@ -207,21 +201,20 @@ function Admin(prop) {
   if (loading) {
     return (
       <>
-        <Segment style={{ height: "calc(100vh - 150px)", overflow: "auto" }}>
-          <Dimmer active inverted>
-            <Loader size="large">Loading</Loader>
-          </Dimmer>
-        </Segment>
+        <Dimmer active>
+          <Loader size="large">Loading</Loader>
+        </Dimmer>
       </>
     );
   }
   var newdataInfo = [
     getPathOfKey2(
       user,
-      ",username,balance,email,fullName,reffer,firstLogin,lastLogin,bankInfos,cashierGateways,"
+      ",username,balance,email,fullName,refer,firstLogin,lastLogin,bankInfos,cashierGateways,userBlock,"
     ),
   ];
   var newdataBankInfo = [getPathOfKey(user, ",bankInfos,")];
+
   var newdataGetways = [
     getPathOfKey(user, ",cashierGateways,", prop.getwaysList),
   ];
@@ -237,33 +230,13 @@ function Admin(prop) {
             data={newdataInfoData}
             getwaysList={prop.getwaysList}
             setActiveIndex={setActiveIndex}
+            addTabData={prop.addTabData}
+            removeTabData={prop.removeTabData}
           />
-        </Tab.Pane>
-      ),
-    },
-    {
-      menuItem: "Report",
-      render: () => (
-        <Tab.Pane as="span">
-          <Report user={user} />
-        </Tab.Pane>
-      ),
-    },
-    {
-      menuItem: "Carts",
-      render: () => (
-        <Tab.Pane as="span">
           <TableAdmin
             data={newdatabankInfoData}
             updateUserObj={updateUserObj}
           />
-        </Tab.Pane>
-      ),
-    },
-    {
-      menuItem: "Access",
-      render: () => (
-        <Tab.Pane as="span">
           <TableAdmin
             data={newdataGetwaysData}
             updateUserObj={updateUserObj}
@@ -272,6 +245,33 @@ function Admin(prop) {
         </Tab.Pane>
       ),
     },
+    {
+      menuItem: "Report",
+      render: () => (
+        <Tab.Pane as="span" className="ui inverted segment">
+          <Report
+            user={user}
+            mode="deposit"
+            addTabData={prop.addTabData}
+            removeTabData={prop.removeTabData}
+          />
+        </Tab.Pane>
+      ),
+    },
+    {
+      menuItem: "Rewards",
+      render: () => (
+        <Tab.Pane as="span" className="ui inverted segment">
+          <Report
+            user={user}
+            mode="deposit"
+            addTabData={prop.addTabData}
+            removeTabData={prop.removeTabData}
+          />
+        </Tab.Pane>
+      ),
+    },
+
     {
       menuItem: "Logs",
       render: () => (
@@ -306,7 +306,7 @@ function Admin(prop) {
         activeIndex={activeIndex}
         onTabChange={handleTabChange}
         menu={{
-          color: "red",
+          color: "black",
           inverted: true,
           attached: false,
           tabular: false,

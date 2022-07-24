@@ -28,9 +28,14 @@ function App(prop) {
   const [activePanel, setActivePanel] = useState(false);
   const [activeMenuOld, setActiveMenuOld] = useState(activeMenu);
   const navigate = useNavigate();
-
+  var loginToken;
   const location = useLocation();
-  const loginToken = JSON.parse(localStorage.getItem("loginToken"));
+  try {
+    loginToken = JSON.parse(localStorage.getItem("loginToken"));
+  } catch (error) {
+    localStorage.removeItem("loginToken");
+    window.location = "/";
+  }
 
   function doMenu(menu, y, isPanel, isUser) {
     if (getAccess(menu.getwaykey)) {

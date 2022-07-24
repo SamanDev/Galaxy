@@ -16,7 +16,8 @@ import {
 import Moment from "react-moment";
 import CurrencyInput from "react-currency-input-field";
 const moment = require("moment");
-import { adminGetService } from "../../services/admin";
+import { adminGetService, adminPutService } from "../../services/admin";
+import { Alert } from "../../utils/alerts";
 
 import { Col } from "react-bootstrap";
 
@@ -71,26 +72,22 @@ const FilterComponent = ({
     />
   </>
 );
-const updateUserObj = (e, data) => {
-  //console.log(data);
+const updateUserObj = async (e, data) => {
   var _key = data.userkey;
   var curU = JSON.parse(JSON.stringify(data.user));
-  //curU[''+_key+'']=data.checked
+  var values = { id: curU.id, key: _key, value: data.checked };
 
-  //console.log(data);
-  adminService
-    .updateUserByAdmin(curU.id, _key, data.checked)
-    .then((response) => {
-      if (response) {
-        Swal.fire({
-          title: "Success",
-          text: response.data,
-          icon: "success",
-          showCancelButton: false,
-          confirmButtonText: `Ok`,
-        });
+  try {
+    const res = await adminPutService(values, "updateUserByAdmin");
+    if (res.status == 200) {
+      if (res.data?.address) {
       }
-    });
+    } else {
+      Alert("متاسفم...!", res.data.message, "error");
+    }
+  } catch (error) {
+    Alert("متاسفم...!", "متاسفانه مشکلی از سمت سرور رخ داده", "error");
+  }
 };
 
 const getGateways = JSON.parse(localStorage.getItem("getGateways"));
@@ -221,6 +218,66 @@ function Admin(prop) {
   useEffect(() => {
     handleGetGeteways();
   }, []);
+  const columnsDownLine = [
+    {
+      name: "id",
+      selector: (row) => row.id,
+      sortable: true,
+      grow: 0.5,
+    },
+
+    {
+      name: "username",
+      selector: (row) => row.username,
+      format: (row) => (
+        <>
+          <a
+            href="#"
+            onClick={() => prop.addTabData(row.username, getwaysList)}
+          >
+            {row.username}
+          </a>
+        </>
+      ),
+      sortable: true,
+      grow: 2,
+    },
+
+    {
+      name: "balance",
+      selector: (row) => row.balance,
+      format: (row) => <>{doCurrency(row.balance)}</>,
+      sortable: true,
+    },
+    {
+      name: "lastLogin",
+      selector: (row) => row.lastLogin,
+      format: (row) => (
+        <>
+          <Moment fromNow ago>
+            {row.lastLogin}
+          </Moment>
+        </>
+      ),
+      sortable: true,
+    },
+
+    {
+      name: "userBlock",
+      selector: (row) => row.userBlock,
+      format: (row) => (
+        <>
+          <CheckboxToggle
+            check={row.userBlock}
+            user={row}
+            userkey="userBlock"
+            onChange={updateUserObj}
+          />
+        </>
+      ),
+      sortable: true,
+    },
+  ];
   const columns = [
     {
       name: "id",
@@ -356,7 +413,10 @@ function Admin(prop) {
   if (loading) {
     return (
       <>
-        <Segment style={{ height: "calc(100vh - 150px)", overflow: "auto" }}>
+        <Segment
+          basic
+          style={{ height: "calc(100vh - 150px)", overflow: "auto" }}
+        >
           <Dimmer active inverted>
             <Loader size="large">Loading</Loader>
           </Dimmer>
@@ -376,33 +436,61 @@ function Admin(prop) {
         <AddGift selectedList={selectedList} />
       </Modal>
       <div style={{ height: "calc(100vh - 150px)", overflow: "auto" }}>
-        <DataTable
-          title="Users"
-          columns={columns}
-          data={filteredItems}
-          progressPending={loading}
-          paginationServer
-          paginationTotalRows={totalRows}
-          onChangeRowsPerPage={handlePerRowsChange}
-          onChangePage={handlePageChange}
-          defaultSortFieldId={dataSortedID}
-          defaultSortAsc={false}
-          expandOnRowClicked={true}
-          expandableRowsHideExpander={true}
-          conditionalRowStyles={conditionalRowStyles}
-          noDataComponent={noDataComponent}
-          pagination
-          paginationResetDefaultPage={resetPaginationToggle} // optionally, a hook to reset pagination to page 1
-          subHeader
-          subHeaderComponent={subHeaderComponentMemo}
-          persistTableHead
-          contextActions={contextActions}
-          selectableRows
-          paginationRowsPerPageOptions={[10, 25, 50, 100]}
-          onSelectedRowsChange={handleChange}
-          onSort={handleSort}
-          sortServer
-        />
+        {prop.search == "refer" ? (
+          <DataTable
+            title="DownLines"
+            columns={columnsDownLine}
+            data={filteredItems}
+            progressPending={loading}
+            paginationServer
+            paginationTotalRows={totalRows}
+            onChangeRowsPerPage={handlePerRowsChange}
+            onChangePage={handlePageChange}
+            defaultSortFieldId={dataSortedID}
+            defaultSortAsc={false}
+            expandOnRowClicked={true}
+            expandableRowsHideExpander={true}
+            conditionalRowStyles={conditionalRowStyles}
+            noDataComponent={noDataComponent}
+            pagination
+            paginationResetDefaultPage={resetPaginationToggle} // optionally, a hook to reset pagination to page 1
+            subHeader
+            persistTableHead
+            contextActions={contextActions}
+            paginationRowsPerPageOptions={[10, 25, 50, 100]}
+            onSelectedRowsChange={handleChange}
+            onSort={handleSort}
+            sortServer
+          />
+        ) : (
+          <DataTable
+            title="Users"
+            columns={columns}
+            data={filteredItems}
+            progressPending={loading}
+            paginationServer
+            paginationTotalRows={totalRows}
+            onChangeRowsPerPage={handlePerRowsChange}
+            onChangePage={handlePageChange}
+            defaultSortFieldId={dataSortedID}
+            defaultSortAsc={false}
+            expandOnRowClicked={true}
+            expandableRowsHideExpander={true}
+            conditionalRowStyles={conditionalRowStyles}
+            noDataComponent={noDataComponent}
+            pagination
+            paginationResetDefaultPage={resetPaginationToggle} // optionally, a hook to reset pagination to page 1
+            subHeader
+            subHeaderComponent={subHeaderComponentMemo}
+            persistTableHead
+            contextActions={contextActions}
+            selectableRows
+            paginationRowsPerPageOptions={[10, 25, 50, 100]}
+            onSelectedRowsChange={handleChange}
+            onSort={handleSort}
+            sortServer
+          />
+        )}
       </div>
     </>
   );
