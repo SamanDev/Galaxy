@@ -127,15 +127,15 @@ const Dashboard = (prop) => {
     }
   }, [window.location.href]);
   useEffect(() => {
-    if (_width < 800) {
-      if (screenOrientation.indexOf("landscape") > -1) {
-        $(".framegame,body").addClass("fullscreen");
-        setIsFull(true);
-      } else {
-        setIsFull(false);
-        $(".framegame,body").removeClass("fullscreen");
-      }
-    }
+    // if (_width < 800 || 1 == 1) {
+    //   if (screenOrientation.indexOf("landscape") > -1) {
+    //     $(".framegame,body").addClass("fullscreen");
+    //     setIsFull(true);
+    //   } else {
+    //     setIsFull(false);
+    //     $(".framegame,body").removeClass("fullscreen");
+    //   }
+    // }
   }, [screenOrientation]);
   const panes33 = [
     {
