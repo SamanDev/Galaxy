@@ -15,19 +15,35 @@ import {
   Message,
   Form,
 } from "semantic-ui-react";
+import { rateService } from "../../services/cashier";
+
 const Amount = (prop) => {
+  const getRate = localStorage.getItem("getRate");
   const [amount, setAmount] = useState(prop.def || 100000);
   const [amountDollar, setAmountDollar] = useState(100);
-  const [rate, setRate] = useState(prop.ratedef || 31250);
+  const [rate, setRate] = useState(getRate || 31250);
+  const handleGetRate = async () => {
+    try {
+      const res = await rateService();
+      if (res.status === 200) {
+        localStorage.setItem("getRate", res.data);
+        setRate(res.data);
+      }
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
   useEffect(() => {
-    // if (prop.dollar) setVal("amountDollar", 100);
+    handleGetRate();
   }, []);
+
   useEffect(() => {
     setVal("amount", prop.formik.values.amount);
-  }, [prop.formik.values.amount]);
+  }, [prop.formik.values.amount, rate]);
   useEffect(() => {
     if (prop.dollar) setVal("amountDollar", prop.formik.values.amountDollar);
-  }, [prop.formik.values.amountDollar]);
+  }, [prop.formik.values.amountDollar, rate]);
   const setVal = (name, value) => {
     var _value = value;
     if (name == "amount") {

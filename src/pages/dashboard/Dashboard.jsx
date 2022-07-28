@@ -194,10 +194,10 @@ const Dashboard = (prop) => {
     }
   }, [curPage]);
   useEffect(() => {
-    console.log($("#gamesec1").scrollLeft());
-
-    $("#gamesec1").scrollLeft($("#gamesec1").width() / 2);
-    $("#gamesec2").scrollLeft($("#gamesec2").width() / 2);
+    try {
+      $("#gamesec1").scrollLeft($("#gamesec1").width() / 2);
+      $("#gamesec2").scrollLeft($("#gamesec2").width() / 2);
+    } catch (error) {}
   }, [gameLoader]);
 
   const panes = [

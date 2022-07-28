@@ -11,11 +11,16 @@ import DepositArea from "../depositComponent/index.jsx";
 import CashoutArea from "../cashout/index.jsx";
 import LevelIcon from "../../../utils/LevelIcon";
 import Report from "../../../pages/dashboard/ReportPen";
-import { doCurrency } from "../../../const";
+import { doCurrency, levelData } from "../../../const";
 const Balance = (prop) => {
   const loginToken = JSON.parse(localStorage.getItem("loginToken"));
 
   if (loginToken) {
+    var _lvlFinal = levelData.filter((d) => d.level === loginToken.level);
+    var lvlPercent = parseFloat(
+      (loginToken.levelPoint * 100) / _lvlFinal[0].point
+    );
+
     return (
       <>
         <Segment
@@ -24,7 +29,7 @@ const Balance = (prop) => {
           style={{ margin: 0, padding: 10, color: "#fff" }}
         >
           <LevelIcon
-            level={61}
+            level={loginToken.level}
             link
             style={{
               position: "relative",
@@ -32,7 +37,7 @@ const Balance = (prop) => {
               top: -3,
             }}
             onClick={() => {
-              prop.openPanel(".levels", "#lvl45");
+              prop.openPanel(".levels", "#lvl" + loginToken.level);
             }}
           />
           <Label color="black" className="balanceLable">
@@ -115,19 +120,11 @@ const Balance = (prop) => {
             <Report mode="Pending" count={3} {...prop} />
           </Popup>
           <Progress
-            percent={50}
+            percent={lvlPercent}
             inverted
             indicating
             size="tiny"
-            style={{
-              margin: 0,
-              padding: 0,
-              height: 3,
-              position: "absolute",
-              marginTop: 5,
-              right: 5,
-              left: 5,
-            }}
+            className="myprogress"
           />
         </Segment>
       </>

@@ -11,8 +11,9 @@ import {
 import { levelClass, levelPassClass } from "../const";
 const LevelIcon = (prop) => {
   if (prop.text) {
+    var _txt = prop.number ? prop.number : prop.level;
     return (
-      <div className="avatar-center">
+      <div className="avatar-center small">
         {prop.icon ? (
           <>
             <Image avatar>
@@ -20,9 +21,20 @@ const LevelIcon = (prop) => {
                 className={prop.icon + " " + levelPassClass(prop.level - 1)}
               ></i>
             </Image>
-            <span className="levelText big">
-              {prop.number ? prop.number : prop.level}
-            </span>
+            {!prop.selfUser && (
+              <span
+                className={"text" + _txt.toString().length + " levelText big"}
+              >
+                {_txt}
+              </span>
+            )}
+            {prop.selfUser && prop.selfUser != "" && (
+              <span
+                className={"text" + _txt.toString().length + " levelText big"}
+              >
+                {_txt}
+              </span>
+            )}
           </>
         ) : (
           <>
@@ -40,8 +52,7 @@ const LevelIcon = (prop) => {
             </Image>
           </>
         )}
-
-        <b>{prop.text}</b>
+        {prop.text != "User name" && <b>{prop.text}</b>}
       </div>
     );
   } else {

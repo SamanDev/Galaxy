@@ -133,21 +133,15 @@ const depositArea = (prop) => {
         {(formik) => {
           return (
             <Form>
-              <Message
-                color="red"
-                compact
-                className="mymessage"
+              <MyMsg
+                icon="num"
+                num="1"
+                color="yellow"
                 size="mini"
-                icon
-              >
-                <Icon circular inverted color="black" style={{ fontSize: 20 }}>
-                  <span className="msgiconnum">1</span>
-                </Icon>
-                <Message.Content className="farsi lh-lg">
-                  ابتدا مبلغ مورد نظر و نام بانک خود انتخاب کنید و همراه با
-                  شماره واتس اپ خود ارسال نمایید.
-                </Message.Content>
-              </Message>
+                text="بتدا مبلغ مورد نظر و نام بانک خود انتخاب کنید و همراه با
+                  شماره واتس اپ خود ارسال نمایید."
+              />
+
               <Carts
                 formik={formik}
                 name="cardNumber"
@@ -182,21 +176,15 @@ const depositArea = (prop) => {
               />
 
               <Divider inverted />
-              <Message
+              <MyMsg
+                icon="num"
+                num="2"
                 color="yellow"
-                compact
-                className="mymessage"
                 size="mini"
-                icon
-              >
-                <Icon circular inverted color="black" style={{ fontSize: 20 }}>
-                  <span className="msgiconnum">2</span>
-                </Icon>
-                <Message.Content className="farsi lh-lg">
-                  دقایقی پس از ارسال، برای هماهنگی و ارسال شماره حساب با شما
-                  تماس خواهیم گرفت.
-                </Message.Content>
-              </Message>
+                text="قایقی پس از ارسال، برای هماهنگی و ارسال شماره حساب با شما
+                تماس خواهیم گرفت."
+              />
+
               <DepositButton
                 {...prop}
                 type="submit"

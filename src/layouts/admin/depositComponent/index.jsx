@@ -102,6 +102,8 @@ const depositArea = (prop) => {
                       mode={depMode.value}
                       size="mini"
                       labelcolor="orange"
+                      pending={true}
+                      penMode="Deposit"
                     />
                   </>
                 ) : (
@@ -120,6 +122,7 @@ const depositArea = (prop) => {
                         mode={depMode.value}
                         size="mini"
                         labelcolor="orange"
+                        penMode="Deposit"
                       />
                     </>
                   ) : (
@@ -138,6 +141,7 @@ const depositArea = (prop) => {
                         mode={depMode.value}
                         size="mini"
                         labelcolor="orange"
+                        penMode="Deposit"
                       />
                     </>
                   ) : (
@@ -148,13 +152,19 @@ const depositArea = (prop) => {
                 </>
               )}
             {depMode.value == "BTC" && (
-              <BTC mode={depMode.value} size="mini" labelcolor="orange" />
+              <BTC
+                mode={depMode.value}
+                size="mini"
+                labelcolor="orange"
+                penMode="Deposit"
+              />
             )}
             {depMode.value == "VisaGiftCode" && (
               <VisaGiftCode
                 mode={depMode.value}
                 size="mini"
                 labelcolor="orange"
+                penMode="Deposit"
               />
             )}
             {depMode.value == "PerfectMoney" && (
@@ -162,6 +172,7 @@ const depositArea = (prop) => {
                 mode={depMode.value}
                 size="mini"
                 labelcolor="orange"
+                penMode="Deposit"
               />
             )}
           </div>
@@ -172,6 +183,7 @@ const depositArea = (prop) => {
             cashMode={depMode.value}
             size="mini"
             labelcolor="orange"
+            penMode="Cashout"
             {...prop}
           />
         </>

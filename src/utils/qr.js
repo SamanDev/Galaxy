@@ -40,7 +40,12 @@ function CrCode(prop) {
       <>
         <Divider hidden />
 
-        <Segment inverted size="mini" color="grey" className="farsi mymessage">
+        <Segment
+          inverted
+          size="mini"
+          color="grey"
+          className="farsi mymessage text-center"
+        >
           شما باید مقدار{" "}
           <b className="text-gold">{paydetails.amount + " " + Coin}</b> برابر با{" "}
           <b className="text-gold">{prop.doCurrency(item.amount)} دلار</b> به
@@ -57,7 +62,12 @@ function CrCode(prop) {
         <Divider horizontal inverted section className="farsi">
           یا
         </Divider>
-        <Segment inverted size="mini" color="grey" className="farsi">
+        <Segment
+          inverted
+          size="mini"
+          color="grey"
+          className="farsi  text-center"
+        >
           کد زیر را اسکن کنید.
         </Segment>
         <img

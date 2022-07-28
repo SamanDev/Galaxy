@@ -78,15 +78,16 @@ const depositArea = (prop) => {
                 type="email"
                 name="email"
                 label="ایمیل"
-                labelcolor={prop.labelcolor}
+                labelcolor="orange"
                 size={prop.size}
               />
+              <Divider inverted />
               <AuthFormikControl
                 formik={formik}
                 control="input"
                 type="password"
                 name="password"
-                label=" کلمه عبور"
+                label=" کلمه عبور جدید"
                 labelcolor={prop.labelcolor}
                 size={prop.size}
               />

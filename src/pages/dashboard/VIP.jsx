@@ -12,6 +12,7 @@ import { doCurrency, levelPassReward, levelPassList } from "../../const";
 import AddCalendar from "../../utils/AddCalendar";
 import GalaxyIcon from "../../utils/GalaxyIcon";
 import GiftsDesc from "../../utils/GiftsDesc";
+import VIPResult from "./VIPResult";
 const LevelList = () => {
   var totalReward = 0;
   return (
@@ -45,6 +46,7 @@ const LevelList = () => {
             />
           </List.Content>
         </List.Item>
+        <VIPResult />
       </List>
     </span>
   );

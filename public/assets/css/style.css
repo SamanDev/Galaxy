@@ -64,15 +64,15 @@ body {
 a {
   text-decoration: none !important;
 }
-.dropbank{
+.dropbank {
   display: block;
   margin-bottom: 5px;
 }
 .carousel i.big {
   font-size: 32px !important;
 }
-.hiddenmenu{
-  display: none !important
+.hiddenmenu {
+  display: none !important;
 }
 .mm-navbars:before {
   display: block;
@@ -162,7 +162,6 @@ a {
   background: rgba(0, 0, 0, 0.9);
 }
 .framegame.frame2 {
-  
   background: rgba(255, 255, 255, 0.09);
 }
 .framegame.loader {
@@ -170,10 +169,9 @@ a {
   position: absolute;
   background: rgba(0, 0, 0, 0) !important;
   right: 15px;
-    left: 15px;
-    width: auto !important;
+  left: 15px;
+  width: auto !important;
 }
-
 
 .loadingio-eclipse {
   width: calc(100%) !important;
@@ -182,14 +180,12 @@ a {
   display: inline-block;
   overflow: hidden;
   position: fixed;
-
-  
 }
 
 .framegame.fullscreen {
   width: calc(100vw) !important;
   min-width: calc(100vw) !important;
-  
+
   height: calc(100vh) !important;
   position: fixed;
   top: 0;
@@ -200,15 +196,14 @@ a {
   background: rgba(0, 0, 0, 0.9);
 }
 .framegame.loader.fullscreen {
-
   position: fixed;
-   
-    right: 0;
-    left: 0;
-    z-index: 2;
+
+  right: 0;
+  left: 0;
+  z-index: 2;
 }
-body.fullscreen #content_section{
-  top:0;
+body.fullscreen #content_section {
+  top: 0;
   height: calc(100vh) !important;
   z-index: 10000;
 }
@@ -236,7 +231,7 @@ body.fullscreen #content_section{
   top: 25%;
   right: 35%;
   font-weight: 900;
-  font-size: 45px;
+  font-size: 3vw;
   color: #ffde00;
 }
 .banner .text {
@@ -245,7 +240,7 @@ body.fullscreen #content_section{
   top: 27%;
   right: 35%;
   font-weight: 400;
-  font-size: 44px;
+  font-size: 2.5vw;
   color: #fff;
 }
 .ui.fluid.vertical.buttons > .button {
@@ -253,7 +248,7 @@ body.fullscreen #content_section{
 }
 #game_section {
   position: relative;
-  top: -110px;
+  top: -10vh;
 }
 .text-gold {
   color: gold !important;
@@ -301,28 +296,20 @@ body.fullscreen #content_section{
   color: rgba(255, 255, 255, 0.5) !important;
   float: right;
 }
-.menuloader{
+.menuloader {
   height: 200px;
   margin-bottom: 300px;
- 
-  
-  
-  }
-.menuloader > div{
-
-  background: transparent !important;
-  
-  display: block !important;
-  opacity: 1  !important;
-  
+  position: relative;
 }
-.menuloader > div > div{
+.menuloader > div {
+  background: transparent !important;
 
-   
-    
+  display: block !important;
+  opacity: 1 !important;
+}
+.menuloader > div > div {
   top: -150px;
   position: relative;
-
 }
 div.date {
   color: rgba(255, 255, 255, 0.5) !important;
@@ -334,7 +321,7 @@ div.date .time {
 
   font-size: 11px !important;
   display: inline-block;
-  padding-left:2px
+  padding-left: 2px;
 }
 .ui.comments .comment .avatar {
   font-size: 30px;
@@ -347,9 +334,13 @@ div.date .time {
   white-space: normal;
   color: #fff;
 }
+
 .mymessage {
   white-space: normal;
   margin-top: 0;
+}
+.mymessage .content {
+  color: rgba(0, 0, 0, 0.87) !important;
 }
 i.star.big {
   position: relative !important;
@@ -364,7 +355,7 @@ i.star.big {
 .popupmenu .userblock i.big {
   font-size: 32px !important;
 }
-.msgiconnum{
+.msgiconnum {
   font-family: Lato, "Helvetica Neue", Arial, Helvetica, sans-serif;
   font-size: 24px;
   line-height: 18px;
@@ -384,22 +375,70 @@ i.star.big {
   top: -100%;
   font-weight: 900;
 }
+.levelbar {
+  width: 80px;
+  position: relative;
+  top: -10px;
+  left: -5px;
+}
+.myprogress{
+  margin: 5px 0px 0px  !important;
+  padding: 0px !important;
+  height: 3px !important;
+  position: absolute  !important;
+  right: 5px;
+  left: 5px;
+}
+.ui.active.progress .bar {
+  min-width: 2px !important;
+}
+
+.levelbar .ui.progress {
+  margin: 5px 0px 0px;
+  padding: 0px;
+  height: 3px;
+  position: absolute;
+  right: 5px;
+  left: 5px;
+}
+.levelbar .ui.active.progress .bar {
+  min-width: 0px !important;
+}
+.levelbar .icon {
+  position: absolute;
+    top: -3px;
+    left: 80px;
+}
 .avatar-center > .levelText {
   font-size: 12px !important;
   width: 32px;
   height: auto !important;
   top: 0;
 }
+
 .avatar-center > .levelText.big {
   font-size: 20px !important;
   width: 14px;
   height: 37px !important;
+  line-height: 60px !important;
   top: -15px;
 }
 .avatar-center > .levelText.big.mybig {
   font-size: 10px !important;
   font-weight: 100;
   top: -12px;
+}
+.avatar-center > .levelText.big.text2 {
+  font-size: 15px !important;
+
+}
+.avatar-center > .levelText.big.text3 {
+  font-size: 13px !important;
+
+}
+.avatar-center > .levelText.big.text4 {
+  font-size: 11px !important;
+
 }
 
 .ui.label.detail {
@@ -646,56 +685,51 @@ i.star.big {
   width: 120px;
   text-align: right;
   font-weight: 300 !important;
-
 }
-.myaccount.popup .button ,
+.myaccount.popup .button,
 .myaccount.popupmenu .button {
- 
   font-weight: 300 !important;
-
 }
-.mainsection .menu{
+.mainsection .menu {
   display: none;
 }
-.mainsection .tab{
+.mainsection .tab {
   background: transparent !important;
   border: none !important;
   margin: 0 !important;
   width: 100% !important;
   max-width: calc(100vw) !important;
-    overflow: scroll;
-    box-sizing: border-box;
+  overflow: scroll;
+  box-sizing: border-box;
 }
-.mainsection .dropdown{
+.mainsection .dropdown {
   height: 30;
   background: transparent !important;
 }
-.gameicons,.gameicons *{
-  transition: all .5s ease  !important;
-  
+.gameicons,
+.gameicons * {
+  transition: all 0.5s ease !important;
 }
-.gameicons{
-  position:fixed;
+.gameicons {
+  position: fixed;
   top: 40%;
-text-align: right !important;
+  text-align: right !important;
   transform: translateY(-50%);
-right:0;
+  right: 0;
   z-index: 1000;
-  
 }
-.gameicons i.icon{
+.gameicons i.icon {
   display: block;
   opacity: 1;
   margin-top: 5px;
   position: relative;
   right: -20px;
- 
 }
-.selectgame .dropdown.icon{
+.selectgame .dropdown.icon {
   display: none;
 }
-.mainsection .dropdown .menu{
-  width:200px !important;
+.mainsection .dropdown .menu {
+  width: 200px !important;
 }
 
 .modal .myaccount.popup .input .label,
@@ -703,13 +737,11 @@ right:0;
   width: 150px;
   text-align: right;
   font-weight: 300 !important;
-
 }
 .myaccount.popup .ui.pointing.label.below,
 .myaccount.popupmenu .ui.pointing.label.below {
-
   font-weight: 500 !important;
- padding:15px;
+  padding: 15px;
 }
 .myaccount.popup .ui.fluid.input,
 .myaccount.popupmenu .ui.fluid.input {
@@ -733,6 +765,11 @@ right:0;
   width: 70px;
   height: 70px;
   position: relative;
+}
+.avatar-center.small {
+
+  height: 50px;
+
 }
 .avatar-center .avatar {
   width: 32px !important;
@@ -774,7 +811,8 @@ right:0;
 *::-webkit-scrollbar,
 #content_section::-webkit-scrollbar,
 .bonuslist::-webkit-scrollbar,
-.mm-navbar__breadcrumbs::-webkit-scrollbar,.framegame::-webkit-scrollbar {
+.mm-navbar__breadcrumbs::-webkit-scrollbar,
+.framegame::-webkit-scrollbar {
   display: none;
 }
 .bonuslist .item {
@@ -821,7 +859,7 @@ right:0;
 .rightfloat {
   float: right !important;
 }
-.pad10tb{
+.pad10tb {
   margin: 10px 0;
 }
 .ui.floating.label.myfloatmenubonus {

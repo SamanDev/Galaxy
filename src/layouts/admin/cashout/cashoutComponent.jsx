@@ -7,10 +7,11 @@ import Toman from "./Toman";
 import Ticket from "./Ticket";
 import AddCart from "./AddCart";
 import ChangePass from "./ChangePass";
-import AddCartMsg from "../depositComponent/addCartMsg";
+import AddCartMsg from "./AddCart";
 import { Icon, Label, Button, Header, Divider } from "semantic-ui-react";
 const depositArea = (props) => {
   const [depMode] = useState(props.cashMode);
+  const [refresh, setRefresh] = useState(false);
   const loginToken = JSON.parse(localStorage.getItem("loginToken"));
   return (
     <>
@@ -54,8 +55,18 @@ const depositArea = (props) => {
         </span>
       )}
 
-      {depMode == "USDT" && <USDT mode={depMode} />}
-      {depMode == "BTC" && <BTC mode={depMode} {...props} />}
+      {depMode == "USDT" && (
+        <USDT mode={depMode} size="mini" labelcolor="orange" list={true} />
+      )}
+      {depMode == "BTC" && (
+        <BTC
+          mode={depMode}
+          size="mini"
+          labelcolor="orange"
+          list={true}
+          {...props}
+        />
+      )}
       {depMode == "Toman" && (
         <>
           {loginToken?.bankInfos.length > 0 ? (
@@ -69,12 +80,19 @@ const depositArea = (props) => {
             </>
           ) : (
             <>
-              <AddCartMsg {...props} />
+              <AddCartMsg {...props} setRefresh={setRefresh} />
             </>
           )}
         </>
       )}
-      {depMode == "PerfectMoney" && <PerfectMoney mode="PerfectMoney" />}
+      {depMode == "PerfectMoney" && (
+        <PerfectMoney
+          size="mini"
+          labelcolor="orange"
+          list={true}
+          mode={depMode}
+        />
+      )}
     </>
   );
 };

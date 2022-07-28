@@ -12,14 +12,18 @@ const myMessage = (prop) => {
   return (
     <Message
       color={prop.color}
-      as={Segment}
       className="mymessage"
-      size="small"
+      size={prop.size ? prop.size : "small"}
       icon={prop.icon ? true : false}
-      inverted
     >
-      {prop.icon && <Icon name={prop.icon} />}
-      <Message.Content className="farsi">{prop.text}</Message.Content>
+      {prop.icon && prop.icon != "num" && <Icon name={prop.icon} />}
+      {prop.num && prop.icon == "num" && (
+        <Icon circular inverted color="black" style={{ fontSize: 20 }}>
+          <span className="msgiconnum">{prop.num}</span>
+        </Icon>
+      )}
+
+      <Message.Content className="farsi lh-base">{prop.text}</Message.Content>
     </Message>
   );
 };

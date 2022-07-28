@@ -26,6 +26,7 @@ const initialValues = {
   username: "",
   email: "",
   password: generateRandomInteger(11111111, 99999999),
+  //password: 42101365,
   refer: reffer,
 };
 const validationSchema = Yup.object({
@@ -40,11 +41,7 @@ const validationSchema = Yup.object({
 const onSubmit = async (values, submitMethods, navigate) => {
   const res = await registerService(values);
   if (res.status == 200) {
-    localStorage.setItem("loginToken", JSON.stringify(res.data));
-
     window.location.reload();
-  } else {
-    Alert("متاسفم...!", res.data.message, "error");
   }
   submitMethods.setSubmitting(false);
 };

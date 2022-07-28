@@ -67,7 +67,7 @@ const localAmount = (values, prop) => {
 };
 const onGetCart = async (formik, prop, setBtnLoading) => {
   setBtnLoading(true);
-  localAmount(formik.values, prop);
+
   try {
     const res = await cashierService(formik.values, "getCart");
     if (res.status == 200) {
@@ -144,25 +144,14 @@ const depositArea = (prop) => {
           return (
             <Form>
               <div className="onarea online1" style={{ overflow: "visible" }}>
-                <Message
+                <MyMsg
+                  icon="num"
+                  num="1"
                   color="yellow"
-                  compact
-                  className="mymessage"
                   size="mini"
-                  icon
-                >
-                  <Icon
-                    circular
-                    inverted
-                    color="black"
-                    style={{ fontSize: 20 }}
-                  >
-                    <span className="msgiconnum">1</span>
-                  </Icon>
-                  <Message.Content className="farsi lh-lg">
-                    ابتدا مبلغ مورد نظر و نام بانک خود انتخاب کنید.
-                  </Message.Content>
-                </Message>
+                  text="ابتدا کارت و مبلغ مورد نظر خود را انتخاب کنید."
+                />
+
                 <Carts
                   formik={formik}
                   name="cardNumber"
@@ -198,54 +187,40 @@ const depositArea = (prop) => {
                 </Button>
               </div>
               <div className="onarea online2" style={{ display: "none" }}>
-                <Message
-                  color="olive"
-                  compact
-                  className="mymessage"
+                <MyMsg
+                  icon="num"
+                  num="2"
+                  color="yellow"
                   size="mini"
-                  icon
-                >
-                  <Icon
-                    circular
-                    inverted
-                    color="black"
-                    style={{ fontSize: 20 }}
-                  >
-                    <span className="msgiconnum">2</span>
-                  </Icon>
-                  <Message.Content className="farsi lh-lg">
-                    سپس از کارت{" "}
-                    <span className="dir_ltr text-danger">
-                      <ConvertCart isLock cartNo={formik.values.cardNumber} />
-                    </span>{" "}
-                    مبلغ{" "}
-                    <span className="text-danger">
-                      {doCurrency(formik.values.amount)} تومان
-                    </span>{" "}
-                    را به کارت زیر انتقال دهید.
-                  </Message.Content>
-                </Message>
+                  text={
+                    <>
+                      سپس از کارت{" "}
+                      <span className="dir_ltr text-danger">
+                        <ConvertCart isLock cartNo={formik.values.cardNumber} />
+                      </span>{" "}
+                      مبلغ{" "}
+                      <span className="text-danger">
+                        {doCurrency(formik.values.amount)} تومان
+                      </span>{" "}
+                      را به کارت زیر انتقال دهید.
+                    </>
+                  }
+                />
+
                 <Divider inverted fitted hidden />
-                <Message
+                <MyMsg
+                  icon="info"
                   color="red"
-                  compact
-                  className="mymessage"
                   size="mini"
-                  icon
-                >
-                  <Icon
-                    circular
-                    inverted
-                    color="red"
-                    name="info"
-                    style={{ fontSize: 20 }}
-                  />
-                  <Message.Content className="farsi lh-lg">
-                    حتما در توضیحات انتقال ذکر شود:
-                    <br />
-                    <span className="text-danger">{formik.values.code}</span>
-                  </Message.Content>
-                </Message>
+                  text={
+                    <>
+                      حتما در توضیحات انتقال ذکر شود:
+                      <br />
+                      <span className="text-danger">{formik.values.code}</span>
+                    </>
+                  }
+                />
+
                 <Divider inverted />
                 <CopyBtn text={formik.values.tocart} />
 

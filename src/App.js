@@ -336,15 +336,17 @@ function App(prop) {
     if (loginToken) {
       userMethods = loginToken.cashierGateways;
     }
-    userMethods = userMethods.filter(
-      (li, idx, self) => self.map((itm) => itm.mode).indexOf(li.mode) === idx
-    );
+
     userMethods.sort((a, b) => (a.mode > b.mode ? 1 : -1));
 
     var canAdd = false;
     {
       userMethods.map(function (cashierGateway, u) {
-        if (cashierGateway.mode == keyAccess && cashierGateway.active) {
+        if (
+          (cashierGateway.mode == keyAccess ||
+            cashierGateway.name == keyAccess) &&
+          cashierGateway.active
+        ) {
           canAdd = true;
         }
       });
@@ -363,30 +365,33 @@ function App(prop) {
     const panel = document.querySelector(_id);
     api.openPanel(panel);
     setTimeout(() => {
-      console.log(toId);
       if (toId) {
-        var scrollTo = $(_id).find(toId + ":visible");
-        var scrollDiv = scrollTo.closest(".mm-panel");
-        scrollTo.addClass("active");
-        scrollDiv.animate(
-          {
-            scrollTop:
-              scrollTo.offset().top -
-              scrollDiv.offset().top +
-              scrollDiv.scrollTop() -
-              scrollTo.height(),
-          },
-          1000
-        );
+        try {
+          var scrollTo = $(_id).find(toId + ":visible");
+          var scrollDiv = scrollTo.closest(".mm-panel");
+          scrollTo.addClass("active");
+          scrollDiv.animate(
+            {
+              scrollTop:
+                scrollTo.offset().top -
+                scrollDiv.offset().top +
+                scrollDiv.scrollTop() -
+                scrollTo.height(),
+            },
+            1000
+          );
+        } catch (error) {}
       } else {
-        var scrollTo = $(_id);
-        var scrollDiv = scrollTo.closest(".mm-panel");
-        scrollDiv.animate(
-          {
-            scrollTop: 0,
-          },
-          1000
-        );
+        try {
+          var scrollTo = $(_id);
+          var scrollDiv = scrollTo.closest(".mm-panel");
+          scrollDiv.animate(
+            {
+              scrollTop: 0,
+            },
+            1000
+          );
+        } catch (error) {}
       }
     }, 1000);
   };
@@ -483,6 +488,24 @@ function App(prop) {
           $("#openLogin").trigger("click");
 
           openPanel("#" + _parent);
+        } else {
+          setTimeout(() => {
+            try {
+              var scrollTo = $(".item.active:visible");
+              var scrollDiv = scrollTo.closest(".mm-panel");
+
+              scrollDiv.animate(
+                {
+                  scrollTop:
+                    scrollTo.offset().top -
+                    scrollDiv.offset().top +
+                    scrollDiv.scrollTop() -
+                    scrollTo.height(),
+                },
+                1000
+              );
+            } catch (error) {}
+          }, 1000);
         }
       });
       api.bind("open:before", () => {

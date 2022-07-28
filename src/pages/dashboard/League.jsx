@@ -14,8 +14,9 @@ import LevelIcon from "../../utils/LevelIcon";
 import GiftsDesc from "../../utils/GiftsDesc";
 import AddCalendar from "../../utils/AddCalendar";
 import GalaxyIcon from "../../utils/GalaxyIcon";
+import LeagueUser from "./LeagueUser";
+import LeagueResult from "./LeagueResult";
 const LevelList = () => {
-  var totalReward = 0;
   return (
     <span className="myaccount popupmenu">
       <List divided inverted verticalAlign="middle" className="myaccount">
@@ -33,6 +34,11 @@ const LevelList = () => {
               }}
             />
             <AddCalendar start="24" dur="8" format="0000" title="League" />
+          </List.Content>
+        </List.Item>
+        <LeagueUser />
+        <List.Item>
+          <List.Content className="rtl text-center">
             <GiftsDesc
               desc={
                 "لیگ گلکسی هر روز از بیست و چهارم تا پایان هر ماه میلادی  برگزار می شود."
@@ -42,35 +48,15 @@ const LevelList = () => {
                 levelLeagueList.length +
                 " نفری که بیشترین امتیاز را در طول هر روز از گلکسی کسب کرده اند."
               }
+              desc3={"جوایز در پایان هر روز اهدا خواهد شد."}
+              desc4="برای شرکت در لیگ گلکسی یا باید لول شما 5 یا بالاتر باشد. یا موجودی اکانت شما بیش از 10,000,000 تومان  باشد."
+              desc5="توجه داشته باشید اگر لِوِل شما کمتر از 5 باشد، برداشت و انتقال شما به مدت 72 ساعت بسته خواهد شد."
               amount="45000000"
               subtitle="تومان هر روز"
             />
           </List.Content>
         </List.Item>
-        {Array.apply(0, Array(levelLeagueList.length)).map(function (x, i) {
-          totalReward += levelLeagueReward(i);
-          return (
-            <List.Item key={i} id={"lvl" + (i + 1)}>
-              <List.Content floated="right" className="rtl">
-                <span className="text-gold">
-                  {doCurrency(levelLeagueReward(i))}{" "}
-                </span>
-                <span className="mysmall">
-                  <small className="farsi">تومان پاداش</small>
-                </span>
-                <div className="mysmall">
-                  <span className="text-gold">{doCurrency(totalReward)} </span>
-                  <small className="farsi">امتیاز هفتگی</small>
-                </div>
-              </List.Content>
-              <LevelIcon
-                icon="fas fa-medal big star noNext"
-                level={i + 1}
-                text={"Hangover"}
-              />
-            </List.Item>
-          );
-        })}
+        <LeagueResult />
       </List>
     </span>
   );

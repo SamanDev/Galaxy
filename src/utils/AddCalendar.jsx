@@ -49,17 +49,29 @@ class Example extends React.Component {
   render() {
     var now = moment().format("YYYYMMDDTHHmmss");
     var nowDay = moment(now).date();
-    var start = this.props.start;
+    var start = parseInt(this.props.start);
+    var dur = parseInt(this.props.dur);
     var dir = start - nowDay;
+    var end = start + dur;
     var _next = false;
+    var _finish = false;
+    if (end - nowDay < 0) {
+      _finish = true;
+    }
     if (dir < 0) {
       _next = true;
+    }
+
+    if (_finish) {
+      now = moment(now).add(1, "months").format("YYYYMMDDTHHmmss");
+      _next = false;
     }
     var startDatetime = moment(now).add(dir, "days").format("YYYYMMDDT000000");
     var startDatetimeOld = startDatetime;
     var endDatetimeOld = moment(startDatetimeOld)
-      .add(this.props.dur, "days")
+      .add(dur, "days")
       .format("YYYYMMDDTHHmmss");
+
     if (_next) {
       startDatetime = moment(startDatetime)
         .add(1, "months")
@@ -114,7 +126,7 @@ class Example extends React.Component {
 
     const ATCWrapper = (args) => (
       <>
-        {_next ? (
+        {_next && !_finish ? (
           <Moment
             className="farsi-inline ui label yellow fluid"
             to={endDatetimeOld}
@@ -125,28 +137,30 @@ class Example extends React.Component {
             {now}
           </Moment>
         ) : (
-          <Moment
-            className="farsi-inline ui label grey fluid"
-            fromNow
-            filter={toStart}
-            style={{ marginTop: 20 }}
-            onChange={(val) => {}}
-          >
-            {startTime}
-          </Moment>
+          <>
+            <Moment
+              className="farsi-inline ui label grey fluid"
+              fromNow
+              filter={toStart}
+              style={{ marginTop: 20 }}
+              onChange={(val) => {}}
+            >
+              {startTime}
+            </Moment>
+            <Button
+              onClick={args.onClick}
+              color="red"
+              icon
+              labelPosition="left"
+              fluid
+              className="farsi-inline"
+              style={{ margin: "10px 0" }}
+            >
+              <Icon name="calendar plus outline" />
+              به تقویم من اضافه کن
+            </Button>
+          </>
         )}
-        <Button
-          onClick={args.onClick}
-          color="red"
-          icon
-          labelPosition="left"
-          fluid
-          className="farsi-inline"
-          style={{ margin: "10px 0" }}
-        >
-          <Icon name="calendar plus outline" />
-          به تقویم من اضافه کن
-        </Button>
       </>
     );
     const AddToCalendarDropdown = AddToCalendarHOC(ATCWrapper, ATCDropdown);

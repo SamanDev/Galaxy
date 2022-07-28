@@ -4,3 +4,6 @@ export const cashierService = (values, mode, geteway = "") => {
     ...values,
   });
 };
+export const rateService = () => {
+  return httpService("/req/getPrice", "get");
+};

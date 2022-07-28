@@ -9,6 +9,7 @@ import LevelList from "./pages/dashboard/Levels";
 import PassList from "./pages/dashboard/GalaxyPass";
 import VIP from "./pages/dashboard/VIP";
 import League from "./pages/dashboard/League";
+import LeagueResultLast from "./pages/dashboard/LeagueResultLast";
 import UserList from "./pages/dashboard/Users";
 import TopUsers from "./pages/dashboard/TopUsers";
 import DepositComponent from "./layouts/admin/depositComponent/depositComponent.jsx";
@@ -77,7 +78,7 @@ export const depositData = [
   },
   {
     key: "Cart to Cart",
-    getwaykey: "CarttoCart",
+    getwaykey: "CartToCart",
     text: "کارت به کارت",
     value: "Cart to Cart",
     icon: "mobile alternate",
@@ -269,7 +270,7 @@ export const menuData = [
           {
             label: "آخرین نتایج",
             icon: "fas fa-stream",
-            component: <LevelList />,
+            component: <LeagueResultLast />,
           },
           {
             component: <League />,
@@ -471,12 +472,43 @@ export const levelClass = (lvl) => {
   return _class;
 };
 export const levelRewardPercent = (lvl) => {
-  if (lvl <= 34) {
+  if (lvl <= 30) {
     return lvl + 10;
-  } else if (lvl < 60) {
+  } else if (lvl <= 34) {
+    return 40;
+  } else if (lvl <= 39) {
+    return 41;
+  } else if (lvl <= 44) {
+    return 42;
+  } else if (lvl <= 49) {
+    return 43;
+  } else if (lvl <= 54) {
+    return 44;
+  } else if (lvl <= 59) {
     return 45;
+  } else if (lvl <= 64) {
+    return 46;
+  } else if (lvl <= 69) {
+    return 47;
+  } else if (lvl <= 74) {
+    return 48;
+  } else if (lvl <= 79) {
+    return 49;
   } else {
     return 50;
+  }
+};
+export const levelPercent = (lvl) => {
+  if (lvl <= 9) {
+    return 5;
+  } else if (lvl <= 19) {
+    return 4;
+  } else if (lvl <= 29) {
+    return 3;
+  } else if (lvl <= 39) {
+    return 2;
+  } else {
+    return 1;
   }
 };
 export const haveAdmin = (userTags) => {
@@ -518,3 +550,635 @@ export const isJson = (item) => {
 
   return false;
 };
+export const levelData = [
+  {
+    level: 1,
+    reward: 1000,
+    commission: 10,
+    percent: 5,
+    point: 20000,
+  },
+  {
+    level: 2,
+    reward: 5000,
+    commission: 11,
+    percent: 5,
+    point: 100000,
+  },
+  {
+    level: 3,
+    reward: 15000,
+    commission: 12,
+    percent: 5,
+    point: 300000,
+  },
+  {
+    level: 4,
+    reward: 30000,
+    commission: 13,
+    percent: 5,
+    point: 600000,
+  },
+  {
+    level: 5,
+    reward: 50000,
+    commission: 14,
+    percent: 5,
+    point: 1000000,
+  },
+  {
+    level: 6,
+    reward: 100000,
+    commission: 15,
+    percent: 5,
+    point: 2000000,
+  },
+  {
+    level: 7,
+    reward: 200000,
+    commission: 16,
+    percent: 5,
+    point: 4000000,
+  },
+  {
+    level: 8,
+    reward: 300000,
+    commission: 17,
+    percent: 5,
+    point: 6000000,
+  },
+  {
+    level: 9,
+    reward: 400000,
+    commission: 18,
+    percent: 5,
+    point: 8000000,
+  },
+  {
+    level: 10,
+    reward: 500000,
+    commission: 19,
+    percent: 5,
+    point: 10000000,
+  },
+  {
+    level: 11,
+    reward: 600000,
+    commission: 20,
+    percent: 4,
+    point: 15000000,
+  },
+  {
+    level: 12,
+    reward: 700000,
+    commission: 21,
+    percent: 4,
+    point: 17500000,
+  },
+  {
+    level: 13,
+    reward: 800000,
+    commission: 22,
+    percent: 4,
+    point: 20000000,
+  },
+  {
+    level: 14,
+    reward: 900000,
+    commission: 23,
+    percent: 4,
+    point: 22500000,
+  },
+  {
+    level: 15,
+    reward: 1000000,
+    commission: 24,
+    percent: 4,
+    point: 25000000,
+  },
+  {
+    level: 16,
+    reward: 1200000,
+    commission: 25,
+    percent: 4,
+    point: 30000000,
+  },
+  {
+    level: 17,
+    reward: 1400000,
+    commission: 26,
+    percent: 4,
+    point: 35000000,
+  },
+  {
+    level: 18,
+    reward: 1600000,
+    commission: 27,
+    percent: 4,
+    point: 40000000,
+  },
+  {
+    level: 19,
+    reward: 1800000,
+    commission: 28,
+    percent: 4,
+    point: 45000000,
+  },
+  {
+    level: 20,
+    reward: 2000000,
+    commission: 29,
+    percent: 4,
+    point: 50000000,
+  },
+  {
+    level: 21,
+    reward: 2500000,
+    commission: 30,
+    percent: 3,
+    point: 83333333,
+  },
+  {
+    level: 22,
+    reward: 3000000,
+    commission: 31,
+    percent: 3,
+    point: 100000000,
+  },
+  {
+    level: 23,
+    reward: 3500000,
+    commission: 32,
+    percent: 3,
+    point: 116666666,
+  },
+  {
+    level: 24,
+    reward: 4000000,
+    commission: 33,
+    percent: 3,
+    point: 133333333,
+  },
+  {
+    level: 25,
+    reward: 4500000,
+    commission: 34,
+    percent: 3,
+    point: 150000000,
+  },
+  {
+    level: 26,
+    reward: 5000000,
+    commission: 35,
+    percent: 3,
+    point: 166666666,
+  },
+  {
+    level: 27,
+    reward: 6000000,
+    commission: 36,
+    percent: 3,
+    point: 200000000,
+  },
+  {
+    level: 28,
+    reward: 7000000,
+    commission: 37,
+    percent: 3,
+    point: 233333333,
+  },
+  {
+    level: 29,
+    reward: 8000000,
+    commission: 38,
+    percent: 3,
+    point: 266666666,
+  },
+  {
+    level: 30,
+    reward: 10000000,
+    commission: 39,
+    percent: 3,
+    point: 333333333,
+  },
+  {
+    level: 31,
+    reward: 12000000,
+    commission: 40,
+    percent: 2,
+    point: 600000000,
+  },
+  {
+    level: 32,
+    reward: 14000000,
+    commission: 41,
+    percent: 2,
+    point: 700000000,
+  },
+  {
+    level: 33,
+    reward: 16000000,
+    commission: 42,
+    percent: 2,
+    point: 800000000,
+  },
+  {
+    level: 34,
+    reward: 18000000,
+    commission: 43,
+    percent: 2,
+    point: 900000000,
+  },
+  {
+    level: 35,
+    reward: 20000000,
+    commission: 44,
+    percent: 2,
+    point: 1000000000,
+  },
+  {
+    level: 36,
+    reward: 22000000,
+    commission: 45,
+    percent: 2,
+    point: 1100000000,
+  },
+  {
+    level: 37,
+    reward: 24000000,
+    commission: 45,
+    percent: 2,
+    point: 1200000000,
+  },
+  {
+    level: 38,
+    reward: 26000000,
+    commission: 45,
+    percent: 2,
+    point: 1300000000,
+  },
+  {
+    level: 39,
+    reward: 28000000,
+    commission: 45,
+    percent: 2,
+    point: 1400000000,
+  },
+  {
+    level: 40,
+    reward: 30000000,
+    commission: 45,
+    percent: 2,
+    point: 1500000000,
+  },
+  {
+    level: 41,
+    reward: 32000000,
+    commission: 45,
+    percent: 1,
+    point: 3200000000,
+  },
+  {
+    level: 42,
+    reward: 34000000,
+    commission: 45,
+    percent: 1,
+    point: 3400000000,
+  },
+  {
+    level: 43,
+    reward: 36000000,
+    commission: 45,
+    percent: 1,
+    point: 3600000000,
+  },
+  {
+    level: 44,
+    reward: 38000000,
+    commission: 45,
+    percent: 1,
+    point: 3800000000,
+  },
+  {
+    level: 45,
+    reward: 40000000,
+    commission: 45,
+    percent: 1,
+    point: 4000000000,
+  },
+  {
+    level: 46,
+    reward: 42000000,
+    commission: 45,
+    percent: 1,
+    point: 4200000000,
+  },
+  {
+    level: 47,
+    reward: 44000000,
+    commission: 45,
+    percent: 1,
+    point: 4400000000,
+  },
+  {
+    level: 48,
+    reward: 46000000,
+    commission: 45,
+    percent: 1,
+    point: 4600000000,
+  },
+  {
+    level: 49,
+    reward: 48000000,
+    commission: 45,
+    percent: 1,
+    point: 4800000000,
+  },
+  {
+    level: 50,
+    reward: 50000000,
+    commission: 45,
+    percent: 1,
+    point: 5000000000,
+  },
+  {
+    level: 51,
+    reward: 52000000,
+    commission: 45,
+    percent: 1,
+    point: 5200000000,
+  },
+  {
+    level: 52,
+    reward: 54000000,
+    commission: 45,
+    percent: 1,
+    point: 5400000000,
+  },
+  {
+    level: 53,
+    reward: 56000000,
+    commission: 45,
+    percent: 1,
+    point: 5600000000,
+  },
+  {
+    level: 54,
+    reward: 58000000,
+    commission: 45,
+    percent: 1,
+    point: 5800000000,
+  },
+  {
+    level: 55,
+    reward: 60000000,
+    commission: 45,
+    percent: 1,
+    point: 6000000000,
+  },
+  {
+    level: 56,
+    reward: 62000000,
+    commission: 45,
+    percent: 1,
+    point: 6200000000,
+  },
+  {
+    level: 57,
+    reward: 64000000,
+    commission: 45,
+    percent: 1,
+    point: 6400000000,
+  },
+  {
+    level: 58,
+    reward: 66000000,
+    commission: 45,
+    percent: 1,
+    point: 6600000000,
+  },
+  {
+    level: 59,
+    reward: 68000000,
+    commission: 45,
+    percent: 1,
+    point: 6800000000,
+  },
+  {
+    level: 60,
+    reward: 70000000,
+    commission: 45,
+    percent: 1,
+    point: 7000000000,
+  },
+  {
+    level: 61,
+    reward: 72000000,
+    commission: 50,
+    percent: 1,
+    point: 7200000000,
+  },
+  {
+    level: 62,
+    reward: 74000000,
+    commission: 50,
+    percent: 1,
+    point: 7400000000,
+  },
+  {
+    level: 63,
+    reward: 76000000,
+    commission: 50,
+    percent: 1,
+    point: 7600000000,
+  },
+  {
+    level: 64,
+    reward: 78000000,
+    commission: 50,
+    percent: 1,
+    point: 7800000000,
+  },
+  {
+    level: 65,
+    reward: 80000000,
+    commission: 50,
+    percent: 1,
+    point: 8000000000,
+  },
+  {
+    level: 66,
+    reward: 82000000,
+    commission: 50,
+    percent: 1,
+    point: 8200000000,
+  },
+  {
+    level: 67,
+    reward: 84000000,
+    commission: 50,
+    percent: 1,
+    point: 8400000000,
+  },
+  {
+    level: 68,
+    reward: 86000000,
+    commission: 50,
+    percent: 1,
+    point: 8600000000,
+  },
+  {
+    level: 69,
+    reward: 88000000,
+    commission: 50,
+    percent: 1,
+    point: 8800000000,
+  },
+  {
+    level: 70,
+    reward: 90000000,
+    commission: 50,
+    percent: 1,
+    point: 9000000000,
+  },
+  {
+    level: 71,
+    reward: 92000000,
+    commission: 50,
+    percent: 1,
+    point: 9200000000,
+  },
+  {
+    level: 72,
+    reward: 94000000,
+    commission: 50,
+    percent: 1,
+    point: 9400000000,
+  },
+  {
+    level: 73,
+    reward: 96000000,
+    commission: 50,
+    percent: 1,
+    point: 9600000000,
+  },
+  {
+    level: 74,
+    reward: 98000000,
+    commission: 50,
+    percent: 1,
+    point: 9800000000,
+  },
+  {
+    level: 75,
+    reward: 100000000,
+    commission: 50,
+    percent: 1,
+    point: 10000000000,
+  },
+  {
+    level: 76,
+    reward: 102000000,
+    commission: 50,
+    percent: 1,
+    point: 10200000000,
+  },
+  {
+    level: 77,
+    reward: 104000000,
+    commission: 50,
+    percent: 1,
+    point: 10400000000,
+  },
+  {
+    level: 78,
+    reward: 106000000,
+    commission: 50,
+    percent: 1,
+    point: 10600000000,
+  },
+  {
+    level: 79,
+    reward: 108000000,
+    commission: 50,
+    percent: 1,
+    point: 10800000000,
+  },
+  {
+    level: 80,
+    reward: 110000000,
+    commission: 50,
+    percent: 1,
+    point: 11000000000,
+  },
+  {
+    level: 81,
+    reward: 112000000,
+    commission: 50,
+    percent: 1,
+    point: 11200000000,
+  },
+  {
+    level: 82,
+    reward: 114000000,
+    commission: 50,
+    percent: 1,
+    point: 11400000000,
+  },
+  {
+    level: 83,
+    reward: 116000000,
+    commission: 50,
+    percent: 1,
+    point: 11600000000,
+  },
+  {
+    level: 84,
+    reward: 118000000,
+    commission: 50,
+    percent: 1,
+    point: 11800000000,
+  },
+  {
+    level: 85,
+    reward: 120000000,
+    commission: 50,
+    percent: 1,
+    point: 12000000000,
+  },
+  {
+    level: 86,
+    reward: 122000000,
+    commission: 50,
+    percent: 1,
+    point: 12200000000,
+  },
+  {
+    level: 87,
+    reward: 124000000,
+    commission: 50,
+    percent: 1,
+    point: 12400000000,
+  },
+  {
+    level: 88,
+    reward: 126000000,
+    commission: 50,
+    percent: 1,
+    point: 12600000000,
+  },
+  {
+    level: 89,
+    reward: 128000000,
+    commission: 50,
+    percent: 1,
+    point: 12800000000,
+  },
+  {
+    level: 90,
+    reward: 130000000,
+    commission: 50,
+    percent: 1,
+    point: 13000000000,
+  },
+];

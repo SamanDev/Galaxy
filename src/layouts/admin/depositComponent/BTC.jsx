@@ -1,20 +1,10 @@
 import React, { useState } from "react";
-import {
-  Label,
-  Input,
-  Header,
-  Divider,
-  Icon,
-  Button,
-  Segment,
-  Message,
-} from "semantic-ui-react";
 
 import DepositButton from "../input/DepositButton";
 
 import FormikControl from "../../../components/form/FormikControl";
 import { useNavigate } from "react-router-dom";
-import { FastField, Form, Formik } from "formik";
+import { Form, Formik } from "formik";
 import * as Yup from "yup";
 import { Alert } from "../../../utils/alerts";
 import { cashierService } from "../../../services/cashier";
@@ -55,6 +45,7 @@ const onSubmit = async (values, submitMethods, navigate, prop, setRefresh) => {
 const depositArea = (prop) => {
   const [refresh, setRefresh] = useState(false);
   const navigate = useNavigate();
+  console.log(prop);
   return (
     <Formik
       initialValues={initialValues}

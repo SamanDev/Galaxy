@@ -1,20 +1,9 @@
 import React, { useState } from "react";
-import {
-  Label,
-  Input,
-  Header,
-  Divider,
-  Icon,
-  Button,
-  Segment,
-  Message,
-} from "semantic-ui-react";
-import Amount from "../input/Amount";
 import DepositButton from "../input/DepositButton";
 
 import FormikControl from "../../../components/form/FormikControl";
 import { useNavigate } from "react-router-dom";
-import { FastField, Form, Formik } from "formik";
+import { Form, Formik } from "formik";
 import * as Yup from "yup";
 import { Alert } from "../../../utils/alerts";
 import { cashierService } from "../../../services/cashier";
@@ -86,7 +75,15 @@ const depositArea = (prop) => {
               labelcolor={prop.labelcolor}
               size={prop.size}
             />
-            <Amount rate={true} />
+            <FormikControl
+              formik={formik}
+              control="amount"
+              name="amount"
+              labelcolor={prop.labelcolor}
+              size={prop.size}
+              rate={true}
+            />
+
             <DepositButton {...prop} />
           </Form>
         );

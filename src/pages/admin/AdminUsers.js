@@ -285,7 +285,12 @@ function Admin(prop) {
       sortable: true,
       grow: 0.5,
     },
-
+    {
+      name: "level",
+      selector: (row) => row.level,
+      format: (row) => <>{row.level}</>,
+      sortable: true,
+    },
     {
       name: "username",
       selector: (row) => row.username,

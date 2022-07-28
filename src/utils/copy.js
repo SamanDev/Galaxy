@@ -39,28 +39,20 @@ function copyText(prop) {
   }, [prop.alter]);
   if (item) {
     return (
-      <Popup
-        content="Copy to Clipboard"
-        size="mini"
-        {...prop}
-        position="top center"
-        trigger={
-          <CopyToClipboard text={item} onCopy={() => copyDo()}>
-            <Label
-              color={copy ? "green" : prop.color}
-              style={{
-                width: "100%",
-                textAlign: "center",
-                marginBottom: 5,
-                current: "pointer",
-              }}
-            >
-              {item}
-              {alter && <Label.Detail>{alter}</Label.Detail>}
-            </Label>
-          </CopyToClipboard>
-        }
-      />
+      <CopyToClipboard text={item} onCopy={() => copyDo()}>
+        <Label
+          color={copy ? "green" : prop.color}
+          style={{
+            width: "100%",
+            textAlign: "center",
+            marginBottom: 5,
+            cursor: "pointer",
+          }}
+        >
+          {item}
+          {alter && <Label.Detail>{alter}</Label.Detail>}
+        </Label>
+      </CopyToClipboard>
     );
   } else {
     return (
