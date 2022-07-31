@@ -22,6 +22,7 @@ import {
   gameDataCode,
   gameDataMain,
   gameDataMainCode,
+  getEvent,
 } from "../../const";
 import GalaxyIcon from "../../utils/GalaxyIcon";
 import $ from "jquery";
@@ -37,17 +38,8 @@ const Banner = (prop) => {
           mode={prop.icon}
           level=""
           text=""
+          className="bannericon"
           number={prop.number}
-          style={{
-            width: 0,
-
-            transform: "scale(8)",
-            direction: "ltr",
-            position: "absolute",
-            right: "-50px",
-            top: "100px",
-            opacity: 0.8,
-          }}
         />
         {prop.text}
         <br />
@@ -81,6 +73,7 @@ const Dashboard = (prop) => {
   };
   const [curPage, setCurPage] = useState("dashboard");
   const [isFull, setIsFull] = useState(false);
+  var _event = getEvent();
   const [screenOrientation, setScreenOrientation] = useState(
     screen?.orientation?.type
   );
@@ -291,37 +284,52 @@ const Dashboard = (prop) => {
               data-bs-ride="carousel"
             >
               <div className="carousel-inner">
-                <div className="carousel-item active" data-bs-interval="10000">
-                  <Banner
-                    title="۱۱۰ میلیون تومان"
-                    text="پاداش گلکسی پَس"
-                    link=".gpass"
-                    icon="gpass"
-                    number="15"
-                    {...prop}
-                  />
-                </div>
-                <div className="carousel-item " data-bs-interval="10000">
-                  <Banner
-                    title="۱۹۲ میلیون تومان"
-                    text="پاداش VIP 25/50K"
-                    link=".vip"
-                    icon="vip"
-                    number=" "
-                    {...prop}
-                  />
-                </div>
+                {_event == "GPass" && (
+                  <div
+                    className="carousel-item active"
+                    data-bs-interval="10000"
+                  >
+                    <Banner
+                      title="۱۱۰ میلیون تومان"
+                      text="پاداش گلکسی پَس"
+                      link=".gpass"
+                      icon="gpass"
+                      number="15"
+                      {...prop}
+                    />
+                  </div>
+                )}
+                {_event == "VIP" && (
+                  <div
+                    className="carousel-item active"
+                    data-bs-interval="10000"
+                  >
+                    <Banner
+                      title="۱۹۲ میلیون تومان"
+                      text="پاداش VIP 25/50K"
+                      link=".vip"
+                      icon="vip"
+                      number=" "
+                      {...prop}
+                    />
+                  </div>
+                )}
+                {_event == "League" && (
+                  <div
+                    className="carousel-item active"
+                    data-bs-interval="10000"
+                  >
+                    <Banner
+                      title="۴۵ میلیون تومان"
+                      text="برای لیگ روزانه"
+                      link=".league"
+                      icon="league"
+                      number="15"
+                      {...prop}
+                    />
+                  </div>
+                )}
 
-                <div className="carousel-item" data-bs-interval="10000">
-                  <Banner
-                    title="۴۵ میلیون تومان"
-                    text="برای لیگ روزانه"
-                    link=".league"
-                    icon="league"
-                    number="1"
-                    {...prop}
-                  />
-                </div>
                 <div className="carousel-item " data-bs-interval="10000">
                   <Banner
                     title="بیش از ۴ میلیارد"
@@ -332,7 +340,7 @@ const Dashboard = (prop) => {
                     {...prop}
                   />
                 </div>
-                {_width > 500 && (
+                {_width > 500 && 1 == 2 && (
                   <div className="carousel-item " data-bs-interval="100000">
                     <Banner
                       image="/assets/images/calendar.gif"

@@ -209,7 +209,7 @@ body.fullscreen #content_section {
 }
 .banner {
   width: calc(100%);
-  height: calc(100vh - 64px);
+  height: calc(90vh - 64px);
   position: flex;
   top: 64px;
   left: 0;
@@ -378,14 +378,14 @@ i.star.big {
 .levelbar {
   width: 80px;
   position: relative;
-  top: -10px;
+  top: 0px;
   left: -5px;
 }
-.myprogress{
-  margin: 5px 0px 0px  !important;
+.myprogress {
+  margin: 5px 0px 0px !important;
   padding: 0px !important;
   height: 3px !important;
-  position: absolute  !important;
+  position: absolute !important;
   right: 5px;
   left: 5px;
 }
@@ -406,8 +406,8 @@ i.star.big {
 }
 .levelbar .icon {
   position: absolute;
-    top: -3px;
-    left: 80px;
+  top: -3px;
+  left: 80px;
 }
 .avatar-center > .levelText {
   font-size: 12px !important;
@@ -430,17 +430,25 @@ i.star.big {
 }
 .avatar-center > .levelText.big.text2 {
   font-size: 15px !important;
-
 }
 .avatar-center > .levelText.big.text3 {
   font-size: 13px !important;
-
 }
 .avatar-center > .levelText.big.text4 {
   font-size: 11px !important;
-
 }
-
+.activetable {
+  margin: 0 !important;
+}
+.activetable .item {
+  padding: 10px !important;
+  font-size: 11px !important;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.activetable .item:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
 .ui.label.detail {
   width: 120px;
   position: relative;
@@ -548,11 +556,11 @@ i.star.big {
 }
 .menu-link-wrapper {
   width: 45px;
-  height: 40px;
+  height: 45px;
   cursor: pointer;
   display: block;
   padding: 4px 7px 0 0;
-  opacity: 0.7;
+  font-weight: 900;
 }
 .menu-link {
   width: 100%;
@@ -767,9 +775,7 @@ i.star.big {
   position: relative;
 }
 .avatar-center.small {
-
   height: 50px;
-
 }
 .avatar-center .avatar {
   width: 32px !important;
@@ -1549,6 +1555,7 @@ table {
 #dashboard_section {
   background-image: url("/assets/images/bgs/1.png?ss");
   background-size: auto, 100%;
+  background-repeat: no-repeat;
 }
 .fadein {
   -webkit-mask-image: linear-gradient(to top, black 95%, transparent 100%);
@@ -1667,43 +1674,106 @@ table {
 }
 
 /* content end-------<<<<<<< */
-
+.bannericon {
+  width: 0px;
+  transform: scale(8);
+  transform-origin: center center;
+  direction: ltr;
+  position: absolute;
+  right: -50px;
+ top:150px;
+  opacity: 0.8;
+}
+.bannericon .levelText.big{
+  font-size: 0 !important;
+}
 @media (max-width: 768px) {
   .top_navbar .right_content {
     background-color: #6c757d !important;
     width: 100px;
+  }
+  .ui.black.label.balanceLable.amount {
+    min-width: 50px !important;
+    width: calc(100vw - 270px);
   }
   #game_section {
     top: 60px;
   }
   .banner {
     width: calc(100%);
-    height: calc(50vh - 64px);
+    height: calc(60vh - 64px);
 
     padding: 0;
     overflow: hidden;
   }
   .banner h1 {
-    position: relative;
-    top: 25%;
-    right: 0;
-    font-weight: 900;
-    font-size: 25px;
-    color: #ffde00;
-    text-align: center;
+  
+    font-size: 6vw;
+
   }
   .banner .text {
-    position: relative;
-
-    top: 26%;
-    right: 0;
-    text-align: center;
-    font-weight: 400;
-    font-size: 24px;
-    color: #fff;
+ 
+    font-size: 5vw;
+  
+   
   }
   #dashboard_section {
     background-size: 132%;
     background-repeat: no-repeat;
+  }
+  .bannericon {
+    right: 80px;
+    top: 150px;
+    opacity: 0.1;
+    height: 70px;
+    z-index: -1;
+  }
+
+  @media only screen and (orientation:landscape) {
+    .ui.black.label.balanceLable.amount {
+      min-width: 50px !important;
+      width: calc(100vw - 270px);
+    }
+    .bannericon {
+      right: 80px;
+      top: 150px;
+      opacity: 0.2;
+      height: 70px;
+    }
+    #game_section {
+      top: 60px;
+    }
+    .banner {
+      width: calc(100%);
+      height: calc(90vh - 64px);
+
+      padding: 0;
+      overflow: hidden;
+    }
+    .ui.grid > [class*="eight wide mobile"].column {
+      width: 25% !important;
+    }
+    #dashboard_section {
+      background-size: 90%;
+      background-repeat: no-repeat;
+  }
+  #game_section {
+    position: relative;
+    top: 0vh;
+}
+.banner h1 {
+  
+  font-size: 4vw;
+
+}
+.banner .text {
+
+  font-size: 3.2vw;
+
+ 
+}
+  }
+
+  @media (orientation: portrait) {
   }
 }

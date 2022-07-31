@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
   Segment,
   Icon,
@@ -10,36 +10,94 @@ import {
 import DepositArea from "../depositComponent/index.jsx";
 import CashoutArea from "../cashout/index.jsx";
 import LevelIcon from "../../../utils/LevelIcon";
-import Report from "../../../pages/dashboard/ReportPen";
-import { doCurrency, levelData } from "../../../const";
-const Balance = (prop) => {
-  const loginToken = JSON.parse(localStorage.getItem("loginToken"));
 
+import BonusArea from "../bonus/index.jsx";
+import { doCurrency, levelData, getEvent } from "../../../const";
+const Balance = (prop) => {
+  var lvlPercent = 0;
+  const loginToken = JSON.parse(localStorage.getItem("loginToken"));
+  const [color, setColor] = useState("grey");
+  const [stateMode, setStateMode] = useState(0);
+  var _event = getEvent();
   if (loginToken) {
     var _lvlFinal = levelData.filter((d) => d.level === loginToken.level);
-    var lvlPercent = parseFloat(
-      (loginToken.levelPoint * 100) / _lvlFinal[0].point
-    );
-
+    lvlPercent = parseFloat((loginToken.levelPoint * 100) / _lvlFinal[0].point);
+  }
+  const [lvlPercentState, setlvlPercentState] = useState(lvlPercent);
+  const ChangeStateMode = () => {
+    var _n = stateMode;
+    _n += 1;
+    if (_n > 1 || _event == "League") {
+      _n = 0;
+    }
+    setStateMode(_n);
+  };
+  useEffect(() => {
+    if (_event == "GPass") {
+      setStateMode(1);
+    }
+    if (_event == "VIP") {
+      setStateMode(1);
+    }
+  }, []);
+  useEffect(() => {
+    setlvlPercentState(stateMode * 50);
+  }, [stateMode]);
+  if (loginToken) {
     return (
       <>
         <Segment
           className="myaccount"
           inverted
           style={{ margin: 0, padding: 10, color: "#fff" }}
+          onClick={() => {
+            ChangeStateMode();
+          }}
         >
-          <LevelIcon
-            level={loginToken.level}
-            link
-            style={{
-              position: "relative",
-              textAlign: "center",
-              top: -3,
-            }}
-            onClick={() => {
-              prop.openPanel(".levels", "#lvl" + loginToken.level);
-            }}
-          />
+          {stateMode == 0 && (
+            <LevelIcon
+              level={loginToken.level}
+              icon="star"
+              link
+              style={{
+                position: "relative",
+                textAlign: "center",
+                top: -3,
+              }}
+              onClick={() => {
+                prop.openPanel(".levels", "#lvl" + loginToken.level);
+              }}
+            />
+          )}
+          {stateMode == 1 && _event == "GPass" && (
+            <LevelIcon
+              icon="google"
+              level={15}
+              style={{
+                position: "relative",
+                textAlign: "center",
+                top: -3,
+              }}
+              onClick={() => {
+                prop.openPanel(".gpass", "#lvl1");
+              }}
+            />
+          )}
+          {stateMode == 1 && _event == "VIP" && (
+            <LevelIcon
+              icon="vimeo v"
+              level={1}
+              number=" "
+              style={{
+                position: "relative",
+                textAlign: "center",
+                top: -3,
+              }}
+              onClick={() => {
+                prop.openPanel(".vip", "");
+              }}
+            />
+          )}
           <Label color="black" className="balanceLable">
             {loginToken.username}
           </Label>
@@ -99,28 +157,14 @@ const Balance = (prop) => {
             offset={[-106, 0]}
             basic
             pinned
-            trigger={<i className="fas fa-ellipsis-h  d-none d-sm-inline"></i>}
+            trigger={
+              <Icon circular size="small" color={color} name="gift" link />
+            }
           >
-            <Label color="black">
-              Balance:
-              <Label.Detail>1,000,000</Label.Detail>
-            </Label>
-            <br />
-            <Label color="black">
-              On Table:
-              <Label.Detail>500,000</Label.Detail>
-            </Label>
-            <br />
-            <Label color="black">
-              Total:
-              <Label.Detail>1,0500,000</Label.Detail>
-            </Label>
-
-            <Divider />
-            <Report mode="Pending" count={3} {...prop} />
+            <BonusArea {...prop} setColor={setColor} />
           </Popup>
           <Progress
-            percent={lvlPercent}
+            percent={lvlPercentState}
             inverted
             indicating
             size="tiny"

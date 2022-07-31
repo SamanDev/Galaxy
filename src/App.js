@@ -509,10 +509,11 @@ function App(prop) {
         }
       });
       api.bind("open:before", () => {
+        apiPanel.close();
         setActivePanel(false);
       });
       api.bind("close:after", () => {
-        // setActivePanel(true);
+        setActivePanel(true);
       });
       apiPanel.bind("open:before", () => {
         setActivePanel(true);
@@ -524,7 +525,7 @@ function App(prop) {
       apiPanel.bind("close:after", () => {
         $(".mm-wrapper__blocker").show();
 
-        setActivePanel(false);
+        //setActivePanel(false);
       });
     }
   }, [loadingLogin]);

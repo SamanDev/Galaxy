@@ -48,15 +48,6 @@ const Report = (prop) => {
     }
     return (
       <>
-        {" "}
-        <ul
-          className="mm-listview"
-          style={{ opacity: 0.2, position: "relative", top: -12 }}
-        >
-          <li className="menutitle menutitleinside mm-listitem">
-            <span className="mm-listitem__text"></span>
-          </li>
-        </ul>{" "}
         <List divided inverted size="small" className="mylist">
           {data.map((item, i) => {
             if ((item.status == "Pending" || !prop.pending) && canShow) {

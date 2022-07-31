@@ -8,7 +8,7 @@ const Leftcontent = (prop) => {
   const [isUser, setIsUser] = useState(prop.isLogin);
   useEffect(() => {
     setIsUser(prop.isLogin);
-  });
+  }, [prop.isLogin]);
 
   return (
     <div className="left_content d-flex">
@@ -26,19 +26,20 @@ const Leftcontent = (prop) => {
               }}
               menu="menuleft"
               tabIndex="0"
-              fx="spin"
+              fx="spin "
               ease="funky"
               role="button"
               as="mm-burger"
             ></Segment>
           </a>
+
           <Login {...prop} />
         </>
       ) : (
         <>
           <Segment
             basic
-            inverted
+            className="d-none d-sm-inline"
             style={{
               color: "#fff",
               position: "relative",
@@ -51,7 +52,20 @@ const Leftcontent = (prop) => {
             ease="funky"
             role="button"
             as="mm-burger"
-          ></Segment>
+          >
+            <Label
+              color="red"
+              floating
+              size="mini"
+              className="farsi-inline"
+              style={{ top: 0, left: 20 }}
+              onClick={() => {
+                prop.openPanel(".support");
+              }}
+            >
+              2
+            </Label>
+          </Segment>
 
           <Balance {...prop} />
         </>

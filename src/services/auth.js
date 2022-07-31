@@ -10,6 +10,11 @@ export const registerService = (values) => {
     ...values,
   });
 };
+export const forgetPasswordService = (values) => {
+  return httpService("/auth/forgetPassword", "post", {
+    ...values,
+  });
+};
 
 export const logoutService = () => {
   return httpService("/auth/logout", "get");

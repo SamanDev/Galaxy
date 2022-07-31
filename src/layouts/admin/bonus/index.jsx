@@ -13,6 +13,7 @@ import { doCurrency } from "../../../const";
 import { Alert, Confirm } from "../../../utils/alerts";
 import Status from "../../../utils/Status";
 import Moment from "react-moment";
+import Report from "../../../pages/dashboard/ReportPen";
 const moment = require("moment");
 
 var _bonuses = [];
@@ -130,6 +131,8 @@ const handleConfirm = async (rowData) => {
 const BonusArea = (prop) => {
   return (
     <div style={{ margin: "5px 0 5px 0" }}>
+      <Report mode="Pending" count={3} {...prop} />
+      <Divider />
       <List
         divided
         inverted

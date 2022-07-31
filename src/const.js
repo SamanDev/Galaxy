@@ -4,7 +4,7 @@ import Report from "./pages/dashboard/Report";
 import Accordion from "./pages/dashboard/Accordion";
 import Invite from "./pages/dashboard/Invite";
 import InviteLink from "./pages/dashboard/InviteLink";
-import ActiveTable from "./pages/dashboard/ActiveTable";
+import ActiveTable from "./pages/dashboard/ActiveTableJson";
 import LevelList from "./pages/dashboard/Levels";
 import PassList from "./pages/dashboard/GalaxyPass";
 import VIP from "./pages/dashboard/VIP";
@@ -16,7 +16,8 @@ import DepositComponent from "./layouts/admin/depositComponent/depositComponent.
 import CashoutComponent from "./layouts/admin/cashout/cashoutComponent.jsx";
 
 import { useNavigate } from "react-router-dom";
-
+import Moment from "react-moment";
+const moment = require("moment");
 export const gameDataMain = "poker,backgammon,boom,bet".split(",");
 export const gameDataMainCode = "p,b,c,bt".split(",");
 export const gameData =
@@ -509,6 +510,17 @@ export const levelPercent = (lvl) => {
     return 2;
   } else {
     return 1;
+  }
+};
+export const getEvent = () => {
+  var now = moment().format("YYYYMMDDTHHmmss");
+  var nowDay = moment(now).date();
+  if (nowDay <= 15) {
+    return "GPass";
+  } else if (nowDay <= 23) {
+    return "VIP";
+  } else {
+    return "League";
   }
 };
 export const haveAdmin = (userTags) => {

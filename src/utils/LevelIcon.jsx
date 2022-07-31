@@ -10,8 +10,8 @@ import {
 } from "semantic-ui-react";
 import { levelClass, levelPassClass } from "../const";
 const LevelIcon = (prop) => {
+  var _txt = prop.number ? prop.number : prop.level;
   if (prop.text) {
-    var _txt = prop.number ? prop.number : prop.level;
     return (
       <div className="avatar-center small">
         {prop.icon ? (
@@ -57,17 +57,19 @@ const LevelIcon = (prop) => {
     );
   } else {
     return (
-      <Icon
-        name="star"
-        inverted
-        size="big"
-        className={levelClass(prop.level - 1)}
-        {...prop}
-      >
-        <span className="levelText">
-          {prop.number ? prop.number : prop.level}
-        </span>
-      </Icon>
+      <>
+        <Icon
+          name={prop.icon}
+          inverted
+          size="big"
+          className={levelClass(prop.level - 1)}
+          {...prop}
+        >
+          <span className="levelText">
+            {prop.number ? prop.number : prop.level}
+          </span>
+        </Icon>
+      </>
     );
   }
 };

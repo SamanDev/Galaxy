@@ -65,11 +65,7 @@ const LevelIcon = (prop) => {
     return (
       <div className="avatar-center" {...prop}>
         <Image avatar>
-          <i
-            className={
-              "fas fa-medal big star lv1 " + levelPassClass(prop.level - 1)
-            }
-          ></i>
+          <i className={"fas fa-medal big  lv5 "}></i>
         </Image>
         <span className="levelText big">
           {prop.number ? prop.number : prop.level}

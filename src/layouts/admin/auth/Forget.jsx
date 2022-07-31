@@ -16,11 +16,12 @@ import { useNavigate } from "react-router-dom";
 import { FastField, Form, Formik } from "formik";
 import * as Yup from "yup";
 import { Alert } from "../../../utils/alerts";
+import { forgetPasswordService } from "../../../services/auth";
 import MyMsg from "../../../utils/MsgDesc";
 const initialValues = {
   email: "",
   password: "",
-  repeatpassword: "",
+  newPassword: "",
 };
 const validationSchema = Yup.object({
   email: Yup.string()
@@ -29,16 +30,14 @@ const validationSchema = Yup.object({
   password: Yup.string()
     .required("کلمه عبور حداقل باشد 6 کاراگتر باشد.")
     .min(6, "کلمه عبور حداقل باشد 6 کاراگتر باشد."),
-  repeatpassword: Yup.string()
+  newPassword: Yup.string()
     .required("کلمه عبور حداقل باشد 6 کاراگتر باشد.")
     .min(6, "کلمه عبور حداقل باشد 6 کاراگتر باشد."),
 });
 const onSubmit = async (values, submitMethods, navigate) => {
   try {
-    const res = await loginService(values);
+    const res = await forgetPasswordService(values);
     if (res.status == 200) {
-      localStorage.setItem("loginToken", JSON.stringify(res.data));
-      navigate("/");
     } else {
       Alert("متاسفم...!", res.data.message, "error");
     }
@@ -53,7 +52,13 @@ const depositArea = (prop) => {
   const [depMode, setDepMode] = useState(false);
   const navigate = useNavigate();
   return (
-    <Formik initialValues={initialValues} validationSchema={validationSchema}>
+    <Formik
+      initialValues={initialValues}
+      validationSchema={validationSchema}
+      onSubmit={(values, submitMethods) =>
+        onSubmit(values, submitMethods, navigate, prop)
+      }
+    >
       {(formik) => {
         return (
           <Form>
@@ -95,7 +100,7 @@ const depositArea = (prop) => {
                 formik={formik}
                 control="input"
                 type="password"
-                name="repeatpassword"
+                name="newPassword"
                 label="تکرار کلمه عبور"
                 labelcolor={prop.labelcolor}
                 size={prop.size}
