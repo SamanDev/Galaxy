@@ -5,7 +5,7 @@ import MenuLoader from "../../utils/menuLoader";
 import { convertDateToJalali } from "../../utils/convertDate";
 import AmountColor from "../../utils/AmountColor";
 import QR from "../../utils/qr";
-import { getReportService } from "../../services/report";
+import { getReportService, getReportPenService } from "../../services/report";
 import { doCurrency } from "../../const";
 
 const Report = (prop) => {
@@ -16,11 +16,21 @@ const Report = (prop) => {
   const handleGetReports = async (mode) => {
     setLoading(true);
     try {
-      const res = await getReportService(
-        loginToken.id,
-        prop.penMode,
-        mode.replace(/ /g, "")
-      );
+      if (prop.mode == "Pending") {
+        var res = await getReportPenService(
+          `getReportsByUser/?id=${loginToken.id}&username=${loginToken.username}&status=Pending&page=1&number=3`
+        );
+      } else {
+        var res = await getReportPenService(
+          `getReportsByUser/?id=${loginToken.id}&username=${
+            loginToken.username
+          }&mode=${prop.penMode}&gateway=${mode.replace(
+            / /g,
+            ""
+          )}&page=1&number=3`
+        );
+      }
+
       if (res.status === 200) {
         setData(res.data);
       }
@@ -76,7 +86,7 @@ const Report = (prop) => {
                       {!prop.pending && (
                         <div>
                           {item.mode && item.mode}{" "}
-                          {item.coin && " - " + item.coin}
+                          {item.gateway && " - " + item.gateway}
                         </div>
                       )}
 

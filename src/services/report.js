@@ -13,6 +13,6 @@ export const getReportService = (id = null, mode = "", gateway = "") => {
     );
   }
 };
-export const adminGetServiceTest = (mode) => {
+export const getReportPenService = (mode) => {
   return httpService("/req/" + mode, "get");
 };

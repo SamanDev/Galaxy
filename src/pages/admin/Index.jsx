@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { List, Segment, Tab, Icon } from "semantic-ui-react";
 import Users from "./AdminUsers";
-import UsersTest from "./AdminUsersTest";
+
 import User from "./AdminUser";
 import Report from "./AdminReport";
 import GetwaysList from "./components/GetwaysList.component";
