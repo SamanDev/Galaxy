@@ -102,7 +102,7 @@ const depositArea = (prop) => {
             <USDT mode={depMode} size="mini" labelcolor="orange" list={true} />
           )}
           {depMode == "BTC" && (
-            <BTC mode={depMode} size="mini" labelcolor="orange" list={true} />
+            <BTC mode="Bitcoin" size="mini" labelcolor="orange" list={true} />
           )}
           {depMode == "VisaGiftCode" && (
             <VisaGiftCode

@@ -21,20 +21,6 @@ function CrCode(prop) {
   if (item.coinValue) {
     var Coin = item.coin;
 
-    var _title = (
-      <Header as="h1" inverted>
-        <img
-          src={
-            "https://www.coinpayments.net/images/coins/" +
-            Coin.split(".")[0] +
-            ".png"
-          }
-          className="ui avatar image"
-        />{" "}
-        {Coin + " " + item.mode}{" "}
-        <span className="text-muted">({item.status})</span>
-      </Header>
-    );
     var paydetails = JSON.parse(item.description);
     _content = (
       <>
@@ -59,28 +45,32 @@ function CrCode(prop) {
         <div>
           <CopyText color="violet" text={paydetails.amount} alter={Coin} />
         </div>
-        <Divider horizontal inverted section className="farsi">
-          یا
-        </Divider>
-        <Segment
-          inverted
-          size="mini"
-          color="grey"
-          className="farsi  text-center"
-        >
-          کد زیر را اسکن کنید.
-        </Segment>
-        <img
-          src={paydetails.qrcode_url}
-          style={{
-            background: "gray",
-            width: 150,
-            height: "auto",
-            display: "block",
-            margin: "auto",
-            marginBottom: 50,
-          }}
-        />
+        {item.gateway == "Bitcoin" && (
+          <>
+            <Divider horizontal inverted section className="farsi">
+              یا
+            </Divider>
+            <Segment
+              inverted
+              size="mini"
+              color="grey"
+              className="farsi  text-center"
+            >
+              کد زیر را اسکن کنید.
+            </Segment>
+            <img
+              src={paydetails.qrcode_url}
+              style={{
+                background: "gray",
+                width: 150,
+                height: "auto",
+                display: "block",
+                margin: "auto",
+                marginBottom: 50,
+              }}
+            />
+          </>
+        )}
       </>
     );
 

@@ -29,9 +29,9 @@ function Admin(prop) {
       },
 
       {
-        menuItem: "Report",
+        menuItem: "Reports",
         pane: (
-          <Tab.Pane key="Report" className="ui inverted segment">
+          <Tab.Pane key="Report">
             <Report removeTabData={removeTabData} addTabData={addTabData} />
           </Tab.Pane>
         ),
@@ -53,35 +53,36 @@ function Admin(prop) {
     }
   }, [activeIndex]);
   const addTabData = (username, getwaysList) => {
-    console.log(username);
-    var newPanes = panes;
+    var newPanes1 = panes;
+    const result1 = newPanes1.filter(checkAdult1);
 
-    const result = newPanes.filter(checkAdult);
-
-    function checkAdult(item) {
-      return item.pane.key == username + "profile";
+    function checkAdult1(item) {
+      return item.pane.key != username + "profile";
     }
 
-    if (result.length == 0) {
-      newPanes.push({
-        menuItem: username,
-        pane: (
-          <Tab.Pane
-            key={username + "profile"}
-            className="ui inverted segment"
-            style={{ height: "calc(100vh - 150px)", overflow: "auto" }}
-          >
-            <User
-              username={username}
-              removeTabData={removeTabData}
-              getwaysList={getwaysList}
-              addTabData={addTabData}
-            />
-          </Tab.Pane>
-        ),
-      });
-    }
-    setActiveIndex(newPanes.length - 1);
+    var newPanes2 = result1;
+
+    newPanes2.push({
+      menuItem: username,
+      pane: (
+        <Tab.Pane
+          key={username + "profile"}
+          className="ui inverted segment"
+          style={{ height: "calc(100vh - 150px)", overflow: "auto" }}
+        >
+          <User
+            username={username}
+            removeTabData={removeTabData}
+            getwaysList={getwaysList}
+            addTabData={addTabData}
+          />
+        </Tab.Pane>
+      ),
+    });
+
+    panes = newPanes2;
+    setTabData(newPanes2);
+    setActiveIndex(newPanes2.length - 1);
   };
   const removeTabData = (id) => {
     var newPanes = panes;

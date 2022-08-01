@@ -15,6 +15,7 @@ import {
 } from "semantic-ui-react";
 import Moment from "react-moment";
 import { convertDateToJalali } from "../../utils/convertDate";
+import AmountColor from "../../utils/AmountColor";
 import CurrencyInput from "react-currency-input-field";
 import { addDays } from "date-fns";
 const moment = require("moment");
@@ -75,100 +76,6 @@ const noDataComponent = (
   </div>
 );
 
-var testData = [
-  {
-    id: 3,
-    fromName: "Casino",
-    toName: "HangOver",
-    amount: 3193000,
-    pendingAmount: null,
-    coinValue: "153.13644000",
-    startBalance: 0,
-    endBalance: 3193000,
-    status: "Done",
-    mode: "Deposit",
-    gateway: "CoinPayments",
-    coin: "BTC",
-    voucherNumber: null,
-    voucherCode: null,
-    cardNumber: null,
-    username: "HangOver",
-    description:
-      '{"amount":"153.13644000","address":"3FtKTSVp86xr81e7ayyN7uAjjMZ1NiCcNF","qrcode_url":"https://www.coinpayments.net/qrgen.php?id=CPGG6QADJYZJCVYNUU0LRBTPLN&key=628421d35d5a574d50641c6c40a9692a","confirms_needed":"2","timeout":28800}',
-    readMsg: false,
-    createDate: "2022-07-26T18:49:58.311+00:00",
-    updateDate: "2022-07-26T18:49:58.311+00:00",
-  },
-  {
-    id: 2,
-    fromName: "Casino",
-    toName: "HangOver",
-    amount: 3193000,
-    pendingAmount: null,
-    coinValue: "152.42291000",
-    startBalance: 0,
-    endBalance: 0,
-    status: "Pending",
-    mode: "Deposit",
-    gateway: "CoinPayments",
-    coin: "BTC",
-    voucherNumber: null,
-    voucherCode: null,
-    cardNumber: null,
-    username: "HangOver",
-    description:
-      '{"amount":"152.42291000","address":"3PReiacVhx3aYcrUyhNUeqB6HzPZLdvkaJ","qrcode_url":"https://www.coinpayments.net/qrgen.php?id=CPGG6J20QZMIX6BLOWLDQK2FFE&key=4ccc2da119c79414364fbf505c7d8482","confirms_needed":"2","timeout":28800}',
-    readMsg: false,
-    createDate: "2022-07-26T18:23:37.175+00:00",
-    updateDate: "2022-07-26T18:23:37.175+00:00",
-  },
-  {
-    id: 1,
-    fromName: "Casino",
-    toName: "HangOver",
-    amount: 3193000,
-    pendingAmount: null,
-    coinValue: "152.42291000",
-    startBalance: 0,
-    endBalance: 0,
-    status: "Pending",
-    mode: "Deposit",
-    gateway: "CoinPayments",
-    coin: "BTC",
-    voucherNumber: null,
-    voucherCode: null,
-    cardNumber: null,
-    username: "HangOver",
-    description:
-      '{"amount":"152.42291000","address":"3F1uyDMRBXkUh6i37zJ25rQAzr3FFKZ27T","qrcode_url":"https://www.coinpayments.net/qrgen.php?id=CPGG50XI72NMDSUIDWWWIUIMND&key=56d9e078dd9394d7a67208b2c2916e0c","confirms_needed":"2","timeout":28800}',
-    readMsg: false,
-    createDate: "2022-07-26T18:18:14.249+00:00",
-    updateDate: "2022-07-26T18:18:14.250+00:00",
-  },
-  {
-    id: 3548547,
-    fromName: "GangeshBalas",
-    toName: "HangOver",
-    amount: 1000000,
-    pendingAmount: null,
-    coinValue: "153.13644000",
-    startBalance: 0,
-    endBalance: 4193000,
-    status: "Done",
-    mode: "Transfer",
-    gateway: "",
-    coin: "",
-    voucherNumber: null,
-    voucherCode: null,
-    cardNumber: null,
-    username: "HangOver",
-    description: "",
-    readMsg: false,
-    createDate: "2022-07-26T18:49:58.311+00:00",
-    updateDate: "2022-07-26T18:49:58.311+00:00",
-  },
-];
-
 function Admin(prop) {
   const [data, setData] = useState([]);
 
@@ -183,7 +90,7 @@ function Admin(prop) {
 
   const [startDate, setStartDate] = useState(addDays(new Date(), -6));
   const [endDate, setEndDate] = useState(new Date());
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   const [filterText, setFilterText] = React.useState("");
   const [filterOk, setFilterOk] = React.useState(false);
@@ -206,8 +113,11 @@ function Admin(prop) {
     var _e = moment(endDate).format("YYYY-MM-DD");
 
     try {
-      const res = await getReportServiceAdmin(
-        `getReportsByUser?id=${prop.user.id}&mode=${dataMode}&page=${page}&per_page=${perPage}&sort=${dataSorted}&order=${dataSortedDir}&start=${_s}&end=${_e}`
+      const res = await adminGetService(
+        `getReports?mode=${dataMode.replace(
+          "all",
+          ""
+        )}&page=${page}&number=500&sort=${dataSorted}&order=${dataSortedDir}&start=${_s}&end=${_e}`
       );
       if (res.status === 200) {
         setData(res.data);
@@ -216,9 +126,6 @@ function Admin(prop) {
       }
     } catch (error) {
       console.log(error.message);
-      setData(testData);
-
-      setFilterOk(false);
     } finally {
       setLoading(false);
     }
@@ -234,23 +141,7 @@ function Admin(prop) {
     setDataSortedDir(sortDirection);
   };
   const handlePerRowsChange = async (newPerPage, page) => {
-    setLoading(true);
-
-    try {
-      const res = await adminGetService(
-        `getUsersByAdmin?name=${prop.search ? prop.search : "username"}&value=${
-          prop.searchValue
-        }&page=1&per_page=${newPerPage}`
-      );
-      if (res.status === 200) {
-        setData(res.data);
-        setPerPage(newPerPage);
-      }
-    } catch (error) {
-      console.log(error.message);
-    } finally {
-      setLoading(false);
-    }
+    setPerPage(newPerPage);
   };
 
   useEffect(() => {
@@ -269,38 +160,22 @@ function Admin(prop) {
       width: "80px",
     },
     {
-      name: "from",
-      selector: (row) => row.fromName,
+      name: "username",
+      selector: (row) => row.username,
       format: (row) => (
         <>
-          {row.fromName != "Casino" && row.fromName != "Poker" ? (
-            <a
-              href="#"
-              onClick={() => prop.addTabData(row.fromName, getwaysList)}
-            >
-              {row.fromName}
-            </a>
-          ) : (
-            row.fromName
-          )}
-        </>
-      ),
-      sortable: true,
-      width: "120px",
-    },
-    {
-      name: "to",
-      selector: (row) => row.toName,
-      format: (row) => (
-        <>
-          <a href="#" onClick={() => prop.addTabData(row.toName, getwaysList)}>
-            {row.toName}
+          <a
+            href="#"
+            onClick={() => prop.addTabData(row.username, getwaysList)}
+          >
+            {row.username}
           </a>
         </>
       ),
       sortable: true,
       width: "120px",
     },
+
     {
       name: "status",
       selector: (row) => row.status,
@@ -317,8 +192,16 @@ function Admin(prop) {
     },
     {
       name: "amount",
-      selector: (row) => row.amount,
-      format: (row) => <>{doCurrency(row.amount)}</>,
+      selector: (row) =>
+        row.endBalance >= row.startBalance ? row.amount : row.amount * -1,
+      format: (row) => (
+        <>
+          <AmountColor
+            amount={row.amount}
+            sign={row.endBalance - row.startBalance}
+          />
+        </>
+      ),
       sortable: true,
       width: "100px",
     },
@@ -338,10 +221,9 @@ function Admin(prop) {
     },
     {
       name: "gateway",
-      selector: (row) => row.gateway,
+      selector: (row) => (row.gateway ? row.gateway : ""),
       format: (row) => <>{row.gateway}</>,
       sortable: true,
-      width: "120px",
     },
     {
       name: "date",
@@ -374,20 +256,6 @@ function Admin(prop) {
     );
   }, [filterText, resetPaginationToggle, data]);
 
-  if (loading) {
-    return (
-      <>
-        <Segment
-          basic
-          style={{ height: "calc(100vh - 150px)", overflow: "auto" }}
-        >
-          <Dimmer active inverted>
-            <Loader size="large">Loading</Loader>
-          </Dimmer>
-        </Segment>
-      </>
-    );
-  }
   return (
     <>
       <Modal
@@ -408,18 +276,16 @@ function Admin(prop) {
 
       <div
         className="reportTable"
-        style={{ height: "calc(100vh - 150px)", overflow: "auto" }}
+        style={{ height: "calc(100vh - 250px)", overflow: "auto" }}
       >
         <DataTable
           title="Reports"
           columns={columns}
           data={filteredItems}
           progressPending={loading}
-          paginationServer
-          paginationTotalRows={totalRows}
           onChangeRowsPerPage={handlePerRowsChange}
-          onChangePage={handlePageChange}
           defaultSortFieldId={dataSortedID}
+          paginationPerPage={perPage}
           defaultSortAsc={false}
           expandOnRowClicked={true}
           expandableRowsHideExpander={true}
@@ -430,9 +296,7 @@ function Admin(prop) {
           subHeader
           subHeaderComponent={subHeaderComponentMemo}
           persistTableHead
-          paginationRowsPerPageOptions={[10, 25, 50, 100]}
-          onSort={handleSort}
-          sortServer
+          paginationRowsPerPageOptions={[10, 25, 50, 100, 500]}
           expandableRows
           expandableRowsComponent={ExpandedComponent}
         />

@@ -471,12 +471,14 @@ function App(prop) {
       api = menu.API;
       apiPanel = panelMenu.API;
       api.bind("openPanel:before", (panel) => {
-        var _parent = $("#" + panel.id + "").attr("data-mm-parent");
-        setActiveMenu(
-          $("#" + _parent)
-            .find("a:first span")
-            .text()
-        );
+        setTimeout(() => {
+          var _parent = $("#" + panel.id + "").attr("data-mm-parent");
+          setActiveMenu(
+            $("#" + _parent)
+              .find("a:first span")
+              .text()
+          );
+        }, 200);
       });
 
       api.bind("openPanel:after", (panel) => {

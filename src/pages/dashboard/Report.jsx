@@ -80,7 +80,7 @@ const Report = (prop) => {
                       className="text-gold"
                     />
                     <div className="pad10tb">
-                      From Casino To HangOver ({item.mode})
+                      {item.mode} ({item.gateway})
                     </div>
                   </List.Description>
                 </List.Content>

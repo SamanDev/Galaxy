@@ -25,6 +25,7 @@ const InputF = ({
   inputmode,
   readOnly,
   autoComplete,
+  autoFocus,
 }) => {
   String.prototype.replaceAll = function (search, replacement) {
     var target = this;

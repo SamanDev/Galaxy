@@ -214,7 +214,7 @@ function Admin(prop) {
   var newdataInfo = [
     getPathOfKey2(
       user,
-      ",username,level,balance,email,fullName,refer,firstLogin,lastLogin,bankInfos,cashierGateways,userBlock,inviteBlock,"
+      ",username,level,balance,email,fullName,refer,firstLogin,lastLogin,bankInfos,cashierGateways,userBlock,"
     ),
   ];
   var newdataBankInfo = [getPathOfKey(user, ",bankInfos,")];
@@ -254,7 +254,7 @@ function Admin(prop) {
     {
       menuItem: "Report",
       render: () => (
-        <Tab.Pane as="span" className="ui inverted segment">
+        <Tab.Pane as="span">
           <Report
             user={user}
             addTabData={prop.addTabData}

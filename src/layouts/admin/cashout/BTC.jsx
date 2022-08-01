@@ -74,7 +74,7 @@ const depositArea = (prop) => {
     >
       {(formik) => {
         return (
-          <Form>
+          <Form autoComplete="off">
             <FormikControl
               formik={formik}
               control="amount"
@@ -91,6 +91,7 @@ const depositArea = (prop) => {
               label="BTC Wallet"
               labelcolor="red"
               size={prop.size}
+              autoFocus
             />
             <span style={{ position: "absolute", opacity: 0, zIndex: -1 }}>
               <FormikControl
@@ -101,6 +102,7 @@ const depositArea = (prop) => {
                 labelcolor={prop.labelcolor}
                 size={prop.size}
                 label="مبلغ به دلار"
+                autoComplete="off"
               />
             </span>
             <FormikControl
@@ -111,7 +113,7 @@ const depositArea = (prop) => {
               label=" کلمه عبور"
               labelcolor="red"
               size={prop.size}
-              autoComplete="false"
+              autoComplete="off"
             />
 
             <CashoutButton

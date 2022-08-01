@@ -4,7 +4,7 @@ import Amount from "../input/Amount";
 import Password from "../input/Password";
 import CashoutButton from "../input/CashoutButton";
 import List from "../../../pages/dashboard/List";
-const USDT = () => (
+const USDT = (prop) => (
   <>
     <Amount />
 
@@ -20,7 +20,7 @@ const USDT = () => (
       defaultValue=""
     />
     <Password />
-    <CashoutButton val="انتقال" mode="Transfer" />
+    <CashoutButton val="انتقال" {...prop} />
   </>
 );
 

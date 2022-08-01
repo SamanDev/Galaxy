@@ -386,21 +386,7 @@ function Admin(prop) {
       ),
       sortable: true,
     },
-    {
-      name: "inviteBlock",
-      selector: (row) => row.inviteBlock,
-      format: (row) => (
-        <>
-          <CheckboxToggle
-            check={row.userBlock}
-            user={row}
-            userkey="inviteBlock"
-            onChange={updateUserObj}
-          />
-        </>
-      ),
-      sortable: true,
-    },
+
     {
       name: "Admin",
       selector: (row) => row.roles,

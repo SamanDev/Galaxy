@@ -92,7 +92,12 @@ const depositArea = (prop) => {
 
             <Divider inverted />
             {depMode.value == "USDT" && prop.getAccess(depMode.getwaykey) && (
-              <USDT mode={depMode.value} size="mini" labelcolor="orange" />
+              <USDT
+                mode={depMode.value}
+                size="mini"
+                labelcolor="orange"
+                penMode="Deposit"
+              />
             )}
             {depMode.value == "Bank Transfer" && (
               <>
@@ -153,7 +158,7 @@ const depositArea = (prop) => {
               )}
             {depMode.value == "BTC" && (
               <BTC
-                mode={depMode.value}
+                mode="Bitcoin"
                 size="mini"
                 labelcolor="orange"
                 penMode="Deposit"

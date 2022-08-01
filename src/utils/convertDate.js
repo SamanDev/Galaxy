@@ -5,7 +5,7 @@ export const convertDateToJalali = (date) => {
   return (
     <div className="date" title={jMoment(date).format("jYYYY/jMM/jDD")}>
       {moment(date).format("YYYY/MM/DD")}{" "}
-      <span className="time">{moment(date).format("HH:mm")}</span>
+      <span className="time">{moment(date).format("HH:mm:ss")}</span>
     </div>
   );
 };

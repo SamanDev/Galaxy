@@ -217,7 +217,7 @@ const Dashboard = (prop) => {
                 <iframe
                   src={
                     "http://139.99.144.72:2053?LoginName=" +
-                    loginToken.username +
+                    loginToken?.username +
                     "&amp;SessionKey=4AC558DE44D51B611B01"
                   }
                   className="framegame"
