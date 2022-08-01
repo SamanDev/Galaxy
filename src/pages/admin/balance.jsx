@@ -42,7 +42,7 @@ const Balance = (prop) => {
     }
   }, []);
   useEffect(() => {
-    setlvlPercentState(stateMode * 50);
+    //setlvlPercentState(stateMode * 50);
   }, [stateMode]);
   if (loginToken) {
     return (

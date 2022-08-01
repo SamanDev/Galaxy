@@ -120,10 +120,10 @@ function getPathOfKey2(object, keys, getwaysList) {
     } else {
       if (isJson(JSON.parse(JSON.stringify(newO[x])))) {
         var newO1 = JSON.parse(JSON.stringify(newO[x]));
-        finalObj.push({ name: x, value: newO1.length, user: null });
+        finalObj.push({ name: x, value: newO1.length, user: newO });
         newOb[x] = newO[x];
       } else {
-        finalObj.push({ name: x, value: newO[x], user: null });
+        finalObj.push({ name: x, value: newO[x], user: newO });
         newOb[x] = newO[x];
       }
     }
@@ -186,6 +186,7 @@ function Admin(prop) {
   const handleTabChange = (e, { activeIndex }) => setActiveIndex(activeIndex);
 
   const updateUserObj = async (e, data) => {
+    console.log(data);
     var _key = data.userkey;
     var curU = JSON.parse(JSON.stringify(data.user));
     var values = { id: curU.id, key: _key, value: data.checked };
@@ -193,9 +194,6 @@ function Admin(prop) {
     try {
       const res = await adminPutService(values, "updateUserByAdmin");
       if (res.status == 200) {
-        setUser(res.data);
-        if (res.data?.address) {
-        }
       } else {
         Alert("متاسفم...!", res.data.message, "error");
       }
@@ -216,7 +214,7 @@ function Admin(prop) {
   var newdataInfo = [
     getPathOfKey2(
       user,
-      ",username,level,balance,email,fullName,refer,firstLogin,lastLogin,bankInfos,cashierGateways,userBlock,"
+      ",username,level,balance,email,fullName,refer,firstLogin,lastLogin,bankInfos,cashierGateways,userBlock,inviteBlock,"
     ),
   ];
   var newdataBankInfo = [getPathOfKey(user, ",bankInfos,")];
@@ -227,6 +225,7 @@ function Admin(prop) {
   var newdataInfoData = JSON.parse(JSON.stringify(newdataInfo));
   var newdatabankInfoData = JSON.parse(JSON.stringify(newdataBankInfo));
   var newdataGetwaysData = JSON.parse(JSON.stringify(newdataGetways));
+  console.log(newdataInfoData);
   const panes = [
     {
       menuItem: "Info",
@@ -238,6 +237,7 @@ function Admin(prop) {
             setActiveIndex={setActiveIndex}
             addTabData={prop.addTabData}
             removeTabData={prop.removeTabData}
+            updateUserObj={updateUserObj}
           />
           <TableAdmin
             data={newdatabankInfoData}

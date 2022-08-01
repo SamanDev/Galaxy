@@ -20,6 +20,9 @@ const Balance = (prop) => {
   const [stateMode, setStateMode] = useState(0);
   var _event = getEvent();
   if (loginToken) {
+    if (loginToken.level == 0) {
+      loginToken.level = 1;
+    }
     var _lvlFinal = levelData.filter((d) => d.level === loginToken.level);
     lvlPercent = parseFloat((loginToken.levelPoint * 100) / _lvlFinal[0].point);
   }

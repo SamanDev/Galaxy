@@ -192,7 +192,7 @@ const Dashboard = (prop) => {
       $("#gamesec2").scrollLeft($("#gamesec2").width() / 2);
     } catch (error) {}
   }, [gameLoader]);
-
+  var loginToken = JSON.parse(localStorage.getItem("loginToken"));
   const panes = [
     {
       menuItem: "Tab 1",
@@ -215,7 +215,11 @@ const Dashboard = (prop) => {
             {mainGame == "poker" ? (
               <>
                 <iframe
-                  src="https://glxypkr.com:2053?LoginName=HangOver&amp;SessionKey=4AC558DE44D51B611B01"
+                  src={
+                    "http://139.99.144.72:2053?LoginName=" +
+                    loginToken.username +
+                    "&amp;SessionKey=4AC558DE44D51B611B01"
+                  }
                   className="framegame"
                   onLoad={removeFrameLoad}
                 ></iframe>

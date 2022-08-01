@@ -72,7 +72,7 @@ const TableExampleWarningShorthand = (prop) => {
         ? {
             key: `statusrow-${i}`,
             content: (
-              <span style={{ float: "right" }}>
+              <span style={{ float: "right", height: 20 }}>
                 <CheckboxToggle
                   check={value}
                   user={user}

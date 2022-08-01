@@ -290,6 +290,21 @@ function Admin(prop) {
       ),
       sortable: true,
     },
+    {
+      name: "inviteBlock",
+      selector: (row) => row.inviteBlock,
+      format: (row) => (
+        <>
+          <CheckboxToggle
+            check={row.userBlock}
+            user={row}
+            userkey="inviteBlock"
+            onChange={updateUserObj}
+          />
+        </>
+      ),
+      sortable: true,
+    },
   ];
   const columns = [
     {
@@ -365,6 +380,21 @@ function Admin(prop) {
             check={row.userBlock}
             user={row}
             userkey="userBlock"
+            onChange={updateUserObj}
+          />
+        </>
+      ),
+      sortable: true,
+    },
+    {
+      name: "inviteBlock",
+      selector: (row) => row.inviteBlock,
+      format: (row) => (
+        <>
+          <CheckboxToggle
+            check={row.userBlock}
+            user={row}
+            userkey="inviteBlock"
             onChange={updateUserObj}
           />
         </>

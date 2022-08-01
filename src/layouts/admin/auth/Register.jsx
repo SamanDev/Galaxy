@@ -41,7 +41,10 @@ const validationSchema = Yup.object({
 const onSubmit = async (values, submitMethods, navigate) => {
   const res = await registerService(values);
   if (res.status == 200) {
-    window.location.reload();
+    if (res.data.accessToken) {
+      //prop.setIsUser(true);
+      window.location.reload();
+    }
   }
   submitMethods.setSubmitting(false);
 };

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { List, Divider } from "semantic-ui-react";
+import { List, Divider, Icon } from "semantic-ui-react";
 import Status from "../../utils/Status";
 import MenuLoader from "../../utils/menuLoader";
 import { convertDateToJalali } from "../../utils/convertDate";
@@ -35,6 +35,26 @@ const Report = (prop) => {
     return (
       <span className="myaccount popupmenu">
         <List divided inverted size="small" className="mylist">
+          {data.length == 0 && !prop.pending && (
+            <>
+              <List.Item>
+                <List.Content>
+                  <List.Description className="farsi text-center">
+                    <Icon
+                      circular
+                      color="teal"
+                      name="clipboard outline"
+                      size="big"
+                      inverted
+                    />
+                    <br />
+                    <br />
+                    هیچ رکوردی یافت نشد.
+                  </List.Description>
+                </List.Content>
+              </List.Item>
+            </>
+          )}
           {data.map((item, i) => {
             return (
               <List.Item key={i}>
