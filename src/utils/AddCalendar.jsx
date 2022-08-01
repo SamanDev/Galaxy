@@ -54,7 +54,11 @@ class Example extends React.Component {
     var dir = start - nowDay;
     var end = start + dur;
     var _next = false;
+    var _start = false;
     var _finish = false;
+    if (start <= nowDay) {
+      _start = true;
+    }
     if (end - nowDay < 0) {
       _finish = true;
     }
@@ -66,6 +70,7 @@ class Example extends React.Component {
       now = moment(now).add(1, "months").format("YYYYMMDDTHHmmss");
       _next = false;
     }
+
     var startDatetime = moment(now).add(dir, "days").format("YYYYMMDDT000000");
     var startDatetimeOld = startDatetime;
     var endDatetimeOld = moment(startDatetimeOld)
@@ -126,7 +131,7 @@ class Example extends React.Component {
 
     const ATCWrapper = (args) => (
       <>
-        {_next && !_finish ? (
+        {(_next || _start) && !_finish ? (
           <Moment
             className="farsi-inline ui label yellow fluid"
             to={endDatetimeOld}

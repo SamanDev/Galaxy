@@ -1580,7 +1580,9 @@ table {
 }
 
 /* dashboard */
-
+.blacktext div.date,.blacktext div.date .time {
+  color: black !important;
+}
 .dashboard_card {
   border: unset !important;
   border-radius: unset !important;
@@ -1686,6 +1688,9 @@ table {
 }
 .bannericon .levelText.big{
   font-size: 0 !important;
+}
+.reportTable .rdt_TableCell{
+  font-size: 11px !important;
 }
 @media (max-width: 768px) {
   .top_navbar .right_content {

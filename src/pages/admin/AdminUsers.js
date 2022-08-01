@@ -44,12 +44,28 @@ const conditionalRowStyles = [
 ];
 
 const noDataComponent = (
-  <Col xl="12" style={{ textAlign: "center", color: "rgba(0,0,0,.5)" }}>
-    <div>
-      <h4>Empty List.</h4>
-      <h5>You currently don't have any record.</h5>
-    </div>
-  </Col>
+  <div
+    style={{
+      minHeight: 300,
+      position: "relative",
+      marginTop: 20,
+      width: "100%",
+    }}
+  >
+    <Dimmer active inverted>
+      <div
+        style={{
+          textAlign: "center",
+          color: "rgba(0,0,0,.5)",
+          paddingTop: 30,
+          width: "100%",
+        }}
+      >
+        <Icon size="huge" color="grey" name="list ul" />
+        <h4>Empty List.</h4>
+      </div>
+    </Dimmer>
+  </div>
 );
 
 const FilterComponent = ({
@@ -104,7 +120,7 @@ function Admin(prop) {
   const [getwaysList, setGetwaysData] = useState([]);
 
   const [selectedList, setSelected] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   const [filterText, setFilterText] = React.useState("");
   const [filterOk, setFilterOk] = React.useState(false);
@@ -164,9 +180,6 @@ function Admin(prop) {
     }
   };
 
-  useEffect(() => {
-    fetchUsers(1); // fetch page 1 of users
-  }, []);
   useEffect(() => {
     fetchUsers(1); // fetch page 1 of users
   }, [dataSorted, dataSortedDir, dataSearch, dataLoginDay]);

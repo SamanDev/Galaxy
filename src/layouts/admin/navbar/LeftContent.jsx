@@ -5,7 +5,10 @@ import Balance from "./balance";
 import Login from "./login";
 
 const Leftcontent = (prop) => {
-  const [isUser, setIsUser] = useState(prop.isLogin);
+  const [isUser, setIsUser] = useState(true);
+  useEffect(() => {
+    setIsUser(prop.isLogin);
+  }, []);
   useEffect(() => {
     setIsUser(prop.isLogin);
   }, [prop.isLogin]);

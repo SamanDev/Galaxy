@@ -15,7 +15,8 @@ import {
 import { List, Label, Tab } from "semantic-ui-react";
 import { adminGetService } from "../../services/admin";
 import TableAdmin from "./components/adminTable.component";
-import Report from "./components/report.component";
+import Balance from "./balance";
+import Report from "./UserReport";
 import { Col } from "react-bootstrap";
 import Users from "./AdminUsers";
 import CheckboxToggle from "./components/toggle.component";
@@ -164,9 +165,14 @@ function Admin(prop) {
         "getUsersByAdmin?name=username&value=" + prop.username
       );
       if (res.status === 200) {
-        setUser(res.data[0]);
+        if (res.data.length > 0) {
+          setUser(res.data[0]);
+        } else {
+          prop.removeTabData(prop.username + "profile");
+        }
       }
     } catch (error) {
+      prop.removeTabData(prop.username + "profile");
       console.log(error.message);
     } finally {
       setLoading(false);
@@ -210,7 +216,7 @@ function Admin(prop) {
   var newdataInfo = [
     getPathOfKey2(
       user,
-      ",username,balance,email,fullName,refer,firstLogin,lastLogin,bankInfos,cashierGateways,userBlock,"
+      ",username,level,balance,email,fullName,refer,firstLogin,lastLogin,bankInfos,cashierGateways,userBlock,"
     ),
   ];
   var newdataBankInfo = [getPathOfKey(user, ",bankInfos,")];
@@ -251,7 +257,6 @@ function Admin(prop) {
         <Tab.Pane as="span" className="ui inverted segment">
           <Report
             user={user}
-            mode="deposit"
             addTabData={prop.addTabData}
             removeTabData={prop.removeTabData}
           />
@@ -300,6 +305,7 @@ function Admin(prop) {
           }}
         />{" "}
         {user.username}
+        <Balance user={user} />
       </h2>
       <Tab
         panes={panes}

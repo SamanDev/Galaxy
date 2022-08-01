@@ -6,13 +6,24 @@ import { convertDateToJalali } from "../../../utils/convertDate";
 import AmountColor from "../../../utils/AmountColor";
 import { getReportService } from "../../../services/report";
 import { doCurrency } from "../../../const";
+import { addDays } from "date-fns";
+import { DateRangePicker } from "react-date-range";
+import "react-date-range/dist/styles.css"; // main style file
+import "react-date-range/dist/theme/default.css"; // theme css file
 const dataReport = ["deposit", "cashout", "transfer"];
 const getGateways = JSON.parse(localStorage.getItem("getGateways"));
 const Report = (prop) => {
   const loginToken = JSON.parse(localStorage.getItem("loginToken"));
   const [data, setData] = useState([]);
   const [mode, setMode] = useState(prop.mode);
-
+  const [state, setState] = useState([
+    {
+      startDate: addDays(new Date(), -7),
+      endDate: new Date(),
+      key: "selection",
+    },
+  ]);
+  console.log(state);
   const [loading, setLoading] = useState(false);
   const handleGetReports = async () => {
     setLoading(true);
@@ -37,6 +48,15 @@ const Report = (prop) => {
   } else {
     return (
       <span className="myaccount popupmenu ">
+        <DateRangePicker
+          onChange={(item) => setState([item.selection])}
+          showSelectionPreview={true}
+          moveRangeOnFirstSelection={false}
+          months={2}
+          ranges={state}
+          direction="horizontal"
+        />
+
         <Button.Group widths={dataReport.length}>
           {dataReport.map((item, i) => {
             return (

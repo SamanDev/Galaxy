@@ -3,7 +3,7 @@ import { List, Segment, Tab, Icon } from "semantic-ui-react";
 import Users from "./AdminUsers";
 import UsersTest from "./AdminUsersTest";
 import User from "./AdminUser";
-import Report from "./components/report.component";
+import Report from "./AdminReport";
 import GetwaysList from "./components/GetwaysList.component";
 var panes = [];
 function Admin(prop) {
@@ -27,15 +27,12 @@ function Admin(prop) {
           </Tab.Pane>
         ),
       },
+
       {
         menuItem: "Report",
         pane: (
           <Tab.Pane key="Report" className="ui inverted segment">
-            <Report
-              mode="deposit"
-              removeTabData={removeTabData}
-              addTabData={addTabData}
-            />
+            <Report removeTabData={removeTabData} addTabData={addTabData} />
           </Tab.Pane>
         ),
       },
