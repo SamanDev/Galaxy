@@ -17,7 +17,7 @@ const Report = (prop) => {
     setLoading(true);
     try {
       const res = await getReportService(
-        loginToken,
+        loginToken.id,
         "Deposit",
         mode.replace(/ /g, "")
       );
