@@ -1,5 +1,15 @@
 import React, { useState } from "react";
-import { Button } from "semantic-ui-react";
+import { Icon, Label, Button, Header, Divider } from "semantic-ui-react";
+import $ from "jquery";
+import VisaGiftCode from "./VisaGiftCode";
+import PerfectMoney from "./PerfectMoney";
+import BankTransfer from "./BankTransfer";
+import CartToCart from "./CartToCart";
+import CartToCartOnline from "./CartToCartOnline";
+import USDT from "./USDT";
+import BTC from "./BTC";
+import { depositData } from "../../../../const";
+import CashoutArea from "../../cashout/index";
 
 const defCol = "black";
 const selCol = "green";

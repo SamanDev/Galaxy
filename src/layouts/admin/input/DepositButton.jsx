@@ -28,7 +28,7 @@ const DepositButton = (prop) => (
           </li>
         </ul>
 
-        <Report mode={prop.mode} {...prop} />
+        <Report {...prop} />
       </>
     ) : (
       <div style={{ overflow: "hidden" }}>

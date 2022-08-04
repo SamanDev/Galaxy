@@ -14,7 +14,6 @@ import LevelIcon from "../../utils/LevelIcon";
 import GiftsDesc from "../../utils/GiftsDesc";
 import AddCalendar from "../../utils/AddCalendar";
 import GalaxyIcon from "../../utils/GalaxyIcon";
-import LeagueUser from "./LeagueUser";
 import LeagueResult from "./LeagueResult";
 const LevelList = () => {
   return (
@@ -36,7 +35,7 @@ const LevelList = () => {
             <AddCalendar start="24" dur="8" format="0000" title="League" />
           </List.Content>
         </List.Item>
-        <LeagueUser />
+
         <List.Item>
           <List.Content className="rtl text-center">
             <GiftsDesc

@@ -1,22 +1,17 @@
 import React from "react";
-import ProductTable from "./pages/dashboard/ProductTable";
-import Report from "./pages/dashboard/Report";
 import Accordion from "./pages/dashboard/Accordion";
 import Invite from "./pages/dashboard/Invite";
 import InviteLink from "./pages/dashboard/InviteLink";
 import ActiveTable from "./pages/dashboard/ActiveTableJson";
 import LevelList from "./pages/dashboard/Levels";
 import PassList from "./pages/dashboard/GalaxyPass";
+import Commission from "./pages/dashboard/Commission";
 import VIP from "./pages/dashboard/VIP";
 import League from "./pages/dashboard/League";
-import LeagueResultLast from "./pages/dashboard/LeagueResultLast";
-import UserList from "./pages/dashboard/Users";
 import TopUsers from "./pages/dashboard/TopUsers";
-import DepositComponent from "./layouts/admin/depositComponent/depositComponent.jsx";
-import CashoutComponent from "./layouts/admin/cashout/cashoutComponent.jsx";
+import CashoutComponent from "./layouts/admin/forms/FormComponent.jsx";
+import FormComponent from "./layouts/admin/forms/FormComponent.jsx";
 
-import { useNavigate } from "react-router-dom";
-import Moment from "react-moment";
 const moment = require("moment");
 export const gameDataMain = "poker,backgammon,boom,bet".split(",");
 export const gameDataMainCode = "p,b,c,bt".split(",");
@@ -146,6 +141,7 @@ export const menuData = [
 
   {
     label: "بازی ها",
+    title: "بازی ها",
     icon: "fas fa-receipt ",
 
     submenu: doGame(),
@@ -173,14 +169,21 @@ export const menuData = [
         idname: "login",
         getwaykey: "Transfer",
         icon: "fas fa-exchange-alt",
-        component: <CashoutComponent cashMode="Transfer" />,
+        component: (
+          <FormComponent
+            mode="transfer"
+            size="mini"
+            labelcolor="orange"
+            gateway=""
+          />
+        ),
       },
       {
         label: "تراکنش های مالی",
         title: "تراکنش های مالی",
         icon: "fas fa-stream",
         idname: "login",
-        component: <Report />,
+        component: <CashoutComponent cashMode="Report" />,
       },
     ],
   },
@@ -191,18 +194,6 @@ export const menuData = [
     bonus: "40%",
     idname: "login",
     submenu: [
-      {
-        label: "کمیسیون",
-        bonus: "21%",
-        icon: "fas fa-heart",
-        component: <ProductTable />,
-      },
-      {
-        label: "ریک بک پوکر",
-        bonus: "10%",
-        icon: "fas fa-heart",
-        component: <ProductTable />,
-      },
       {
         label: "ساخت اکانت برای دوستان",
         title: "ساخت اکانت برای دوستان",
@@ -231,52 +222,55 @@ export const menuData = [
         icon: "fas fa-star yellow",
         component: <LevelList />,
       },
+
+      {
+        label: "کمیسیون معرفی دوستان",
+        idname: "commission",
+
+        icon: "fas fa-heart red",
+        title: "کمیسیون معرفی دوستان",
+
+        component: <Commission mode="commission" />,
+      },
+      {
+        label: "ریک بک پوکر",
+        title: "ریک بک پوکر",
+        idname: "commission",
+
+        icon: "fas fa-heart red",
+
+        component: <Commission mode="rakeback" />,
+      },
+
       {
         label: "گلکسی پَس",
+        title: "گلکسی پَس",
 
         idname: "gpass",
         bonus: "Level 10",
         icon: "fab fa-google yellow",
-        submenu: [
-          {
-            label: "نتایج زنده",
-            title: "نتایج زنده",
-            icon: "fas fa-stream",
-            component: <LevelList />,
-          },
-          {
-            component: <PassList />,
-          },
-        ],
+
+        component: <PassList />,
       },
       {
-        label: "VIP 25/50K",
+        label: "VIP Table 25/50K",
+        title: "VIP Table 25/50K",
         idname: "vip",
 
         bonus: "Level 25",
         icon: "fab fa-viacoin yellow",
-        submenu: [
-          {
-            component: <VIP />,
-          },
-        ],
+
+        component: <VIP />,
       },
       {
         label: "لیگ روزانه",
+        title: "لیگ روزانه",
 
         idname: "league",
         bonus: "Level 5",
         icon: "fas fa-medal yellow",
-        submenu: [
-          {
-            label: "آخرین نتایج",
-            icon: "fas fa-stream",
-            component: <LeagueResultLast />,
-          },
-          {
-            component: <League />,
-          },
-        ],
+
+        component: <League />,
       },
     ],
   },
@@ -323,9 +317,7 @@ export const menuData = [
         label: "تغییر رمز عبور",
         title: "تغییر رمز عبور",
         icon: "fas fa-lock",
-        component: (
-          <CashoutComponent cashMode="ChangePass" title="تغییر رمز عبور" />
-        ),
+        component: <CashoutComponent cashMode="ChangePass" />,
       },
     ],
   },
@@ -381,9 +373,11 @@ function doDeposit() {
         icon: game.icon,
         idname: "login Deposit" + game.value,
         component: (
-          <DepositComponent
-            compmode="deposit"
-            depMode={game.value}
+          <FormComponent
+            mode="deposit"
+            size="mini"
+            labelcolor="orange"
+            gateway={game.value}
             getwaykey={game.getwaykey}
           />
         ),
@@ -408,9 +402,11 @@ function doCashout() {
         icon: game.icon,
         idname: "login Cashout" + game.value,
         component: (
-          <DepositComponent
-            compmode="cashout"
-            depMode={game.value}
+          <FormComponent
+            mode="cashout"
+            size="mini"
+            labelcolor="orange"
+            gateway={game.value}
             getwaykey={game.getwaykey}
           />
         ),
@@ -421,7 +417,7 @@ function doCashout() {
 }
 
 export const doCurrency = (value) => {
-  return value.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
+  return value?.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
 };
 
 export const gotopage = (too) => {

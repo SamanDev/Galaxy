@@ -16,7 +16,10 @@ const LevelIcon = (prop) => {
   return (
     <Segment inverted basic>
       <div className="mybig">
-        <span className="text-gold">{doCurrency(prop.amount)} </span>
+        {prop.amount && (
+          <span className="text-gold">{doCurrency(prop.amount)} </span>
+        )}
+        {prop.title && <span className="text-gold farsi">{prop.title}</span>}
         <div className="mysmall">
           <small className="farsi">{prop.subtitle}</small>
         </div>

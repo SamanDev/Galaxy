@@ -1,18 +1,18 @@
 import React, { useState } from "react";
 
-import DepositButton from "../input/DepositButton";
+import DepositButton from "../../input/DepositButton";
 
-import FormikControl from "../../../components/form/FormikControl";
+import FormikControl from "../../../../components/form/FormikControl";
 import { useNavigate } from "react-router-dom";
 import { Form, Formik } from "formik";
 import * as Yup from "yup";
-import { Alert } from "../../../utils/alerts";
-import { cashierService } from "../../../services/cashier";
+import { Alert } from "../../../../utils/alerts";
+import { cashierService } from "../../../../services/cashier";
 
 const initialValues = {
   action: "deposit",
   amount: 0,
-  coin: "BTC",
+  coin: "USDT.TRC20",
   amountDollar: 100,
 };
 const validationSchema = Yup.object({
@@ -45,7 +45,6 @@ const onSubmit = async (values, submitMethods, navigate, prop, setRefresh) => {
 const depositArea = (prop) => {
   const [refresh, setRefresh] = useState(false);
   const navigate = useNavigate();
-
   return (
     <Formik
       initialValues={initialValues}

@@ -11,16 +11,12 @@ import { doCurrency } from "../../const";
 const Report = (prop) => {
   const loginToken = JSON.parse(localStorage.getItem("loginToken"));
   const [data, setData] = useState([]);
-
+  var gateway = prop.gateway.replace(/ /g, "").replace("BTC", "Bitcoin");
   const [loading, setLoading] = useState(true);
-  const handleGetReports = async (mode) => {
+  const handleGetReports = async () => {
     setLoading(true);
     try {
-      const res = await getReportService(
-        loginToken.id,
-        "Deposit",
-        mode.replace(/ /g, "")
-      );
+      const res = await getReportService(loginToken.id, prop.mode, gateway);
       if (res.status === 200) {
         setData(res.data);
       }
@@ -32,7 +28,7 @@ const Report = (prop) => {
   };
 
   useEffect(() => {
-    handleGetReports(prop.mode);
+    handleGetReports();
   }, [prop.refresh]);
   var canShow = true;
   var canShowPending = true;
@@ -73,6 +69,8 @@ const Report = (prop) => {
             if (item.status == "Pending" && i > 0) {
               canShowPending = false;
             }
+            var desc = JSON.parse(item.description);
+            console.log(desc);
             return (
               <List.Item key={i}>
                 <List.Content>
@@ -97,26 +95,28 @@ const Report = (prop) => {
                     )}
 
                     <div className="cashlist">
-                      {(prop.mode == "Bitcoin" ||
-                        prop.mode == "USDT" ||
-                        prop.mode == "PerfectMoney") && (
+                      {(gateway == "Bitcoin" ||
+                        gateway == "USDT" ||
+                        gateway == "PerfectMoney") && (
                         <>
                           Amount &nbsp;
                           <span className="text-gold">
-                            ${doCurrency(item.amount)}
+                            ${doCurrency(desc.dollarAmount)}
                           </span>
                           <br />
                           Rate &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{" "}
-                          <span className="text-gold">{doCurrency(32520)}</span>
+                          <span className="text-gold">
+                            {doCurrency(desc.dollarPrice)}
+                          </span>
                         </>
                       )}
-                      {prop.mode == "PerfectMoney" && (
+                      {gateway == "PerfectMoney" && (
                         <>
                           <br />
                         </>
                       )}
-                      {(prop.mode == "VisaGiftCode" ||
-                        prop.mode == "PerfectMoney") && (
+                      {(gateway == "VisaGiftCode" ||
+                        gateway == "PerfectMoney") && (
                         <>
                           Code &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{" "}
                           <span className="text-gold">
@@ -124,7 +124,7 @@ const Report = (prop) => {
                           </span>
                         </>
                       )}
-                      {(prop.mode == "Bitcoin" || prop.mode == "USDT") &&
+                      {(gateway == "Bitcoin" || gateway == "USDT") &&
                         canShowPending && (
                           <>
                             <QR note={item} doCurrency={doCurrency} />

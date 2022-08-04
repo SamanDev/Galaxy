@@ -101,7 +101,7 @@ const depositArea = (prop) => {
                 name="username"
                 labelcolor={prop.labelcolor}
                 size={prop.size}
-                label="مبلغ به دلار"
+                label=""
                 autoComplete="off"
               />
             </span>
@@ -120,7 +120,6 @@ const depositArea = (prop) => {
               {...prop}
               disabled={formik.isSubmitting}
               loading={formik.isSubmitting}
-              refresh={refresh}
             />
           </Form>
         );

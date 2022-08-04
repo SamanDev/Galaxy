@@ -1,95 +1,36 @@
-// window.addEventListener('DOMContentLoaded', (event) => {
+if ("serviceWorker" in navigator) {
+  navigator.serviceWorker.register("/sw.js").then(() => {
+    console.log("Service Worker Registered");
+  });
+}
 
-// document.getElementById('handle_toggle_sidemenu').addEventListener('change' , function(){
-//     if (this.checked) {
-//         document.querySelector('.mini_sidebar').classList.add('expanded')
-//         document.getElementById('content_section').classList.add('with_sidebar')
-//     }else{
-//         document.querySelector('.mini_sidebar').classList.remove('expanded')
-//         document.getElementById('content_section').classList.remove('with_sidebar')
-//     }
-// })
+// Code to handle install prompt on desktop
 
-//     let sidebarItms = document.querySelectorAll('.sidebar_menu_item');
-//     for (const item of sidebarItms) {
-//         item.addEventListener('click' , ()=>{
-//             for (const i of sidebarItms) {
-//                 i.classList.remove('active')
-//             }
-//             item.classList.add('active')
-//             let sectionId = item.getAttribute('data-section-id');
-//             let allSections = document.querySelectorAll('.main_section');
-//             for (const section of allSections) {
-//                 section.classList.add('d-none')
-//             }
-//             document.getElementById(`${sectionId}`).classList.remove('d-none')
-//         })
-//     }
+let deferredPrompt;
+const addBtn = document.querySelector(".add-button");
+addBtn.style.display = "none";
 
-//     // chart-------------->>
-//     const DATA_COUNT = 13;
+window.addEventListener("beforeinstallprompt", (e) => {
+  // Prevent Chrome 67 and earlier from automatically showing the prompt
+  e.preventDefault();
+  // Stash the event so it can be triggered later.
+  deferredPrompt = e;
+  // Update UI to notify the user they can add to home screen
+  addBtn.style.display = "block";
 
-//     const labels = ['فروردین' , 'اردیبهشت', 'خرداد' , 'تیر' , 'مرداد' , 'شهریور' , 'مهر' , 'آبان' , 'آذر' , 'دی' , 'بهمن' , 'اسفند'];
-
-//     const datapoints = [0, 20, 20, 60, 60, 120, 180, 120, 125, 105, 110, 170];
-
-//     const data = {
-//         labels: labels,
-//         datasets: [
-//             {
-//                 label: 'فروش ماه',
-//                 data: datapoints,
-//                 borderColor: "#0062ff",
-//                 fill: true,
-//                 cubicInterpolationMode: 'monotone',
-//                 tension: 0.4
-//             }
-//         ]
-//     };
-
-//     const config = {
-//         type: 'line',
-//         data: data,
-//         options: {
-//             responsive: true,
-//             plugins: {
-//                 title: {
-//                     display: true,
-//                     text: 'نمودار فروش یک سال گذشته'
-//                 },
-//             },
-//             interaction: {
-//                 intersect: false,
-//             },
-//             scales: {
-//                 x: {
-//                     display: true,
-//                     title: {
-//                         display: true,
-//                         // text: 'زمان'
-//                     }
-//                 },
-//                 y: {
-//                     display: true,
-//                     title: {
-//                         display: true,
-//                         text: ' میلیون تومان'
-//                     },
-//                     // suggestedMin: -10,
-//                     // suggestedMax: 200
-//                 }
-//             }
-//         },
-//     };
-
-//     const ctx = document.getElementById('myChart').getContext('2d');
-//     new Chart(ctx , config)
-
-// });
-
-// var tooltipEl = document.querySelectorAll('.has_tooltip')
-// for (const item of tooltipEl) {
-//     new bootstrap.Tooltip(item, {
-//         boundary: document.body
-//     })
-// }
+  addBtn.addEventListener("click", () => {
+    // hide our user interface that shows our A2HS button
+    addBtn.style.display = "none";
+    // Show the prompt
+    deferredPrompt.prompt();
+    // Wait for the user to respond to the prompt
+    deferredPrompt.userChoice.then((choiceResult) => {
+      if (choiceResult.outcome === "accepted") {
+        console.log("User accepted the A2HS prompt");
+      } else {
+        console.log("User dismissed the A2HS prompt");
+      }
+      deferredPrompt = null;
+    });
+  });
+});

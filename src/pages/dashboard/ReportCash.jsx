@@ -12,13 +12,13 @@ const Report = (prop) => {
   const [data, setData] = useState([]);
 
   const [loading, setLoading] = useState(true);
-  const handleGetReports = async (mode) => {
+  const handleGetReports = async () => {
     setLoading(true);
     try {
       const res = await getReportService(
         loginToken.id,
-        "Cashout",
-        mode.replace(/ /g, "")
+        prop.mode,
+        prop.gateway.replace(/ /g, "").replace("BTC", "Bitcoin")
       );
       if (res.status === 200) {
         setData(res.data);
@@ -31,7 +31,7 @@ const Report = (prop) => {
   };
 
   useEffect(() => {
-    handleGetReports(prop.mode);
+    handleGetReports();
   }, [prop.refresh]);
   var canShow = true;
   var canShowPending = true;

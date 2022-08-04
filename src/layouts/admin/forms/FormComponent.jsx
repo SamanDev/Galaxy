@@ -1,0 +1,58 @@
+import React, { useState } from "react";
+
+import Deposit from "./Deposit/depositComponent";
+import Cashout from "./Cashout/cashoutComponent";
+import BankTransfer from "./Deposit/BankTransfer";
+import BTC from "./Deposit/BTC";
+import CartToCart from "./Deposit/CartToCart";
+import CartToCartOnline from "./Deposit/CartToCartOnline";
+import PerfectMoney from "./Deposit/PerfectMoney";
+import USDT from "./Deposit/USDT";
+import VisaGiftCode from "./Deposit/VisaGiftCode";
+
+import AccessMsg from "../../../utils/accessMsg";
+import AddCartMsg from "./Cashout/AddCart";
+
+import { Divider, Header } from "semantic-ui-react";
+const depositArea = (prop) => {
+  const [refresh, setRefresh] = useState(false);
+
+  const loginToken = JSON.parse(localStorage.getItem("loginToken"));
+  if (loginToken?.accessToken) {
+    return (
+      <span className="myaccount popupmenu">
+        {prop.title && (
+          <>
+            <Header
+              as="h4"
+              inverted
+              className="farsi"
+              style={{ marginTop: 10 }}
+            >
+              {prop.title}
+            </Header>
+
+            <Divider inverted section />
+          </>
+        )}
+        {prop.mode == "deposit" ? (
+          <>
+            <Deposit {...prop} setRefresh={setRefresh} list={true} />
+          </>
+        ) : prop.mode == "transfer" ? (
+          <>
+            <Cashout {...prop} setRefresh={setRefresh} list={true} />
+          </>
+        ) : (
+          <>
+            <Cashout {...prop} setRefresh={setRefresh} list={true} />
+          </>
+        )}
+      </span>
+    );
+  } else {
+    return <AccessMsg />;
+  }
+};
+
+export default depositArea;

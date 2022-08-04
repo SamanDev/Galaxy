@@ -8,13 +8,18 @@ import Ticket from "./Ticket";
 import AddCart from "./AddCart";
 import ChangePass from "./ChangePass";
 import AddCartMsg from "./AddCart";
-import { Icon, Label, Button, Header, Divider } from "semantic-ui-react";
+import Report from "./Report";
+import { Header, Divider } from "semantic-ui-react";
 const depositArea = (props) => {
   const [depMode] = useState(props.cashMode);
   const [refresh, setRefresh] = useState(false);
   const loginToken = JSON.parse(localStorage.getItem("loginToken"));
+
   return (
     <>
+      {depMode === "Report" && (
+        <Report size="mini" labelcolor="orange" list={true} />
+      )}
       {depMode === "Ticket" && (
         <span className="myaccount popupmenu">
           <Ticket size="mini" labelcolor="orange" list={true} />

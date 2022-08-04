@@ -7,8 +7,8 @@ import {
   Progress,
   Divider,
 } from "semantic-ui-react";
-import DepositArea from "../depositComponent/index.jsx";
-import CashoutArea from "../cashout/index.jsx";
+import DepositArea from "../forms/index";
+
 import LevelIcon from "../../../utils/LevelIcon";
 
 import BonusArea from "../bonus/index.jsx";
@@ -126,7 +126,12 @@ const Balance = (prop) => {
               />
             }
           >
-            <DepositArea compmode="deposit" {...prop} />
+            <DepositArea
+              mode="deposit"
+              size="mini"
+              labelcolor="orange"
+              {...prop}
+            />
           </Popup>{" "}
           <Popup
             on="click"
@@ -150,7 +155,12 @@ const Balance = (prop) => {
               />
             }
           >
-            <DepositArea compmode="cashout" {...prop} />
+            <DepositArea
+              mode="cashout"
+              size="mini"
+              labelcolor="orange"
+              {...prop}
+            />
           </Popup>{" "}
           <Popup
             on="click"

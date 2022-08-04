@@ -10,39 +10,42 @@ import {
   Message,
 } from "semantic-ui-react";
 
-import DepositButton from "../input/DepositButton";
-import Password from "../input/Password";
-import CashoutButton from "../input/CashoutButton";
-import FormikControl from "../../../components/form/FormikControl";
+import DepositButton from "../../input/DepositButton";
+import Password from "../../input/Password";
+import CashoutButton from "../../input/CashoutButton";
+import FormikControl from "../../../../components/form/FormikControl";
 import { useNavigate } from "react-router-dom";
 import { FastField, Form, Formik } from "formik";
 import * as Yup from "yup";
-import { Alert } from "../../../utils/alerts";
-import { cashierService } from "../../../services/cashier";
+import { Alert } from "../../../../utils/alerts";
+import { cashierService } from "../../../../services/cashier";
 
 const initialValues = {
-  amount: 100000,
-
-  touser: "",
+  action: "cashout",
+  amount: 0,
+  coin: "USDT.TRC20",
+  amountDollar: 100,
+  userWalletAddress: "",
   username: "",
   password: "",
 };
 const validationSchema = Yup.object({
-  amount: Yup.number()
+  amount: Yup.number().required("لطفا این فیلد را وارد کنید.").integer(),
+
+  amountDollar: Yup.number()
     .required("لطفا این فیلد را وارد کنید.")
-    .min(100000, "لطفا این فیلد را درست وارد کنید.")
+    .min(100, "لطفا این فیلد را درست وارد کنید.")
     .integer(),
-  touser: Yup.string()
-    .required("نام کاربری حداقل باشد 3 کاراگتر باشد.")
-    .min(3, "نام کاربری حداقل باشد 3 کاراگتر باشد.")
-    .max(12, "نام کاربری حداکثر باشد 12 کاراگتر باشد."),
+  userWalletAddress: Yup.string()
+    .required("لطفا این فیلد را وارد کنید.")
+    .min(10, "لطفا این فیلد را درست وارد کنید."),
   password: Yup.string()
     .required("کلمه عبور حداقل باشد 6 کاراگتر باشد.")
     .min(6, "کلمه عبور حداقل باشد 6 کاراگتر باشد."),
 });
 const onSubmit = async (values, submitMethods, navigate, prop, setRefresh) => {
   try {
-    const res = await cashierService(values, "Transfer", "");
+    const res = await cashierService(values, "coinPayments", "");
     if (res.status == 200) {
       if (res.data?.address) {
         setRefresh(true);
@@ -78,16 +81,16 @@ const depositArea = (prop) => {
               name="amount"
               labelcolor={prop.labelcolor}
               size={prop.size}
+              dollar={true}
             />
             <FormikControl
               formik={formik}
               control="input"
               type="text"
-              name="touser"
-              labelcolor="black"
+              name="userWalletAddress"
+              label="TRC20 Wallet"
+              labelcolor="red"
               size={prop.size}
-              label="انتقال به کاربر"
-              autoComplete="off"
             />
             <span style={{ position: "absolute", opacity: 0, zIndex: -1 }}>
               <FormikControl
@@ -98,7 +101,6 @@ const depositArea = (prop) => {
                 labelcolor={prop.labelcolor}
                 size={prop.size}
                 label="مبلغ به دلار"
-                autoComplete="off"
               />
             </span>
             <FormikControl
@@ -109,12 +111,11 @@ const depositArea = (prop) => {
               label=" کلمه عبور"
               labelcolor="red"
               size={prop.size}
-              autoComplete="off"
+              autoComplete="false"
             />
 
             <CashoutButton
               {...prop}
-              val="انتقال"
               disabled={formik.isSubmitting}
               loading={formik.isSubmitting}
               refresh={refresh}

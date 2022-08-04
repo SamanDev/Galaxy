@@ -47,6 +47,12 @@ const LevelList = () => {
             />
           </List.Content>
         </List.Item>
+        <ul className="mm-listview">
+          <li className="menutitle menutitleinside mm-listitem"></li>
+          <li className="menutitle menutitleinside mm-listitem">
+            <span className="mm-listitem__text">لیست جوایز گلکسی پَس</span>
+          </li>
+        </ul>
         {Array.apply(0, Array(levelPassList.length)).map(function (x, i) {
           totalReward += levelPassReward(i);
           return (
@@ -71,6 +77,12 @@ const LevelList = () => {
             </List.Item>
           );
         })}
+        <ul className="mm-listview">
+          <li className="menutitle menutitleinside mm-listitem"></li>
+          <li className="menutitle menutitleinside mm-listitem">
+            <span className="mm-listitem__text">آخرین جوایز</span>
+          </li>
+        </ul>
       </List>
     </span>
   );

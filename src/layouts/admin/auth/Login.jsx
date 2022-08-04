@@ -40,7 +40,7 @@ const onSubmit = async (values, submitMethods, navigate, prop) => {
           Alert("متاسفم...!", "اکانت شما مسدود می باشد.", "error");
         } else {
           prop.setIsUser(true);
-          window.location.reload();
+          //window.location.reload();
         }
       }
     } else {

@@ -1,18 +1,28 @@
 import React, { useState } from "react";
+import {
+  Label,
+  Input,
+  Header,
+  Divider,
+  Icon,
+  Button,
+  Segment,
+  Message,
+} from "semantic-ui-react";
 
-import DepositButton from "../input/DepositButton";
-
-import FormikControl from "../../../components/form/FormikControl";
+import DepositButton from "../../input/DepositButton";
+import Password from "../../input/Password";
+import CashoutButton from "../../input/CashoutButton";
+import FormikControl from "../../../../components/form/FormikControl";
 import { useNavigate } from "react-router-dom";
-import { Form, Formik } from "formik";
+import { FastField, Form, Formik } from "formik";
 import * as Yup from "yup";
-import { Alert } from "../../../utils/alerts";
-import { cashierService } from "../../../services/cashier";
+import { Alert } from "../../../../utils/alerts";
+import { cashierService } from "../../../../services/cashier";
 
 const initialValues = {
-  action: "deposit",
   amount: 0,
-  coin: "BTC",
+
   amountDollar: 100,
 };
 const validationSchema = Yup.object({
@@ -25,9 +35,8 @@ const validationSchema = Yup.object({
 });
 const onSubmit = async (values, submitMethods, navigate, prop, setRefresh) => {
   try {
-    const res = await cashierService(values, "coinPayments", "");
+    const res = await cashierService(values, "createCashoutPM", "");
     if (res.status == 200) {
-      submitMethods.resetForm();
       if (res.data?.address) {
         setRefresh(true);
       }
@@ -45,7 +54,6 @@ const onSubmit = async (values, submitMethods, navigate, prop, setRefresh) => {
 const depositArea = (prop) => {
   const [refresh, setRefresh] = useState(false);
   const navigate = useNavigate();
-
   return (
     <Formik
       initialValues={initialValues}
@@ -66,7 +74,7 @@ const depositArea = (prop) => {
               dollar={true}
             />
 
-            <DepositButton
+            <CashoutButton
               {...prop}
               disabled={formik.isSubmitting}
               loading={formik.isSubmitting}

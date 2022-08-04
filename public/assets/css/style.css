@@ -144,7 +144,7 @@ a {
 }
 .menutitle,
 .menutitle .mm-listitem__text {
-  padding-right: 0 !important;
+ 
   margin: 0 !important;
 }
 .menutitle.mm-listitem:after {
@@ -484,9 +484,10 @@ i.star.big {
 .mm-listitem:after {
   left: 0 !important;
 }
-.mm-listitem__text {
+a.mm-listitem__text {
   padding-left: 0 !important;
   overflow: visible !important;
+
 }
 .mm-listitem__text.image {
   padding: 0 !important;
@@ -672,7 +673,7 @@ i.star.big {
 }
 
 .myaccount.popupmenu {
-  margin-left: 20px;
+
   display: block;
 }
 .myaccount.popupmenu.ui.list {

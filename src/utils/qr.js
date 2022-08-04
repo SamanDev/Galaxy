@@ -33,9 +33,11 @@ function CrCode(prop) {
           className="farsi mymessage text-center"
         >
           شما باید مقدار{" "}
-          <b className="text-gold">{paydetails.amount + " " + Coin}</b> برابر با{" "}
-          <b className="text-gold">{prop.doCurrency(item.amount)} دلار</b> به
-          آدرس زیر ارسال نمایید.
+          <b className="text-gold">{item.coinValue + " " + Coin}</b> برابر با{" "}
+          <b className="text-gold">
+            {prop.doCurrency(paydetails.dollarAmount)} دلار
+          </b>{" "}
+          به آدرس زیر ارسال نمایید.
           <br />
           برای کپی کردن آدرس روی آن کلیک کنید.
         </Segment>
@@ -43,7 +45,7 @@ function CrCode(prop) {
           <CopyText color="purple" text={paydetails.address} />
         </div>
         <div>
-          <CopyText color="violet" text={paydetails.amount} alter={Coin} />
+          <CopyText color="violet" text={item.coinValue} alter={Coin} />
         </div>
         {item.gateway == "Bitcoin" && (
           <>

@@ -10,15 +10,15 @@ import {
   Message,
 } from "semantic-ui-react";
 
-import DepositButton from "../input/DepositButton";
-import Password from "../input/Password";
-import CashoutButton from "../input/CashoutButton";
-import FormikControl from "../../../components/form/FormikControl";
+import DepositButton from "../../input/DepositButton";
+import Password from "../../input/Password";
+import CashoutButton from "../../input/CashoutButton";
+import FormikControl from "../../../../components/form/FormikControl";
 import { useNavigate } from "react-router-dom";
 import { FastField, Form, Formik } from "formik";
 import * as Yup from "yup";
-import { Alert } from "../../../utils/alerts";
-import { cashierService } from "../../../services/cashier";
+import { Alert } from "../../../../utils/alerts";
+import { cashierService } from "../../../../services/cashier";
 
 const initialValues = {
   amount: 100000,

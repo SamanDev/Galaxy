@@ -11,23 +11,18 @@ import { doCurrency } from "../../const";
 const Report = (prop) => {
   const loginToken = JSON.parse(localStorage.getItem("loginToken"));
   const [data, setData] = useState([]);
-
+  var gateway = prop.gateway.replace(/ /g, "").replace("BTC", "Bitcoin");
   const [loading, setLoading] = useState(true);
   const handleGetReports = async (mode) => {
     setLoading(true);
     try {
       if (prop.mode == "Pending") {
         var res = await getReportPenService(
-          `getReportsByUser/?id=${loginToken.id}&username=${loginToken.username}&status=Pending&page=1&number=3`
+          `getReportsByUser/?id=${loginToken.id}&status=Pending&page=1&number=3`
         );
       } else {
         var res = await getReportPenService(
-          `getReportsByUser/?id=${loginToken.id}&username=${
-            loginToken.username
-          }&mode=${prop.penMode}&gateway=${mode.replace(
-            / /g,
-            ""
-          )}&page=1&number=3`
+          `getReportsByUser/?id=${loginToken.id}&mode=${prop.mode}&gateway=${gateway}&page=1&number=3`
         );
       }
 
@@ -42,7 +37,7 @@ const Report = (prop) => {
   };
 
   useEffect(() => {
-    handleGetReports(prop.mode);
+    handleGetReports();
   }, [prop.refresh]);
   var canShow = true;
   var canShowPending = true;
@@ -65,8 +60,10 @@ const Report = (prop) => {
                 canShow = false;
               }
               if (item.status == "Pending" && i > 0) {
-                canShowPending = false;
+                //canShowPending = false;
               }
+              var desc = JSON.parse(item.description);
+
               return (
                 <List.Item key={i}>
                   <List.Content>
@@ -91,29 +88,29 @@ const Report = (prop) => {
                       )}
 
                       <div className="cashlist">
-                        {(prop.mode == "Bitcoin" ||
-                          prop.mode == "USDT" ||
-                          prop.mode == "PerfectMoney") && (
+                        {(gateway == "Bitcoin" ||
+                          gateway == "USDT" ||
+                          gateway == "PerfectMoney") && (
                           <>
                             Amount &nbsp;
                             <span className="text-gold">
-                              ${doCurrency(item.amount)}
+                              ${doCurrency(desc.dollarAmount)}
                             </span>
                             <br />
                             Rate
                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{" "}
                             <span className="text-gold">
-                              {doCurrency(32520)}
+                              {doCurrency(desc.dollarPrice)}
                             </span>
                           </>
                         )}
-                        {prop.mode == "PerfectMoney" && (
+                        {gateway == "PerfectMoney" && (
                           <>
                             <br />
                           </>
                         )}
-                        {(prop.mode == "VisaGiftCode" ||
-                          prop.mode == "PerfectMoney") && (
+                        {(gateway == "VisaGiftCode" ||
+                          gateway == "PerfectMoney") && (
                           <>
                             Code
                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{" "}
@@ -123,12 +120,11 @@ const Report = (prop) => {
                           </>
                         )}
                       </div>
-                      {(prop.mode == "Bitcoin" || prop.mode == "USDT") &&
-                        canShowPending && (
-                          <>
-                            <QR note={item} doCurrency={doCurrency} />
-                          </>
-                        )}
+                      {(gateway == "Bitcoin" || gateway == "USDT") && (
+                        <>
+                          <QR note={item} doCurrency={doCurrency} />
+                        </>
+                      )}
                     </List.Description>
                   </List.Content>
                 </List.Item>

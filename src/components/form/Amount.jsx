@@ -35,7 +35,7 @@ const Amount = (prop) => {
   };
 
   useEffect(() => {
-    handleGetRate();
+    if (prop.dollar || prop.rate) handleGetRate();
   }, []);
 
   useEffect(() => {

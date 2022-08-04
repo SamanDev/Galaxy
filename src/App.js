@@ -215,15 +215,23 @@ function App(prop) {
                                 >
                                   {submenu.label}
                                 </span>
-                                {submenu.helper && (
-                                  <small className="ui grey  mini floating label myfloatmenu">
-                                    {submenu.helper}
-                                  </small>
-                                )}
-                                {submenu.bonus && (
-                                  <small className="ui red  mini floating label myfloatmenubonus">
+                                {submenu.bonus && !submenu.helper ? (
+                                  <small className="ui red  mini floating label myfloatmenu">
                                     {submenu.bonus}
                                   </small>
+                                ) : (
+                                  <>
+                                    {submenu.helper && (
+                                      <small className="ui grey  mini floating label myfloatmenu">
+                                        {submenu.helper}
+                                      </small>
+                                    )}
+                                    {submenu.bonus && (
+                                      <small className="ui red  mini floating label myfloatmenubonus">
+                                        {submenu.bonus}
+                                      </small>
+                                    )}
+                                  </>
                                 )}
                               </span>
                             )}
@@ -382,16 +390,6 @@ function App(prop) {
           );
         } catch (error) {}
       } else {
-        try {
-          var scrollTo = $(_id);
-          var scrollDiv = scrollTo.closest(".mm-panel");
-          scrollDiv.animate(
-            {
-              scrollTop: 0,
-            },
-            1000
-          );
-        } catch (error) {}
       }
     }, 1000);
   };
@@ -399,7 +397,8 @@ function App(prop) {
     if (window.location.href.toString().indexOf("/logout") > -1) {
       setIsUser(false);
       localStorage.removeItem("loginToken");
-      window.location = "/";
+      navigate("/");
+      //window.location = "/";
     }
   }, [window.location.href]);
   useEffect(() => {
@@ -487,9 +486,8 @@ function App(prop) {
         var _login = $("#" + _parent).find(".login").length;
 
         if (!isLogin && _login > 0) {
-          $("#openLogin").trigger("click");
-
-          openPanel("#" + _parent);
+          //$("#openLogin").trigger("click");
+          //openPanel("#" + _parent);
         } else {
           setTimeout(() => {
             try {
@@ -539,6 +537,11 @@ function App(prop) {
   useEffect(() => {
     if (activeMenu !== "main" && !activePanel) {
       setActiveMenuOld(activeMenu);
+    }
+  }, [activeMenu]);
+  useEffect(() => {
+    if (window.matchMedia("(display-mode: standalone)").matches) {
+      alert();
     }
   }, [activeMenu]);
   useEffect(() => {
