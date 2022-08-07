@@ -1,15 +1,6 @@
 import React, { useState } from "react";
-import { Icon, Label, Button, Header, Divider } from "semantic-ui-react";
+import { Icon, Button, Header, Divider } from "semantic-ui-react";
 import $ from "jquery";
-import VisaGiftCode from "../layouts/admin/depositComponent/VisaGiftCode";
-import PerfectMoney from "../layouts/admin/depositComponent/PerfectMoney";
-import BankTransfer from "../layouts/admin/depositComponent/BankTransfer";
-import CartToCart from "../layouts/admin/depositComponent/CartToCart";
-import CartToCartOnline from "../layouts/admin/depositComponent/CartToCartOnline";
-import USDT from "../layouts/admin/depositComponent/USDT";
-import BTC from "../layouts/admin/depositComponent/BTC";
-import { depositData } from "../const";
-import CashoutArea from "../layouts/admin/cashout/index";
 
 const defCol = "black";
 const selCol = "green";

@@ -1,8 +1,6 @@
 import React from "react";
-import { Button, Comment, List, Message, Divider } from "semantic-ui-react";
-import LevelIcon from "../../utils/Level";
+import { List, Message, Divider } from "semantic-ui-react";
 import { doCurrency } from "../../const";
-import Ticket from "../../layouts/admin/cashout/Ticket";
 import AmountColor from "../../utils/AmountColor";
 const CommentExampleMinimal = () => (
   <Message color="black">

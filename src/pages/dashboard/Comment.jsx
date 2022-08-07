@@ -1,7 +1,7 @@
 import React from "react";
 import { Button, Comment, Divider, Message } from "semantic-ui-react";
 import LevelIcon from "../../utils/Level";
-import Ticket from "../../layouts/admin/cashout/Ticket";
+import Ticket from "../../layouts/admin/forms/Cashout/Ticket";
 const CommentExampleMinimal = () => (
   <Comment.Group size="mini">
     <Ticket departman="پشتیبانی فنی" />

@@ -6,12 +6,9 @@ import BankTransfer from "./BankTransfer";
 import PerfectMoney from "./PerfectMoney";
 import USDT from "./USDT";
 import BTC from "./BTC";
-import Cashout from "../../cashout/cashoutComponent";
 
-import AddCartMsg from "../../cashout/AddCart";
-import AccessMsg from "../../../../utils/accessMsg";
+import AddCartMsg from "../Cashout/AddCart";
 
-import { Icon, Label, Button, Header, Divider } from "semantic-ui-react";
 const depositArea = (prop) => {
   console.log(prop);
   const [depMode, setDepMode] = useState(prop.gateway);
