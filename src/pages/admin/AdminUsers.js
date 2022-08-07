@@ -137,11 +137,11 @@ function Admin(prop) {
       const res = await adminGetService(
         `getUsersByAdmin?name=${prop.search ? prop.search : "username"}&value=${
           filterOk ? filterText : prop.searchValue
-        }&page=${page}&per_page=${perPage}&sort=${dataSorted}&order=${dataSortedDir}&level=${dataSearch}&login=${dataLoginDay}`
+        }&page=${page}&number=${perPage}&sort=${dataSorted}&order=${dataSortedDir}&level=${dataSearch}&login=${dataLoginDay}&contain=true`
       );
       if (res.status === 200) {
-        setData(res.data);
-        setTotalRows(4);
+        setData(res.data.data);
+        setTotalRows(res.total);
         setFilterOk(false);
       }
     } catch (error) {

@@ -131,7 +131,7 @@ const handleConfirm = async (rowData) => {
 const BonusArea = (prop) => {
   return (
     <div style={{ margin: "5px 0 5px 0" }}>
-      <Report mode="Pending" count={3} {...prop} />
+      <Report mode="Pending" gateway="" count={3} {...prop} />
       <Divider />
       <List
         divided
