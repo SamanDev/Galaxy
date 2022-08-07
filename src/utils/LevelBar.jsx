@@ -5,6 +5,9 @@ const Balance = (prop) => {
   const loginToken = JSON.parse(localStorage.getItem("loginToken"));
 
   if (loginToken) {
+    if (loginToken.level == 0) {
+      loginToken.level = 1;
+    }
     var _lvlFinal = levelData.filter((d) => d.level === loginToken.level);
     var lvlPercent = parseInt(
       (loginToken.levelPoint * 100) / _lvlFinal[0].point
