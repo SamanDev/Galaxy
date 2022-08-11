@@ -114,6 +114,13 @@ function Admin(prop) {
       sortable: true,
     },
     {
+      name: "Bonus",
+      selector: (row) => row.mode,
+      format: (row) => <Input value={"0"} onChange={updateUserObj} />,
+
+      sortable: true,
+    },
+    {
       name: "Active",
       selector: (row) => row.active,
       format: (row) => (
@@ -148,6 +155,13 @@ function Admin(prop) {
       }
     });
   };
+  const subHeaderComponentMemo = React.useMemo(() => {
+    return (
+      <>
+        <Button onClick={() => setFirstOpen(true)}>Add Getways</Button>
+      </>
+    );
+  }, []);
   const updateUserObj = async (e, data) => {
     var _key = data.userkey;
     var curU = JSON.parse(JSON.stringify(data.user));
@@ -220,6 +234,8 @@ function Admin(prop) {
           defaultSortAsc={false}
           title="Getways List"
           noDataComponent={noDataComponent}
+          subHeader
+          subHeaderComponent={subHeaderComponentMemo}
           pagination
           paginationResetDefaultPage={resetPaginationToggle} // optionally, a hook to reset pagination to page 1
         />

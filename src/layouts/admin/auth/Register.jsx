@@ -43,7 +43,7 @@ const onSubmit = async (values, submitMethods, navigate) => {
   if (res.status == 200) {
     if (res.data.accessToken) {
       //prop.setIsUser(true);
-      window.location.reload();
+      //window.location.reload();
     }
   }
   submitMethods.setSubmitting(false);

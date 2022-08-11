@@ -15,6 +15,7 @@ import BonusArea from "../bonus/index.jsx";
 import { doCurrency, levelData, getEvent } from "../../../const";
 const Balance = (prop) => {
   var lvlPercent = 0;
+  var gLvlPercent = 0;
   const loginToken = JSON.parse(localStorage.getItem("loginToken"));
   const [color, setColor] = useState("grey");
   const [stateMode, setStateMode] = useState(0);
@@ -25,6 +26,7 @@ const Balance = (prop) => {
     }
     var _lvlFinal = levelData.filter((d) => d.level === loginToken.level);
     lvlPercent = parseFloat((loginToken.levelPoint * 100) / _lvlFinal[0].point);
+    gLvlPercent = parseFloat((loginToken.glevelPoint * 100) / (5 * 60 * 60));
   }
   const [lvlPercentState, setlvlPercentState] = useState(lvlPercent);
   const ChangeStateMode = () => {
@@ -44,7 +46,12 @@ const Balance = (prop) => {
     }
   }, []);
   useEffect(() => {
-    setlvlPercentState(stateMode * 50);
+    if (stateMode == 0) {
+      setlvlPercentState(lvlPercent);
+    }
+    if (stateMode == 1) {
+      setlvlPercentState(gLvlPercent);
+    }
   }, [stateMode]);
   if (loginToken) {
     return (
@@ -75,14 +82,14 @@ const Balance = (prop) => {
           {stateMode == 1 && _event == "GPass" && (
             <LevelIcon
               icon="google"
-              level={15}
+              level={loginToken.glevel}
               style={{
                 position: "relative",
                 textAlign: "center",
                 top: -3,
               }}
               onClick={() => {
-                prop.openPanel(".gpass", "#lvl1");
+                prop.openPanel(".gpass", "#lvl" + loginToken.glevel);
               }}
             />
           )}

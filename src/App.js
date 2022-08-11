@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import AdminLayout from "./layouts/admin/Index";
 import { Image, Modal } from "semantic-ui-react";
-import { menuData, panelData, haveAdmin } from "./const";
+import { menuData, panelData, haveAdmin, haveModerator } from "./const";
 import { Link } from "react-router-dom";
 import { useIsLogin } from "./hook/authHook";
 import $ from "jquery";
@@ -40,7 +40,11 @@ function App(prop) {
   function doMenu(menu, y, isPanel, isUser) {
     if (getAccess(menu.getwaykey)) {
       if (!menu.submenu) {
-        if (menu.idname != "admin" || haveAdmin(loginToken?.roles)) {
+        if (
+          menu.idname != "admin" ||
+          haveAdmin(loginToken?.roles) ||
+          haveModerator(loginToken?.roles)
+        ) {
           return (
             <li
               key={y + menu.label}

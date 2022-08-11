@@ -111,7 +111,7 @@ const updateUserObj = async (e, data) => {
 const getGateways = JSON.parse(localStorage.getItem("getGateways"));
 function Admin(prop) {
   const [data, setData] = useState([]);
-  const loginToken = JSON.parse(localStorage.getItem("loginToken"));
+
   const [totalRows, setTotalRows] = useState(0);
   const [perPage, setPerPage] = useState(10);
   const [dataSortedID, setDataSortedID] = useState(1);
@@ -178,12 +178,18 @@ function Admin(prop) {
       setLoading(false);
     }
   };
-
+  useEffect(() => {
+    fetchUsers(1); // fetch page 1 of users
+  }, [dataSearch]);
   const handlePerRowsChange = async (newPerPage, page) => {
     setPerPage(newPerPage);
   };
-  var filteredItems = data.filter((item) => item.username);
 
+  var filteredItems = data.filter(
+    (item) =>
+      item.username &&
+      item.username.toLowerCase().includes(filterText.toLowerCase())
+  );
   if (dataLoginDay) {
     var startDate = addDays(new Date(), dataLoginDay);
 
@@ -192,14 +198,6 @@ function Admin(prop) {
       return _Date <= startDate;
     });
   }
-
-  useEffect(() => {
-    fetchUsers(1); // fetch page 1 of users
-  }, [dataSearch]);
-
-  useEffect(() => {
-    if (filterOk) fetchUsers(1); // fetch page 1 of users
-  }, [filterOk]);
 
   const [firstOpen, setFirstOpen] = React.useState(false);
   const contextActions = React.useMemo(() => {
@@ -243,72 +241,8 @@ function Admin(prop) {
   useEffect(() => {
     handleGetGeteways();
   }, []);
-  const columnsDownLine = [
-    {
-      name: "id",
-      selector: (row) => row.id,
-      sortable: true,
-      grow: 0.5,
-    },
-    {
-      name: "level",
-      selector: (row) => row.level,
-      format: (row) => <>{row.level}</>,
-      sortable: true,
-    },
-    {
-      name: "username",
-      selector: (row) => row.username,
-      format: (row) => (
-        <>
-          <a
-            href="#"
-            onClick={() => prop.addTabData(row.username, getwaysList)}
-          >
-            {row.username}
-          </a>
-        </>
-      ),
-      sortable: true,
-      grow: 2,
-    },
 
-    {
-      name: "balance",
-      selector: (row) => row.balance,
-      format: (row) => <>{doCurrency(row.balance)}</>,
-      sortable: true,
-    },
-    {
-      name: "lastLogin",
-      selector: (row) => row.lastLogin,
-      format: (row) => (
-        <>
-          <Moment fromNow ago>
-            {row.lastLogin}
-          </Moment>
-        </>
-      ),
-      sortable: true,
-    },
-
-    {
-      name: "userBlock",
-      selector: (row) => row.userBlock,
-      format: (row) => (
-        <>
-          <CheckboxToggle
-            check={row.userBlock}
-            user={row}
-            userkey="userBlock"
-            onChange={updateUserObj}
-          />
-        </>
-      ),
-      sortable: true,
-    },
-  ];
-  var columns = [
+  const columns = [
     {
       name: "id",
       selector: (row) => row.id,
@@ -372,55 +306,52 @@ function Admin(prop) {
       ),
       sortable: true,
     },
-  ];
-  if (haveAdmin(loginToken.roles)) {
-    columns.push(
-      {
-        name: "userBlock",
-        selector: (row) => row.userBlock,
-        format: (row) => (
-          <>
-            <CheckboxToggle
-              check={row.userBlock}
-              user={row}
-              userkey="userBlock"
-              onChange={updateUserObj}
-            />
-          </>
-        ),
-        sortable: true,
-      },
-      {
-        name: "Admin",
-        selector: (row) => row.roles,
-        format: (row) => (
-          <CheckboxToggle
-            check={haveAdmin(row.roles)}
-            user={row}
-            userkey="Roles"
-            onChange={updateUserObj}
-            disabled={true}
-          />
-        ),
-        sortable: true,
-      },
-      {
-        name: "Moderator",
-        selector: (row) => row.roles,
-        format: (row) => (
-          <CheckboxToggle
-            check={haveModerator(row.roles)}
-            user={row}
-            userkey="Roles"
-            onChange={updateUserObj}
-            disabled={true}
-          />
-        ),
-        sortable: true,
-      }
-    );
-  }
 
+    {
+      name: "userBlock",
+      selector: (row) => row.userBlock,
+      format: (row) => (
+        <>
+          <CheckboxToggle
+            check={row.userBlock}
+            user={row}
+            userkey="userBlock"
+            onChange={updateUserObj}
+          />
+        </>
+      ),
+      sortable: true,
+    },
+
+    {
+      name: "Admin",
+      selector: (row) => row.roles,
+      format: (row) => (
+        <CheckboxToggle
+          check={haveAdmin(row.roles)}
+          user={row}
+          userkey="Roles"
+          onChange={updateUserObj}
+          disabled={true}
+        />
+      ),
+      sortable: true,
+    },
+    {
+      name: "Moderator",
+      selector: (row) => row.roles,
+      format: (row) => (
+        <CheckboxToggle
+          check={haveModerator(row.roles)}
+          user={row}
+          userkey="Roles"
+          onChange={updateUserObj}
+          disabled={true}
+        />
+      ),
+      sortable: true,
+    },
+  ];
   const subHeaderComponentMemo = React.useMemo(() => {
     const handleClear = () => {
       if (filterText) {
@@ -431,25 +362,10 @@ function Admin(prop) {
 
     return (
       <>
-        <Button onClick={() => prop.addGatewayTabData("Gateways")}>
-          Gateways
-        </Button>
-
-        <Button onClick={() => prop.addMainTabData("Runner")}>Runners</Button>
-        <Button onClick={() => prop.addMainTabData("Bots")}>Bots</Button>
-        <Filter onFilter={handleChangeSearch} value={dataSearch} />
-        <Filter
-          onFilter={handleChangeLogin}
-          value={dataLoginDay}
-          mymode="login"
-        />
         <FilterComponent
           onFilter={(e) => setFilterText(e.target.value)}
           onClear={handleClear}
           filterText={filterText}
-          onFilterOk={() => {
-            setFilterOk(true);
-          }}
         />
       </>
     );
@@ -481,52 +397,29 @@ function Admin(prop) {
         <AddGift selectedList={selectedList} />
       </Modal>
       <div style={{ height: "calc(100vh - 150px)", overflow: "auto" }}>
-        {prop.search == "refer" && prop.searchValue != "bots" ? (
-          <DataTable
-            title={prop.searchValue + " DownLines"}
-            columns={columnsDownLine}
-            data={filteredItems}
-            progressPending={loading}
-            paginationPerPage={perPage}
-            onChangeRowsPerPage={handlePerRowsChange}
-            defaultSortFieldId={dataSortedID}
-            defaultSortAsc={false}
-            expandOnRowClicked={true}
-            expandableRowsHideExpander={true}
-            conditionalRowStyles={conditionalRowStyles}
-            noDataComponent={noDataComponent}
-            pagination
-            paginationResetDefaultPage={resetPaginationToggle} // optionally, a hook to reset pagination to page 1
-            persistTableHead
-            contextActions={contextActions}
-            paginationRowsPerPageOptions={[10, 25, 50, 100]}
-            onSelectedRowsChange={handleChange}
-          />
-        ) : (
-          <DataTable
-            title={prop.searchValue ? prop.searchValue : "Users"}
-            columns={columns}
-            data={filteredItems}
-            progressPending={loading}
-            onChangeRowsPerPage={handlePerRowsChange}
-            paginationPerPage={perPage}
-            defaultSortFieldId={dataSortedID}
-            defaultSortAsc={false}
-            expandOnRowClicked={true}
-            expandableRowsHideExpander={true}
-            conditionalRowStyles={conditionalRowStyles}
-            noDataComponent={noDataComponent}
-            pagination
-            paginationResetDefaultPage={resetPaginationToggle} // optionally, a hook to reset pagination to page 1
-            subHeader
-            subHeaderComponent={subHeaderComponentMemo}
-            persistTableHead
-            contextActions={contextActions}
-            selectableRows
-            paginationRowsPerPageOptions={[10, 25, 50, 100]}
-            onSelectedRowsChange={handleChange}
-          />
-        )}
+        <DataTable
+          title={prop.searchValue ? prop.searchValue : "Users"}
+          columns={columns}
+          data={filteredItems}
+          progressPending={loading}
+          onChangeRowsPerPage={handlePerRowsChange}
+          paginationPerPage={perPage}
+          defaultSortFieldId={dataSortedID}
+          defaultSortAsc={false}
+          expandOnRowClicked={true}
+          expandableRowsHideExpander={true}
+          conditionalRowStyles={conditionalRowStyles}
+          noDataComponent={noDataComponent}
+          pagination
+          paginationResetDefaultPage={resetPaginationToggle} // optionally, a hook to reset pagination to page 1
+          subHeader
+          subHeaderComponent={subHeaderComponentMemo}
+          persistTableHead
+          contextActions={contextActions}
+          selectableRows
+          paginationRowsPerPageOptions={[10, 25, 50, 100]}
+          onSelectedRowsChange={handleChange}
+        />
       </div>
     </>
   );

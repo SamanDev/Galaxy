@@ -4,10 +4,8 @@ import Users from "./AdminUsers";
 import Bots from "./AdminBots";
 import { Navigate } from "react-router-dom";
 import User from "./AdminUser";
-import Report from "./AdminReport";
+import Report from "./AdminDepositList";
 import GetwaysList from "./components/GetwaysList.component";
-import Requests from "./Requests";
-import RisingPitch from "./PlayAlert";
 import { isJson, haveAdmin, haveModerator, doCurrency } from "../../const";
 var panes = [];
 function Admin(prop) {
@@ -19,41 +17,10 @@ function Admin(prop) {
   useEffect(() => {
     panes = [
       {
-        menuItem: "Users",
-        pane: (
-          <Tab.Pane key="Users">
-            <Users
-              addTabData={addTabData}
-              addMainTabData={addMainTabData}
-              setGetwaysData={setGetwaysData}
-              addGatewayTabData={addGatewayTabData}
-              removeTabData={removeTabData}
-              search="username"
-              searchValue=""
-            />
-          </Tab.Pane>
-        ),
-      },
-
-      {
         menuItem: "Reports",
         pane: (
           <Tab.Pane key="Report">
             <Report removeTabData={removeTabData} addTabData={addTabData} />
-          </Tab.Pane>
-        ),
-      },
-      {
-        menuItem: "Requests",
-        pane: (
-          <Tab.Pane key="Requests">
-            <Requests
-              addTabData={addTabData}
-              addMainTabData={addMainTabData}
-              setGetwaysData={setGetwaysData}
-              addGatewayTabData={addGatewayTabData}
-              removeTabData={removeTabData}
-            />
           </Tab.Pane>
         ),
       },
@@ -157,7 +124,6 @@ function Admin(prop) {
     setTabData(newPanes2);
     setActiveIndex(newPanes2.length - 1);
   };
-
   const removeTabData = (id) => {
     var newPanes = panes;
     const result = newPanes.filter(checkAdult);
@@ -171,10 +137,8 @@ function Admin(prop) {
   if (!haveAdmin(loginToken?.roles) && !haveModerator(loginToken?.roles)) {
     return <Navigate to="/" />;
   }
-
   return (
     <Segment>
-      <RisingPitch />
       <Tab
         panes={tabData}
         activeIndex={activeIndex}

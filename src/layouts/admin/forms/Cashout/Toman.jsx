@@ -33,9 +33,9 @@ const validationSchema = Yup.object({
 });
 const onSubmit = async (values, submitMethods, navigate, prop, setRefresh) => {
   try {
-    const res = await cashierService(values, "createCashoutToman", "");
+    const res = await cashierService(values, "createCashoutShetab", "");
     if (res.status == 200) {
-      if (res.data?.address) {
+      if (res.data?.accessToken) {
         setRefresh(true);
       }
     } else {

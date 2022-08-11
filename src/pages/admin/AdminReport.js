@@ -50,6 +50,12 @@ const conditionalRowStyles = [
       backgroundColor: "rgba(0,255,0,.1)",
     },
   },
+  {
+    when: (row) => row.endBalance < row.startBalance,
+    style: {
+      backgroundColor: "rgba(255,0,0,.1)",
+    },
+  },
 ];
 const noDataComponent = (
   <div

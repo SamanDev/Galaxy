@@ -156,6 +156,7 @@ function getPathOfKey2(object, keys, getwaysList) {
 
 function Admin(prop) {
   const [activeIndex, setActiveIndex] = useState(0);
+  const loginToken = JSON.parse(localStorage.getItem("loginToken"));
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState({});
   const handleGetReports = async () => {
@@ -166,9 +167,9 @@ function Admin(prop) {
           prop.username
       );
       if (res.status === 200) {
-        if (res.data.data.length > 0) {
-          console.log(res.data.data[0]);
-          setUser(res.data.data[0]);
+        if (res.data.users.length > 0) {
+          console.log(res.data.users[0]);
+          setUser(res.data.users[0]);
         } else {
           prop.removeTabData(prop.username + "profile");
         }
@@ -213,12 +214,22 @@ function Admin(prop) {
       </>
     );
   }
-  var newdataInfo = [
-    getPathOfKey2(
-      user,
-      ",username,level,balance,email,fullName,refer,firstLogin,lastLogin,bankInfos,cashierGateways,userBlock,"
-    ),
-  ];
+  if (haveAdmin(loginToken.roles)) {
+    var newdataInfo = [
+      getPathOfKey2(
+        user,
+        ",username,level,balance,email,mobile,fullName,refer,firstLogin,lastLogin,bankInfos,cashierGateways,userBlock,"
+      ),
+    ];
+  }
+  if (haveModerator(loginToken.roles)) {
+    var newdataInfo = [
+      getPathOfKey2(
+        user,
+        ",username,level,balance,fullName,refer,firstLogin,lastLogin,bankInfos,cashierGateways,"
+      ),
+    ];
+  }
   var newdataBankInfo = [getPathOfKey(user, ",bankInfos,")];
 
   var newdataGetways = [
