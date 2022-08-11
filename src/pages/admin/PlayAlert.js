@@ -19,7 +19,7 @@ function RisingPitch(prop) {
   const [play] = useSound(glugSfx);
 
   return (
-    <Button id="playcheck" onClick={play}>
+    <Button id="playcheck" onClick={play} style={{ display: "none" }}>
       <span role="img" aria-label="Person with lines near mouth">
         🗣
       </span>

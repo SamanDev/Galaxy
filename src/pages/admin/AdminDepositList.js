@@ -196,12 +196,6 @@ function Admin(prop) {
     filteredItems = data.filter((item) => {
       return dataMode == item.status;
     });
-    var pen = data.filter((item) => {
-      return "Pending" == item.status;
-    });
-    if (pen.length > 0) {
-      $("#playcheck").trigger("click");
-    }
   }
   const [firstOpen, setFirstOpen] = React.useState(false);
   const [resetPaginationToggle, setResetPaginationToggle] =
@@ -225,7 +219,12 @@ function Admin(prop) {
       );
       if (res.status === 200) {
         setData(res.data);
-
+        var pen = res.data.filter((item) => {
+          return "Pending" == item.status;
+        });
+        if (pen.length > 0) {
+          $("#playcheck").trigger("click");
+        }
         setFilterOk(false);
       }
     } catch (error) {

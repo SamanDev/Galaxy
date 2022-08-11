@@ -18,7 +18,7 @@ const Balance = (prop) => {
   const [color, setColor] = useState("grey");
   const [stateMode, setStateMode] = useState(0);
   var _event = getEvent();
-  if (loginToken) {
+  if (loginToken.accessToken) {
     if (loginToken.level == 0) {
       loginToken.level = 1;
     }
