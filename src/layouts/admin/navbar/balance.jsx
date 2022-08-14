@@ -13,11 +13,13 @@ import LevelIcon from "../../../utils/LevelIcon";
 
 import BonusArea from "../bonus/index.jsx";
 import { doCurrency, levelData, getEvent } from "../../../const";
+const moment = require("moment");
 const Balance = (prop) => {
   var lvlPercent = 0;
   var gLvlPercent = 0;
   const loginToken = JSON.parse(localStorage.getItem("loginToken"));
   const [color, setColor] = useState("grey");
+  const [gCount, setGCount] = useState("0");
   const [stateMode, setStateMode] = useState(0);
   var _event = getEvent();
   if (loginToken) {
@@ -28,7 +30,29 @@ const Balance = (prop) => {
     lvlPercent = parseFloat((loginToken.levelPoint * 100) / _lvlFinal[0].point);
     gLvlPercent = parseFloat((loginToken.glevelPoint * 100) / (5 * 60 * 60));
   }
+
   const [lvlPercentState, setlvlPercentState] = useState(lvlPercent);
+  const ChangeGift = () => {
+    var user = JSON.parse(localStorage.getItem("loginToken"));
+    var _bonuses = user.userGifts;
+
+    var end = Date.now();
+
+    var _pen = _bonuses.filter(
+      (d) =>
+        d.status == "Pending" &&
+        d.received == false &&
+        Date.parse(d.date) < end &&
+        Date.parse(d.expireDate) > end
+    );
+    if (_pen.length > 0) {
+      setColor("orange");
+      setGCount(_pen.length);
+    } else {
+      setColor("grey");
+      setGCount(_pen.length);
+    }
+  };
   const ChangeStateMode = () => {
     var _n = stateMode;
     _n += 1;
@@ -44,6 +68,7 @@ const Balance = (prop) => {
     if (_event == "VIP") {
       setStateMode(1);
     }
+    ChangeGift();
   }, []);
   useEffect(() => {
     if (stateMode == 0) {
@@ -59,7 +84,7 @@ const Balance = (prop) => {
         <Segment
           className="myaccount"
           inverted
-          style={{ margin: 0, padding: 10, color: "#fff" }}
+          style={{ margin: 0, padding: 10, color: "#fff", top: 3 }}
           onClick={() => {
             ChangeStateMode();
           }}
@@ -178,10 +203,31 @@ const Balance = (prop) => {
             basic
             pinned
             trigger={
-              <Icon circular size="small" color={color} name="gift" link />
+              <Icon
+                circular
+                size="small"
+                color={color}
+                inverted={color == "grey" ? false : true}
+                name="gift"
+                className={
+                  gCount == 0 ? "animated" : "animated heartBeat infinite slow"
+                }
+                link
+              >
+                <Label
+                  color="red"
+                  floating
+                  size="mini"
+                  className="farsi-inline"
+                  hidden={gCount == 0 ? true : false}
+                  style={{ top: 5, left: "95%" }}
+                >
+                  {gCount}
+                </Label>
+              </Icon>
             }
           >
-            <BonusArea {...prop} setColor={setColor} />
+            <BonusArea {...prop} ChangeGift={ChangeGift} />
           </Popup>
           <Progress
             percent={lvlPercentState}

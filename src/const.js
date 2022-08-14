@@ -13,6 +13,27 @@ import CashoutComponent from "./layouts/admin/forms/FormComponent.jsx";
 import FormComponent from "./layouts/admin/forms/FormComponent.jsx";
 
 const moment = require("moment");
+export const levelDataInfo = [
+  {
+    name: "gPass",
+    minLevel: 10,
+    minBalance: 10000000,
+    banOutHours: 48,
+  },
+  {
+    name: "VIP",
+    minLevel: 25,
+    minBalance: 10000000,
+    banOutHours: 24,
+  },
+  {
+    name: "League",
+    minLevel: 5,
+    minBalance: 3000000,
+    banOutHours: 12,
+  },
+];
+
 export const gameDataMain = "poker,backgammon,boom,bet".split(",");
 export const gameDataMainCode = "p,b,c,bt".split(",");
 export const gameData =
@@ -154,7 +175,7 @@ export const menuData = [
       {
         label: "خرید چیپ",
         icon: "fas fa-plus text-danger",
-
+        idname: "deposit",
         submenu: doDeposit(),
       },
       {
@@ -247,7 +268,7 @@ export const menuData = [
         title: "گلکسی پَس",
 
         idname: "gpass",
-        bonus: "Level 10",
+        bonus: "Level " + levelDataInfo[0].minLevel,
         icon: "fab fa-google yellow",
 
         component: <PassList />,
@@ -257,7 +278,7 @@ export const menuData = [
         title: "VIP Table 25/50K",
         idname: "vip",
 
-        bonus: "Level 25",
+        bonus: "Level " + levelDataInfo[1].minLevel,
         icon: "fab fa-viacoin yellow",
 
         component: <VIP />,
@@ -267,7 +288,7 @@ export const menuData = [
         title: "لیگ روزانه",
 
         idname: "league",
-        bonus: "Level 5",
+        bonus: "Level " + levelDataInfo[2].minLevel,
         icon: "fas fa-medal yellow",
 
         component: <League />,
@@ -420,9 +441,6 @@ export const doCurrency = (value) => {
   return value?.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
 };
 
-export const gotopage = (too) => {
-  alert();
-};
 export const levelList =
   "1,5,15,30,50,100,200,300,400,500,600,700,800,900,1000,1200,1400,1600,1800,2000,2500,3000,3500,4000,4500,5000,6000,7000,8000,10000".split(
     ","

@@ -30,6 +30,47 @@ import $ from "jquery";
 const Banner = (prop) => {
   return (
     <div className="banner">
+      <Grid reversed="computer tablet">
+        <Grid.Row>
+          <Grid.Column
+            mobile={16}
+            tablet={8}
+            computer={8}
+            className="myaccount"
+          >
+            {prop.image && <Image src={prop.image} rounded />}
+            <GalaxyIcon
+              mode={prop.icon}
+              level=""
+              text=""
+              className="bannericon"
+              number={prop.number}
+            />
+          </Grid.Column>
+          <Grid.Column mobile={16} tablet={8} computer={8} textAlign="right">
+            <h1 className="farsi">{prop.title}</h1>
+            <div className="farsi text">{prop.text}</div>
+
+            {prop.link && (
+              <Button
+                className="farsi"
+                color="teal"
+                onClick={() => {
+                  prop.openPanel(prop.link);
+                }}
+              >
+                اطلاعات بیشتر
+              </Button>
+            )}
+          </Grid.Column>
+        </Grid.Row>
+      </Grid>
+    </div>
+  );
+};
+const Banner2 = (prop) => {
+  return (
+    <div className="banner">
       {prop.image && <Image src={prop.image} rounded />}
 
       <h1 className="farsi">{prop.title}</h1>
@@ -344,7 +385,7 @@ const Dashboard = (prop) => {
                     {...prop}
                   />
                 </div>
-                {_width > 500 && 1 == 2 && (
+                {_width > 500 && 1 == 1 && (
                   <div className="carousel-item " data-bs-interval="100000">
                     <Banner
                       image="/assets/images/calendar.gif"

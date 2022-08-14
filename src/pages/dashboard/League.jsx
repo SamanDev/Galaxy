@@ -9,7 +9,12 @@ import {
   Divider,
   Segment,
 } from "semantic-ui-react";
-import { doCurrency, levelLeagueReward, levelLeagueList } from "../../const";
+import {
+  doCurrency,
+  levelLeagueReward,
+  levelLeagueList,
+  levelDataInfo,
+} from "../../const";
 import LevelIcon from "../../utils/LevelIcon";
 import GiftsDesc from "../../utils/GiftsDesc";
 import AddCalendar from "../../utils/AddCalendar";
@@ -25,6 +30,7 @@ const LevelList = () => {
               mode="league"
               level=""
               text="League"
+              className="avatar"
               style={{
                 width: 32,
                 margin: "auto",
@@ -40,16 +46,50 @@ const LevelList = () => {
           <List.Content className="rtl text-center">
             <GiftsDesc
               desc={
-                "لیگ گلکسی هر روز از بیست و چهارم تا پایان هر ماه میلادی  برگزار می شود."
+                <>
+                  لیگ گلکسی هر روز از{" "}
+                  <span className="farsi text-gold">
+                    بیست و چهارم تا پایان هر ماه میلادی
+                  </span>{" "}
+                  برگزار می شود.
+                </>
               }
               desc2={
-                "برای " +
-                levelLeagueList.length +
-                " نفری که بیشترین امتیاز را در طول هر روز از گلکسی کسب کرده اند."
+                <>
+                  جوایز در پایان هر روز به{" "}
+                  <span className="farsi text-gold">
+                    {levelLeagueList.length} نفری
+                  </span>{" "}
+                  که بیشترین امتیاز را در طول هر روز از گلکسی کسب کرده اند, اهدا
+                  خواهد شد.
+                </>
               }
-              desc3={"جوایز در پایان هر روز اهدا خواهد شد."}
-              desc4="برای شرکت در لیگ گلکسی یا باید لول شما 5 یا بالاتر باشد. یا موجودی اکانت شما بیش از 10,000,000 تومان  باشد."
-              desc5="توجه داشته باشید اگر لِوِل شما کمتر از 5 باشد، برداشت و انتقال شما به مدت 72 ساعت بسته خواهد شد."
+              desc3={
+                <>
+                  برای شرکت در لیگ گلکسی یا باید{" "}
+                  <span className="farsi text-gold">
+                    لول شما {levelDataInfo[2].minLevel} یا بالاتر
+                  </span>{" "}
+                  باشد یا موجودی اکانت شما بیش از{" "}
+                  <span className="farsi text-gold">
+                    {doCurrency(levelDataInfo[2].minBalance)} تومان
+                  </span>{" "}
+                  باشد.
+                </>
+              }
+              desc4={
+                <>
+                  توجه داشته باشید اگر لِوِل شما{" "}
+                  <span className="farsi text-gold">
+                    کمتر از {levelDataInfo[2].minLevel}
+                  </span>{" "}
+                  باشد، با دریافت هر پاداش، برداشت و انتقال شما به مدت{" "}
+                  <span className="farsi text-gold">
+                    {levelDataInfo[2].banOutHours} ساعت
+                  </span>{" "}
+                  بسته خواهد شد.
+                </>
+              }
               amount="45000000"
               subtitle="تومان هر روز"
             />

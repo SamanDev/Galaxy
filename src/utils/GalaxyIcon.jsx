@@ -11,9 +11,10 @@ import {
 import { levelClass, levelPassClass } from "../const";
 const LevelIcon = (prop) => {
   if (prop.mode == "gpass") {
+    var _txt = prop.number ? prop.number : prop.level;
     return (
       <div className="avatar-center" {...prop}>
-        <Image avatar>
+        <Image>
           <i
             className={
               prop.level
@@ -22,7 +23,7 @@ const LevelIcon = (prop) => {
             }
           ></i>
         </Image>
-        <span className="levelText big">
+        <span className={"text" + _txt.toString().length + " levelText big"}>
           {prop.number ? prop.number : prop.level}
         </span>
         <div>{prop.text}</div>
@@ -32,11 +33,8 @@ const LevelIcon = (prop) => {
   if (prop.mode == "vip") {
     return (
       <div className="avatar-center" {...prop}>
-        <Image avatar>
-          <i
-            className={"fab fa-vimeo-v big star yellow inverted"}
-            style={{ fontSize: 27 }}
-          ></i>
+        <Image>
+          <i className={"fab fa-vimeo-v big star yellow inverted"}></i>
         </Image>
         <span className="levelText big">
           {prop.number ? prop.number : prop.level}
@@ -61,13 +59,53 @@ const LevelIcon = (prop) => {
       </div>
     );
   }
-  if (prop.mode == "league") {
+  if (prop.mode == "commission") {
     return (
       <div className="avatar-center" {...prop}>
         <Image avatar>
-          <i className={"fas fa-medal big  lv5 "}></i>
+          <i
+            className={"fas fa-percent big star red inverted"}
+            style={{ fontSize: 27 }}
+          ></i>
         </Image>
         <span className="levelText big">
+          {prop.number ? prop.number : prop.level}
+        </span>
+        <div>{prop.text}</div>
+      </div>
+    );
+  }
+  if (prop.mode == "rakeback") {
+    return (
+      <div className="avatar-center" {...prop}>
+        <Image avatar>
+          <i
+            className={"fas fa-percent big star orange "}
+            style={{ fontSize: 27 }}
+          ></i>
+        </Image>
+        <span className="levelText big">
+          {prop.number ? prop.number : prop.level}
+        </span>
+        <div>{prop.text}</div>
+      </div>
+    );
+  }
+  if (prop.mode == "league") {
+    var _txt = prop.number ? prop.number : prop.level;
+    return (
+      <div className="avatar-center" {...prop}>
+        <Image>
+          <i
+            className={
+              prop.level
+                ? "fas fa-gem big  gem lv1 " + levelPassClass(prop.level - 1)
+                : "fas fa-gem big gem lv17 icon shad2"
+            }
+          ></i>
+        </Image>
+
+        <span className={"text" + _txt.toString().length + " levelText big"}>
           {prop.number ? prop.number : prop.level}
         </span>
         <div>{prop.text}</div>
@@ -106,7 +144,7 @@ const LevelIcon = (prop) => {
   if (prop.mode == "levels") {
     return (
       <div className="avatar-center" {...prop}>
-        <Image avatar>
+        <Image>
           <Icon
             name="star"
             inverted

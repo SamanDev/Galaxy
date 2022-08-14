@@ -17,8 +17,19 @@ body {
   text-align: right;
   /* box-sizing: content-box */
 }
-.swal-modal {
+.swal2-container{
+  z-index: 100000000 !important;
+}
+.swal-modal,
+.swal2-modal {
   background-color: rgb(56, 65, 74) !important;
+  background-image: url(/assets/images/bgs/bg.svg);
+  background-position-x: 50%, 50%;
+  background-position-y: 0%, 0%;
+  background-size: auto, auto;
+}
+.swal2-popup {
+  background-color: rgb(30, 36, 41) !important;
   background-image: url(/assets/images/bgs/bg.svg);
   background-position-x: 50%, 50%;
   background-position-y: 0%, 0%;
@@ -32,29 +43,40 @@ body {
 .farsi-inline,
 .swal-modal .swal-title,
 .swal-modal .swal-text,
-.swal-modal .swal-button {
+.swal-modal .swal-button,
+.swal2-toast .swal2-title,
+.swal2-modal .swal2-title,
+.swal2-modal .swal2-html-container,
+.swal2-modal .swal2-text,
+.swal2-modal .swal2-button {
   font-family: "BYekan" !important;
   direction: rtl;
 }
 .swal-modal .swal-title,
 .swal-modal .swal-text,
-.swal-modal .swal-button {
+.swal-modal .swal-button,
+.swal2-modal .swal2-title,
+.swal2-toast .swal2-title,
+.swal2-modal .swal2-html-container,
+.swal2-modal .swal2-text,
+.swal2-modal .swal2-button {
   text-align: center;
   color: #fff !important;
 }
 .swal-button {
   min-width: 80px;
 }
-.swal-button--cancel {
-  background-color: #8a0606 !important;
-}
-.swal-button--confirm {
-  background-color: #208a06;
-}
 
-.swal-footer {
+.swal-footer,
+.swal2-actions {
   text-align: center;
   background: rgba(0, 0, 0, 0.2);
+
+  direction: rtl;
+}
+.swal2-actions * {
+  font-family: "BYekan" !important;
+  direction: rtl;
 }
 .rtl {
   direction: rtl;
@@ -68,9 +90,7 @@ a {
   display: block;
   margin-bottom: 5px;
 }
-.carousel i.big {
-  font-size: 32px !important;
-}
+
 .hiddenmenu {
   display: none !important;
 }
@@ -144,7 +164,6 @@ a {
 }
 .menutitle,
 .menutitle .mm-listitem__text {
- 
   margin: 0 !important;
 }
 .menutitle.mm-listitem:after {
@@ -153,7 +172,7 @@ a {
 .framegame {
   width: calc(100%) !important;
   min-width: 750px !important;
-  height: calc(100vh - 67px) !important;
+  height: calc(100vh - 64px) !important;
   position: relative;
 
   overflow: auto;
@@ -209,39 +228,43 @@ body.fullscreen #content_section {
 }
 .banner {
   width: calc(100%);
-  height: calc(90vh - 64px);
-  position: flex;
-  top: 64px;
-  left: 0;
-  overflow: auto;
+  height: calc(90vh - 74px);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
   transition: all 100ms ease;
   -webkit-font-smoothing: antialiased;
-  padding: 0 30% 0 0;
+}
+.banner .ui.grid {
+  width: 100%;
+  margin: 0 !important;
+}
+.banner .ui.grid > .row {
+  margin: 0 !important;
+  padding: 0 !important;
 }
 .banner img {
-  position: absolute !important;
-  right: 14%;
-  max-height: 40%;
-  top: 25%;
+ 
   filter: contrast(125%);
-  max-width: 32% !important;
+  max-width: 30vw !important;
 }
 .banner h1 {
-  position: relative;
-  top: 25%;
-  right: 35%;
   font-weight: 900;
   font-size: 3vw;
   color: #ffde00;
+  margin-bottom: 3vh;
 }
 .banner .text {
-  position: relative;
-
-  top: 27%;
-  right: 35%;
   font-weight: 400;
   font-size: 2.5vw;
   color: #fff;
+  margin-bottom: 5vh;
+}
+.banner .button {
+  
+  font-size: 1.5vw !important;
+ 
 }
 .ui.fluid.vertical.buttons > .button {
   margin-bottom: 2px;
@@ -487,7 +510,6 @@ i.star.big {
 a.mm-listitem__text {
   padding-left: 0 !important;
   overflow: visible !important;
-
 }
 .mm-listitem__text.image {
   padding: 0 !important;
@@ -673,7 +695,6 @@ a.mm-listitem__text {
 }
 
 .myaccount.popupmenu {
-
   display: block;
 }
 .myaccount.popupmenu.ui.list {
@@ -1540,23 +1561,24 @@ table {
 /* content start------->>>>>>> */
 #content_section {
   width: calc(100%);
-  height: calc(100vh - 64px);
+  height: calc(100vh - 62px);
   position: fixed;
-  top: 64px;
+  top: 62px;
   left: 0;
-  overflow: auto;
+  overflow: hidden;
   transition: all 100ms ease;
   -webkit-font-smoothing: antialiased;
   background-color: rgb(56, 65, 74) !important;
   background-image: url("/assets/images/bgs/bg.svg");
   background-position-x: 50%, 50%;
   background-position-y: 0%, 0%;
-  background-size: auto, auto;
+  background-size: 100%;
+  background-repeat: no-repeat;
   padding: 0 !important;
 }
 #dashboard_section {
   background-image: url("/assets/images/bgs/1.png?ss");
-  background-size: auto, 100%;
+  background-size: auto,auto;
   background-repeat: no-repeat;
 }
 .fadein {
@@ -1582,7 +1604,8 @@ table {
 }
 
 /* dashboard */
-.blacktext div.date,.blacktext div.date .time {
+.blacktext div.date,
+.blacktext div.date .time {
   color: black !important;
 }
 .dashboard_card {
@@ -1679,27 +1702,27 @@ table {
 
 /* content end-------<<<<<<< */
 .bannericon {
-  width: 0px;
-  transform: scale(8);
-  transform-origin: center center;
+  font-size: 20vh !important;
   direction: ltr;
   position: absolute;
-  right: -50px;
- top:150px;
+
   opacity: 0.8;
 }
-.bannericon .levelText.big{
+.bannericon i.big.icon {
+  font-size: inherit !important;
+}
+.bannericon .levelText.big {
   font-size: 0 !important;
 }
-.reportTable .rdt_TableCell{
+.reportTable .rdt_TableCell {
   font-size: 11px !important;
 }
-.ui.toggle.checkbox .box:before, .ui.toggle.checkbox label:before {
- 
-  background: rgba(0,0,0,.4);
-
+.ui.toggle.checkbox .box:before,
+.ui.toggle.checkbox label:before {
+  background: rgba(0, 0, 0, 0.4);
 }
 @media (max-width: 768px) {
+  
   .top_navbar .right_content {
     background-color: #6c757d !important;
     width: 100px;
@@ -1709,55 +1732,59 @@ table {
     width: calc(100vw - 270px);
   }
   #game_section {
-    top: 60px;
+    top: 0px;
+  }
+
+  #content_section {
+    background-size: auto 100%;
   }
   .banner {
-    width: calc(100%);
-    height: calc(60vh - 64px);
+    height: calc(70vh - 74px);
+  }
+  .bannericon {
+    font-size: 60vw !important;
 
-    padding: 0;
-    overflow: hidden;
+    top: -10vh;
+    opacity: 0.2;
+    width: 50%;
+  }
+  .banner img{
+    display: none;
+  }
+  .banner .column * {
+    text-align: center !important;
+  }
+  .banner .ui.grid * {
+    text-align: center !important;
   }
   .banner h1 {
-  
     font-size: 6vw;
-
   }
   .banner .text {
- 
     font-size: 5vw;
+  }
+  .banner .button {
   
+    font-size: 4vw !important;
    
   }
   #dashboard_section {
-    background-size: 132%;
+    background-size: 150%;
     background-repeat: no-repeat;
   }
-  .bannericon {
-    right: 80px;
-    top: 150px;
-    opacity: 0.1;
-    height: 70px;
-    z-index: -1;
-  }
 
-  @media only screen and (orientation:landscape) {
+  @media only screen and (orientation: landscape) {
     .ui.black.label.balanceLable.amount {
       min-width: 50px !important;
       width: calc(100vw - 270px);
     }
-    .bannericon {
-      right: 80px;
-      top: 150px;
-      opacity: 0.2;
-      height: 70px;
-    }
+
     #game_section {
       top: 60px;
     }
     .banner {
       width: calc(100%);
-      height: calc(90vh - 64px);
+      height: calc(80vh - 64px);
 
       padding: 0;
       overflow: hidden;
@@ -1765,25 +1792,32 @@ table {
     .ui.grid > [class*="eight wide mobile"].column {
       width: 25% !important;
     }
+    .bannericon {
+      font-size: 60vh !important;
+  
+      top: -10vh;
+      opacity: 0.2;
+      width: 50%;
+    }
     #dashboard_section {
       background-size: 90%;
       background-repeat: no-repeat;
-  }
-  #game_section {
-    position: relative;
-    top: 0vh;
-}
-.banner h1 {
+    }
+    #game_section {
+      position: relative;
+      top: 0vh;
+    }
+    .banner h1 {
+      font-size: 4vw;
+    }
+    .banner .text {
+      font-size: 3.2vw;
+    }
+    .banner .button {
   
-  font-size: 4vw;
-
-}
-.banner .text {
-
-  font-size: 3.2vw;
-
- 
-}
+      font-size: 2vw !important;
+     
+    }
   }
 
   @media (orientation: portrait) {

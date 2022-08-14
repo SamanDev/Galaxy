@@ -8,7 +8,12 @@ import {
   Button,
   Divider,
 } from "semantic-ui-react";
-import { doCurrency, levelPassReward, levelPassList } from "../../const";
+import {
+  doCurrency,
+  levelPassReward,
+  levelPassList,
+  levelDataInfo,
+} from "../../const";
 import LevelIcon from "../../utils/LevelIcon";
 import AddCalendar from "../../utils/AddCalendar";
 import GalaxyIcon from "../../utils/GalaxyIcon";
@@ -19,13 +24,14 @@ const LevelList = () => {
     <span className="myaccount popupmenu">
       <List divided inverted verticalAlign="middle" className="myaccount">
         <List.Item>
-          <List.Content className="rtl text-center">
+          <List.Content className="rtl text-center ">
             <GalaxyIcon
               mode="gpass"
               level=""
               text="GPass"
+              className="avatar"
               style={{
-                width: 32,
+                width: 100,
                 margin: "auto",
                 transform: "scale(1.5)",
                 direction: "ltr",
@@ -33,15 +39,55 @@ const LevelList = () => {
             />
             <AddCalendar start="1" dur="15" format="0000" title="GallaxyPass" />
             <GiftsDesc
-              desc={"گلکسی پَس از اول تا پانزدهم هر ماه میلادی برگزار می شود."}
+              desc={
+                <>
+                  گلکسی پَس از{" "}
+                  <span className="farsi text-gold">
+                    اول تا پانزدهم هر ماه میلادی
+                  </span>{" "}
+                  برگزار می شود.
+                </>
+              }
               desc2={
-                " هر بازیکن با 5 ساعت بازی روی میزهای 15K/15K و بالاتر طی مدت 24 ساعت  جایزه آن روز را دریافت می نماید و به مرحله بعدی خواهد رفت."
+                <>
+                  هر بازیکن با{" "}
+                  <span className="farsi text-gold">5 ساعت بازی</span> روی
+                  میزهای{" "}
+                  <span className="farsi text-gold">
+                    25K/50K و بالاتر طی مدت 24 ساعت
+                  </span>{" "}
+                  جایزه آن روز را دریافت می نماید و به مرحله بعدی خواهد رفت.
+                </>
               }
               desc3={
-                "در ساعت 00:01 هر روز گلکسی پَس ریست خواهد شد و مرحله جدید برای بازیکنانی که مرحله قبل را تمام کرده اند شروع به کار خواهد کرد و بازیکنانی که مرحله قبل را تمام نکرده اند مجددا 24 ساعت زمان دارند تا این مرحله را تمام کنند."
+                "در بامداد هر شب، گلکسی پَس ریست خواهد شد و مرحله جدید برای بازیکنانی که مرحله قبل را تمام کرده اند شروع به کار خواهد کرد و بازیکنانی که مرحله قبل را تمام نکرده اند مجددا 24 ساعت زمان دارند تا این مرحله را تمام کنند."
               }
-              desc4="برای شرکت در گلکسی پَس یا باید لول شما  7 یا بالاتر باشد. یا موجودی اکانت شما بیش از 10,000,000 تومان  باشد."
-              desc5="توجه داشته باشید اگر لِوِل شما کمتر از 7 باشد، برداشت و انتقال شما به مدت 72 ساعت بسته خواهد شد."
+              desc4={
+                <>
+                  برای شرکت در گلکسی پَس یا باید{" "}
+                  <span className="farsi text-gold">
+                    لول شما {levelDataInfo[0].minLevel} یا بالاتر
+                  </span>{" "}
+                  باشد یا موجودی اکانت شما بیش از{" "}
+                  <span className="farsi text-gold">
+                    {doCurrency(levelDataInfo[0].minBalance)} تومان
+                  </span>{" "}
+                  باشد.
+                </>
+              }
+              desc5={
+                <>
+                  توجه داشته باشید اگر لِوِل شما{" "}
+                  <span className="farsi text-gold">
+                    کمتر از {levelDataInfo[0].minLevel}
+                  </span>{" "}
+                  باشد،با دریافت هر پاداش، برداشت و انتقال شما به مدت{" "}
+                  <span className="farsi text-gold">
+                    {levelDataInfo[0].banOutHours} ساعت
+                  </span>{" "}
+                  بسته خواهد شد.
+                </>
+              }
               amount="110000000"
               subtitle="تومان برای هر بازیکن"
             />

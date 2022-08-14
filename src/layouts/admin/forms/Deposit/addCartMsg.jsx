@@ -1,16 +1,6 @@
 import React, { useState } from "react";
-import { Icon, Label, Button, Header, Divider } from "semantic-ui-react";
+import { Button, Message, Icon } from "semantic-ui-react";
 import $ from "jquery";
-import VisaGiftCode from "./VisaGiftCode";
-import PerfectMoney from "./PerfectMoney";
-import BankTransfer from "./BankTransfer";
-import CartToCart from "./CartToCart";
-import CartToCartOnline from "./CartToCartOnline";
-import USDT from "./USDT";
-import BTC from "./BTC";
-import { depositData } from "../../../../const";
-import CashoutArea from "../../cashout/index";
-
 const defCol = "black";
 const selCol = "green";
 const defColBtn = "grey";
@@ -20,14 +10,25 @@ const depositArea = (prop) => {
   const loginToken = JSON.parse(localStorage.getItem("loginToken"));
   return (
     <>
+      <Message color="yellow" compact className="mymessage" size="mini" icon>
+        <Icon
+          circular
+          inverted
+          color="black"
+          name="info"
+          style={{ fontSize: 20 }}
+        />
+
+        <Message.Content className="farsi">
+          برای استفاده از این سرویس ابتدا باید کارت بانکی خود را ثبت نمایید.
+        </Message.Content>
+      </Message>
       <Button
         fluid
         style={{ margin: "10px 0" }}
         className="farsi"
         color="teal"
-        onClick={() => {
-          prop.openPanel(".addcart");
-        }}
+        onClick={() => $("#openaddcart").trigger("click")}
       >
         ثبت کارت بانکی
       </Button>

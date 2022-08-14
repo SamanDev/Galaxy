@@ -78,7 +78,6 @@ const LevelList = () => {
             </List.Item>
           );
         })}
-        {console.log(arra)}
       </List>
     </span>
   );

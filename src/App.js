@@ -16,7 +16,9 @@ var menu = "no";
 var panelMenu = false;
 var api;
 var apiPanel;
-
+const CompGen = (prop) => {
+  return <>{prop.com}</>;
+};
 function App(prop) {
   const [loadingLogin, isLogin] = useIsLogin();
   const [isUser, setIsUser] = useState(false);
@@ -30,6 +32,7 @@ function App(prop) {
   const navigate = useNavigate();
   var loginToken;
   const location = useLocation();
+
   try {
     loginToken = JSON.parse(localStorage.getItem("loginToken"));
   } catch (error) {
@@ -99,7 +102,12 @@ function App(prop) {
                       )}
                       {activeMenu == menu.label && !activePanel && (
                         <li>
-                          <span>{menu.component}</span>
+                          <span>
+                            <CompGen
+                              comp={menu.component}
+                              openPanel={openPanel}
+                            />
+                          </span>
                         </li>
                       )}
                     </ul>

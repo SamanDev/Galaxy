@@ -18,11 +18,15 @@ const Report = (prop) => {
     try {
       if (prop.mode == "Pending") {
         var res = await getReportPenService(
-          `getReportsByUser/?id=${loginToken.id}&status=Pending&page=1&number=3`
+          `getReportsByUser/?id=${loginToken.id}&status=Pending&page=1&number=${
+            prop.count ? prop.count : 3
+          }`
         );
       } else {
         var res = await getReportPenService(
-          `getReportsByUser/?id=${loginToken.id}&mode=${prop.mode}&gateway=${gateway}&page=1&number=3`
+          `getReportsByUser/?id=${loginToken.id}&mode=${
+            prop.mode
+          }&gateway=${gateway}&page=1&number=${prop.count ? prop.count : 3}`
         );
       }
 
@@ -62,7 +66,11 @@ const Report = (prop) => {
               if (item.status == "Pending" && i > 0) {
                 //canShowPending = false;
               }
-              var desc = JSON.parse(item.description);
+              try {
+                var desc = JSON.parse(item.description);
+              } catch (error) {
+                var desc = item.description;
+              }
 
               return (
                 <List.Item key={i}>
@@ -75,11 +83,14 @@ const Report = (prop) => {
                       </div>
                     </List.Description>
                     <List.Description>
-                      <AmountColor
-                        amount={item.amount}
-                        sign={item.endBalance - item.startBalance}
-                        className="text-gold"
-                      />
+                      <div className="pad10tb">
+                        <AmountColor
+                          amount={item.amount}
+                          sign={item.endBalance - item.startBalance}
+                          className="text-gold"
+                        />
+                      </div>
+                      <div>{gateway}</div>
                       {!prop.pending && (
                         <div>
                           {item.mode && item.mode}{" "}

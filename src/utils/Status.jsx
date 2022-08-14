@@ -8,6 +8,9 @@ const LabelExampleBasic = (prop) => {
   if (prop.status === false) {
     return <Icon name="spinner" loading />;
   }
+  if (prop.status === "Clock") {
+    return <Icon name="clock" color="grey" loading />;
+  }
   if (prop.status === "Done") {
     return (
       <Label size={prop.size} color={prop.color ? prop.color : "green"}>

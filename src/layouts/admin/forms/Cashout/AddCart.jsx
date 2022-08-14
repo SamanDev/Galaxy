@@ -65,6 +65,7 @@ const onSubmit = async (values, submitMethods, navigate, prop) => {
     if (res.status == 200) {
       if (res.data) {
         if (res.data?.accessToken) {
+          Alert("انجام شد.", "", "success");
           if (prop.setRefresh) {
             prop.setRefresh(true);
           }

@@ -65,7 +65,7 @@ const LevelList = () => {
               </List.Content>
               <span style={{ float: "left" }}>
                 <LevelIcon
-                  icon="fas fa-medal big star noNext"
+                  icon="fas fa-gem big star noNext"
                   level={i + 1}
                   text={"User name"}
                 />

@@ -14,6 +14,24 @@ const Index = (prop) => {
           prop.openPanel(".levels", "");
         }}
       />
+      <span
+        id="openaddcart"
+        style={{
+          display: "none",
+        }}
+        onClick={() => {
+          prop.openPanel(".addcart", "");
+        }}
+      />
+      <span
+        id="opendeposit"
+        style={{
+          display: "none",
+        }}
+        onClick={() => {
+          prop.openPanel(".deposit", "");
+        }}
+      />
       <Leftcontent {...prop} />
       <Rightcontent {...prop} />
     </nav>

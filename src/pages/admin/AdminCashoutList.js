@@ -294,7 +294,13 @@ function Admin(prop) {
       sortable: true,
       width: "80px",
     },
-
+    {
+      name: "Gateway",
+      selector: (row) => row.gateway,
+      format: (row) => <>{row.gateway}</>,
+      sortable: true,
+      width: "80px",
+    },
     {
       name: "amount",
       selector: (row) =>
@@ -383,7 +389,6 @@ function Admin(prop) {
         style={{ height: "calc(100vh - 250px)", overflow: "auto" }}
       >
         <DataTable
-          title="Deposits"
           columns={columns}
           data={filteredItems}
           progressPending={loading}

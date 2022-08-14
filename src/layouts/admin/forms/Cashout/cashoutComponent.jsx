@@ -7,7 +7,7 @@ import Toman from "./Toman";
 import Ticket from "./Ticket";
 import AddCart from "./AddCart";
 import ChangePass from "./ChangePass";
-import AddCartMsg from "./AddCart";
+import AddCartMsg from "../Deposit/addCartMsg";
 import Report from "./Report";
 import AccessMsg from "../../../../utils/accessMsg";
 import { Icon, Label, Button, Header, Divider } from "semantic-ui-react";

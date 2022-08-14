@@ -7,7 +7,7 @@ import PerfectMoney from "./PerfectMoney";
 import USDT from "./USDT";
 import BTC from "./BTC";
 
-import AddCartMsg from "../Cashout/AddCart";
+import AddCartMsg from "./addCartMsg";
 
 const depositArea = (prop) => {
   console.log(prop);

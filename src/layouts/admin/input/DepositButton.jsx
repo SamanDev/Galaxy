@@ -40,7 +40,7 @@ const DepositButton = (prop) => (
             marginTop: 10,
           }}
         >
-          <ReportPen mode={prop.mode} pending={true} count={-1} {...prop} />
+          <ReportPen mode={prop.mode} pending={true} count={1} {...prop} />
         </div>
       </div>
     )}

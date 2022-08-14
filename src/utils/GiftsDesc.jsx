@@ -27,31 +27,31 @@ const LevelIcon = (prop) => {
       {prop.desc && (
         <>
           <Divider />
-          <div className="farsi mywrap">{prop.desc}</div>
+          <div className="farsi mywrap lh-lg">{prop.desc}</div>
         </>
       )}
       {prop.desc2 && (
         <>
           <Divider />
-          <div className="farsi mywrap">{prop.desc2}</div>
+          <div className="farsi mywrap lh-lg">{prop.desc2}</div>
         </>
       )}
       {prop.desc3 && (
         <>
           <Divider />
-          <div className="farsi mywrap">{prop.desc3}</div>
+          <div className="farsi mywrap lh-lg">{prop.desc3}</div>
         </>
       )}
       {prop.desc4 && (
         <>
           <Divider />
-          <div className="farsi mywrap">{prop.desc4}</div>
+          <div className="farsi mywrap lh-lg">{prop.desc4}</div>
         </>
       )}
       {prop.desc5 && (
         <>
           <Divider />
-          <div className="farsi mywrap">{prop.desc5}</div>
+          <div className="farsi mywrap lh-lg">{prop.desc5}</div>
         </>
       )}
     </Segment>

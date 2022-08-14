@@ -70,7 +70,7 @@ const Report = (prop) => {
               canShowPending = false;
             }
             var desc = JSON.parse(item.description);
-            console.log(desc);
+
             return (
               <List.Item key={i}>
                 <List.Content>

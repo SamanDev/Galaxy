@@ -44,7 +44,12 @@ const CashoutButton = (prop) => {
                   marginTop: 10,
                 }}
               >
-                <ReportPen mode={prop.mode} pending={true} {...prop} />
+                <ReportPen
+                  mode={prop.mode}
+                  count="1"
+                  pending={true}
+                  {...prop}
+                />
               </div>
             </div>
           )}

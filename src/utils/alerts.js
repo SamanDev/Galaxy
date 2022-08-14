@@ -12,7 +12,7 @@ export const Alert = (title, text, icon) => {
 export const Confirm = (title, text) => {
   return swal({
     title,
-    text,
+    html: text,
     icon: "info",
 
     buttons: ["بازگشت", "تایید"],
