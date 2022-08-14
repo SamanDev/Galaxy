@@ -34,23 +34,25 @@ const Balance = (prop) => {
   const [lvlPercentState, setlvlPercentState] = useState(lvlPercent);
   const ChangeGift = () => {
     var user = JSON.parse(localStorage.getItem("loginToken"));
-    var _bonuses = user.userGifts;
+    if (user) {
+      var _bonuses = user?.userGifts;
 
-    var end = Date.now();
+      var end = Date.now();
 
-    var _pen = _bonuses.filter(
-      (d) =>
-        d.status == "Pending" &&
-        d.received == false &&
-        Date.parse(d.date) < end &&
-        Date.parse(d.expireDate) > end
-    );
-    if (_pen.length > 0) {
-      setColor("orange");
-      setGCount(_pen.length);
-    } else {
-      setColor("grey");
-      setGCount(_pen.length);
+      var _pen = _bonuses.filter(
+        (d) =>
+          d.status == "Pending" &&
+          d.received == false &&
+          Date.parse(d.date) < end &&
+          Date.parse(d.expireDate) > end
+      );
+      if (_pen.length > 0) {
+        setColor("orange");
+        setGCount(_pen.length);
+      } else {
+        setColor("grey");
+        setGCount(_pen.length);
+      }
     }
   };
   const ChangeStateMode = () => {
