@@ -656,6 +656,9 @@ function App(prop) {
               setFirstOpen={setFirstOpen}
               setSecondOpen={setSecondOpen}
               setThirdOpen={setThirdOpen}
+              isLogin={isUser}
+              loadingLogin={loadingLogin}
+              setIsUser={setIsUser}
               size="small"
               labelcolor="blue"
             />
@@ -669,11 +672,14 @@ function App(prop) {
               navigate("/");
             }}
             onOpen={() => setSecondOpen(true)}
-            open={secondOpen || prop.showRegister}
+            open={secondOpen}
           >
             <RegisterArea
               setFirstOpen={setFirstOpen}
               setSecondOpen={setSecondOpen}
+              isLogin={isUser}
+              loadingLogin={loadingLogin}
+              setIsUser={setIsUser}
               size="small"
               labelcolor="green"
             />

@@ -38,12 +38,12 @@ const validationSchema = Yup.object({
     .required("لطفا یک ایمیل معتبر وارد کنید.")
     .email("لطفا یک ایمیل معتبر وارد کنید."),
 });
-const onSubmit = async (values, submitMethods, navigate) => {
+const onSubmit = async (values, submitMethods, navigate, prop) => {
   const res = await registerService(values);
   if (res.status == 200) {
     if (res.data.accessToken) {
-      //prop.setIsUser(true);
-      //window.location.reload();
+      prop.setSecondOpen(false);
+      prop.setIsUser(true);
     }
   }
   submitMethods.setSubmitting(false);
