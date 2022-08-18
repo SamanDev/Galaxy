@@ -94,7 +94,7 @@ function App(prop) {
                   {menu.label && isPanel != "panel" ? (
                     <ul>
                       {menu.title && (
-                        <li className="menutitle menutitleinside mm-listitem">
+                        <li className="menutitle menutitle mm-listitem">
                           <span className="mm-listitem__text">
                             {menu.title}
                           </span>
@@ -117,7 +117,7 @@ function App(prop) {
                         {menu.title && (
                           <>
                             <ul className="mm-listview">
-                              <li className="menutitle menutitleinside mm-listitem">
+                              <li className="menutitle menutitle mm-listitem">
                                 <span className="mm-listitem__text">
                                   {menu.title}
                                 </span>

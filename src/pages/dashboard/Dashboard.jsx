@@ -38,29 +38,46 @@ const Banner = (prop) => {
             computer={8}
             className="myaccount"
           >
-            {prop.image && <Image src={prop.image} rounded />}
-            <GalaxyIcon
-              mode={prop.icon}
-              level=""
-              text=""
-              className="bannericon"
-              number={prop.number}
-            />
+            {prop.image && (
+              <div className="animated delay-2s fadeInLeft">
+                <Image src={prop.image} rounded />
+              </div>
+            )}
+            <div className="animated delay-2s fadeInLeft">
+              <GalaxyIcon
+                mode={prop.icon}
+                level=""
+                text=""
+                className="bannericon animated delay-3s rubberBand"
+                number={prop.number}
+              />
+            </div>
           </Grid.Column>
           <Grid.Column mobile={16} tablet={8} computer={8} textAlign="right">
-            <h1 className="farsi">{prop.title}</h1>
-            <div className="farsi text">{prop.text}</div>
+            <div
+              className="animated fadeInRight delay-1s fast"
+              style={{ display: "inline-block" }}
+            >
+              <div className="animated heartBeat delay-5s">
+                <h1 className="farsi">{prop.title}</h1>
+              </div>
+            </div>
+            <div className="farsi text animated fadeInRight fast delay-1s">
+              {prop.text}
+            </div>
 
             {prop.link && (
-              <Button
-                className="farsi"
-                color="teal"
-                onClick={() => {
-                  prop.openPanel(prop.link);
-                }}
-              >
-                اطلاعات بیشتر
-              </Button>
+              <div className="animated delay-2s fadeInDown">
+                <Button
+                  className="farsi"
+                  color="teal"
+                  onClick={() => {
+                    prop.openPanel(prop.link);
+                  }}
+                >
+                  اطلاعات بیشتر
+                </Button>
+              </div>
             )}
           </Grid.Column>
         </Grid.Row>

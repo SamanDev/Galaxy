@@ -47,10 +47,7 @@ const LevelIcon = (prop) => {
     return (
       <div className="avatar-center" {...prop}>
         <Image>
-          <i
-            className={"fas fa-percent big star grey"}
-            style={{ fontSize: 27 }}
-          ></i>
+          <i className={"fas fa-percent big star grey"}></i>
         </Image>
         <span className="levelText big">
           {prop.number ? prop.number : prop.level}
@@ -63,10 +60,7 @@ const LevelIcon = (prop) => {
     return (
       <div className="avatar-center" {...prop}>
         <Image>
-          <i
-            className={"fas fa-percent big star red inverted"}
-            style={{ fontSize: 27 }}
-          ></i>
+          <i className={"fas fa-percent big star red inverted"}></i>
         </Image>
         <span className="levelText big">
           {prop.number ? prop.number : prop.level}
@@ -79,10 +73,7 @@ const LevelIcon = (prop) => {
     return (
       <div className="avatar-center" {...prop}>
         <Image>
-          <i
-            className={"fas fa-percent big star orange "}
-            style={{ fontSize: 27 }}
-          ></i>
+          <i className={"fas fa-percent big star orange "}></i>
         </Image>
         <span className="levelText big">
           {prop.number ? prop.number : prop.level}

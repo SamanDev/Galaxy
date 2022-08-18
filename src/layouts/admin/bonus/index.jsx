@@ -287,7 +287,7 @@ const BonusArea = (prop) => {
                           color="green"
                           compact
                           disabled
-                          style={{ opacity: 1, marginTop: 5, width: 140 }}
+                          style={{ opacity: 1, width: 140 }}
                         >
                           <Button.Content visible>
                             <Icon name="check" /> {doCurrency(bonus.amount)}
@@ -307,7 +307,7 @@ const BonusArea = (prop) => {
                             size="mini"
                             color="green"
                             compact
-                            style={{ opacity: 1, marginTop: 5, width: 140 }}
+                            style={{ opacity: 1, width: 140 }}
                             onClick={() => {
                               handleConfirm(bonus, _bonuses, i, loginToken);
                               prop.ChangeGift();
@@ -332,7 +332,7 @@ const BonusArea = (prop) => {
                             color="red"
                             compact
                             disabled
-                            style={{ opacity: 1, marginTop: 5, width: 140 }}
+                            style={{ opacity: 1, width: 140 }}
                           >
                             <Button.Content visible>
                               <Icon name="times" /> {doCurrency(bonus.amount)}
@@ -350,7 +350,7 @@ const BonusArea = (prop) => {
                           size="mini"
                           color="grey"
                           compact
-                          style={{ opacity: 1, marginTop: 5, width: 140 }}
+                          style={{ opacity: 1, width: 140 }}
                           onClick={() => {
                             handleConfirm(bonus);
                           }}

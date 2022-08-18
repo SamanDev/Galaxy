@@ -383,6 +383,21 @@ i.star.big {
   font-size: 24px;
   line-height: 18px;
 }
+.lvlNo {
+  color: rgb(255, 255, 255);
+  position: absolute;
+  font-family: Lato, "Helvetica Neue", Arial, Helvetica, sans-serif;
+  width: 100%;
+  font-size: 35%;
+  line-height: 300%;
+  text-shadow: 0 0 12px #000, 0 0 9px #000, 0 0 6px #000;
+  text-align: center;
+  display: block;
+  z-index: 1;
+  height: 100%;
+  top: -100%;
+  font-weight: 900;
+}
 .levelText {
   color: rgb(255, 255, 255);
   position: relative;
@@ -794,7 +809,7 @@ a.mm-listitem__text {
 }
 .avatar-center {
   width: 70px;
-  height: 70px;
+  height: auto;
   position: relative;
 }
 .avatar-center.small {

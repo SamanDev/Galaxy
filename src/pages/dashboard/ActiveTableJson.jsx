@@ -341,7 +341,6 @@ const LevelList = () => {
           as="mm-burger"
         ></Segment>
         <List divided inverted verticalAlign="middle" className="activetable">
-          {console.log(_data)}
           {_sortData.map(function (x, i) {
             return (
               <List.Item

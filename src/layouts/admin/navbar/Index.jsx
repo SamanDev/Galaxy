@@ -32,6 +32,15 @@ const Index = (prop) => {
           prop.openPanel(".deposit", "");
         }}
       />
+      <span
+        id="openmenucontent"
+        style={{
+          display: "none",
+        }}
+        onClick={() => {
+          prop.openPanel("." + localStorage.getItem("menucontent"), "");
+        }}
+      />
       <Leftcontent {...prop} />
       <Rightcontent {...prop} />
     </nav>

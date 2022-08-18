@@ -3,6 +3,7 @@ import Accordion from "./pages/dashboard/Accordion";
 import Invite from "./pages/dashboard/Invite";
 import InviteLink from "./pages/dashboard/InviteLink";
 import ActiveTable from "./pages/dashboard/ActiveTableJson";
+import LastReward from "./pages/dashboard/LastReward";
 import LevelList from "./pages/dashboard/Levels";
 import PassList from "./pages/dashboard/GalaxyPass";
 import Commission from "./pages/dashboard/Commission";
@@ -354,6 +355,12 @@ export const panelData = [
     title: "میز های فعال",
 
     component: <ActiveTable title="میز های فعال" />,
+  },
+  {
+    label: "panel",
+    title: "آخرین پاداش ها",
+
+    component: <LastReward title="آخرین پاداش ها" />,
   },
 ];
 function doGame() {
