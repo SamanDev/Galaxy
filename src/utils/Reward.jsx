@@ -40,14 +40,16 @@ const Reward = (prop) => {
     >
       <Grid.Row style={{ paddingBottom: 0 }}>
         <Grid.Column width={6}>
-          <LevelIcon
-            level={_lvl}
-            number={_lvl}
-            mode={prop.item.mode}
-            text={prop.item.username}
-            classinside={levelClassInside(_lvl - 1)}
-            width="32px"
-          />
+          <div style={{ marginLeft: 10 }}>
+            <LevelIcon
+              level={_lvl}
+              number={_lvl}
+              mode={prop.item.mode}
+              text={prop.item.username}
+              classinside={levelClassInside(_lvl - 1)}
+              width="32px"
+            />
+          </div>
         </Grid.Column>
         <Grid.Column width={10} textAlign="right">
           <div className="farsi">
