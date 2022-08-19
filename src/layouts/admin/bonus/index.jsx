@@ -8,7 +8,7 @@ import {
   Image,
   List,
 } from "semantic-ui-react";
-import LevelIcon from "../../../utils/GalaxyIcon";
+import LevelIcon from "../../../utils/svg";
 import { doCurrency, levelDataInfo } from "../../../const";
 import { Alert } from "../../../utils/alerts";
 import { MyConfirm, MyToast, MyDeposit } from "../../../utils/myAlert";
@@ -37,7 +37,19 @@ var _bonuses = [
     expireDate: "2023-08-12T23:54:03.000+00:00",
     mode: "gpass",
     label: "پاداش گلکسی پَس",
-    text: "Level 4",
+    text: "Level 15",
+    username: "coce",
+    status: "Pending",
+    received: false,
+    amount: 1000000,
+  },
+  {
+    id: 6,
+    date: "2022-08-13T04:01:53.000+00:00",
+    expireDate: "2023-08-12T23:54:03.000+00:00",
+    mode: "gpass",
+    label: "پاداش گلکسی پَس",
+    text: "Level 1",
     username: "coce",
     status: "Pending",
     received: false,
@@ -61,7 +73,7 @@ var _bonuses = [
     expireDate: "2023-08-12T23:54:03.000+00:00",
     mode: "levels",
     label: "پاداش افزایش لٍوٍل",
-    text: "Level 4",
+    text: "Level 59",
     username: "coce",
     status: "Pending",
     received: false,
@@ -85,7 +97,7 @@ var _bonuses = [
     expireDate: "2023-08-12T23:54:03.000+00:00",
     mode: "league",
     label: "لیگ روزانه",
-    text: "Place 20",
+    text: "Place 1",
     username: "coce",
     status: "Pending",
     received: false,
@@ -96,6 +108,30 @@ var _bonuses = [
     date: "2022-08-13T18:53:53.000+00:00",
     expireDate: "2022-08-13T23:54:03.000+00:00",
     mode: "gift3",
+    label: "هدیه",
+    text: "Free Gift",
+    username: "coce",
+    status: "Pending",
+    received: false,
+    amount: 1000000,
+  },
+  {
+    id: 3,
+    date: "2022-08-13T18:53:53.000+00:00",
+    expireDate: "2022-08-13T23:54:03.000+00:00",
+    mode: "gift2",
+    label: "هدیه",
+    text: "Free Gift",
+    username: "coce",
+    status: "Pending",
+    received: false,
+    amount: 1000000,
+  },
+  {
+    id: 3,
+    date: "2022-08-13T18:53:53.000+00:00",
+    expireDate: "2022-08-13T23:54:03.000+00:00",
+    mode: "gift1",
     label: "هدیه",
     text: "Free Gift",
     username: "coce",
@@ -373,6 +409,9 @@ const BonusArea = (prop) => {
                       onClick={() => {
                         prop.openPanel("." + bonus.mode, "");
                       }}
+                      classinside="iconinside0"
+                      number={_lvl}
+                      width="32px"
                     />
                   </div>
                 </List.Item>

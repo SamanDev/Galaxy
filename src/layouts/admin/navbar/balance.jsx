@@ -9,7 +9,7 @@ import {
 } from "semantic-ui-react";
 import DepositArea from "../forms/index";
 
-import LevelIcon from "../../../utils/LevelIcon";
+import LevelIcon from "../../../utils/svg";
 
 import BonusArea from "../bonus/index.jsx";
 import { doCurrency, levelData, getEvent } from "../../../const";
@@ -94,13 +94,16 @@ const Balance = (prop) => {
           {stateMode == 0 && (
             <LevelIcon
               level={loginToken.level}
-              icon="star"
-              link
+              text=""
+              mode="levels"
               style={{
                 position: "relative",
                 textAlign: "center",
                 top: -3,
               }}
+              classinside="iconinside0"
+              number=""
+              width="30px"
               onClick={() => {
                 prop.openPanel(".levels", "#lvl" + loginToken.level);
               }}
@@ -108,13 +111,12 @@ const Balance = (prop) => {
           )}
           {stateMode == 1 && _event == "GPass" && (
             <LevelIcon
-              icon="google"
+              mode="gpass"
               level={loginToken.glevel}
-              style={{
-                position: "relative",
-                textAlign: "center",
-                top: -3,
-              }}
+              classinside="iconinside0"
+              number={loginToken.glevel}
+              text=""
+              width="30px"
               onClick={() => {
                 prop.openPanel(".gpass", "#lvl" + loginToken.glevel);
               }}
@@ -122,9 +124,12 @@ const Balance = (prop) => {
           )}
           {stateMode == 1 && _event == "VIP" && (
             <LevelIcon
-              icon="vimeo v"
+              classinside="iconinside0"
+              number=""
+              text=""
+              width="30px"
               level={1}
-              number=" "
+              mode="vip"
               style={{
                 position: "relative",
                 textAlign: "center",
@@ -204,6 +209,7 @@ const Balance = (prop) => {
             offset={[-106, 0]}
             basic
             pinned
+            hideOnScroll
             trigger={
               <Icon
                 circular

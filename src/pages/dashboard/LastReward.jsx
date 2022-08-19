@@ -134,7 +134,7 @@ var _bonuses = [
     expireDate: "2023-08-12T23:54:03.000+00:00",
     mode: "gpass",
     label: "پاداش گلکسی پَس",
-    text: "Level 4",
+    text: "Level 10",
     username: "m11001100mWW",
     status: "Pending",
     received: false,
@@ -215,7 +215,7 @@ var _bonuses = [
 ];
 
 const BonusArea = (prop) => {
-  _bonuses.sort((a, b) => (a.id < b.id ? 1 : -1));
+  _bonuses.sort((a, b) => (a.id > b.id ? 1 : -1));
   return (
     <div style={{ paddingLeft: 20, marginBottom: 200 }}>
       {_bonuses.length > 0 && (

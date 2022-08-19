@@ -11,7 +11,7 @@ import {
 } from "semantic-ui-react";
 
 import { doCurrency, levelLeagueReward, levelLeagueList } from "../../const";
-import LevelIcon from "../../utils/LevelIcon";
+import LevelIcon from "../../utils/svg";
 import MenuLoader from "../../utils/menuLoader";
 import { publicGetService } from "../../services/public";
 const LevelList = () => {
@@ -33,7 +33,7 @@ const LevelList = () => {
   };
 
   useEffect(() => {
-    handleGetReports();
+    //handleGetReports();
   }, []);
   var totalReward = 0;
   if (loading) {
@@ -74,21 +74,22 @@ const LevelList = () => {
               </List.Content>
               <span style={{ float: "left" }}>
                 <LevelIcon
-                  icon="fab fa-vimeo-v big star noNext"
-                  level={1}
-                  text={"User name"}
-                  number=" "
+                  mode="vip"
+                  level=""
+                  text="VIP Gift"
+                  classinside="iconinside0"
+                  number=""
+                  width="32px"
+                />
+                <LevelIcon
+                  mode="levels"
+                  level={_lvl}
+                  text={_text}
+                  classinside="iconinside0"
+                  number={_lvl}
+                  width="32px"
                 />
               </span>
-              <div
-                style={{
-                  position: "relative",
-                  left: -50,
-                  transform: "scale(.8)",
-                }}
-              >
-                <LevelIcon level={_lvl} text={_text} />
-              </div>
             </List.Item>
           );
         })}

@@ -11,7 +11,7 @@ import {
 } from "semantic-ui-react";
 
 import { doCurrency, levelLeagueReward, levelLeagueList } from "../../const";
-import LevelIcon from "../../utils/LevelIcon";
+import LevelIcon from "../../utils/svg";
 import MenuLoader from "../../utils/menuLoader";
 import { publicGetService } from "../../services/public";
 const LevelList = () => {
@@ -33,7 +33,7 @@ const LevelList = () => {
   };
 
   useEffect(() => {
-    handleGetReports();
+    //handleGetReports();
   }, []);
   var totalReward = 0;
   if (loading) {
@@ -65,9 +65,13 @@ const LevelList = () => {
               </List.Content>
               <span style={{ float: "left" }}>
                 <LevelIcon
-                  icon="fas fa-gem big star noNext"
+                  mode="league"
                   level={i + 1}
-                  text={"User name"}
+                  text={"Place " + (i + 1)}
+                  classinside="iconinside0"
+                  number=""
+                  width="42px"
+                  iconamin="swing"
                 />
               </span>
               <div

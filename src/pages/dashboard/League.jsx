@@ -18,7 +18,7 @@ import {
 import LevelIcon from "../../utils/LevelIcon";
 import GiftsDesc from "../../utils/GiftsDesc";
 import AddCalendar from "../../utils/AddCalendar";
-import GalaxyIcon from "../../utils/GalaxyIcon";
+import GalaxyIcon from "../../utils/svg";
 import LeagueResult from "./LeagueResult";
 const LevelList = () => {
   return (
@@ -26,18 +26,17 @@ const LevelList = () => {
       <List divided inverted verticalAlign="middle" className="myaccount">
         <List.Item>
           <List.Content className="rtl text-center">
-            <GalaxyIcon
-              mode="league"
-              level=""
-              text="League"
-              className="avatar"
-              style={{
-                width: 32,
-                margin: "auto",
-                transform: "scale(1.5)",
-                direction: "ltr",
-              }}
-            />
+            <div className="inline animated ">
+              <GalaxyIcon
+                mode="league"
+                level=""
+                text="Daily League"
+                classinside="iconinside0"
+                number="1"
+                width="60px"
+                iconamin={"inline animated swing"}
+              />
+            </div>
             <AddCalendar start="24" dur="8" format="0000" title="League" />
           </List.Content>
         </List.Item>

@@ -14,9 +14,9 @@ import {
   levelPassList,
   levelDataInfo,
 } from "../../const";
-import LevelIcon from "../../utils/LevelIcon";
+import LevelIcon from "../../utils/svg";
 import AddCalendar from "../../utils/AddCalendar";
-import GalaxyIcon from "../../utils/GalaxyIcon";
+import GalaxyIcon from "../../utils/svg";
 import GiftsDesc from "../../utils/GiftsDesc";
 const LevelList = () => {
   var totalReward = 0;
@@ -25,18 +25,17 @@ const LevelList = () => {
       <List divided inverted verticalAlign="middle" className="myaccount">
         <List.Item>
           <List.Content className="rtl text-center ">
-            <GalaxyIcon
-              mode="gpass"
-              level=""
-              text="GPass"
-              className="avatar"
-              style={{
-                width: 100,
-                margin: "auto",
-                transform: "scale(1.5)",
-                direction: "ltr",
-              }}
-            />
+            <div className="inline animated ">
+              <GalaxyIcon
+                mode="gpass"
+                level=""
+                text="GalaxyPass"
+                classinside="iconinside0"
+                number=""
+                width="60px"
+                iconamin={"inline animated charkhesh"}
+              />
+            </div>
             <AddCalendar start="1" dur="15" format="0000" title="GallaxyPass" />
             <GiftsDesc
               desc={
@@ -115,6 +114,14 @@ const LevelList = () => {
                   <small className="farsi mysmall">مجموع پاداش</small>
                 </div>
               </List.Content>
+              <LevelIcon
+                mode="gpass"
+                level={i + 1}
+                text={"Level " + (i + 1)}
+                classinside="iconinside0"
+                number=""
+                width="32px"
+              />
               <LevelIcon
                 icon="fab fa-google big star"
                 level={i + 1}

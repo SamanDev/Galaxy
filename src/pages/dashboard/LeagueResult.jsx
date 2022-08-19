@@ -35,7 +35,7 @@ const LevelList = (prop) => {
   };
 
   useEffect(() => {
-    handleGetReports();
+    //handleGetReports();
   }, []);
   var totalReward = 0;
   if (loading) {
@@ -43,7 +43,6 @@ const LevelList = (prop) => {
   } else {
     return (
       <>
-        <LeagueUser />
         <ul className="mm-listview">
           <li className="menutitle menutitleinside mm-listitem"></li>
           <li className="menutitle menutitleinside mm-listitem">

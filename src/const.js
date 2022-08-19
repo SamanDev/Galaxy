@@ -242,6 +242,7 @@ export const menuData = [
         title: "پاداش لِوِل ها",
         idname: "levels",
         icon: "fas fa-star yellow",
+
         component: <LevelList />,
       },
 
@@ -271,7 +272,7 @@ export const menuData = [
         idname: "gpass",
         bonus: "Level " + levelDataInfo[0].minLevel,
         icon: "fab fa-google yellow",
-
+        icongalaxy: "gpass",
         component: <PassList />,
       },
       {
@@ -281,7 +282,7 @@ export const menuData = [
 
         bonus: "Level " + levelDataInfo[1].minLevel,
         icon: "fab fa-viacoin yellow",
-
+        icongalaxy: "vip",
         component: <VIP />,
       },
       {
@@ -291,7 +292,7 @@ export const menuData = [
         idname: "league",
         bonus: "Level " + levelDataInfo[2].minLevel,
         icon: "fas fa-medal yellow",
-
+        icongalaxy: "league",
         component: <League />,
       },
     ],
@@ -487,9 +488,21 @@ export const levelClass = (lvl) => {
   var _class = "lv" + ((lvl % 30) + 1);
 
   if (lvl >= 60) {
-    _class = _class + " shad2";
+    _class = _class + " iconinside2";
   } else if (lvl >= 30) {
-    _class = _class + " shad1";
+    _class = _class + " iconinside1";
+  } else {
+    _class = _class + " iconinside0";
+  }
+  return _class;
+};
+export const levelClassInside = (lvl) => {
+  var _class = "iconinside0";
+
+  if (lvl >= 60) {
+    _class = "iconinside2";
+  } else if (lvl >= 30) {
+    _class = "iconinside1";
   }
   return _class;
 };

@@ -24,7 +24,7 @@ import {
   gameDataMainCode,
   getEvent,
 } from "../../const";
-import GalaxyIcon from "../../utils/GalaxyIcon";
+import GalaxyIcon from "../../utils/svg";
 import $ from "jquery";
 
 const Banner = (prop) => {
@@ -43,31 +43,33 @@ const Banner = (prop) => {
                 <Image src={prop.image} rounded />
               </div>
             )}
-            <div className="animated delay-2s fadeInLeft">
-              <GalaxyIcon
-                mode={prop.icon}
-                level=""
-                text=""
-                className="bannericon animated delay-3s rubberBand"
-                number={prop.number}
-              />
+            <div className="inline animated delay-1s flipInY">
+              <div className={"inline animated delay-2s " + prop.iconamin}>
+                <GalaxyIcon
+                  mode={prop.icon}
+                  level={prop.number}
+                  text="big"
+                  className="bannericon"
+                  classinside="iconinside2"
+                  number={prop.number}
+                  width="15vw"
+                  iconamin={"inline animated delay-2s charkhesh"}
+                />
+              </div>
             </div>
           </Grid.Column>
           <Grid.Column mobile={16} tablet={8} computer={8} textAlign="right">
-            <div
-              className="animated fadeInRight delay-1s fast"
-              style={{ display: "inline-block" }}
-            >
-              <div className="animated heartBeat delay-5s">
+            <div className="inline animated lightSpeedInLeft delay-nims fast">
+              <div className="inline animated flash delay-3s">
                 <h1 className="farsi">{prop.title}</h1>
               </div>
             </div>
-            <div className="farsi text animated fadeInRight fast delay-1s">
+            <div className="farsi text  animated lightSpeedInLeft fast delay-1s">
               {prop.text}
             </div>
 
             {prop.link && (
-              <div className="animated delay-2s fadeInDown">
+              <div className="animated delay-1s fadeInDown">
                 <Button
                   className="farsi"
                   color="teal"
@@ -356,6 +358,7 @@ const Dashboard = (prop) => {
                       text="پاداش گلکسی پَس"
                       link=".gpass"
                       icon="gpass"
+                      iconamin="pulse"
                       number="15"
                       {...prop}
                     />
@@ -371,6 +374,7 @@ const Dashboard = (prop) => {
                       text="پاداش VIP 25/50K"
                       link=".vip"
                       icon="vip"
+                      iconamin="flip"
                       number=" "
                       {...prop}
                     />
@@ -386,7 +390,9 @@ const Dashboard = (prop) => {
                       text="برای لیگ روزانه"
                       link=".league"
                       icon="league"
-                      number="15"
+                      level="big"
+                      number="1"
+                      iconamin="swing"
                       {...prop}
                     />
                   </div>
@@ -398,6 +404,7 @@ const Dashboard = (prop) => {
                     text="پاداش افزایش لِوِل"
                     link=".levels"
                     icon="levels"
+                    iconamin="swing"
                     number="90"
                     {...prop}
                   />

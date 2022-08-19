@@ -14,8 +14,9 @@ import {
   levelReward,
   levelRewardPercent,
   levelPercent,
+  levelClassInside,
 } from "../../const";
-import LevelIcon from "../../utils/LevelIcon";
+import LevelIcon from "../../utils/svg";
 import LevelBar from "../../utils/LevelBar";
 const LevelList = () => {
   var totalReward = 0;
@@ -53,7 +54,14 @@ const LevelList = () => {
                   </div>
                 </div>
               </List.Content>
-              <LevelIcon level={i + 1} text={"Level " + (i + 1)} />
+              <LevelIcon
+                level={i + 1}
+                mode="levels"
+                text={"Level " + (i + 1)}
+                classinside={levelClassInside(i)}
+                number={i + 1}
+                width="32px"
+              />
               {loginToken && (
                 <div className="levelbar">
                   {loginToken.level == i + 1 ? (

@@ -11,6 +11,7 @@ import { useNavigate } from "react-router-dom";
 import LoginArea from "./layouts/admin/auth/Login.jsx";
 import RegisterArea from "./layouts/admin/auth/Register.jsx";
 import ForgetArea from "./layouts/admin/auth/Forget";
+import GalaxyIcon from "./utils/svg";
 import { Dimmer, Loader, Segment } from "semantic-ui-react";
 var menu = "no";
 var panelMenu = false;
@@ -208,7 +209,19 @@ function App(prop) {
                             {submenu.label && (
                               <span className={submenu?.id}>
                                 {submenu.label}
-                                {submenu.icon && (
+                                {submenu.icongalaxy && (
+                                  <i className="mx-3">
+                                    <GalaxyIcon
+                                      mode={submenu.icongalaxy}
+                                      level="90"
+                                      text="big"
+                                      classinside="iconinside2"
+                                      number=""
+                                      width="20px"
+                                    />
+                                  </i>
+                                )}{" "}
+                                {submenu.icon && !submenu.icongalaxy && (
                                   <i
                                     className={`${submenu.icon} mx-3 ${
                                       submenu.icon.indexOf("fas ") == -1 &&
@@ -376,7 +389,7 @@ function App(prop) {
 
   const openPanel = (id, toId) => {
     var _id = id;
-    $(".popup").remove();
+    $(".popup").hide();
     if (_id.indexOf("#") == -1) {
       _id = $(_id).closest("[href]").attr("href");
     }
@@ -486,7 +499,7 @@ function App(prop) {
           var _parent = $("#" + panel.id + "").attr("data-mm-parent");
           setActiveMenu(
             $("#" + _parent)
-              .find("a:first span")
+              .find("a:first > span")
               .text()
           );
         }, 200);
@@ -733,6 +746,35 @@ function App(prop) {
               }
             />
           </Routes>
+          <svg
+            version="1.1"
+            xmlns="http://www.w3.org/2000/svg"
+            x="0px"
+            y="0px"
+            viewBox="0 0 512.001 512.001"
+          >
+            <linearGradient id="vipicongrad" gradientTransform="rotate(70)">
+              <stop offset="0%" stopColor="#f6e27a" />
+              <stop offset="50%" stopColor="#f6f2c0" />
+              <stop offset="55%" stopColor="#f6e27a" />
+              <stop offset="78%" stopColor="#cb9b51" />
+              <stop offset="100%" stopColor="#cb9b51" />
+            </linearGradient>
+            <linearGradient id="leagueicongrad" gradientTransform="rotate(90)">
+              <stop offset="0%" stopColor="#fdd300" />
+
+              <stop offset="70%" stopColor="#cc3f00" />
+
+              <stop offset="100%" stopColor="#ffffff" />
+            </linearGradient>
+            <linearGradient id="gpassicongrad" gradientTransform="rotate(70)">
+              <stop offset="0%" stopColor="#c93100" />
+
+              <stop offset="50%" stopColor="#cc3f00" />
+
+              <stop offset="100%" stopColor="#333a6f" />
+            </linearGradient>
+          </svg>
         </div>
       </>
     );

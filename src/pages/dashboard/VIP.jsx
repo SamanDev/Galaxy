@@ -10,7 +10,7 @@ import {
 } from "semantic-ui-react";
 import { doCurrency, levelPassReward, levelDataInfo } from "../../const";
 import AddCalendar from "../../utils/AddCalendar";
-import GalaxyIcon from "../../utils/GalaxyIcon";
+import GalaxyIcon from "../../utils/svg";
 import GiftsDesc from "../../utils/GiftsDesc";
 import VIPResult from "./VIPResult";
 const LevelList = () => {
@@ -19,19 +19,17 @@ const LevelList = () => {
     <span className="myaccount popupmenu">
       <List divided inverted verticalAlign="middle" className="myaccount">
         <List.Item>
-          <List.Content className="rtl text-center">
+          <List.Content className=" text-center">
             <GalaxyIcon
               mode="vip"
               level=""
               text="VIP Gift"
-              className="avatar"
-              style={{
-                width: 50,
-                margin: "auto",
-                transform: "scale(1.5)",
-                direction: "ltr",
-              }}
+              classinside="iconinside0"
+              number=""
+              width="60px"
+              amin={"inline animated flip"}
             />
+
             <AddCalendar start="16" dur="8" format="0000" title="VIP 25/50K" />
             <GiftsDesc
               desc={

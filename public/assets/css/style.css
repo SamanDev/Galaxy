@@ -247,17 +247,30 @@ body.fullscreen #content_section {
 .banner img {
  
   filter: contrast(125%);
-  max-width: 30vw !important;
+  max-width: 25vw !important;
 }
 .banner h1 {
   font-weight: 900;
   font-size: 3vw;
   color: #ffde00;
   margin-bottom: 3vh;
+  text-shadow: 0px 0px 3px rgba(0, 0, 0, .2) !important;
+  background-image: linear-gradient(
+    to right,
+  
+           #cb9b51 0%, 
+    #f6e27a 45%,
+    #f6f2c0 50%,
+    #f6e27a 55%,
+    #cb9b51 100%
+    );
+     color:transparent;
+     -webkit-background-clip:text;
 }
 .banner .text {
   font-weight: 400;
   font-size: 2.5vw;
+  text-shadow: 0px 0px 3px rgba(0, 0, 0, .01) !important;
   color: #fff;
   margin-bottom: 5vh;
 }
@@ -807,6 +820,90 @@ a.mm-listitem__text {
   right: 10px;
   text-align: center;
 }
+.animated.inline{
+  display: inline-block !important;
+}
+.animated.delay-nims {
+  -webkit-animation-delay: .5s;
+  animation-delay: .5s;
+
+}
+@keyframes charkhesh {
+  0% {
+      transform: rotate(0deg)
+  }
+
+
+  
+  100% {
+    transform: rotate(360deg)
+  }
+}
+
+.charkhesh {
+  -webkit-animation-name: charkhesh;
+  animation-name: charkhesh;
+  -webkit-transform-origin: center center;
+  transform-origin: center center
+}
+ svg {
+  overflow:visible !important;
+}
+svg path {
+  -webkit-filter: drop-shadow( 3px 3px 20px rgba(0, 0, 0, .7));
+  filter: drop-shadow( 3px 3px 10px rgba(0, 0, 0, .7));
+}
+.vipicon path,.bonusicon path,.gift3icon * {
+ 
+  fill: url(#vipicongrad);
+
+}
+.gpassicon path.big,.rakebackicon path,.gift1icon * {
+ 
+  fill: url(#gpassicongrad);
+
+}
+.leagueicon path,.commicon path,.gift2icon * {
+ 
+  fill: url(#leagueicongrad);
+
+}
+.levelicontext{
+  fill: #fff;
+  font-size: 16px;
+    font-family: monospace;
+}
+.levelicontext.text1{
+  
+  font-size: 24px;
+  transform: translateY(2px);
+
+}
+.leagueicontext{
+  fill: #fff;
+  font-size: 130px;
+    font-family: monospace;
+}
+.leagueicontext.text1{
+  
+  font-size: 200px;
+  transform: translateY(2px);
+
+}
+svg text{
+  text-shadow: 0px 0px 3px rgba(0, 0, 0, .99);
+  font-weight: 700;
+  text-anchor: middle;
+}
+.gpassicontext{
+  fill: #fff;
+  font-size:7px;
+  text-anchor: middle;
+    font-style: italic;
+
+}
+
+
 .avatar-center {
   width: 70px;
   height: auto;
@@ -916,18 +1013,21 @@ a.mm-listitem__text {
 .myaccount.popup > .label .detail {
   float: right;
 }
-i.star.big.shad1::after,
-i.star.big.shad2::after {
-  text-shadow: #740e0eb9 0px -5px 0px;
-  content: "\f005";
-  position: absolute;
-  top: 4px;
-  left: 1px;
-  z-index: 0;
-  transform: scale(0.8);
-  transform-origin: center;
-  color: transparent;
+
+.iconinside0{
+ fill: transparent;
+  
 }
+.iconinside1{
+ fill: #740e0ec3;
+ color: #740e0ec3;
+  
+}
+.iconinside2{
+  fill: #00000090;
+  color: #00000090;
+   
+ }
 
 i.fa-google.star.big.shad1::after,
 i.fa-google.star.big.shad2::after {
@@ -941,182 +1041,153 @@ i.star.big.shad2::after {
   text-shadow: #00000090 0px -5px 0px;
   transform: scale(0.8);
 }
-.myaccount i.lv1,
-.myprofile i.lv1,
-.overly i.fa-star.lv1 {
+.lv1
+{
   color: #fdd300;
+  fill: #fdd300;
 }
-.myaccount i.lv2,
-.myprofile i.lv2,
-.overly i.fa-star.lv2 {
+.lv2 {
   color: #f7c700;
+  fill: #f7c700;
 }
 
-.myaccount i.lv3,
-.myprofile i.lv3,
-.overly i.fa-star.lv3 {
+.lv3 {
   color: #f7bd00;
+  fill: #f7bd00;
 }
 
-.myaccount i.lv4,
-.myprofile i.lv4,
-.overly i.fa-star.lv4 {
+.lv4 {
   color: #f7bd00;
+  fill: #f7bd00;
 }
 
-.myaccount i.lv5,
-.myprofile i.lv5,
-.overly i.fa-star.lv5 {
+.lv5 {
   color: #ee9e00;
+  fill: #ee9e00;
 }
 
-.myaccount i.lv6,
-.myprofile i.lv6,
-.overly i.fa-star.lv6 {
+.lv6 {
   color: #e98c00;
+  fill: #e98c00;
 }
 
-.myaccount i.lv7,
-.myprofile i.lv7,
-.overly i.fa-star.lv7 {
+.lv7 {
   color: #e47900;
+  fill: #e47900;
 }
 
-.myaccount i.lv8,
-.myprofile i.lv8,
-.overly i.fa-star.lv8 {
+.lv8 {
   color: #db6500;
+  fill: #db6500;
 }
 
-.myaccount i.lv9,
-.myprofile i.lv9,
-.overly i.fa-star.lv9 {
+.lv9 {
   color: #d65200;
+  fill: #d65200;
 }
 
-.myaccount i.lv10,
-.myprofile i.lv10,
-.overly i.fa-star.lv10 {
+.lv10 {
   color: #cc3f00;
+  fill: #cc3f00;
 }
 
-.myaccount i.lv11,
-.myprofile i.lv11,
-.overly i.fa-star.lv11 {
+.lv11 {
   color: #c93100;
+  fill: #c93100;
 }
 
-.myaccount i.lv12,
-.myprofile i.lv12,
-.overly i.fa-star.lv12 {
+.lv12 {
   color: #c42200;
+  fill: #c42200;
 }
 
-.myaccount i.lv13,
-.myprofile i.lv13,
-.overly i.fa-star.lv13 {
+.lv13 {
   color: #b71500;
+  fill: #b71500;
 }
 
-.myaccount i.lv14,
-.myprofile i.lv14,
-.overly i.fa-star.lv14 {
+.lv14 {
   color: #ae0a00;
+  fill: #ae0a00;
 }
 
-.myaccount i.lv15,
-.myprofile i.lv15,
-.overly i.fa-star.lv15 {
+.lv15 {
   color: #a70300;
+  fill: #a70300;
 }
 
-.myaccount i.lv16,
-.myprofile i.lv16,
-.overly i.fa-star.lv16 {
+.lv16 {
   color: #a70300;
+fill: #a70300;
 }
 
-.myaccount i.lv17,
-.myprofile i.lv17,
-.overly i.fa-star.lv17 {
+.lv17 {
   color: #98000b;
+fill: #98000b;
 }
 
-.myaccount i.lv18,
-.myprofile i.lv18,
-.overly i.fa-star.lv18 {
+.lv18 {
   color: #8b0014;
+fill: #8b0014;
 }
 
-.myaccount i.lv19,
-.myprofile i.lv19,
-.overly i.fa-star.lv19 {
+.lv19 {
   color: #7f041e;
+fill: #7f041e;
 }
 
-.myaccount i.lv20,
-.myprofile i.lv20,
-.overly i.fa-star.lv20 {
+.lv20 {
   color: #720b2a;
+fill: #720b2a;
 }
 
-.myaccount i.lv21,
-.myprofile i.lv21,
-.overly i.fa-star.lv21 {
+.lv21 {
   color: #621235;
+fill: #621235;
 }
 
-.myaccount i.lv22,
-.myprofile i.lv22,
-.overly i.fa-star.lv22 {
+.lv22 {
   color: #591b44;
+fill: #591b44;
 }
 
-.myaccount i.lv23,
-.myprofile i.lv23,
-.overly i.fa-star.lv23 {
+.lv23 {
   color: #4b2551;
+fill: #4b2551;
 }
 
-.myaccount i.lv24,
-.myprofile i.lv24,
-.overly i.fa-star.lv24 {
+.lv24 {
   color: #3e2f5d;
+fill: #3e2f5d;
 }
 
-.myaccount i.lv25,
-.myprofile i.lv25,
-.overly i.fa-star.lv25 {
+.lv25 {
   color: #333a6f;
+fill: #333a6f;
 }
 
-.myaccount i.lv26,
-.myprofile i.lv26,
-.overly i.fa-star.lv26 {
+.lv26 {
   color: #284379;
+fill: #284379;
 }
 
-.myaccount i.lv27,
-.myprofile i.lv27,
-.overly i.fa-star.lv27 {
+.lv27 {
   color: #1c4c82;
+fill: #1c4c82;
 }
 
-.myaccount i.lv28,
-.myprofile i.lv28,
-.overly i.fa-star.lv28 {
+.lv28 {
   color: #13558f;
+fill: #13558f;
 }
 
-.myaccount i.lv29,
-.myprofile i.lv29,
-.overly i.fa-star.lv29 {
+.lv29 {
   color: #0a5c98;
+  fill: #0a5c98;
 }
 
-.myaccount i.lv30,
-.myprofile i.lv30,
-.overly i.fa-star.lv30 {
+.lv30{
+  fill: #03619f;
   color: #03619f;
 }
 i.inverted.bordered.icon,
@@ -1774,6 +1845,7 @@ table {
   }
   .banner h1 {
     font-size: 6vw;
+    
   }
   .banner .text {
     font-size: 5vw;
