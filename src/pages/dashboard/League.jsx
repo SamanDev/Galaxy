@@ -34,7 +34,8 @@ const LevelList = () => {
                 classinside="iconinside0"
                 number="1"
                 width="60px"
-                iconamin={"inline animated swing"}
+                amin="inline animated swing"
+                iconamin="swing"
               />
             </div>
             <AddCalendar start="24" dur="8" format="0000" title="League" />

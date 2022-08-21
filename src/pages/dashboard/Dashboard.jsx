@@ -52,19 +52,20 @@ const Banner = (prop) => {
                   className="bannericon"
                   classinside="iconinside2"
                   number={prop.number}
-                  width="15vw"
+                  amin={prop.amin}
+                  width="12vw"
                   iconamin={"inline animated delay-2s charkhesh"}
                 />
               </div>
             </div>
           </Grid.Column>
           <Grid.Column mobile={16} tablet={8} computer={8} textAlign="right">
-            <div className="inline animated lightSpeedInLeft delay-nims fast">
+            <div className="inline animated fadeInRight backInLeft delay-nims fast">
               <div className="inline animated flash delay-3s">
                 <h1 className="farsi">{prop.title}</h1>
               </div>
             </div>
-            <div className="farsi text  animated lightSpeedInLeft fast delay-1s">
+            <div className="farsi text  animated fadeInRight fast delay-1s">
               {prop.text}
             </div>
 
@@ -374,7 +375,8 @@ const Dashboard = (prop) => {
                       text="پاداش VIP 25/50K"
                       link=".vip"
                       icon="vip"
-                      iconamin="flip"
+                      amin="inline animated flipInY"
+                      iconamin=""
                       number=" "
                       {...prop}
                     />
@@ -392,6 +394,7 @@ const Dashboard = (prop) => {
                       icon="league"
                       level="big"
                       number="1"
+                      amin="inline animated swing"
                       iconamin="swing"
                       {...prop}
                     />
@@ -409,7 +412,7 @@ const Dashboard = (prop) => {
                     {...prop}
                   />
                 </div>
-                {_width > 500 && 1 == 1 && (
+                {_width > 500 && 1 == 2 && (
                   <div className="carousel-item " data-bs-interval="100000">
                     <Banner
                       image="/assets/images/calendar.gif"

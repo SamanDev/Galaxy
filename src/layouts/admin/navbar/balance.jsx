@@ -96,11 +96,6 @@ const Balance = (prop) => {
               level={loginToken.level}
               text=""
               mode="levels"
-              style={{
-                position: "relative",
-                textAlign: "center",
-                top: -3,
-              }}
               classinside="iconinside0"
               number=""
               width="30px"
@@ -130,11 +125,6 @@ const Balance = (prop) => {
               width="30px"
               level={1}
               mode="vip"
-              style={{
-                position: "relative",
-                textAlign: "center",
-                top: -3,
-              }}
               onClick={() => {
                 prop.openPanel(".vip", "");
               }}

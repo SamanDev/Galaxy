@@ -752,6 +752,7 @@ function App(prop) {
             x="0px"
             y="0px"
             viewBox="0 0 512.001 512.001"
+            style={{ position: "absolute", zIndex: -1 }}
           >
             <linearGradient id="vipicongrad" gradientTransform="rotate(70)">
               <stop offset="0%" stopColor="#f6e27a" />
@@ -773,6 +774,16 @@ function App(prop) {
               <stop offset="50%" stopColor="#cc3f00" />
 
               <stop offset="100%" stopColor="#333a6f" />
+            </linearGradient>
+            <linearGradient
+              id="gpassicongradnew"
+              gradientTransform="rotate(10)"
+            >
+              <stop offset="0%" stopColor="#fdd300" />
+
+              <stop offset="50%" stopColor="#e47900" />
+
+              <stop offset="100%" stopColor="#a70300" />
             </linearGradient>
           </svg>
         </div>

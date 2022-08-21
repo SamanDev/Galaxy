@@ -236,6 +236,19 @@ body.fullscreen #content_section {
   transition: all 100ms ease;
   -webkit-font-smoothing: antialiased;
 }
+.iconarea {
+
+display: inline-block;
+
+position: relative;
+
+}
+.iconarea svg.icn {
+
+  
+-webkit-mask-image: linear-gradient(to bottom, black 50%, transparent 100%);
+mask-image: linear-gradient(to bottom, black 50%, transparent 100%);
+}
 .banner .ui.grid {
   width: 100%;
   margin: 0 !important;
@@ -255,17 +268,7 @@ body.fullscreen #content_section {
   color: #ffde00;
   margin-bottom: 3vh;
   text-shadow: 0px 0px 3px rgba(0, 0, 0, .2) !important;
-  background-image: linear-gradient(
-    to right,
   
-           #cb9b51 0%, 
-    #f6e27a 45%,
-    #f6f2c0 50%,
-    #f6e27a 55%,
-    #cb9b51 100%
-    );
-     color:transparent;
-     -webkit-background-clip:text;
 }
 .banner .text {
   font-weight: 400;
@@ -858,7 +861,12 @@ svg path {
   fill: url(#vipicongrad);
 
 }
-.gpassicon path.big,.rakebackicon path,.gift1icon * {
+.gpassicon path.big {
+ 
+  fill: url(#gpassicongradnew);
+
+}
+.rakebackicon path,.gift1icon * {
  
   fill: url(#gpassicongrad);
 
@@ -887,7 +895,7 @@ svg path {
 .leagueicontext.text1{
   
   font-size: 200px;
-  transform: translateY(2px);
+  transform: translateY(15px);
 
 }
 svg text{
@@ -901,6 +909,13 @@ svg text{
   text-anchor: middle;
     font-style: italic;
 
+}
+.vipicontext{
+  fill: #fff;
+  font-size:250px;
+  text-anchor: middle;
+  text-shadow: 0px 0px 10px rgba(0, 0, 0, .8) !important;
+  font-family: Lato, "Helvetica Neue", Arial, Helvetica, sans-serif;
 }
 
 
@@ -1787,19 +1802,7 @@ table {
 }
 
 /* content end-------<<<<<<< */
-.bannericon {
-  font-size: 20vh !important;
-  direction: ltr;
-  position: absolute;
 
-  opacity: 0.8;
-}
-.bannericon i.big.icon {
-  font-size: inherit !important;
-}
-.bannericon .levelText.big {
-  font-size: 0 !important;
-}
 .reportTable .rdt_TableCell {
   font-size: 11px !important;
 }
@@ -1827,12 +1830,12 @@ table {
   .banner {
     height: calc(70vh - 74px);
   }
-  .bannericon {
-    font-size: 60vw !important;
+  .banner .iconarea {
+    transform: scale(1.8);
+display: inline-block;
+transform-origin: bottom center;
+position: relative;
 
-    top: -10vh;
-    opacity: 0.2;
-    width: 50%;
   }
   .banner img{
     display: none;
@@ -1879,12 +1882,17 @@ table {
     .ui.grid > [class*="eight wide mobile"].column {
       width: 25% !important;
     }
-    .bannericon {
-      font-size: 60vh !important;
+    .banner .iconarea {
+      transform: scale(2);
+  display: inline-block;
+
   
-      top: -10vh;
-      opacity: 0.2;
-      width: 50%;
+  opacity: 0;
+  height: 0;
+  top:-30px
+    }
+    .banner .myaccount{
+      display: none !important;
     }
     #dashboard_section {
       background-size: 90%;

@@ -12,7 +12,7 @@ import { levelClass, levelPassClass } from "../const";
 const LevelIcon = (prop) => {
   if (prop.mode == "gpass") {
     var _txt = prop.number ? prop.number : prop.level;
-    var _class = levelClass(prop.level - 1);
+    var _class = levelClass(prop.level - 1) + " icn";
     if (prop.text == "big" || prop.iconamin) {
       _class = _class + " big";
     }
@@ -20,16 +20,13 @@ const LevelIcon = (prop) => {
       _class = _class + " " + prop.iconamin;
     }
     return (
-      <span
-        onClick={prop.onClick}
-        style={{ position: "relative", cursor: "pointer" }}
-      >
+      <span onClick={prop.onClick} className="iconarea">
         <svg
           version="1.1"
           xmlns="http://www.w3.org/2000/svg"
           width="24px"
           height="24px"
-          className="gpassicon"
+          className="gpassicon icn"
           viewBox="0 0 24 24"
           style={{
             width: prop.width,
@@ -51,31 +48,62 @@ const LevelIcon = (prop) => {
   }
   if (prop.mode == "vip") {
     var _txt = prop.number ? prop.number : prop.level;
-    var _class = "vipicon";
+    var _class = "icn vipicon";
     if (prop.text == "big") {
       _class = _class + " big";
     }
+
     if (prop.amin) {
       _class = _class + " " + prop.amin;
     }
+    var _class2 = _class;
+    if (prop.iconamin) {
+      _class2 = _class2 + " " + prop.iconamin.replace("charkhesh", "");
+    }
     return (
-      <span onClick={prop.onClick} style={{ position: "relative" }}>
-        <svg
-          version="1.1"
-          className={_class}
-          xmlns="http://www.w3.org/2000/svg"
-          x="0px"
-          y="0px"
-          viewBox="0 0 512.001 512.001"
-          style={{
-            width: prop.width,
-            height: "auto",
-          }}
-        >
-          <g>
-            <g>
-              <path
-                d="M511.573,62.352c-1.853-11.471-9.435-20.813-20.28-24.986l-87.9-33.832c-11.663-4.493-24.917,1.301-29.544,12.908
+      <span onClick={prop.onClick} className="iconarea">
+        <div style={{ display: "inline-block" }}>
+          <div
+            style={{
+              transform: "scale(.8)",
+              position: "absolute",
+              zIndex: 300000,
+              width: prop.width,
+              height: "auto",
+              textAlign: "center",
+            }}
+          >
+            <svg
+              version="1.1"
+              xmlns="http://www.w3.org/2000/svg"
+              x="0px"
+              y="0px"
+              viewBox="0 0 512.001 512.001"
+              style={{
+                width: prop.width,
+                height: "auto",
+              }}
+            >
+              <text x="260" y="430" className="vipicontext">
+                VIP
+              </text>
+            </svg>
+          </div>
+
+          <svg
+            version="1.1"
+            className={_class}
+            xmlns="http://www.w3.org/2000/svg"
+            x="0px"
+            y="0px"
+            viewBox="0 0 512.001 512.001"
+            style={{
+              width: prop.width,
+              height: "auto",
+            }}
+          >
+            <path
+              d="M511.573,62.352c-1.853-11.471-9.435-20.813-20.28-24.986l-87.9-33.832c-11.663-4.493-24.917,1.301-29.544,12.908
 			c-10.086,25.293-36.146,93.661-60.242,182.015c-30.904,113.315-40.075,299.722-40.165,301.593
 			c-0.225,4.702,3.034,8.855,7.654,9.758c0.611,0.119,1.221,0.177,1.823,0.177c3.955,0,7.584-2.486,8.938-6.339
 			c23.994-68.242,58.503-131.636,102.576-188.422c26.34-33.937,56.159-65.496,88.63-93.797c8.592-7.488,12.537-18.662,10.557-29.89
@@ -85,13 +113,10 @@ const LevelIcon = (prop) => {
 			c-33.022,42.549-60.822,88.698-83.023,137.755c5.172-63.995,15.895-166.12,35.472-237.902
 			c23.842-87.42,49.596-154.988,59.563-179.981c0.617-1.547,2.12-2.498,3.701-2.498c0.472,0,0.951,0.085,1.415,0.263l87.902,33.833
 			c4.476,1.722,7.606,5.578,8.371,10.313S491.861,74.76,488.154,77.805z"
-              />
-            </g>
-          </g>
-          <g>
-            <g>
-              <path
-                d="M238.559,500.053c-0.087-1.872-9.258-188.281-40.164-301.594c-24.104-88.382-50.159-156.732-60.242-182.014
+            />
+
+            <path
+              d="M238.559,500.053c-0.087-1.872-9.258-188.281-40.164-301.594c-24.104-88.382-50.159-156.732-60.242-182.014
 			c-4.63-11.609-17.878-17.402-29.545-12.91L20.709,37.366C9.863,41.54,2.281,50.882,0.427,62.352
 			c-1.855,11.472,2.398,22.727,11.377,30.105l70.316,57.78l-43.523,16.757c-10.671,4.109-18.228,13.284-20.215,24.542
 			c-1.981,11.228,1.963,22.402,10.555,29.891c10.205,8.894,20.27,18.221,29.914,27.722c3.73,3.675,9.732,3.631,13.409-0.1
@@ -102,22 +127,19 @@ const LevelIcon = (prop) => {
 			c-21.854-49.162-55.107-109.928-101.728-160.171c-3.564-3.84-9.562-4.061-13.401-0.501c-3.838,3.561-4.063,9.562-0.501,13.401
 			c67.372,72.605,106.54,171.156,120.251,210.158c1.354,3.854,4.984,6.339,8.938,6.339c0.603,0,1.212-0.058,1.823-0.177
 			C235.523,508.908,238.782,504.755,238.559,500.053z"
-              />
-            </g>
-          </g>
-          <g>
-            <g>
-              <path
-                d="M318.795,4.565c-5.162-3.101-11.418-3.261-16.732-0.429L254.405,29.52L206.628,4.073
+            />
+
+            <path
+              d="M318.795,4.565c-5.162-3.101-11.418-3.261-16.732-0.429L254.405,29.52L206.628,4.073
 			c-5.316-2.831-11.571-2.671-16.733,0.429c-5.163,3.099-8.246,8.545-8.246,14.567v43.75c-0.001,6.098,3.138,11.578,8.399,14.659
 			c2.679,1.57,5.631,2.357,8.587,2.357c2.847,0,5.696-0.729,8.304-2.191l47.349-26.515l47.46,26.578
 			c2.608,1.461,5.458,2.19,8.304,2.19c2.957,0,5.911-0.786,8.59-2.357c5.259-3.082,8.4-8.562,8.4-14.658v-43.75
 			C327.041,13.109,323.958,7.663,318.795,4.565z M200.612,59.453V22.356l33.952,18.084L200.612,59.453z M308.076,59.515
 			l-33.952-19.013l33.952-18.084V59.515z"
-              />
-            </g>
-          </g>
-        </svg>
+            />
+          </svg>
+        </div>
+
         {prop.text != "big" && prop.text != "" && <div>{prop.text}</div>}
       </span>
     );
@@ -328,19 +350,23 @@ const LevelIcon = (prop) => {
   }
   if (prop.mode == "league") {
     var _txt = prop.number ? prop.number : prop.level;
-    var _class = "";
+    var _class = "icn ";
     if (prop.text == "big") {
       _class = _class + " big";
     }
+
+    if (prop.amin) {
+      _class = _class + " " + prop.amin;
+    }
     var _class2 = _class;
     if (prop.iconamin) {
-      var _class2 = _class2 + " " + prop.iconamin;
+      _class2 = _class2 + " " + prop.iconamin.replace("charkhesh", "");
     }
     return (
-      <span onClick={prop.onClick} style={{ position: "relative" }}>
+      <span onClick={prop.onClick} className="iconarea">
         <svg
           version="1.1"
-          className="leagueicon"
+          className="leagueicon icn"
           xmlns="http://www.w3.org/2000/svg"
           x="0px"
           y="0px"
@@ -482,7 +508,7 @@ const LevelIcon = (prop) => {
       var _class2 = _class2 + " " + prop.iconamin;
     }
     return (
-      <span onClick={prop.onClick} style={{ position: "relative" }}>
+      <span onClick={prop.onClick} className="iconarea">
         <svg
           version="1.1"
           className="gift1icon"
@@ -598,7 +624,7 @@ const LevelIcon = (prop) => {
       // _class = _class + " " + prop.iconamin;
     }
     return (
-      <span onClick={prop.onClick} style={{ position: "relative" }}>
+      <span onClick={prop.onClick} className="iconarea">
         <div style={{ display: "inline-block" }}>
           <div
             style={{
@@ -632,7 +658,13 @@ const LevelIcon = (prop) => {
               </text>
             </svg>
           </div>
-          <div style={{ transform: "scale(.8)", position: "absolute" }}>
+          <div
+            style={{
+              transform: "scale(.8)",
+              position: "absolute",
+              zIndex: 100,
+            }}
+          >
             <svg
               version="1.1"
               className="levelicon2"
