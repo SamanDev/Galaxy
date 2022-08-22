@@ -14,7 +14,7 @@ import LeagueResultLast from "./LeagueResultLast";
 import { doCurrency, levelLeagueReward, levelLeagueList } from "../../const";
 import LevelIcon from "../../utils/LevelIcon";
 import MenuLoader from "../../utils/menuLoader";
-import { publicGetService } from "../../services/public";
+
 import LeagueUser from "./LeagueUser";
 const LevelList = (prop) => {
   const [data, setData] = useState([]);
@@ -22,16 +22,6 @@ const LevelList = (prop) => {
   const [loading, setLoading] = useState(false);
   const handleGetReports = async () => {
     setLoading(true);
-    try {
-      const res = await publicGetService("league");
-      if (res.status === 200) {
-        setData(res.data);
-      }
-    } catch (error) {
-      console.log(error.message);
-    } finally {
-      setLoading(false);
-    }
   };
 
   useEffect(() => {

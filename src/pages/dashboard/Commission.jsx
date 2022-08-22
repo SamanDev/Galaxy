@@ -13,7 +13,7 @@ import $ from "jquery";
 import { doCurrency, levelPassReward, levelPassList } from "../../const";
 import LevelIcon from "../../utils/LevelIcon";
 import AddCalendar from "../../utils/AddCalendar";
-import GalaxyIcon from "../../utils/GalaxyIcon";
+import GalaxyIcon from "../../utils/svg";
 import GiftsDesc from "../../utils/GiftsDesc";
 import Report from "./Report";
 const LevelList = (prop) => {
@@ -21,6 +21,35 @@ const LevelList = (prop) => {
   return (
     <span className="myaccount popupmenu">
       <List divided inverted verticalAlign="middle" className="myaccount">
+        <List.Item>
+          <List.Content className="rtl text-center">
+            <div className="inline animated ">
+              {prop.mode == "commission" ? (
+                <GalaxyIcon
+                  mode="commission"
+                  level=""
+                  text="Commission"
+                  classinside="iconinside0"
+                  number="1"
+                  width="60px"
+                  amin="inline animated slideInDown fast"
+                  iconamin="swing"
+                />
+              ) : (
+                <GalaxyIcon
+                  mode="rakeback"
+                  level=""
+                  text="Rakeback"
+                  classinside="iconinside0"
+                  number="1"
+                  width="60px"
+                  amin="inline animated heartBeat"
+                  iconamin="swing"
+                />
+              )}
+            </div>
+          </List.Content>
+        </List.Item>
         <List.Item>
           <List.Content className="rtl text-center">
             {prop.mode == "commission" ? (

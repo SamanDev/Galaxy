@@ -238,16 +238,24 @@ body.fullscreen #content_section {
 }
 .iconarea {
 
-display: inline-block;
-
-position: relative;
-
-}
-.iconarea svg.icn {
+  display: inline-block;
+  
+  position: relative;
+  filter: drop-shadow(rgba(0, 0, 0,.9) 0px 0px 10px) drop-shadow(rgba(0, 0, 0,.4) 0px 0px 2px);
+  
+  }
+  .iconarea  .iconlabel {
+    text-align: center;
+    margin-top: 5px;
+    font-size: 11px;
+    color: #fff;
+    font-weight: 900;
+    }
+.iconarea .icn {
 
   
--webkit-mask-image: linear-gradient(to bottom, black 50%, transparent 100%);
-mask-image: linear-gradient(to bottom, black 50%, transparent 100%);
+-webkit-mask-image: linear-gradient(to bottom, black 70%, transparent 100%);
+mask-image: linear-gradient(to bottom, black 70%, transparent 100%);
 }
 .banner .ui.grid {
   width: 100%;
@@ -852,26 +860,23 @@ a.mm-listitem__text {
  svg {
   overflow:visible !important;
 }
-svg path {
-  -webkit-filter: drop-shadow( 3px 3px 20px rgba(0, 0, 0, .7));
-  filter: drop-shadow( 3px 3px 10px rgba(0, 0, 0, .7));
-}
-.vipicon path,.bonusicon path,.gift3icon * {
+
+.vipicon path {
  
   fill: url(#vipicongrad);
 
 }
-.gpassicon path.big {
+.gpassicon path.big,.bonusicon path {
  
   fill: url(#gpassicongradnew);
 
 }
-.rakebackicon path,.gift1icon * {
+.rakebackicon path {
  
-  fill: url(#gpassicongrad);
+  fill: url(#vipicongrad);
 
 }
-.leagueicon path,.commicon path,.gift2icon * {
+.leagueicon path,.commicon path {
  
   fill: url(#leagueicongrad);
 
@@ -880,6 +885,7 @@ svg path {
   fill: #fff;
   font-size: 16px;
     font-family: monospace;
+    filter: drop-shadow(rgba(0, 0, 0,1) 0px 0px 3px) drop-shadow(rgba(0, 0, 0,1) 0px 0px 10px);
 }
 .levelicontext.text1{
   
@@ -889,8 +895,9 @@ svg path {
 }
 .leagueicontext{
   fill: #fff;
-  font-size: 130px;
+  font-size: 160px;
     font-family: monospace;
+    filter: drop-shadow(rgba(0, 0, 0,1) 0px 0px 3px) drop-shadow(rgba(0, 0, 0,1) 0px 0px 3px);
 }
 .leagueicontext.text1{
   
@@ -908,6 +915,7 @@ svg text{
   font-size:7px;
   text-anchor: middle;
     font-style: italic;
+    filter: drop-shadow(rgba(0, 0, 0,1) 0px 0px 3px) drop-shadow(rgba(0, 0, 0,1) 0px 0px 3px);
 
 }
 .vipicontext{
@@ -1031,11 +1039,13 @@ svg text{
 
 .iconinside0{
  fill: transparent;
+ 
   
 }
 .iconinside1{
  fill: #740e0ec3;
  color: #740e0ec3;
+ 
   
 }
 .iconinside2{
@@ -1060,6 +1070,7 @@ i.star.big.shad2::after {
 {
   color: #fdd300;
   fill: #fdd300;
+  
 }
 .lv2 {
   color: #f7c700;
@@ -1689,6 +1700,10 @@ table {
 .fadeout {
   -webkit-mask-image: linear-gradient(to bottom, black 50%, transparent 100%);
   mask-image: linear-gradient(to bottom, black 50%, transparent 100%);
+}
+.fadeoutend {
+  -webkit-mask-image: linear-gradient(to bottom, black 80%, transparent 100%);
+  mask-image: linear-gradient(to bottom, black 880%, transparent 100%);
 }
 .color_tag {
   border: 1px solid black;

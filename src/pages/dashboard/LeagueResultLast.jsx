@@ -70,7 +70,7 @@ const LevelList = () => {
                   text={"Place " + (i + 1)}
                   classinside="iconinside0"
                   number=""
-                  width="42px"
+                  width="36px"
                   iconamin="swing"
                 />
               </span>
@@ -80,9 +80,7 @@ const LevelList = () => {
                   left: -50,
                   transform: "scale(.8)",
                 }}
-              >
-                <LevelIcon level={_lvl} text={_text} />
-              </div>
+              ></div>
             </List.Item>
           );
         })}

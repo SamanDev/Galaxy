@@ -11,7 +11,10 @@ import { doCurrency } from "../../const";
 const Report = (prop) => {
   const loginToken = JSON.parse(localStorage.getItem("loginToken"));
   const [data, setData] = useState([]);
-  var gateway = prop?.gateway.replace(/ /g, "").replace("BTC", "Bitcoin");
+  var gateway = prop?.gateway
+    .replace(/ /g, "")
+    .replace("BTC", "Bitcoin")
+    .replace("Toman", "IranShetab");
   const [loading, setLoading] = useState(true);
   const handleGetReports = async (mode) => {
     setLoading(true);

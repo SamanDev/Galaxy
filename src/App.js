@@ -5,6 +5,7 @@ import { Image, Modal } from "semantic-ui-react";
 import { menuData, panelData, haveAdmin, haveModerator } from "./const";
 import { Link } from "react-router-dom";
 import { useIsLogin } from "./hook/authHook";
+import { useSiteInfo } from "./hook/infoHook";
 import $ from "jquery";
 import { Route, Routes } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
@@ -22,6 +23,7 @@ const CompGen = (prop) => {
 };
 function App(prop) {
   const [loadingLogin, isLogin] = useIsLogin();
+  const [loadingInfo, siteInfo] = useSiteInfo();
   const [isUser, setIsUser] = useState(false);
   const [firstOpen, setFirstOpen] = useState(false);
   const [secondOpen, setSecondOpen] = useState(false);
@@ -213,7 +215,7 @@ function App(prop) {
                                   <i className="mx-3">
                                     <GalaxyIcon
                                       mode={submenu.icongalaxy}
-                                      level="90"
+                                      level="1"
                                       text="big"
                                       classinside="iconinside2"
                                       number=""
@@ -624,7 +626,7 @@ function App(prop) {
             })}
           </ul>
         </nav>
-        <nav id="panelright" className="fadeout">
+        <nav id="panelright" className="fadeoutend">
           <ul>
             {panelData.map(function (menu, i) {
               return doMenu(menu, i, "panel");

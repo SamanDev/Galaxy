@@ -47,7 +47,7 @@ const Reward = (prop) => {
               mode={prop.item.mode}
               text={prop.item.username}
               classinside={levelClassInside(_lvl - 1)}
-              width="32px"
+              width="36px"
             />
           </div>
         </Grid.Column>

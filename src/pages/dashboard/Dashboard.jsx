@@ -349,6 +349,14 @@ const Dashboard = (prop) => {
               data-bs-ride="carousel"
             >
               <div className="carousel-inner">
+                <div className="carousel-item " data-bs-interval="10000">
+                  <Banner
+                    title="هدیه گلکسی"
+                    text="امشب ساعت ۲۲"
+                    icon="gifts"
+                    {...prop}
+                  />
+                </div>
                 {_event == "GPass" && (
                   <div
                     className="carousel-item active"
@@ -376,7 +384,7 @@ const Dashboard = (prop) => {
                       link=".vip"
                       icon="vip"
                       amin="inline animated flipInY"
-                      iconamin=""
+                      iconamin="pulse"
                       number=" "
                       {...prop}
                     />
@@ -394,8 +402,8 @@ const Dashboard = (prop) => {
                       icon="league"
                       level="big"
                       number="1"
-                      amin="inline animated swing"
-                      iconamin="swing"
+                      amin="inline animated swing delay-2s"
+                      iconamin=""
                       {...prop}
                     />
                   </div>

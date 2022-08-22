@@ -27,7 +27,8 @@ const LevelList = () => {
               classinside="iconinside0"
               number=""
               width="60px"
-              amin={"inline animated flipInY"}
+              amin="inline animated flipInY"
+              iconamin=""
             />
 
             <AddCalendar start="16" dur="8" format="0000" title="VIP 25/50K" />

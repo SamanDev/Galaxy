@@ -60,7 +60,7 @@ const LevelList = () => {
                 text={"Level " + (i + 1)}
                 classinside={levelClassInside(i)}
                 number={i + 1}
-                width="32px"
+                width="36px"
               />
               {loginToken && (
                 <div className="levelbar">

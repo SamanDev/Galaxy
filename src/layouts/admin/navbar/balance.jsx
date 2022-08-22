@@ -12,7 +12,12 @@ import DepositArea from "../forms/index";
 import LevelIcon from "../../../utils/svg";
 
 import BonusArea from "../bonus/index.jsx";
-import { doCurrency, levelData, getEvent } from "../../../const";
+import {
+  doCurrency,
+  levelData,
+  getEvent,
+  levelClassInside,
+} from "../../../const";
 const moment = require("moment");
 const Balance = (prop) => {
   var lvlPercent = 0;
@@ -92,17 +97,19 @@ const Balance = (prop) => {
           }}
         >
           {stateMode == 0 && (
-            <LevelIcon
-              level={loginToken.level}
-              text=""
-              mode="levels"
-              classinside="iconinside0"
-              number=""
-              width="30px"
-              onClick={() => {
-                prop.openPanel(".levels", "#lvl" + loginToken.level);
-              }}
-            />
+            <span style={{ top: -2, position: "relative" }}>
+              <LevelIcon
+                level={loginToken.level}
+                text=""
+                mode="levels"
+                classinside={levelClassInside(loginToken.level)}
+                number=""
+                width="30px"
+                onClick={() => {
+                  prop.openPanel(".levels", "#lvl" + loginToken.level);
+                }}
+              />
+            </span>
           )}
           {stateMode == 1 && _event == "GPass" && (
             <LevelIcon
@@ -217,7 +224,7 @@ const Balance = (prop) => {
                   floating
                   size="mini"
                   className="farsi-inline"
-                  hidden={gCount == 0 ? true : false}
+                  hidden={gCount == 0 ? true : true}
                   style={{ top: 5, left: "95%" }}
                 >
                   {gCount}

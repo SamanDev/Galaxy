@@ -9,7 +9,7 @@ import {
   List,
 } from "semantic-ui-react";
 import LevelIcon from "../../../utils/svg";
-import { doCurrency, levelDataInfo } from "../../../const";
+import { doCurrency, levelDataInfo, levelClassInside } from "../../../const";
 import { Alert } from "../../../utils/alerts";
 import { MyConfirm, MyToast, MyDeposit } from "../../../utils/myAlert";
 import Status from "../../../utils/Status";
@@ -215,7 +215,7 @@ const BonusArea = (prop) => {
   var _bonuses = loginToken.userGifts;
   _bonuses.sort((a, b) => (a.id < b.id ? 1 : -1));
   return (
-    <div style={{ margin: "5px 0 5px 0" }} className="bonuslist fadeout">
+    <div style={{ margin: "5px 0 5px 0" }} className="bonuslist fadeoutend">
       {_bonuses.length > 0 && (
         <>
           <List divided inverted verticalAlign="middle">
@@ -229,7 +229,7 @@ const BonusArea = (prop) => {
                   .replace("Bonus", "")
                   .replace("Gift", "");
               } catch (error) {
-                var _lvl = "";
+                var _lvl = "1";
               }
 
               if (bonus.mode == "bonus") {
@@ -409,9 +409,9 @@ const BonusArea = (prop) => {
                       onClick={() => {
                         prop.openPanel("." + bonus.mode, "");
                       }}
-                      classinside="iconinside0"
+                      classinside={levelClassInside(_lvl - 1)}
                       number={_lvl}
-                      width="32px"
+                      width="36px"
                     />
                   </div>
                 </List.Item>

@@ -249,7 +249,7 @@ export const menuData = [
       {
         label: "کمیسیون معرفی دوستان",
         idname: "commission",
-
+        icongalaxy: "commission",
         icon: "fas fa-heart red",
         title: "کمیسیون معرفی دوستان",
 
@@ -259,7 +259,7 @@ export const menuData = [
         label: "ریک بک پوکر",
         title: "ریک بک پوکر",
         idname: "commission",
-
+        icongalaxy: "rakeback",
         icon: "fas fa-heart red",
 
         component: <Commission mode="rakeback" />,

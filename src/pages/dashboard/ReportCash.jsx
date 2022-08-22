@@ -18,7 +18,10 @@ const Report = (prop) => {
       const res = await getReportService(
         loginToken.id,
         prop.mode,
-        prop.gateway.replace(/ /g, "").replace("BTC", "Bitcoin")
+        prop.gateway
+          .replace(/ /g, "")
+          .replace("BTC", "Bitcoin")
+          .replace("Toman", "IranShetab")
       );
       if (res.status === 200) {
         setData(res.data);

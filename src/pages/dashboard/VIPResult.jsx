@@ -76,18 +76,10 @@ const LevelList = () => {
                 <LevelIcon
                   mode="vip"
                   level=""
-                  text="VIP Gift"
-                  classinside="iconinside0"
-                  number=""
-                  width="32px"
-                />
-                <LevelIcon
-                  mode="levels"
-                  level={_lvl}
                   text={_text}
                   classinside="iconinside0"
-                  number={_lvl}
-                  width="32px"
+                  number=""
+                  width="36px"
                 />
               </span>
             </List.Item>

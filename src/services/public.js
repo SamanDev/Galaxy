@@ -1,5 +1,5 @@
 import httpService from "./httpService";
 
-export const publicGetService = (mode) => {
-  return httpService("/pub/" + mode, "get");
+export const publicGetService = () => {
+  return httpService("/req/getPublicInfo", "get");
 };

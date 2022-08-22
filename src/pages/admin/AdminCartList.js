@@ -15,6 +15,7 @@ import {
 } from "semantic-ui-react";
 import Moment from "react-moment";
 import { convertDateToJalali } from "../../utils/convertDate";
+import { adminPostService } from "../../services/admin";
 import ActionBtn from "../../utils/actionBtn";
 import ConvertCart from "../../utils/convertCart";
 import AmountColor from "../../utils/AmountColor";
@@ -112,7 +113,22 @@ function Admin(prop) {
       <pre>{JSON.stringify(data, null, 2)}</pre>
     </div>
   );
+  const updateUserObj = async (e, data) => {
+    console.log(data);
+    var _key = data.userkey;
+    var curU = JSON.parse(JSON.stringify(data.user));
+    var values = { id: curU.id, active: data.checked };
 
+    try {
+      const res = await adminPostService(values, "editUserBankInfo");
+      if (res.status == 200) {
+      } else {
+        Alert("متاسفم...!", res.data.message, "error");
+      }
+    } catch (error) {
+      Alert("متاسفم...!", "متاسفانه مشکلی از سمت سرور رخ داده", "error");
+    }
+  };
   const fetchUsers = async (page) => {
     setLoading(true);
     var _s = moment(startDate).format("YYYY-MM-DD");
@@ -176,13 +192,33 @@ function Admin(prop) {
       sortable: true,
       width: "80px",
     },
-
+    {
+      name: "username",
+      selector: (row) => row.username,
+      format: (row) => (
+        <>
+          <a
+            href="#"
+            onClick={() => prop.addTabData(row.username, getwaysList)}
+          >
+            {row.username}
+          </a>
+        </>
+      ),
+      sortable: true,
+      width: "120px",
+    },
     {
       name: "status",
       selector: (row) => row.active,
       format: (row) => (
         <>
-          <CheckboxToggle check={row.active} user={row} userkey="cartBlock" />
+          <CheckboxToggle
+            check={row.active}
+            user={row}
+            userkey="cartBlock"
+            onChange={updateUserObj}
+          />
         </>
       ),
       sortable: true,
