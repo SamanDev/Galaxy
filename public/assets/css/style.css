@@ -17,6 +17,77 @@ body {
   text-align: right;
   /* box-sizing: content-box */
 }
+.giftsarea.mm-listitem {
+
+  display: inline-flex !important;
+ 
+  width: 50% !important;
+}
+.giftsarea .mm-btn--next:after {
+  display: none
+}
+.giftsarea .mm-btn .iicon {
+  background: none !important;
+    width: 100% !important;
+    position: relative !important;
+    text-align: center !important;
+    height: 65px !important;
+    
+    line-height: 50px;
+    top: 0;
+    left: 0 !important;
+    font-size: 15px !important;
+    display: block;
+    margin: auto !important;
+    filter: grayscale(90%);
+    transition: all 1s ease;
+}
+.giftsarea .mm-btn i {
+  background: none !important;
+    width: 100% !important;
+    position: relative !important;
+    text-align: center !important;
+    height: 65px !important;
+    
+    line-height: 50px;
+    top: 0;
+    left: 0 !important;
+    font-size: 35px !important;
+    display: block;
+    margin: auto !important;
+    filter: grayscale(90%);
+    transition: all 1s ease;
+
+}
+.giftsarea .mm-btn:hover .iicon,.giftsarea:hover .mm-btn i {
+ 
+    filter: grayscale(0%);
+}
+.giftsarea span.mymenu{
+  font-size: 11px !important;
+  padding-left: 0px !important;
+  display: block !important;
+  text-align: center !important;
+}
+.giftsarea > a{
+  padding: 10px !important;
+  margin: 10px !important;
+  border: 0px solid rgba(255,255,255,.2) !important;
+  text-align: center !important;
+  
+}
+.giftsarea{
+  padding: 0px !important;
+  margin: 0px !important;
+  border: 0px solid rgba(255,255,255,0) !important;
+  text-align: center !important;
+  background: rgb(4,7,22);
+background: radial-gradient(circle, rgba(0,0,0,.4) 0%, rgba(0,0,0,0) 87%);
+}
+.cashierarea{
+
+background: rgba(255,0,0,0.3);
+}
 .swal2-container{
   z-index: 100000000 !important;
 }
@@ -1846,21 +1917,31 @@ table {
     height: calc(70vh - 74px);
   }
   .banner .iconarea {
-    transform: scale(1.8);
+    transform: scale(2) translateY(-10px);
 display: inline-block;
 transform-origin: bottom center;
 position: relative;
 
+
   }
-  .banner img{
-    display: none;
+  
+  
+  .banner .column > * {
+    text-align: center !important;
+    width: 100%;
   }
-  .banner .column * {
+  .banner .ui.grid > *{
     text-align: center !important;
   }
-  .banner .ui.grid * {
+  .banner .ui.grid  h1, .banner .column h1{
     text-align: center !important;
+    width: 100%;
   }
+  .banner .iconarea * {
+ 
+    text-align: left !important;
+    
+      }
   .banner h1 {
     font-size: 6vw;
     

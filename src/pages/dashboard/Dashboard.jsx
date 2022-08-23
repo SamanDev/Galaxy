@@ -357,6 +357,17 @@ const Dashboard = (prop) => {
                     {...prop}
                   />
                 </div>
+                <div className="carousel-item " data-bs-interval="10000">
+                  <Banner
+                    title="تورنومنت ۵۰ میلیونی"
+                    text="هر جمعه ساعت ۲۲"
+                    icon="tournament"
+                    amin="inline animated swing delay-2s"
+                    iconamin=""
+                    link=".tournament"
+                    {...prop}
+                  />
+                </div>
                 {_event == "GPass" && (
                   <div
                     className="carousel-item active"

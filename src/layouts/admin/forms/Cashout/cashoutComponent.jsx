@@ -6,6 +6,7 @@ import BTC from "./BTC";
 import Toman from "./Toman";
 import Ticket from "./Ticket";
 import AddCart from "./AddCart";
+import Invite from "./Invite";
 import ChangePass from "./ChangePass";
 import AddCartMsg from "../Deposit/addCartMsg";
 import Report from "./Report";
@@ -23,6 +24,12 @@ const depositArea = (prop) => {
       )}
       {prop.cashMode === "Ticket" && (
         <Ticket size="mini" labelcolor="orange" list={true} />
+      )}
+      {prop.cashMode === "Invite" && (
+        <Invite size="mini" labelcolor="orange" list={true} />
+      )}
+      {prop.cashMode === "addCart" && (
+        <AddCart size="mini" labelcolor="orange" list={true} />
       )}
       {prop.cashMode === "addCart" && (
         <AddCart size="mini" labelcolor="orange" list={true} />

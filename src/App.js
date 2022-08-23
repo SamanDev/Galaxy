@@ -144,14 +144,26 @@ function App(prop) {
         }
       } else {
         return (
-          <li key={y + menu.label}>
+          <li key={y + menu.label} className={menu?.aria}>
             <span
               className={
                 menu.link == "/logout" && !isUser ? "hiddenmenu" : null
               }
             >
               {menu.label}
-              {menu.icon && (
+              {menu.icongalaxy && (
+                <span className="iicon">
+                  <GalaxyIcon
+                    mode={menu.icongalaxy}
+                    level="1"
+                    text="big"
+                    classinside="iconinside0"
+                    number=""
+                    width="50px"
+                  />
+                </span>
+              )}{" "}
+              {menu.icon && !menu.icongalaxy && (
                 <i
                   className={`${menu.icon} mx-3${
                     menu.icon.indexOf("fas ") == -1 &&
@@ -184,11 +196,16 @@ function App(prop) {
             </span>
 
             <ul>
+              {menu.title && (
+                <li className="menutitle menutitle mm-listitem">
+                  <span className="mm-listitem__text">{menu.title}</span>
+                </li>
+              )}
               {menu.submenu.map(function (submenu, i) {
                 if (!submenu.submenu) {
                   if (getAccess(submenu.getwaykey)) {
                     return (
-                      <li key={i + submenu.label}>
+                      <li key={i + menu.label} className={submenu?.aria}>
                         {submenu.image ? (
                           <>
                             {activeMenu == menu.label && (
@@ -209,19 +226,19 @@ function App(prop) {
                         ) : (
                           <>
                             {submenu.label && (
-                              <span className={submenu?.id}>
+                              <span>
                                 {submenu.label}
                                 {submenu.icongalaxy && (
-                                  <i className="mx-3">
+                                  <span className="iicon">
                                     <GalaxyIcon
                                       mode={submenu.icongalaxy}
                                       level="1"
                                       text="big"
-                                      classinside="iconinside2"
+                                      classinside="iconinside0"
                                       number=""
-                                      width="20px"
+                                      width="50px"
                                     />
-                                  </i>
+                                  </span>
                                 )}{" "}
                                 {submenu.icon && !submenu.icongalaxy && (
                                   <i
@@ -434,7 +451,7 @@ function App(prop) {
         "#menuleft",
         {
           setSelected: {
-            hover: true,
+            hover: false,
           },
 
           iconPanels: {
@@ -501,7 +518,12 @@ function App(prop) {
           var _parent = $("#" + panel.id + "").attr("data-mm-parent");
           setActiveMenu(
             $("#" + _parent)
-              .find("a:first > span")
+              .find("a:first > span.mymenu")
+              .text()
+          );
+          console.log(
+            $("#" + _parent)
+              .find("a:first > span.mymenu")
               .text()
           );
         }, 200);

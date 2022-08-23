@@ -1,14 +1,15 @@
 import React from "react";
 import Accordion from "./pages/dashboard/Accordion";
-import Invite from "./pages/dashboard/Invite";
-import InviteLink from "./pages/dashboard/InviteLink";
+
 import ActiveTable from "./pages/dashboard/ActiveTableJson";
 import LastReward from "./pages/dashboard/LastReward";
 import LevelList from "./pages/dashboard/Levels";
 import PassList from "./pages/dashboard/GalaxyPass";
 import Commission from "./pages/dashboard/Commission";
 import VIP from "./pages/dashboard/VIP";
+import TopPlayers from "./pages/dashboard/TopPlayers";
 import League from "./pages/dashboard/League";
+import Tournament from "./pages/dashboard/Tournament";
 import TopUsers from "./pages/dashboard/TopUsers";
 import CashoutComponent from "./layouts/admin/forms/FormComponent.jsx";
 import FormComponent from "./layouts/admin/forms/FormComponent.jsx";
@@ -171,18 +172,25 @@ export const menuData = [
 
   {
     label: "صندوق",
+    title: "صندوق",
+    aria: "cashierarea",
     icon: "fas fa-dollar ",
     submenu: [
       {
         label: "خرید چیپ",
+        title: "خرید چیپ",
         icon: "fas fa-plus text-danger",
         idname: "deposit",
+        aria: "giftsarea",
+        icongalaxy: "deposit",
         submenu: doDeposit(),
       },
       {
         label: "برداشت",
-
-        icon: "fas fa-dollar",
+        title: "برداشت",
+        aria: "giftsarea",
+        icon: "fas fa-dollar text-gold",
+        icongalaxy: "cashout",
         submenu: doCashout(),
       },
       {
@@ -191,6 +199,7 @@ export const menuData = [
         idname: "login",
         getwaykey: "Transfer",
         icon: "fas fa-exchange-alt",
+        aria: "giftsarea",
         component: (
           <FormComponent
             mode="transfer"
@@ -203,7 +212,8 @@ export const menuData = [
       {
         label: "تراکنش های مالی",
         title: "تراکنش های مالی",
-        icon: "fas fa-stream",
+        aria: "giftsarea",
+        icon: "fas fa-stream text-muted",
         idname: "login",
         component: <CashoutComponent cashMode="Report" />,
       },
@@ -211,29 +221,24 @@ export const menuData = [
   },
 
   {
-    label: "کمیسیون و کسب درآمد",
+    label: "دعوت دوستان و کسب درآمد",
+    title: "دعوت دوستان و کسب درآمد",
     icon: "fas fa-heart red",
-    bonus: "40%",
+
     idname: "login",
     submenu: [
       {
-        label: "ساخت اکانت برای دوستان",
-        title: "ساخت اکانت برای دوستان",
         icon: "fas fa-plus",
-        idname: "register",
-        component: <Invite title="ساخت اکانت برای دوستان" />,
-      },
-      {
-        label: "دعوت دوستان با لینک اختصاصی",
-        title: "دعوت دوستان با لینک اختصاصی",
-        icon: "fas fa-link",
-        idname: "invitelink",
-        component: <InviteLink title="دعوت دوستان با لینک اختصاصی" />,
+        idname: "login register",
+        component: (
+          <CashoutComponent cashMode="Invite" size="mini" labelcolor="orange" />
+        ),
       },
     ],
   },
   {
     label: "جوایز و پاداش ها ",
+    title: "جوایز و پاداش ها ",
     icon: "fas fa-gift yellow",
     idname: "gifts",
     submenu: [
@@ -242,27 +247,9 @@ export const menuData = [
         title: "پاداش لِوِل ها",
         idname: "levels",
         icon: "fas fa-star yellow",
-
+        aria: "giftsarea",
+        icongalaxy: "levels",
         component: <LevelList />,
-      },
-
-      {
-        label: "کمیسیون معرفی دوستان",
-        idname: "commission",
-        icongalaxy: "commission",
-        icon: "fas fa-heart red",
-        title: "کمیسیون معرفی دوستان",
-
-        component: <Commission mode="commission" />,
-      },
-      {
-        label: "ریک بک پوکر",
-        title: "ریک بک پوکر",
-        idname: "commission",
-        icongalaxy: "rakeback",
-        icon: "fas fa-heart red",
-
-        component: <Commission mode="rakeback" />,
       },
 
       {
@@ -273,6 +260,7 @@ export const menuData = [
         bonus: "Level " + levelDataInfo[0].minLevel,
         icon: "fab fa-google yellow",
         icongalaxy: "gpass",
+        aria: "giftsarea",
         component: <PassList />,
       },
       {
@@ -283,22 +271,63 @@ export const menuData = [
         bonus: "Level " + levelDataInfo[1].minLevel,
         icon: "fab fa-viacoin yellow",
         icongalaxy: "vip",
+        aria: "giftsarea",
         component: <VIP />,
       },
       {
         label: "لیگ روزانه",
         title: "لیگ روزانه",
-
+        aria: "giftsarea",
         idname: "league",
         bonus: "Level " + levelDataInfo[2].minLevel,
         icon: "fas fa-medal yellow",
         icongalaxy: "league",
         component: <League />,
       },
+      {
+        label: "کمیسیون معرفی دوستان",
+        idname: "commission",
+        icongalaxy: "commission",
+        icon: "fas fa-heart red",
+        title: "کمیسیون معرفی دوستان",
+        aria: "giftsarea",
+        component: <Commission mode="commission" />,
+      },
+      {
+        label: "ریک بک پوکر",
+        title: "ریک بک پوکر",
+        idname: "commission",
+        icongalaxy: "rakeback",
+        icon: "fas fa-heart red",
+        aria: "giftsarea",
+        component: <Commission mode="rakeback" />,
+      },
+
+      {
+        label: "تورنومنت ها",
+        title: "تورنومنت ها",
+        idname: "tournament",
+
+        icon: "fab fa-viacoin yellow",
+        icongalaxy: "tournament",
+        aria: "giftsarea",
+        component: <Tournament />,
+      },
+      {
+        label: "برترین بازیکنان",
+        title: "برترین بازیکنان",
+        idname: "topplayer",
+
+        icon: "fab fa-viacoin yellow",
+        icongalaxy: "topplayer",
+        aria: "giftsarea",
+        component: <TopPlayers />,
+      },
     ],
   },
   {
     label: "پشتیبانی",
+    title: "پشتیبانی",
     icon: "fas fa-envelope-open-text",
     idname: "login support",
     submenu: [
@@ -314,17 +343,10 @@ export const menuData = [
       },
     ],
   },
-  {
-    label: "برترین بازیکنان",
-    icon: "fas fa-users",
-    submenu: [
-      {
-        component: <TopUsers />,
-      },
-    ],
-  },
+
   {
     label: "حساب کاربری",
+    title: "حساب کاربری",
     icon: "fas fa-user ",
     idname: "login",
     link: "/logout",

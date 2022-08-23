@@ -6,6 +6,7 @@ import {
   Button,
   Icon,
   Segment,
+  Divider,
 } from "semantic-ui-react";
 
 import Swal from "sweetalert2";
@@ -31,18 +32,24 @@ const depositArea = () => {
 
   return (
     <span className="myaccount popupmenu">
+      <Divider inverted section />
       <MyMsg
         icon="linkify"
         color="red"
-        text="برای معرفی دوستان خود کافیست لینک زیر را برای ایشان ارسال نمایید."
+        size="mini"
+        text={
+          <>
+            <h5 className="farsi lh-lg">دعوت دوستان با لینک اختصاصی</h5>برای
+            معرفی دوستان خود کافیست لینک زیر را برای ایشان ارسال نمایید.
+          </>
+        }
       />
-
       <Input
         size="mini"
         readOnly
         fluid
         label={
-          <Label size="tiny" pointing="right" color="yellow" className="farsi">
+          <Label size="tiny" pointing="right" color="red" className="farsi">
             لینک شما
           </Label>
         }
@@ -58,8 +65,9 @@ const depositArea = () => {
           icon
           labelPosition="left"
           size="small"
-          color={copy ? "green" : "orange"}
+          color={copy ? "green" : "red"}
           fluid
+          style={{ margin: "10px 0" }}
           className="farsi"
         >
           {!copy ? (

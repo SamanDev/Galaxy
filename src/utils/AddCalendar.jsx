@@ -71,7 +71,9 @@ class Example extends React.Component {
       _next = false;
     }
 
-    var startDatetime = moment(now).add(dir, "days").format("YYYYMMDDT000000");
+    var startDatetime = moment(now)
+      .add(dir, "days")
+      .format("YYYYMMDDT" + this.props.format + "00");
     var startDatetimeOld = startDatetime;
     var endDatetimeOld = moment(startDatetimeOld)
       .add(dur, "days")
@@ -80,7 +82,7 @@ class Example extends React.Component {
     if (_next) {
       startDatetime = moment(startDatetime)
         .add(1, "months")
-        .format("YYYYMMDDT000000");
+        .format("YYYYMMDDT" + this.props.format + "00");
     }
 
     const endDatetime = moment(startDatetime)
@@ -89,9 +91,13 @@ class Example extends React.Component {
     const duration = this.props.dur;
     var startTime = getchatTime(startDatetime);
     var endTime = getchatTime(endDatetime);
+    if (startTime <= endTime) {
+      _start = false;
+    }
     const event = {
       duration,
       endDatetime: endTime,
+      repeat: this.props.repeat,
 
       startDatetime: startTime,
       title: this.props.title,
@@ -152,6 +158,7 @@ class Example extends React.Component {
             >
               {startTime}
             </Moment>
+
             <Button
               onClick={args.onClick}
               color="red"

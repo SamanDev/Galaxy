@@ -20,7 +20,12 @@ import GiftsDesc from "../../utils/GiftsDesc";
 import AddCalendar from "../../utils/AddCalendar";
 import GalaxyIcon from "../../utils/svg";
 import LeagueResult from "./LeagueResult";
+import Moment from "react-moment";
+const moment = require("moment");
 const LevelList = () => {
+  var _day = moment().day(5);
+  var nowDay = moment(_day).date();
+
   return (
     <span className="myaccount popupmenu">
       <List divided inverted verticalAlign="middle" className="myaccount">
@@ -28,9 +33,9 @@ const LevelList = () => {
           <List.Content className="rtl text-center">
             <div className="inline animated ">
               <GalaxyIcon
-                mode="league"
+                mode="tournament"
                 level=""
-                text="Daily League"
+                text="Tournaments"
                 classinside="iconinside0"
                 number="1"
                 width="60px"
@@ -39,11 +44,11 @@ const LevelList = () => {
               />
             </div>
             <AddCalendar
-              start="24"
-              dur="8"
-              repeat="MONTHLY"
-              format="0000"
-              title="League"
+              start={nowDay}
+              dur="0"
+              repeat="WEEKLY"
+              format="2200"
+              title="Tournament"
             />
           </List.Content>
         </List.Item>

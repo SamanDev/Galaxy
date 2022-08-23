@@ -31,7 +31,13 @@ const LevelList = () => {
               iconamin=""
             />
 
-            <AddCalendar start="16" dur="8" format="0000" title="VIP 25/50K" />
+            <AddCalendar
+              start="16"
+              dur="8"
+              repeat="MONTHLY"
+              format="0000"
+              title="VIP 25/50K"
+            />
             <GiftsDesc
               desc={
                 <>

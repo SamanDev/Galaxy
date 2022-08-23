@@ -2,16 +2,8 @@ import React, { useState } from "react";
 
 import Deposit from "./Deposit/depositComponent";
 import Cashout from "./Cashout/cashoutComponent";
-import BankTransfer from "./Deposit/BankTransfer";
-import BTC from "./Deposit/BTC";
-import CartToCart from "./Deposit/CartToCart";
-import CartToCartOnline from "./Deposit/CartToCartOnline";
-import PerfectMoney from "./Deposit/PerfectMoney";
-import USDT from "./Deposit/USDT";
-import VisaGiftCode from "./Deposit/VisaGiftCode";
 
 import AccessMsg from "../../../utils/accessMsg";
-import AddCartMsg from "./Cashout/AddCart";
 
 import { Divider, Header } from "semantic-ui-react";
 const depositArea = (prop) => {

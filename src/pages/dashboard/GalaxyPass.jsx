@@ -36,7 +36,13 @@ const LevelList = () => {
                 iconamin={"inline animated charkhesh"}
               />
             </div>
-            <AddCalendar start="1" dur="15" format="0000" title="GallaxyPass" />
+            <AddCalendar
+              start="1"
+              dur="15"
+              repeat="MONTHLY"
+              format="0000"
+              title="GallaxyPass"
+            />
             <GiftsDesc
               desc={
                 <>

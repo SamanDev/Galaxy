@@ -20,12 +20,18 @@ export default class AccordionExampleStandard extends Component {
       <span className="myaccount popupmenu">
         <MyMsg
           icon="users"
-          color="red"
-          text="لطفا نام کاربری و ایمیل دوست خود را وارد کنید. کلمه عبور و اطلاعات
-        ورود به گلکسی برای ایشان ایمیل خواهد شد."
+          color="yellow"
+          size="mini"
+          text={
+            <>
+              <h5 className="farsi lh-lg">ساخت اکانت برای دوستان</h5>لطفا نام
+              کاربری و ایمیل دوست خود را وارد کنید. کلمه عبور و اطلاعات ورود به
+              گلکسی برای ایشان ایمیل خواهد شد.
+            </>
+          }
         />
 
-        <Register />
+        <Register labelcolor="orange" size="mini" />
       </span>
     );
   }
