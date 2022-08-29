@@ -215,7 +215,7 @@ const Balance = (prop) => {
                 inverted={color == "grey" ? false : true}
                 name="gift"
                 className={
-                  gCount == 0 ? "animated" : "animated heartBeat infinite slow"
+                  gCount == 0 ? "animated" : "animated heartBeat  slow"
                 }
                 link
               >

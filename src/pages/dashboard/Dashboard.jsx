@@ -24,9 +24,22 @@ import {
   gameDataMainCode,
   getEvent,
 } from "../../const";
-import GalaxyIcon from "../../utils/svg";
+import GalaxyIcon from "../../utils/svganim";
+import ConfettiArea from "../../utils/party";
 import $ from "jquery";
-
+const config = {
+  angle: "0",
+  spread: "32",
+  startVelocity: "20",
+  elementCount: "200",
+  dragFriction: "0.09",
+  duration: "4090",
+  stagger: "3",
+  width: "9px",
+  height: "10px",
+  perspective: "500px",
+  colors: ["#a864fd", "#29cdff", "#78ff44", "#ff718d", "#fdff6a"],
+};
 const Banner = (prop) => {
   return (
     <div className="banner">
@@ -39,12 +52,12 @@ const Banner = (prop) => {
             className="myaccount"
           >
             {prop.image && (
-              <div className="animated delay-2s fadeInLeft">
+              <div className="hiddenmenu delay-2s fadeInLeft">
                 <Image src={prop.image} rounded />
               </div>
             )}
-            <div className="inline animated delay-1s flipInY">
-              <div className={"inline animated delay-2s " + prop.iconamin}>
+            <div className="inline hiddenmenu delay-1s fadeInLeft">
+              <div className={"inline hiddenmenu delay-2s " + prop.iconamin}>
                 <GalaxyIcon
                   mode={prop.icon}
                   level={prop.number}
@@ -52,25 +65,25 @@ const Banner = (prop) => {
                   className="bannericon"
                   classinside="iconinside2"
                   number={prop.number}
-                  amin={prop.amin}
+                  amin={"inline hiddenmenu " + prop.amin}
                   width="12vw"
-                  iconamin={"inline animated delay-2s charkhesh"}
+                  iconamin={"inline hiddenmenu delay-2s " + prop.iconamin}
                 />
               </div>
             </div>
           </Grid.Column>
           <Grid.Column mobile={16} tablet={8} computer={8} textAlign="right">
-            <div className="inline animated fadeInRight backInLeft delay-nims fast">
-              <div className="inline animated flash delay-3s">
+            <div className="inline hiddenmenu fadeInRight backInLeft delay-nims fast">
+              <div className="inline hiddenmenu flash delay-3s">
                 <h1 className="farsi">{prop.title}</h1>
               </div>
             </div>
-            <div className="farsi text  animated fadeInRight fast delay-1s">
+            <div className="farsi text  hiddenmenu fadeInRight fast delay-1s">
               {prop.text}
             </div>
 
             {prop.link && (
-              <div className="animated delay-1s fadeInDown">
+              <div className="hiddenmenu delay-1s fadeInDown">
                 <Button
                   className="farsi"
                   color="teal"
@@ -142,6 +155,7 @@ const Dashboard = (prop) => {
   const [gameLoader, setGameLoader] = useState(true);
   const params = useParams();
   const [activeIndex, setActiveIndex] = useState(0);
+  const [activeSlide, setActiveSlide] = useState(1);
   const [gameOptions, setGameOptions] = useState([]);
   const [secondaryGame, setSecondaryGame] = useState(
     localStorage.getItem("secondaryGame")
@@ -191,6 +205,24 @@ const Dashboard = (prop) => {
     //   }
     // }
   }, [screenOrientation]);
+  useEffect(() => {
+    const myCarousel = document.getElementById("carouselExampleControls");
+
+    $(".banner:visible .hiddenmenu").toggleClass("hiddenmenu animated");
+    myCarousel.addEventListener("slide.bs.carousel", (event) => {
+      $(".banner:hidden .animated").toggleClass("hiddenmenu animated");
+      $(".banner:visible .hiddenmenu").toggleClass("hiddenmenu animated");
+    });
+    myCarousel.addEventListener("slid.bs.carousel", (event) => {
+      $(".banner:hidden .animated").toggleClass("hiddenmenu animated");
+      $(".banner:visible .hiddenmenu").toggleClass("hiddenmenu animated");
+      if (event.to != "0") {
+        setActiveSlide(event.to);
+      } else {
+        setActiveSlide(event.to);
+      }
+    });
+  }, []);
   const panes33 = [
     {
       menuItem: "poker",
@@ -356,13 +388,16 @@ const Dashboard = (prop) => {
                     icon="gifts"
                     {...prop}
                   />
+                  {activeSlide == 0 && (
+                    <ConfettiArea recycle={false} numberOfPieces="50" />
+                  )}
                 </div>
                 <div className="carousel-item " data-bs-interval="10000">
                   <Banner
-                    title="تورنومنت ۵۰ میلیونی"
+                    title="تورنومنت ۳۰+۳۰ میلیونی"
                     text="هر جمعه ساعت ۲۲"
                     icon="tournament"
-                    amin="inline animated swing delay-2s"
+                    amin="inline hiddenmenu swing delay-2s"
                     iconamin=""
                     link=".tournament"
                     {...prop}
@@ -394,7 +429,7 @@ const Dashboard = (prop) => {
                       text="پاداش VIP 25/50K"
                       link=".vip"
                       icon="vip"
-                      amin="inline animated flipInY"
+                      amin="inline hiddenmenu fast flipInY"
                       iconamin="pulse"
                       number=" "
                       {...prop}
@@ -413,7 +448,7 @@ const Dashboard = (prop) => {
                       icon="league"
                       level="big"
                       number="1"
-                      amin="inline animated swing delay-2s"
+                      amin="inline hiddenmenu swing delay-2s"
                       iconamin=""
                       {...prop}
                     />
@@ -426,6 +461,7 @@ const Dashboard = (prop) => {
                     text="پاداش افزایش لِوِل"
                     link=".levels"
                     icon="levels"
+                    amin="hiddenmenu delay-2s charkhesh"
                     iconamin="swing"
                     number="90"
                     {...prop}

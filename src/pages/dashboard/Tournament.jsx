@@ -1,46 +1,35 @@
 import React from "react";
-import {
-  Icon,
-  Label,
-  Comment,
-  List,
-  Image,
-  Button,
-  Divider,
-  Segment,
-} from "semantic-ui-react";
-import {
-  doCurrency,
-  levelLeagueReward,
-  levelLeagueList,
-  levelDataInfo,
-} from "../../const";
-import LevelIcon from "../../utils/LevelIcon";
+import { Icon, List, Button } from "semantic-ui-react";
+import { doCurrency, levelDataInfo } from "../../const";
+import $ from "jquery";
 import GiftsDesc from "../../utils/GiftsDesc";
 import AddCalendar from "../../utils/AddCalendar";
-import GalaxyIcon from "../../utils/svg";
-import LeagueResult from "./LeagueResult";
+import GalaxyIcon from "../../utils/svganim";
 import Moment from "react-moment";
 const moment = require("moment");
 const LevelList = () => {
   var _day = moment().day(5);
   var nowDay = moment(_day).date();
+  var start = moment(_day).format("YYYYMMDDT200000");
 
+  var end = moment().format("YYYYMMDDTHHmmss");
+  console.log(start);
+  console.log(end);
   return (
     <span className="myaccount popupmenu">
       <List divided inverted verticalAlign="middle" className="myaccount">
         <List.Item>
           <List.Content className="rtl text-center">
-            <div className="inline animated ">
+            <div>
               <GalaxyIcon
                 mode="tournament"
-                level=""
+                level="1"
                 text="Tournaments"
                 classinside="iconinside0"
                 number="1"
                 width="60px"
-                amin="inline animated swing"
-                iconamin="swing"
+                amin="inline animated swing delay-2s"
+                iconamin=""
               />
             </div>
             <AddCalendar
@@ -48,7 +37,7 @@ const LevelList = () => {
               dur="0"
               repeat="WEEKLY"
               format="2200"
-              title="Tournament"
+              title="تورنومنت گلکسی"
             />
           </List.Content>
         </List.Item>
@@ -58,55 +47,156 @@ const LevelList = () => {
             <GiftsDesc
               desc={
                 <>
-                  لیگ گلکسی هر روز از{" "}
+                  تورنومنت گلکسی هر{" "}
+                  <span className="farsi text-gold">جمعه ساعت 22:00</span> با{" "}
                   <span className="farsi text-gold">
-                    بیست و چهارم تا پایان هر ماه میلادی
+                    ورودی رایگان برای لِوِل دار ها
                   </span>{" "}
                   برگزار می شود.
                 </>
               }
               desc2={
                 <>
-                  جوایز در پایان هر روز به{" "}
+                  برای شرکت در تورنومنت گلکسی یا باید{" "}
                   <span className="farsi text-gold">
-                    {levelLeagueList.length} نفری
-                  </span>{" "}
-                  که بیشترین امتیاز را در طول هر روز از گلکسی کسب کرده اند, اهدا
-                  خواهد شد.
-                </>
-              }
-              desc3={
-                <>
-                  برای شرکت در لیگ گلکسی یا باید{" "}
-                  <span className="farsi text-gold">
-                    لول شما {levelDataInfo[2].minLevel} یا بالاتر
+                    لول شما {levelDataInfo[3].minLevel} یا بالاتر
                   </span>{" "}
                   باشد یا موجودی اکانت شما بیش از{" "}
                   <span className="farsi text-gold">
-                    {doCurrency(levelDataInfo[2].minBalance)} تومان
+                    {doCurrency(levelDataInfo[3].minBalance)} تومان
                   </span>{" "}
                   باشد.
                 </>
               }
-              desc4={
+              desc3={
                 <>
                   توجه داشته باشید اگر لِوِل شما{" "}
                   <span className="farsi text-gold">
-                    کمتر از {levelDataInfo[2].minLevel}
+                    کمتر از {levelDataInfo[3].minLevel}
                   </span>{" "}
-                  باشد، با دریافت هر پاداش، برداشت و انتقال شما به مدت{" "}
+                  باشد، بس از ثبت نام، برداشت و انتقال شما به مدت{" "}
                   <span className="farsi text-gold">
-                    {levelDataInfo[2].banOutHours} ساعت
+                    {levelDataInfo[3].banOutHours} ساعت
                   </span>{" "}
                   بسته خواهد شد.
                 </>
               }
-              amount="45000000"
-              subtitle="تومان هر روز"
+              desc4={
+                <>
+                  ثبت نام{" "}
+                  <span className="farsi text-gold">
+                    ۲ ساعت قبل از شروع تورنومنت
+                  </span>{" "}
+                  باز خواهد شد.
+                </>
+              }
+              amount="60000000"
+              subtitle={
+                <>
+                  تومان برای ۳۰ نفر برتر
+                  <br />و معرف های آنها
+                </>
+              }
             />
+            {start > end ? (
+              <>
+                <Button
+                  fluid
+                  style={{ margin: "10px 0" }}
+                  className="farsi lh-lg"
+                  color="grey"
+                  icon
+                  inverted
+                  disabled
+                >
+                  <Icon
+                    name="clock outline"
+                    size="huge"
+                    color="grey"
+                    inverted
+                  />
+
+                  <div style={{ marginTop: 10 }}>
+                    <Moment fromNow>{start}</Moment> تا{" "}
+                  </div>
+                  <div className="h4">شروع ثبت نام</div>
+                </Button>
+                <AddCalendar
+                  start={nowDay}
+                  dur="0"
+                  repeat="WEEKLY"
+                  format="2200"
+                  title="تورنومنت گلکسی"
+                />
+              </>
+            ) : (
+              <Button
+                fluid
+                style={{ margin: "10px 0" }}
+                className="farsi lh-lg"
+                color="red"
+                icon
+              >
+                <Icon
+                  name="calendar plus outline"
+                  size="huge"
+                  color="grey"
+                  inverted
+                />
+                <div style={{ marginTop: 10 }}> ثبت نام در</div>
+
+                <div className="h4">تورنومنت</div>
+              </Button>
+            )}
+
+            <GiftsDesc
+              desc={
+                <div className="text-center">
+                  ۳۰ جایزه{" "}
+                  <div className="farsi-inline text-gold h5">یک میلیونی</div>{" "}
+                  برای ۳۰ نفر پایانی تورنومنت
+                </div>
+              }
+              desc2={
+                <div className="text-center">
+                  فقط کافیست جزو ۳۰ نفر پایانی باشید تا برنده یک میلیونی باشید.
+                </div>
+              }
+              desc3={
+                <div className="text-center">
+                  ۳۰ جایزه{" "}
+                  <div className="farsi-inline text-gold h5">یک میلیونی</div>{" "}
+                  برای معرف های ۳۰ نفر پایانی تورنومنت
+                </div>
+              }
+              desc4={
+                <div className="text-center">
+                  با معرفی دوستان خود شانس برد خود را چند برابر کنید.
+                  <br />
+                  فقط کافیست آنها جزو ۳۰ نفر پایانی باشند تا شما برنده یک
+                  میلیونی باشید.
+                </div>
+              }
+              title="۳۰+۳۰ میلیونی"
+              subtitle="یعنی چی؟"
+            />
+            <Button
+              fluid
+              style={{ margin: "10px 0" }}
+              className="farsi"
+              color="orange"
+              onClick={() => $("#openinvite").trigger("click")}
+            >
+              <Icon.Group size="huge">
+                <Icon name="user" inverted />
+                <Icon corner name="add" color="red" />
+              </Icon.Group>
+              <br />
+              <br />
+              معرفی دوستان
+            </Button>
           </List.Content>
         </List.Item>
-        <LeagueResult />
       </List>
     </span>
   );

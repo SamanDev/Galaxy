@@ -1,20 +1,9 @@
 import React from "react";
-import {
-  Icon,
-  Label,
-  Comment,
-  List,
-  Image,
-  Button,
-  Divider,
-  Header,
-} from "semantic-ui-react";
+import { Icon, List, Button } from "semantic-ui-react";
 import $ from "jquery";
-import { doCurrency, levelPassReward, levelPassList } from "../../const";
-import LevelIcon from "../../utils/LevelIcon";
-import AddCalendar from "../../utils/AddCalendar";
 import GalaxyIcon from "../../utils/svg";
 import GiftsDesc from "../../utils/GiftsDesc";
+
 import Report from "./Report";
 const LevelList = (prop) => {
   var totalReward = 0;
@@ -88,6 +77,21 @@ const LevelList = (prop) => {
                   title="از 10% تا 50%"
                   subtitle="کمیسیون معرفی دوستان"
                 />
+                <Button
+                  fluid
+                  style={{ margin: "10px 0" }}
+                  className="farsi"
+                  color="orange"
+                  onClick={() => $("#openinvite").trigger("click")}
+                >
+                  <Icon.Group size="huge">
+                    <Icon name="user" inverted />
+                    <Icon corner name="add" color="red" />
+                  </Icon.Group>
+                  <br />
+                  <br />
+                  معرفی دوستان
+                </Button>
               </>
             ) : (
               <>

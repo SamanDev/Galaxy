@@ -77,7 +77,7 @@ const LevelList = () => {
                   mode="vip"
                   level=""
                   text={_text}
-                  classinside="iconinside0"
+                  classinside=""
                   number=""
                   width="36px"
                 />

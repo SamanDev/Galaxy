@@ -7,11 +7,16 @@ self.addEventListener("install", (e) => {
           "/pwa-examples/a2hs/",
           "/pwa-examples/a2hs/index.html",
           "/pwa-examples/a2hs/index.js",
-          "/pwa-examples/a2hs/style.css",
-          "/pwa-examples/a2hs/images/fox1.jpg",
-          "/pwa-examples/a2hs/images/fox2.jpg",
-          "/pwa-examples/a2hs/images/fox3.jpg",
-          "/pwa-examples/a2hs/images/fox4.jpg",
+          "/assets/js/main.js",
+          "/assets/images/svg/topplayer/icon.svg",
+          "/assets/images/svg/topplayer/deposit.svg",
+          "/assets/images/svg/topplayer/cashout.svg",
+          "/assets/images/svg/league/icon.svg",
+          "/assets/images/svg/level/icon.svg",
+          "/assets/images/svg/vip/icon.svg",
+          "/assets/images/svg/vip/1.svg",
+          "/assets/images/svg/vip/2.svg",
+          "/assets/js/bootstrap.bundle.min.js",
         ])
       )
   );

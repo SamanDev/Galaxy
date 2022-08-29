@@ -33,6 +33,15 @@ const Index = (prop) => {
         }}
       />
       <span
+        id="openinvite"
+        style={{
+          display: "none",
+        }}
+        onClick={() => {
+          prop.openPanel(".invite", "");
+        }}
+      />
+      <span
         id="openmenucontent"
         style={{
           display: "none",

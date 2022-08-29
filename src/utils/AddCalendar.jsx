@@ -1,18 +1,7 @@
 import React from "react";
 import AddToCalendarHOC from "react-add-to-calendar-hoc";
 
-import {
-  Statistic,
-  Button,
-  Icon,
-  Divider,
-  Grid,
-  Segment,
-  Accordion,
-  Header,
-  List,
-  Dropdown,
-} from "semantic-ui-react";
+import { Button, Icon } from "semantic-ui-react";
 import Moment from "react-moment";
 const moment = require("moment");
 moment.updateLocale("en", {
@@ -96,10 +85,11 @@ class Example extends React.Component {
     }
     const event = {
       duration,
-      endDatetime: endTime,
+      //endDatetime: endTime,
       repeat: this.props.repeat,
 
       startDatetime: startTime,
+      endDatetime: startTime,
       title: this.props.title,
     };
 
@@ -139,7 +129,7 @@ class Example extends React.Component {
       <>
         {(_next || _start) && !_finish ? (
           <Moment
-            className="farsi-inline ui label yellow fluid"
+            className="farsi-inline ui label green fluid"
             to={endDatetimeOld}
             filter={toEnd}
             style={{ marginTop: 20 }}

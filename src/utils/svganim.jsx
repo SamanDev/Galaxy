@@ -9,6 +9,7 @@ import {
   Divider,
 } from "semantic-ui-react";
 import { levelClass, levelPassClass, levelClassInside } from "../const";
+import ConfettiArea from "../utils/party";
 const LevelIcon = (prop) => {
   if (prop.mode == "gpass") {
     var _txt = prop.number ? prop.number : prop.level;
@@ -49,7 +50,6 @@ const LevelIcon = (prop) => {
       </span>
     );
   }
-
   if (prop.mode == "vip") {
     var _txt = prop.number ? prop.number : prop.level;
     var _class = "vipicon";
@@ -59,11 +59,49 @@ const LevelIcon = (prop) => {
 
     return (
       <span onClick={prop.onClick} className="iconarea">
-        <img
-          src={"/assets/images/svg/vip/icon.svg"}
+        <div
           style={{
+            transform: "scale(.8)",
+            position: "absolute",
+            zIndex: 300000,
             width: prop.width,
             height: "auto",
+            textAlign: "center",
+          }}
+        >
+          <svg
+            version="1.1"
+            xmlns="http://www.w3.org/2000/svg"
+            x="0px"
+            y="0px"
+            className={prop.iconamin + " tada"}
+            viewBox="0 0 512.001 512.001"
+            style={{
+              width: prop.width,
+              height: prop.width,
+            }}
+          >
+            <text x="260" y="430" className="vipicontext">
+              VIP
+            </text>
+          </svg>
+        </div>
+
+        <img
+          src={"/assets/images/svg/vip/1.svg"}
+          className={prop.iconamin + ""}
+          style={{
+            position: "absolute",
+            width: prop.width,
+            height: prop.width,
+          }}
+        />
+        <img
+          src={"/assets/images/svg/vip/2.svg"}
+          className={prop.amin + ""}
+          style={{
+            width: prop.width,
+            height: prop.width,
           }}
         />
 
@@ -90,20 +128,63 @@ const LevelIcon = (prop) => {
     }
     return (
       <span onClick={prop.onClick} className="iconarea">
-        <img
-          src={"/assets/images/svg/tournament/icon.svg"}
+        <span
+          className="inline animated bounceIn"
           style={{
             width: prop.width,
             height: "auto",
           }}
-        />
-
+        >
+          <svg
+            version="1.1"
+            className={_class}
+            xmlns="http://www.w3.org/2000/svg"
+            x="0px"
+            y="0px"
+            viewBox="0 0 512 512"
+            style={{
+              width: prop.width,
+              height: "auto",
+            }}
+          >
+            <g xmlns="http://www.w3.org/2000/svg">
+              <path
+                className={_class}
+                d="M119.467,341.333c0-4.71-3.823-8.533-8.533-8.533s-8.533,3.823-8.533,8.533c-4.71,0-8.533,3.823-8.533,8.533     s3.823,8.533,8.533,8.533c0,4.71,3.823,8.533,8.533,8.533s8.533-3.823,8.533-8.533c4.71,0,8.533-3.823,8.533-8.533     S124.177,341.333,119.467,341.333z"
+              />
+              <path
+                className={_class}
+                d="M42.667,307.2h-8.533v-8.533c0-4.71-3.823-8.533-8.533-8.533c-4.71,0-8.533,3.823-8.533,8.533v8.533H8.533     c-4.71,0-8.533,3.823-8.533,8.533s3.823,8.533,8.533,8.533h8.533v8.533c0,4.71,3.823,8.533,8.533,8.533     c4.71,0,8.533-3.823,8.533-8.533v-8.533h8.533c4.71,0,8.533-3.823,8.533-8.533S47.377,307.2,42.667,307.2z"
+              />
+              <path
+                className={_class}
+                d="M418.125,187.733c0.691,0,1.382-0.077,2.082-0.256c37.18-9.293,57.66-33.451,57.66-68.011V59.733     c0-14.114-11.486-25.6-25.6-25.6H435.2c-4.71,0-8.533,3.823-8.533,8.533c0,4.71,3.823,8.533,8.533,8.533h17.067     c4.702,0,8.533,3.831,8.533,8.533v59.733c0,26.718-15.053,44.032-44.74,51.456c-4.565,1.143-7.347,5.777-6.204,10.351     C410.829,185.148,414.302,187.733,418.125,187.733z"
+              />
+              <path d="M298.138,460.8h-84.804c-4.71,0-8.533,3.823-8.533,8.533s3.823,8.533,8.533,8.533h84.804c4.71,0,8.533-3.823,8.533-8.533     S302.848,460.8,298.138,460.8z" />
+              <path
+                className={_class2}
+                d="M102.144,181.274c1.143-4.574-1.638-9.207-6.204-10.351c-29.687-7.424-44.74-24.738-44.74-51.456V59.733     c0-4.702,3.831-8.533,8.533-8.533H76.8c4.71,0,8.533-3.823,8.533-8.533c0-4.71-3.823-8.533-8.533-8.533H59.733     c-14.114,0-25.6,11.486-25.6,25.6v59.733c0,34.56,20.48,58.718,57.66,68.011c0.7,0.179,1.391,0.256,2.082,0.256     C97.698,187.733,101.171,185.148,102.144,181.274z"
+              />
+              <path d="M358.144,433.126c-0.947-3.797-4.361-6.46-8.277-6.46h-188.8c-3.917,0-7.33,2.662-8.277,6.46l-17.067,68.267     c-0.64,2.552-0.068,5.257,1.553,7.322c1.613,2.074,4.096,3.285,6.724,3.285h222.933c2.628,0,5.111-1.212,6.724-3.285     c1.621-2.065,2.193-4.77,1.553-7.322L358.144,433.126z M154.931,494.933l12.8-51.2h175.471l12.8,51.2H154.931z" />
+              <path
+                className={_class}
+                d="M452.267,392.533h-8.533V384c0-4.71-3.823-8.533-8.533-8.533s-8.533,3.823-8.533,8.533v8.533h-8.533     c-4.71,0-8.533,3.823-8.533,8.533s3.823,8.533,8.533,8.533h8.533v8.533c0,4.71,3.823,8.533,8.533,8.533s8.533-3.823,8.533-8.533     V409.6h8.533c4.71,0,8.533-3.823,8.533-8.533S456.977,392.533,452.267,392.533z"
+              />
+              <path
+                className={_class2}
+                d="M503.467,221.867H486.4V204.8c0-4.71-3.823-8.533-8.533-8.533s-8.533,3.823-8.533,8.533v17.067h-17.067     c-4.71,0-8.533,3.823-8.533,8.533s3.823,8.533,8.533,8.533h17.067V256c0,4.71,3.823,8.533,8.533,8.533S486.4,260.71,486.4,256     v-17.067h17.067c4.71,0,8.533-3.823,8.533-8.533S508.177,221.867,503.467,221.867z"
+              />
+              <path d="M409.6,8.533c0-4.71-3.823-8.533-8.533-8.533H110.933c-4.71,0-8.533,3.823-8.533,8.533v34.133     c0,103.228,17.237,138.88,17.758,139.895c9.719,22.673,23.987,38.306,37.777,53.436c24.107,26.419,46.865,51.371,46.865,113.869     c0,0.23-0.179,23.287-15.633,46.464c-2.611,3.925-1.553,9.225,2.364,11.836c3.917,2.611,9.216,1.553,11.836-2.364     c18.295-27.435,18.5-54.784,18.5-55.936c0-69.111-26.095-97.715-51.32-125.372c-13.431-14.72-26.12-28.629-34.893-49.058     c-0.162-0.333-16.188-34.62-16.188-132.77v-25.6h273.067v25.6c0,98.15-16.026,132.437-16.375,133.171     c-8.585,20.028-21.274,33.937-34.705,48.657c-25.225,27.657-51.319,56.26-51.319,125.372c0,1.152,0.205,28.501,18.5,55.936     c1.647,2.466,4.352,3.797,7.108,3.797c1.621,0,3.268-0.461,4.727-1.434c3.917-2.611,4.975-7.91,2.364-11.836     c-15.309-22.963-15.633-46.259-15.633-46.464c0-62.498,22.758-87.45,46.865-113.869c13.79-15.13,28.058-30.763,37.572-52.983     c0.725-1.468,17.963-37.12,17.963-140.348V8.533z" />
+            </g>
+          </svg>
+        </span>
         {prop.text != "big" && prop.text != "" && (
           <div className="iconlabel">{prop.text}</div>
         )}
       </span>
     );
   }
+
   if (prop.mode == "bonus") {
     return (
       <span className="iconarea">
@@ -230,51 +311,80 @@ const LevelIcon = (prop) => {
     }
     return (
       <span onClick={prop.onClick} className="iconarea">
-        <div
+        <svg
+          version="1.1"
+          className="leagueicon icn"
+          xmlns="http://www.w3.org/2000/svg"
+          x="0px"
+          y="0px"
+          viewBox="0 0 510.738 510.738"
           style={{
-            transform: "scale(.8)",
-            position: "absolute",
-            zIndex: 300000,
             width: prop.width,
-            height: prop.width,
-            textAlign: "center",
+            height: "auto",
           }}
         >
-          <svg
-            version="1.1"
-            className="leagueicon icn"
-            xmlns="http://www.w3.org/2000/svg"
-            x="0px"
-            y="0px"
-            viewBox="0 0 510.738 510.738"
-            style={{
-              width: prop.width,
-              height: prop.width,
-            }}
-          >
-            <text
-              x="255"
-              y="250"
-              className={
-                "leagueicontext text" +
-                _txt.toString().length +
-                " slow " +
-                _class
-              }
-            >
-              {_txt}
-            </text>
-          </svg>
-        </div>
-        <img
-          src={"/assets/images/svg/league/icon.svg"}
-          style={{
-            width: prop.width,
-            height: prop.width,
-            position: "relative",
-            zIndex: 1,
-          }}
-        />
+          <g>
+            <g>
+              <g>
+                <path
+                  d="M423.285,259.422c-0.272-0.895-0.666-1.684-1.139-2.383c5.29-16.467,8.157-34.019,8.157-52.243
+				c0-94.253-76.414-170.667-170.667-170.667S88.969,110.543,88.969,204.796c0,18.427,2.932,36.167,8.336,52.793
+				c-0.322,0.563-0.61,1.161-0.814,1.834l-57.566,189.73c-5.705,18.781,16.041,33.642,32.065,22.475l55.072-38.356
+				c8.995-6.265,21.719-2.663,25.718,7.122l23.057,56.439c7.947,19.453,36.547,18.202,42.647-1.911l36.284-119.571
+				c1.949,0.066,3.904,0.111,5.869,0.111c2.132,0,4.252-0.053,6.365-0.13l36.282,119.59c6.114,20.111,34.687,21.361,42.645,1.915
+				l23.067-56.443c3.999-9.788,16.717-13.388,25.72-7.122l55.072,38.356c16.023,11.165,37.769-3.695,32.063-22.479L423.285,259.422z
+				 M201.152,489.967c-1.427,4.705-8.633,5.02-10.516,0.411l-23.057-56.44c-8.17-19.994-33.383-27.131-51.271-14.672l-55.074,38.357
+				c-3.005,2.094-6.878-0.552-5.979-3.514l51.365-169.291c6.617,11.266,14.599,21.795,23.758,31.419
+				c26.517,30.728,63.807,51.89,106.001,57.64L201.152,489.967z M249.705,358.068c-0.48-0.122-0.973-0.217-1.488-0.255
+				c-39.731-2.932-76.149-21.062-102.513-50.268c-0.838-0.84-1.662-1.688-2.477-2.542c-23.176-26.899-37.191-61.915-37.191-100.207
+				c0-84.827,68.773-153.6,153.6-153.6s153.6,68.773,153.6,153.6c0,40.982-16.052,78.213-42.208,105.755
+				c-0.363,0.342-0.719,0.691-1.085,1.031c-26.212,26.898-60.84,43.327-98.417,46.207c-0.496,0.038-0.97,0.13-1.434,0.246
+				c-3.456,0.232-6.941,0.362-10.456,0.362C256.299,358.396,252.99,358.277,249.705,358.068z M458.543,457.625l-55.076-38.359
+				c-17.896-12.457-43.101-5.322-51.27,14.672l-23.065,56.439c-1.887,4.612-9.086,4.297-10.518-0.414l-35.239-116.152
+				c39.132-5.446,74.02-24.15,99.967-51.443c11.63-11.017,21.716-23.669,29.821-37.523l51.356,169.263
+				C465.419,457.071,461.546,459.718,458.543,457.625z"
+                  className={_class + " fast"}
+                />
+                <path
+                  d="M46.302,76.8c0,11.378,17.067,11.378,17.067,0c0-14.154,11.446-25.6,25.6-25.6c11.378,0,11.378-17.067,0-17.067
+				c-14.154,0-25.6-11.446-25.6-25.6c0-11.378-17.067-11.378-17.067,0c0,14.154-11.446,25.6-25.6,25.6
+				c-11.378,0-11.378,17.067,0,17.067C34.857,51.2,46.302,62.646,46.302,76.8z M54.836,34.151c2.423,3.224,5.292,6.093,8.516,8.516
+				c-3.224,2.423-6.093,5.292-8.516,8.516c-2.423-3.224-5.292-6.093-8.516-8.516C49.544,40.244,52.413,37.375,54.836,34.151z"
+                  className={_class}
+                />
+                <path
+                  d="M490.036,136.533h-8.533V128c0-4.713-3.82-8.533-8.533-8.533s-8.533,3.82-8.533,8.533v8.533h-8.533
+				c-4.713,0-8.533,3.82-8.533,8.533s3.82,8.533,8.533,8.533h8.533v8.533c0,4.713,3.821,8.533,8.533,8.533s8.533-3.82,8.533-8.533
+				V153.6h8.533c4.713,0,8.533-3.821,8.533-8.533S494.749,136.533,490.036,136.533z"
+                  className={_class}
+                />
+                <path
+                  d="M29.236,213.333c-4.719,0-8.533,3.823-8.533,8.533c0,4.71,3.814,8.533,8.533,8.533s8.533-3.823,8.533-8.533
+				C37.769,217.156,33.955,213.333,29.236,213.333z"
+                  className={_class + " fast"}
+                />
+                <path
+                  d="M387.636,204.796c0-70.684-57.316-128-128-128s-128,57.316-128,128c0,70.69,57.313,128,128,128
+				S387.636,275.485,387.636,204.796z M148.702,204.796c0-61.258,49.675-110.933,110.933-110.933s110.933,49.675,110.933,110.933
+				c0,61.264-49.672,110.933-110.933,110.933S148.702,266.06,148.702,204.796z"
+                  className={_class + " fast"}
+                />
+                <text
+                  x="255"
+                  y="250"
+                  className={
+                    "leagueicontext text" +
+                    _txt.toString().length +
+                    " slow " +
+                    _class
+                  }
+                >
+                  {_txt}
+                </text>
+              </g>
+            </g>
+          </g>
+        </svg>
 
         {prop.text != "big" && prop.text != "" && (
           <div className="iconlabel">{prop.text}</div>
@@ -295,7 +405,7 @@ const LevelIcon = (prop) => {
     return (
       <span onClick={prop.onClick} className="iconarea">
         <span
-          className="inline animated"
+          className="inline hiddenmenu"
           style={{
             width: prop.width,
             height: "auto",
@@ -331,7 +441,7 @@ const LevelIcon = (prop) => {
     return (
       <span onClick={prop.onClick} className="iconarea">
         <span
-          className="inline animated"
+          className="inline hiddenmenu"
           style={{
             width: prop.width,
             height: "auto",
@@ -366,7 +476,7 @@ const LevelIcon = (prop) => {
     return (
       <span onClick={prop.onClick} className="iconarea">
         <span
-          className="inline animated"
+          className="inline hiddenmenu"
           style={{
             width: prop.width,
             height: "auto",
@@ -404,42 +514,187 @@ const LevelIcon = (prop) => {
         " tada";
     }
     return (
+      <>
+        <div
+          onClick={prop.onClick}
+          className="iconarea"
+          style={{
+            width: prop.width,
+            height: "auto",
+          }}
+        >
+          <span
+            className="inline hiddenmenu delay-1s  bounceInDown"
+            style={{
+              width: prop.width,
+              height: "auto",
+              position: "relative",
+              zIndex: 1,
+              filter: "hue-rotate(78deg) brightness(180%) contrast(1.5)",
+            }}
+          >
+            <span
+              className="inline hiddenmenu delay-3s bounce"
+              style={{
+                width: prop.width,
+                height: "auto",
+              }}
+            >
+              <img
+                src={"/assets/gift.svg"}
+                style={{
+                  transform: "scale(.8)",
+                  transformOrigin: "center center",
+                }}
+              />
+            </span>
+          </span>
+          <span
+            className="inline hiddenmenu delay-1s fast bounceInDown"
+            style={{
+              width: prop.width,
+              height: "auto",
+              position: "absolute",
+              top: 0,
+              left: 0,
+              zIndex: 0,
+              filter: "hue-rotate(-90deg)",
+            }}
+          >
+            <img
+              src={"/assets/gift.svg"}
+              style={{
+                position: "absolute",
+
+                transform: "translateX(15%) scale(.6) rotate(5deg)",
+                transformOrigin: "center right",
+              }}
+            />
+          </span>
+          <span
+            className="inline hiddenmenu delay-1s faster bounceInDown"
+            style={{
+              width: prop.width,
+              height: "auto",
+              position: "absolute",
+              top: 0,
+              left: 0,
+            }}
+          >
+            <img
+              src={"/assets/gift.svg"}
+              style={{
+                position: "absolute",
+
+                transform: "translateX(-5%) scale(.5) rotate(-5deg)",
+                transformOrigin: "center left",
+              }}
+            />
+          </span>
+        </div>
+      </>
+    );
+  }
+  if (prop.mode == "topplayer") {
+    var _txt = prop.number ? prop.number : prop.level;
+    var _class = "vipicon";
+    if (prop.text == "big") {
+      _class = _class + " big";
+    }
+    var _class2 = _class;
+    if (prop.iconamin) {
+      var _class2 =
+        _class +
+        " " +
+        prop.iconamin.replace("charkhesh", "").replace("inline", "") +
+        " tada";
+    }
+    return (
       <div
         onClick={prop.onClick}
         className="iconarea"
         style={{
           width: prop.width,
           height: "auto",
+          textAlign: "left",
         }}
       >
         <span
-          className="inline animated delay-1s  bounceInDown"
+          className="inline hiddenmenu  bounceInDown"
           style={{
             width: prop.width,
             height: "auto",
             position: "relative",
             zIndex: 1,
-            filter: "hue-rotate(78deg) brightness(180%) contrast(1.5)",
           }}
         >
           <span
-            className="inline animated delay-3s repeat-3 bounce"
+            className="inline hiddenmenu  delay-4s charkhesh slower"
             style={{
               width: prop.width,
               height: "auto",
+              position: "relative",
+              zIndex: 1,
             }}
           >
-            <img
-              src={"/assets/gift.svg"}
+            <span
+              className="inline hiddenmenu  delay-1s charkhesh slow"
               style={{
+                width: prop.width,
+                height: "auto",
+                position: "relative",
+                zIndex: 1,
                 transform: "scale(.8)",
                 transformOrigin: "center center",
               }}
-            />
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className={_class}
+                x="0px"
+                y="0px"
+                viewBox="0 0 512 512"
+              >
+                <circle cx="256" cy="256" r="256" />
+                <circle cx="256" cy="256" r="150.069" />
+                <path d="M256,88.276c92.631,0,167.724,75.093,167.724,167.724S348.631,423.724,256,423.724  S88.276,348.631,88.276,256S163.369,88.276,256,88.276 M256,70.621c-102.219,0-185.379,83.16-185.379,185.379  S153.781,441.379,256,441.379S441.379,358.219,441.379,256S358.219,70.621,256,70.621L256,70.621z" />
+                <g>
+                  <path d="M256,0c-15.06,0-29.791,1.375-44.138,3.87v40.705c0,6.702,5.931,11.938,12.551,10.889   c10.295-1.632,20.84-2.498,31.587-2.498s21.292,0.866,31.587,2.498c6.62,1.049,12.551-4.186,12.551-10.889V3.87   C285.791,1.375,271.06,0,256,0z" />
+                  <path d="M211.862,467.425v40.705C226.209,510.625,240.94,512,256,512c15.06,0,29.791-1.375,44.138-3.87   v-40.705c0-6.702-5.931-11.938-12.551-10.889c-10.295,1.632-20.84,2.498-31.587,2.498s-21.292-0.866-31.587-2.498   C217.793,455.487,211.862,460.723,211.862,467.425z" />
+                  <path d="M512,256c0-15.06-1.375-29.791-3.87-44.138h-40.705c-6.702,0-11.938,5.931-10.889,12.551   c1.632,10.295,2.498,20.84,2.498,31.587s-0.866,21.292-2.498,31.587c-1.049,6.62,4.186,12.551,10.889,12.551h40.705   C510.625,285.791,512,271.06,512,256z" />
+                  <path d="M44.575,211.862H3.87C1.375,226.209,0,240.94,0,256c0,15.06,1.375,29.791,3.87,44.138h40.705   c6.702,0,11.938-5.931,10.889-12.551c-1.632-10.295-2.498-20.84-2.498-31.587s0.866-21.292,2.498-31.587   C56.513,217.793,51.277,211.862,44.575,211.862z" />
+                  <path d="M437.02,74.98c-10.649-10.649-22.038-20.093-33.946-28.474L374.29,75.289   c-4.739,4.739-4.247,12.636,1.175,16.574c8.434,6.125,16.502,12.97,24.102,20.569c7.599,7.599,14.444,15.668,20.569,24.102   c3.938,5.422,11.834,5.914,16.574,1.175l28.783-28.783C457.112,97.018,447.669,85.63,437.02,74.98z" />
+                  <path d="M75.289,374.29l-28.783,28.783c8.381,11.908,17.825,23.297,28.474,33.946   s22.038,20.093,33.946,28.474l28.783-28.783c4.739-4.739,4.247-12.636-1.175-16.574c-8.434-6.125-16.502-12.97-24.102-20.569   c-7.599-7.599-14.444-15.668-20.569-24.102C87.925,370.043,80.029,369.55,75.289,374.29z" />
+                  <path d="M437.02,437.02c10.649-10.649,20.093-22.038,28.474-33.946L436.71,374.29   c-4.739-4.739-12.636-4.247-16.574,1.175c-6.125,8.434-12.97,16.502-20.569,24.102c-7.599,7.599-15.668,14.444-24.102,20.569   c-5.422,3.938-5.914,11.834-1.175,16.574l28.783,28.783C414.982,457.112,426.37,447.669,437.02,437.02z" />
+                  <path d="M137.71,75.289l-28.783-28.782C97.018,54.888,85.63,64.331,74.98,74.98   s-20.093,22.038-28.473,33.946l28.782,28.783c4.739,4.739,12.636,4.247,16.574-1.175c6.125-8.434,12.97-16.502,20.569-24.102   c7.599-7.599,15.668-14.444,24.102-20.569C141.958,87.925,142.45,80.029,137.71,75.289z" />
+                  <circle cx="52.105" cy="340.458" r="13.241" />
+                  <circle cx="459.895" cy="171.542" r="13.241" />
+                  <circle cx="171.542" cy="52.105" r="13.241" />
+                  <circle cx="340.458" cy="459.895" r="13.241" />
+                  <circle cx="52.105" cy="171.542" r="13.241" />
+                  <circle cx="459.895" cy="340.458" r="13.241" />
+                  <circle cx="340.458" cy="52.105" r="13.241" />
+                  <circle cx="171.542" cy="459.895" r="13.241" />
+                  <path d="M404.12,145l-15.311,8.84c8.96,11.63,16.511,24.388,22.2,38.15l15.389-8.885   C420.533,169.446,412.941,156.739,404.12,145z" />
+                  <path d="M320.012,100.99c13.761,5.689,26.519,13.24,38.15,22.2l8.84-15.311   c-11.74-8.821-24.446-16.413-38.104-22.278L320.012,100.99z" />
+                  <path d="M233.931,72.061v17.833c7.24-0.954,14.569-1.618,22.069-1.618c7.5,0,14.829,0.663,22.069,1.617   V72.061c-7.251-0.866-14.589-1.44-22.069-1.44S241.182,71.194,233.931,72.061z" />
+                  <path d="M423.724,256c0,7.5-0.663,14.829-1.617,22.069h17.832c0.866-7.251,1.44-14.589,1.44-22.069   s-0.575-14.818-1.44-22.069h-17.833C423.061,241.171,423.724,248.5,423.724,256z" />
+                  <path d="M88.276,256c0-7.5,0.663-14.829,1.617-22.069H72.061c-0.866,7.251-1.44,14.589-1.44,22.069   s0.575,14.818,1.44,22.069h17.832C88.939,270.829,88.276,263.5,88.276,256z" />
+                  <path d="M153.838,123.191c11.63-8.96,24.388-16.511,38.15-22.2l-8.885-15.389   c-13.658,5.866-26.365,13.458-38.104,22.278L153.838,123.191z" />
+                  <path d="M426.399,328.896l-15.389-8.885c-5.689,13.761-13.24,26.518-22.2,38.148l15.31,8.84   C412.941,355.261,420.533,342.554,426.399,328.896z" />
+                  <path d="M278.069,439.939v-17.833c-7.24,0.954-14.569,1.617-22.069,1.617c-7.5,0-14.829-0.663-22.069-1.617   v17.833c7.251,0.865,14.589,1.44,22.069,1.44S270.818,440.804,278.069,439.939z" />
+                  <path d="M358.161,388.809c-11.63,8.96-24.388,16.511-38.15,22.2l8.885,15.389   c13.657-5.866,26.365-13.458,38.104-22.279L358.161,388.809z" />
+                  <path d="M191.988,411.009c-13.761-5.689-26.519-13.24-38.15-22.2l-8.84,15.31   c11.74,8.821,24.446,16.413,38.104,22.279L191.988,411.009z" />
+                  <path d="M123.19,358.161c-8.96-11.63-16.51-24.387-22.2-38.148l-15.389,8.885   c5.865,13.658,13.458,26.364,22.278,38.103L123.19,358.161z" />
+                  <path d="M85.601,183.103l15.389,8.885c5.689-13.761,13.24-26.519,22.2-38.15l-15.311-8.84   C99.059,156.739,91.467,169.446,85.601,183.103z" />
+                </g>
+                <path d="M158.897,232.639c0-29.58,23.841-53.559,53.25-53.559c14.577,0,27.774,5.899,37.385,15.447  c3.564,3.54,9.373,3.54,12.936,0c9.611-9.547,22.808-15.447,37.385-15.447c29.409,0,53.25,23.979,53.25,53.559l0,0  c0,55.317-71.23,105.639-91.677,118.944c-3.306,2.151-7.548,2.151-10.854,0C230.126,338.276,158.897,287.955,158.897,232.639" />
+              </svg>
+            </span>
           </span>
         </span>
         <span
-          className="inline animated delay-1s fast bounceInDown"
+          className="inline hiddenmenu delay-1s fast bounceInDown"
           style={{
             width: prop.width,
             height: "auto",
@@ -447,21 +702,20 @@ const LevelIcon = (prop) => {
             top: 0,
             left: 0,
             zIndex: 0,
-            filter: "hue-rotate(-90deg)",
           }}
         >
           <img
-            src={"/assets/gift.svg"}
+            src={"/assets/topplayer.svg"}
             style={{
               position: "absolute",
 
-              transform: "translateX(15%) scale(.6) rotate(5deg)",
+              transform: "translateX(25%) scale(.6) rotate(5deg)",
               transformOrigin: "center right",
             }}
           />
         </span>
         <span
-          className="inline animated delay-1s faster bounceInDown"
+          className="inline hiddenmenu delay-1s faster bounceInDown"
           style={{
             width: prop.width,
             height: "auto",
@@ -471,20 +725,22 @@ const LevelIcon = (prop) => {
           }}
         >
           <img
-            src={"/assets/gift.svg"}
+            src={"/assets/chipblack.svg"}
             style={{
               position: "absolute",
 
-              transform: "translateX(-5%) scale(.5) rotate(-5deg)",
+              transform: "translateX(-25%) scale(.5) rotate(-5deg)",
               transformOrigin: "center left",
             }}
           />
         </span>
+        {prop.text != "big" && prop.text != "" && (
+          <div className="iconlabel">{prop.text}</div>
+        )}
       </div>
     );
   }
-
-  if (prop.mode == "topplayer") {
+  if (prop.mode == "topplayericon") {
     var _txt = prop.number ? prop.number : prop.level;
     var _class = "vipicon";
     if (prop.text == "big") {
@@ -631,20 +887,28 @@ const LevelIcon = (prop) => {
       </div>
     );
   }
-
   if (prop.mode == "levels") {
     var _txt = prop.number ? prop.number : prop.level;
-    var _class = levelClass(_txt - 1);
+    var _class = levelClass(prop.level - 1);
+    if (prop.text == "big") {
+      _class = _class + " big";
+    }
+    if (prop.iconamin) {
+      // _class = _class + " " + prop.iconamin;
+    }
 
+    var _class2 = "";
+    if (prop.amin) {
+      _class2 = prop.amin;
+    }
     var _id = _txt + _class.replace(/ /g, "");
     return (
-      <span onClick={prop.onClick} className="iconarea">
+      <div onClick={prop.onClick} className="iconarea">
         <div className="iconareanum">
           <svg
             viewBox="0 0 37.286 37.287"
             style={{
               width: prop.width,
-              height: "auto",
             }}
           >
             <text
@@ -656,34 +920,50 @@ const LevelIcon = (prop) => {
             </text>
           </svg>
         </div>
+
         <div
           style={{
+            transform: "scale(.8)",
+            position: "absolute",
+            zIndex: 100,
+
             width: prop.width,
             height: "auto",
           }}
           className={levelClassInside(_txt - 1)}
         >
           <svg
-            viewBox="0 0 100 100"
             style={{
               width: prop.width,
               height: "auto",
             }}
+            className={_class2}
+            viewBox="0 0 100 100"
           >
             <defs>
-              <mask id={"fillMask" + _id + "2"} width="100" height="100">
+              <mask
+                id={"fillMask" + _id + "2"}
+                x="0"
+                y="0"
+                width="100"
+                height="100"
+              >
                 <image
                   xlinkHref="/assets/images/svg/level/icon.svg"
-                  src="ppngfallback.png"
+                  x="0"
+                  y="0"
                   width="100"
                   height="100"
+                  src="ppngfallback.png"
                 />
               </mask>
             </defs>
             <rect
-              style={{ stroke: "none" }}
+              x="0"
+              y="0"
               width="100"
               height="100"
+              style={{ stroke: "none" }}
               mask={'url("#fillMask' + _id + '2")'}
             />
           </svg>
@@ -693,25 +973,47 @@ const LevelIcon = (prop) => {
             width: prop.width,
             height: "auto",
           }}
-          className={"levelicon " + _class}
         >
-          <svg viewBox="0 0 100 100">
+          <svg
+            style={{
+              width: prop.width,
+              height: "auto",
+            }}
+            viewBox="0 0 100 100"
+            className={"levelicon " + _class}
+          >
+            <defs>
+              <mask
+                id={"fillMask" + _id + ""}
+                x="0"
+                y="0"
+                width="100"
+                height="100"
+              >
+                <image
+                  xlinkHref="/assets/images/svg/level/icon.svg"
+                  x="0"
+                  y="0"
+                  width="100"
+                  height="100"
+                  src="ppngfallback.png"
+                />
+              </mask>
+            </defs>
             <rect
+              x="0"
+              y="0"
               width="100"
               height="100"
-              style={{
-                stroke: "none",
-                fill: "currentColor",
-              }}
-              mask={'url("#fillMask' + _id + '2")'}
+              style={{ stroke: "none", fill: "currentColor" }}
+              mask={'url("#fillMask' + _id + '")'}
             />
           </svg>
         </div>
-
         {prop.text != "big" && prop.text != "" && (
           <div className="iconlabel">{prop.text}</div>
         )}
-      </span>
+      </div>
     );
   }
 };

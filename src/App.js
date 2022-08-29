@@ -13,6 +13,7 @@ import LoginArea from "./layouts/admin/auth/Login.jsx";
 import RegisterArea from "./layouts/admin/auth/Register.jsx";
 import ForgetArea from "./layouts/admin/auth/Forget";
 import GalaxyIcon from "./utils/svg";
+import ConfettiArea from "./utils/partyclick";
 import { Dimmer, Loader, Segment } from "semantic-ui-react";
 var menu = "no";
 var panelMenu = false;
@@ -21,6 +22,27 @@ var apiPanel;
 const CompGen = (prop) => {
   return <>{prop.com}</>;
 };
+const animateCSS = (element, animation, prefix = "") =>
+  // We create a Promise and return it
+  new Promise((resolve, reject) => {
+    const animationName = `${prefix}${animation}`;
+    const node = document.querySelector(element);
+    console.log(node);
+    if (node) {
+      node.classList.remove(`${prefix}animated`, "hiddenmenu");
+      node.classList.add(`${prefix}animated`, animationName);
+
+      // When the animation ends, we clean the classes and resolve the Promise
+      function handleAnimationEnd(event) {
+        event.stopPropagation();
+        //node.classList.remove(`${prefix}newel`, animationName);
+        //node.classList.add(`${prefix}animated`, "hiddenmenu");
+        resolve("Animation ended");
+      }
+
+      // node.addEventListener("animationend", handleAnimationEnd, { once: true });
+    }
+  });
 function App(prop) {
   const [loadingLogin, isLogin] = useIsLogin();
   const [loadingInfo, siteInfo] = useSiteInfo();
@@ -198,6 +220,30 @@ function App(prop) {
             <ul>
               {menu.title && (
                 <li className="menutitle menutitle mm-listitem">
+                  {menu?.aria == "garea" && (
+                    <div
+                      style={{
+                        position: "relative",
+                      }}
+                    >
+                      <ConfettiArea
+                        active={activeMenu == menu.label ? true : false}
+                        numberOfPieces={50}
+                      />
+                    </div>
+                  )}
+                  {menu?.aria == "cashierareaw" && (
+                    <div
+                      style={{
+                        position: "relative",
+                      }}
+                    >
+                      <ConfettiArea
+                        active={activeMenu == menu.label ? true : false}
+                        numberOfPieces={50}
+                      />
+                    </div>
+                  )}
                   <span className="mm-listitem__text">{menu.title}</span>
                 </li>
               )}
@@ -416,6 +462,7 @@ function App(prop) {
     api.open();
     const panel = document.querySelector(_id);
     api.openPanel(panel);
+
     setTimeout(() => {
       if (toId) {
         try {
@@ -766,6 +813,7 @@ function App(prop) {
                   loadingLogin={loadingLogin}
                   setIsUser={setIsUser}
                   getAccess={getAccess}
+                  animateCSS={animateCSS}
                 />
               }
             />

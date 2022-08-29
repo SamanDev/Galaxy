@@ -34,6 +34,12 @@ export const levelDataInfo = [
     minBalance: 3000000,
     banOutHours: 12,
   },
+  {
+    name: "Tournament",
+    minLevel: 4,
+    minBalance: 1000000,
+    banOutHours: 12,
+  },
 ];
 
 export const gameDataMain = "poker,backgammon,boom,bet".split(",");
@@ -169,7 +175,96 @@ export const menuData = [
 
     submenu: doGame(),
   },
+  {
+    label: "جوایز و پاداش ها ",
+    title: "جوایز و پاداش ها ",
+    icon: "fas fa-gift",
+    aria: "garea",
+    idname: "gifts",
+    submenu: [
+      {
+        label: "پاداش لِوِل ها",
+        title: "پاداش لِوِل ها",
+        idname: "levels",
+        icon: "fas fa-star yellow",
+        aria: "giftsarea animated slideInLeft faster",
+        icongalaxy: "levels",
+        component: <LevelList />,
+      },
 
+      {
+        label: "گلکسی پَس",
+        title: "گلکسی پَس",
+
+        idname: "gpass",
+        bonus: "Level " + levelDataInfo[0].minLevel,
+        icon: "fab fa-google yellow",
+        icongalaxy: "gpass",
+        aria: "giftsarea animated slideInLeft faster",
+        component: <PassList />,
+      },
+      {
+        label: "VIP Table 25/50K",
+        title: "VIP Table 25/50K",
+        idname: "vip",
+
+        bonus: "Level " + levelDataInfo[1].minLevel,
+        icon: "fab fa-viacoin yellow",
+        icongalaxy: "vip",
+        aria: "giftsarea animated slideInLeft faster",
+        component: <VIP />,
+      },
+      {
+        label: "لیگ روزانه",
+        title: "لیگ روزانه",
+        aria: "giftsarea animated slideInLeft faster",
+        idname: "league",
+        bonus: "Level " + levelDataInfo[2].minLevel,
+        icon: "fas fa-medal yellow",
+        icongalaxy: "league",
+        component: <League />,
+      },
+      {
+        label: "کمیسیون معرفی دوستان",
+        idname: "commission",
+        icongalaxy: "commission",
+        icon: "fas fa-heart red",
+
+        aria: "giftsarea animated slideInLeft faster",
+        component: <Commission mode="commission" />,
+      },
+      {
+        label: "ریک بک پوکر",
+        title: "ریک بک پوکر",
+        idname: "commission",
+        icongalaxy: "rakeback",
+        icon: "fas fa-heart red",
+        aria: "giftsarea animated slideInLeft faster",
+        component: <Commission mode="rakeback" />,
+      },
+
+      {
+        label: "تورنومنت ها",
+        title: "تورنومنت ها",
+        idname: "tournament",
+        bonus: "Level " + levelDataInfo[3].minLevel,
+        icon: "fab fa-viacoin yellow",
+        icongalaxy: "tournament",
+        aria: "giftsarea animated slideInLeft faster",
+        component: <Tournament />,
+      },
+      {
+        label: "برترین بازیکنان",
+        title: "برترین بازیکنان",
+        idname: "topplayer",
+
+        icon: "fab fa-viacoin yellow",
+        icongalaxy: "topplayer",
+        aria: "giftsarea animated slideInLeft faster",
+        component: <TopPlayers />,
+      },
+    ],
+  },
   {
     label: "صندوق",
     title: "صندوق",
@@ -199,6 +294,7 @@ export const menuData = [
         idname: "login",
         getwaykey: "Transfer",
         icon: "fas fa-exchange-alt",
+        icongalaxy: "topplayericon",
         aria: "giftsarea",
         component: (
           <FormComponent
@@ -225,7 +321,7 @@ export const menuData = [
     title: "دعوت دوستان و کسب درآمد",
     icon: "fas fa-heart red",
 
-    idname: "login",
+    idname: "login invite",
     submenu: [
       {
         icon: "fas fa-plus",
@@ -236,95 +332,7 @@ export const menuData = [
       },
     ],
   },
-  {
-    label: "جوایز و پاداش ها ",
-    title: "جوایز و پاداش ها ",
-    icon: "fas fa-gift yellow",
-    idname: "gifts",
-    submenu: [
-      {
-        label: "پاداش لِوِل ها",
-        title: "پاداش لِوِل ها",
-        idname: "levels",
-        icon: "fas fa-star yellow",
-        aria: "giftsarea",
-        icongalaxy: "levels",
-        component: <LevelList />,
-      },
 
-      {
-        label: "گلکسی پَس",
-        title: "گلکسی پَس",
-
-        idname: "gpass",
-        bonus: "Level " + levelDataInfo[0].minLevel,
-        icon: "fab fa-google yellow",
-        icongalaxy: "gpass",
-        aria: "giftsarea",
-        component: <PassList />,
-      },
-      {
-        label: "VIP Table 25/50K",
-        title: "VIP Table 25/50K",
-        idname: "vip",
-
-        bonus: "Level " + levelDataInfo[1].minLevel,
-        icon: "fab fa-viacoin yellow",
-        icongalaxy: "vip",
-        aria: "giftsarea",
-        component: <VIP />,
-      },
-      {
-        label: "لیگ روزانه",
-        title: "لیگ روزانه",
-        aria: "giftsarea",
-        idname: "league",
-        bonus: "Level " + levelDataInfo[2].minLevel,
-        icon: "fas fa-medal yellow",
-        icongalaxy: "league",
-        component: <League />,
-      },
-      {
-        label: "کمیسیون معرفی دوستان",
-        idname: "commission",
-        icongalaxy: "commission",
-        icon: "fas fa-heart red",
-        title: "کمیسیون معرفی دوستان",
-        aria: "giftsarea",
-        component: <Commission mode="commission" />,
-      },
-      {
-        label: "ریک بک پوکر",
-        title: "ریک بک پوکر",
-        idname: "commission",
-        icongalaxy: "rakeback",
-        icon: "fas fa-heart red",
-        aria: "giftsarea",
-        component: <Commission mode="rakeback" />,
-      },
-
-      {
-        label: "تورنومنت ها",
-        title: "تورنومنت ها",
-        idname: "tournament",
-
-        icon: "fab fa-viacoin yellow",
-        icongalaxy: "tournament",
-        aria: "giftsarea",
-        component: <Tournament />,
-      },
-      {
-        label: "برترین بازیکنان",
-        title: "برترین بازیکنان",
-        idname: "topplayer",
-
-        icon: "fab fa-viacoin yellow",
-        icongalaxy: "topplayer",
-        aria: "giftsarea",
-        component: <TopPlayers />,
-      },
-    ],
-  },
   {
     label: "پشتیبانی",
     title: "پشتیبانی",
@@ -573,7 +581,7 @@ export const getEvent = () => {
   var nowDay = moment(now).date();
   if (nowDay <= 15) {
     return "GPass";
-  } else if (nowDay <= 23) {
+  } else if (nowDay <= 230) {
     return "VIP";
   } else {
     return "League";

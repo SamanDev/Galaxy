@@ -18,6 +18,7 @@ import {
 } from "../../const";
 import LevelIcon from "../../utils/svg";
 import LevelBar from "../../utils/LevelBar";
+
 const LevelList = () => {
   var totalReward = 0;
   var arra = [];
@@ -38,7 +39,11 @@ const LevelList = () => {
             <List.Item
               key={i}
               id={"lvl" + (i + 1)}
-              className={loginToken?.level == i + 1 ? "active" : ""}
+              className={
+                loginToken?.level == i + 1
+                  ? "active animated fadeIn faster"
+                  : " animated fadeIn faster"
+              }
             >
               <List.Content floated="right" className="rtl">
                 <span className="text-gold">{doCurrency(levelReward(i))} </span>

@@ -10,7 +10,7 @@ import {
 } from "semantic-ui-react";
 import { doCurrency, levelPassReward, levelDataInfo } from "../../const";
 import AddCalendar from "../../utils/AddCalendar";
-import GalaxyIcon from "../../utils/svg";
+import GalaxyIcon from "../../utils/svganim";
 import GiftsDesc from "../../utils/GiftsDesc";
 import VIPResult from "./VIPResult";
 const LevelList = () => {
@@ -27,8 +27,8 @@ const LevelList = () => {
               classinside="iconinside0"
               number=""
               width="60px"
-              amin="inline animated flipInY"
-              iconamin=""
+              amin="inline animated fast flipInX delay-1s"
+              iconamin="flipInY inline animated"
             />
 
             <AddCalendar

@@ -32,7 +32,9 @@ const depositArea = () => {
 
   return (
     <span className="myaccount popupmenu">
-      <Divider inverted section />
+      <Divider inverted section horizontal className="farsi">
+        یا
+      </Divider>
       <MyMsg
         icon="linkify"
         color="red"
