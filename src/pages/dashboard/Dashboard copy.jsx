@@ -397,69 +397,63 @@ const Dashboard = (prop) => {
                     title="تورنومنت ۳۰+۳۰ میلیونی"
                     text="هر جمعه ساعت ۲۲"
                     icon="tournament"
-                    amin="inline hiddenmenu swing "
-                    iconamin="swing"
+                    amin="inline hiddenmenu swing delay-2s"
+                    iconamin=""
                     link=".tournament"
                     {...prop}
                   />
                 </div>
-
-                <div
-                  className={
-                    _event == "GPass" ? "carousel-item active" : "carousel-item"
-                  }
-                  data-bs-interval="10000"
-                >
-                  <Banner
-                    title="۱۱۰ میلیون تومان"
-                    text="پاداش گلکسی پَس"
-                    link=".gpass"
-                    icon="gpass"
-                    amin="hiddenmenu delay-1s charkhesh"
-                    iconamin="pulse"
-                    number="15"
-                    {...prop}
-                  />
-                </div>
-
-                <div
-                  className={
-                    _event == "VIP" ? "carousel-item active" : "carousel-item"
-                  }
-                  data-bs-interval="10000"
-                >
-                  <Banner
-                    title="۱۹۲ میلیون تومان"
-                    text="پاداش VIP 25/50K"
-                    link=".vip"
-                    icon="vip"
-                    amin="inline hiddenmenu fast flipInY"
-                    iconamin="pulse"
-                    number=" "
-                    {...prop}
-                  />
-                </div>
-
-                <div
-                  className={
-                    _event == "League"
-                      ? "carousel-item active"
-                      : "carousel-item"
-                  }
-                  data-bs-interval="10000"
-                >
-                  <Banner
-                    title="۴۵ میلیون تومان"
-                    text="برای لیگ روزانه"
-                    link=".league"
-                    icon="league"
-                    level="big"
-                    number="1"
-                    amin="inline hiddenmenu swing "
-                    iconamin="swing"
-                    {...prop}
-                  />
-                </div>
+                {_event == "GPass" && (
+                  <div
+                    className="carousel-item active"
+                    data-bs-interval="10000"
+                  >
+                    <Banner
+                      title="۱۱۰ میلیون تومان"
+                      text="پاداش گلکسی پَس"
+                      link=".gpass"
+                      icon="gpass"
+                      iconamin="pulse"
+                      number="15"
+                      {...prop}
+                    />
+                  </div>
+                )}
+                {_event == "VIP" && (
+                  <div
+                    className="carousel-item active"
+                    data-bs-interval="10000"
+                  >
+                    <Banner
+                      title="۱۹۲ میلیون تومان"
+                      text="پاداش VIP 25/50K"
+                      link=".vip"
+                      icon="vip"
+                      amin="inline hiddenmenu fast flipInY"
+                      iconamin="pulse"
+                      number=" "
+                      {...prop}
+                    />
+                  </div>
+                )}
+                {_event == "League" && (
+                  <div
+                    className="carousel-item active"
+                    data-bs-interval="10000"
+                  >
+                    <Banner
+                      title="۴۵ میلیون تومان"
+                      text="برای لیگ روزانه"
+                      link=".league"
+                      icon="league"
+                      level="big"
+                      number="1"
+                      amin="inline hiddenmenu swing delay-2s"
+                      iconamin=""
+                      {...prop}
+                    />
+                  </div>
+                )}
 
                 <div className="carousel-item " data-bs-interval="10000">
                   <Banner

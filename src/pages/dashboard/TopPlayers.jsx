@@ -10,7 +10,7 @@ import {
 } from "semantic-ui-react";
 import { doCurrency, levelPassReward, levelDataInfo } from "../../const";
 import AddCalendar from "../../utils/AddCalendar";
-import GalaxyIcon from "../../utils/svg";
+import GalaxyIcon from "../../utils/svganim";
 import GiftsDesc from "../../utils/GiftsDesc";
 import TopPlayerResult from "./TopPlayersResult";
 const LevelList = () => {

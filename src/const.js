@@ -8,6 +8,7 @@ import PassList from "./pages/dashboard/GalaxyPass";
 import Commission from "./pages/dashboard/Commission";
 import VIP from "./pages/dashboard/VIP";
 import TopPlayers from "./pages/dashboard/TopPlayers";
+import KingOf from "./pages/dashboard/TopPlayers";
 import League from "./pages/dashboard/League";
 import Tournament from "./pages/dashboard/Tournament";
 import TopUsers from "./pages/dashboard/TopUsers";
@@ -254,6 +255,16 @@ export const menuData = [
         component: <Tournament />,
       },
       {
+        label: "هدایای گلکسی",
+        title: "هدایای گلکسی",
+        idname: "topplayer",
+
+        icon: "fab fa-viacoin yellow",
+        icongalaxy: "gifts",
+        aria: "giftsarea animated slideInLeft faster",
+        component: <TopPlayers />,
+      },
+      {
         label: "برترین بازیکنان",
         title: "برترین بازیکنان",
         idname: "topplayer",
@@ -262,6 +273,16 @@ export const menuData = [
         icongalaxy: "topplayer",
         aria: "giftsarea animated slideInLeft faster",
         component: <TopPlayers />,
+      },
+      {
+        label: "پادشاهان تورنومنت",
+        title: "پادشاهان تورنومنت",
+        idname: "topplayer",
+
+        icon: "fab fa-viacoin yellow",
+        icongalaxy: "kingof",
+        aria: "giftsarea animated slideInLeft faster",
+        component: <KingOf />,
       },
     ],
   },
@@ -294,7 +315,7 @@ export const menuData = [
         idname: "login",
         getwaykey: "Transfer",
         icon: "fas fa-exchange-alt",
-        icongalaxy: "topplayericon",
+        icongalaxy: "topplayer",
         aria: "giftsarea",
         component: (
           <FormComponent
@@ -581,7 +602,7 @@ export const getEvent = () => {
   var nowDay = moment(now).date();
   if (nowDay <= 15) {
     return "GPass";
-  } else if (nowDay <= 230) {
+  } else if (nowDay <= 23) {
     return "VIP";
   } else {
     return "League";

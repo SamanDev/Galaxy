@@ -18,7 +18,7 @@ import {
 import LevelIcon from "../../utils/LevelIcon";
 import GiftsDesc from "../../utils/GiftsDesc";
 import AddCalendar from "../../utils/AddCalendar";
-import GalaxyIcon from "../../utils/svg";
+import GalaxyIcon from "../../utils/svganim";
 import LeagueResult from "./LeagueResult";
 const LevelList = () => {
   return (
@@ -34,8 +34,8 @@ const LevelList = () => {
                 classinside="iconinside0"
                 number="1"
                 width="60px"
-                amin="inline animated swing"
-                iconamin="swing"
+                amin="inline animated swing fast"
+                iconamin="swing inline animated"
               />
             </div>
             <AddCalendar

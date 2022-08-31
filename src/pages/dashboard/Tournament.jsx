@@ -13,8 +13,7 @@ const LevelList = () => {
   var start = moment(_day).format("YYYYMMDDT200000");
 
   var end = moment().format("YYYYMMDDTHHmmss");
-  console.log(start);
-  console.log(end);
+
   return (
     <span className="myaccount popupmenu">
       <List divided inverted verticalAlign="middle" className="myaccount">
@@ -28,8 +27,8 @@ const LevelList = () => {
                 classinside="iconinside0"
                 number="1"
                 width="60px"
-                amin="inline animated swing delay-2s"
-                iconamin=""
+                amin="inline animated swing fast"
+                iconamin="swing inline animated"
               />
             </div>
             <AddCalendar

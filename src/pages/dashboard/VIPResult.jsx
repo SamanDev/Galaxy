@@ -41,9 +41,9 @@ const LevelList = () => {
   } else {
     return (
       <>
-        <ul className="mm-listview">
-          <li className="menutitle menutitleinside mm-listitem"></li>
-          <li className="menutitle menutitleinside mm-listitem">
+        <ul className="mm-listview menutitle-view">
+          <li className="menutitle mm-listitem"></li>
+          <li className="menutitle mm-listitem">
             <span className="mm-listitem__text">آخرین جوایز</span>
           </li>
         </ul>

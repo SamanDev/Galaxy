@@ -33,7 +33,8 @@ const LevelList = () => {
                 classinside="iconinside0"
                 number=""
                 width="60px"
-                iconamin={"inline animated charkhesh"}
+                iconamin={"inline animated charkhesh delay-1s big"}
+                amin={"inline animated pulse"}
               />
             </div>
             <AddCalendar
@@ -98,9 +99,10 @@ const LevelList = () => {
             />
           </List.Content>
         </List.Item>
-        <ul className="mm-listview">
-          <li className="menutitle menutitleinside mm-listitem"></li>
-          <li className="menutitle menutitleinside mm-listitem">
+
+        <ul className="mm-listview menutitle-view">
+          <li className="menutitle mm-listitem"></li>
+          <li className="menutitle mm-listitem">
             <span className="mm-listitem__text">لیست جوایز گلکسی پَس</span>
           </li>
         </ul>
@@ -126,19 +128,14 @@ const LevelList = () => {
                 text={"Level " + (i + 1)}
                 classinside="iconinside0"
                 number=""
-                width="32px"
-              />
-              <LevelIcon
-                icon="fab fa-google big star"
-                level={i + 1}
-                text={"Level " + (i + 1)}
+                width="38px"
               />
             </List.Item>
           );
         })}
-        <ul className="mm-listview">
-          <li className="menutitle menutitleinside mm-listitem"></li>
-          <li className="menutitle menutitleinside mm-listitem">
+        <ul className="mm-listview menutitle-view">
+          <li className="menutitle mm-listitem"></li>
+          <li className="menutitle mm-listitem">
             <span className="mm-listitem__text">آخرین جوایز</span>
           </li>
         </ul>

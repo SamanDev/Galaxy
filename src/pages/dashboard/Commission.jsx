@@ -21,7 +21,7 @@ const LevelList = (prop) => {
                   classinside="iconinside0"
                   number="1"
                   width="60px"
-                  amin="inline animated slideInDown fast"
+                  amin="inline animated bounceInDown fast"
                   iconamin="swing"
                 />
               ) : (
@@ -121,9 +121,9 @@ const LevelList = (prop) => {
             )}
           </List.Content>
         </List.Item>
-        <ul className="mm-listview">
-          <li className="menutitle menutitleinside mm-listitem"></li>
-          <li className="menutitle menutitleinside mm-listitem">
+        <ul className="mm-listview menutitle-view">
+          <li className="menutitle mm-listitem"></li>
+          <li className="menutitle mm-listitem">
             <span className="mm-listitem__text">آخرین جوایز</span>
           </li>
         </ul>
