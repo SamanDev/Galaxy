@@ -343,7 +343,10 @@ body.fullscreen #content_section {
 .iconarea .iconareanum {
   transform: scale(0.8); position: absolute; z-index: 300000;  height: auto; text-align: center;
 }
-
+.iconarea .icn2 {
+  -webkit-mask-image: linear-gradient(to bottom, black 70%, transparent 100%);
+  mask-image: linear-gradient(to bottom, black 70%, transparent 100%);
+}
 .banner .ui.grid {
   width: 100%;
   margin: 0 !important;
@@ -1129,6 +1132,11 @@ svg text {
 .levelicon:not(.big) {
 
   filter:  drop-shadow(rgba(0, 0, 0, 1) 0px 0px 1px) drop-shadow(rgba(0, 0, 0, 1) 0px 0px 1px)   drop-shadow(rgba(255, 255, 255, .5) 0px 0px 3px)
+ ;
+}
+.mm-menu .levelicon:not(.big) {
+
+  filter:  none
  ;
 }
 
