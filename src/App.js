@@ -706,7 +706,7 @@ function App(prop) {
           <Modal
             basic
             size="tiny"
-            className="myaccount popupmenu"
+            className="myaccount popupmenu  animated backInDown "
             onClose={() => {
               setFirstOpen(false);
               navigate("/");
@@ -728,7 +728,7 @@ function App(prop) {
           <Modal
             basic
             size="tiny"
-            className="myaccount popupmenu"
+            className="myaccount popupmenu  animated backInDown "
             onClose={() => {
               setThirdOpen(false);
               setFirstOpen(true);
@@ -750,7 +750,7 @@ function App(prop) {
           <Modal
             basic
             size="tiny"
-            className="myaccount popupmenu"
+            className="myaccount popupmenu  animated backInDown "
             onClose={() => {
               setSecondOpen(false);
               navigate("/");

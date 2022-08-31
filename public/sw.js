@@ -4,9 +4,10 @@ self.addEventListener("install", (e) => {
       .open("fox-store")
       .then((cache) =>
         cache.addAll([
-          "/pwa-examples/a2hs/",
-          "/pwa-examples/a2hs/index.html",
-          "/pwa-examples/a2hs/index.js",
+          "/assets/mmenu-js-master/dist/mmenu.css",
+          "/assets/css/bootstrap.min.css",
+          "/assets/css/style.css",
+          "/assets/images/bgs/bg.png",
           "/assets/js/main.js",
           "/assets/images/svg/topplayer/icon.svg",
           "/assets/images/svg/topplayer/deposit.svg",
