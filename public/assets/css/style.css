@@ -328,6 +328,11 @@ body.fullscreen #content_section {
   position: relative;
   filter: drop-shadow(rgba(0, 0, 0, 1) 0px 0px 30px);
 }
+.mm-menu .iconarea {
+
+  filter: none
+ ;
+}
 .iconarea .iconlabel {
   text-align: center;
   margin-top: 5px;
@@ -338,10 +343,7 @@ body.fullscreen #content_section {
 .iconarea .iconareanum {
   transform: scale(0.8); position: absolute; z-index: 300000;  height: auto; text-align: center;
 }
-.iconarea .icn {
-  -webkit-mask-image: linear-gradient(to bottom, black 70%, transparent 100%);
-  mask-image: linear-gradient(to bottom, black 70%, transparent 100%);
-}
+
 .banner .ui.grid {
   width: 100%;
   margin: 0 !important;
@@ -1129,6 +1131,7 @@ svg text {
   filter:  drop-shadow(rgba(0, 0, 0, 1) 0px 0px 1px) drop-shadow(rgba(0, 0, 0, 1) 0px 0px 1px)   drop-shadow(rgba(255, 255, 255, .5) 0px 0px 3px)
  ;
 }
+
 .iconinside1:not(.levelicon) {
   fill: #740e0e;
   color: #740e0e;

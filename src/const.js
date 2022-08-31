@@ -227,6 +227,7 @@ export const menuData = [
       },
       {
         label: "کمیسیون معرفی دوستان",
+        title: "کمیسیون معرفی دوستان",
         idname: "commission",
         icongalaxy: "commission",
         icon: "fas fa-heart red",

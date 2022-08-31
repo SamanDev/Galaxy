@@ -155,7 +155,7 @@ const Dashboard = (prop) => {
   const [gameLoader, setGameLoader] = useState(true);
   const params = useParams();
   const [activeIndex, setActiveIndex] = useState(0);
-  const [activeSlide, setActiveSlide] = useState(1);
+  const [activeSlide, setActiveSlide] = useState(0);
   const [gameOptions, setGameOptions] = useState([]);
   const [secondaryGame, setSecondaryGame] = useState(
     localStorage.getItem("secondaryGame")
@@ -212,6 +212,7 @@ const Dashboard = (prop) => {
     myCarousel.addEventListener("slide.bs.carousel", (event) => {
       $(".banner:hidden .animated").toggleClass("hiddenmenu animated");
       $(".banner:visible .hiddenmenu").toggleClass("hiddenmenu animated");
+      setActiveSlide(event.to);
     });
     myCarousel.addEventListener("slid.bs.carousel", (event) => {
       $(".banner:hidden .animated").toggleClass("hiddenmenu animated");
@@ -381,97 +382,142 @@ const Dashboard = (prop) => {
               data-bs-ride="carousel"
             >
               <div className="carousel-inner">
-                <div className="carousel-item " data-bs-interval="10000">
-                  <Banner
-                    title="هدیه گلکسی"
-                    text="امشب ساعت ۲۲"
-                    icon="gifts"
-                    {...prop}
-                  />
+                <div
+                  className={
+                    activeSlide == 0 ? "carousel-item active" : "carousel-item"
+                  }
+                  data-bs-interval="10000"
+                >
                   {activeSlide == 0 && (
-                    <ConfettiArea recycle={false} numberOfPieces="50" />
+                    <>
+                      <Banner
+                        title="هدیه گلکسی"
+                        text="امشب ساعت ۲۲"
+                        icon="gifts"
+                        amin="inline hiddenmenu swing "
+                        iconamin="swing"
+                        link=".tournament"
+                        {...prop}
+                      />
+
+                      <ConfettiArea recycle={false} numberOfPieces="50" />
+                    </>
                   )}
                 </div>
-                <div className="carousel-item " data-bs-interval="10000">
-                  <Banner
-                    title="تورنومنت ۳۰+۳۰ میلیونی"
-                    text="هر جمعه ساعت ۲۲"
-                    icon="tournament"
-                    amin="inline hiddenmenu swing "
-                    iconamin="swing"
-                    link=".tournament"
-                    {...prop}
-                  />
-                </div>
-
                 <div
                   className={
-                    _event == "GPass" ? "carousel-item active" : "carousel-item"
+                    activeSlide == 1 ? "carousel-item active" : "carousel-item"
                   }
                   data-bs-interval="10000"
                 >
-                  <Banner
-                    title="۱۱۰ میلیون تومان"
-                    text="پاداش گلکسی پَس"
-                    link=".gpass"
-                    icon="gpass"
-                    amin="hiddenmenu delay-1s charkhesh"
-                    iconamin="pulse"
-                    number="15"
-                    {...prop}
-                  />
+                  {activeSlide == 1 && (
+                    <>
+                      <Banner
+                        title="تورنومنت ۳۰+۳۰ میلیونی"
+                        text="هر جمعه ساعت ۲۲"
+                        icon="tournament"
+                        amin="inline hiddenmenu swing "
+                        iconamin="swing"
+                        link=".tournament"
+                        {...prop}
+                      />
+                    </>
+                  )}
                 </div>
 
                 <div
                   className={
-                    _event == "VIP" ? "carousel-item active" : "carousel-item"
-                  }
-                  data-bs-interval="10000"
-                >
-                  <Banner
-                    title="۱۹۲ میلیون تومان"
-                    text="پاداش VIP 25/50K"
-                    link=".vip"
-                    icon="vip"
-                    amin="inline hiddenmenu fast flipInY"
-                    iconamin="pulse"
-                    number=" "
-                    {...prop}
-                  />
-                </div>
-
-                <div
-                  className={
-                    _event == "League"
+                    _event == "GPass" && activeSlide == 2
                       ? "carousel-item active"
                       : "carousel-item"
                   }
                   data-bs-interval="10000"
                 >
-                  <Banner
-                    title="۴۵ میلیون تومان"
-                    text="برای لیگ روزانه"
-                    link=".league"
-                    icon="league"
-                    level="big"
-                    number="1"
-                    amin="inline hiddenmenu swing "
-                    iconamin="swing"
-                    {...prop}
-                  />
+                  {activeSlide == 2 && (
+                    <>
+                      <Banner
+                        title="۱۱۰ میلیون تومان"
+                        text="پاداش گلکسی پَس"
+                        link=".gpass"
+                        icon="gpass"
+                        amin="hiddenmenu delay-1s charkhesh"
+                        iconamin="pulse"
+                        number="15"
+                        {...prop}
+                      />
+                    </>
+                  )}
                 </div>
 
-                <div className="carousel-item " data-bs-interval="10000">
-                  <Banner
-                    title="بیش از ۴ میلیارد"
-                    text="پاداش افزایش لِوِل"
-                    link=".levels"
-                    icon="levels"
-                    amin="hiddenmenu delay-2s charkhesh"
-                    iconamin="swing"
-                    number="90"
-                    {...prop}
-                  />
+                <div
+                  className={
+                    _event == "VIP" && activeSlide == 3
+                      ? "carousel-item active"
+                      : "carousel-item"
+                  }
+                  data-bs-interval="10000"
+                >
+                  {activeSlide == 3 && (
+                    <>
+                      <Banner
+                        title="۱۹۲ میلیون تومان"
+                        text="پاداش VIP 25/50K"
+                        link=".vip"
+                        icon="vip"
+                        amin="inline hiddenmenu fast flipInY"
+                        iconamin="pulse"
+                        number=" "
+                        {...prop}
+                      />
+                    </>
+                  )}
+                </div>
+
+                <div
+                  className={
+                    _event == "League" && activeSlide == 4
+                      ? "carousel-item active"
+                      : "carousel-item"
+                  }
+                  data-bs-interval="10000"
+                >
+                  {activeSlide == 4 && (
+                    <>
+                      <Banner
+                        title="۴۵ میلیون تومان"
+                        text="برای لیگ روزانه"
+                        link=".league"
+                        icon="league"
+                        level="big"
+                        number="1"
+                        amin="inline hiddenmenu swing "
+                        iconamin="swing"
+                        {...prop}
+                      />
+                    </>
+                  )}
+                </div>
+
+                <div
+                  className={
+                    activeSlide == 5 ? "carousel-item active" : "carousel-item"
+                  }
+                  data-bs-interval="10000"
+                >
+                  {activeSlide == 5 && (
+                    <>
+                      <Banner
+                        title="بیش از ۴ میلیارد"
+                        text="پاداش افزایش لِوِل"
+                        link=".levels"
+                        icon="levels"
+                        amin="hiddenmenu delay-2s charkhesh"
+                        iconamin="swing"
+                        number="90"
+                        {...prop}
+                      />
+                    </>
+                  )}
                 </div>
                 {_width > 500 && 1 == 2 && (
                   <div className="carousel-item " data-bs-interval="100000">
