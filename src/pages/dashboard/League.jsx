@@ -43,7 +43,7 @@ const LevelList = () => {
               dur="8"
               repeat="MONTHLY"
               format="0000"
-              title="League"
+              title="GalaxyLeague"
             />
           </List.Content>
         </List.Item>

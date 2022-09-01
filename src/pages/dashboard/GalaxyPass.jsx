@@ -44,6 +44,10 @@ const LevelList = () => {
               format="0000"
               title="GallaxyPass"
             />
+          </List.Content>
+        </List.Item>
+        <List.Item>
+          <List.Content className="rtl text-center ">
             <GiftsDesc
               desc={
                 <>

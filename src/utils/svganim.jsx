@@ -476,10 +476,11 @@ const LevelIcon = (prop) => {
           style={{
             width: prop.width,
             height: "auto",
+            textAlign: "left",
           }}
         >
           <span
-            className="inline hiddenmenu delay-1s  bounceInDown"
+            className="inline animated delay-1s  bounceInDown"
             style={{
               width: prop.width,
               height: "auto",
@@ -488,7 +489,7 @@ const LevelIcon = (prop) => {
             }}
           >
             <span
-              className="inline hiddenmenu delay-3s bounce"
+              className="inline animated delay-3s bounce"
               style={{
                 width: prop.width,
                 height: "auto",
@@ -504,7 +505,7 @@ const LevelIcon = (prop) => {
             </span>
           </span>
           <span
-            className="inline hiddenmenu delay-1s fast bounceInDown"
+            className="inline animated delay-1s fast bounceInDown"
             style={{
               width: prop.width,
               height: "auto",
@@ -518,15 +519,13 @@ const LevelIcon = (prop) => {
             <img
               src={"/assets/gift.svg"}
               style={{
-                position: "absolute",
-
                 transform: "translateX(15%) scale(.6) rotate(5deg)",
                 transformOrigin: "center right",
               }}
             />
           </span>
           <span
-            className="inline hiddenmenu delay-1s faster bounceInDown"
+            className="inline animated delay-1s faster bounceInDown"
             style={{
               width: prop.width,
               height: "auto",
@@ -538,8 +537,6 @@ const LevelIcon = (prop) => {
             <img
               src={"/assets/gift.svg"}
               style={{
-                position: "absolute",
-
                 transform: "translateX(-5%) scale(.5) rotate(-5deg)",
                 transformOrigin: "center left",
               }}

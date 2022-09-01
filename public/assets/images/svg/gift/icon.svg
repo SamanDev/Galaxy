@@ -9,9 +9,9 @@
 		<stop offset="100%" stop-color="#cb9b51" />
 	</linearGradient>
 	<linearGradient id="leagueicongrad" gradientTransform="rotate(90)">
-		<stop offset="0%" stop-color="#fdd300" />
-
-		<stop offset="99%" stop-color="#cc3f00" />
+		<stop offset="0%" stop-color="#9b2c49" />
+		<stop offset="10%" stop-color="#fc9db6" />
+		<stop offset="99%" stop-color="#b73955" />
 
 		<stop offset="100%" stop-color="#ffffff" />
 	</linearGradient>

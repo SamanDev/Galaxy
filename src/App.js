@@ -2,7 +2,13 @@ import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import AdminLayout from "./layouts/admin/Index";
 import { Image, Modal } from "semantic-ui-react";
-import { menuData, panelData, haveAdmin, haveModerator } from "./const";
+import {
+  menuData,
+  panelData,
+  haveAdmin,
+  haveModerator,
+  getEvent,
+} from "./const";
 import { Link } from "react-router-dom";
 import { useIsLogin } from "./hook/authHook";
 import { useSiteInfo } from "./hook/infoHook";
@@ -16,12 +22,13 @@ import GalaxyIcon from "./utils/svg";
 import ConfettiArea from "./utils/partyclick";
 import { Dimmer, Loader, Segment } from "semantic-ui-react";
 var menu = "no";
-var panelMenu = false;
+var panelMenu = "no";
 var api;
 var apiPanel;
 const CompGen = (prop) => {
   return <>{prop.com}</>;
 };
+var _event = getEvent();
 const animateCSS = (element, animation, prefix = "") =>
   // We create a Promise and return it
   new Promise((resolve, reject) => {
@@ -220,30 +227,6 @@ function App(prop) {
             <ul>
               {menu.title && (
                 <li className="menutitle menutitle mm-listitem">
-                  {menu?.aria == "garea" && (
-                    <div
-                      style={{
-                        position: "relative",
-                      }}
-                    >
-                      <ConfettiArea
-                        active={activeMenu == menu.label ? true : false}
-                        numberOfPieces={50}
-                      />
-                    </div>
-                  )}
-                  {menu?.aria == "cashierareaw" && (
-                    <div
-                      style={{
-                        position: "relative",
-                      }}
-                    >
-                      <ConfettiArea
-                        active={activeMenu == menu.label ? true : false}
-                        numberOfPieces={50}
-                      />
-                    </div>
-                  )}
                   <span className="mm-listitem__text">{menu.title}</span>
                 </li>
               )}
@@ -331,6 +314,25 @@ function App(prop) {
                           <>
                             {submenu.label ? (
                               <ul>
+                                {submenu.idname && (
+                                  <div
+                                    style={{
+                                      position: "relative",
+                                    }}
+                                  >
+                                    <ConfettiArea
+                                      active={
+                                        _event.toLowerCase() ==
+                                          submenu.idname.toLowerCase() &&
+                                        activeMenu == submenu.label
+                                          ? true
+                                          : false
+                                      }
+                                      numberOfPieces={50}
+                                    />
+                                  </div>
+                                )}
+
                                 {submenu.title && (
                                   <li className="menutitle">
                                     <span>{submenu.title}</span>
@@ -498,7 +500,7 @@ function App(prop) {
         "#menuleft",
         {
           setSelected: {
-            hover: false,
+            hover: true,
           },
 
           iconPanels: {
@@ -553,7 +555,7 @@ function App(prop) {
             },
             page: {
               selector: "#root",
-              noSelector: "[body]",
+              noSelector: "body",
             },
           },
         }
@@ -564,11 +566,6 @@ function App(prop) {
         setTimeout(() => {
           var _parent = $("#" + panel.id + "").attr("data-mm-parent");
           setActiveMenu(
-            $("#" + _parent)
-              .find("a:first > span.mymenu")
-              .text()
-          );
-          console.log(
             $("#" + _parent)
               .find("a:first > span.mymenu")
               .text()
@@ -698,7 +695,7 @@ function App(prop) {
         <nav id="panelright" className="fadeoutend">
           <ul>
             {panelData.map(function (menu, i) {
-              return doMenu(menu, i, "panel");
+              return doMenu(menu, i, "panel", isUser);
             })}
           </ul>
         </nav>

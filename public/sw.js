@@ -12,7 +12,7 @@ self.addEventListener("install", (e) => {
           "/assets/images/svg/topplayer/icon.svg",
           "/assets/images/svg/topplayer/deposit.svg",
           "/assets/images/svg/topplayer/cashout.svg",
-          "/assets/images/svg/league/icon.svg",
+
           "/assets/images/svg/level/icon.svg",
           "/assets/images/svg/vip/icon.svg",
           "/assets/images/svg/gift/icon.svg",
@@ -25,6 +25,8 @@ self.addEventListener("install", (e) => {
           "/assets/images/svg/tournament/2.svg",
           "/assets/images/svg/vip/1.svg",
           "/assets/images/svg/vip/2.svg",
+          "/assets/mburger-webcomponent-master/dist/mburger/index.js",
+          "/assets/mburger-webcomponent-master/dist/mburger/js/index.js",
           "/assets/js/bootstrap.bundle.min.js",
         ])
       )

@@ -1,6 +1,6 @@
 import React from "react";
 import AddToCalendarHOC from "react-add-to-calendar-hoc";
-
+import $ from "jquery";
 import { Button, Icon } from "semantic-ui-react";
 import Moment from "react-moment";
 const moment = require("moment");
@@ -24,6 +24,9 @@ moment.updateLocale("en", {
     yy: "%d سال",
   },
 });
+var SHARE_SITES = {
+  ICAL: "به تقویم من اضافه کن",
+};
 const zones = "+04:30";
 function getchatTime(date) {
   var thisDate2 = date;
@@ -31,11 +34,17 @@ function getchatTime(date) {
 
   return dateExpired;
 }
+
 class Example extends React.Component {
   constructor(props) {
     super(props);
   }
-
+  componentDidMount() {
+    this.clicklink();
+  }
+  clicklink = (args) => {
+    $(".calbtn").trigger("click").hide();
+  };
   render() {
     var now = moment().format("YYYYMMDDTHHmmssZ");
     now = moment(now)
@@ -65,13 +74,13 @@ class Example extends React.Component {
     if (dir < 0) {
       _next = true;
     }
-    console.log(end);
+
     if (end > 31) {
       var today = new Date();
 
       end = 1;
     }
-    console.log(end);
+
     var startDatetimeOld = getchatTime(__start);
     if (_finish) {
       //now = moment(now).add(1, "months").format("YYYYMMDDTHHmmssZ");
@@ -103,9 +112,6 @@ class Example extends React.Component {
     var endTime = getchatTime(__end);
     var endDatetimeOld = getchatTime(__endOld);
 
-    if (startTime <= endTime) {
-      _start = false;
-    }
     const event = {
       duration,
       //endDatetime: endTime,
@@ -133,17 +139,21 @@ class Example extends React.Component {
           fluid
           style={{
             position: "relative",
-            left: -4,
+
             zIndex: 10,
           }}
         >
           {args.children.map((link, i) => (
             <Button
               key={i}
-              color="grey"
-              className="add-to-container"
-              style={{ padding: 0 }}
+              color="red"
+              icon
+              labelPosition="left"
+              fluid
+              className="farsi add-to-container"
+              style={{ margin: "10px 0" }}
             >
+              <Icon name="calendar plus outline" />
               {link}
             </Button>
           ))}
@@ -153,6 +163,7 @@ class Example extends React.Component {
     var a = moment(now).utc();
     var b = moment(endDatetimeOld).utc();
     // 86400000
+
     const ATCWrapper = (args) => (
       <>
         {1 == 2 && (
@@ -161,7 +172,6 @@ class Example extends React.Component {
             now: {now}
             <br />
             startTime: {startTime}
-            z
             <br />
             endTime: {endTime}
             <br />
@@ -212,7 +222,7 @@ class Example extends React.Component {
               icon
               labelPosition="left"
               fluid
-              className="farsi-inline"
+              className="farsi-inline calbtn"
               style={{ margin: "10px 0" }}
             >
               <Icon name="calendar plus outline" />
@@ -224,7 +234,16 @@ class Example extends React.Component {
     );
     const AddToCalendarDropdown = AddToCalendarHOC(ATCWrapper, ATCDropdown);
 
-    return <AddToCalendarDropdown event={event} />;
+    return (
+      <AddToCalendarDropdown
+        event={event}
+        filename={event.title}
+        items={[SHARE_SITES.ICAL]}
+        linkProps={{
+          className: "ui link",
+        }}
+      />
+    );
   }
 }
 export default Example;

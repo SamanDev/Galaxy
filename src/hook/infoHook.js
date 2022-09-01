@@ -12,7 +12,6 @@ export const useSiteInfo = () => {
       localStorage.setItem("siteInfo", JSON.stringify(res.data));
       setLoading(false);
     } catch (error) {
-      setIsLogin(false);
       setLoading(false);
     }
   };

@@ -13,6 +13,8 @@ const Rightcontent = (prop) => {
           margin: 0,
           padding: 0,
           background: "transparent",
+          zIndex: 2000,
+          position: "relative",
         }}
       >
         <a className="menu-link-wrapper" href="#panelright">

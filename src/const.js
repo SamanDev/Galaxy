@@ -11,6 +11,7 @@ import TopPlayers from "./pages/dashboard/TopPlayers";
 import KingOf from "./pages/dashboard/TopPlayers";
 import League from "./pages/dashboard/League";
 import Tournament from "./pages/dashboard/Tournament";
+import Gift from "./pages/dashboard/Gifts";
 import TopUsers from "./pages/dashboard/TopUsers";
 import CashoutComponent from "./layouts/admin/forms/FormComponent.jsx";
 import FormComponent from "./layouts/admin/forms/FormComponent.jsx";
@@ -43,8 +44,8 @@ export const levelDataInfo = [
   },
 ];
 
-export const gameDataMain = "poker,backgammon,boom,bet".split(",");
-export const gameDataMainCode = "p,b,c,bt".split(",");
+export const gameDataMain = "poker".split(",");
+export const gameDataMainCode = "poker,b,c,bt".split(",");
 export const gameData =
   "blackjack3,blackjacks,roulette,roulette3D,baccarat,slotramses,slotfruits,jacksorbetter,deuceswild,wheeloffortune,slotarabian,highlow,slotsoccer,slotluckychristmas,caribbeanstud,slotspace".split(
     ","
@@ -188,7 +189,7 @@ export const menuData = [
         title: "پاداش لِوِل ها",
         idname: "levels",
         icon: "fas fa-star yellow",
-        aria: "giftsarea animated slideInLeft faster",
+        aria: "giftsarea animated bounceIn delay-02s",
         icongalaxy: "levels",
         component: <LevelList />,
       },
@@ -201,7 +202,7 @@ export const menuData = [
         bonus: "Level " + levelDataInfo[0].minLevel,
         icon: "fab fa-google yellow",
         icongalaxy: "gpass",
-        aria: "giftsarea animated slideInLeft faster",
+        aria: "giftsarea animated bounceIn delay-02s",
         component: <PassList />,
       },
       {
@@ -212,13 +213,13 @@ export const menuData = [
         bonus: "Level " + levelDataInfo[1].minLevel,
         icon: "fab fa-viacoin yellow",
         icongalaxy: "vip",
-        aria: "giftsarea animated slideInLeft faster",
+        aria: "giftsarea animated bounceIn delay-02s",
         component: <VIP />,
       },
       {
         label: "لیگ روزانه",
         title: "لیگ روزانه",
-        aria: "giftsarea animated slideInLeft faster",
+        aria: "giftsarea animated bounceIn delay-02s",
         idname: "league",
         bonus: "Level " + levelDataInfo[2].minLevel,
         icon: "fas fa-medal yellow",
@@ -232,7 +233,7 @@ export const menuData = [
         icongalaxy: "commission",
         icon: "fas fa-heart red",
 
-        aria: "giftsarea animated slideInLeft faster",
+        aria: "giftsarea animated bounceIn delay-02s",
         component: <Commission mode="commission" />,
       },
       {
@@ -241,7 +242,7 @@ export const menuData = [
         idname: "commission",
         icongalaxy: "rakeback",
         icon: "fas fa-heart red",
-        aria: "giftsarea animated slideInLeft faster",
+        aria: "giftsarea animated bounceIn delay-02s",
         component: <Commission mode="rakeback" />,
       },
 
@@ -252,18 +253,18 @@ export const menuData = [
         bonus: "Level " + levelDataInfo[3].minLevel,
         icon: "fab fa-viacoin yellow",
         icongalaxy: "tournament",
-        aria: "giftsarea animated slideInLeft faster",
+        aria: "giftsarea animated bounceIn delay-02s",
         component: <Tournament />,
       },
       {
         label: "هدایای گلکسی",
         title: "هدایای گلکسی",
-        idname: "topplayer",
+        idname: "giftarea",
 
         icon: "fab fa-viacoin yellow",
         icongalaxy: "gifts",
-        aria: "giftsarea animated slideInLeft faster",
-        component: <TopPlayers />,
+        aria: "giftsarea animated bounceIn delay-02s",
+        component: <Gift />,
       },
       {
         label: "برترین بازیکنان",
@@ -272,7 +273,7 @@ export const menuData = [
 
         icon: "fab fa-viacoin yellow",
         icongalaxy: "topplayer",
-        aria: "giftsarea animated slideInLeft faster",
+        aria: "giftsarea animated bounceIn delay-02s",
         component: <TopPlayers />,
       },
       {
@@ -282,7 +283,7 @@ export const menuData = [
 
         icon: "fab fa-viacoin yellow",
         icongalaxy: "kingof",
-        aria: "giftsarea animated slideInLeft faster",
+        aria: "giftsarea animated bounceIn delay-02s",
         component: <KingOf />,
       },
     ],
@@ -298,14 +299,14 @@ export const menuData = [
         title: "خرید چیپ",
         icon: "fas fa-plus text-danger",
         idname: "deposit",
-        aria: "giftsarea",
+        aria: "giftsarea animated bounceIn delay-02s",
         icongalaxy: "deposit",
         submenu: doDeposit(),
       },
       {
         label: "برداشت",
         title: "برداشت",
-        aria: "giftsarea",
+        aria: "giftsarea animated bounceIn delay-02s",
         icon: "fas fa-dollar text-gold",
         icongalaxy: "cashout",
         submenu: doCashout(),
@@ -317,7 +318,7 @@ export const menuData = [
         getwaykey: "Transfer",
         icon: "fas fa-exchange-alt",
         icongalaxy: "topplayer",
-        aria: "giftsarea",
+        aria: "giftsarea animated bounceIn delay-02s",
         component: (
           <FormComponent
             mode="transfer"
@@ -330,7 +331,7 @@ export const menuData = [
       {
         label: "تراکنش های مالی",
         title: "تراکنش های مالی",
-        aria: "giftsarea",
+        aria: "giftsarea animated bounceIn delay-02s",
         icon: "fas fa-stream text-muted",
         idname: "login",
         component: <CashoutComponent cashMode="Report" />,
@@ -601,12 +602,17 @@ export const levelPercent = (lvl) => {
 export const getEvent = () => {
   var now = moment().format("YYYYMMDDTHHmmss");
   var nowDay = moment(now).date();
-  if (nowDay <= 15) {
-    return "GPass";
-  } else if (nowDay <= 23) {
-    return "VIP";
+  var friDay = moment(now).day();
+  if (friDay == 5) {
+    return "Tournament";
   } else {
-    return "League";
+    if (nowDay <= 15) {
+      return "GPass";
+    } else if (nowDay <= 23) {
+      return "VIP";
+    } else {
+      return "League";
+    }
   }
 };
 export const haveAdmin = (userTags) => {

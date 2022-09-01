@@ -17,10 +17,14 @@ body {
   text-align: right;
   /* box-sizing: content-box */
 }
+*{outline-color: transparent !important; outline-width: 0px !important;outline-style: solid !important;}
 
-
+#menuleft.mm-menu--opened{
+  z-index: 1000 !important;
+  min-width: 250px !important;
+}
 .mm-panel:not(.mm-panel--opened) * {
-  display: none !important;
+
 
 }
 .giftsarea.mm-listitem {
@@ -934,6 +938,10 @@ a.mm-listitem__text {
 .animated.delay-nims {
   -webkit-animation-delay: 0.5s;
   animation-delay: 0.5s;
+}
+.animated.delay-02s {
+  -webkit-animation-delay: 0.2s;
+  animation-delay: 0.2s;
 }
 @keyframes charkhesh {
   0% {

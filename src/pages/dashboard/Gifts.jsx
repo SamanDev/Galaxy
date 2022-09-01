@@ -5,7 +5,9 @@ import $ from "jquery";
 import GiftsDesc from "../../utils/GiftsDesc";
 import AddCalendar from "../../utils/AddCalendar";
 import GalaxyIcon from "../../utils/svganim";
+import ConfettiArea from "../../utils/partymenu";
 import Moment from "react-moment";
+
 const moment = require("moment");
 const LevelList = () => {
   var _day = moment().day(5);
@@ -16,14 +18,15 @@ const LevelList = () => {
 
   return (
     <span className="myaccount popupmenu">
+      <ConfettiArea recycle={false} numberOfPieces="50" />
       <List divided inverted verticalAlign="middle" className="myaccount">
         <List.Item>
           <List.Content className="rtl text-center">
             <div>
               <GalaxyIcon
-                mode="tournament"
+                mode="gifts"
                 level="1"
-                text="Tournaments"
+                text="Gifts"
                 classinside="iconinside0"
                 number="1"
                 width="60px"
@@ -31,13 +34,6 @@ const LevelList = () => {
                 iconamin="swing inline animated"
               />
             </div>
-            <AddCalendar
-              start={nowDay}
-              dur="0"
-              repeat="WEEKLY"
-              format="2200"
-              title="GalaxyTournament"
-            />
           </List.Content>
         </List.Item>
 

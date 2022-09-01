@@ -52,12 +52,12 @@ const Banner = (prop) => {
             className="myaccount"
           >
             {prop.image && (
-              <div className="hiddenmenu delay-2s fadeInLeft">
+              <div className="animated delay-2s fadeInLeft">
                 <Image src={prop.image} rounded />
               </div>
             )}
-            <div className="inline hiddenmenu delay-1s fadeInLeft">
-              <div className={"inline hiddenmenu delay-2s " + prop.iconamin}>
+            <div className="inline animated delay-1s fadeInLeft">
+              <div className={"inline animated delay-2s " + prop.iconamin}>
                 <GalaxyIcon
                   mode={prop.icon}
                   level={prop.number}
@@ -65,25 +65,25 @@ const Banner = (prop) => {
                   className="bannericon"
                   classinside="iconinside2"
                   number={prop.number}
-                  amin={"inline hiddenmenu " + prop.amin}
+                  amin={"inline animated " + prop.amin}
                   width="12vw"
-                  iconamin={"inline hiddenmenu delay-2s " + prop.iconamin}
+                  iconamin={"inline animated delay-2s " + prop.iconamin}
                 />
               </div>
             </div>
           </Grid.Column>
           <Grid.Column mobile={16} tablet={8} computer={8} textAlign="right">
-            <div className="inline hiddenmenu fadeInRight backInLeft delay-nims fast">
-              <div className="inline hiddenmenu flash delay-3s">
+            <div className="inline animated fadeInRight backInLeft delay-nims fast">
+              <div className="inline animated flash delay-3s">
                 <h1 className="farsi">{prop.title}</h1>
               </div>
             </div>
-            <div className="farsi text  hiddenmenu fadeInRight fast delay-1s">
+            <div className="farsi text  animated fadeInRight fast delay-1s">
               {prop.text}
             </div>
 
             {prop.link && (
-              <div className="hiddenmenu delay-1s fadeInDown">
+              <div className="animated delay-1s fadeInDown">
                 <Button
                   className="farsi"
                   color="teal"
@@ -137,7 +137,7 @@ const Banner2 = (prop) => {
   );
 };
 var _width = document.body.clientWidth;
-
+var _event = getEvent();
 const Dashboard = (prop) => {
   const navigate = useNavigate();
   const handleCheckLogin = async () => {
@@ -147,7 +147,7 @@ const Dashboard = (prop) => {
   };
   const [curPage, setCurPage] = useState("dashboard");
   const [isFull, setIsFull] = useState(false);
-  var _event = getEvent();
+
   const [screenOrientation, setScreenOrientation] = useState(
     screen?.orientation?.type
   );
@@ -155,7 +155,7 @@ const Dashboard = (prop) => {
   const [gameLoader, setGameLoader] = useState(true);
   const params = useParams();
   const [activeIndex, setActiveIndex] = useState(0);
-  const [activeSlide, setActiveSlide] = useState(0);
+  const [activeSlide, setActiveSlide] = useState(1);
   const [gameOptions, setGameOptions] = useState([]);
   const [secondaryGame, setSecondaryGame] = useState(
     localStorage.getItem("secondaryGame")
@@ -206,22 +206,10 @@ const Dashboard = (prop) => {
     // }
   }, [screenOrientation]);
   useEffect(() => {
-    const myCarousel = document.getElementById("carouselExampleControls");
+    var myCarousel = document.getElementById("carouselExampleControls");
 
-    $(".banner:visible .hiddenmenu").toggleClass("hiddenmenu animated");
-    myCarousel.addEventListener("slide.bs.carousel", (event) => {
-      $(".banner:hidden .animated").toggleClass("hiddenmenu animated");
-      $(".banner:visible .hiddenmenu").toggleClass("hiddenmenu animated");
-      setActiveSlide(event.to);
-    });
     myCarousel.addEventListener("slid.bs.carousel", (event) => {
-      $(".banner:hidden .animated").toggleClass("hiddenmenu animated");
-      $(".banner:visible .hiddenmenu").toggleClass("hiddenmenu animated");
-      if (event.to != "0") {
-        setActiveSlide(event.to);
-      } else {
-        setActiveSlide(event.to);
-      }
+      //setActiveSlide(event.to);
     });
   }, []);
   const panes33 = [
@@ -380,23 +368,24 @@ const Dashboard = (prop) => {
               id="carouselExampleControls"
               className="carousel slide"
               data-bs-ride="carousel"
+              data-bs-pause="false"
             >
               <div className="carousel-inner">
                 <div
                   className={
                     activeSlide == 0 ? "carousel-item active" : "carousel-item"
                   }
-                  data-bs-interval="10000"
+                  data-bs-interval="1000"
                 >
-                  {activeSlide == 0 && (
+                  {activeSlide && (
                     <>
                       <Banner
                         title="هدیه گلکسی"
                         text="امشب ساعت ۲۲"
                         icon="gifts"
-                        amin="inline hiddenmenu swing "
+                        amin="inline animated swing "
                         iconamin="swing"
-                        link=".tournament"
+                        link=".giftarea"
                         {...prop}
                       />
 
@@ -408,15 +397,15 @@ const Dashboard = (prop) => {
                   className={
                     activeSlide == 1 ? "carousel-item active" : "carousel-item"
                   }
-                  data-bs-interval="10000"
+                  data-bs-interval="1000"
                 >
-                  {activeSlide == 1 && (
+                  {activeSlide && (
                     <>
                       <Banner
                         title="تورنومنت ۳۰+۳۰ میلیونی"
                         text="هر جمعه ساعت ۲۲"
                         icon="tournament"
-                        amin="inline hiddenmenu swing "
+                        amin="inline animated swing "
                         iconamin="swing"
                         link=".tournament"
                         {...prop}
@@ -431,16 +420,16 @@ const Dashboard = (prop) => {
                       ? "carousel-item active"
                       : "carousel-item"
                   }
-                  data-bs-interval="10000"
+                  data-bs-interval="1000"
                 >
-                  {activeSlide == 2 && (
+                  {activeSlide && (
                     <>
                       <Banner
                         title="۱۱۰ میلیون تومان"
                         text="پاداش گلکسی پَس"
                         link=".gpass"
                         icon="gpass"
-                        amin="hiddenmenu delay-1s charkhesh"
+                        amin="animated delay-1s charkhesh"
                         iconamin="pulse"
                         number="15"
                         {...prop}
@@ -455,16 +444,16 @@ const Dashboard = (prop) => {
                       ? "carousel-item active"
                       : "carousel-item"
                   }
-                  data-bs-interval="10000"
+                  data-bs-interval="1000"
                 >
-                  {activeSlide == 3 && (
+                  {activeSlide && (
                     <>
                       <Banner
                         title="۱۹۲ میلیون تومان"
                         text="پاداش VIP 25/50K"
                         link=".vip"
                         icon="vip"
-                        amin="inline hiddenmenu fast flipInY"
+                        amin="inline animated fast flipInY"
                         iconamin="pulse"
                         number=" "
                         {...prop}
@@ -479,9 +468,9 @@ const Dashboard = (prop) => {
                       ? "carousel-item active"
                       : "carousel-item"
                   }
-                  data-bs-interval="10000"
+                  data-bs-interval="1000"
                 >
-                  {activeSlide == 4 && (
+                  {activeSlide && (
                     <>
                       <Banner
                         title="۴۵ میلیون تومان"
@@ -490,7 +479,7 @@ const Dashboard = (prop) => {
                         icon="league"
                         level="big"
                         number="1"
-                        amin="inline hiddenmenu swing "
+                        amin="inline animated swing "
                         iconamin="swing"
                         {...prop}
                       />
@@ -502,16 +491,16 @@ const Dashboard = (prop) => {
                   className={
                     activeSlide == 5 ? "carousel-item active" : "carousel-item"
                   }
-                  data-bs-interval="10000"
+                  data-bs-interval="1000"
                 >
-                  {activeSlide == 5 && (
+                  {activeSlide && (
                     <>
                       <Banner
                         title="بیش از ۴ میلیارد"
                         text="پاداش افزایش لِوِل"
                         link=".levels"
                         icon="levels"
-                        amin="hiddenmenu delay-2s charkhesh"
+                        amin="animated delay-2s charkhesh"
                         iconamin="swing"
                         number="90"
                         {...prop}
@@ -520,7 +509,7 @@ const Dashboard = (prop) => {
                   )}
                 </div>
                 {_width > 500 && 1 == 2 && (
-                  <div className="carousel-item " data-bs-interval="100000">
+                  <div className="carousel-item " data-bs-interval="1000">
                     <Banner
                       image="/assets/images/calendar.gif"
                       title="بیش از ۵۰۰ میلیون"
@@ -567,9 +556,7 @@ const Dashboard = (prop) => {
                       as={Link}
                       to={"/games/" + game}
                       src={
-                        "https://galaxy10g.site/images/g/dfa/" +
-                        gameDataMainCode[i] +
-                        ".png"
+                        "/assets/images/games/" + gameDataMainCode[i] + ".jpg"
                       }
                       rounded
                       fluid
