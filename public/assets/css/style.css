@@ -183,12 +183,13 @@ a {
 }
 .mm-navbars:before {
   display: block;
-
-  height: 71px;
+  transform: scale(0.7);
+  height: 65px;
   position: relative;
 
   content: url(/assets/images/logo.png);
   text-align: center;
+ 
 }
 .mm-navbar__breadcrumbs {
   font-weight: 600;

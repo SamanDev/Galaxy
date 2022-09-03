@@ -43,9 +43,6 @@ const LevelList = () => {
       <>
         <ul className="mm-listview menutitle-view">
           <li className="menutitle mm-listitem"></li>
-          <li className="menutitle mm-listitem">
-            <span className="mm-listitem__text">آخرین جوایز</span>
-          </li>
         </ul>
 
         {Array.apply(0, Array(levelLeagueList.length)).map(function (x, i) {
@@ -75,7 +72,7 @@ const LevelList = () => {
               <span style={{ float: "left" }}>
                 <LevelIcon
                   mode="levels"
-                  level=""
+                  level="30"
                   text={_text}
                   classinside="iconinside0"
                   number=""

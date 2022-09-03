@@ -3,6 +3,7 @@ import AddToCalendarHOC from "react-add-to-calendar-hoc";
 import $ from "jquery";
 import { Button, Icon } from "semantic-ui-react";
 import Moment from "react-moment";
+import { doCurrency, levelDataInfo, dayOfTournament } from "../const";
 const moment = require("moment");
 moment.updateLocale("en", {
   relativeTime: {
@@ -35,7 +36,6 @@ var nowzne2 = "09220000";
 if (nowzne > nowzne1 && nowzne < nowzne2) {
   zones = "+04:30";
 }
-
 function getchatTime(date) {
   var thisDate2 = date;
   var dateExpired = moment(thisDate2).format("YYYYMMDDTHHmmss" + zones);
@@ -48,11 +48,10 @@ class Example extends React.Component {
     super(props);
   }
   componentDidMount() {
-    // this.clicklink();
+    //this.clicklink();
   }
-  clicklink = () => {
-    console.log($(".calbtn").length);
-    //$(".mm-panel--opened .calbtn").trigger("click");
+  clicklink = (args) => {
+    //$(".mm-panel--opened .calbtn").trigger("click").hide();
   };
   render() {
     var now = moment().format("YYYYMMDDTHHmmssZ");
@@ -60,80 +59,39 @@ class Example extends React.Component {
       .utc()
       .zone(zones)
       .format("YYYYMMDDTHHmmss" + zones);
+    const dayINeed = dayOfTournament; // for Thursday
+    const today = moment().isoWeekday();
 
-    var nowDay = moment(now).date();
-    var nowMonth = moment(now).month();
-    var start = parseInt(this.props.start);
-    var dur = parseInt(this.props.dur);
-    var dir = start - nowDay;
-    var end = start + dur;
-    var _next = false;
-    var _start = false;
-    var _finish = false;
-    var __start = moment(now)
-      .set({ date: start })
-      .format("YYYYMMDDT" + this.props.format + "00");
-
-    if (start <= nowDay) {
-      _start = true;
-    }
-    if (end - nowDay < 0) {
-      _finish = true;
-    }
-    if (dir < 0) {
-      _next = true;
-    }
-
-    if (end >= 31) {
-      var today = new Date();
-
-      end = 1;
-    }
-
-    var startDatetimeOld = getchatTime(__start);
-    if (_finish) {
-      //now = moment(now).add(1, "months").format("YYYYMMDDTHHmmssZ");
-      __start = moment(__start)
-        .set({ month: nowMonth + 1 })
-        .format("YYYYMMDDT" + this.props.format + "00");
-
-      _next = false;
-    }
-    var __end = moment(__start)
-      .set({ date: end })
-      .format("YYYYMMDDT" + this.props.format + "00");
-    var __endOld = moment(__end).format("YYYYMMDDT" + this.props.format + "00");
-    if (_next) {
-      __start = moment(__start)
-        .set({ month: nowMonth + 1 })
-        .format("YYYYMMDDT" + this.props.format + "00");
-    }
-
-    var __end = moment(__start)
-      .set({ date: end })
-      .format("YYYYMMDDT" + this.props.format + "00");
-
-    if (__end < __start) {
-      __end = moment(__start)
-        .set({ date: end, month: nowMonth + 1 })
-        .format("YYYYMMDDT" + this.props.format + "00");
-      __endOld = moment(__end).format("YYYYMMDDT" + this.props.format + "00");
+    // if we haven't yet passed the day of the week that I need:
+    if (today <= dayINeed) {
+      // then just give me this week's instance of that day
+      var start = moment(now).isoWeekday(dayINeed);
     } else {
-      //_next = true;
+      // otherwise, give me *next week's* instance of that same day
+      var start = moment(now).add(1, "weeks").isoWeekday(dayINeed);
     }
 
+    var __start = moment(start).format("YYYYMMDDT" + this.props.format + "00");
+    var __end = moment(__start).format("YYYYMMDDT" + this.props.end + "00");
+    if (now > __end) {
+      // otherwise, give me *next week's* instance of that same day
+      start = moment().add(1, "weeks").isoWeekday(dayINeed);
+      __start = moment(start).format("YYYYMMDDT" + this.props.format + "00");
+      __end = moment(__start).format("YYYYMMDDT" + this.props.end + "00");
+    }
     const duration = this.props.dur;
     var startTime = getchatTime(__start);
+    var startTimes = getchatTime(__end);
     var endTime = getchatTime(__end);
-    var endDatetimeOld = getchatTime(__endOld);
 
     const event = {
       duration,
       //endDatetime: endTime,
       repeat: this.props.repeat,
+
       timezone: "Asia/Tehran",
-      startDatetime: moment.parseZone(startTime).format("YYYYMMDDTHHmmss"),
-      endDatetime: moment.parseZone(endTime).format("YYYYMMDDTHHmmss"),
+      startDatetime: moment.parseZone(startTimes).format("YYYYMMDDTHHmmss"),
+      endDatetime: moment.parseZone(startTimes).format("YYYYMMDDTHHmmss"),
       title: this.props.title,
     };
 
@@ -173,9 +131,6 @@ class Example extends React.Component {
         </Button.Group>
       </>
     );
-    var a = moment(now).utc();
-    var b = moment(endDatetimeOld).utc();
-    // 86400000
 
     const ATCWrapper = (args) => (
       <>
@@ -189,45 +144,46 @@ class Example extends React.Component {
             <br />
             en: {moment(endTime).format("MM DD  HH:mm")}
             <br />
-            sO: {moment(startDatetimeOld).format("MM DD  HH:mm")}
-            <br />
-            eO: {moment(endDatetimeOld).format("MM DD  HH:mm")}
-            <br />
-            _next: {_next.toString()}
-            <br />
-            _start: {_start.toString()}
-            <br />
-            _finish: {_finish.toString()}
-            <br />
           </>
         )}
-
-        {((_next && a < b) || (_start && startTime < now)) && !_finish ? (
+        {now >= startTime && now < endTime ? (
           <>
-            <Moment
-              className="farsi-inline ui label green fluid"
-              to={endDatetimeOld}
-              filter={toEnd}
-              style={{ marginTop: 20 }}
-              onChange={(val) => {
-                console.log(val);
-              }}
+            <Button
+              fluid
+              style={{ margin: "10px 0" }}
+              className="farsi lh-lg"
+              color="red"
+              icon
             >
-              {now}
-            </Moment>
+              <Icon
+                name="calendar plus outline"
+                size="huge"
+                color="grey"
+                inverted
+              />
+              <div style={{ marginTop: 10 }}> ثبت نام در</div>
+
+              <div className="h4">تورنومنت</div>
+            </Button>
           </>
         ) : (
           <>
-            <Moment
-              className="farsi-inline ui label grey fluid"
-              fromNow
-              filter={toStart}
-              style={{ marginTop: 20 }}
-              onChange={(val) => {}}
+            <Button
+              fluid
+              style={{ margin: "10px 0" }}
+              className="farsi lh-lg"
+              color="grey"
+              icon
+              inverted
+              disabled
             >
-              {startTime}
-            </Moment>
+              <Icon name="clock outline" size="huge" color="grey" inverted />
 
+              <div style={{ marginTop: 10 }}>
+                <Moment fromNow>{startTimes}</Moment> تا{" "}
+              </div>
+              <div className="h4">شروع ثبت نام</div>
+            </Button>
             <Button
               onClick={args.onClick}
               color="red"

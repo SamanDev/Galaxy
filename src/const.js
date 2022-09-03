@@ -8,7 +8,7 @@ import PassList from "./pages/dashboard/GalaxyPass";
 import Commission from "./pages/dashboard/Commission";
 import VIP from "./pages/dashboard/VIP";
 import TopPlayers from "./pages/dashboard/TopPlayers";
-import KingOf from "./pages/dashboard/TopPlayers";
+import KingOf from "./pages/dashboard/KingOf";
 import League from "./pages/dashboard/League";
 import Tournament from "./pages/dashboard/Tournament";
 import Gift from "./pages/dashboard/Gifts";
@@ -44,8 +44,8 @@ export const levelDataInfo = [
   },
 ];
 
-export const gameDataMain = "poker".split(",");
-export const gameDataMainCode = "poker,b,c,bt".split(",");
+export const gameDataMain = "poker,bet,boom,backgammon".split(",");
+export const gameDataMainCode = "poker,bet,boom,backgammon".split(",");
 export const gameData =
   "blackjack3,blackjacks,roulette,roulette3D,baccarat,slotramses,slotfruits,jacksorbetter,deuceswild,wheeloffortune,slotarabian,highlow,slotsoccer,slotluckychristmas,caribbeanstud,slotspace".split(
     ","
@@ -501,7 +501,7 @@ function doCashout() {
 export const doCurrency = (value) => {
   return value?.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
 };
-
+export const dayOfTournament = 5;
 export const levelList =
   "1,5,15,30,50,100,200,300,400,500,600,700,800,900,1000,1200,1400,1600,1800,2000,2500,3000,3500,4000,4500,5000,6000,7000,8000,10000".split(
     ","
@@ -603,16 +603,13 @@ export const getEvent = () => {
   var now = moment().format("YYYYMMDDTHHmmss");
   var nowDay = moment(now).date();
   var friDay = moment(now).day();
-  if (friDay == 5) {
-    return "Tournament";
+
+  if (nowDay <= 15) {
+    return "GPass";
+  } else if (nowDay <= 23) {
+    return "VIP";
   } else {
-    if (nowDay <= 15) {
-      return "GPass";
-    } else if (nowDay <= 23) {
-      return "VIP";
-    } else {
-      return "League";
-    }
+    return "League";
   }
 };
 export const haveAdmin = (userTags) => {

@@ -5,7 +5,8 @@ import Balance from "./balance";
 import Login from "./login";
 
 const Leftcontent = (prop) => {
-  const [isUser, setIsUser] = useState(true);
+  const loginToken = JSON.parse(localStorage.getItem("loginToken"));
+  const [isUser, setIsUser] = useState(loginToken ? true : false);
   useEffect(() => {
     setIsUser(prop.isLogin);
   }, []);

@@ -8,6 +8,7 @@ import {
   haveAdmin,
   haveModerator,
   getEvent,
+  dayOfTournament,
 } from "./const";
 import { Link } from "react-router-dom";
 import { useIsLogin } from "./hook/authHook";
@@ -21,6 +22,8 @@ import ForgetArea from "./layouts/admin/auth/Forget";
 import GalaxyIcon from "./utils/svg";
 import ConfettiArea from "./utils/partyclick";
 import { Dimmer, Loader, Segment } from "semantic-ui-react";
+import Moment from "react-moment";
+const moment = require("moment");
 var menu = "no";
 var panelMenu = "no";
 var api;
@@ -29,6 +32,7 @@ const CompGen = (prop) => {
   return <>{prop.com}</>;
 };
 var _event = getEvent();
+var nowDay = moment().isoWeekday();
 const animateCSS = (element, animation, prefix = "") =>
   // We create a Promise and return it
   new Promise((resolve, reject) => {
@@ -244,9 +248,9 @@ function App(prop) {
                                 to={"/games/" + submenu.label}
                                 onClick={(e) => closeMenu()}
                                 src={
-                                  "https://galaxy10g.site/images/g/dfa/" +
+                                  "/assets/images/games/" +
                                   submenu.image +
-                                  ".png"
+                                  ".jpg"
                                 }
                                 fluid
                               />
@@ -322,8 +326,9 @@ function App(prop) {
                                   >
                                     <ConfettiArea
                                       active={
-                                        _event.toLowerCase() ==
-                                          submenu.idname.toLowerCase() &&
+                                        (_event.toLowerCase() ==
+                                          submenu.idname.toLowerCase() ||
+                                          dayOfTournament == nowDay) &&
                                         activeMenu == submenu.label
                                           ? true
                                           : false
@@ -555,7 +560,7 @@ function App(prop) {
             },
             page: {
               selector: "#root",
-              noSelector: "body",
+              noSelector: "[body]",
             },
           },
         }
@@ -695,7 +700,7 @@ function App(prop) {
         <nav id="panelright" className="fadeoutend">
           <ul>
             {panelData.map(function (menu, i) {
-              return doMenu(menu, i, "panel", isUser);
+              return doMenu(menu, i, "panel");
             })}
           </ul>
         </nav>

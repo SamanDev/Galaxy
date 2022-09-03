@@ -26,7 +26,7 @@ const LevelList = () => {
               <GalaxyIcon
                 mode="gifts"
                 level="1"
-                text="Gifts"
+                text="Galaxy Gifts"
                 classinside="iconinside0"
                 number="1"
                 width="60px"

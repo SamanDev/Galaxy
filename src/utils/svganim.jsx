@@ -542,6 +542,9 @@ const LevelIcon = (prop) => {
               }}
             />
           </span>
+          {prop.text != "big" && prop.text != "" && (
+            <div className="iconlabel">{prop.text}</div>
+          )}
         </div>
       </>
     );
@@ -689,6 +692,45 @@ const LevelIcon = (prop) => {
           <div className="iconlabel">{prop.text}</div>
         )}
       </div>
+    );
+  }
+  if (prop.mode == "kingof") {
+    var _txt = prop.number ? prop.number : prop.level;
+    var _class = "vipicon";
+    if (prop.text == "big") {
+      _class = _class + " big";
+    }
+
+    if (prop.amin) {
+      _class = _class + " " + prop.amin;
+    }
+    var _class2 = "";
+    if (prop.iconamin) {
+      _class2 = _class2 + " " + prop.iconamin.replace("charkhesh", "");
+    }
+    return (
+      <span onClick={prop.onClick} className="iconarea">
+        <span
+          className="inline animated  fadeIn"
+          style={{
+            width: prop.width,
+            height: "auto",
+            position: "relative",
+            zIndex: 1,
+          }}
+        >
+          <img
+            src={"/assets/images/svg/kingof/icon.svg"}
+            style={{
+              width: prop.width,
+              height: "auto",
+            }}
+          />
+        </span>
+        {prop.text != "big" && prop.text != "" && (
+          <div className="iconlabel">{prop.text}</div>
+        )}
+      </span>
     );
   }
   if (prop.mode == "topplayericon") {

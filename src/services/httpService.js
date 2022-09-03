@@ -10,7 +10,7 @@ function checkBlock(data) {
       if (!data.userBlock) {
         localStorage.setItem("loginToken", JSON.stringify(data));
       } else {
-        window.location = "/logout";
+        //window.location = "/logout";
       }
     }
   } else {
@@ -42,7 +42,7 @@ axios.interceptors.response.use(
   },
   (error) => {
     if (error.response.status == 401) {
-      window.location = "/logout";
+      //window.location = "/logout";
     }
     Alert(error.response.status, error.response.data.message, "error");
     return Promise.reject(error);

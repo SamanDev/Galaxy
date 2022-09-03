@@ -375,7 +375,7 @@ const Dashboard = (prop) => {
                   className={
                     activeSlide == 0 ? "carousel-item active" : "carousel-item"
                   }
-                  data-bs-interval="1000"
+                  data-bs-interval="6000"
                 >
                   {activeSlide && (
                     <>
@@ -397,7 +397,7 @@ const Dashboard = (prop) => {
                   className={
                     activeSlide == 1 ? "carousel-item active" : "carousel-item"
                   }
-                  data-bs-interval="1000"
+                  data-bs-interval="6000"
                 >
                   {activeSlide && (
                     <>
@@ -420,7 +420,7 @@ const Dashboard = (prop) => {
                       ? "carousel-item active"
                       : "carousel-item"
                   }
-                  data-bs-interval="1000"
+                  data-bs-interval="6000"
                 >
                   {activeSlide && (
                     <>
@@ -444,7 +444,7 @@ const Dashboard = (prop) => {
                       ? "carousel-item active"
                       : "carousel-item"
                   }
-                  data-bs-interval="1000"
+                  data-bs-interval="6000"
                 >
                   {activeSlide && (
                     <>
@@ -468,7 +468,7 @@ const Dashboard = (prop) => {
                       ? "carousel-item active"
                       : "carousel-item"
                   }
-                  data-bs-interval="1000"
+                  data-bs-interval="6000"
                 >
                   {activeSlide && (
                     <>
@@ -491,7 +491,7 @@ const Dashboard = (prop) => {
                   className={
                     activeSlide == 5 ? "carousel-item active" : "carousel-item"
                   }
-                  data-bs-interval="1000"
+                  data-bs-interval="6000"
                 >
                   {activeSlide && (
                     <>
@@ -509,7 +509,7 @@ const Dashboard = (prop) => {
                   )}
                 </div>
                 {_width > 500 && 1 == 2 && (
-                  <div className="carousel-item " data-bs-interval="1000">
+                  <div className="carousel-item " data-bs-interval="6000">
                     <Banner
                       image="/assets/images/calendar.gif"
                       title="بیش از ۵۰۰ میلیون"
