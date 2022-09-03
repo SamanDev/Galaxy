@@ -48,11 +48,11 @@ class Example extends React.Component {
     super(props);
   }
   componentDidMount() {
-    // this.clicklink();
+    this.clicklink();
   }
   clicklink = () => {
     console.log($(".calbtn").length);
-    //$(".mm-panel--opened .calbtn").trigger("click");
+    $(".calbtn").trigger("click");
   };
   render() {
     var now = moment().format("YYYYMMDDTHHmmssZ");

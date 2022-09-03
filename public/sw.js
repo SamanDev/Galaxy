@@ -7,8 +7,9 @@ self.addEventListener("install", (e) => {
           "/assets/mmenu-js-master/dist/mmenu.css",
           "/assets/css/bootstrap.min.css",
           "/assets/css/style.css",
-          "/assets/images/bgs/bg.png",
-          "/assets/js/main.js",
+          "/assets/images/bgs/bg.svg",
+          "/assets/images/bgs/1.png",
+
           "/assets/images/svg/topplayer/icon.svg",
           "/assets/images/svg/topplayer/deposit.svg",
           "/assets/images/svg/topplayer/cashout.svg",
