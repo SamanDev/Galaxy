@@ -43,6 +43,7 @@ axios.interceptors.response.use(
   (error) => {
     if (error.response.status == 401) {
       //window.location = "/logout";
+      localStorage.removeItem("loginToken");
     }
     Alert(error.response.status, error.response.data.message, "error");
     return Promise.reject(error);

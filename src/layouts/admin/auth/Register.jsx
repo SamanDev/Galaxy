@@ -69,7 +69,7 @@ const depositArea = (prop) => {
               padded="very"
               className="fadeout"
               style={{
-                paddingBottom: 200,
+                paddingBottom: 300,
 
                 boxShadow: "0 40px 50px rgba(81,88,95,.6549019607843137)",
               }}
@@ -78,7 +78,38 @@ const depositArea = (prop) => {
                 ثبت نام در گلکسی
               </Header>
               <Divider hidden />
-
+              <MyMsg
+                icon="sign language"
+                color="black"
+                text={
+                  <>
+                    از اینکه برای ایجاد کاربر در سایت گلکسی اقدام کردید بسیار
+                    سپاس گذاریم.
+                    {reffer && (
+                      <>
+                        <br />
+                        شما توسط کاربر {reffer} دعوت شده اید.
+                      </>
+                    )}
+                  </>
+                }
+              />
+              <Divider inverted />
+              <MyMsg
+                icon="info"
+                color="red"
+                text={
+                  <>
+                    لطفا فقط از حروف و عدد برای ایجاد نام کاربری استفاده کنید.
+                    <br />
+                    نام کاربری باید شامل حداقل 3 و حداکثر 12 کارکتر باشد. <br />
+                    <br />
+                    کلمه عبور به ایمیل شما ارسال خواهد شد. لطفا در وارد کردن آن
+                    دقت نمایید.
+                  </>
+                }
+              />
+              <Divider inverted />
               <AuthFormikControl
                 formik={formik}
                 control="input"
@@ -96,14 +127,6 @@ const depositArea = (prop) => {
                 label="ایمیل"
                 labelcolor={prop.labelcolor}
                 size={prop.size}
-              />
-
-              <Divider inverted />
-              <MyMsg
-                icon="info"
-                color="red"
-                text="کلمه عبور به ایمیل شما ارسال خواهد شد. لطفا در وارد کردن آن
-        دقت نمایید."
               />
 
               <Button

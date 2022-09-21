@@ -402,7 +402,7 @@ const Dashboard = (prop) => {
                   {activeSlide && (
                     <>
                       <Banner
-                        title="تورنومنت ۳۰+۳۰ میلیونی"
+                        title="تورنومنت ۲۵+۲۵ "
                         text="هر جمعه ساعت ۲۲"
                         icon="tournament"
                         amin="inline animated swing "
