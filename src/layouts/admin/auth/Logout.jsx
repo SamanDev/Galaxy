@@ -6,22 +6,22 @@ import { Alert } from "../../utils/alerts";
 
 const Logout = () => {
   const [loading, setLoading] = useState(true);
-  const handleLogout = async ()=>{
+  const handleLogout = async () => {
     try {
       const res = await logoutService();
       if (res.status == 200) {
         localStorage.removeItem("loginToken");
       } else {
-          Alert("متاسفم...!", res.data.message, "error");
+        Alert("متاسفم...!", res.data.message, "error");
       }
       setLoading(false);
     } catch (error) {
       setLoading(false);
       Alert("متاسفم...!", "متاسفانه مشکلی از سمت سرور رخ داده", "error");
     }
-  }
+  };
   useEffect(() => {
-    handleLogout()
+    handleLogout();
   }, []);
   return (
     <>

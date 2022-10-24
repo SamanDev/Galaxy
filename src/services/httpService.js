@@ -1,14 +1,19 @@
 import axios from "axios";
 import { Alert } from "../utils/alerts";
 import config from "./config.json";
-
+import UserWebsocket from ".//user.websocket";
 export const apiPath = config.onlinePath;
-function checkBlock(data) {
+export function checkBlock(data) {
   var loginToken = JSON.parse(localStorage.getItem("loginToken"));
   if (loginToken) {
     if (loginToken.username == data.username) {
       if (!data.userBlock) {
         localStorage.setItem("loginToken", JSON.stringify(data));
+
+        UserWebsocket.connect(
+          data.accessToken + "&user=" + data.username,
+          data
+        );
       } else {
         //window.location = "/logout";
       }
@@ -16,7 +21,10 @@ function checkBlock(data) {
   } else {
     if (!data.userBlock) {
       localStorage.setItem("loginToken", JSON.stringify(data));
+
+      UserWebsocket.connect(data.accessToken + "&user=" + data.username, data);
     } else {
+      UserWebsocket.connect();
       // window.location = "/";
     }
   }
@@ -44,14 +52,15 @@ axios.interceptors.response.use(
     if (error.response.status == 401) {
       //window.location = "/logout";
       localStorage.removeItem("loginToken");
+      UserWebsocket.connect();
     }
-    localStorage.removeItem("loginToken");
+
     Alert(error.response.status, error.response.data.message, "error");
     return Promise.reject(error);
   }
 );
 
-const httpService = (url, method, data = null) => {
+export const httpService = (url, method, data = null) => {
   const tokenInfo = JSON.parse(localStorage.getItem("loginToken"));
   return axios({
     url: apiPath + "/api" + url,
@@ -62,4 +71,3 @@ const httpService = (url, method, data = null) => {
     },
   });
 };
-export default httpService;

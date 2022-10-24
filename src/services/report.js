@@ -1,4 +1,4 @@
-import httpService from "./httpService";
+import { httpService } from "./httpService";
 
 export const getReportService = (id = null, mode = "", gateway = "") => {
   if (id) {

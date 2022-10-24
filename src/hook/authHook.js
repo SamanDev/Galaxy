@@ -9,15 +9,10 @@ export const useIsLogin = () => {
     try {
       const res = await getUserService();
       setIsLogin(res.status == 200 ? true : false);
-      if (res.status == 200 && res.data?.accessToken) {
-        UserWebsocket.connect(
-          res.data.accessToken + "&user=" + res.data.username,
-          res.data
-        );
-      }
 
       setLoading(false);
     } catch (error) {
+      UserWebsocket.connect();
       setIsLogin(false);
       setLoading(false);
     }
@@ -31,6 +26,7 @@ export const useIsLogin = () => {
     ) {
       handleCheckLogin();
     } else {
+      UserWebsocket.connect();
       setIsLogin(false);
       setLoading(false);
     }

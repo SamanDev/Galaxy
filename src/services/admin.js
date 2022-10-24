@@ -1,4 +1,4 @@
-import httpService from "./httpService";
+import { httpService } from "./httpService";
 export const adminGetService = (mode) => {
   return httpService("/admin/" + mode, "get");
 };

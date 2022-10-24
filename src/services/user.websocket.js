@@ -9,18 +9,19 @@ class UserWebsocket {
   connect(token, user) {
     //console.log(ws);
     if (token) {
-      ws2?.close();
-      ws2 = null;
-      if (ws == null) {
+      if (ws == null || ws == ws2) {
+        ws?.close();
+        ws2 = null;
         ws = new WebSocket(USERSOCKETURL + token);
         console.log("Websocket user is connected");
       }
     } else {
-      ws?.close();
-      ws = null;
       if (ws2 == null) {
+        ws?.close();
+        ws = null;
         ws2 = new WebSocket(USERSOCKETPUBLICURL);
         console.log("Websocket public is connected");
+        ws = ws2;
       }
     }
     //eventBus.dispatch("eventsConnect", "");
@@ -131,7 +132,7 @@ class UserWebsocket {
           if (ws2 == null && token) {
             eventBus.dispatch("eventsDC", "");
           }
-        }, 1000);
+        }, 100);
         //ws?.close();
         //ws = null;
         //  console.log(ws);

@@ -14,16 +14,20 @@ import {
 import { Link } from "react-router-dom";
 import { useIsLogin } from "./hook/authHook";
 import { useSiteInfo } from "./hook/infoHook";
-
+import { getUserService } from "./services/auth";
 import $ from "jquery";
 import { Route, Routes } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import LoginArea from "./layouts/admin/auth/Login.jsx";
 import RegisterArea from "./layouts/admin/auth/Register.jsx";
 import ForgetArea from "./layouts/admin/auth/Forget";
+import DCArea from "./layouts/admin/auth/dc.component";
 import GalaxyIcon from "./utils/svg";
 import ConfettiArea from "./utils/partyclick";
 import { Dimmer, Loader, Segment } from "semantic-ui-react";
+import UserWebsocket from "./services/user.websocket";
+import eventBus from "./services/eventBus";
+import { checkBlock } from "./services/httpService";
 import Moment from "react-moment";
 const moment = require("moment");
 var menu = "no";
@@ -58,9 +62,11 @@ const animateCSS = (element, animation, prefix = "") =>
   });
 function App(prop) {
   startServiceWorker();
+  const [refresh, setRefresh] = useState(false);
   const [loadingLogin, isLogin] = useIsLogin();
   const [loadingInfo, siteInfo] = useSiteInfo();
   const [isUser, setIsUser] = useState(false);
+  const [dcOpen, setDcOpen] = useState(false);
   const [firstOpen, setFirstOpen] = useState(false);
   const [secondOpen, setSecondOpen] = useState(false);
   const [thirdOpen, setThirdOpen] = useState(false);
@@ -498,6 +504,7 @@ function App(prop) {
     if (window.location.href.toString().indexOf("/logout") > -1) {
       setIsUser(false);
       localStorage.removeItem("loginToken");
+      UserWebsocket.connect();
       navigate("/");
       //window.location = "/";
     }
@@ -681,7 +688,33 @@ function App(prop) {
       setFirstOpen(!isUser);
     }
   }, [isUser]);
+  useEffect(() => {
+    eventBus.on("eventsDataUser", (dataGet) => {
+      setRefresh(true);
+      setTimeout(() => {
+        checkBlock(dataGet);
+        setRefresh(false);
+      }, 500);
+    });
+    eventBus.on("eventsDataUse2r", (dataGet) => {
+      setRefresh(true);
+      setTimeout(() => {
+        getUserService();
+        setRefresh(false);
+      }, 500);
+    });
 
+    eventBus.on("eventsDC", () => {
+      if (isLogin) {
+        setDcOpen(true);
+      } else {
+        setDcOpen(true);
+      }
+    });
+    eventBus.on("eventsConnect", () => {
+      setDcOpen(false);
+    });
+  }, []);
   if (loadingLogin) {
     return (
       <Dimmer active>
@@ -708,6 +741,27 @@ function App(prop) {
           </ul>
         </nav>
         <div className="App">
+          <Modal
+            basic
+            size="tiny"
+            closeOnEscape={false}
+            closeOnDimmerClick={false}
+            className="myaccount popupmenu  animated backInDown "
+            onClose={() => {
+              setDcOpen(false);
+            }}
+            onOpen={() => setDcOpen(true)}
+            open={dcOpen}
+          >
+            <DCArea
+              setDcOpen={setDcOpen}
+              isLogin={isUser}
+              loadingLogin={loadingLogin}
+              setIsUser={setIsUser}
+              size="small"
+              labelcolor="orange"
+            />
+          </Modal>
           <Modal
             basic
             size="tiny"
