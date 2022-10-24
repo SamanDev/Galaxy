@@ -9,10 +9,12 @@ import {
   haveModerator,
   getEvent,
   dayOfTournament,
+  startServiceWorker,
 } from "./const";
 import { Link } from "react-router-dom";
 import { useIsLogin } from "./hook/authHook";
 import { useSiteInfo } from "./hook/infoHook";
+
 import $ from "jquery";
 import { Route, Routes } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
@@ -55,6 +57,7 @@ const animateCSS = (element, animation, prefix = "") =>
     }
   });
 function App(prop) {
+  startServiceWorker();
   const [loadingLogin, isLogin] = useIsLogin();
   const [loadingInfo, siteInfo] = useSiteInfo();
   const [isUser, setIsUser] = useState(false);

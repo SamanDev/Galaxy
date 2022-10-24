@@ -69,7 +69,9 @@ const Report = (prop) => {
             if (item.status == "Pending" && i > 0) {
               canShowPending = false;
             }
-            var desc = JSON.parse(item.description);
+            try {
+              var desc = JSON.parse(item.description);
+            } catch (error) {}
 
             return (
               <List.Item key={i}>

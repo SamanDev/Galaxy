@@ -31,9 +31,7 @@ const depositArea = (prop) => {
       {prop.cashMode === "addCart" && (
         <AddCart size="mini" labelcolor="orange" list={true} />
       )}
-      {prop.cashMode === "addCart" && (
-        <AddCart size="mini" labelcolor="orange" list={true} />
-      )}
+
       {prop.cashMode === "ChangePass" && (
         <ChangePass size="mini" labelcolor="orange" list={true} />
       )}

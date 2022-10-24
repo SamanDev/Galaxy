@@ -45,6 +45,7 @@ axios.interceptors.response.use(
       //window.location = "/logout";
       localStorage.removeItem("loginToken");
     }
+    localStorage.removeItem("loginToken");
     Alert(error.response.status, error.response.data.message, "error");
     return Promise.reject(error);
   }
