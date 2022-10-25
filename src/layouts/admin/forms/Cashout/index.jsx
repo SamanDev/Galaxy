@@ -13,6 +13,7 @@ const selColBtn = "orange";
 const depositArea = (prop) => {
   const [depMode, setDepMode] = useState(false);
   const loginToken = JSON.parse(localStorage.getItem("loginToken"));
+
   return (
     <>
       <div id="dep1" className="deparea" style={{ margin: "5px 0" }}>

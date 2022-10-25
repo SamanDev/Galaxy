@@ -130,7 +130,7 @@ export const cashoutData = [
     value: "BTC",
     icon: "btc",
     limit: "$100 - $10K",
-    bonus: "-2%",
+    bonus: "- 2%",
   },
   {
     key: "USDT",
@@ -139,7 +139,7 @@ export const cashoutData = [
     value: "USDT",
     icon: "dollar",
     limit: "$100 - $10K",
-    bonus: "-2%",
+    bonus: "- 2%",
   },
 
   {
@@ -149,7 +149,7 @@ export const cashoutData = [
     value: "PerfectMoney",
     icon: "dollar",
     limit: "$100 - $10K",
-    bonus: "-2%",
+    bonus: "- 2%",
   },
 ];
 export const depositDataActive = [];
@@ -178,7 +178,6 @@ export const depositData = [
     value: "Bank Transfer",
     icon: "exchange",
     limit: "5M - 50M",
-    bonus: "+3%",
   },
   {
     key: "BTC",
@@ -187,7 +186,6 @@ export const depositData = [
     value: "BTC",
     icon: "btc",
     limit: "Unlimited",
-    bonus: "+10%",
   },
   {
     key: "USDT",
@@ -196,7 +194,6 @@ export const depositData = [
     value: "USDT",
     icon: "dollar",
     limit: "Unlimited",
-    bonus: "+5%",
   },
 
   {
@@ -214,7 +211,6 @@ export const depositData = [
     value: "PerfectMoney",
     icon: "dollar",
     limit: "Unlimited",
-    bonus: "+5%",
   },
 ];
 export const menuData = [
@@ -236,6 +232,56 @@ export const menuData = [
     icon: "fas fa-receipt ",
 
     submenu: doGame(),
+  },
+  {
+    label: "صندوق",
+    title: "صندوق",
+    aria: "cashierarea",
+    icon: "fas fa-dollar ",
+    submenu: [
+      {
+        label: "خرید چیپ",
+        title: "خرید چیپ",
+        icon: "fas fa-plus text-danger",
+        idname: "deposit",
+        aria: "giftsarea animated bounceIn delay-02s",
+        icongalaxy: "deposit",
+        submenu: doDeposit(),
+      },
+      {
+        label: "برداشت",
+        title: "برداشت",
+        aria: "giftsarea animated bounceIn delay-02s",
+        icon: "fas fa-dollar text-gold",
+        icongalaxy: "cashout",
+        submenu: doCashout(),
+      },
+      {
+        label: "انتقال",
+        title: "انتقال",
+        idname: "login",
+        getwaykey: "Transfer",
+        icon: "fas fa-exchange-alt",
+        icongalaxy: "topplayer",
+        aria: "giftsarea animated bounceIn delay-02s",
+        component: (
+          <FormComponent
+            mode="transfer"
+            size="mini"
+            labelcolor="orange"
+            gateway=""
+          />
+        ),
+      },
+      {
+        label: "تراکنش های مالی",
+        title: "تراکنش های مالی",
+        aria: "giftsarea animated bounceIn delay-02s",
+        icon: "fas fa-stream text-muted",
+        idname: "login",
+        component: <CashoutComponent cashMode="Report" />,
+      },
+    ],
   },
   {
     label: "جوایز و پاداش ها ",
@@ -292,7 +338,7 @@ export const menuData = [
         idname: "commission",
         icongalaxy: "commission",
         icon: "fas fa-heart red",
-
+        getwaykey: "Commission",
         aria: "giftsarea animated bounceIn delay-02s",
         component: <Commission mode="commission" />,
       },
@@ -303,6 +349,7 @@ export const menuData = [
         icongalaxy: "rakeback",
         icon: "fas fa-heart red",
         aria: "giftsarea animated bounceIn delay-02s",
+        getwaykey: "Rakeback",
         component: <Commission mode="rakeback" />,
       },
 
@@ -345,56 +392,6 @@ export const menuData = [
         icongalaxy: "kingof",
         aria: "giftsarea animated bounceIn delay-02s",
         component: <KingOf />,
-      },
-    ],
-  },
-  {
-    label: "صندوق",
-    title: "صندوق",
-    aria: "cashierarea",
-    icon: "fas fa-dollar ",
-    submenu: [
-      {
-        label: "خرید چیپ",
-        title: "خرید چیپ",
-        icon: "fas fa-plus text-danger",
-        idname: "deposit",
-        aria: "giftsarea animated bounceIn delay-02s",
-        icongalaxy: "deposit",
-        submenu: doDeposit(),
-      },
-      {
-        label: "برداشت",
-        title: "برداشت",
-        aria: "giftsarea animated bounceIn delay-02s",
-        icon: "fas fa-dollar text-gold",
-        icongalaxy: "cashout",
-        submenu: doCashout(),
-      },
-      {
-        label: "انتقال",
-        title: "انتقال",
-        idname: "login",
-        getwaykey: "Transfer",
-        icon: "fas fa-exchange-alt",
-        icongalaxy: "topplayer",
-        aria: "giftsarea animated bounceIn delay-02s",
-        component: (
-          <FormComponent
-            mode="transfer"
-            size="mini"
-            labelcolor="orange"
-            gateway=""
-          />
-        ),
-      },
-      {
-        label: "تراکنش های مالی",
-        title: "تراکنش های مالی",
-        aria: "giftsarea animated bounceIn delay-02s",
-        icon: "fas fa-stream text-muted",
-        idname: "login",
-        component: <CashoutComponent cashMode="Report" />,
       },
     ],
   },
@@ -500,7 +497,7 @@ function doGame() {
   return _games;
 }
 
-function doDeposit() {
+export function doDeposit() {
   var _games = [];
 
   {
@@ -511,7 +508,7 @@ function doDeposit() {
         title: game.text,
         helper: game.limit,
         getwaykey: game.getwaykey,
-        bonus: game.bonus,
+        bonus: "",
         icon: game.icon,
         idname: "login Deposit" + game.value,
         component: (

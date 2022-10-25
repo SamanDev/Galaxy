@@ -60,6 +60,19 @@ const animateCSS = (element, animation, prefix = "") =>
       // node.addEventListener("animationend", handleAnimationEnd, { once: true });
     }
   });
+function getBonus(gateway) {
+  try {
+    var loginToken = JSON.parse(localStorage.getItem("loginToken"));
+    var data_filter = loginToken.cashierGateways.filter(
+      (element) => element.name == gateway
+    );
+    var bonus = data_filter[0].bonus;
+  } catch (error) {
+    var bonus = 0;
+  }
+
+  return bonus;
+}
 function App(prop) {
   startServiceWorker();
   const [refresh, setRefresh] = useState(false);
@@ -227,6 +240,8 @@ function App(prop) {
                   {menu.helper}
                 </small>
               )}
+              {getBonus(menu.getwaykey) > 0 &&
+                (menu.bonus = "+" + getBonus(menu.getwaykey) + "%")}
               {menu.bonus && (
                 <small
                   className="ui red  mini floating label myfloatmenu"
@@ -301,6 +316,10 @@ function App(prop) {
                                 >
                                   {submenu.label}
                                 </span>
+                                {getBonus(submenu.getwaykey) > 0 &&
+                                  submenu.bonus.indexOf("-") == -1 &&
+                                  (submenu.bonus =
+                                    "+ " + getBonus(submenu.getwaykey) + "%")}
                                 {submenu.bonus && !submenu.helper ? (
                                   <small className="ui red  mini floating label myfloatmenu">
                                     {submenu.bonus}
@@ -312,11 +331,21 @@ function App(prop) {
                                         {submenu.helper}
                                       </small>
                                     )}
-                                    {submenu.bonus && (
-                                      <small className="ui red  mini floating label myfloatmenubonus">
-                                        {submenu.bonus}
-                                      </small>
-                                    )}
+                                    {submenu.bonus &&
+                                      submenu.bonus.indexOf("+") == -1 && (
+                                        <small className="ui red  mini floating label myfloatmenubonus">
+                                          {submenu.bonus}
+                                        </small>
+                                      )}
+                                    {submenu.bonus &&
+                                      submenu.bonus.indexOf("+") > -1 && (
+                                        <div
+                                          title={submenu.bonus + " بوناس"}
+                                          className="ui green  mini floating label myfloatmenubonus"
+                                        >
+                                          {submenu.bonus}
+                                        </div>
+                                      )}
                                   </>
                                 )}
                               </span>
@@ -404,45 +433,59 @@ function App(prop) {
     var userMethods = [
       {
         id: 1,
-        name: "PerfectMoney",
-        mode: "PerfectMoney",
-        active: true,
-      },
-      {
-        id: 8,
+        total: 0,
+        bonus: 10,
         name: "Bitcoin",
-        mode: "Bitcoin",
+        mode: "CoinPayments",
         active: true,
       },
       {
-        id: 9,
-        name: "USDT",
-        mode: "USDT",
-        active: true,
-      },
-      {
-        id: 6,
-        name: "Haft80",
-        mode: "IranShetab",
-        active: true,
-      },
-      {
-        id: 5,
-        name: "Hamrahcart",
+        id: 2,
+        total: 0,
+        bonus: 0,
+        name: "Digipay",
         mode: "IranShetab",
         active: true,
       },
 
       {
-        id: 2,
-        name: "Digipay",
-        mode: "IranShetab",
+        id: 7,
+        total: 0,
+        bonus: 0,
+        name: "Transfer",
+        mode: "Transfer",
+        active: true,
+      },
+      {
+        id: 8,
+        total: 0,
+        bonus: 0,
+        name: "Commission",
+        mode: "Commission",
+        active: true,
+      },
+      {
+        id: 9,
+        total: 0,
+        bonus: 5,
+        name: "PerfectMoney",
+        mode: "PerfectMoney",
         active: true,
       },
       {
         id: 10,
-        name: "Transfer",
-        mode: "Transfer",
+        total: 0,
+        bonus: 5,
+        name: "USDT",
+        mode: "CoinPayments",
+        active: true,
+      },
+      {
+        id: 11,
+        total: 0,
+        bonus: 0,
+        name: "Rakeback",
+        mode: "Rakeback",
         active: true,
       },
     ];

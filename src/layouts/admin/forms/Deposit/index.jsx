@@ -11,6 +11,44 @@ const selColBtn = "orange";
 const depositArea = (prop) => {
   const [depMode, setDepMode] = useState(false);
   const loginToken = JSON.parse(localStorage.getItem("loginToken"));
+  function getBonus(gateway) {
+    try {
+      var data_filter = loginToken.cashierGateways.filter(
+        (element) => element.name == gateway
+      );
+      var bonus = data_filter[0].bonus;
+    } catch (error) {
+      var bonus = 0;
+    }
+
+    return bonus;
+  }
+  var cData = [];
+  {
+    depositData.map(function (dep, i) {
+      if (getBonus(dep.getwaykey) > 0) {
+        cData.push({
+          key: dep.key,
+          getwaykey: dep.getwaykey,
+          text: dep.text,
+          value: dep.value,
+          icon: dep.icon,
+          limit: dep.limit,
+          bonus: "+ " + getBonus(dep.getwaykey) + "%",
+        });
+      } else {
+        cData.push({
+          key: dep.key,
+          getwaykey: dep.getwaykey,
+          text: dep.text,
+          value: dep.value,
+          icon: dep.icon,
+          limit: dep.limit,
+        });
+      }
+    });
+  }
+
   return (
     <>
       <div id="dep1" className="deparea" style={{ margin: "5px 0" }}>
@@ -19,7 +57,7 @@ const depositArea = (prop) => {
         </Header>
         <Divider inverted />
         <Button.Group size="mini" vertical labeled icon fluid>
-          {depositData.map(function (dep, i) {
+          {cData.map(function (dep, i) {
             if (prop.getAccess(dep.getwaykey)) {
               return (
                 <Button
@@ -46,7 +84,8 @@ const depositArea = (prop) => {
                   {dep.bonus && (
                     <Label
                       size="mini"
-                      color="red"
+                      color="green"
+                      title={dep.bonus + " بوناس"}
                       style={{ position: "absolute", top: 5, right: 100 }}
                     >
                       {dep.bonus}

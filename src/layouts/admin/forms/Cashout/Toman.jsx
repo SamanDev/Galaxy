@@ -37,15 +37,18 @@ const onSubmit = async (values, submitMethods, navigate, prop, setRefresh) => {
     if (res.status == 200) {
       if (res.data?.accessToken) {
         setRefresh(true);
+        Alert("Done", "انجام شد.", "success");
       }
     } else {
-      Alert("متاسفم...!", res.data.message, "error");
+      Alert("متاسفم...!", res.data, "error");
     }
+
     submitMethods.setSubmitting(false);
   } catch (error) {
     submitMethods.setSubmitting(false);
-
-    Alert("متاسفم...!", "متاسفانه مشکلی از سمت سرور رخ داده", "error");
+    var _err = error.response.data;
+    _err = _err.replace("balanceError", "موجودی کافی نیست.");
+    Alert("متاسفم...!", _err, "error");
   }
 };
 

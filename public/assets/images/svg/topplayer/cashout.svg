@@ -1,11 +1,10 @@
 <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" viewBox="0 0 512 512">
 
     <linearGradient id="vipfill" x1="0.5" y1="1" x2="0.5" y2="0" spreadMethod="pad" gradientUnits="objectBoundingBox" gradientTransform="translate(0 0)">
-        <stop offset="0%" stop-color="#cb9b51" />
-        <stop offset="26%" stop-color="#cb9b51" />
-        <stop offset="57.5619%" stop-color="#f6e27a" />
-        <stop offset="72.0083%" stop-color="#f6f2c0" />
-        <stop offset="100%" stop-color="#f6e27a" />
+        <stop offset="0%" stop-color="#fcf9ff" />
+        <stop offset="26%" stop-color="#fd1d1d" />
+
+        <stop offset="100%" stop-color="#fcb045" />
     </linearGradient>
     <g fill="url(#vipfill)">
 

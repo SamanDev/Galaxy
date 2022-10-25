@@ -20,7 +20,7 @@ const validationSchema = Yup.object({
 
   amountDollar: Yup.number()
     .required("لطفا این فیلد را وارد کنید.")
-    .min(100, "لطفا این فیلد را درست وارد کنید.")
+    .min(3, "لطفا این فیلد را درست وارد کنید.")
     .integer(),
 });
 const onSubmit = async (values, submitMethods, navigate, prop, setRefresh) => {

@@ -10,7 +10,6 @@ import BTC from "./BTC";
 import AddCartMsg from "./addCartMsg";
 
 const depositArea = (prop) => {
-  console.log(prop);
   const [depMode, setDepMode] = useState(prop.gateway);
   const loginToken = JSON.parse(localStorage.getItem("loginToken"));
   return (
