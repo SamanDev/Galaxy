@@ -12,6 +12,9 @@ export const adminPutService = (values, mode) => {
     ...values,
   });
 };
+export const adminPutServiceList = (values, mode) => {
+  return httpService("/admin/" + mode, "put", values);
+};
 export const getReportServiceAdmin = (mode) => {
   return httpService(`/req/${mode}`, "get");
 };

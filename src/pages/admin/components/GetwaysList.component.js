@@ -1,18 +1,19 @@
 import React, { useEffect, useState, useContext } from "react";
 import DataTable from "react-data-table-component";
 import {
-  Input,
   Segment,
   Button,
   Dimmer,
   Loader,
   Modal,
   Form,
+  Input,
 } from "semantic-ui-react";
 
 import Swal from "sweetalert2";
+
 import CheckboxToggle from "./toggle.component";
-import { adminGetService, adminPutService } from "../../../services/admin";
+import { adminGetService, adminPutServiceList } from "../../../services/admin";
 import { Alert } from "../../../utils/alerts";
 
 const noDataComponent = (
@@ -50,6 +51,42 @@ function Admin(prop) {
   const [getName, setGetName] = React.useState("");
   const [getMode, setGetMode] = React.useState("");
   const [loading, setLoading] = useState(false);
+  String.prototype.replaceAll = function (search, replacement) {
+    var target = this;
+    return target.replace(new RegExp(search, "g"), replacement);
+  };
+
+  String.prototype.toPersianCharacter = function () {
+    var string = this;
+
+    var obj = {
+      "١": "۱",
+      "٢": "۲",
+      "٣": "۳",
+      "٤": "۴",
+      "٥": "۵",
+      "٦": "۶",
+      "٧": "۷",
+      "٨": "۸",
+      "٩": "۹",
+      "٠": "۰",
+      "۱": "1",
+      "۲": "2",
+      "۳": "3",
+      "۴": "4",
+      "۵": "5",
+      "۶": "6",
+      "۷": "7",
+      "۸": "8",
+      "۹": "9",
+      "۰": "0",
+    };
+
+    Object.keys(obj).forEach(function (key) {
+      string = string.replaceAll(key, obj[key]);
+    });
+    return string;
+  };
 
   const handleGetGeteways = async () => {
     if (getGateways) {
@@ -115,10 +152,24 @@ function Admin(prop) {
     },
     {
       name: "Bonus",
-      selector: (row) => row.mode,
-      format: (row) => <Input value={"0"} onChange={updateUserObj} />,
+      selector: (row) => row.bonus,
+      format: (row) =>
+        row.mode == "CoinPayments" ||
+        row.mode == "PerfectMoney" ||
+        row.mode == "BankTransfer" ||
+        row.mode == "VisaGiftCode" ? (
+          <Input
+            name="bonus"
+            defaultValue={row.bonus}
+            id={"bonus" + row.id}
+            user={row}
+            onChange={updateUserObj}
+            style={{ width: "100px" }}
+          />
+        ) : null,
 
       sortable: true,
+      width: "300px",
     },
     {
       name: "Active",
@@ -127,8 +178,19 @@ function Admin(prop) {
         <CheckboxToggle
           check={row.active}
           user={row}
-          userkey="userActivate"
           onChange={updateUserObj}
+        />
+      ),
+      sortable: true,
+    },
+    {
+      name: "Delete",
+      selector: (row) => row.active,
+      format: (row) => (
+        <CheckboxToggle
+          check={row.active}
+          user={row}
+          onChange={updateUserObjDelete}
         />
       ),
       sortable: true,
@@ -162,25 +224,70 @@ function Admin(prop) {
       </>
     );
   }, []);
-  const updateUserObj = async (e, data) => {
-    var _key = data.userkey;
-    var curU = JSON.parse(JSON.stringify(data.user));
-    var values = { id: curU.id, key: _key, value: data.checked };
+  const updateUserObj = async (e, eData) => {
+    var newData = dataTransaction;
+    console.log(eData);
+    var curU = JSON.parse(JSON.stringify(eData.user));
+    if (eData.checked) {
+      curU.active = eData.checked;
+    }
+    if (eData.value) {
+      var _val = eData.value.toPersianCharacter();
+      var val = parseInt(_val);
+      if (val > 30) {
+        val = 30;
+      }
+      if (val === null || isNaN(val)) {
+        val = 0;
+      }
+      console.log(val);
 
+      curU.bonus = val;
+    }
+
+    for (var i = 0; i < newData.length; i++) {
+      if (newData[i].id === curU.id) {
+        newData[i] = curU;
+        break;
+      }
+    }
+    document.getElementById(eData.id).value = val;
     try {
-      const res = await adminPutService(values, "updateUserByAdmin");
+      const res = await adminPutServiceList(newData, "editGateways");
       if (res.status == 200) {
-        if (res.data?.address) {
-          setRefresh(true);
-        }
+        localStorage.setItem("getGateways", JSON.stringify(newData));
       } else {
         Alert("متاسفم...!", res.data.message, "error");
       }
     } catch (error) {
       Alert("متاسفم...!", "متاسفانه مشکلی از سمت سرور رخ داده", "error");
     }
+    console.log(newData);
   };
+  const updateUserObjDelete = async (e, eData) => {
+    var newData = dataTransaction;
 
+    var curU = JSON.parse(JSON.stringify(eData.user));
+
+    for (var i = 0; i < newData.length; i++) {
+      if (newData[i].id === curU.id) {
+        newData.splice(i, 1);
+        break;
+      }
+    }
+
+    try {
+      const res = await adminPutServiceList(newData, "editGateways");
+      if (res.status == 200) {
+        localStorage.setItem("getGateways", JSON.stringify(newData));
+      } else {
+        Alert("متاسفم...!", res.data.message, "error");
+      }
+    } catch (error) {
+      Alert("متاسفم...!", "متاسفانه مشکلی از سمت سرور رخ داده", "error");
+    }
+    console.log(newData);
+  };
   if (loading) {
     return (
       <>
@@ -230,7 +337,7 @@ function Admin(prop) {
         <DataTable
           data={dataTransaction}
           columns={columns}
-          defaultSortFieldId={1}
+          defaultSortFieldId={4}
           defaultSortAsc={false}
           title="Getways List"
           noDataComponent={noDataComponent}

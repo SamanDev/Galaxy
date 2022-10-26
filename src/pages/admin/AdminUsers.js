@@ -434,6 +434,9 @@ function Admin(prop) {
         <Button onClick={() => prop.addGatewayTabData("Gateways")}>
           Gateways
         </Button>
+        <Button onClick={() => prop.addSiteCartsTabData("SiteCarts")}>
+          Site Carts
+        </Button>
 
         <Button onClick={() => prop.addMainTabData("Runner")}>Runners</Button>
         <Button onClick={() => prop.addMainTabData("Bots")}>Bots</Button>

@@ -8,9 +8,9 @@ import {
   Divider,
 } from "semantic-ui-react";
 
-import LevelIcon from "../../utils/LevelIcon";
+import LevelIcon from "../../utils/svg";
 
-import { doCurrency, levelData, getEvent } from "../../const";
+import { doCurrency, levelData, getEvent, levelClassInside } from "../../const";
 const Balance = (prop) => {
   var lvlPercent = 0;
   var gLvlPercent = 0;
@@ -70,29 +70,28 @@ const Balance = (prop) => {
           }}
         >
           {stateMode == 0 && (
-            <LevelIcon
-              level={loginToken.level}
-              icon="star"
-              link
-              style={{
-                position: "relative",
-                textAlign: "center",
-                top: -3,
-              }}
-              onClick={() => {
-                prop.openPanel(".levels", "#lvl" + loginToken.level);
-              }}
-            />
+            <span style={{ top: -2, position: "relative" }}>
+              <LevelIcon
+                level={loginToken.level}
+                text=""
+                mode="levels"
+                classinside={levelClassInside(loginToken.level)}
+                number=""
+                width="30px"
+                onClick={() => {
+                  prop.openPanel(".levels", "#lvl" + loginToken.level);
+                }}
+              />
+            </span>
           )}
           {stateMode == 1 && _event == "GPass" && (
             <LevelIcon
-              icon="google"
+              mode="gpass"
               level={loginToken.glevel}
-              style={{
-                position: "relative",
-                textAlign: "center",
-                top: -3,
-              }}
+              classinside="iconinside0"
+              number={loginToken.glevel}
+              text=""
+              width="30px"
               onClick={() => {
                 prop.openPanel(".gpass", "#lvl" + loginToken.glevel);
               }}
@@ -100,14 +99,12 @@ const Balance = (prop) => {
           )}
           {stateMode == 1 && _event == "VIP" && (
             <LevelIcon
-              icon="vimeo v"
+              classinside="iconinside0"
+              number=""
+              text=""
+              width="30px"
               level={1}
-              number=" "
-              style={{
-                position: "relative",
-                textAlign: "center",
-                top: -3,
-              }}
+              mode="vip"
               onClick={() => {
                 prop.openPanel(".vip", "");
               }}
