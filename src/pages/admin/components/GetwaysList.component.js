@@ -8,6 +8,7 @@ import {
   Modal,
   Form,
   Input,
+  Icon,
 } from "semantic-ui-react";
 
 import Swal from "sweetalert2";
@@ -218,19 +219,15 @@ function Admin(prop) {
     });
   };
   const subHeaderComponentMemo = React.useMemo(() => {
-    return (
-      <>
-        <Button onClick={() => setFirstOpen(true)}>Add Getways</Button>
-      </>
-    );
+    return <></>;
   }, []);
   const updateUserObj = async (e, eData) => {
     var newData = dataTransaction;
     console.log(eData);
     var curU = JSON.parse(JSON.stringify(eData.user));
-    if (eData.checked) {
-      curU.active = eData.checked;
-    }
+
+    curU.active = eData.checked;
+
     if (eData.value) {
       var _val = eData.value.toPersianCharacter();
       var val = parseInt(_val);
@@ -251,7 +248,10 @@ function Admin(prop) {
         break;
       }
     }
-    document.getElementById(eData.id).value = val;
+    try {
+      document.getElementById(eData.id).value = val;
+    } catch (error) {}
+
     try {
       const res = await adminPutServiceList(newData, "editGateways");
       if (res.status == 200) {
@@ -334,15 +334,29 @@ function Admin(prop) {
         </Modal.Content>
       </Modal>
       <div style={{ height: "calc(100vh - 150px)", overflow: "auto" }}>
+        <h2>
+          <Icon
+            link
+            name="close"
+            onClick={() => {
+              prop.removeTabData("Gateways");
+            }}
+          />{" "}
+          Getways List
+          <Button
+            color="red"
+            onClick={() => setFirstOpen(true)}
+            style={{ float: "right" }}
+          >
+            Add Getways
+          </Button>
+        </h2>
         <DataTable
           data={dataTransaction}
           columns={columns}
           defaultSortFieldId={4}
           defaultSortAsc={false}
-          title="Getways List"
           noDataComponent={noDataComponent}
-          subHeader
-          subHeaderComponent={subHeaderComponentMemo}
           pagination
           paginationResetDefaultPage={resetPaginationToggle} // optionally, a hook to reset pagination to page 1
         />

@@ -28,7 +28,6 @@ function Admin(prop) {
               addMainTabData={addMainTabData}
               setGetwaysData={setGetwaysData}
               addGatewayTabData={addGatewayTabData}
-              addSiteCartsTabData={addSiteCartsTabData}
               removeTabData={removeTabData}
               search="username"
               searchValue=""
@@ -62,6 +61,7 @@ function Admin(prop) {
     ];
   }, []);
   useEffect(() => {
+    console.log(panes);
     if (activeIndex == 0) setTabData(panes);
     if (activeIndex == -1) {
       setActiveIndex(0);
@@ -150,34 +150,11 @@ function Admin(prop) {
           className="ui inverted segment"
           style={{ height: "calc(100vh - 150px)", overflow: "auto" }}
         >
-          <GetwaysList />
-        </Tab.Pane>
-      ),
-    });
-
-    panes = newPanes2;
-    setTabData(newPanes2);
-    setActiveIndex(newPanes2.length - 1);
-  };
-  const addSiteCartsTabData = (mode) => {
-    var newPanes1 = panes;
-    const result1 = newPanes1.filter(checkAdult1);
-
-    function checkAdult1(item) {
-      return item.pane.key != mode;
-    }
-
-    var newPanes2 = result1;
-
-    newPanes2.push({
-      menuItem: mode,
-      pane: (
-        <Tab.Pane
-          key={mode}
-          className="ui inverted segment"
-          style={{ height: "calc(100vh - 150px)", overflow: "auto" }}
-        >
-          <SiteCartsList />
+          {mode == "Gateways" ? (
+            <GetwaysList removeTabData={removeTabData} />
+          ) : (
+            <SiteCartsList removeTabData={removeTabData} />
+          )}
         </Tab.Pane>
       ),
     });

@@ -11,7 +11,17 @@ import {
   Message,
   Form,
 } from "semantic-ui-react";
-const InputF = ({ formik, type, name, icon, label, labelcolor, size }) => {
+const InputF = ({
+  formik,
+  type,
+  name,
+  icon,
+  label,
+  labelcolor,
+  size,
+  autoComplete,
+  maxLength,
+}) => {
   return (
     <Form as="div">
       {formik.errors[name] && formik.touched[name] && (
@@ -36,7 +46,13 @@ const InputF = ({ formik, type, name, icon, label, labelcolor, size }) => {
         >
           {label}
         </Label>
-        <FastField type={type} name={name} placeholder={name} />
+        <FastField
+          type={type}
+          name={name}
+          placeholder={name}
+          autoComplete={autoComplete}
+          maxLength={maxLength}
+        />
       </Form.Input>
     </Form>
   );

@@ -25,8 +25,10 @@ moment.updateLocale("en", {
   },
 });
 var SHARE_SITES = {
-  ICAL: "به تقویم من اضافه کن",
+  ICAL: "iCal",
+  GOOGLE: "Google",
 };
+var SHARE_SITES_ICON = ["Apple", "Google"];
 var zones = "+03:30";
 var nowzne = moment().format("MMDDHHmm");
 var nowzne1 = "03220000";
@@ -48,7 +50,7 @@ class Example extends React.Component {
     super(props);
   }
   componentDidMount() {
-    this.clicklink();
+    // this.clicklink();
   }
   clicklink = () => {
     console.log($(".calbtn").length);
@@ -58,7 +60,7 @@ class Example extends React.Component {
     var now = moment().format("YYYYMMDDTHHmmssZ");
     now = moment(now)
       .utc()
-      .zone(zones)
+      .utcOffset(zones)
       .format("YYYYMMDDTHHmmss" + zones);
 
     var nowDay = moment(now).date();
@@ -146,31 +148,21 @@ class Example extends React.Component {
 
     const ATCDropdown = (args) => (
       <>
-        <Button.Group
-          vertical
-          size="mini"
-          fluid
-          style={{
-            position: "relative",
-
-            zIndex: 10,
-          }}
-        >
-          {args.children.map((link, i) => (
-            <Button
-              key={i}
-              color="red"
-              icon
-              labelPosition="left"
-              fluid
-              className="farsi add-to-container"
-              style={{ margin: "10px 0" }}
-            >
-              <Icon name="calendar plus outline" />
-              {link}
-            </Button>
-          ))}
-        </Button.Group>
+        {args.children.map((link, i) => (
+          <Button
+            key={i}
+            color="red"
+            icon
+            labelPosition="left"
+            fluid
+            className="farsi add-to-container"
+            style={{ margin: "10px 0" }}
+            basic
+          >
+            <Icon size="large" name={SHARE_SITES_ICON[i].toLowerCase()} />
+            {link}
+          </Button>
+        ))}
       </>
     );
     var a = moment(now).utc();
@@ -215,6 +207,18 @@ class Example extends React.Component {
             >
               {now}
             </Moment>
+            <Button
+              onClick={args.onClick}
+              color="red"
+              icon
+              labelPosition="left"
+              fluid
+              className="farsi-inline calbtn hiddenmen2u"
+              style={{ margin: "10px 0" }}
+            >
+              <Icon size="large" name="calendar plus outline" />
+              به تقویم من اضافه کن
+            </Button>
           </>
         ) : (
           <>
@@ -234,10 +238,10 @@ class Example extends React.Component {
               icon
               labelPosition="left"
               fluid
-              className="farsi-inline calbtn hiddenmenu"
+              className="farsi-inline calbtn hiddenmen2u"
               style={{ margin: "10px 0" }}
             >
-              <Icon name="calendar plus outline" />
+              <Icon size="large" name="calendar plus outline" />
               به تقویم من اضافه کن
             </Button>
           </>
@@ -250,7 +254,7 @@ class Example extends React.Component {
       <AddToCalendarDropdown
         event={event}
         filename={event.title}
-        items={[SHARE_SITES.ICAL]}
+        items={[SHARE_SITES.ICAL, SHARE_SITES.GOOGLE]}
         linkProps={{
           className: "ui link",
         }}

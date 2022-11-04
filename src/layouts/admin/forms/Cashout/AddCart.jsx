@@ -17,7 +17,7 @@ const accsName = "shebaNumber,accountNumber".split(",");
 const accsNameHolder = "Sheba Number,Account Number".split(",");
 const carts = "شماره کارت,cvv2 کارت,ماه انقضاکارت,سال انقضا کارت".split(",");
 const cartsName = "cardNumber,cvv,monthno,yearno".split(",");
-const cartsNameHolder = "Cart Number,CVV2,Mount,Year".split(",");
+const cartsNameHolder = "Cart Number,CVV2,##,14##".split(",");
 const bankOptions = [];
 SelectB.map(function (bank, i) {
   bankOptions.push({ key: i, value: bank, text: bank });
@@ -182,6 +182,7 @@ const depositArea = (prop) => {
               size={prop.size}
               className="farsi"
               readOnly={_name}
+              autoComplete="name"
             />
             <FormikControl
               formik={formik}
@@ -192,6 +193,7 @@ const depositArea = (prop) => {
               size={prop.size}
               inputmode="numeric"
               readOnly={_name}
+              autoComplete="mobile"
             />
             <Divider inverted />
             <FormikControl
@@ -233,6 +235,7 @@ const depositArea = (prop) => {
                 control="input"
                 type="text"
                 name={accsName[i]}
+                autoComplete={accsName[i]}
                 placeholder={accsNameHolder[i]}
                 label={item}
                 labelcolor="yellow"
@@ -267,6 +270,7 @@ const depositArea = (prop) => {
                 control="input"
                 type="text"
                 name={cartsName[i]}
+                autoComplete={cartsName[i]}
                 placeholder={cartsNameHolder[i]}
                 label={item}
                 labelcolor="orange"

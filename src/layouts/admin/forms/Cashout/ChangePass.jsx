@@ -5,38 +5,50 @@ import { useNavigate } from "react-router-dom";
 import { Form, Formik } from "formik";
 import * as Yup from "yup";
 import { Alert } from "../../../../utils/alerts";
-
+import { forgetPasswordService } from "../../../../services/auth";
+import MyMsg from "../../../../utils/MsgDesc";
 import CashoutButton from "../../input/CashoutButton";
-const SelectB =
-  "بانک ملّی ایران,بانک اقتصاد نوین,بانک قرض‌الحسنه مهر ایران,بانک سپه,بانک پارسیان,بانک قرض‌الحسنه رسالت,بانک صنعت و معدن,بانک کارآفرین,بانک کشاورزی,بانک سامان,بانک مسکن,بانک سینا,بانک توسعه صادرات ایران,بانک خاور میانه,بانک توسعه تعاون,بانک شهر,پست بانک ایران,بانک دی,بانک صادرات,بانک ملت,بانک تجارت,بانک رفاه,بانک حکمت ایرانیان,بانک گردشگری,بانک ایران زمین,بانک قوامین,بانک انصار,بانک سرمایه,بانک پاسارگاد,بانک مشترک ایران-ونزوئلا".split(
-    ","
-  );
-const accs = "شماره شبا,شماره حساب".split(",");
-const accsName = "shebano,accountno".split(",");
-const accsNameHolder = "Sheba Number,Account Number".split(",");
-const carts = "شماره کارت,cvv2 کارت,ماه انقضاکارت,سال انقضا کارت".split(",");
-const cartsName = "cartno,cvv2,monthno,yearno".split(",");
-const cartsNameHolder = "Cart Number,CVV2,Mount,Year".split(",");
-const bankOptions = [];
-SelectB.map(function (bank, i) {
-  bankOptions.push({ key: i, value: bank, text: bank });
-});
+try {
+  const loginToken = JSON.parse(localStorage.getItem("loginToken"));
+  var _email = loginToken.email;
+} catch (error) {
+  var _email = "";
+}
+
 const initialValues = {
   password: "",
-  newpassword: "",
-  repeatnewpassword: "",
+  newPassword: "",
+  email: _email,
 };
 const validationSchema = Yup.object({
+  email: Yup.string()
+    .required("لطفا یک ایمیل معتبر وارد کنید.")
+    .email("لطفا یک ایمیل معتبر وارد کنید."),
   password: Yup.string()
-    .required("کلمه عبور حداقل باشد 6 کاراگتر باشد.")
-    .min(6, "کلمه عبور حداقل باشد 6 کاراگتر باشد."),
+    .required("کلمه عبور حداقل باشد 6 کاراکتر باشد.")
+    .min(6, "کلمه عبور حداقل باشد 6 کاراکتر باشد.")
+
+    .matches(/(?=.*\d)/, "کلمه عبور حتما باید شامل یک عدد باشد.")
+
+    .matches(/((?=.*[A-Z]){1})/, "کلمه عبور حتما باید شامل یک حرف بزرگ باشد.")
+    .matches(/(?=.*\W)/, "کلمه عبور حتما باید شامل علامت (?!@...) باشد."),
+  newPassword: Yup.string()
+
+    .required("کلمه عبور حداقل باشد 6 کاراکتر باشد.")
+
+    .oneOf([Yup.ref("password"), null], "کلمه های عبور باید مطابقت ندارند."),
 });
-const onSubmit = async (values, submitMethods, navigate) => {
+const onSubmit = async (values, submitMethods, prop) => {
   try {
-    const res = await loginService(values);
+    const res = await forgetPasswordService(values);
     if (res.status == 200) {
-      localStorage.setItem("loginToken", JSON.stringify(res.data));
-      navigate("/");
+      if (res.data == "Waiting...") {
+        Alert(
+          "",
+          "لینک تایید تغییر کلمه عبور به ایمیل شما ارسال گردید. پس از کلیک روی آن کلمه عبور شما تغییر خواهد کرد.",
+          "success"
+        );
+      }
     } else {
       Alert("متاسفم...!", res.data.message, "error");
     }
@@ -49,9 +61,14 @@ const onSubmit = async (values, submitMethods, navigate) => {
 
 const depositArea = (prop) => {
   const [depMode, setDepMode] = useState(false);
-  const navigate = useNavigate();
   return (
-    <Formik initialValues={initialValues} validationSchema={validationSchema}>
+    <Formik
+      initialValues={initialValues}
+      validationSchema={validationSchema}
+      onSubmit={(values, submitMethods) =>
+        onSubmit(values, submitMethods, prop)
+      }
+    >
       {(formik) => {
         return (
           <Form>
@@ -59,33 +76,38 @@ const depositArea = (prop) => {
               formik={formik}
               control="input"
               type="password"
-              name="newpassword"
-              label="کلمه عبور جدید"
-              labelcolor={prop.labelcolor}
-              size={prop.size}
-            />
-            <FormikControl
-              formik={formik}
-              control="input"
-              type="password"
-              name="repeatnewpassword"
-              label="تکرار کلمه عبور"
-              labelcolor={prop.labelcolor}
-              size={prop.size}
-            />
-
-            <Divider inverted />
-            <FormikControl
-              formik={formik}
-              control="input"
-              type="password"
               name="password"
-              label="کلمه عبور فعلی"
-              labelcolor="red"
+              label="کلمه عبور جدید"
+              autoComplete="new-password"
+              labelcolor={prop.labelcolor}
               size={prop.size}
             />
-
-            <CashoutButton val="ثبت" color="olive" />
+            <FormikControl
+              formik={formik}
+              control="input"
+              type="password"
+              name="newPassword"
+              label="تکرار کلمه عبور"
+              autoComplete="new-password"
+              labelcolor={prop.labelcolor}
+              size={prop.size}
+            />
+            <Divider inverted />
+            <MyMsg
+              icon="unlock"
+              color="red"
+              text="لینک  تایید به ایمیل شما ارسال خواهد شد. پس از کلیک روی آن کلمه عبور شما تفییر خواهد کرد."
+            />
+            <CashoutButton
+              content="ارسال لینک  تایید"
+              fluid
+              style={{ margin: "10px 0" }}
+              className="farsi"
+              type="submit"
+              color="olive"
+              disabled={formik.isSubmitting}
+              loading={formik.isSubmitting}
+            />
           </Form>
         );
       }}

@@ -20,13 +20,6 @@ const conditionalRowStyles = [
       backgroundColor: "rgba(0,0,255,.1)",
     },
   },
-  // You can also pass a callback to style for additional customization
-  {
-    when: (row) => row.active,
-    style: {
-      backgroundColor: "rgba(0,255,0,.1)",
-    },
-  },
 ];
 const noDataComponent = (
   <div
@@ -198,23 +191,6 @@ function Admin(prop) {
     },
 
     {
-      name: "status",
-      selector: (row) => row.active,
-      format: (row) => (
-        <>
-          <CheckboxToggle
-            check={row.active}
-            user={row}
-            userkey="cartBlock"
-            onChange={updateUserObj}
-          />
-        </>
-      ),
-      sortable: true,
-      width: "80px",
-    },
-
-    {
       name: "Info",
       selector: (row) => row.cardNumber,
       format: (row) => (
@@ -246,6 +222,23 @@ function Admin(prop) {
         <div className="blacktext">{convertDateToJalali(row.createDate)}</div>
       ),
       sortable: true,
+      width: "200px",
+    },
+    {
+      name: "status",
+      selector: (row) => row.active,
+      format: (row) => (
+        <>
+          <CheckboxToggle
+            check={row.active}
+            user={row}
+            userkey="cartBlock"
+            onChange={updateUserObj}
+          />
+        </>
+      ),
+      sortable: true,
+      width: "100px",
     },
     {
       name: "Delete",
@@ -294,8 +287,24 @@ function Admin(prop) {
         className="reportTable"
         style={{ height: "calc(100vh - 250px)", overflow: "auto" }}
       >
+        <h2>
+          <Icon
+            link
+            name="close"
+            onClick={() => {
+              prop.removeTabData("SiteCarts");
+            }}
+          />{" "}
+          Site Carts List
+          <Button
+            color="red"
+            onClick={() => setFirstOpen(true)}
+            style={{ float: "right" }}
+          >
+            Add New Cart
+          </Button>
+        </h2>
         <DataTable
-          title="CartList"
           columns={columns}
           data={filteredItems}
           progressPending={loading}
@@ -307,8 +316,6 @@ function Admin(prop) {
           noDataComponent={noDataComponent}
           pagination
           paginationResetDefaultPage={resetPaginationToggle} // optionally, a hook to reset pagination to page 1
-          subHeader
-          subHeaderComponent={subHeaderComponentMemo}
           persistTableHead
           paginationRowsPerPageOptions={[10, 25, 50, 100, 500]}
         />

@@ -366,7 +366,9 @@ function App(prop) {
                                       active={
                                         (_event.toLowerCase() ==
                                           submenu.idname.toLowerCase() ||
-                                          dayOfTournament == nowDay) &&
+                                          (dayOfTournament == nowDay &&
+                                            submenu.idname.toLowerCase() ==
+                                              "tournament")) &&
                                         activeMenu == submenu.label
                                           ? true
                                           : false

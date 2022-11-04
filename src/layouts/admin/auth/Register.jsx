@@ -31,9 +31,14 @@ const initialValues = {
 };
 const validationSchema = Yup.object({
   username: Yup.string()
-    .required("نام کاربری حداقل باشد 3 کاراگتر باشد.")
-    .min(3, "نام کاربری حداقل باشد 3 کاراگتر باشد.")
-    .max(12, "نام کاربری حداکثر باشد 12 کاراگتر باشد."),
+
+    .required("نام کاربری حداقل باشد 3 کاراکتر باشد.")
+    .min(3, "نام کاربری حداقل باشد 3 کاراکتر باشد.")
+    .max(12, "نام کاربری حداکثر باشد 12 کاراکتر باشد.")
+    .matches(
+      /^[a-zA-Z0-9]+$/,
+      "نام کاربری فقط می تواند شامل حروف لاتین و اعداد باشد."
+    ),
   email: Yup.string()
     .required("لطفا یک ایمیل معتبر وارد کنید.")
     .email("لطفا یک ایمیل معتبر وارد کنید."),
@@ -118,6 +123,8 @@ const depositArea = (prop) => {
                 label="نام کاربری"
                 labelcolor={prop.labelcolor}
                 size={prop.size}
+                maxLength="12"
+                autoComplete="username"
               />
               <AuthFormikControl
                 formik={formik}
@@ -127,6 +134,7 @@ const depositArea = (prop) => {
                 label="ایمیل"
                 labelcolor={prop.labelcolor}
                 size={prop.size}
+                autoComplete="email"
               />
 
               <Button

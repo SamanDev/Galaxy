@@ -11,7 +11,7 @@ export const registerService = (values) => {
   });
 };
 export const forgetPasswordService = (values) => {
-  return httpService("/auth/forgetPassword", "post", {
+  return httpService("/auth/forgetPassword", "put", {
     ...values,
   });
 };

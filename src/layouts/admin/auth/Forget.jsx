@@ -28,16 +28,30 @@ const validationSchema = Yup.object({
     .required("لطفا یک ایمیل معتبر وارد کنید.")
     .email("لطفا یک ایمیل معتبر وارد کنید."),
   password: Yup.string()
-    .required("کلمه عبور حداقل باشد 6 کاراگتر باشد.")
-    .min(6, "کلمه عبور حداقل باشد 6 کاراگتر باشد."),
+    .required("کلمه عبور حداقل باشد 6 کاراکتر باشد.")
+    .min(6, "کلمه عبور حداقل باشد 6 کاراکتر باشد.")
+
+    .matches(/(?=.*\d)/, "کلمه عبور حتما باید شامل یک عدد باشد.")
+
+    .matches(/((?=.*[A-Z]){1})/, "کلمه عبور حتما باید شامل یک حرف بزرگ باشد.")
+    .matches(/(?=.*\W)/, "کلمه عبور حتما باید شامل علامت (?!@...) باشد."),
   newPassword: Yup.string()
-    .required("کلمه عبور حداقل باشد 6 کاراگتر باشد.")
-    .min(6, "کلمه عبور حداقل باشد 6 کاراگتر باشد."),
+
+    .required("کلمه عبور حداقل باشد 6 کاراکتر باشد.")
+
+    .oneOf([Yup.ref("password"), null], "کلمه های عبور باید مطابقت ندارند."),
 });
 const onSubmit = async (values, submitMethods, navigate) => {
   try {
     const res = await forgetPasswordService(values);
     if (res.status == 200) {
+      if (res.data == "Waiting...") {
+        Alert(
+          "",
+          "لینک تایید تغییر کلمه عبور به ایمیل شما ارسال گردید. پس از کلیک روی آن کلمه عبور شما تغییر خواهد کرد.",
+          "success"
+        );
+      }
     } else {
       Alert("متاسفم...!", res.data.message, "error");
     }
@@ -84,6 +98,7 @@ const depositArea = (prop) => {
                 name="email"
                 label="ایمیل"
                 labelcolor="orange"
+                autoComplete="email"
                 size={prop.size}
               />
               <Divider inverted />
@@ -92,6 +107,7 @@ const depositArea = (prop) => {
                 control="input"
                 type="password"
                 name="password"
+                autoComplete="new-password"
                 label=" کلمه عبور جدید"
                 labelcolor={prop.labelcolor}
                 size={prop.size}
@@ -103,6 +119,7 @@ const depositArea = (prop) => {
                 name="newPassword"
                 label="تکرار کلمه عبور"
                 labelcolor={prop.labelcolor}
+                autoComplete="new-password"
                 size={prop.size}
               />
               <Divider inverted />

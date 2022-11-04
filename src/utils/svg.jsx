@@ -704,6 +704,16 @@ const LevelIcon = (prop) => {
           className={"levelicon " + _class}
         >
           <svg viewBox="0 0 100 100">
+            <defs>
+              <mask id={"fillMask" + _id + "2"} width="100" height="100">
+                <image
+                  xlinkHref="/assets/images/svg/level/icon.svg"
+                  src="ppngfallback.png"
+                  width="100"
+                  height="100"
+                />
+              </mask>
+            </defs>
             <rect
               width="100"
               height="100"

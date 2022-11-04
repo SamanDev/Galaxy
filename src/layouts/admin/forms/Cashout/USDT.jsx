@@ -40,8 +40,8 @@ const validationSchema = Yup.object({
     .required("لطفا این فیلد را وارد کنید.")
     .min(10, "لطفا این فیلد را درست وارد کنید."),
   password: Yup.string()
-    .required("کلمه عبور حداقل باشد 6 کاراگتر باشد.")
-    .min(6, "کلمه عبور حداقل باشد 6 کاراگتر باشد."),
+    .required("کلمه عبور حداقل باشد 6 کاراکتر باشد.")
+    .min(6, "کلمه عبور حداقل باشد 6 کاراکتر باشد."),
 });
 const onSubmit = async (values, submitMethods, navigate, prop, setRefresh) => {
   try {
