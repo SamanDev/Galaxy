@@ -65,6 +65,7 @@ const depositArea = (prop) => {
               label="Visa Gift Code"
               labelcolor={prop.labelcolor}
               size={prop.size}
+              autoComplete="off"
             />
 
             <DepositButton

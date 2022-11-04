@@ -26,18 +26,18 @@ const validationSchema = Yup.object({
   username: Yup.string()
     .required("نام کاربری حداقل باشد 3 کاراکتر باشد.")
     .min(3, "نام کاربری حداقل باشد 3 کاراکتر باشد.")
-    .max(12, "نام کاربری حداکثر باشد 12 کاراکتر باشد.")
-    .matches(
-      /^[a-zA-Z0-9]+$/,
-      "نام کاربری فقط می تواند شامل حروف لاتین و اعداد باشد."
-    ),
+    .max(12, "نام کاربری حداکثر باشد 12 کاراکتر باشد."),
+
   password: Yup.string()
     .required("کلمه عبور حداقل باشد 6 کاراکتر باشد.")
     .min(6, "کلمه عبور حداقل باشد 6 کاراکتر باشد."),
 });
 const onSubmit = async (values, submitMethods, navigate, prop) => {
   try {
-    const res = await loginService(values);
+    var _newValues = values;
+    _newValues.username = _newValues.username.trim();
+
+    const res = await loginService(_newValues);
     if (res.status == 200) {
       if (res.data.accessToken) {
         if (res.data.userBlock) {

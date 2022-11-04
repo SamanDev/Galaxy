@@ -92,6 +92,7 @@ const depositArea = (prop) => {
               labelcolor="red"
               size={prop.size}
               autoFocus
+              autoComplete="btc-wallet"
             />
             <span style={{ position: "absolute", opacity: 0, zIndex: -1 }}>
               <FormikControl
@@ -113,7 +114,7 @@ const depositArea = (prop) => {
               label=" کلمه عبور"
               labelcolor="red"
               size={prop.size}
-              autoComplete="off"
+              autoComplete="password"
             />
 
             <CashoutButton

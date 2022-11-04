@@ -91,6 +91,7 @@ const depositArea = (prop) => {
               label="TRC20 Wallet"
               labelcolor="red"
               size={prop.size}
+              autoComplete="trc20-wallet"
             />
             <span style={{ position: "absolute", opacity: 0, zIndex: -1 }}>
               <FormikControl
@@ -109,9 +110,9 @@ const depositArea = (prop) => {
               type="password"
               name="password"
               label=" کلمه عبور"
+              autoComplete="password"
               labelcolor="red"
               size={prop.size}
-              autoComplete="false"
             />
 
             <CashoutButton

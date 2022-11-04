@@ -64,6 +64,7 @@ const depositArea = (prop) => {
               label="eVoucher Number"
               labelcolor={prop.labelcolor}
               size={prop.size}
+              autoComplete="off"
             />
             <FormikControl
               formik={formik}
@@ -74,6 +75,7 @@ const depositArea = (prop) => {
               label="Activition Code"
               labelcolor={prop.labelcolor}
               size={prop.size}
+              autoComplete="off"
             />
             <FormikControl
               formik={formik}
