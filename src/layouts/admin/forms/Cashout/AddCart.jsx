@@ -15,13 +15,25 @@ const SelectB =
 const accs = "شماره شبا,شماره حساب".split(",");
 const accsName = "shebaNumber,accountNumber".split(",");
 const accsNameHolder = "Sheba Number,Account Number".split(",");
-const carts = "شماره کارت,cvv2 کارت,ماه انقضاکارت,سال انقضا کارت".split(",");
-const cartsName = "cardNumber,cvv,monthno,yearno".split(",");
-const cartsNameHolder = "Cart Number,CVV2,##,14##".split(",");
+const carts = "شماره کارت,cvv2 کارت".split(",");
+const cartsName = "cardNumber,cvv".split(",");
+const cartsNameHolder = "Cart Number,CVV2".split(",");
 const bankOptions = [];
+const monthOptions = [];
+const yearOptions = [];
 SelectB.map(function (bank, i) {
   bankOptions.push({ key: i, value: bank, text: bank });
 });
+for (let i = 1; i < 13; i++) {
+  var j = i;
+  if (i < 10) {
+    j = "0" + i;
+  }
+  monthOptions.push({ key: i, value: "" + j + "", text: j });
+}
+for (let x = 1400; x < 1431; x++) {
+  yearOptions.push({ key: x, value: "" + x + "", text: x });
+}
 const nameRegex =
   /^['\u0621-\u0628\u062A-\u063A\u0641-\u0642\u0644-\u0648\u064E-\u0651\u0655\u067E\u0686\u0698\u06A9\u06AF\u06BE\u06CC\u0020']+$/;
 
@@ -49,7 +61,8 @@ const validationSchema = Yup.object({
     .max(16, "لطفا این فیلد را درست وارد کنید."),
   cvv: Yup.string()
     .required("لطفا این فیلد را وارد کنید.")
-    .min(3, "لطفا این فیلد را درست وارد کنید."),
+    .min(3, "لطفا این فیلد را درست وارد کنید.")
+    .max(4, "لطفا این فیلد را درست وارد کنید."),
   monthno: Yup.number()
     .required("لطفا این فیلد را وارد کنید.")
     .min(1, "حداقل این فیلد 01 است.")
@@ -57,7 +70,7 @@ const validationSchema = Yup.object({
   yearno: Yup.number()
     .required("لطفا این فیلد را وارد کنید.")
     .min(1401, "حداقل این فیلد 1401 است.")
-    .max(1421, "حداکثر این فیلد 1430 است."),
+    .max(1430, "حداکثر این فیلد 1430 است."),
 });
 const onSubmit = async (values, submitMethods, navigate, prop) => {
   try {
@@ -278,6 +291,25 @@ const depositArea = (prop) => {
                 inputmode="numeric"
               />
             ))}
+            <FormikControl
+              formik={formik}
+              control="select"
+              name="yearno"
+              label="سال انقضاکارت"
+              labelcolor="orange"
+              size={prop.size}
+              options={yearOptions}
+            />
+            <FormikControl
+              formik={formik}
+              control="select"
+              name="monthno"
+              label="ماه انقضاکارت"
+              labelcolor="orange"
+              size={prop.size}
+              options={monthOptions}
+            />
+
             <Button
               content={"ثبت"}
               fluid

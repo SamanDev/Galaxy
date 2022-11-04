@@ -87,7 +87,7 @@ const depositArea = (prop) => {
               labelcolor="black"
               size={prop.size}
               label="انتقال به کاربر"
-              autoComplete="off"
+              autoComplete="receiver"
             />
             <span style={{ position: "absolute", opacity: 0, zIndex: -1 }}>
               <FormikControl
@@ -109,7 +109,7 @@ const depositArea = (prop) => {
               label=" کلمه عبور"
               labelcolor="red"
               size={prop.size}
-              autoComplete="off"
+              autoComplete="password"
             />
 
             <CashoutButton

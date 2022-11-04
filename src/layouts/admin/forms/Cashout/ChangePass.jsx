@@ -99,7 +99,7 @@ const depositArea = (prop) => {
               text="لینک  تایید به ایمیل شما ارسال خواهد شد. پس از کلیک روی آن کلمه عبور شما تفییر خواهد کرد."
             />
             <CashoutButton
-              content="ارسال لینک  تایید"
+              val={"ارسال لینک  تایید"}
               fluid
               style={{ margin: "10px 0" }}
               className="farsi"
