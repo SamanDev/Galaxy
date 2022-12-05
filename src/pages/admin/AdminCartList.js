@@ -17,7 +17,7 @@ import Moment from "react-moment";
 import { convertDateToJalali } from "../../utils/convertDate";
 import { adminPostService } from "../../services/admin";
 import ActionBtn from "../../utils/actionBtn";
-import ConvertCart from "../../utils/convertCart";
+import CartFormat from "../../utils/CartFormat";
 import AmountColor from "../../utils/AmountColor";
 import CurrencyInput from "react-currency-input-field";
 import { addDays } from "date-fns";
@@ -228,17 +228,7 @@ function Admin(prop) {
     {
       name: "Info",
       selector: (row) => row.cardNumber,
-      format: (row) => (
-        <div className="farsi" style={{ padding: 10, direction: "ltr" }}>
-          {row.holderName}
-          <br />
-          <ConvertCart cartNo={row.cardNumber} />
-          <br />
-          {row.shebaNumber}
-          <br />
-          {row.bankName}
-        </div>
-      ),
+      format: (row) => <CartFormat row={row} />,
       sortable: true,
       width: "200px",
     },

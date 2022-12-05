@@ -8,56 +8,65 @@ import USDT from "./USDT";
 import BTC from "./BTC";
 
 import AddCartMsg from "./addCartMsg";
+import ActivetMsg from "./activetMsg";
 
 const depositArea = (prop) => {
   const [depMode, setDepMode] = useState(prop.gateway);
   const loginToken = JSON.parse(localStorage.getItem("loginToken"));
   return (
     <>
-      {depMode == "Bank Transfer" && (
+      {!loginToken.userActivate ? (
         <>
-          {loginToken?.bankInfos.length > 0 ? (
+          <ActivetMsg {...prop} />
+        </>
+      ) : (
+        <>
+          {depMode == "Bank Transfer" && (
             <>
-              <BankTransfer {...prop} />
-            </>
-          ) : (
-            <>
-              <AddCartMsg {...prop} />
+              {loginToken?.bankInfos.length > 0 ? (
+                <>
+                  <BankTransfer {...prop} />
+                </>
+              ) : (
+                <>
+                  <AddCartMsg {...prop} />
+                </>
+              )}
             </>
           )}
-        </>
-      )}
-      {depMode == "Online Cart to Cart" && (
-        <>
-          {loginToken?.bankInfos.length > 0 ? (
+          {depMode == "Online Cart to Cart" && (
             <>
-              <CartToCartOnline {...prop} />
-            </>
-          ) : (
-            <>
-              <AddCartMsg {...prop} />
-            </>
-          )}
-        </>
-      )}
-      {depMode == "Cart to Cart" && (
-        <>
-          {loginToken?.bankInfos.length > 0 ? (
-            <>
-              <CartToCart {...prop} />
-            </>
-          ) : (
-            <>
-              <AddCartMsg {...prop} />
+              {loginToken?.bankInfos.length > 0 ? (
+                <>
+                  <CartToCartOnline {...prop} />
+                </>
+              ) : (
+                <>
+                  <AddCartMsg {...prop} />
+                </>
+              )}
             </>
           )}
-        </>
-      )}
+          {depMode == "Cart to Cart" && (
+            <>
+              {loginToken?.bankInfos.length > 0 ? (
+                <>
+                  <CartToCart {...prop} />
+                </>
+              ) : (
+                <>
+                  <AddCartMsg {...prop} />
+                </>
+              )}
+            </>
+          )}
 
-      {depMode == "USDT" && <USDT {...prop} />}
-      {depMode == "BTC" && <BTC {...prop} />}
-      {depMode == "VisaGiftCode" && <VisaGiftCode {...prop} />}
-      {depMode == "PerfectMoney" && <PerfectMoney {...prop} />}
+          {depMode == "USDT" && <USDT {...prop} />}
+          {depMode == "BTC" && <BTC {...prop} />}
+          {depMode == "VisaGiftCode" && <VisaGiftCode {...prop} />}
+          {depMode == "PerfectMoney" && <PerfectMoney {...prop} />}
+        </>
+      )}
     </>
   );
 };

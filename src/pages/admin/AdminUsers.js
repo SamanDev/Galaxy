@@ -108,7 +108,6 @@ const updateUserObj = async (e, data) => {
   }
 };
 
-const getGateways = JSON.parse(localStorage.getItem("getGateways"));
 function Admin(prop) {
   const [data, setData] = useState([]);
   const loginToken = JSON.parse(localStorage.getItem("loginToken"));
@@ -118,7 +117,6 @@ function Admin(prop) {
 
   const [dataSearch, setDataSearch] = useState("");
   const [dataLoginDay, setDataLoginDay] = useState("");
-  const [getwaysList, setGetwaysData] = useState([]);
 
   const [selectedList, setSelected] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -220,28 +218,8 @@ function Admin(prop) {
     setSelected(newSelect);
   };
 
-  const handleGetGeteways = async () => {
-    if (getGateways) {
-      setGetwaysData(getGateways);
-    } else {
-      setLoading(true);
-      try {
-        const res = await adminGetService("getGateways");
-        if (res.status === 200) {
-          var sorted = res.data?.sort((a, b) => (a.id > b.id ? 1 : -1));
-          localStorage.setItem("getGateways", JSON.stringify(sorted));
-          setGetwaysData(sorted);
-        }
-      } catch (error) {
-        console.log(error.message);
-      } finally {
-        setLoading(false);
-      }
-    }
-  };
-
   useEffect(() => {
-    handleGetGeteways();
+    prop.handleGetGeteways();
   }, []);
   const columnsDownLine = [
     {
@@ -263,7 +241,7 @@ function Admin(prop) {
         <>
           <a
             href="#"
-            onClick={() => prop.addTabData(row.username, getwaysList)}
+            onClick={() => prop.addTabData(row.username, prop.getwaysList)}
           >
             {row.username}
           </a>
@@ -328,7 +306,7 @@ function Admin(prop) {
         <>
           <a
             href="#"
-            onClick={() => prop.addTabData(row.username, getwaysList)}
+            onClick={() => prop.addTabData(row.username, prop.getwaysList)}
           >
             {row.username}
           </a>
@@ -344,7 +322,10 @@ function Admin(prop) {
       format: (row) => (
         <>
           {row.refer && (
-            <a href="#" onClick={() => prop.addTabData(row.refer, getwaysList)}>
+            <a
+              href="#"
+              onClick={() => prop.addTabData(row.refer, prop.getwaysList)}
+            >
               {row.refer}
             </a>
           )}
@@ -369,6 +350,19 @@ function Admin(prop) {
             {row.lastLogin}
           </Moment>
         </>
+      ),
+      sortable: true,
+    },
+    {
+      name: "Active",
+      selector: (row) => row.userActivate,
+      format: (row) => (
+        <CheckboxToggle
+          check={row.userActivate}
+          user={row}
+          userkey="userActivate"
+          onChange={updateUserObj}
+        />
       ),
       sortable: true,
     },

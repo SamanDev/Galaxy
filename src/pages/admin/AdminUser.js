@@ -23,6 +23,7 @@ import CheckboxToggle from "./components/toggle.component";
 import { Alert } from "../../utils/alerts";
 import { adminPutService } from "../../services/admin";
 import { isJson, haveAdmin, haveModerator, doCurrency } from "../../const";
+const getGateways = JSON.parse(localStorage.getItem("getGateways"));
 function getPathOfKey(object, keys, getwaysList) {
   var newO = JSON.parse(JSON.stringify(object));
   var newOb = {};
@@ -56,8 +57,9 @@ function getPathOfKey(object, keys, getwaysList) {
                   if (x == "bankInfos") {
                     finalObj.push({
                       name: newO2["bankName"] + " - " + newO2["cardNumber"],
+                      id: newO2["id"],
                       value: newO2[z],
-                      user: newO,
+                      user: newO2,
                     });
                     newOb[newO2["name"]] = newO2[z];
                   }
@@ -192,9 +194,19 @@ function Admin(prop) {
     console.log(data);
     var _key = data.userkey;
     var _childid = data.childid;
-    if(_childid){_key="GateWays"}
+    if (_childid && _key.indexOf("-") == -1) {
+      _key = "GateWays";
+    }
+    if (_childid && _key.indexOf("-") > -1) {
+      _key = "BankCards";
+    }
     var curU = JSON.parse(JSON.stringify(data.user));
-    var values = { id: curU.id, key: _key,childId:_childid, value: data.checked };
+    var values = {
+      id: curU.id,
+      key: _key,
+      childId: _childid,
+      value: data.checked,
+    };
 
     try {
       const res = await adminPutService(values, "updateUserByAdmin");
@@ -220,7 +232,7 @@ function Admin(prop) {
     var newdataInfo = [
       getPathOfKey2(
         user,
-        ",username,level,balance,email,mobile,fullName,refer,firstLogin,lastLogin,bankInfos,cashierGateways,userBlock,"
+        ",username,level,balance,email,mobile,fullName,refer,firstLogin,lastLogin,bankInfos,cashierGateways,userBlock,userActivate,"
       ),
     ];
   }
@@ -234,13 +246,12 @@ function Admin(prop) {
   }
   var newdataBankInfo = [getPathOfKey(user, ",bankInfos,")];
 
-  var newdataGetways = [
-    getPathOfKey(user, ",cashierGateways,", prop.getwaysList),
-  ];
+  var newdataGetways = [getPathOfKey(user, ",cashierGateways,", getGateways)];
   var newdataInfoData = JSON.parse(JSON.stringify(newdataInfo));
   var newdatabankInfoData = JSON.parse(JSON.stringify(newdataBankInfo));
   var newdataGetwaysData = JSON.parse(JSON.stringify(newdataGetways));
-  console.log(newdataInfoData);
+  console.log(newdataGetwaysData);
+  console.log(newdatabankInfoData);
   const panes = [
     {
       menuItem: "Info",
@@ -248,7 +259,7 @@ function Admin(prop) {
         <Tab.Pane as="span">
           <TableAdmin
             data={newdataInfoData}
-            getwaysList={prop.getwaysList}
+            getwaysList={getGateways}
             setActiveIndex={setActiveIndex}
             addTabData={prop.addTabData}
             removeTabData={prop.removeTabData}
@@ -261,7 +272,7 @@ function Admin(prop) {
           <TableAdmin
             data={newdataGetwaysData}
             updateUserObj={updateUserObj}
-            getwaysList={prop.getwaysList}
+            getwaysList={getGateways}
           />
         </Tab.Pane>
       ),

@@ -2,10 +2,15 @@ import React from "react";
 import { Table } from "semantic-ui-react";
 import CheckboxToggle from "./toggle.component";
 import { isJson, haveAdmin, haveModerator, doCurrency } from "../../../const";
+import CartFormat from "../../../utils/CartFormat";
 var moment = require("moment");
 const headerRow = ["Name", "Value"];
-function capitalizeTxt(txt) {
-  return txt.charAt(0).toUpperCase() + txt.slice(1); //or if you want lowercase the rest txt.slice(1).toLowerCase();
+function capitalizeTxt(txt, obj) {
+  if (txt.indexOf("-") > -1) {
+    return <CartFormat row={obj} />;
+  } else {
+    return txt.charAt(0).toUpperCase() + txt.slice(1); //or if you want lowercase the rest txt.slice(1).toLowerCase();
+  }
 }
 
 function isDate(
@@ -28,10 +33,34 @@ function isDate(
     var res = doCurrency(myDate);
   } else if (name === "bankInfos") {
     var res = myDate;
+  } else if (name === "email") {
+    if (user.userActivate) {
+      var res = myDate;
+    } else {
+      var res = (
+        <>
+          {myDate}{" "}
+          <a
+            href="#"
+            className="pull-right"
+            onClick={() => addTabData(myDate, getwaysList)}
+          >
+            Send Activation
+          </a>
+        </>
+      );
+    }
   } else if (name === "cashierGateways") {
+    {
+      try {
+        var _len = getwaysList.length;
+      } catch (error) {
+        var _len = 12;
+      }
+    }
     var res = (
       <>
-        {myDate}/{getwaysList.length}
+        {myDate}/{_len}
       </>
     );
   } else if (name === "refer") {
@@ -66,10 +95,11 @@ function getList(obj) {
   return obj[0];
 }
 const TableExampleWarningShorthand = (prop) => {
+  console.log(prop.data);
   const renderBodyRow = ({ name, value, user }, i) => ({
     key: `row-${i}`,
     cells: [
-      capitalizeTxt(name) || "No name specified",
+      capitalizeTxt(name, user) || "No name specified",
       typeof value == "boolean"
         ? {
             key: `statusrow-${i}`,
@@ -80,7 +110,6 @@ const TableExampleWarningShorthand = (prop) => {
                   user={user}
                   userkey={name}
                   childid={getList(prop.data)[i].id}
-                
                   onChange={prop.updateUserObj}
                 />
               </span>

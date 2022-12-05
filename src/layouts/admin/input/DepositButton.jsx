@@ -3,17 +3,24 @@ import { Button, Divider } from "semantic-ui-react";
 import $ from "jquery";
 import Report from "../../../pages/dashboard/ReportDep";
 import ReportPen from "../../../pages/dashboard/ReportPen";
+const loginToken = JSON.parse(localStorage.getItem("loginToken"));
 const DepositButton = (prop) => (
   <>
     <Button
-      content={prop.val ? prop.val : "واریز"}
+      content={
+        !loginToken.userActivate
+          ? "در انتظار تایید ایمیل"
+          : prop.val
+          ? prop.val
+          : "واریز"
+      }
       fluid
       style={{ marginTop: 10 }}
       className="farsi"
       color="teal"
       type="submit"
       loading={prop.loading}
-      disabled={prop.disabled}
+      disabled={prop.disabled || !loginToken.userActivate}
       hidden={prop.hidden}
       onClick={() => {
         $("#dep1").hide();

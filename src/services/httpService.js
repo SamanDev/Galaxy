@@ -15,7 +15,7 @@ export function checkBlock(data) {
           data
         );
       } else {
-        //window.location = "/logout";
+        window.location = "/logout";
       }
     }
   } else {

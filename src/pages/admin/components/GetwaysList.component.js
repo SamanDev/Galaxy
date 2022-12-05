@@ -14,7 +14,11 @@ import {
 import Swal from "sweetalert2";
 
 import CheckboxToggle from "./toggle.component";
-import { adminGetService, adminPutServiceList } from "../../../services/admin";
+import {
+  adminGetService,
+  adminPutServiceList,
+  adminPostService,
+} from "../../../services/admin";
 import { Alert } from "../../../utils/alerts";
 
 const noDataComponent = (
@@ -197,26 +201,19 @@ function Admin(prop) {
       sortable: true,
     },
   ];
-  const addGetway = (e, data) => {
-    if (!getMode || !getName) {
-      return false;
-    }
-    setLoading(true);
-    adminService.addGateway(getName, getMode).then((response) => {
-      if (response) {
-        Swal.fire({
-          title: "Success",
-          text: "Saved",
-          icon: "success",
-          showCancelButton: false,
-          confirmButtonText: `Ok`,
-        }).then(() => {
-          prop.onReset("Getways");
-          setFirstOpen(false);
-          setLoading(false);
-        });
+
+  const addGetway = async (e, Data) => {
+    var newData = { name: getName, mode: getMode };
+    try {
+      const res = await adminPostService(newData, "addGateway");
+      if (res.status == 200) {
+        localStorage.setItem("getGateways", JSON.stringify(newData));
+      } else {
+        Alert("متاسفم...!", res.data.message, "error");
       }
-    });
+    } catch (error) {
+      Alert("متاسفم...!", "متاسفانه مشکلی از سمت سرور رخ داده", "error");
+    }
   };
   const subHeaderComponentMemo = React.useMemo(() => {
     return <></>;

@@ -9,14 +9,32 @@ import GetwaysList from "./components/GetwaysList.component";
 import SiteCartsList from "./components/SiteCartsList.component";
 import Requests from "./Requests";
 import RisingPitch from "./PlayAlert";
+import { adminGetService } from "../../services/admin";
 import { isJson, haveAdmin, haveModerator, doCurrency } from "../../const";
 var panes = [];
+const getGateways = JSON.parse(localStorage.getItem("getGateways"));
 function Admin(prop) {
   const loginToken = JSON.parse(localStorage.getItem("loginToken"));
   const [activeIndex, setActiveIndex] = useState(0);
   const handleTabChange = (e, { activeIndex }) => setActiveIndex(activeIndex);
   const [tabData, setTabData] = useState([]);
   const [getwaysData, setGetwaysData] = useState([]);
+  const handleGetGeteways = async () => {
+    if (getGateways) {
+      setGetwaysData(getGateways);
+    } else {
+      try {
+        const res = await adminGetService("getGateways");
+        if (res.status === 200) {
+          var sorted = res.data?.sort((a, b) => (a.id > b.id ? 1 : -1));
+          localStorage.setItem("getGateways", JSON.stringify(sorted));
+          setGetwaysData(sorted);
+        }
+      } catch (error) {
+        console.log(error.message);
+      }
+    }
+  };
   useEffect(() => {
     panes = [
       {
@@ -26,9 +44,10 @@ function Admin(prop) {
             <Users
               addTabData={addTabData}
               addMainTabData={addMainTabData}
-              setGetwaysData={setGetwaysData}
+              handleGetGeteways={handleGetGeteways}
               addGatewayTabData={addGatewayTabData}
               removeTabData={removeTabData}
+              getwaysList={getwaysData}
               search="username"
               searchValue=""
             />

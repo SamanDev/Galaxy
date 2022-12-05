@@ -3,7 +3,7 @@ import DataTable from "react-data-table-component";
 import { Button, Dimmer, Icon, Modal } from "semantic-ui-react";
 import { convertDateToJalali } from "../../../utils/convertDate";
 import { adminPostService } from "../../../services/admin";
-import ConvertCart from "../../../utils/convertCart";
+import CartFormat from "../../../utils/CartFormat";
 import { addDays } from "date-fns";
 const moment = require("moment");
 import { adminGetService, adminPutServiceList } from "../../../services/admin";
@@ -193,25 +193,7 @@ function Admin(prop) {
     {
       name: "Info",
       selector: (row) => row.cardNumber,
-      format: (row) => (
-        <div
-          className="farsi"
-          style={{
-            padding: 10,
-            direction: "ltr",
-            textAlign: "right",
-            width: 200,
-          }}
-        >
-          {row.holderName}
-          <br />
-          <ConvertCart cartNo={row.cardNumber} />
-          <br />
-          {row.shebaNumber}
-          <br />
-          {row.bankName}
-        </div>
-      ),
+      format: (row) => <CartFormat row={row} />,
       sortable: true,
       width: "300px",
     },
