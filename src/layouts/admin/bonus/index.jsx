@@ -212,7 +212,7 @@ const handleConfirm = (bonus, _bonuses, i, loginToken) => {
 };
 const BonusArea = (prop) => {
   var loginToken = JSON.parse(localStorage.getItem("loginToken"));
-  var _bonuses = loginToken.userGifts;
+  //var _bonuses = loginToken.userGifts;
   _bonuses.sort((a, b) => (a.id < b.id ? 1 : -1));
   return (
     <div style={{ margin: "5px 0 5px 0" }} className="bonuslist fadeoutend">

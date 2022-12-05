@@ -62,7 +62,9 @@ function isDate(
 
   return res;
 }
-
+function getList(obj) {
+  return obj[0];
+}
 const TableExampleWarningShorthand = (prop) => {
   const renderBodyRow = ({ name, value, user }, i) => ({
     key: `row-${i}`,
@@ -77,6 +79,8 @@ const TableExampleWarningShorthand = (prop) => {
                   check={value}
                   user={user}
                   userkey={name}
+                  childid={getList(prop.data)[i].id}
+                
                   onChange={prop.updateUserObj}
                 />
               </span>

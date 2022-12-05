@@ -191,8 +191,10 @@ function Admin(prop) {
   const updateUserObj = async (e, data) => {
     console.log(data);
     var _key = data.userkey;
+    var _childid = data.childid;
+    if(_childid){_key="GateWays"}
     var curU = JSON.parse(JSON.stringify(data.user));
-    var values = { id: curU.id, key: _key, value: data.checked };
+    var values = { id: curU.id, key: _key,childId:_childid, value: data.checked };
 
     try {
       const res = await adminPutService(values, "updateUserByAdmin");

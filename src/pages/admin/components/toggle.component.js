@@ -7,6 +7,8 @@ const CheckboxToggle = (prop) => (
     defaultChecked={prop.check}
     user={prop.user}
     userkey={prop.userkey}
+    childid={prop.childid}
+    
     onChange={prop.onChange}
     disabled={prop.disabled}
   />
