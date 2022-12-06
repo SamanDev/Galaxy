@@ -85,6 +85,8 @@ class UserWebsocket {
             eventBus.dispatch("eventsDataUser", msg.data);
           } else if (msg.Command === "eventId") {
             eventBus.dispatch("updateEventId", msg.data);
+          } else if (msg.Command === "ActiveTables") {
+            eventBus.dispatch("ActiveTables", msg.data);
           } else if (msg.Command === "startTick") {
             // setYvalStart(msg.tick);
           }

@@ -13,7 +13,7 @@ import {
 } from "./const";
 import { Link } from "react-router-dom";
 import { useIsLogin } from "./hook/authHook";
-import { useSiteInfo } from "./hook/infoHook";
+import { useSiteInfo, useActiveTable } from "./hook/infoHook";
 import { getUserService } from "./services/auth";
 import $ from "jquery";
 import { Route, Routes } from "react-router-dom";
@@ -29,14 +29,14 @@ import UserWebsocket from "./services/user.websocket";
 import eventBus from "./services/eventBus";
 import { checkBlock } from "./services/httpService";
 import Moment from "react-moment";
+import ActiveTable from "./pages/dashboard/ActiveTableJson.jsx";
+import LastReward from "./pages/dashboard/LastReward";
 const moment = require("moment");
 var menu = "no";
 var panelMenu = "no";
 var api;
 var apiPanel;
-const CompGen = (prop) => {
-  return <>{prop.com}</>;
-};
+
 var _event = getEvent();
 var nowDay = moment().isoWeekday();
 const animateCSS = (element, animation, prefix = "") =>
@@ -78,6 +78,8 @@ function App(prop) {
   const [refresh, setRefresh] = useState(false);
   const [loadingLogin, isLogin] = useIsLogin();
   const [loadingInfo, siteInfo] = useSiteInfo();
+  const [loadingTable, activatTableData] = useActiveTable();
+  const [activatTable, setActivatTable] = useState();
   const [isUser, setIsUser] = useState(false);
   const [dcOpen, setDcOpen] = useState(false);
   const [firstOpen, setFirstOpen] = useState(false);
@@ -90,7 +92,15 @@ function App(prop) {
   const navigate = useNavigate();
   var loginToken;
   const location = useLocation();
-
+  const CompGen = (prop) => {
+    if (prop?.menu?.title == "میز های فعال") {
+      return <ActiveTable {...prop} activatTable={activatTable} />;
+    } else if (prop?.menu?.title == "آخرین پاداش ها") {
+      return <LastReward title="آخرین پاداش ها" />;
+    } else {
+      return <>{prop.com}</>;
+    }
+  };
   try {
     loginToken = JSON.parse(localStorage.getItem("loginToken"));
   } catch (error) {
@@ -162,8 +172,11 @@ function App(prop) {
                         <li>
                           <span>
                             <CompGen
+                              menu={menu}
                               comp={menu.component}
                               openPanel={openPanel}
+                              openGame={openGame}
+                              setFirstOpen={setFirstOpen}
                             />
                           </span>
                         </li>
@@ -183,7 +196,15 @@ function App(prop) {
                               <li>
                                 {(activeMenu == menu.label ||
                                   (activePanel && activeMenu == "main")) && (
-                                  <>{menu.component}</>
+                                  <>
+                                    <CompGen
+                                      comp={menu.component}
+                                      menu={menu}
+                                      openPanel={openPanel}
+                                      openGame={openGame}
+                                      setFirstOpen={setFirstOpen}
+                                    />
+                                  </>
                                 )}
                               </li>
                             </ul>
@@ -545,6 +566,12 @@ function App(prop) {
       }
     }, 1000);
   };
+  const openGame = () => {
+    navigate("/games/poker");
+  };
+  useEffect(() => {
+    setActivatTable(activatTableData);
+  }, [activatTableData]);
   useEffect(() => {
     if (window.location.href.toString().indexOf("/logout") > -1) {
       setIsUser(false);
@@ -748,6 +775,9 @@ function App(prop) {
         setRefresh(false);
       }, 500);
     });
+    eventBus.on("ActiveTables", (dataGet) => {
+      setActivatTable(dataGet);
+    });
 
     eventBus.on("eventsDC", () => {
       if (isLogin) {
@@ -908,6 +938,7 @@ function App(prop) {
               element={
                 <AdminLayout
                   openPanel={openPanel}
+                  openGame={openGame}
                   setFirstOpen={setFirstOpen}
                   setSecondOpen={setSecondOpen}
                   setActiveMenu={setActiveMenu}

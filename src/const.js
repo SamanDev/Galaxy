@@ -1,8 +1,6 @@
 import React from "react";
 import Accordion from "./pages/dashboard/Accordion";
 
-import ActiveTable from "./pages/dashboard/ActiveTableJson";
-import LastReward from "./pages/dashboard/LastReward";
 import LevelList from "./pages/dashboard/Levels";
 import PassList from "./pages/dashboard/GalaxyPass";
 import Commission from "./pages/dashboard/Commission";
@@ -465,13 +463,13 @@ export const panelData = [
     label: "panel",
     title: "میز های فعال",
 
-    component: <ActiveTable title="میز های فعال" />,
+    component: <></>,
   },
   {
     label: "panel",
     title: "آخرین پاداش ها",
 
-    component: <LastReward title="آخرین پاداش ها" />,
+    component: <></>,
   },
 ];
 function doGame() {

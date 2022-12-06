@@ -23,3 +23,6 @@ export const logoutService = () => {
 export const getUserService = () => {
   return httpService("/req/getUser", "get");
 };
+export const getPokerSession = () => {
+  return httpService("/req/getPokerSession", "get");
+};

@@ -225,15 +225,14 @@ var _bonuses = [
     amount: 1000000,
   },
 ];
-
+_bonuses.sort((a, b) => (a.id > b.id ? 1 : -1));
 const BonusArea = (prop) => {
-  _bonuses.sort((a, b) => (a.id > b.id ? 1 : -1));
   return (
     <div style={{ paddingLeft: 20, marginBottom: 200 }}>
       {_bonuses.length > 0 && (
         <>
           {_bonuses.map(function (bonus, i) {
-            return <Reward item={bonus} key={i} />;
+            return <Reward item={bonus} key={i} {...prop} />;
           })}
         </>
       )}

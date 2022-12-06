@@ -12,6 +12,7 @@ import DepositArea from "../forms/index";
 import LevelIcon from "../../../utils/svg";
 
 import BonusArea from "../bonus/index.jsx";
+//import BonusArea from "../../../pages/dashboard/ActiveTableJson";
 import {
   doCurrency,
   levelData,

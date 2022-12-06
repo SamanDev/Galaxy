@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import { getUserService } from "../../services/auth";
+import { getUserService, getPokerSession } from "../../services/auth";
 import {
   Grid,
   Image,
@@ -140,9 +140,21 @@ var _width = document.body.clientWidth;
 var _event = getEvent();
 const Dashboard = (prop) => {
   const navigate = useNavigate();
+  const [sessionKey, setSessionKey] = useState("");
   const handleCheckLogin = async () => {
     try {
       const res = await getUserService();
+    } catch (error) {}
+  };
+
+  const handleSession = async () => {
+    try {
+      if (prop.isLogin) {
+        const resPoker = await getPokerSession();
+        if (resPoker.status === 200) {
+          setSessionKey(resPoker.data.SessionKey);
+        }
+      }
     } catch (error) {}
   };
   const [curPage, setCurPage] = useState("dashboard");
@@ -180,6 +192,7 @@ const Dashboard = (prop) => {
   };
   const handleReload = (e) => {
     setGameLoader(true);
+    handleSession();
     $(".framegame:visible").attr("src", $(".framegame:visible").attr("src"));
   };
   const removeFrameLoad = (e) => {
@@ -194,6 +207,9 @@ const Dashboard = (prop) => {
       setCurPage("dashboard");
     }
   }, [window.location.href]);
+  useEffect(() => {
+    handleSession();
+  }, [mainGame, prop.isLogin]);
   useEffect(() => {
     // if (_width < 800 || 1 == 1) {
     //   if (screenOrientation.indexOf("landscape") > -1) {
@@ -300,7 +316,8 @@ const Dashboard = (prop) => {
                   src={
                     "http://139.99.144.72:2053?LoginName=" +
                     loginToken?.username +
-                    "&amp;SessionKey=4AC558DE44D51B611B01"
+                    "&SessionKey=" +
+                    sessionKey
                   }
                   className="framegame"
                   onLoad={removeFrameLoad}
@@ -555,6 +572,7 @@ const Dashboard = (prop) => {
                       className="fadeout"
                       as={Link}
                       to={"/games/" + game}
+                      id={"open" + game}
                       src={
                         "/assets/images/games/" + gameDataMainCode[i] + ".jpg"
                       }
