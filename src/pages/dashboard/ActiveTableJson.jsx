@@ -153,28 +153,36 @@ const ActiveTable = (prop) => {
       ></Segment>
 
       <List divided inverted verticalAlign="middle" className="activetable">
-        {_sortData?.map(function (x, i) {
-          return (
-            <List.Item
-              key={i}
-              id={"lvl" + (i + 1)}
-              style={{ color: x.color }}
-              className={x.class}
-            >
-              <span> {x.name}</span>
-
-              <List.Content floated="right" className="rtl">
-                <span
-                  className={
-                    x.class == "update" ? "inline animated bounceIn" : ""
-                  }
+        {_sortData.length == 0 ? (
+          <List.Item className="text-center" as="h2">
+            No active table avaliable now
+          </List.Item>
+        ) : (
+          <>
+            {_sortData?.map(function (x, i) {
+              return (
+                <List.Item
+                  key={i}
+                  id={"lvl" + (i + 1)}
+                  style={{ color: x.color }}
+                  className={x.class}
                 >
-                  {x.status}
-                </span>
-              </List.Content>
-            </List.Item>
-          );
-        })}
+                  <span> {x.name}</span>
+
+                  <List.Content floated="right" className="rtl">
+                    <span
+                      className={
+                        x.class == "update" ? "inline animated bounceIn" : ""
+                      }
+                    >
+                      {x.status}
+                    </span>
+                  </List.Content>
+                </List.Item>
+              );
+            })}
+          </>
+        )}
       </List>
     </>
   );

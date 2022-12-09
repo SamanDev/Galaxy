@@ -191,6 +191,7 @@ const Dashboard = (prop) => {
     setIsFull(!isFull);
   };
   const handleReload = (e) => {
+    setSessionKey("");
     setGameLoader(true);
     handleSession();
     $(".framegame:visible").attr("src", $(".framegame:visible").attr("src"));
