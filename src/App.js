@@ -94,7 +94,14 @@ function App(prop) {
   const location = useLocation();
   const CompGen = (prop) => {
     if (prop?.menu?.title == "میز های فعال") {
-      return <ActiveTable {...prop} activatTable={activatTable} />;
+      return (
+        <ActiveTable
+          {...prop}
+          activatTable={activatTable}
+          refresh={refresh}
+          openGame={openGame}
+        />
+      );
     } else if (prop?.menu?.title == "آخرین پاداش ها") {
       return <LastReward title="آخرین پاداش ها" />;
     } else {
@@ -404,11 +411,12 @@ function App(prop) {
                                     <span>{submenu.title}</span>
                                   </li>
                                 )}
-                                {activeMenu == submenu.label && !activePanel && (
-                                  <li>
-                                    <span>{submenu.component}</span>
-                                  </li>
-                                )}
+                                {activeMenu == submenu.label &&
+                                  !activePanel && (
+                                    <li>
+                                      <span>{submenu.component}</span>
+                                    </li>
+                                  )}
                               </ul>
                             ) : (
                               <span>
@@ -586,6 +594,11 @@ function App(prop) {
       menu = new Mmenu(
         "#menuleft",
         {
+          pageScroll: {
+            scroll: true,
+            update: true,
+          },
+
           setSelected: {
             hover: true,
           },

@@ -30,7 +30,6 @@ export const useActiveTable = () => {
       const res = await getReportPenService("getActiveTables");
       if (res.status === 200) {
         setActiveTable(res.data);
-        localStorage.setItem("activeTable", JSON.stringify(res.data));
       }
     } catch (error) {
       console.log(error.message);

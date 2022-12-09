@@ -312,16 +312,18 @@ const Dashboard = (prop) => {
             )}
             {mainGame == "poker" ? (
               <>
-                <iframe
-                  src={
-                    "http://139.99.144.72:2053?LoginName=" +
-                    loginToken?.username +
-                    "&SessionKey=" +
-                    sessionKey
-                  }
-                  className="framegame"
-                  onLoad={removeFrameLoad}
-                ></iframe>
+                {sessionKey != "" && (
+                  <iframe
+                    src={
+                      "http://139.99.144.72:2053?LoginName=" +
+                      loginToken?.username +
+                      "&SessionKey=" +
+                      sessionKey
+                    }
+                    className="framegame"
+                    onLoad={removeFrameLoad}
+                  ></iframe>
+                )}
               </>
             ) : (
               <>

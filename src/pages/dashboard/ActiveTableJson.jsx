@@ -4,9 +4,14 @@ import { useNavigate } from "react-router-dom";
 import MenuLoader from "../../utils/menuLoader";
 import { getReportPenService } from "../../services/report";
 import $ from "jquery";
-
+function getReport() {
+  alert();
+}
 const ActiveTable = (prop) => {
   var _sortDataOld = [];
+
+  var _sortDataNew = [];
+  var _sortD = [];
   try {
     _sortDataOld = JSON.parse(localStorage.getItem("activeTableSort"));
   } catch (error) {
@@ -15,7 +20,7 @@ const ActiveTable = (prop) => {
   if (_sortDataOld == null) {
     _sortDataOld = [];
   }
-  var _sortDataNew = [];
+
   try {
     _sortDataNew = JSON.parse(localStorage.getItem("activeTable"));
   } catch (error) {
@@ -27,15 +32,10 @@ const ActiveTable = (prop) => {
   const [_data, setData] = useState(_sortDataNew);
   const [_sortData, setSortData] = useState(_sortDataOld);
 
-  const [table, setTable] = useState("");
   useEffect(() => {
-    if (_data != prop.activatTable) {
-      localStorage.setItem("activeTable", JSON.stringify(prop.activatTable));
-      setData(prop.activatTable);
-    }
+    setData(prop.activatTable);
   }, [prop.activatTable]);
   useEffect(() => {
-    var _sortD = [];
     try {
       {
         Array.apply(0, Array(_data.RingGames)).map(function (x, i) {
@@ -85,12 +85,42 @@ const ActiveTable = (prop) => {
             if (_data.Name[i].split(" ")[0] == "00") {
               strColor = "#ececec";
             }
-            _sortD.push({
-              name: _data.Name[i],
-              color: strColor,
-              status: _p + "/" + _data.Seats[i],
-              stack: _data.SmallBlind[i] + _data.BigBlind[i],
-            });
+
+            if (
+              _sortDataOld.filter((d) => d.name == _data.Name[i]).length == 0
+            ) {
+              _sortD.push({
+                name: _data.Name[i],
+                color: strColor,
+                status: _p + "/" + _data.Seats[i],
+                stack: _data.SmallBlind[i] + _data.BigBlind[i],
+                class: "animated bounceIn",
+              });
+            } else {
+              if (
+                _sortDataOld.filter(
+                  (d) =>
+                    d.name == _data.Name[i] &&
+                    d.status == _p + "/" + _data.Seats[i]
+                ).length == 0
+              ) {
+                _sortD.push({
+                  name: _data.Name[i],
+                  color: strColor,
+                  status: _p + "/" + _data.Seats[i],
+                  stack: _data.SmallBlind[i] + _data.BigBlind[i],
+                  class: "update",
+                });
+              } else {
+                _sortD.push({
+                  name: _data.Name[i],
+                  color: strColor,
+                  status: _p + "/" + _data.Seats[i],
+                  stack: _data.SmallBlind[i] + _data.BigBlind[i],
+                  class: "",
+                });
+              }
+            }
           }
         });
       }
@@ -98,6 +128,7 @@ const ActiveTable = (prop) => {
       setSortData(_sortD);
       localStorage.setItem("activeTableSort", JSON.stringify(_sortD));
     } catch (error) {}
+    localStorage.setItem("activeTable", JSON.stringify(_data));
   }, [_data]);
 
   return (
@@ -128,14 +159,18 @@ const ActiveTable = (prop) => {
               key={i}
               id={"lvl" + (i + 1)}
               style={{ color: x.color }}
-              onClick={() => {
-                prop.openGame();
-              }}
+              className={x.class}
             >
-              {x.name}
+              <span> {x.name}</span>
 
               <List.Content floated="right" className="rtl">
-                {x.status}
+                <span
+                  className={
+                    x.class == "update" ? "inline animated bounceIn" : ""
+                  }
+                >
+                  {x.status}
+                </span>
               </List.Content>
             </List.Item>
           );
