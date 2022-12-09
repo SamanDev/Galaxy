@@ -53,8 +53,7 @@ const Reward = (prop) => {
         </Grid.Column>
         <Grid.Column width={10} textAlign="right">
           <div className="farsi">
-            <span className="text-gold">{doCurrency(prop.item.amount)}</span>{" "}
-            تومان
+            <span className="text-gold">{doCurrency(prop.item.id)}</span> تومان
           </div>
           <small className="farsi" style={{ height: 28, display: "block" }}>
             {_txt}

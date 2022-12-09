@@ -479,6 +479,7 @@ canvas {
   z-index: 1;
   top: -11px;
 }
+.lastlogs:hidden{position:absolute}
 .ui.comments .comment .text {
   white-space: normal;
   color: #fff;

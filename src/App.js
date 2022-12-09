@@ -13,7 +13,7 @@ import {
 } from "./const";
 import { Link } from "react-router-dom";
 import { useIsLogin } from "./hook/authHook";
-import { useSiteInfo, useActiveTable } from "./hook/infoHook";
+import { useSiteInfo, useActiveTable, useLastReward } from "./hook/infoHook";
 import { getUserService } from "./services/auth";
 import $ from "jquery";
 import { Route, Routes } from "react-router-dom";
@@ -30,7 +30,7 @@ import eventBus from "./services/eventBus";
 import { checkBlock } from "./services/httpService";
 import Moment from "react-moment";
 import ActiveTable from "./pages/dashboard/ActiveTableJson.jsx";
-import LastReward from "./pages/dashboard/LastReward";
+import LastReward from "./pages/dashboard/LastRewardJson";
 const moment = require("moment");
 var menu = "no";
 var panelMenu = "no";
@@ -44,20 +44,23 @@ const animateCSS = (element, animation, prefix = "") =>
   new Promise((resolve, reject) => {
     const animationName = `${prefix}${animation}`;
     const node = document.querySelector(element);
-    console.log(node);
+
     if (node) {
       node.classList.remove(`${prefix}animated`, "hiddenmenu");
       node.classList.add(`${prefix}animated`, animationName);
-
-      // When the animation ends, we clean the classes and resolve the Promise
       function handleAnimationEnd(event) {
         event.stopPropagation();
         //node.classList.remove(`${prefix}newel`, animationName);
         //node.classList.add(`${prefix}animated`, "hiddenmenu");
         resolve("Animation ended");
       }
+      setTimeout(() => {
+        node.addEventListener("animationend", handleAnimationEnd, {
+          once: true,
+        });
+      }, 500);
 
-      // node.addEventListener("animationend", handleAnimationEnd, { once: true });
+      // When the animation ends, we clean the classes and resolve the Promise
     }
   });
 function getBonus(gateway) {
@@ -80,6 +83,8 @@ function App(prop) {
   const [loadingInfo, siteInfo] = useSiteInfo();
   const [loadingTable, activatTableData] = useActiveTable();
   const [activatTable, setActivatTable] = useState();
+  const [loadingReward, lastRewardData] = useLastReward();
+  const [lastReward, setLastReward] = useState();
   const [isUser, setIsUser] = useState(false);
   const [dcOpen, setDcOpen] = useState(false);
   const [firstOpen, setFirstOpen] = useState(false);
@@ -98,12 +103,17 @@ function App(prop) {
         <ActiveTable
           {...prop}
           activatTable={activatTable}
-          refresh={refresh}
           openGame={openGame}
         />
       );
     } else if (prop?.menu?.title == "آخرین پاداش ها") {
-      return <LastReward title="آخرین پاداش ها" />;
+      return (
+        <LastReward
+          title="آخرین پاداش ها"
+          lastReward={lastReward}
+          animateCSS={animateCSS}
+        />
+      );
     } else {
       return <>{prop.com}</>;
     }
@@ -581,6 +591,9 @@ function App(prop) {
     setActivatTable(activatTableData);
   }, [activatTableData]);
   useEffect(() => {
+    setLastReward(lastRewardData);
+  }, [lastRewardData]);
+  useEffect(() => {
     if (window.location.href.toString().indexOf("/logout") > -1) {
       setIsUser(false);
       localStorage.removeItem("loginToken");
@@ -790,6 +803,9 @@ function App(prop) {
     });
     eventBus.on("ActiveTables", (dataGet) => {
       setActivatTable(dataGet);
+    });
+    eventBus.on("LastReward", (dataGet) => {
+      setLastReward(dataGet);
     });
 
     eventBus.on("eventsDC", () => {
