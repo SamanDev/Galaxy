@@ -106,26 +106,18 @@ function App(prop) {
     } catch (error) {}
   };
   function bindActiveTable() {
-    if ($(".tablename").length > 0) {
-      setTimeout(() => {
-        $(".tablename")
-          .unbind()
-          .bind("click", function (event) {
-            if (window.location.href.toString().indexOf("/games/poker") == -1) {
-              navigate("/games/poker");
-              setTimeout(() => {
-                handleOpenTable($(this).find(".name").text());
-              }, 4000);
-            } else {
-              handleOpenTable($(this).find(".name").text());
-            }
-          });
-      }, 1000);
-    } else {
-      setTimeout(() => {
-        bindActiveTable();
-      }, 1000);
-    }
+    $(".tablename")
+      .unbind()
+      .bind("click", function (event) {
+        if (window.location.href.toString().indexOf("/games/poker") == -1) {
+          navigate("/games/poker");
+          setTimeout(() => {
+            handleOpenTable($(this).find(".name").text());
+          }, 4000);
+        } else {
+          handleOpenTable($(this).find(".name").text());
+        }
+      });
   }
   const CompGen = (prop) => {
     if (prop?.menu?.title == "میز های فعال") {
@@ -613,8 +605,6 @@ function App(prop) {
   };
   useEffect(() => {
     setActivatTable(activatTableData);
-
-    bindActiveTable();
   }, [activatTableData]);
   useEffect(() => {
     setLastReward(lastRewardData);
@@ -787,6 +777,9 @@ function App(prop) {
     }
   }, [isLogin]);
   useEffect(() => {
+    bindActiveTable();
+  });
+  useEffect(() => {
     if (window.location.href.toString().indexOf("/login") > -1) {
       if (isUser == false) {
         setFirstOpen(true);
@@ -829,8 +822,6 @@ function App(prop) {
     });
     eventBus.on("ActiveTables", (dataGet) => {
       setActivatTable(dataGet);
-
-      bindActiveTable();
     });
     eventBus.on("LastReward", (dataGet) => {
       setLastReward(dataGet);
