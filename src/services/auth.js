@@ -10,6 +10,11 @@ export const registerService = (values) => {
     ...values,
   });
 };
+export const resendActivationLink = (values) => {
+  return httpService("/req/resendActivationLink  ", "post", {
+    ...values,
+  });
+};
 export const forgetPasswordService = (values) => {
   return httpService("/auth/forgetPassword", "put", {
     ...values,

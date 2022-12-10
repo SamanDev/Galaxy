@@ -1,13 +1,29 @@
 import React, { useState } from "react";
 import { Button, Message, Icon } from "semantic-ui-react";
 import $ from "jquery";
+import { resendActivationLink } from "../../../../services/auth";
+import { Alert } from "../../../../utils/alerts";
 const defCol = "black";
 const selCol = "green";
 const defColBtn = "grey";
 const selColBtn = "orange";
 const depositArea = (prop) => {
-  const [depMode, setDepMode] = useState(false);
+  const [loading, setLoading] = useState(false);
   const loginToken = JSON.parse(localStorage.getItem("loginToken"));
+  const onSubmit = async () => {
+    setLoading(true);
+    try {
+      const res = await resendActivationLink();
+      if (res.status == 200) {
+        setLoading(false);
+        Alert("Done", res.data, "success");
+      } else {
+        Alert("متاسفم...!", res.data.message, "error");
+      }
+    } catch (error) {
+      Alert("متاسفم...!", "متاسفانه مشکلی از سمت سرور رخ داده", "error");
+    }
+  };
   return (
     <>
       <Message color="red" compact className="mymessage" size="mini" icon>
@@ -28,7 +44,9 @@ const depositArea = (prop) => {
         style={{ margin: "10px 0" }}
         className="farsi"
         color="red"
-        onClick={() => $("#openaddcart").trigger("click")}
+        disabled={loading}
+        loading={loading}
+        onClick={() => onSubmit()}
       >
         ارسال لینک تایید
       </Button>
