@@ -206,6 +206,9 @@ const Dashboard = (prop) => {
     if (window.location.href.toString().indexOf("/games") > -1) {
       setCurPage("game");
       setMainGame(params.gameId);
+      setSessionKey("");
+
+      handleSession();
     } else {
       setCurPage("dashboard");
     }
