@@ -16,6 +16,7 @@ import {
   Dropdown,
   Dimmer,
   Loader,
+  Segment,
 } from "semantic-ui-react";
 import {
   gameData,
@@ -189,6 +190,9 @@ const Dashboard = (prop) => {
   const handleFullscreen = (e) => {
     $(".framegame,body").toggleClass("fullscreen");
     setIsFull(!isFull);
+  };
+  const handleOpenPanel = (e) => {
+    $("#panelrightopen").toggle("click");
   };
   const handleReload = (e) => {
     setSessionKey("");
@@ -600,6 +604,13 @@ const Dashboard = (prop) => {
           />
           {!gameLoader && (
             <div className="gameicons">
+              {isFull && (
+                <Icon circular inverted color="grey">
+                  <a href="#panelright" style={{ color: "#fff" }}>
+                    <i className="fas fa-arrow-left"></i>
+                  </a>
+                </Icon>
+              )}
               <Icon
                 circular
                 inverted

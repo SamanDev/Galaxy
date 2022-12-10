@@ -54,8 +54,10 @@ axios.interceptors.response.use(
       localStorage.removeItem("loginToken");
       UserWebsocket.connect();
     }
+    if (error.response.status != 401) {
+      Alert(error.response.status, error.response.data.message, "error");
+    }
 
-    Alert(error.response.status, error.response.data.message, "error");
     return Promise.reject(error);
   }
 );

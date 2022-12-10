@@ -68,19 +68,27 @@ const ActiveTable = (prop) => {
 
   return (
     <>
-      <div style={{ paddingLeft: 20, marginBottom: 200 }}>
-        {_sortData.length > 0 && (
-          <>
-            {_sortData.map(function (bonus, i) {
-              return (
-                <div className={bonus.class} key={i}>
-                  <Reward item={bonus} {...prop} />
-                </div>
-              );
-            })}
-          </>
-        )}
-      </div>
+      {_sortData.length == 0 ? (
+        <List divided inverted verticalAlign="middle" className="activetable">
+          <List.Item className="text-center" as="h2">
+            No reward avaliable now
+          </List.Item>
+        </List>
+      ) : (
+        <div style={{ paddingLeft: 20, marginBottom: 200 }}>
+          {_sortData.length > 0 && (
+            <>
+              {_sortData.map(function (bonus, i) {
+                return (
+                  <div className={bonus.class} key={i}>
+                    <Reward item={bonus} {...prop} />
+                  </div>
+                );
+              })}
+            </>
+          )}
+        </div>
+      )}
     </>
   );
 };
