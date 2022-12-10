@@ -193,9 +193,11 @@ const Dashboard = (prop) => {
   };
 
   const handleReload = (e) => {
-    setSessionKey("");
+    if ($("#pokerframe:visible").length > 0) {
+      setSessionKey("");
+      handleSession();
+    }
     setGameLoader(true);
-    handleSession();
     $(".framegame:visible").attr("src", $(".framegame:visible").attr("src"));
   };
   const removeFrameLoad = (e) => {
@@ -303,7 +305,7 @@ const Dashboard = (prop) => {
       pane: (
         <Tab.Pane key="tab1" attached={false}>
           <div id="gamesec1" style={{ overflow: "auto" }}>
-            {gameLoader && (
+            {(gameLoader || sessionKey == "") && (
               <div
                 className={
                   isFull ? "framegame loader fullscreen" : "framegame loader"
@@ -326,7 +328,8 @@ const Dashboard = (prop) => {
                       "&SessionKey=" +
                       sessionKey
                     }
-                    className="framegame"
+                    id="pokerframe"
+                    className={isFull ? "framegame  fullscreen" : "framegame "}
                     onLoad={removeFrameLoad}
                   ></iframe>
                 )}
@@ -339,7 +342,7 @@ const Dashboard = (prop) => {
                     mainGame +
                     ".html?code=E14AB11A9CFD83028B5F273261AC8D47E472739FA49E98690BAF485791D2CB9A"
                   }
-                  className="framegame"
+                  className={isFull ? "framegame  fullscreen" : "framegame "}
                   onLoad={removeFrameLoad}
                 ></iframe>
               </>
@@ -372,7 +375,9 @@ const Dashboard = (prop) => {
                 secondaryGame +
                 ".html?code=E14AB11A9CFD83028B5F273261AC8D47E472739FA49E98690BAF485791D2CB9A"
               }
-              className="framegame frame2"
+              className={
+                isFull ? "framegame frame2  fullscreen" : "framegame frame2"
+              }
               onLoad={removeFrameLoad}
             ></iframe>
           </div>

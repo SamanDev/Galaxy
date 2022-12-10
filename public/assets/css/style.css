@@ -275,8 +275,8 @@ a {
   min-width: auto !important;
   position: absolute;
   background: rgba(0, 0, 0, 0) !important;
-  right: 15px;
-  left: 15px;
+  right: 0;
+  left: 0;
   width: auto !important;
 }
 
