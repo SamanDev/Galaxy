@@ -4,9 +4,10 @@ import { useNavigate } from "react-router-dom";
 import MenuLoader from "../../utils/menuLoader";
 import { getReportPenService } from "../../services/report";
 import $ from "jquery";
-function getReport() {
+const handleOpenPanel = (e) => {
+  $("#panelrightopen").toggle("click");
   alert();
-}
+};
 const ActiveTable = (prop) => {
   var _sortDataOld = [];
 
@@ -165,9 +166,9 @@ const ActiveTable = (prop) => {
                   key={i}
                   id={"lvl" + (i + 1)}
                   style={{ color: x.color }}
-                  className={x.class}
+                  className={"tablename " + x.class}
                 >
-                  <span> {x.name}</span>
+                  <span className="name">{x.name}</span>
 
                   <List.Content floated="right" className="rtl">
                     <span

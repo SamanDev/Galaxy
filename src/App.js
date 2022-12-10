@@ -28,6 +28,7 @@ import { Dimmer, Loader, Segment } from "semantic-ui-react";
 import UserWebsocket from "./services/user.websocket";
 import eventBus from "./services/eventBus";
 import { checkBlock } from "./services/httpService";
+import { cashierService } from "./services/cashier";
 import Moment from "react-moment";
 import ActiveTable from "./pages/dashboard/ActiveTableJson.jsx";
 import LastReward from "./pages/dashboard/LastRewardJson";
@@ -63,6 +64,7 @@ const animateCSS = (element, animation, prefix = "") =>
       // When the animation ends, we clean the classes and resolve the Promise
     }
   });
+
 function getBonus(gateway) {
   try {
     var loginToken = JSON.parse(localStorage.getItem("loginToken"));
@@ -97,15 +99,37 @@ function App(prop) {
   const navigate = useNavigate();
   var loginToken;
   const location = useLocation();
+  const handleOpenTable = async (tableName) => {
+    var values = { tableName: tableName };
+    try {
+      const res = await cashierService(values, "openTable");
+    } catch (error) {}
+  };
+  function bindActiveTable() {
+    if ($(".tablename").length > 0) {
+      setTimeout(() => {
+        $(".tablename")
+          .unbind()
+          .bind("click", function (event) {
+            if (window.location.href.toString().indexOf("/games/poker") == -1) {
+              navigate("/games/poker");
+              setTimeout(() => {
+                handleOpenTable($(this).find(".name").text());
+              }, 4000);
+            } else {
+              handleOpenTable($(this).find(".name").text());
+            }
+          });
+      }, 1000);
+    } else {
+      setTimeout(() => {
+        bindActiveTable();
+      }, 1000);
+    }
+  }
   const CompGen = (prop) => {
     if (prop?.menu?.title == "میز های فعال") {
-      return (
-        <ActiveTable
-          {...prop}
-          activatTable={activatTable}
-          openGame={openGame}
-        />
-      );
+      return <ActiveTable activatTable={activatTable} />;
     } else if (prop?.menu?.title == "آخرین پاداش ها") {
       return (
         <LastReward
@@ -589,6 +613,8 @@ function App(prop) {
   };
   useEffect(() => {
     setActivatTable(activatTableData);
+
+    bindActiveTable();
   }, [activatTableData]);
   useEffect(() => {
     setLastReward(lastRewardData);
@@ -803,6 +829,8 @@ function App(prop) {
     });
     eventBus.on("ActiveTables", (dataGet) => {
       setActivatTable(dataGet);
+
+      bindActiveTable();
     });
     eventBus.on("LastReward", (dataGet) => {
       setLastReward(dataGet);

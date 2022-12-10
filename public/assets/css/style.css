@@ -259,7 +259,7 @@ a {
 }
 .framegame {
   width: calc(100%) !important;
-  min-width: 750px !important;
+  min-width: 650px !important;
   height: calc(100vh - 64px) !important;
   position: relative;
 
@@ -888,7 +888,7 @@ a.mm-listitem__text {
 }
 .gameicons {
   position: fixed;
-  top: 40%;
+  top: 50%;
   text-align: right !important;
   transform: translateY(-50%);
   right: 0;
@@ -1505,7 +1505,7 @@ i.inverted.circular.black {
 .navbar.fixed-top {
   z-index: unset !important;
   background: rgb(56, 65, 74) !important;
-  box-shadow: 5px 0px 0px 5px rgb(56, 65, 74);
+ 
 }
 
 .disabled {

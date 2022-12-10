@@ -191,9 +191,7 @@ const Dashboard = (prop) => {
     $(".framegame,body").toggleClass("fullscreen");
     setIsFull(!isFull);
   };
-  const handleOpenPanel = (e) => {
-    $("#panelrightopen").toggle("click");
-  };
+
   const handleReload = (e) => {
     setSessionKey("");
     setGameLoader(true);
@@ -604,13 +602,28 @@ const Dashboard = (prop) => {
           />
           {!gameLoader && (
             <div className="gameicons">
-              {isFull && (
-                <Icon circular inverted color="grey">
-                  <a href="#panelright" style={{ color: "#fff" }}>
-                    <i className="fas fa-arrow-left"></i>
-                  </a>
+              <a href="#panelright">
+                <Icon
+                  circular
+                  inverted
+                  color="violet"
+                  style={
+                    !isFull
+                      ? {
+                          transform: "translateY(-150px)",
+                          transformOrigin: "center",
+                          opacity: 0,
+                        }
+                      : {
+                          transform: "translateY(0px)",
+                          transformOrigin: "center",
+                        }
+                  }
+                >
+                  <i className="fas fa-arrow-left"></i>
                 </Icon>
-              )}
+              </a>
+
               <Icon
                 circular
                 inverted
