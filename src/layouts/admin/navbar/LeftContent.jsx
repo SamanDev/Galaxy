@@ -5,7 +5,7 @@ import Balance from "./balance";
 import Login from "./login";
 
 const Leftcontent = (prop) => {
-  const loginToken = JSON.parse(localStorage.getItem("loginToken"));
+  const loginToken = localStorage.getItem("loginToken");
   const [isUser, setIsUser] = useState(loginToken ? true : false);
   useEffect(() => {
     setIsUser(prop.isLogin);
@@ -30,7 +30,7 @@ const Leftcontent = (prop) => {
               }}
               menu="menuleft"
               tabIndex="0"
-              fx="spin "
+              fx="spin"
               ease="funky"
               role="button"
               as="mm-burger"

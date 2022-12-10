@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { publicGetService } from "../services/public";
+import { publicGetRules } from "../services/public";
 import { getReportPenService } from "../services/report";
 
 export const useSiteInfo = () => {
@@ -8,7 +8,7 @@ export const useSiteInfo = () => {
   const [loading, setLoading] = useState(true);
   const handleCheckLogin = async () => {
     try {
-      const res = await publicGetService();
+      const res = await publicGetRules();
       setSiteInfo(res.data);
       localStorage.setItem("siteInfo", JSON.stringify(res.data));
       setLoading(false);
@@ -121,7 +121,7 @@ export const useLastReward = () => {
   ];
   const handleGetLastReward = async () => {
     try {
-      const res = await getReportPenService("getLastReward");
+      const res = await getReportPenService("getLastRewards");
       if (res.status === 200) {
         setLastReward(res.data);
         //setLastReward(_bonuses);

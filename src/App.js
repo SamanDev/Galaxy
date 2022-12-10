@@ -101,9 +101,11 @@ function App(prop) {
   const location = useLocation();
   const handleOpenTable = async (tableName) => {
     var values = { tableName: tableName };
-    try {
-      const res = await cashierService(values, "openTable");
-    } catch (error) {}
+    if (isUser) {
+      try {
+        const res = await cashierService(values, "openTable");
+      } catch (error) {}
+    }
   };
   function bindActiveTable() {
     $(".tablename")
@@ -831,7 +833,7 @@ function App(prop) {
       if (isLogin) {
         setDcOpen(true);
       } else {
-        setDcOpen(true);
+        setDcOpen(false);
       }
     });
     eventBus.on("eventsConnect", () => {

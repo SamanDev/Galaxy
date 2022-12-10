@@ -41,7 +41,7 @@ const ActiveTable = (prop) => {
       {
         Array.apply(0, Array(_data.RingGames)).map(function (x, i) {
           if (
-            _data.Status[i].indexOf("Waiting: 0/") > -1 ||
+            //_data.Status[i].indexOf("Waiting: 0/") > -1 ||
             _data.Status[i].indexOf("Waiting: 1/") > -1 ||
             _data.Status[i].indexOf("Playing") > -1
           ) {

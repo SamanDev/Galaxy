@@ -1,7 +1,7 @@
 import axios from "axios";
 import { Alert } from "../utils/alerts";
 import config from "./config.json";
-import UserWebsocket from ".//user.websocket";
+import UserWebsocket from "./user.websocket";
 export const apiPath = config.onlinePath;
 export function checkBlock(data) {
   var loginToken = JSON.parse(localStorage.getItem("loginToken"));

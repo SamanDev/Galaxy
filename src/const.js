@@ -75,33 +75,66 @@ function getPortPablic() {
   return loc;
 }
 const moment = require("moment");
-export const levelDataInfo = [
-  {
-    name: "gPass",
-    minLevel: 10,
-    minBalance: 10000000,
-    banOutHours: 48,
-  },
-  {
-    name: "VIP",
-    minLevel: 25,
-    minBalance: 10000000,
-    banOutHours: 24,
-  },
-  {
-    name: "League",
-    minLevel: 5,
-    minBalance: 3000000,
-    banOutHours: 12,
-  },
-  {
-    name: "Tournament",
-    minLevel: 4,
-    minBalance: 1000000,
-    banOutHours: 12,
-  },
-];
-
+const levelDataInfoRules = () => {
+  try {
+    var siteinfo = JSON.parse(localStorage.getItem("siteInfo"));
+    console.log();
+    return [
+      {
+        name: "gPass",
+        minLevel: siteinfo.gpassSet[0].minLevel,
+        minBalance: siteinfo.gpassSet[0].minAmount,
+        banOutHours: siteinfo.gpassSet[0].hoursUnderLevel,
+      },
+      {
+        name: "VIP",
+        minLevel: siteinfo.vipTables[0].minLevel,
+        minBalance: siteinfo.vipTables[0].minAmount,
+        banOutHours: siteinfo.vipTables[0].hoursUnderLevel,
+      },
+      {
+        name: "League",
+        minLevel: siteinfo.dailyLeagueSet[0].minLevel,
+        minBalance: siteinfo.dailyLeagueSet[0].minAmount,
+        banOutHours: siteinfo.dailyLeagueSet[0].hoursUnderLevel,
+      },
+      {
+        name: "Tournament",
+        minLevel: 6,
+        minBalance: 1000000,
+        banOutHours: 12,
+      },
+    ];
+  } catch (error) {
+    return [
+      {
+        name: "gPass",
+        minLevel: 10,
+        minBalance: 10000000,
+        banOutHours: 48,
+      },
+      {
+        name: "VIP",
+        minLevel: 25,
+        minBalance: 10000000,
+        banOutHours: 24,
+      },
+      {
+        name: "League",
+        minLevel: 5,
+        minBalance: 3000000,
+        banOutHours: 12,
+      },
+      {
+        name: "Tournament",
+        minLevel: 6,
+        minBalance: 1000000,
+        banOutHours: 12,
+      },
+    ];
+  }
+};
+export const levelDataInfo = levelDataInfoRules();
 export const gameDataMain = "poker,bet,boom,backgammon".split(",");
 export const gameDataMainCode = "poker,bet,boom,backgammon".split(",");
 export const gameData =
@@ -211,6 +244,7 @@ export const depositData = [
     limit: "Unlimited",
   },
 ];
+
 export const menuData = [
   {
     label: "صفحه اصلی",
