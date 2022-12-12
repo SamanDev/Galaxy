@@ -10,12 +10,12 @@ const depositArea = (prop) => {
   const loginToken = JSON.parse(localStorage.getItem("loginToken"));
   return (
     <>
-      <Message color="yellow" compact className="mymessage" size="mini" icon>
+      <Message color="orange" compact className="mymessage" size="mini" icon>
         <Icon
           circular
           inverted
           color="black"
-          name="info"
+          name="vcard"
           style={{ fontSize: 20 }}
         />
 
@@ -27,7 +27,7 @@ const depositArea = (prop) => {
         fluid
         style={{ margin: "10px 0" }}
         className="farsi"
-        color="teal"
+        color="orange"
         onClick={() => $("#openaddcart").trigger("click")}
       >
         ثبت کارت بانکی

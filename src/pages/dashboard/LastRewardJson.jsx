@@ -5,6 +5,7 @@ import MenuLoader from "../../utils/menuLoader";
 import { getReportPenService } from "../../services/report";
 import $ from "jquery";
 import Reward from "../../utils/Reward";
+import eventBus from "../../services/eventBus";
 const ActiveTable = (prop) => {
   var _sortDataOld = [];
 
@@ -31,13 +32,11 @@ const ActiveTable = (prop) => {
   const [_sortData, setSortData] = useState(_sortDataOld);
 
   useEffect(() => {
-    if (_data != prop.lastReward) setData(prop.lastReward);
-  }, [prop.lastReward]);
-  useEffect(() => {
     var myData = _data;
 
     try {
       var myI = 1;
+
       myData.map(function (x, i) {
         var myx = x;
 
@@ -47,7 +46,7 @@ const ActiveTable = (prop) => {
 
           setTimeout(() => {
             prop.animateCSS(".id-" + myx.id + "", "zoomIn");
-          }, 1500 * (myData.length - myI));
+          }, 700 * (myData.length - myI));
         } else {
           myx.class = "lastlogs";
         }
@@ -55,22 +54,26 @@ const ActiveTable = (prop) => {
         _sortD.push(myx);
       });
 
-      _sortD.sort((a, b) => (a.id < b.id ? 1 : -1));
-
       setSortData(_sortD);
-      localStorage.setItem("lastRewardSort", JSON.stringify(_sortD));
+      setTimeout(() => {
+        localStorage.setItem("lastRewardSort", JSON.stringify(_sortD));
+      }, 700 * myI);
     } catch (error) {}
     //myData.sort((a, b) => (a.id < b.id ? 1 : -1));
     localStorage.setItem("lastReward", JSON.stringify(_data));
     //prop.animateCSS(".hiddenmenu.lastlogs", "slideInUp");
-    //console.log(_data);
+    console.log(_data);
   }, [_data]);
-
+  useEffect(() => {
+    eventBus.on("LastReward", (dataGet) => {
+      setData(dataGet);
+    });
+  }, []);
   return (
     <>
       {_sortData.length == 0 ? (
         <List divided inverted verticalAlign="middle" className="activetable">
-          <List.Item className="text-center" as="h2">
+          <List.Item className="text-center nodata" as="h2">
             No reward avaliable now
           </List.Item>
         </List>
@@ -81,7 +84,7 @@ const ActiveTable = (prop) => {
               {_sortData.map(function (bonus, i) {
                 return (
                   <div className={bonus.class} key={i}>
-                    <Reward item={bonus} {...prop} />
+                    <Reward item={bonus} />
                   </div>
                 );
               })}

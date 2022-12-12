@@ -609,13 +609,27 @@ i.star.big {
   margin: 0 !important;
 }
 .activetable .item {
-  padding: 10px !important;
+  padding:  0 !important;
   font-size: 11px !important;
   cursor: pointer;
   transition: all 0.2s ease;
 }
+.activetable .nodata {
+  padding:  30px 10px !important;
+  font-size: 11px !important;
+  cursor: default ;
+  transition: all 0.2s ease;
+}
 .activetable .item:hover {
   background: rgba(255, 255, 255, 0.05);
+}
+.activetable .item .ui.button {
+  border: none !important;
+  box-shadow: none !important;
+  height: 28px;
+}
+.activetable .item .right.floated.content {
+  display: inline-block
 }
 .ui.label.detail {
   width: 120px;

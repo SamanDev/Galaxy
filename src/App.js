@@ -27,7 +27,7 @@ import ConfettiArea from "./utils/partyclick";
 import { Dimmer, Loader, Segment } from "semantic-ui-react";
 import UserWebsocket from "./services/user.websocket";
 import eventBus from "./services/eventBus";
-import { checkBlock } from "./services/httpService";
+import { checkBlock, updateActiveTable } from "./services/httpService";
 import { cashierService } from "./services/cashier";
 import Moment from "react-moment";
 import ActiveTable from "./pages/dashboard/ActiveTableJson.jsx";
@@ -82,17 +82,17 @@ function App(prop) {
   startServiceWorker();
   const [refresh, setRefresh] = useState(false);
   const [loadingLogin, isLogin] = useIsLogin();
-  const [loadingInfo, siteInfo] = useSiteInfo();
-  const [loadingTable, activatTableData] = useActiveTable();
-  const [activatTable, setActivatTable] = useState();
-  const [loadingReward, lastRewardData] = useLastReward();
-  const [lastReward, setLastReward] = useState();
+
   const [isUser, setIsUser] = useState(false);
   const [dcOpen, setDcOpen] = useState(false);
   const [firstOpen, setFirstOpen] = useState(false);
   const [secondOpen, setSecondOpen] = useState(false);
   const [thirdOpen, setThirdOpen] = useState(false);
-
+  const [loadingInfo, siteInfo] = useSiteInfo();
+  const [loadingTable, activatTableData] = useActiveTable();
+  const [activatTable, setActivatTable] = useState();
+  const [loadingReward, lastRewardData] = useLastReward();
+  const [lastReward, setLastReward] = useState();
   const [activeMenu, setActiveMenu] = useState("main");
   const [activePanel, setActivePanel] = useState(false);
   const [activeMenuOld, setActiveMenuOld] = useState(activeMenu);
@@ -123,15 +123,9 @@ function App(prop) {
   }
   const CompGen = (prop) => {
     if (prop?.menu?.title == "میز های فعال") {
-      return <ActiveTable activatTable={activatTable} />;
+      return <ActiveTable />;
     } else if (prop?.menu?.title == "آخرین پاداش ها") {
-      return (
-        <LastReward
-          title="آخرین پاداش ها"
-          lastReward={lastReward}
-          animateCSS={animateCSS}
-        />
-      );
+      return <LastReward animateCSS={animateCSS} />;
     } else {
       return <>{prop.com}</>;
     }
@@ -605,12 +599,7 @@ function App(prop) {
   const openGame = () => {
     navigate("/games/poker");
   };
-  useEffect(() => {
-    setActivatTable(activatTableData);
-  }, [activatTableData]);
-  useEffect(() => {
-    setLastReward(lastRewardData);
-  }, [lastRewardData]);
+
   useEffect(() => {
     if (window.location.href.toString().indexOf("/logout") > -1) {
       setIsUser(false);
@@ -808,32 +797,11 @@ function App(prop) {
     }
   }, [isUser]);
   useEffect(() => {
-    eventBus.on("eventsDataUser", (dataGet) => {
-      setRefresh(true);
-      setTimeout(() => {
-        checkBlock(dataGet);
-        setRefresh(false);
-      }, 500);
-    });
-    eventBus.on("eventsDataUse2r", (dataGet) => {
-      setRefresh(true);
-      setTimeout(() => {
-        getUserService();
-        setRefresh(false);
-      }, 500);
-    });
-    eventBus.on("ActiveTables", (dataGet) => {
-      setActivatTable(dataGet);
-    });
-    eventBus.on("LastReward", (dataGet) => {
-      setLastReward(dataGet);
-    });
-
     eventBus.on("eventsDC", () => {
       if (isLogin) {
         setDcOpen(true);
       } else {
-        setDcOpen(false);
+        setDcOpen(true);
       }
     });
     eventBus.on("eventsConnect", () => {

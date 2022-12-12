@@ -29,6 +29,17 @@ export function checkBlock(data) {
     }
   }
 }
+
+export function updateActiveTable(data) {
+  var loginToken = JSON.parse(localStorage.getItem("activeTable"));
+  if (loginToken) {
+    if (loginToken != data) {
+      localStorage.setItem("activeTable", JSON.stringify(data));
+    }
+  } else {
+    localStorage.setItem("activeTable", JSON.stringify(data));
+  }
+}
 axios.interceptors.response.use(
   (res) => {
     if (res.status == 200) {

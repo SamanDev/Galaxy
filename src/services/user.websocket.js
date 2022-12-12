@@ -7,79 +7,7 @@ var timerId = 0;
 var res = false;
 var _bonuses = [
   {
-    id: 12,
-    date: "2022-08-13T04:01:53.000+00:00",
-    expireDate: "2022-08-13T23:54:03.000+00:00",
-    mode: "commission",
-    label: "کمیسیون",
-    text: "Commission",
-    username: "coce",
-    status: "Pending",
-    received: false,
-    amount: 1040000,
-  },
-  {
-    id: 11,
-    date: "2022-08-13T04:01:53.000+00:00",
-    expireDate: "2023-08-12T23:54:03.000+00:00",
-    mode: "gpass",
-    label: "پاداش گلکسی پَس",
-    text: "Level 4",
-    username: "coce",
-    status: "Pending",
-    received: false,
-    amount: 1000000,
-  },
-  {
-    id: 10,
-    date: "2022-08-13T04:01:53.000+00:00",
-    expireDate: "2022-08-13T23:54:03.000+00:00",
-    mode: "rakeback",
-    label: "ریک بک",
-    text: "Rakeack",
-    username: "coce",
-    status: "Pending",
-    received: false,
-    amount: 1040000,
-  },
-  {
-    id: 9,
-    date: "2022-08-13T18:53:53.000+00:00",
-    expireDate: "2023-08-12T23:54:03.000+00:00",
-    mode: "levels",
-    label: "پاداش افزایش لٍوٍل",
-    text: "Level 4",
-    username: "coce",
-    status: "Pending",
-    received: false,
-    amount: 1000000,
-  },
-  {
-    id: 8,
-    date: "2022-08-13T04:01:53.000+00:00",
-    expireDate: "2023-08-12T23:54:03.000+00:00",
-    mode: "vip",
-    label: "VIP Gift",
-    text: "VIP Gift",
-    username: "coce",
-    status: "Pending",
-    received: false,
-    amount: 1000000,
-  },
-  {
-    id: 7,
-    date: "2022-08-13T04:01:53.000+00:00",
-    expireDate: "2023-08-12T23:54:03.000+00:00",
-    mode: "league",
-    label: "لیگ روزانه",
-    text: "Place 1",
-    username: "HangOver",
-    status: "Pending",
-    received: false,
-    amount: 1000000,
-  },
-  {
-    id: 6,
+    id: 2,
     date: "2022-08-13T18:53:53.000+00:00",
     expireDate: "2022-08-13T23:54:03.000+00:00",
     mode: "gift1",
@@ -91,7 +19,7 @@ var _bonuses = [
     amount: 1000000,
   },
   {
-    id: 5,
+    id: 3,
     date: "2022-08-12T18:53:53.000+00:00",
     expireDate: "2022-08-12T23:54:03.000+00:00",
     mode: "bonus",
@@ -115,7 +43,7 @@ var _bonuses = [
     amount: 1040000,
   },
   {
-    id: 3,
+    id: 5,
     date: "2022-08-13T04:01:53.000+00:00",
     expireDate: "2023-08-12T23:54:03.000+00:00",
     mode: "gpass",
@@ -127,7 +55,7 @@ var _bonuses = [
     amount: 1000000,
   },
   {
-    id: 2,
+    id: 6,
     date: "2022-08-13T04:01:53.000+00:00",
     expireDate: "2022-08-13T23:54:03.000+00:00",
     mode: "rakeback",
@@ -231,13 +159,14 @@ class UserWebsocket {
             eventBus.dispatch("updateAllEvents", msg.data);
           } else if (msg.Command === "updateUser") {
             eventBus.dispatch("eventsDataUser", msg.data);
+            // eventBus.dispatch("LastReward", _bonuses);
           } else if (msg.Command === "eventId") {
             eventBus.dispatch("updateEventId", msg.data);
           } else if (msg.Command === "ActiveTables") {
             eventBus.dispatch("ActiveTables", msg.data);
           } else if (msg.Command === "LastReward") {
-            //eventBus.dispatch("LastReward", msg.data);
-            eventBus.dispatch("LastReward", _bonuses);
+            eventBus.dispatch("LastReward", msg.data);
+            // eventBus.dispatch("LastReward", _bonuses);
           } else if (msg.Command === "startTick") {
             // setYvalStart(msg.tick);
           }
@@ -274,7 +203,7 @@ class UserWebsocket {
 
         if (e.type === "error") {
           //localStorage.setItem("user", JSON.stringify(defUser));
-          //  eventBus.dispatch("eventsDC", "");
+          eventBus.dispatch("eventsDC", "");
           // localStorage.clear();
           //window.location.reload();
           //window.location.replace("/auth/login-page");
@@ -315,7 +244,7 @@ class UserWebsocket {
       //eventBus.dispatch("eventsDC", "");
     } else {
       //ws?.close();
-      //eventBus.dispatch("eventsDC", "");
+      eventBus.dispatch("eventsDC", "");
     }
   }
 

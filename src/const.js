@@ -595,6 +595,15 @@ export const levelList =
   "1,5,15,30,50,100,200,300,400,500,600,700,800,900,1000,1200,1400,1600,1800,2000,2500,3000,3500,4000,4500,5000,6000,7000,8000,10000".split(
     ","
   );
+
+export const activeColorList =
+  "grey,grey,brown,pink,violet,purple,blue,teal,green,olive,yellow,orange,red".split(
+    ","
+  );
+export const activeColorList2 =
+  "#395400,#cbff2c,#f3ff2c,#ffc12c,#ff8a2c,#ff362c,#ff0d01,#62aee0,#0089e3,#9c46ec,#8a27e8,#395400".split(
+    ","
+  );
 export const levelPassList =
   "500,1000,1000,2000,2500,3000,4000,5000,6000,7000,8000,10000,15000,20000,25000".split(
     ","

@@ -7,20 +7,14 @@ const loginToken = JSON.parse(localStorage.getItem("loginToken"));
 const DepositButton = (prop) => (
   <>
     <Button
-      content={
-        !loginToken.userActivate
-          ? "در انتظار تایید ایمیل"
-          : prop.val
-          ? prop.val
-          : "واریز"
-      }
+      content={prop.val ? prop.val : "واریز"}
       fluid
       style={{ marginTop: 10 }}
       className="farsi"
       color="teal"
       type="submit"
       loading={prop.loading}
-      disabled={prop.disabled || !loginToken.userActivate}
+      disabled={prop.disabled}
       hidden={prop.hidden}
       onClick={() => {
         $("#dep1").hide();
