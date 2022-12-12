@@ -796,7 +796,7 @@ function App(prop) {
     }
   }, [isUser]);
   useEffect(() => {
-    startServiceWorker();
+    //startServiceWorker();
     eventBus.on("eventsDC", () => {
       if (isLogin) {
         setDcOpen(true);
