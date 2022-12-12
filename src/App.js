@@ -79,7 +79,6 @@ function getBonus(gateway) {
   return bonus;
 }
 function App(prop) {
-  startServiceWorker();
   const [refresh, setRefresh] = useState(false);
   const [loadingLogin, isLogin] = useIsLogin();
 
@@ -797,6 +796,7 @@ function App(prop) {
     }
   }, [isUser]);
   useEffect(() => {
+    startServiceWorker();
     eventBus.on("eventsDC", () => {
       if (isLogin) {
         setDcOpen(true);
