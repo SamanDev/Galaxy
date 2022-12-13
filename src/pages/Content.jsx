@@ -1,11 +1,8 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext } from "react";
 import { Route, Routes } from "react-router-dom";
 import { AdminContext } from "../context/adminLayoutContext";
 import Dashboard from "./dashboard/Dashboard";
 import Admin from "./admin/Index";
-import Requests from "./admin/Requests";
-import eventBus from "../services/eventBus";
-import { checkBlock, updateActiveTable } from "../services/httpService";
 const Content = (prop) => {
   const { showSidebar } = useContext(AdminContext);
 

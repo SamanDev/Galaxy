@@ -1,14 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { List, Segment, Button } from "semantic-ui-react";
-import { useNavigate } from "react-router-dom";
-import MenuLoader from "../../utils/menuLoader";
+import { List, Segment } from "semantic-ui-react";
 import { activeColorList } from "../../const";
 import eventBus from "../../services/eventBus";
-import $ from "jquery";
-const handleOpenPanel = (e) => {
-  $("#panelrightopen").toggle("click");
-  alert();
-};
 
 const ActiveTable = (prop) => {
   var _sortDataOld = [];

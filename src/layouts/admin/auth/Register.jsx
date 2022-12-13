@@ -1,21 +1,9 @@
 import React, { useState } from "react";
-import {
-  Label,
-  Input,
-  Header,
-  Divider,
-  Icon,
-  Button,
-  Segment,
-  Message,
-} from "semantic-ui-react";
-import Amount from "../input/Amount";
-import DepositButton from "../input/DepositButton";
+import { Header, Divider, Button, Segment } from "semantic-ui-react";
 import AuthFormikControl from "../../../components/authForm/AuthFormikControl";
 import { useNavigate } from "react-router-dom";
-import { FastField, Form, Formik } from "formik";
+import { Form, Formik } from "formik";
 import * as Yup from "yup";
-import { Alert } from "../../../utils/alerts";
 import MyMsg from "../../../utils/MsgDesc";
 import { registerService } from "../../../services/auth";
 const reffer = localStorage.getItem("refer");
@@ -42,6 +30,19 @@ const validationSchema = Yup.object({
   email: Yup.string()
     .required("لطفا یک ایمیل معتبر وارد کنید.")
     .email("لطفا یک ایمیل معتبر وارد کنید."),
+  password: Yup.string()
+    .required("کلمه عبور حداقل باشد 6 کاراکتر باشد.")
+    .min(6, "کلمه عبور حداقل باشد 6 کاراکتر باشد.")
+
+    .matches(/(?=.*\d)/, "کلمه عبور حتما باید شامل یک عدد باشد.")
+
+    .matches(/((?=.*[A-Z]){1})/, "کلمه عبور حتما باید شامل یک حرف بزرگ باشد.")
+    .matches(/(?=.*\W)/, "کلمه عبور حتما باید شامل علامت (?!@...) باشد."),
+  newPassword: Yup.string()
+
+    .required("کلمه عبور حداقل باشد 6 کاراکتر باشد.")
+
+    .oneOf([Yup.ref("password"), null], "کلمه های عبور باید مطابقت ندارند."),
 });
 const onSubmit = async (values, submitMethods, navigate, prop) => {
   const res = await registerService(values);
@@ -100,20 +101,7 @@ const depositArea = (prop) => {
                 }
               />
               <Divider inverted />
-              <MyMsg
-                icon="info"
-                color="red"
-                text={
-                  <>
-                    لطفا فقط از حروف و عدد برای ایجاد نام کاربری استفاده کنید.
-                    <br />
-                    نام کاربری باید شامل حداقل 3 و حداکثر 12 کارکتر باشد. <br />
-                    <br />
-                    کلمه عبور به ایمیل شما ارسال خواهد شد. لطفا در وارد کردن آن
-                    دقت نمایید.
-                  </>
-                }
-              />
+
               <Divider inverted />
               <AuthFormikControl
                 formik={formik}
@@ -136,7 +124,27 @@ const depositArea = (prop) => {
                 size={prop.size}
                 autoComplete="email"
               />
-
+              <Divider inverted />
+              <AuthFormikControl
+                formik={formik}
+                control="input"
+                type="password"
+                name="password"
+                autoComplete="new-password"
+                label=" کلمه عبور "
+                labelcolor={prop.labelcolor}
+                size={prop.size}
+              />
+              <AuthFormikControl
+                formik={formik}
+                control="input"
+                type="password"
+                name="newPassword"
+                label="تکرار کلمه عبور"
+                labelcolor={prop.labelcolor}
+                autoComplete="new-password"
+                size={prop.size}
+              />
               <Button
                 content="ساخت اکانت"
                 fluid

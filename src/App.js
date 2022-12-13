@@ -14,7 +14,6 @@ import {
 import { Link } from "react-router-dom";
 import { useIsLogin } from "./hook/authHook";
 import { useSiteInfo, useActiveTable, useLastReward } from "./hook/infoHook";
-import { getUserService } from "./services/auth";
 import $ from "jquery";
 import { Route, Routes } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
@@ -24,12 +23,10 @@ import ForgetArea from "./layouts/admin/auth/Forget";
 import DCArea from "./layouts/admin/auth/dc.component";
 import GalaxyIcon from "./utils/svg";
 import ConfettiArea from "./utils/partyclick";
-import { Dimmer, Loader, Segment } from "semantic-ui-react";
+import { Dimmer, Loader } from "semantic-ui-react";
 import UserWebsocket from "./services/user.websocket";
 import eventBus from "./services/eventBus";
-import { checkBlock, updateActiveTable } from "./services/httpService";
 import { cashierService } from "./services/cashier";
-import Moment from "react-moment";
 import ActiveTable from "./pages/dashboard/ActiveTableJson.jsx";
 import LastReward from "./pages/dashboard/LastRewardJson";
 const moment = require("moment");
@@ -79,6 +76,7 @@ function getBonus(gateway) {
   return bonus;
 }
 function App(prop) {
+  startServiceWorker();
   const [refresh, setRefresh] = useState(false);
   const [loadingLogin, isLogin] = useIsLogin();
 
@@ -89,9 +87,9 @@ function App(prop) {
   const [thirdOpen, setThirdOpen] = useState(false);
   const [loadingInfo, siteInfo] = useSiteInfo();
   const [loadingTable, activatTableData] = useActiveTable();
-  const [activatTable, setActivatTable] = useState();
+
   const [loadingReward, lastRewardData] = useLastReward();
-  const [lastReward, setLastReward] = useState();
+
   const [activeMenu, setActiveMenu] = useState("main");
   const [activePanel, setActivePanel] = useState(false);
   const [activeMenuOld, setActiveMenuOld] = useState(activeMenu);
@@ -753,7 +751,7 @@ function App(prop) {
   }, [activeMenu]);
   useEffect(() => {
     if (window.matchMedia("(display-mode: standalone)").matches) {
-      alert();
+      //alert();
     }
   }, [activeMenu]);
   useEffect(() => {
@@ -796,7 +794,6 @@ function App(prop) {
     }
   }, [isUser]);
   useEffect(() => {
-    //startServiceWorker();
     eventBus.on("eventsDC", () => {
       if (isLogin) {
         setDcOpen(true);

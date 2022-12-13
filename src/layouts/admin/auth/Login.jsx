@@ -1,19 +1,8 @@
 import React, { useState } from "react";
-import {
-  Label,
-  Input,
-  Header,
-  Divider,
-  Icon,
-  Button,
-  Segment,
-  Message,
-} from "semantic-ui-react";
-import Amount from "../input/Amount";
-import DepositButton from "../input/DepositButton";
+import { Label, Header, Divider, Button, Segment } from "semantic-ui-react";
 import AuthFormikControl from "../../../components/authForm/AuthFormikControl";
 import { useNavigate } from "react-router-dom";
-import { FastField, Form, Formik } from "formik";
+import { Form, Formik } from "formik";
 import * as Yup from "yup";
 import { Alert } from "../../../utils/alerts";
 import { loginService } from "../../../services/auth";

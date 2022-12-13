@@ -4,23 +4,20 @@ import { Link } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { getUserService, getPokerSession } from "../../services/auth";
+import { checkBlock } from "../../services/httpService";
 import {
   Grid,
   Image,
   Button,
   Container,
-  List,
-  Label,
   Tab,
   Icon,
   Dropdown,
   Dimmer,
   Loader,
-  Segment,
 } from "semantic-ui-react";
 import {
   gameData,
-  gameDataCode,
   gameDataMain,
   gameDataMainCode,
   getEvent,
@@ -144,7 +141,7 @@ const Dashboard = (prop) => {
   const [sessionKey, setSessionKey] = useState("");
   const handleCheckLogin = async () => {
     try {
-      const res = await getUserService();
+      const res = await getUserService(sessionKey);
     } catch (error) {}
   };
 
@@ -287,9 +284,10 @@ const Dashboard = (prop) => {
       navigate("/");
     }
   }, [curPage, prop.isLogin]);
+  var loginToken = JSON.parse(localStorage.getItem("loginToken"));
   useEffect(() => {
     if (prop.isLogin && curPage == "game") {
-      handleCheckLogin();
+      checkBlock(loginToken);
     }
   }, [curPage]);
   useEffect(() => {
@@ -298,7 +296,7 @@ const Dashboard = (prop) => {
       $("#gamesec2").scrollLeft($("#gamesec2").width() / 2);
     } catch (error) {}
   }, [gameLoader]);
-  var loginToken = JSON.parse(localStorage.getItem("loginToken"));
+
   const panes = [
     {
       menuItem: "Tab 1",
