@@ -62,7 +62,7 @@ const ActiveTable = (prop) => {
     //myData.sort((a, b) => (a.id < b.id ? 1 : -1));
     localStorage.setItem("lastReward", JSON.stringify(_data));
     //prop.animateCSS(".hiddenmenu.lastlogs", "slideInUp");
-    console.log(_data);
+    //console.log(_data);
   }, [_data]);
   useEffect(() => {
     eventBus.on("LastReward", (dataGet) => {
@@ -83,7 +83,11 @@ const ActiveTable = (prop) => {
             <>
               {_sortData.map(function (bonus, i) {
                 return (
-                  <div className={bonus.class} key={i}>
+                  <div
+                    className={bonus.class + " rewardname"}
+                    mode={bonus.mode}
+                    key={i}
+                  >
                     <Reward item={bonus} />
                   </div>
                 );

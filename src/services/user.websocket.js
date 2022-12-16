@@ -172,7 +172,8 @@ class UserWebsocket {
           }
         } else {
           if (message === "closeConnection") {
-            //localStorage.removeItem("events");
+            //localStorage.removeItem("getGateways");
+
             // localStorage.clear();
             //window.location.reload();
 

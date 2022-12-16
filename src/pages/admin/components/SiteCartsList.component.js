@@ -134,7 +134,7 @@ function Admin(prop) {
     var _e = moment(endDate).format("YYYY-MM-DD");
 
     try {
-      const res = await adminGetService(`getSiteBankCard`);
+      const res = await adminGetService(`getSiteBankCards`);
       if (res.status === 200) {
         setData(res.data);
 

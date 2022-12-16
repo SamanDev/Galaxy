@@ -75,6 +75,7 @@ function getBonus(gateway) {
 
   return bonus;
 }
+localStorage.removeItem("getGateways");
 function App(prop) {
   startServiceWorker();
   const [refresh, setRefresh] = useState(false);
@@ -115,6 +116,15 @@ function App(prop) {
           }, 4000);
         } else {
           handleOpenTable($(this).find(".name").text());
+        }
+      });
+  }
+  function bindLastReward() {
+    $(".rewardname")
+      .unbind()
+      .bind("click", function (event) {
+        if ($("." + $(this).attr("mode"), "").length > 0) {
+          openPanel("." + $(this).attr("mode"), "");
         }
       });
   }
@@ -220,8 +230,7 @@ function App(prop) {
                                 </span>
                               </li>
                               <li>
-                                {(activeMenu == menu.label ||
-                                  (activePanel && activeMenu == "main")) && (
+                                {(activeMenu == menu.label || activePanel) && (
                                   <>
                                     <CompGen
                                       comp={menu.component}
@@ -562,6 +571,7 @@ function App(prop) {
   };
 
   const openPanel = (id, toId) => {
+    if ($(id).length == 0) return false;
     var _id = id;
     $(".popup").hide();
     if (_id.indexOf("#") == -1) {
@@ -766,6 +776,7 @@ function App(prop) {
   }, [isLogin]);
   useEffect(() => {
     bindActiveTable();
+    bindLastReward();
   });
   useEffect(() => {
     if (window.location.href.toString().indexOf("/login") > -1) {

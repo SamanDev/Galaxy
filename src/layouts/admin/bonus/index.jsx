@@ -152,7 +152,7 @@ var _bonuses = [
     amount: 1000000,
   },
 ];
-
+_bonuses.sort((a, b) => (a.id < b.id ? 1 : -1));
 const openDeposit = () => {
   $("#opendeposit").trigger("click");
 };
