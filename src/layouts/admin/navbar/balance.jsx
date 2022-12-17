@@ -10,8 +10,10 @@ import {
 import DepositArea from "../forms/index";
 
 import LevelIcon from "../../../utils/svg";
-
+import RisingPitch from "../../../pages/admin/PlayBip";
+import RisingPitchReward from "../../../pages/admin/PlayReward";
 import BonusArea from "../bonus/index.jsx";
+import $ from "jquery";
 //import BonusArea from "../../../pages/dashboard/ActiveTableJson";
 import {
   doCurrency,
@@ -19,6 +21,140 @@ import {
   getEvent,
   levelClassInside,
 } from "../../../const";
+var _bonuses = [
+  {
+    id: 4,
+    date: "2022-08-13T04:01:53.000+00:00",
+    expireDate: "2022-08-13T23:54:03.000+00:00",
+    mode: "commission",
+    label: "کمیسیون",
+    text: "Commission",
+    username: "coce",
+    status: "Pending",
+    received: false,
+    amount: 1040000,
+  },
+  {
+    id: 6,
+    date: "2022-08-13T04:01:53.000+00:00",
+    expireDate: "2023-08-12T23:54:03.000+00:00",
+    mode: "gpass",
+    label: "پاداش گلکسی پَس",
+    text: "Level 15",
+    username: "coce",
+    status: "Pending",
+    received: false,
+    amount: 1000000,
+  },
+  {
+    id: 6,
+    date: "2022-08-13T04:01:53.000+00:00",
+    expireDate: "2023-08-12T23:54:03.000+00:00",
+    mode: "gpass",
+    label: "پاداش گلکسی پَس",
+    text: "Level 1",
+    username: "coce",
+    status: "Pending",
+    received: false,
+    amount: 1000000,
+  },
+  {
+    id: 5,
+    date: "2022-08-13T04:01:53.000+00:00",
+    expireDate: "2022-08-13T23:54:03.000+00:00",
+    mode: "rakeback",
+    label: "ریک بک",
+    text: "Rakeack",
+    username: "coce",
+    status: "Pending",
+    received: false,
+    amount: 1040000,
+  },
+  {
+    id: 1,
+    date: "2022-08-13T18:53:53.000+00:00",
+    expireDate: "2023-08-12T23:54:03.000+00:00",
+    mode: "levels",
+    label: "پاداش افزایش لٍوٍل",
+    text: "Level 59",
+    username: "coce",
+    status: "Pending",
+    received: false,
+    amount: 1000000,
+  },
+  {
+    id: 7,
+    date: "2022-08-13T04:01:53.000+00:00",
+    expireDate: "2023-08-12T23:54:03.000+00:00",
+    mode: "vip",
+    label: "VIP Gift",
+    text: "VIP Gift",
+    username: "coce",
+    status: "Pending",
+    received: false,
+    amount: 1000000,
+  },
+  {
+    id: 8,
+    date: "2022-08-13T04:01:53.000+00:00",
+    expireDate: "2023-08-12T23:54:03.000+00:00",
+    mode: "league",
+    label: "لیگ روزانه",
+    text: "Place 1",
+    username: "coce",
+    status: "Pending",
+    received: false,
+    amount: 1000000,
+  },
+  {
+    id: 3,
+    date: "2022-08-13T18:53:53.000+00:00",
+    expireDate: "2022-08-13T23:54:03.000+00:00",
+    mode: "gift3",
+    label: "هدیه",
+    text: "Free Gift",
+    username: "coce",
+    status: "Pending",
+    received: false,
+    amount: 1000000,
+  },
+  {
+    id: 3,
+    date: "2022-08-13T18:53:53.000+00:00",
+    expireDate: "2022-08-13T23:54:03.000+00:00",
+    mode: "gift2",
+    label: "هدیه",
+    text: "Free Gift",
+    username: "coce",
+    status: "Pending",
+    received: false,
+    amount: 1000000,
+  },
+  {
+    id: 3,
+    date: "2022-08-13T18:53:53.000+00:00",
+    expireDate: "2022-08-13T23:54:03.000+00:00",
+    mode: "gift1",
+    label: "هدیه",
+    text: "Free Gift",
+    username: "coce",
+    status: "Pending",
+    received: false,
+    amount: 1000000,
+  },
+  {
+    id: 2,
+    date: "2022-08-12T18:53:53.000+00:00",
+    expireDate: "2022-08-12T23:54:03.000+00:00",
+    mode: "bonus",
+    label: "بوناس",
+    text: "%5 Bonus",
+    username: "coce",
+    status: "Pending",
+    received: false,
+    amount: 1000000,
+  },
+];
 const moment = require("moment");
 const Balance = (prop) => {
   var lvlPercent = 0;
@@ -27,6 +163,10 @@ const Balance = (prop) => {
   const [color, setColor] = useState("grey");
   const [gCount, setGCount] = useState("0");
   const [stateMode, setStateMode] = useState(0);
+  const handleConfirmTest = (bonus, _bonuses, i, loginToken) => {
+    loginToken.userGifts = _bonuses;
+    localStorage.setItem("loginToken", JSON.stringify(loginToken));
+  };
   var _event = getEvent();
   if (loginToken) {
     if (loginToken.level == 0) {
@@ -86,6 +226,17 @@ const Balance = (prop) => {
       setlvlPercentState(gLvlPercent);
     }
   }, [stateMode]);
+  useEffect(() => {
+    if (gCount > 0) {
+      $("#playbip").trigger("click");
+    }
+  }, [gCount]);
+  useEffect(() => {
+    setTimeout(() => {
+      handleConfirmTest(0, _bonuses, 0, loginToken);
+      ChangeGift();
+    }, 4000);
+  }, []);
   if (loginToken) {
     return (
       <>
@@ -97,6 +248,8 @@ const Balance = (prop) => {
             ChangeStateMode();
           }}
         >
+          <RisingPitch />
+          <RisingPitchReward />
           {stateMode == 0 && (
             <span style={{ top: -2, position: "relative" }}>
               <LevelIcon

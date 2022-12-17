@@ -6,6 +6,7 @@ import { getReportPenService } from "../../services/report";
 import $ from "jquery";
 import Reward from "../../utils/Reward";
 import eventBus from "../../services/eventBus";
+import RisingPitch from "../../pages/admin/PlayReward";
 const ActiveTable = (prop) => {
   var _sortDataOld = [];
 
@@ -40,10 +41,9 @@ const ActiveTable = (prop) => {
       myData.map(function (x, i) {
         var myx = x;
 
-        if (_sortDataOld.filter((d) => d.id == myx.id).length == 0) {
+        if (_sortDataOld.filter((d, i) => d.id == myx.id).length == 0) {
           myx.class = "lastlogs id-" + myx.id + " hiddenmenu fast";
           myI = myI + 1;
-
           setTimeout(() => {
             prop.animateCSS(".id-" + myx.id + "", "zoomIn");
           }, 700 * (myData.length - myI));
@@ -57,16 +57,18 @@ const ActiveTable = (prop) => {
       setSortData(_sortD);
       setTimeout(() => {
         localStorage.setItem("lastRewardSort", JSON.stringify(_sortD));
+        $("#playreward").trigger("click");
       }, 700 * myI);
     } catch (error) {}
-    //myData.sort((a, b) => (a.id < b.id ? 1 : -1));
+
     localStorage.setItem("lastReward", JSON.stringify(_data));
     //prop.animateCSS(".hiddenmenu.lastlogs", "slideInUp");
     //console.log(_data);
   }, [_data]);
   useEffect(() => {
     eventBus.on("LastReward", (dataGet) => {
-      setData(dataGet);
+      var mydataGet = dataGet.sort((a, b) => (a.id < b.id ? 1 : -1));
+      setData(mydataGet);
     });
   }, []);
   return (

@@ -67,7 +67,7 @@ var _bonuses = [
     amount: 1040000,
   },
   {
-    id: 1,
+    id: 9,
     date: "2022-08-13T18:53:53.000+00:00",
     expireDate: "2023-08-12T23:54:03.000+00:00",
     mode: "levels",
@@ -159,7 +159,7 @@ class UserWebsocket {
             eventBus.dispatch("updateAllEvents", msg.data);
           } else if (msg.Command === "updateUser") {
             eventBus.dispatch("eventsDataUser", msg.data);
-            // eventBus.dispatch("LastReward", _bonuses);
+            //eventBus.dispatch("LastReward", _bonuses);
           } else if (msg.Command === "eventId") {
             eventBus.dispatch("updateEventId", msg.data);
           } else if (msg.Command === "ActiveTables") {

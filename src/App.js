@@ -975,6 +975,7 @@ function App(prop) {
                   setIsUser={setIsUser}
                   getAccess={getAccess}
                   animateCSS={animateCSS}
+                  setRefresh={setRefresh}
                 />
               }
             />

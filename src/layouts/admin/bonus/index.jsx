@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Icon,
   Item,
@@ -13,6 +13,7 @@ import { doCurrency, levelDataInfo, levelClassInside } from "../../../const";
 import { Alert } from "../../../utils/alerts";
 import { MyConfirm, MyToast, MyDeposit } from "../../../utils/myAlert";
 import Status from "../../../utils/Status";
+
 import Moment from "react-moment";
 import Report from "../../../pages/dashboard/ReportPen";
 import $ from "jquery";
@@ -167,12 +168,8 @@ const getReward = async (bonus, _bonuses, i, loginToken) => {
   handleConfirmTest(bonus, _bonuses, i, loginToken);
 };
 const handleConfirmTest = (bonus, _bonuses, i, loginToken) => {
-  bonus.status = "Done";
-  bonus.received = true;
-  _bonuses[i] = bonus;
   loginToken.userGifts = _bonuses;
   localStorage.setItem("loginToken", JSON.stringify(loginToken));
-  MyToast("انجام شد");
 };
 const handleConfirm = (bonus, _bonuses, i, loginToken) => {
   var start = moment(bonus.date);
@@ -212,14 +209,14 @@ const handleConfirm = (bonus, _bonuses, i, loginToken) => {
 };
 const BonusArea = (prop) => {
   var loginToken = JSON.parse(localStorage.getItem("loginToken"));
-  //var _bonuses = loginToken.userGifts;
-  _bonuses.sort((a, b) => (a.id < b.id ? 1 : -1));
+  var _bonuses2 = loginToken.userGifts;
+  _bonuses2.sort((a, b) => (a.id < b.id ? 1 : -1));
   return (
     <div style={{ margin: "5px 0 5px 0" }} className="bonuslist fadeoutend">
-      {_bonuses.length > 0 && (
+      {_bonuses2.length > 0 && (
         <>
           <List divided inverted verticalAlign="middle">
-            {_bonuses.map(function (bonus, i) {
+            {_bonuses2.map(function (bonus, i) {
               var start = moment(bonus.date);
               var expire = moment(bonus.expireDate);
               var end = moment();
