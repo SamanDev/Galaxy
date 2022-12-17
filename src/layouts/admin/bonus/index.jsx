@@ -209,14 +209,14 @@ const handleConfirm = (bonus, _bonuses, i, loginToken) => {
 };
 const BonusArea = (prop) => {
   var loginToken = JSON.parse(localStorage.getItem("loginToken"));
-  var _bonuses2 = loginToken.userGifts;
-  _bonuses2.sort((a, b) => (a.id < b.id ? 1 : -1));
+  var _bonuses = loginToken.userGifts;
+  _bonuses.sort((a, b) => (a.id < b.id ? 1 : -1));
   return (
     <div style={{ margin: "5px 0 5px 0" }} className="bonuslist fadeoutend">
-      {_bonuses2.length > 0 && (
+      {_bonuses.length > 0 && (
         <>
           <List divided inverted verticalAlign="middle">
-            {_bonuses2.map(function (bonus, i) {
+            {_bonuses.map(function (bonus, i) {
               var start = moment(bonus.date);
               var expire = moment(bonus.expireDate);
               var end = moment();
