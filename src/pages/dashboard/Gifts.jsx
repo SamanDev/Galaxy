@@ -7,15 +7,9 @@ import AddCalendar from "../../utils/AddCalendar";
 import GalaxyIcon from "../../utils/svganim";
 import ConfettiArea from "../../utils/partymenu";
 import Moment from "react-moment";
+import LevelIcon from "../../utils/svg";
 
-const moment = require("moment");
 const LevelList = () => {
-  var _day = moment().day(5);
-  var nowDay = moment(_day).date();
-  var start = moment(_day).format("YYYYMMDDT200000");
-
-  var end = moment().format("YYYYMMDDTHHmmss");
-
   return (
     <span className="myaccount popupmenu">
       <ConfettiArea recycle={false} numberOfPieces="50" />
@@ -42,154 +36,111 @@ const LevelList = () => {
             <GiftsDesc
               desc={
                 <>
-                  تورنومنت گلکسی هر{" "}
-                  <span className="farsi text-gold">جمعه ساعت 22:00</span> با{" "}
-                  <span className="farsi text-gold">
-                    ورودی رایگان برای لِوِل دار ها
-                  </span>{" "}
-                  برگزار می شود.
+                  <div style={{ float: "right", margin: "0 10px" }}>
+                    <LevelIcon
+                      mode="gift3"
+                      level="1"
+                      text="Gold Gift"
+                      classinside="iconinside0"
+                      number="1"
+                      width="60px"
+                      amin="inline animated swing fast"
+                      iconamin="swing inline animated"
+                    />
+                  </div>
+                  <div
+                    style={{
+                      height: 80,
+                      textAlign: "center",
+                      lineHeight: "40px",
+                    }}
+                  >
+                    مخصوص بازیکنان
+                    <br /> لول 20 و بالاتر
+                  </div>
                 </>
               }
-              desc2={
-                <>
-                  برای شرکت در تورنومنت گلکسی یا باید{" "}
-                  <span className="farsi text-gold">
-                    لول شما {levelDataInfo[3].minLevel} یا بالاتر
-                  </span>{" "}
-                  باشد یا موجودی اکانت شما بیش از{" "}
-                  <span className="farsi text-gold">
-                    {doCurrency(levelDataInfo[3].minBalance)} تومان
-                  </span>{" "}
-                  باشد.
-                </>
-              }
-              desc3={
-                <>
-                  توجه داشته باشید اگر لِوِل شما{" "}
-                  <span className="farsi text-gold">
-                    کمتر از {levelDataInfo[3].minLevel}
-                  </span>{" "}
-                  باشد، بس از ثبت نام، برداشت و انتقال شما به مدت{" "}
-                  <span className="farsi text-gold">
-                    {levelDataInfo[3].banOutHours} ساعت
-                  </span>{" "}
-                  بسته خواهد شد.
-                </>
-              }
-              desc4={
-                <>
-                  ثبت نام{" "}
-                  <span className="farsi text-gold">
-                    ۲ ساعت قبل از شروع تورنومنت
-                  </span>{" "}
-                  باز خواهد شد.
-                </>
-              }
-              amount="60000000"
               subtitle={
                 <>
-                  تومان برای ۳۰ نفر برتر
-                  <br />و معرف های آنها
+                  <br />
+                  از <span className="text-gold">500K</span> تا{" "}
+                  <span className="text-gold">3M</span>
                 </>
               }
+              title={<>هدیه طلایی</>}
             />
-            {start > end ? (
-              <>
-                <Button
-                  fluid
-                  style={{ margin: "10px 0" }}
-                  className="farsi lh-lg"
-                  color="grey"
-                  icon
-                  inverted
-                  disabled
-                >
-                  <Icon
-                    name="clock outline"
-                    size="huge"
-                    color="grey"
-                    inverted
-                  />
-
-                  <div style={{ marginTop: 10 }}>
-                    <Moment fromNow>{start}</Moment> تا{" "}
-                  </div>
-                  <div className="h4">شروع ثبت نام</div>
-                </Button>
-                <AddCalendar
-                  start={nowDay}
-                  dur="0"
-                  repeat="WEEKLY"
-                  format="2200"
-                  title="تورنومنت گلکسی"
-                />
-              </>
-            ) : (
-              <Button
-                fluid
-                style={{ margin: "10px 0" }}
-                className="farsi lh-lg"
-                color="red"
-                icon
-              >
-                <Icon
-                  name="calendar plus outline"
-                  size="huge"
-                  color="grey"
-                  inverted
-                />
-                <div style={{ marginTop: 10 }}> ثبت نام در</div>
-
-                <div className="h4">تورنومنت</div>
-              </Button>
-            )}
-
             <GiftsDesc
               desc={
-                <div className="text-center">
-                  ۳۰ جایزه{" "}
-                  <div className="farsi-inline text-gold h5">یک میلیونی</div>{" "}
-                  برای ۳۰ نفر پایانی تورنومنت
-                </div>
+                <>
+                  <div style={{ float: "right", margin: "0 10px" }}>
+                    <LevelIcon
+                      mode="gift2"
+                      level="1"
+                      text="Purple Gift"
+                      classinside="iconinside0"
+                      number="1"
+                      width="60px"
+                      amin="inline animated swing fast"
+                      iconamin="swing inline animated"
+                    />
+                  </div>
+                  <div
+                    style={{
+                      height: 80,
+                      textAlign: "center",
+                      lineHeight: "40px",
+                    }}
+                  >
+                    مخصوص بازیکنان
+                    <br /> لول 5 تا 20
+                  </div>
+                </>
               }
-              desc2={
-                <div className="text-center">
-                  فقط کافیست جزو ۳۰ نفر پایانی باشید تا برنده یک میلیونی باشید.
-                </div>
-              }
-              desc3={
-                <div className="text-center">
-                  ۳۰ جایزه{" "}
-                  <div className="farsi-inline text-gold h5">یک میلیونی</div>{" "}
-                  برای معرف های ۳۰ نفر پایانی تورنومنت
-                </div>
-              }
-              desc4={
-                <div className="text-center">
-                  با معرفی دوستان خود شانس برد خود را چند برابر کنید.
+              subtitle={
+                <>
                   <br />
-                  فقط کافیست آنها جزو ۳۰ نفر پایانی باشند تا شما برنده یک
-                  میلیونی باشید.
-                </div>
+                  از <span className="text-gold">100K</span> تا{" "}
+                  <span className="text-gold">500K</span>
+                </>
               }
-              title="۳۰+۳۰ میلیونی"
-              subtitle="یعنی چی؟"
+              title={<>هدیه بنفش</>}
             />
-            <Button
-              fluid
-              style={{ margin: "10px 0" }}
-              className="farsi"
-              color="orange"
-              onClick={() => $("#openinvite").trigger("click")}
-            >
-              <Icon.Group size="huge">
-                <Icon name="user" inverted />
-                <Icon corner name="add" color="red" />
-              </Icon.Group>
-              <br />
-              <br />
-              معرفی دوستان
-            </Button>
+            <GiftsDesc
+              desc={
+                <>
+                  <div style={{ float: "right", margin: "0 10px" }}>
+                    <LevelIcon
+                      mode="gift1"
+                      level="1"
+                      text="Red Gift"
+                      classinside="iconinside0"
+                      number="1"
+                      width="60px"
+                      amin="inline animated swing fast"
+                      iconamin="swing inline animated"
+                    />
+                  </div>
+                  <div
+                    style={{
+                      height: 80,
+                      textAlign: "center",
+                      lineHeight: "40px",
+                    }}
+                  >
+                    مخصوص بازیکنان
+                    <br /> لول 5 و پایین تر
+                  </div>
+                </>
+              }
+              subtitle={
+                <>
+                  <br />
+                  از <span className="text-gold">10K</span> تا{" "}
+                  <span className="text-gold">100K</span>
+                </>
+              }
+              title={<>هدیه قرمز</>}
+            />
           </List.Content>
         </List.Item>
       </List>

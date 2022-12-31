@@ -173,8 +173,19 @@ const Balance = (prop) => {
       loginToken.level = 1;
     }
     var _lvlFinal = levelData.filter((d) => d.level === loginToken.level);
-    lvlPercent = parseFloat((loginToken.levelPoint * 100) / _lvlFinal[0].point);
-    gLvlPercent = parseFloat((loginToken.glevelPoint * 100) / (5 * 60 * 60));
+
+    lvlPercent = parseFloat(
+      (loginToken.levelPoint * 100) / _lvlFinal[0].point
+    ).toFixed(2);
+    gLvlPercent = parseFloat(
+      (loginToken.glevelSecond * 100) / (5 * 60 * 60)
+    ).toFixed(2);
+    if (gLvlPercent > 100) {
+      gLvlPercent = 100;
+    }
+    if (lvlPercent > 100) {
+      lvlPercent = 100;
+    }
   }
 
   const [lvlPercentState, setlvlPercentState] = useState(lvlPercent);
@@ -235,11 +246,13 @@ const Balance = (prop) => {
     setTimeout(() => {
       handleConfirmTest(0, _bonuses, 0, loginToken);
       ChangeGift();
-    }, 4000);
+    }, 4000000);
   }, []);
   if (loginToken) {
     return (
       <>
+        <RisingPitch />
+        <RisingPitchReward />
         <Segment
           className="myaccount"
           inverted
@@ -248,8 +261,6 @@ const Balance = (prop) => {
             ChangeStateMode();
           }}
         >
-          <RisingPitch />
-          <RisingPitchReward />
           {stateMode == 0 && (
             <span style={{ top: -2, position: "relative" }}>
               <LevelIcon
@@ -361,6 +372,7 @@ const Balance = (prop) => {
             basic
             pinned
             hideOnScroll
+            disabled={gCount == 0 ? true : false}
             trigger={
               <Icon
                 circular
@@ -388,12 +400,20 @@ const Balance = (prop) => {
           >
             <BonusArea {...prop} ChangeGift={ChangeGift} />
           </Popup>
-          <Progress
-            percent={lvlPercentState}
+          <Popup
+            trigger={
+              <Progress
+                percent={lvlPercentState}
+                inverted
+                indicating
+                size="tiny"
+                className="myprogress"
+              />
+            }
+            size="mini"
             inverted
-            indicating
-            size="tiny"
-            className="myprogress"
+            content={"%" + lvlPercentState}
+            position="bottom center"
           />
         </Segment>
       </>

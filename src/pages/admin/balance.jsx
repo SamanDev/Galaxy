@@ -24,7 +24,7 @@ const Balance = (prop) => {
     }
     var _lvlFinal = levelData.filter((d) => d.level === loginToken.level);
     lvlPercent = parseFloat((loginToken.levelPoint * 100) / _lvlFinal[0].point);
-    gLvlPercent = parseFloat((loginToken.glevelPoint * 100) / (5 * 60 * 60));
+    gLvlPercent = parseFloat((loginToken.glevelSecond * 100) / (5 * 60 * 60));
   }
   const [lvlPercentState, setlvlPercentState] = useState(lvlPercent);
   const ChangeStateMode = () => {

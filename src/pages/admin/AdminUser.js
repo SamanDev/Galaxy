@@ -59,7 +59,8 @@ function getPathOfKey(object, keys, getwaysList) {
                       name: newO2["bankName"] + " - " + newO2["cardNumber"],
                       id: newO2["id"],
                       value: newO2[z],
-                      user: newO2,
+                      user: newO,
+                      card: newO2,
                     });
                     newOb[newO2["name"]] = newO2[z];
                   }

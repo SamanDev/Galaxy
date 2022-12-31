@@ -606,7 +606,7 @@ const Dashboard = (prop) => {
             activeIndex={activeIndex}
             menu={{ attached: false }}
           />
-          {!gameLoader && (
+          {(!gameLoader || 1 == 1) && (
             <div className="gameicons">
               <a href="#panelright">
                 <Icon

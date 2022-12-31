@@ -78,7 +78,7 @@ const moment = require("moment");
 const levelDataInfoRules = () => {
   try {
     var siteinfo = JSON.parse(localStorage.getItem("siteInfo"));
-    console.log();
+
     return [
       {
         name: "gPass",

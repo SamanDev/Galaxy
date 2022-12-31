@@ -130,9 +130,11 @@ const ActiveTable = (prop) => {
                   key={i}
                   id={"lvl" + (i + 1)}
                   as="div"
-                  className={"tablename  " + x.class}
+                  className={"tablename " + x.class}
                 >
-                  <div className={"ui inverted button fluid mini  " + x.class}>
+                  <div
+                    className={"ui  inverted button  fluid mini  " + x.class}
+                  >
                     <span className="name left floated">{x.name}</span>
 
                     <List.Content floated="right" className="rtl">

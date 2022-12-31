@@ -6,16 +6,15 @@ import { Form, Formik } from "formik";
 import * as Yup from "yup";
 import MyMsg from "../../../utils/MsgDesc";
 import { registerService } from "../../../services/auth";
-const reffer = localStorage.getItem("refer");
 function generateRandomInteger(min, max) {
   return Math.floor(min + Math.random() * (max - min + 1));
 }
 const initialValues = {
   username: "",
   email: "",
-  password: generateRandomInteger(11111111, 99999999),
-  //password: 42101365,
-  refer: reffer,
+  password: "",
+  newPassword: "",
+  refer: "",
 };
 const validationSchema = Yup.object({
   username: Yup.string()
@@ -56,12 +55,19 @@ const onSubmit = async (values, submitMethods, navigate, prop) => {
 };
 
 const depositArea = (prop) => {
+  var reffer = localStorage.getItem("refer");
   const [depMode, setDepMode] = useState(false);
   const navigate = useNavigate();
 
   return (
     <Formik
-      initialValues={initialValues}
+      initialValues={{
+        username: "",
+        email: "",
+        password: "",
+        newPassword: "",
+        refer: reffer,
+      }}
       onSubmit={(values, submitMethods) =>
         onSubmit(values, submitMethods, navigate, prop)
       }
@@ -94,7 +100,10 @@ const depositArea = (prop) => {
                     {reffer && (
                       <>
                         <br />
-                        شما توسط کاربر {reffer} دعوت شده اید.
+                        شما توسط کاربر <b className="text-gold">
+                          {reffer}
+                        </b>{" "}
+                        دعوت شده اید.
                       </>
                     )}
                   </>
@@ -124,6 +133,7 @@ const depositArea = (prop) => {
                 size={prop.size}
                 autoComplete="email"
               />
+
               <Divider inverted />
               <AuthFormikControl
                 formik={formik}

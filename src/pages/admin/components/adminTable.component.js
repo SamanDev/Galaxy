@@ -96,10 +96,10 @@ function getList(obj) {
 }
 const TableExampleWarningShorthand = (prop) => {
   console.log(prop.data);
-  const renderBodyRow = ({ name, value, user }, i) => ({
+  const renderBodyRow = ({ name, value, user, card }, i) => ({
     key: `row-${i}`,
     cells: [
-      capitalizeTxt(name, user) || "No name specified",
+      capitalizeTxt(name, card) || "No name specified",
       typeof value == "boolean"
         ? {
             key: `statusrow-${i}`,

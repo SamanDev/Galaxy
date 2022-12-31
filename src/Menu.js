@@ -70,79 +70,12 @@ function getBonus(gateway) {
     );
     var bonus = data_filter[0].bonus;
   } catch (error) {
-    var loginToken = [
-      {
-        id: 1,
-        total: 0,
-        bonus: 10,
-        name: "Bitcoin",
-        mode: "CoinPayments",
-        active: true,
-      },
-      {
-        id: 2,
-        total: 0,
-        bonus: 0,
-        name: "Digipay",
-        mode: "IranShetab",
-        active: true,
-      },
-
-      {
-        id: 7,
-        total: 0,
-        bonus: 0,
-        name: "Transfer",
-        mode: "Transfer",
-        active: true,
-      },
-      {
-        id: 8,
-        total: 0,
-        bonus: 0,
-        name: "Commission",
-        mode: "Commission",
-        active: true,
-      },
-      {
-        id: 9,
-        total: 0,
-        bonus: 5,
-        name: "PerfectMoney",
-        mode: "PerfectMoney",
-        active: true,
-      },
-      {
-        id: 10,
-        total: 0,
-        bonus: 5,
-        name: "USDT",
-        mode: "CoinPayments",
-        active: true,
-      },
-      {
-        id: 11,
-        total: 0,
-        bonus: 0,
-        name: "Rakeback",
-        mode: "Rakeback",
-        active: true,
-      },
-    ];
-    var data_filter = loginToken.filter((element) => element.name == gateway);
-
-    if (data_filter.length > 0) {
-      var bonus = data_filter[0].bonus;
-    } else {
-      var bonus = 0;
-    }
+    var bonus = 0;
   }
 
   return bonus;
 }
 localStorage.removeItem("getGateways");
-var finalMenu = "";
-var finalPanel = "";
 function App(prop) {
   startServiceWorker();
   const [refresh, setRefresh] = useState(false);
@@ -190,12 +123,8 @@ function App(prop) {
     $(".rewardname")
       .unbind()
       .bind("click", function (event) {
-        var _m = $(this).attr("mode");
-        if (_m.indexOf("gift") > -1) {
-          _m = "giftarea";
-        }
-        if ($("." + _m, "").length > 0) {
-          openPanel("." + _m, "");
+        if ($("." + $(this).attr("mode"), "").length > 0) {
+          openPanel("." + $(this).attr("mode"), "");
         }
       });
   }
@@ -208,7 +137,9 @@ function App(prop) {
       return <>{prop.com}</>;
     }
   };
-
+  useEffect(() => {
+    console.log(menu);
+  });
   try {
     loginToken = JSON.parse(localStorage.getItem("loginToken"));
   } catch (error) {
@@ -218,7 +149,7 @@ function App(prop) {
 
   function doMenu(menu, y, isPanel, isUser) {
     //if (panelMenu != "no") return false;
-    //console.log(menu, y, isPanel, isUser);
+    console.log(menu, y, isPanel, isUser);
     if (getAccess(menu.getwaykey)) {
       if (!menu.submenu) {
         if (
@@ -372,7 +303,7 @@ function App(prop) {
               )}
               {getBonus(menu.getwaykey) > 0 &&
                 (menu.bonus = "+" + getBonus(menu.getwaykey) + "%")}
-              {menu.bonus && menu.bonus != "0" && (
+              {menu.bonus && (
                 <small
                   className="ui red  mini floating label myfloatmenu"
                   style={{ minWidth: "auto" }}
@@ -450,9 +381,7 @@ function App(prop) {
                                   submenu.bonus.indexOf("-") == -1 &&
                                   (submenu.bonus =
                                     "+ " + getBonus(submenu.getwaykey) + "%")}
-                                {submenu.bonus &&
-                                submenu.bonus != "0" &&
-                                !submenu.helper ? (
+                                {submenu.bonus && !submenu.helper ? (
                                   <small className="ui red  mini floating label myfloatmenu">
                                     {submenu.bonus}
                                   </small>
@@ -647,13 +576,8 @@ function App(prop) {
   };
 
   const openPanel = (id, toId) => {
+    if ($(id).length == 0) return false;
     var _id = id;
-    if (_id.indexOf("gift") > -1) {
-      _id = ".giftarea";
-    }
-    console.log(_id);
-    if ($(_id).length == 0) return false;
-
     $(".popup").hide();
     if (_id.indexOf("#") == -1) {
       _id = $(_id).closest("[href]").attr("href");
@@ -662,31 +586,29 @@ function App(prop) {
     api.open();
     const panel = document.querySelector(_id);
     api.openPanel(panel);
-    setTimeout(() => {
-      var scrollTo = $(_id).find(toId);
-      if (scrollTo.length > 0 && toId) {
-        setTimeout(() => {
-          if (toId) {
-            try {
-              var scrollTo = $(_id).find(toId + ":visible");
-              var scrollDiv = scrollTo.closest(".mm-panel");
-              scrollTo.addClass("active");
-              scrollDiv.animate(
-                {
-                  scrollTop:
-                    scrollTo.offset().top -
-                    scrollDiv.offset().top +
-                    scrollDiv.scrollTop() -
-                    scrollTo.height(),
-                },
-                1000
-              );
-            } catch (error) {}
-          } else {
-          }
-        }, 1000);
-      }
-    }, 1000);
+    var scrollTo = $(_id).find(toId + ":visible");
+    if (scrollTo.length > 0) {
+      setTimeout(() => {
+        if (toId) {
+          try {
+            var scrollTo = $(_id).find(toId + ":visible");
+            var scrollDiv = scrollTo.closest(".mm-panel");
+            scrollTo.addClass("active");
+            scrollDiv.animate(
+              {
+                scrollTop:
+                  scrollTo.offset().top -
+                  scrollDiv.offset().top +
+                  scrollDiv.scrollTop() -
+                  scrollTo.height(),
+              },
+              1000
+            );
+          } catch (error) {}
+        } else {
+        }
+      }, 1000);
+    }
   };
   const openGame = () => {
     navigate("/games/poker");
@@ -702,6 +624,7 @@ function App(prop) {
     }
   }, [window.location.href]);
   useEffect(() => {
+    console.log(loadingLogin);
     if (!loadingLogin) {
       menu = new Mmenu(
         "#menuleft",
@@ -821,14 +744,14 @@ function App(prop) {
       });
       api.bind("open:before", () => {
         apiPanel.close();
-        setActivePanel(false);
+        //setActivePanel(false);
       });
       api.bind("close:after", () => {
-        setActivePanel(true);
+        //setActivePanel(true);
       });
       apiPanel.bind("open:before", () => {
-        setActivePanel(true);
-        setActiveMenu("main");
+        //setActivePanel(true);
+        //setActiveMenu("main");
       });
       apiPanel.bind("open:after", () => {
         $(".mm-wrapper__blocker").hide();
@@ -851,13 +774,11 @@ function App(prop) {
     }
   }, [activeMenu]);
   useEffect(() => {
-    finalMenu = "";
     if (window.matchMedia("(display-mode: standalone)").matches) {
       //alert();
     }
   }, [activeMenu]);
   useEffect(() => {
-    finalPanel = "";
     if (!activePanel && activeMenu == "main") {
       setActiveMenu(activeMenuOld);
     }
@@ -896,7 +817,6 @@ function App(prop) {
     if (isUser) {
       setFirstOpen(!isUser);
     }
-    finalMenu = "";
   }, [isUser]);
   useEffect(() => {
     eventBus.on("eventsDC", () => {
@@ -912,9 +832,6 @@ function App(prop) {
   }, []);
   useEffect(() => {
     eventBus.on("eventsDataUser", (dataGet) => {
-      finalMenu = "";
-      var ref = refresh;
-      console.log(dataGet);
       setRefresh(dataGet);
     });
   }, []);
@@ -927,204 +844,22 @@ function App(prop) {
       </Dimmer>
     );
   } else {
-    if (finalMenu == "" || 1 == 1) {
-      finalMenu = menuData.map(function (menu, i) {
-        return doMenu(menu, i, false, isUser);
-      });
-    }
-    if (finalPanel == "" || 1 == 1) {
-      finalPanel = panelData.map(function (menu, i) {
-        return doMenu(menu, i, "panel");
-      });
-    }
     return (
       <>
         <nav id="menuleft">
-          <ul>{finalMenu}</ul>
+          <ul>
+            {menuData.map(function (menu, i) {
+              return doMenu(menu, i, false, isUser);
+            })}
+          </ul>
         </nav>
         <nav id="panelright" className="fadeoutend">
-          <ul>{finalPanel}</ul>
+          <ul>
+            {panelData.map(function (menu, i) {
+              return doMenu(menu, i, "panel");
+            })}
+          </ul>
         </nav>
-        <div className="App">
-          <Modal
-            basic
-            size="tiny"
-            closeOnEscape={false}
-            closeOnDimmerClick={false}
-            className="myaccount popupmenu  animated backInDown "
-            onClose={() => {
-              setDcOpen(false);
-            }}
-            onOpen={() => setDcOpen(true)}
-            open={dcOpen}
-          >
-            <DCArea
-              setDcOpen={setDcOpen}
-              isLogin={isUser}
-              loadingLogin={loadingLogin}
-              setIsUser={setIsUser}
-              size="small"
-              labelcolor="orange"
-            />
-          </Modal>
-          <Modal
-            basic
-            size="tiny"
-            className="myaccount popupmenu  animated backInDown "
-            onClose={() => {
-              setFirstOpen(false);
-              navigate("/");
-            }}
-            onOpen={() => setFirstOpen(true)}
-            open={firstOpen}
-          >
-            <LoginArea
-              setFirstOpen={setFirstOpen}
-              setSecondOpen={setSecondOpen}
-              setThirdOpen={setThirdOpen}
-              isLogin={isUser}
-              loadingLogin={loadingLogin}
-              setIsUser={setIsUser}
-              size="small"
-              labelcolor="orange"
-            />
-          </Modal>
-          <Modal
-            basic
-            size="tiny"
-            className="myaccount popupmenu  animated backInDown "
-            onClose={() => {
-              setThirdOpen(false);
-              setFirstOpen(true);
-            }}
-            onOpen={() => setThirdOpen(true)}
-            open={thirdOpen}
-          >
-            <ForgetArea
-              setFirstOpen={setFirstOpen}
-              setSecondOpen={setSecondOpen}
-              setThirdOpen={setThirdOpen}
-              isLogin={isUser}
-              loadingLogin={loadingLogin}
-              setIsUser={setIsUser}
-              size="small"
-              labelcolor="blue"
-            />
-          </Modal>
-          <Modal
-            basic
-            size="tiny"
-            className="myaccount popupmenu  animated backInDown "
-            onClose={() => {
-              setSecondOpen(false);
-              navigate("/");
-            }}
-            onOpen={() => setSecondOpen(true)}
-            open={secondOpen}
-          >
-            <RegisterArea
-              setFirstOpen={setFirstOpen}
-              setSecondOpen={setSecondOpen}
-              isLogin={isUser}
-              loadingLogin={loadingLogin}
-              setIsUser={setIsUser}
-              size="small"
-              labelcolor="green"
-            />
-          </Modal>
-          <Routes>
-            <Route
-              path="/login"
-              element={
-                <AdminLayout
-                  openPanel={openPanel}
-                  showLogin={isUser ? false : true}
-                  setFirstOpen={setFirstOpen}
-                  setSecondOpen={setSecondOpen}
-                  isLogin={isUser}
-                  loadingLogin={loadingLogin}
-                  setIsUser={setIsUser}
-                  getAccess={getAccess}
-                />
-              }
-            />
-            <Route
-              path="/register"
-              element={
-                <AdminLayout
-                  openPanel={openPanel}
-                  showRegister={true}
-                  setFirstOpen={setFirstOpen}
-                  setSecondOpen={setSecondOpen}
-                  isLogin={isUser}
-                  loadingLogin={loadingLogin}
-                  setIsUser={setIsUser}
-                  getAccess={getAccess}
-                />
-              }
-            />
-            <Route
-              path="*"
-              element={
-                <AdminLayout
-                  openPanel={openPanel}
-                  openGame={openGame}
-                  setFirstOpen={setFirstOpen}
-                  setSecondOpen={setSecondOpen}
-                  setActiveMenu={setActiveMenu}
-                  activeMenu={activeMenu}
-                  setActivePanel={setActivePanel}
-                  isLogin={isUser}
-                  loadingLogin={loadingLogin}
-                  setIsUser={setIsUser}
-                  getAccess={getAccess}
-                  animateCSS={animateCSS}
-                  setRefresh={setRefresh}
-                />
-              }
-            />
-          </Routes>
-          <svg
-            version="1.1"
-            xmlns="http://www.w3.org/2000/svg"
-            x="0px"
-            y="0px"
-            viewBox="0 0 512.001 512.001"
-            style={{ position: "absolute", zIndex: -1 }}
-          >
-            <linearGradient id="vipicongrad" gradientTransform="rotate(70)">
-              <stop offset="0%" stopColor="#f6e27a" />
-              <stop offset="50%" stopColor="#f6f2c0" />
-              <stop offset="55%" stopColor="#f6e27a" />
-              <stop offset="78%" stopColor="#cb9b51" />
-              <stop offset="100%" stopColor="#cb9b51" />
-            </linearGradient>
-            <linearGradient id="leagueicongrad" gradientTransform="rotate(90)">
-              <stop offset="0%" stopColor="#fdd300" />
-
-              <stop offset="70%" stopColor="#cc3f00" />
-
-              <stop offset="100%" stopColor="#ffffff" />
-            </linearGradient>
-            <linearGradient id="gpassicongrad" gradientTransform="rotate(70)">
-              <stop offset="0%" stopColor="#c93100" />
-
-              <stop offset="50%" stopColor="#cc3f00" />
-
-              <stop offset="100%" stopColor="#333a6f" />
-            </linearGradient>
-            <linearGradient
-              id="gpassicongradnew"
-              gradientTransform="rotate(10)"
-            >
-              <stop offset="0%" stopColor="#fdd300" />
-
-              <stop offset="50%" stopColor="#e47900" />
-
-              <stop offset="100%" stopColor="#a70300" />
-            </linearGradient>
-          </svg>
-        </div>
       </>
     );
   }

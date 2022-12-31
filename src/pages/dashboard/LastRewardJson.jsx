@@ -45,7 +45,7 @@ const ActiveTable = (prop) => {
           myx.class = "lastlogs id-" + myx.id + " hiddenmenu fast";
           myI = myI + 1;
           setTimeout(() => {
-            prop.animateCSS(".id-" + myx.id + "", "zoomIn");
+            prop.animateCSS(".id-" + myx.id + "", "flipInX");
           }, 700 * (myData.length - myI));
         } else {
           myx.class = "lastlogs";
