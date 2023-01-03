@@ -77,6 +77,7 @@ self.addEventListener("install", (e) => {
           "/assets/images/bgs/1-min.webp",
           "/assets/fonts/yekan/Sans.woff",
           "/assets/images/logo.png",
+          "/assets/bonus.svg",
 
           "https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic&subset=latin",
           "/assets/fontawesome/webfonts/fa-solid-900.woff2",
@@ -91,6 +92,7 @@ self.addEventListener("install", (e) => {
           "/maskable_icon_x192.png",
           "/manifest.json",
           "/favicon.png",
+          "/favicon.ico",
           "/static/js/bundle.js",
 
           "/",

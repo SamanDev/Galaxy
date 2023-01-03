@@ -59,7 +59,7 @@ axios.interceptors.response.use(
       Alert(error.response.status, error.response.data.message, "error");
     }
 
-    //return Promise.reject(error);
+    return Promise.reject(error);
   }
 );
 

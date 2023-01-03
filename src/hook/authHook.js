@@ -26,7 +26,7 @@ export const useIsLogin = () => {
     ) {
       handleCheckLogin();
     } else {
-      //UserWebsocket.connect();
+      UserWebsocket.connect();
       setIsLogin(false);
       setLoading(false);
     }
