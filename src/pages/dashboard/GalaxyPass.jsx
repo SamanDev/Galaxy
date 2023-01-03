@@ -1,13 +1,5 @@
 import React from "react";
-import {
-  Icon,
-  Label,
-  Comment,
-  List,
-  Image,
-  Button,
-  Divider,
-} from "semantic-ui-react";
+import { List } from "semantic-ui-react";
 import {
   doCurrency,
   levelPassReward,

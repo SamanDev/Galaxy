@@ -1,18 +1,8 @@
 import React from "react";
-import {
-  Icon,
-  Label,
-  Comment,
-  List,
-  Image,
-  Button,
-  Divider,
-  Grid,
-} from "semantic-ui-react";
+import { Grid } from "semantic-ui-react";
 import LevelIcon from "./svg";
 import { doCurrency, levelClassInside } from "../const";
 import { convertDateToJalali } from "./convertDate";
-import $ from "jquery";
 const Reward = (prop) => {
   var _txt = prop.item.label;
   try {

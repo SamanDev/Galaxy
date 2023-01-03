@@ -59,7 +59,7 @@ axios.interceptors.response.use(
       Alert(error.response.status, error.response.data.message, "error");
     }
 
-    return Promise.reject(error);
+    //return Promise.reject(error);
   }
 );
 
@@ -69,6 +69,7 @@ export const httpService = (url, method, data = null) => {
     url: apiPath + "/api" + url,
     method,
     data,
+    timeout: 500,
     headers: {
       Authorization: tokenInfo ? `LooLe  ${tokenInfo.accessToken}` : null,
     },

@@ -27,6 +27,7 @@ const Balance = (prop) => {
           color="orange"
           size="small"
           className="farsi"
+          basic
           id="openLogin"
           onClick={() => prop.setFirstOpen(true)}
         >

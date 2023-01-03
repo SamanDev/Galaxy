@@ -168,6 +168,7 @@ const Balance = (prop) => {
     localStorage.setItem("loginToken", JSON.stringify(loginToken));
   };
   var _event = getEvent();
+
   if (loginToken) {
     if (loginToken.level == 0) {
       loginToken.level = 1;
@@ -248,7 +249,7 @@ const Balance = (prop) => {
       ChangeGift();
     }, 4000000);
   }, []);
-  if (loginToken) {
+  if (loginToken && !prop.loadingLogin) {
     return (
       <>
         <RisingPitch />

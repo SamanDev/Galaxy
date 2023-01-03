@@ -3,7 +3,7 @@ import AddToCalendarHOC from "react-add-to-calendar-hoc";
 import $ from "jquery";
 import { Button, Icon } from "semantic-ui-react";
 import Moment from "react-moment";
-import { doCurrency, levelDataInfo, dayOfTournament } from "../const";
+import { dayOfTournament } from "../const";
 const moment = require("moment");
 moment.updateLocale("en", {
   relativeTime: {

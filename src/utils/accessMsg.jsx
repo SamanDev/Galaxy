@@ -1,14 +1,8 @@
-import React, { useState } from "react";
+import React from "react";
 import { Icon, Button, Header, Divider } from "semantic-ui-react";
 import $ from "jquery";
 
-const defCol = "black";
-const selCol = "green";
-const defColBtn = "grey";
-const selColBtn = "orange";
 const depositArea = (prop) => {
-  const [depMode, setDepMode] = useState(false);
-  const loginToken = JSON.parse(localStorage.getItem("loginToken"));
   return (
     <>
       <span className="myaccount popupmenu">

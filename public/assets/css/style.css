@@ -6,6 +6,7 @@
     url("../fonts/yekan/Sans.ttf") format("truetype");
   font-weight: normal;
   font-style: normal;
+  font-display: swap;
 }
 
 body {
@@ -1518,7 +1519,7 @@ i.inverted.circular.black {
 
 .navbar.fixed-top {
   z-index: unset !important;
-  background: rgb(56, 65, 74) !important;
+  background:rgb(31 36 41) !important;
  
 }
 
@@ -1807,7 +1808,7 @@ table {
   padding: 0 !important;
 }
 #dashboard_section {
-  background-image: url("/assets/images/bgs/1.png?ss");
+  background-image: url("/assets/images/bgs/1-min.webp");
   background-size: auto, auto;
   background-repeat: no-repeat;
 }

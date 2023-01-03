@@ -1,17 +1,5 @@
 import React from "react";
-import {
-  Input,
-  Segment,
-  Button,
-  Card,
-  Table,
-  Dimmer,
-  Loader,
-  Icon,
-  Modal,
-  Form,
-  Select,
-} from "semantic-ui-react";
+import { Button } from "semantic-ui-react";
 const convertCart = (prop) => {
   if (prop.row.status === "Pending") {
     return (

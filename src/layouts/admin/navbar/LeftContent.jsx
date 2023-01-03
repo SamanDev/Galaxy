@@ -18,7 +18,7 @@ const Leftcontent = (prop) => {
     <div className="left_content d-flex">
       {!isUser ? (
         <>
-          <a href="#menuleft">
+          <a href="#menuleft" aria-label="openmenu" title="openmenu">
             <Segment
               basic
               inverted
@@ -34,6 +34,7 @@ const Leftcontent = (prop) => {
               ease="funky"
               role="button"
               as="mm-burger"
+              aria-label="openmenu"
             ></Segment>
           </a>
 
@@ -56,6 +57,7 @@ const Leftcontent = (prop) => {
             ease="funky"
             role="button"
             as="mm-burger"
+            name="openmenu"
           >
             <Label
               color="red"

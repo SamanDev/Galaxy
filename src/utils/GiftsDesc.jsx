@@ -1,16 +1,6 @@
 import React, { useEffect } from "react";
-import {
-  Icon,
-  Label,
-  Comment,
-  List,
-  Image,
-  Button,
-  Divider,
-  Segment,
-} from "semantic-ui-react";
+import { Divider, Segment } from "semantic-ui-react";
 import { doCurrency } from "../const";
-import $ from "jquery";
 const LevelIcon = (prop) => {
   useEffect(() => {}, []);
   return (

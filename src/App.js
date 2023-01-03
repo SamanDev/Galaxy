@@ -143,8 +143,8 @@ function getBonus(gateway) {
 localStorage.removeItem("getGateways");
 var finalMenu = "";
 var finalPanel = "";
+
 function App(prop) {
-  startServiceWorker();
   const [refresh, setRefresh] = useState(false);
   const [loadingLogin, isLogin] = useIsLogin();
 
@@ -255,6 +255,7 @@ function App(prop) {
                         ></i>
                       )}{" "}
                       <span
+                        href="#"
                         className={
                           !menu.textclass
                             ? "farsi mymenu " + menu.idname
@@ -702,7 +703,8 @@ function App(prop) {
     }
   }, [window.location.href]);
   useEffect(() => {
-    if (!loadingLogin) {
+    if (menu == "no") {
+      startServiceWorker();
       menu = new Mmenu(
         "#menuleft",
         {
@@ -839,7 +841,7 @@ function App(prop) {
         //setActivePanel(false);
       });
     }
-  }, [loadingLogin]);
+  }, []);
   useEffect(() => {
     try {
       api.close();
@@ -899,6 +901,7 @@ function App(prop) {
     finalMenu = "";
   }, [isUser]);
   useEffect(() => {
+    $('[rel="stylesheet"]').removeAttr("disabled");
     eventBus.on("eventsDC", () => {
       if (isLogin) {
         setDcOpen(true);
@@ -918,7 +921,7 @@ function App(prop) {
       setRefresh(dataGet);
     });
   }, []);
-  if (loadingLogin) {
+  if (loadingLogin && 1 == 2) {
     return (
       <Dimmer active>
         <Loader className="farsi-inline" size="large">

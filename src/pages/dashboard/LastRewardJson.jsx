@@ -1,12 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { List, Segment, Button } from "semantic-ui-react";
-import { useNavigate } from "react-router-dom";
-import MenuLoader from "../../utils/menuLoader";
-import { getReportPenService } from "../../services/report";
+import { List } from "semantic-ui-react";
 import $ from "jquery";
 import Reward from "../../utils/Reward";
 import eventBus from "../../services/eventBus";
-import RisingPitch from "../../pages/admin/PlayReward";
 const ActiveTable = (prop) => {
   var _sortDataOld = [];
 

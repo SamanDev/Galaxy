@@ -81,10 +81,10 @@ const Banner = (prop) => {
             </div>
 
             {prop.link && (
-              <div className="animated delay-1s fadeInDown">
+              <div className="animated delay-1s fadeIn2Down">
                 <Button
                   className="farsi"
-                  color="teal"
+                  color="red"
                   onClick={() => {
                     prop.openPanel(prop.link);
                   }}
@@ -403,7 +403,7 @@ const Dashboard = (prop) => {
                   className={
                     activeSlide == 0 ? "carousel-item active" : "carousel-item"
                   }
-                  data-bs-interval="6000"
+                  data-bs-interval="12000"
                 >
                   {activeSlide && (
                     <>
@@ -425,7 +425,7 @@ const Dashboard = (prop) => {
                   className={
                     activeSlide == 1 ? "carousel-item active" : "carousel-item"
                   }
-                  data-bs-interval="6000"
+                  data-bs-interval="12000"
                 >
                   {activeSlide && (
                     <>
@@ -448,7 +448,7 @@ const Dashboard = (prop) => {
                       ? "carousel-item active"
                       : "carousel-item"
                   }
-                  data-bs-interval="6000"
+                  data-bs-interval="12000"
                 >
                   {activeSlide && (
                     <>
@@ -472,7 +472,7 @@ const Dashboard = (prop) => {
                       ? "carousel-item active"
                       : "carousel-item"
                   }
-                  data-bs-interval="6000"
+                  data-bs-interval="12000"
                 >
                   {activeSlide && (
                     <>
@@ -496,7 +496,7 @@ const Dashboard = (prop) => {
                       ? "carousel-item active"
                       : "carousel-item"
                   }
-                  data-bs-interval="6000"
+                  data-bs-interval="12000"
                 >
                   {activeSlide && (
                     <>
@@ -519,7 +519,7 @@ const Dashboard = (prop) => {
                   className={
                     activeSlide == 5 ? "carousel-item active" : "carousel-item"
                   }
-                  data-bs-interval="6000"
+                  data-bs-interval="12000"
                 >
                   {activeSlide && (
                     <>
@@ -537,7 +537,7 @@ const Dashboard = (prop) => {
                   )}
                 </div>
                 {_width > 500 && 1 == 2 && (
-                  <div className="carousel-item " data-bs-interval="6000">
+                  <div className="carousel-item " data-bs-interval="12000">
                     <Banner
                       image="/assets/images/calendar.gif"
                       title="بیش از ۵۰۰ میلیون"
@@ -584,8 +584,13 @@ const Dashboard = (prop) => {
                       as={Link}
                       to={"/games/" + game}
                       id={"open" + game}
+                      alt={"open " + game}
+                      width="255"
+                      height="255"
                       src={
-                        "/assets/images/games/" + gameDataMainCode[i] + ".jpg"
+                        "/assets/images/games/" +
+                        gameDataMainCode[i] +
+                        "-min.webp"
                       }
                       rounded
                       fluid

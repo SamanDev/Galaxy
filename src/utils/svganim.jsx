@@ -1,15 +1,5 @@
 import React from "react";
-import {
-  Icon,
-  Label,
-  Comment,
-  List,
-  Image,
-  Button,
-  Divider,
-} from "semantic-ui-react";
-import { levelClass, levelPassClass, levelClassInside } from "../const";
-import ConfettiArea from "../utils/party";
+import { levelClass, levelClassInside } from "../const";
 const LevelIcon = (prop) => {
   if (prop.mode == "gpass") {
     var _txt = prop.number ? prop.number : prop.level;
@@ -96,6 +86,9 @@ const LevelIcon = (prop) => {
         <img
           src={"/assets/images/svg/vip/1.svg"}
           className={prop.iconamin + ""}
+          width={prop.width}
+          height={prop.width}
+          alt={prop.mode}
           style={{
             position: "absolute",
             width: prop.width,
@@ -105,6 +98,9 @@ const LevelIcon = (prop) => {
         <img
           src={"/assets/images/svg/vip/2.svg"}
           className={prop.amin + ""}
+          width={prop.width}
+          height={prop.width}
+          alt={prop.mode}
           style={{
             width: prop.width,
             height: prop.width,
@@ -143,6 +139,9 @@ const LevelIcon = (prop) => {
           <img
             src={"/assets/images/svg/tournament/1.svg"}
             className={prop.iconamin + ""}
+            width={prop.width}
+            height={prop.width}
+            alt={prop.mode}
             style={{
               position: "absolute",
               width: prop.width,
@@ -152,6 +151,9 @@ const LevelIcon = (prop) => {
           <img
             src={"/assets/images/svg/tournament/2.svg"}
             className={prop.amin + ""}
+            width={prop.width}
+            height={prop.width}
+            alt={prop.mode}
             style={{
               width: prop.width,
               height: prop.width,
@@ -171,6 +173,9 @@ const LevelIcon = (prop) => {
         <img
           src={"/assets/bonus.svg"}
           className="icn"
+          width={prop.width}
+          height={prop.width}
+          alt={prop.mode}
           style={{
             width: prop.width,
             height: "auto",
@@ -207,6 +212,9 @@ const LevelIcon = (prop) => {
         >
           <img
             src={"/assets/commission.svg"}
+            width={prop.width}
+            height={prop.width}
+            alt={prop.mode}
             style={{
               width: prop.width,
               height: "auto",
@@ -293,6 +301,9 @@ const LevelIcon = (prop) => {
       <span onClick={prop.onClick} className="iconarea">
         <img
           src={"/assets/images/svg/league/1.svg"}
+          width={prop.width}
+          height={prop.width}
+          alt={prop.mode}
           className={prop.iconamin + ""}
           style={{
             position: "absolute",
@@ -303,6 +314,9 @@ const LevelIcon = (prop) => {
         <img
           src={"/assets/images/svg/league/2.svg"}
           className={prop.amin + ""}
+          width={prop.width}
+          height={prop.width}
+          alt={prop.mode}
           style={{
             position: "absolute",
             width: prop.width,
@@ -371,6 +385,9 @@ const LevelIcon = (prop) => {
         >
           <img
             src={"/assets/gift.svg"}
+            width={prop.width}
+            height={prop.width}
+            alt={prop.mode}
             style={{
               width: prop.width,
               height: "auto",
@@ -406,6 +423,9 @@ const LevelIcon = (prop) => {
         >
           <img
             src={"/assets/gift.svg"}
+            width={prop.width}
+            height={prop.width}
+            alt={prop.mode}
             style={{
               width: prop.width,
               height: "auto",
@@ -442,6 +462,9 @@ const LevelIcon = (prop) => {
         >
           <img
             src={"/assets/gift.svg"}
+            width={prop.width}
+            height={prop.width}
+            alt={prop.mode}
             style={{
               width: prop.width,
               height: "auto",
@@ -497,9 +520,14 @@ const LevelIcon = (prop) => {
             >
               <img
                 src={"/assets/images/svg/gift/icon.svg"}
+                width={prop.width}
+                height={prop.width}
+                alt={prop.mode}
                 style={{
                   transform: "scale(.8)",
                   transformOrigin: "center center",
+                  width: prop.width,
+                  height: "auto",
                 }}
               />
             </span>
@@ -518,9 +546,14 @@ const LevelIcon = (prop) => {
           >
             <img
               src={"/assets/gift.svg"}
+              width={prop.width}
+              height={prop.width}
+              alt={prop.mode}
               style={{
                 transform: "translateX(15%) scale(.6) rotate(5deg)",
                 transformOrigin: "center right",
+                width: prop.width,
+                height: "auto",
               }}
             />
           </span>
@@ -536,9 +569,14 @@ const LevelIcon = (prop) => {
           >
             <img
               src={"/assets/gift.svg"}
+              width={prop.width}
+              height={prop.width}
+              alt={prop.mode}
               style={{
                 transform: "translateX(-5%) scale(.5) rotate(-5deg)",
                 transformOrigin: "center left",
+                width: prop.width,
+                height: "auto",
               }}
             />
           </span>
@@ -660,6 +698,9 @@ const LevelIcon = (prop) => {
         >
           <img
             src={"/assets/topplayer.svg"}
+            width={prop.width}
+            height={prop.width}
+            alt={prop.mode}
             style={{
               position: "absolute",
 
@@ -680,6 +721,9 @@ const LevelIcon = (prop) => {
         >
           <img
             src={"/assets/chipblack.svg"}
+            width={prop.width}
+            height={prop.width}
+            alt={prop.mode}
             style={{
               position: "absolute",
 
@@ -721,6 +765,9 @@ const LevelIcon = (prop) => {
         >
           <img
             src={"/assets/images/svg/kingof/icon.svg"}
+            width={prop.width}
+            height={prop.width}
+            alt={prop.mode}
             style={{
               width: prop.width,
               height: "auto",
@@ -759,6 +806,9 @@ const LevelIcon = (prop) => {
       >
         <img
           src={"/assets/images/svg/topplayer/icon.svg"}
+          width={prop.width}
+          height={prop.width}
+          alt={prop.mode}
           style={{
             width: prop.width,
             height: "auto",
@@ -778,6 +828,9 @@ const LevelIcon = (prop) => {
         >
           <img
             src={"/assets/topplayer.svg"}
+            width={prop.width}
+            height={prop.width}
+            alt={prop.mode}
             style={{
               position: "absolute",
 
@@ -797,6 +850,9 @@ const LevelIcon = (prop) => {
         >
           <img
             src={"/assets/chipblack.svg"}
+            width={prop.width}
+            height={prop.width}
+            alt={prop.mode}
             style={{
               position: "absolute",
 
@@ -837,6 +893,9 @@ const LevelIcon = (prop) => {
       >
         <img
           src={"/assets/images/svg/topplayer/cashout.svg"}
+          width={prop.width}
+          height={prop.width}
+          alt={prop.mode}
           style={{
             width: prop.width,
             height: "auto",
@@ -869,6 +928,9 @@ const LevelIcon = (prop) => {
       <div onClick={prop.onClick} className="iconarea">
         <img
           src={"/assets/images/svg/topplayer/deposit.svg"}
+          width={prop.width}
+          height={prop.width}
+          alt={prop.mode}
           style={{
             width: prop.width,
             height: "auto",

@@ -1,5 +1,4 @@
 import React from "react";
-import { Icon, Label } from "semantic-ui-react";
 import { doCurrency } from "../const";
 const LabelExampleBasic = (prop) => {
   if (prop.amount.toString().indexOf("-") > -1 || prop.sign < 0) {

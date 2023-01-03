@@ -5,14 +5,7 @@ import AuthService from "../services/auth.service";
 import UserWebsocket from "services/user.websocket";
 import Swal from "sweetalert2";
 import UserContext from "context/UserState";
-import {
-  getMessaging,
-  getToken,
-  onMessage,
-  onBackgroundMessage,
-} from "firebase/messaging";
 import $ from "jquery";
-import { initializeApp } from "firebase/app";
 const defusername = localStorage.getItem("username");
 const defpassword = localStorage.getItem("password");
 function FormExampleFieldErrorLabel(prop) {

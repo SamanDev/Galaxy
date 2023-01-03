@@ -17,7 +17,12 @@ const Rightcontent = (prop) => {
           position: "relative",
         }}
       >
-        <a className="menu-link-wrapper" href="#panelright">
+        <a
+          className="menu-link-wrapper"
+          href="#panelright"
+          title="openpanel"
+          name="openpanel"
+        >
           <div className="menu-link menu-trigger-open">
             <span className="lines"></span>
           </div>
