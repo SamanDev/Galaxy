@@ -67,7 +67,7 @@ self.addEventListener("install", (e) => {
           "/assets/images/games/boom-min.webp",
           "/assets/images/games/backgammon-min.webp",
 
-          "/assets/css/bootstrap.min.css",
+          "https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css",
           "/auth/fonts/font-awesome-4.7.0/css/font-awesome.min.css",
 
           "/assets/fontawesome/css/all.css",
