@@ -117,8 +117,6 @@ const Balance = (prop) => {
   if (loginToken && !prop.loadingLogin) {
     return (
       <>
-        <RisingPitch />
-        <RisingPitchReward />
         <Segment
           className="myaccount"
           inverted

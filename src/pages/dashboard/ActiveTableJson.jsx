@@ -82,6 +82,7 @@ const ActiveTable = (prop) => {
       _sortD.sort((a, b) => (a.stack < b.stack ? 1 : -1));
       setSortData(_sortD);
       localStorage.setItem("activeTableSort", JSON.stringify(_sortD));
+      prop.bindActiveTable();
     } catch (error) {}
   }, [_data]);
   useEffect(() => {

@@ -201,7 +201,7 @@ function App(prop) {
   }
   const CompGen = (prop) => {
     if (prop?.menu?.title == "میز های فعال") {
-      return <ActiveTable />;
+      return <ActiveTable bindActiveTable={bindActiveTable} />;
     } else if (prop?.menu?.title == "آخرین پاداش ها") {
       return (
         <LastReward animateCSS={animateCSS} bindLastReward={bindLastReward} />
