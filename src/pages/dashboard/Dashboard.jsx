@@ -21,10 +21,13 @@ import {
   gameDataMain,
   gameDataMainCode,
   getEvent,
+  dayOfTournament,
 } from "../../const";
 import GalaxyIcon from "../../utils/svganim";
 import ConfettiArea from "../../utils/party";
+import ConfettiClick from "../../utils/partyclick";
 import $ from "jquery";
+const moment = require("moment");
 const config = {
   angle: "0",
   spread: "32",
@@ -38,6 +41,21 @@ const config = {
   perspective: "500px",
   colors: ["#a864fd", "#29cdff", "#78ff44", "#ff718d", "#fdff6a"],
 };
+const mainnconfig = {
+  angle: "229",
+  spread: 360,
+  startVelocity: 40,
+  elementCount: 70,
+  dragFriction: 0.12,
+  duration: "20000",
+  stagger: 3,
+  width: "10px",
+  height: "10px",
+  perspective: "743px",
+  colors: ["#000", "#333", "#666"],
+};
+var nowDay = moment().isoWeekday();
+
 const Banner = (prop) => {
   return (
     <div className="banner">
@@ -81,7 +99,7 @@ const Banner = (prop) => {
             </div>
 
             {prop.link && (
-              <div className="animated delay-1s fadeIn2Down">
+              <div className="animated delay-1s fadeInDown">
                 <Button
                   className="farsi"
                   color="red"
@@ -165,7 +183,7 @@ const Dashboard = (prop) => {
   const [gameLoader, setGameLoader] = useState(true);
   const params = useParams();
   const [activeIndex, setActiveIndex] = useState(0);
-  const [activeSlide, setActiveSlide] = useState(1);
+  const [activeSlide, setActiveSlide] = useState(0);
   const [gameOptions, setGameOptions] = useState([]);
   const [secondaryGame, setSecondaryGame] = useState(
     localStorage.getItem("secondaryGame")
@@ -188,7 +206,14 @@ const Dashboard = (prop) => {
     $(".framegame,body").toggleClass("fullscreen");
     setIsFull(!isFull);
   };
-
+  const handleSlider = (e) => {
+    var myCarousel = document.getElementById("carouselExampleControls");
+    try {
+      myCarousel.addEventListener("slide.bs.carousel", (event) => {
+        setActiveSlide(event.to);
+      });
+    } catch (error) {}
+  };
   const handleReload = (e) => {
     if ($("#pokerframe:visible").length > 0) {
       setSessionKey("");
@@ -210,6 +235,7 @@ const Dashboard = (prop) => {
       handleSession();
     } else {
       setCurPage("dashboard");
+      handleSlider();
     }
   }, [window.location.href]);
   useEffect(() => {
@@ -227,30 +253,9 @@ const Dashboard = (prop) => {
     // }
   }, [screenOrientation]);
   useEffect(() => {
-    var myCarousel = document.getElementById("carouselExampleControls");
-
-    myCarousel.addEventListener("slid.bs.carousel", (event) => {
-      //setActiveSlide(event.to);
-    });
+    handleSlider();
   }, []);
-  const panes33 = [
-    {
-      menuItem: "poker",
-      pane: (
-        <Tab.Pane key="tab1" as="span">
-          <Image src="/assets/images/poker.png" fluid />
-        </Tab.Pane>
-      ),
-    },
-    {
-      menuItem: "2",
-      pane: (
-        <Tab.Pane key="tab2" as="span">
-          <Image src="/assets/images/blackjack.png" fluid />
-        </Tab.Pane>
-      ),
-    },
-  ];
+
   useEffect(() => {
     var _gameOptions = [];
     {
@@ -281,6 +286,7 @@ const Dashboard = (prop) => {
     if (!prop.isLogin && curPage == "game") {
       setCurPage("dashboard");
       prop.setFirstOpen(true);
+
       navigate("/");
     }
   }, [curPage, prop.isLogin]);
@@ -288,6 +294,8 @@ const Dashboard = (prop) => {
   useEffect(() => {
     if (prop.isLogin && curPage == "game") {
       checkBlock(loginToken);
+    } else {
+      handleSlider();
     }
   }, [curPage]);
   useEffect(() => {
@@ -405,7 +413,7 @@ const Dashboard = (prop) => {
                   }
                   data-bs-interval="12000"
                 >
-                  {activeSlide && (
+                  {activeSlide == 0 && (
                     <>
                       <Banner
                         title="هدیه گلکسی"
@@ -427,7 +435,17 @@ const Dashboard = (prop) => {
                   }
                   data-bs-interval="12000"
                 >
-                  {activeSlide && (
+                  <div className="confettimain">
+                    <ConfettiClick
+                      active={
+                        dayOfTournament == nowDay && activeSlide == 1
+                          ? true
+                          : false
+                      }
+                      config={mainnconfig}
+                    />
+                  </div>
+                  {activeSlide == 1 && (
                     <>
                       <Banner
                         title="تورنومنت ۲۵+۲۵ "
@@ -444,13 +462,21 @@ const Dashboard = (prop) => {
 
                 <div
                   className={
-                    _event == "GPass" && activeSlide == 2
-                      ? "carousel-item active"
-                      : "carousel-item"
+                    activeSlide == 2 ? "carousel-item active" : "carousel-item"
                   }
                   data-bs-interval="12000"
                 >
-                  {activeSlide && (
+                  <div className="confettimain">
+                    <ConfettiClick
+                      active={
+                        _event.toLowerCase() == "gpass" && activeSlide == 2
+                          ? true
+                          : false
+                      }
+                      config={mainnconfig}
+                    />
+                  </div>
+                  {activeSlide == 2 && (
                     <>
                       <Banner
                         title="۱۱۰ میلیون تومان"
@@ -468,13 +494,22 @@ const Dashboard = (prop) => {
 
                 <div
                   className={
-                    _event == "VIP" && activeSlide == 3
-                      ? "carousel-item active"
-                      : "carousel-item"
+                    activeSlide == 3 ? "carousel-item active" : "carousel-item"
                   }
                   data-bs-interval="12000"
                 >
-                  {activeSlide && (
+                  <div className="confettimain animated fadeInLeft delay-1s">
+                    <ConfettiClick
+                      width="400px"
+                      active={
+                        _event.toLowerCase() == "vip" && activeSlide == 3
+                          ? true
+                          : false
+                      }
+                      numberOfPieces={10}
+                    />
+                  </div>
+                  {activeSlide == 3 && (
                     <>
                       <Banner
                         title="۱۹۲ میلیون تومان"
@@ -492,13 +527,21 @@ const Dashboard = (prop) => {
 
                 <div
                   className={
-                    _event == "League" && activeSlide == 4
-                      ? "carousel-item active"
-                      : "carousel-item"
+                    activeSlide == 4 ? "carousel-item active" : "carousel-item"
                   }
                   data-bs-interval="12000"
                 >
-                  {activeSlide && (
+                  <div className="confettimain">
+                    <ConfettiClick
+                      active={
+                        _event.toLowerCase() == "leauge" && activeSlide == 4
+                          ? true
+                          : false
+                      }
+                      numberOfPieces={10}
+                    />
+                  </div>
+                  {activeSlide == 4 && (
                     <>
                       <Banner
                         title="۴۵ میلیون تومان"
@@ -521,7 +564,7 @@ const Dashboard = (prop) => {
                   }
                   data-bs-interval="12000"
                 >
-                  {activeSlide && (
+                  {activeSlide == 5 && (
                     <>
                       <Banner
                         title="بیش از ۴ میلیارد"

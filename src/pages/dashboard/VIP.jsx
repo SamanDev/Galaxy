@@ -4,7 +4,7 @@ import { doCurrency, levelDataInfo } from "../../const";
 import AddCalendar from "../../utils/AddCalendar";
 import GalaxyIcon from "../../utils/svganim";
 import GiftsDesc from "../../utils/GiftsDesc";
-import VIPResult from "./VIPResult";
+import LastRewardList from "./LastRewardList";
 const LevelList = () => {
   var totalReward = 0;
   return (
@@ -85,7 +85,7 @@ const LevelList = () => {
             />
           </List.Content>
         </List.Item>
-        <VIPResult />
+        <LastRewardList mode="vip" />
       </List>
     </span>
   );

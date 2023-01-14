@@ -19,7 +19,8 @@ import LevelIcon from "../../utils/LevelIcon";
 import GiftsDesc from "../../utils/GiftsDesc";
 import AddCalendar from "../../utils/AddCalendar";
 import GalaxyIcon from "../../utils/svganim";
-import LeagueResult from "./LeagueResult";
+
+import LastRewardList from "./LastRewardList";
 const LevelList = () => {
   return (
     <span className="myaccount popupmenu">
@@ -101,7 +102,7 @@ const LevelList = () => {
             />
           </List.Content>
         </List.Item>
-        <LeagueResult />
+        <LastRewardList mode="league" />
       </List>
     </span>
   );

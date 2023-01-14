@@ -17,6 +17,7 @@ import {
   levelClassInside,
 } from "../../const";
 import LevelIcon from "../../utils/svg";
+import SaveImg from "../../utils/save";
 import LevelBar from "../../utils/LevelBar";
 
 const LevelList = () => {
@@ -67,6 +68,7 @@ const LevelList = () => {
                 number={i + 1}
                 width="38px"
               />
+
               {loginToken && (
                 <div className="levelbar">
                   {loginToken.level == i + 1 ? (

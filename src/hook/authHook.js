@@ -6,6 +6,7 @@ export const useIsLogin = () => {
   const [isLogin, setIsLogin] = useState(false);
   const [loading, setLoading] = useState(true);
   const handleCheckLogin = async () => {
+    setLoading(true);
     try {
       const res = await getUserService();
       setIsLogin(res.status == 200 ? true : false);

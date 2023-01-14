@@ -687,88 +687,29 @@ const LevelIcon = (prop) => {
   if (prop.mode == "levels") {
     var _txt = prop.number ? prop.number : prop.level;
     var _class = levelClass(_txt - 1);
+    if (prop.text == "big") {
+      const loginToken = JSON.parse(localStorage.getItem("loginToken"));
+
+      if (loginToken) {
+        _txt = loginToken.level;
+      } else {
+        _txt = 90;
+      }
+    }
 
     var _id = _txt + _class.replace(/ /g, "") + Math.floor(Math.random() * 100);
     return (
       <span onClick={prop.onClick} className="iconarea">
-        <div className="iconareanum">
-          <svg
-            viewBox="0 0 37.286 37.287"
-            style={{
-              width: prop.width,
-              height: "auto",
-            }}
-          >
-            <text
-              x="18"
-              y="25"
-              className={"levelicontext text" + _txt.toString().length + ""}
-            >
-              {_txt}
-            </text>
-          </svg>
-        </div>
-        <div
+        <img
+          src={"/assets/images/stars/lvl" + _txt + ".png"}
+          width={prop.width}
+          height={prop.width}
+          alt={prop.mode}
           style={{
             width: prop.width,
             height: "auto",
           }}
-          className={levelClassInside(_txt - 1)}
-        >
-          <svg
-            viewBox="0 0 100 100"
-            style={{
-              width: prop.width,
-              height: "auto",
-            }}
-          >
-            <defs>
-              <mask id={"fillMask" + _id + "2"} width="100" height="100">
-                <image
-                  xlinkHref="/assets/images/svg/level/icon.svg"
-                  src="ppngfallback.png"
-                  width="100"
-                  height="100"
-                />
-              </mask>
-            </defs>
-            <rect
-              style={{ stroke: "none" }}
-              width="100"
-              height="100"
-              mask={'url("#fillMask' + _id + '2")'}
-            />
-          </svg>
-        </div>
-        <div
-          style={{
-            width: prop.width,
-            height: "auto",
-          }}
-          className={"levelicon " + _class}
-        >
-          <svg viewBox="0 0 100 100">
-            <defs>
-              <mask id={"fillMask" + _id + "2"} width="100" height="100">
-                <image
-                  xlinkHref="/assets/images/svg/level/icon.svg"
-                  src="ppngfallback.png"
-                  width="100"
-                  height="100"
-                />
-              </mask>
-            </defs>
-            <rect
-              width="100"
-              height="100"
-              style={{
-                stroke: "none",
-                fill: "currentColor",
-              }}
-              mask={'url("#fillMask' + _id + '2")'}
-            />
-          </svg>
-        </div>
+        />
 
         {prop.text != "big" && prop.text != "" && (
           <div className="iconlabel">{prop.text}</div>

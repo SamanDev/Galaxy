@@ -1,5 +1,5 @@
 import React from "react";
-import { List } from "semantic-ui-react";
+import { List, Progress } from "semantic-ui-react";
 import {
   doCurrency,
   levelPassReward,
@@ -10,8 +10,11 @@ import LevelIcon from "../../utils/svg";
 import AddCalendar from "../../utils/AddCalendar";
 import GalaxyIcon from "../../utils/svg";
 import GiftsDesc from "../../utils/GiftsDesc";
+import LastRewardList from "./LastRewardList";
+import LevelBar from "../../utils/GLevelBar";
 const LevelList = () => {
   var totalReward = 0;
+  const loginToken = JSON.parse(localStorage.getItem("loginToken"));
   return (
     <span className="myaccount popupmenu">
       <List divided inverted verticalAlign="middle" className="myaccount">
@@ -105,7 +108,15 @@ const LevelList = () => {
         {Array.apply(0, Array(levelPassList.length)).map(function (x, i) {
           totalReward += levelPassReward(i);
           return (
-            <List.Item key={i} id={"lvl" + (i + 1)}>
+            <List.Item
+              className={
+                loginToken?.glevel == i + 1
+                  ? "active animated fadeIn faster"
+                  : " animated fadeIn faster"
+              }
+              key={i}
+              id={"lvl" + (i + 1)}
+            >
               <List.Content floated="right" className="rtl">
                 <span className="text-gold">
                   {doCurrency(levelPassReward(i))}{" "}
@@ -126,16 +137,32 @@ const LevelList = () => {
                 number=""
                 width="38px"
               />
+              {loginToken && (
+                <div className="levelbar">
+                  {loginToken.glevel == i + 1 ? (
+                    <>
+                      <LevelBar progress />
+                    </>
+                  ) : (
+                    <>
+                      {loginToken.glevel > i + 1 ? (
+                        <>
+                          <LevelBar val="100" progress />
+                        </>
+                      ) : (
+                        <>
+                          <LevelBar val="0" />
+                        </>
+                      )}
+                    </>
+                  )}
+                </div>
+              )}
             </List.Item>
           );
         })}
-        <ul className="mm-listview menutitle-view">
-          <li className="menutitle mm-listitem"></li>
-          <li className="menutitle mm-listitem">
-            <span className="mm-listitem__text">آخرین جوایز</span>
-          </li>
-        </ul>
       </List>
+      <LastRewardList mode="gpass" />
     </span>
   );
 };

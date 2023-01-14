@@ -32,18 +32,21 @@ const ActiveTable = (prop) => {
     var myData = _data;
 
     try {
-      var myI = 1;
+      var myI = myData.length;
 
       myData.map(function (x, i) {
         var myx = x;
 
         if (_sortDataOld.filter((d, i) => d.id == myx.id).length == 0) {
           myx.class = "lastlogs id-" + myx.id + " hiddenmenu fast";
-          myI = myI + 1;
+          myI = myI - 1;
           setTimeout(() => {
-            prop.animateCSS(".id-" + myx.id + "", "flipInX");
-          }, 700 * (myData.length - myI));
+            prop.animateCSS(".id-" + myx.id + "", "fadeInDown");
+            $("#playreward").trigger("click");
+            prop.bindLastReward();
+          }, 1000 * (myData.length - myI));
         } else {
+          myI = myI - 1;
           myx.class = "lastlogs";
         }
 
@@ -53,7 +56,7 @@ const ActiveTable = (prop) => {
       setSortData(_sortD);
       setTimeout(() => {
         localStorage.setItem("lastRewardSort", JSON.stringify(_sortD));
-        $("#playreward").trigger("click");
+        //$("#playreward").trigger("click");
       }, 700 * myI);
     } catch (error) {}
 
@@ -76,7 +79,7 @@ const ActiveTable = (prop) => {
           </List.Item>
         </List>
       ) : (
-        <div style={{ paddingLeft: 20, marginBottom: 200 }}>
+        <div style={{ paddingLeft: 15, marginBottom: 200 }}>
           {_sortData.length > 0 && (
             <>
               {_sortData.map(function (bonus, i) {

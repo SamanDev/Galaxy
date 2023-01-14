@@ -20,148 +20,16 @@ import {
   levelData,
   getEvent,
   levelClassInside,
+  levelDataInfo,
 } from "../../../const";
-var _bonuses = [
-  {
-    id: 4,
-    date: "2022-08-13T04:01:53.000+00:00",
-    expireDate: "2022-08-13T23:54:03.000+00:00",
-    mode: "commission",
-    label: "کمیسیون",
-    text: "Commission",
-    username: "coce",
-    status: "Pending",
-    received: false,
-    amount: 1040000,
-  },
-  {
-    id: 6,
-    date: "2022-08-13T04:01:53.000+00:00",
-    expireDate: "2023-08-12T23:54:03.000+00:00",
-    mode: "gpass",
-    label: "پاداش گلکسی پَس",
-    text: "Level 15",
-    username: "coce",
-    status: "Pending",
-    received: false,
-    amount: 1000000,
-  },
-  {
-    id: 6,
-    date: "2022-08-13T04:01:53.000+00:00",
-    expireDate: "2023-08-12T23:54:03.000+00:00",
-    mode: "gpass",
-    label: "پاداش گلکسی پَس",
-    text: "Level 1",
-    username: "coce",
-    status: "Pending",
-    received: false,
-    amount: 1000000,
-  },
-  {
-    id: 5,
-    date: "2022-08-13T04:01:53.000+00:00",
-    expireDate: "2022-08-13T23:54:03.000+00:00",
-    mode: "rakeback",
-    label: "ریک بک",
-    text: "Rakeack",
-    username: "coce",
-    status: "Pending",
-    received: false,
-    amount: 1040000,
-  },
-  {
-    id: 1,
-    date: "2022-08-13T18:53:53.000+00:00",
-    expireDate: "2023-08-12T23:54:03.000+00:00",
-    mode: "levels",
-    label: "پاداش افزایش لٍوٍل",
-    text: "Level 59",
-    username: "coce",
-    status: "Pending",
-    received: false,
-    amount: 1000000,
-  },
-  {
-    id: 7,
-    date: "2022-08-13T04:01:53.000+00:00",
-    expireDate: "2023-08-12T23:54:03.000+00:00",
-    mode: "vip",
-    label: "VIP Gift",
-    text: "VIP Gift",
-    username: "coce",
-    status: "Pending",
-    received: false,
-    amount: 1000000,
-  },
-  {
-    id: 8,
-    date: "2022-08-13T04:01:53.000+00:00",
-    expireDate: "2023-08-12T23:54:03.000+00:00",
-    mode: "league",
-    label: "لیگ روزانه",
-    text: "Place 1",
-    username: "coce",
-    status: "Pending",
-    received: false,
-    amount: 1000000,
-  },
-  {
-    id: 3,
-    date: "2022-08-13T18:53:53.000+00:00",
-    expireDate: "2022-08-13T23:54:03.000+00:00",
-    mode: "gift3",
-    label: "هدیه",
-    text: "Free Gift",
-    username: "coce",
-    status: "Pending",
-    received: false,
-    amount: 1000000,
-  },
-  {
-    id: 3,
-    date: "2022-08-13T18:53:53.000+00:00",
-    expireDate: "2022-08-13T23:54:03.000+00:00",
-    mode: "gift2",
-    label: "هدیه",
-    text: "Free Gift",
-    username: "coce",
-    status: "Pending",
-    received: false,
-    amount: 1000000,
-  },
-  {
-    id: 3,
-    date: "2022-08-13T18:53:53.000+00:00",
-    expireDate: "2022-08-13T23:54:03.000+00:00",
-    mode: "gift1",
-    label: "هدیه",
-    text: "Free Gift",
-    username: "coce",
-    status: "Pending",
-    received: false,
-    amount: 1000000,
-  },
-  {
-    id: 2,
-    date: "2022-08-12T18:53:53.000+00:00",
-    expireDate: "2022-08-12T23:54:03.000+00:00",
-    mode: "bonus",
-    label: "بوناس",
-    text: "%5 Bonus",
-    username: "coce",
-    status: "Pending",
-    received: false,
-    amount: 1000000,
-  },
-];
+
 const moment = require("moment");
 const Balance = (prop) => {
   var lvlPercent = 0;
   var gLvlPercent = 0;
   const loginToken = JSON.parse(localStorage.getItem("loginToken"));
   const [color, setColor] = useState("grey");
-  const [gCount, setGCount] = useState("0");
+  const [gCount, setGCount] = useState(0);
   const [stateMode, setStateMode] = useState(0);
   const handleConfirmTest = (bonus, _bonuses, i, loginToken) => {
     loginToken.userGifts = _bonuses;
@@ -179,7 +47,7 @@ const Balance = (prop) => {
       (loginToken.levelPoint * 100) / _lvlFinal[0].point
     ).toFixed(2);
     gLvlPercent = parseFloat(
-      (loginToken.glevelSecond * 100) / (5 * 60 * 60)
+      (loginToken.glevelSecond * 100) / (levelDataInfo[0].hoursLimit * 3600)
     ).toFixed(2);
     if (gLvlPercent > 100) {
       gLvlPercent = 100;
@@ -244,11 +112,8 @@ const Balance = (prop) => {
     }
   }, [gCount]);
   useEffect(() => {
-    setTimeout(() => {
-      handleConfirmTest(0, _bonuses, 0, loginToken);
-      ChangeGift();
-    }, 4000000);
-  }, []);
+    ChangeGift();
+  });
   if (loginToken && !prop.loadingLogin) {
     return (
       <>
@@ -258,55 +123,70 @@ const Balance = (prop) => {
           className="myaccount"
           inverted
           style={{ margin: 0, padding: 10, color: "#fff", top: 3 }}
-          onClick={() => {
-            ChangeStateMode();
-          }}
         >
-          {stateMode == 0 && (
-            <span style={{ top: -2, position: "relative" }}>
+          <span
+            onClick={() => {
+              ChangeStateMode();
+            }}
+          >
+            {stateMode == 0 && (
+              <span style={{ top: -2, position: "relative" }}>
+                <LevelIcon
+                  level={loginToken.level}
+                  text=""
+                  mode="levels"
+                  classinside={levelClassInside(loginToken.level)}
+                  number=""
+                  width="30px"
+                  onClick={() => {
+                    prop.openPanel(".levels", "#lvl" + loginToken.level);
+                  }}
+                />
+              </span>
+            )}
+            {stateMode == 1 && _event == "GPass" && (
               <LevelIcon
-                level={loginToken.level}
+                mode="gpass"
+                level={loginToken.glevel}
+                classinside="iconinside0"
+                number={loginToken.glevel}
                 text=""
-                mode="levels"
-                classinside={levelClassInside(loginToken.level)}
-                number=""
                 width="30px"
                 onClick={() => {
-                  prop.openPanel(".levels", "#lvl" + loginToken.level);
+                  prop.openPanel(".gpass", "#lvl" + loginToken.glevel);
                 }}
               />
-            </span>
-          )}
-          {stateMode == 1 && _event == "GPass" && (
-            <LevelIcon
-              mode="gpass"
-              level={loginToken.glevel}
-              classinside="iconinside0"
-              number={loginToken.glevel}
-              text=""
-              width="30px"
+            )}
+            {stateMode == 1 && _event == "VIP" && (
+              <LevelIcon
+                classinside="iconinside0"
+                number=""
+                text=""
+                width="30px"
+                level={1}
+                mode="vip"
+                onClick={() => {
+                  prop.openPanel(".vip", "");
+                }}
+              />
+            )}
+            <Label
+              color="black"
+              className="balanceLable"
               onClick={() => {
-                prop.openPanel(".gpass", "#lvl" + loginToken.glevel);
+                ChangeStateMode();
               }}
-            />
-          )}
-          {stateMode == 1 && _event == "VIP" && (
-            <LevelIcon
-              classinside="iconinside0"
-              number=""
-              text=""
-              width="30px"
-              level={1}
-              mode="vip"
-              onClick={() => {
-                prop.openPanel(".vip", "");
-              }}
-            />
-          )}
-          <Label color="black" className="balanceLable">
-            {loginToken.username}
-          </Label>
-          <Label color="black" className="balanceLable amount">
+            >
+              {loginToken.username}
+            </Label>
+          </span>
+          <Label
+            color="black"
+            className="balanceLable amount"
+            onClick={() => {
+              $("#opendepicon").trigger("click");
+            }}
+          >
             {doCurrency(loginToken.balance)}
           </Label>
           <Popup
@@ -325,6 +205,7 @@ const Balance = (prop) => {
                 name="plus"
                 color="green"
                 link
+                id="opendepicon"
               />
             }
           >

@@ -19,7 +19,25 @@ body {
   /* box-sizing: content-box */
 }
 *{outline-color: transparent !important; outline-width: 0px !important;outline-style: solid !important;}
-
+.rewardtext{
+  height: 24px;
+display: block;
+}
+.rewardname .row{
+  padding-bottom: 0 !important;
+}
+.rewardred{
+  background:rgba(255,0,0,0.1)
+}
+.confettimain{
+  box-sizing: border-box;
+   padding: 20%; 
+  position: absolute;
+  width: 50%;
+  left: 25%;
+  overflow: hidden;
+  
+}
 #menuleft.mm-menu--opened{
   z-index: 1000 !important;
   min-width: 250px !important;

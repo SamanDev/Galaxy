@@ -11,7 +11,7 @@ const Balance = (prop) => {
     var _lvlFinal = levelData.filter((d) => d.level === loginToken.level);
     var lvlPercent = parseInt(
       (loginToken.levelPoint * 100) / _lvlFinal[0].point
-    );
+    ).toFixed(2);
     if (lvlPercent > 100) {
       lvlPercent = 100;
     }

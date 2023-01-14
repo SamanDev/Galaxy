@@ -203,7 +203,9 @@ function App(prop) {
     if (prop?.menu?.title == "میز های فعال") {
       return <ActiveTable />;
     } else if (prop?.menu?.title == "آخرین پاداش ها") {
-      return <LastReward animateCSS={animateCSS} />;
+      return (
+        <LastReward animateCSS={animateCSS} bindLastReward={bindLastReward} />
+      );
     } else {
       return <>{prop.com}</>;
     }
@@ -273,7 +275,7 @@ function App(prop) {
                   {menu.label && isPanel != "panel" ? (
                     <ul>
                       {menu.title && (
-                        <li className="menutitle menutitle mm-listitem">
+                        <li className="menutitle mm-listitem">
                           <span className="mm-listitem__text">
                             {menu.title}
                           </span>
@@ -299,7 +301,7 @@ function App(prop) {
                         {menu.title && (
                           <>
                             <ul className="mm-listview">
-                              <li className="menutitle menutitle mm-listitem">
+                              <li className="menutitle mm-listitem">
                                 <span className="mm-listitem__text">
                                   {menu.title}
                                 </span>
@@ -385,7 +387,7 @@ function App(prop) {
 
             <ul>
               {menu.title && (
-                <li className="menutitle menutitle mm-listitem">
+                <li className="menutitle mm-listitem">
                   <span className="mm-listitem__text">{menu.title}</span>
                 </li>
               )}
@@ -629,8 +631,11 @@ function App(prop) {
     if (loginToken) {
       userMethods = loginToken.cashierGateways;
     }
-
-    userMethods.sort((a, b) => (a.mode > b.mode ? 1 : -1));
+    try {
+      userMethods.sort((a, b) => (a.mode > b.mode ? 1 : -1));
+    } catch (error) {
+      localStorage.removeItem("loginToken");
+    }
 
     var canAdd = false;
     {
@@ -647,6 +652,11 @@ function App(prop) {
     return canAdd;
   };
 
+  const openPanelRight = () => {
+    $(".popup").hide();
+
+    apiPanel.open();
+  };
   const openPanel = (id, toId) => {
     var _id = id;
     if (_id.indexOf("gift") > -1) {
@@ -1071,6 +1081,7 @@ function App(prop) {
               element={
                 <AdminLayout
                   openPanel={openPanel}
+                  openPanelRight={openPanelRight}
                   openGame={openGame}
                   setFirstOpen={setFirstOpen}
                   setSecondOpen={setSecondOpen}

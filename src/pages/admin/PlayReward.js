@@ -4,7 +4,7 @@ import { Button } from "semantic-ui-react";
 
 import glugSfx from "../../utils/reward.mp3";
 function RisingPitch(prop) {
-  const [play] = useSound(glugSfx, { volume: 0.1 });
+  const [play] = useSound(glugSfx, { volume: 0.03 });
 
   return (
     <Button id="playreward" onClick={play} style={{ display: "none" }}>

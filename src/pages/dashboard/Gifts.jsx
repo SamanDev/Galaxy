@@ -9,6 +9,7 @@ import ConfettiArea from "../../utils/partymenu";
 import Moment from "react-moment";
 import LevelIcon from "../../utils/svg";
 
+import LastRewardList from "./LastRewardList";
 const LevelList = () => {
   return (
     <span className="myaccount popupmenu">
@@ -143,6 +144,7 @@ const LevelList = () => {
             />
           </List.Content>
         </List.Item>
+        <LastRewardList mode="gift" />
       </List>
     </span>
   );

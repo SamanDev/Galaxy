@@ -3,7 +3,7 @@ import { Icon, List, Button } from "semantic-ui-react";
 import $ from "jquery";
 import GalaxyIcon from "../../utils/svganim";
 import GiftsDesc from "../../utils/GiftsDesc";
-
+import LastRewardList from "./LastRewardList";
 import Report from "./Report";
 const LevelList = (prop) => {
   var totalReward = 0;
@@ -126,13 +126,7 @@ const LevelList = (prop) => {
           </List.Content>
         </List.Item>
 
-        <ul className="mm-listview menutitle-view">
-          <li className="menutitle mm-listitem"></li>
-          <li className="menutitle mm-listitem">
-            <span className="mm-listitem__text">آخرین جوایز</span>
-          </li>
-        </ul>
-        <Report />
+        <LastRewardList mode={prop.mode} />
       </List>
     </span>
   );

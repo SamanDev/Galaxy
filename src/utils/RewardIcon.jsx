@@ -135,21 +135,16 @@ const LevelIcon = (prop) => {
   if (prop.mode == "levels") {
     return (
       <div className="avatar-center" {...prop}>
-        <Image>
-          <Icon
-            name="star"
-            inverted
-            className={
-              prop.level
-                ? "big " + levelClass(prop.level - 1)
-                : "big lv30 shad2"
-            }
-          >
-            <span className="levelText">
-              {prop.number ? prop.number : prop.level}
-            </span>
-          </Icon>
-        </Image>
+        <img
+          src={"/assets/images/stars/lvl90.png"}
+          width={prop.width}
+          height={prop.width}
+          alt={prop.mode}
+          style={{
+            width: prop.width,
+            height: "auto",
+          }}
+        />
         <div>{prop.text}</div>
       </div>
     );

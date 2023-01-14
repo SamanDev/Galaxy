@@ -85,12 +85,14 @@ const levelDataInfoRules = () => {
         minLevel: siteinfo.gpassSet[0].minLevel,
         minBalance: siteinfo.gpassSet[0].minAmount,
         banOutHours: siteinfo.gpassSet[0].hoursUnderLevel,
+        hoursLimit: siteinfo.gpassSet[0].hoursLimit,
       },
       {
         name: "VIP",
         minLevel: siteinfo.vipTables[0].minLevel,
         minBalance: siteinfo.vipTables[0].minAmount,
         banOutHours: siteinfo.vipTables[0].hoursUnderLevel,
+        hoursLimit: siteinfo.vipTables[0].hoursLimit,
       },
       {
         name: "League",
@@ -112,12 +114,14 @@ const levelDataInfoRules = () => {
         minLevel: 10,
         minBalance: 10000000,
         banOutHours: 48,
+        hoursLimit: 5,
       },
       {
         name: "VIP",
         minLevel: 25,
         minBalance: 10000000,
         banOutHours: 24,
+        hoursLimit: 1,
       },
       {
         name: "League",
@@ -377,7 +381,7 @@ export const menuData = [
       {
         label: "ریک بک پوکر",
         title: "ریک بک پوکر",
-        idname: "commission",
+        idname: "rakeback",
         icongalaxy: "rakeback",
         icon: "fas fa-heart red",
         aria: "giftsarea animated bounceIn delay-02s",
@@ -590,7 +594,7 @@ function doCashout() {
 export const doCurrency = (value) => {
   return value?.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
 };
-export const dayOfTournament = 5;
+export const dayOfTournament = 7;
 export const levelList =
   "1,5,15,30,50,100,200,300,400,500,600,700,800,900,1000,1200,1400,1600,1800,2000,2500,3000,3500,4000,4500,5000,6000,7000,8000,10000".split(
     ","

@@ -13,10 +13,70 @@ import {
   Form,
   Select,
 } from "semantic-ui-react";
+import { Alert } from "../../utils/alerts";
 import Moment from "react-moment";
 import CurrencyInput from "react-currency-input-field";
+import { adminPostService } from "../../services/admin";
 const moment = require("moment");
+var __bnus = [
+  {
+    key: 1,
 
+    value: "commission",
+    label: "کمیسیون",
+    text: "Commission",
+  },
+  {
+    key: 2,
+
+    value: "gpass",
+    label: "پاداش گلکسی پَس",
+    text: "Level 15",
+  },
+
+  {
+    key: 3,
+
+    value: "rakeback",
+    label: "ریک بک",
+    text: "Rakeack",
+  },
+  {
+    key: 4,
+
+    value: "levels",
+    label: "پاداش افزایش لٍوٍل",
+    text: "Level 59",
+  },
+  {
+    key: 5,
+
+    value: "vip",
+    label: "VIP Gift",
+    text: "VIP Gift",
+  },
+  {
+    key: 6,
+    value: "league",
+    label: "لیگ روزانه",
+    text: "Place 1",
+  },
+
+  {
+    key: 11,
+
+    value: "gift",
+    label: "هدیه",
+    text: "Free Gift",
+  },
+
+  {
+    key: 10,
+    value: "bonus",
+    label: "بوناس",
+    text: "%5 Bonus",
+  },
+];
 const updateUserObj = (e, data) => {
   //console.log(data);
   var _key = data.userkey;
@@ -40,12 +100,9 @@ const updateUserObj = (e, data) => {
 };
 const addGift = async (data) => {
   console.log(data);
-  var _key = data.userkey;
-  var curU = JSON.parse(JSON.stringify(data.user));
-  var values = { id: curU.id, key: _key, value: data.checked };
 
   try {
-    const res = await adminPutService(values, "updateUserByAdmin");
+    const res = await adminPostService(data, "addGift");
     if (res.status == 200) {
       setUser(res.data);
       if (res.data?.address) {
@@ -60,9 +117,9 @@ const addGift = async (data) => {
 var mindate = new Date();
 var nowdate = new Date();
 var expdate = new Date();
-nowdate = moment(nowdate).format("YYYY-MM-DD hh:mm:00");
-mindate = moment(mindate).format("YYYY-MM-DD hh:mm:00");
-expdate = moment(expdate).add(6, "hours").format("YYYY-MM-DD hh:mm:00");
+nowdate = moment(nowdate).format("YYYY-MM-DD HH:mm:00");
+mindate = moment(mindate).format("YYYY-MM-DD HH:mm:00");
+expdate = moment(expdate).add(6, "hours").format("YYYY-MM-DD HH:mm:00");
 function Admin(prop) {
   const [myState, setMyState] = useState({
     list: [
@@ -73,6 +130,9 @@ function Admin(prop) {
       { id: "expired", val: expdate },
       { id: "min", val: 100000 },
       { id: "max", val: 3000000 },
+      { id: "mode", val: __bnus[0].value },
+      { id: "text", val: __bnus[0].text },
+      { id: "label", val: __bnus[0].label },
       { id: "selectedList", val: prop.selectedList },
     ],
   });
@@ -82,6 +142,7 @@ function Admin(prop) {
     })[0].val;
   };
   const onUpdateItem = (key, val) => {
+    console.log(key, val);
     if (findStateId(myState, key) != val) {
       setMyState(() => {
         const list = myState.list.map((item) => {
@@ -145,11 +206,15 @@ function Admin(prop) {
           floated="right"
           onClick={() => {
             addGift({
-              start: findStateId(myState, "start"),
-              expired: findStateId(myState, "expired"),
-              min: findStateId(myState, "min"),
-              max: findStateId(myState, "max"),
+              startDate: moment(findStateId(myState, "start")).valueOf(),
+              expireDate: moment(findStateId(myState, "expired")).valueOf(),
+              mode: findStateId(myState, "mode"),
+              amount: findStateId(myState, "max"),
+              status: "Pending",
+              label: findStateId(myState, "label"),
+              text: findStateId(myState, "text"),
               players: findStateId(myState, "selectedList"),
+              username: findStateId(myState, "selectedList")[0].username,
             });
           }}
         >
@@ -196,6 +261,27 @@ function Admin(prop) {
                   })
                 }
                 onBlur={(e) => updateEnd()}
+              />
+            </Form.Field>
+            <Form.Field width={4}>
+              <Select
+                options={__bnus}
+                value={findStateId(myState, "mode")}
+                onChange={(e, { value }) => {
+                  onUpdateItem("mode", value);
+                  onUpdateItem(
+                    "text",
+                    __bnus.filter(function (item) {
+                      return item.value == value;
+                    })[0].text
+                  );
+                  onUpdateItem(
+                    "label",
+                    __bnus.filter(function (item) {
+                      return item.value == value;
+                    })[0].label
+                  );
+                }}
               />
             </Form.Field>
             <Form.Field width={4}>
