@@ -29,6 +29,7 @@ const Reward = (prop) => {
     var _lvl = "";
   }
   if (prop.item.mode == "gpass") {
+    _txt = "پاداش لول " + _lvl + " گلکسی پَس";
   }
   if (prop.item.mode == "league") {
     _txt = "رتبه " + _lvl + " " + _txt;

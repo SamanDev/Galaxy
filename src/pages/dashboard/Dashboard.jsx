@@ -445,7 +445,7 @@ const Dashboard = (prop) => {
                       config={mainnconfig}
                     />
                   </div>
-                  {activeSlide == 1 && (
+                  {activeSlide && (
                     <>
                       <Banner
                         title="تورنومنت ۲۵+۲۵ "
@@ -476,7 +476,7 @@ const Dashboard = (prop) => {
                       config={mainnconfig}
                     />
                   </div>
-                  {activeSlide == 2 && (
+                  {activeSlide && (
                     <>
                       <Banner
                         title="۱۱۰ میلیون تومان"
@@ -509,7 +509,7 @@ const Dashboard = (prop) => {
                       numberOfPieces={10}
                     />
                   </div>
-                  {activeSlide == 3 && (
+                  {activeSlide && (
                     <>
                       <Banner
                         title="۱۹۲ میلیون تومان"
@@ -541,7 +541,7 @@ const Dashboard = (prop) => {
                       numberOfPieces={10}
                     />
                   </div>
-                  {activeSlide == 4 && (
+                  {activeSlide && (
                     <>
                       <Banner
                         title="۴۵ میلیون تومان"
@@ -564,7 +564,7 @@ const Dashboard = (prop) => {
                   }
                   data-bs-interval="12000"
                 >
-                  {activeSlide == 5 && (
+                  {activeSlide && (
                     <>
                       <Banner
                         title="بیش از ۴ میلیارد"

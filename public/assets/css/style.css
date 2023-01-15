@@ -1830,6 +1830,11 @@ table {
   background-size: auto, auto;
   background-repeat: no-repeat;
 }
+#dashboard_sectio2sn {
+  background-image: url("/assets/images/bgs/3.png");
+  background-size: auto, auto;
+  background-repeat: no-repeat;
+}
 .fadein {
   -webkit-mask-image: linear-gradient(to top, black 95%, transparent 100%);
   mask-image: linear-gradient(to top, black 95%, transparent 100%);
