@@ -262,7 +262,7 @@ const Balance = (prop) => {
             basic
             pinned
             hideOnScroll
-            disabled={gCount == 0 ? true : false}
+            disabled={gCount == -1 ? true : false}
             trigger={
               <Icon
                 circular

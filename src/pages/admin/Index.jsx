@@ -8,6 +8,7 @@ import Report from "./AdminReport";
 import GetwaysList from "./components/GetwaysList.component";
 import SiteCartsList from "./components/SiteCartsList.component";
 import Requests from "./Requests";
+import Setting from "./Setting";
 import RisingPitch from "./PlayAlert";
 import { adminGetService } from "../../services/admin";
 import { isJson, haveAdmin, haveModerator, doCurrency } from "../../const";
@@ -68,6 +69,20 @@ function Admin(prop) {
         pane: (
           <Tab.Pane key="Requests">
             <Requests
+              addTabData={addTabData}
+              addMainTabData={addMainTabData}
+              setGetwaysData={setGetwaysData}
+              addGatewayTabData={addGatewayTabData}
+              removeTabData={removeTabData}
+            />
+          </Tab.Pane>
+        ),
+      },
+      {
+        menuItem: "Settings",
+        pane: (
+          <Tab.Pane key="Setting">
+            <Setting
               addTabData={addTabData}
               addMainTabData={addMainTabData}
               setGetwaysData={setGetwaysData}

@@ -22,7 +22,9 @@ const Toast = Swal.mixin({
 
 const depositArea = () => {
   const [copy, setCopy] = useState(false);
-
+  const siteInfo = JSON.parse(localStorage.getItem("siteInfo"));
+  var loginToken = JSON.parse(localStorage.getItem("loginToken"));
+  var link = siteInfo.referUrl + "ref/" + loginToken.username;
   const copyDo = () => {
     setCopy(true);
     setTimeout(() => {
@@ -56,13 +58,10 @@ const depositArea = () => {
           </Label>
         }
         labelPosition="left"
-        defaultValue="https://galaxy10g.site/ref/HangOver"
+        defaultValue={link}
       />
 
-      <CopyToClipboard
-        text="https://galaxy10g.site/ref/HangOver"
-        onCopy={() => copyDo()}
-      >
+      <CopyToClipboard text={link} onCopy={() => copyDo()}>
         <Button
           icon
           labelPosition="left"
