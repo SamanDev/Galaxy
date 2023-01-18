@@ -324,8 +324,6 @@ const BonusArea = (prop) => {
           <Divider fitted />
         </>
       )}
-
-      <Report mode="Pending" gateway="" count={3} {...prop} />
     </div>
   );
 };

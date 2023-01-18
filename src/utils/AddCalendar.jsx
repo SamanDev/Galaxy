@@ -159,7 +159,12 @@ class Example extends React.Component {
             style={{ margin: "10px 0" }}
             basic
           >
-            <Icon size="large" name={SHARE_SITES_ICON[i].toLowerCase()} />
+            <Icon
+              size="large"
+              color="orange"
+              inverted
+              name={SHARE_SITES_ICON[i].toLowerCase()}
+            />
             {link}
           </Button>
         ))}

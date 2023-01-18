@@ -98,7 +98,7 @@ const ActiveTable = (prop) => {
         inverted
         style={{
           color: "#fff",
-          position: "absolute",
+          position: "fixed",
           top: 18,
           right: 10,
           opacity: 0.5,

@@ -7,7 +7,11 @@ var moment = require("moment");
 const headerRow = ["Name", "Value"];
 function capitalizeTxt(txt, obj) {
   if (txt.indexOf("-") > -1) {
-    return <CartFormat row={obj} />;
+    return (
+      <td key={obj.id}>
+        <CartFormat row={obj} />
+      </td>
+    );
   } else {
     return txt.charAt(0).toUpperCase() + txt.slice(1); //or if you want lowercase the rest txt.slice(1).toLowerCase();
   }
@@ -95,14 +99,13 @@ function getList(obj) {
   return obj[0];
 }
 const TableExampleWarningShorthand = (prop) => {
-  console.log(prop.data);
   const renderBodyRow = ({ name, value, user, card }, i) => ({
-    key: `row-${i}`,
+    key: `row-${name}`,
     cells: [
       capitalizeTxt(name, card) || "No name specified",
       typeof value == "boolean"
         ? {
-            key: `statusrow-${i}`,
+            key: `statusrow-${name}`,
             content: (
               <span style={{ float: "right", height: 20 }}>
                 <CheckboxToggle

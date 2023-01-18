@@ -1,5 +1,5 @@
 import React from "react";
-import { Grid } from "semantic-ui-react";
+import { Grid, Modal, Button, Icon } from "semantic-ui-react";
 import LevelIcon from "./svg";
 import { doCurrency, levelClassInside } from "../const";
 import { convertDateToJalali } from "./convertDate";
@@ -45,7 +45,11 @@ const Reward = (prop) => {
       inverted
       padded="vertically"
     >
-      <Grid.Row className={_defUser == prop.item.username ? "rewardred" : ""}>
+      <Grid.Row
+        className={
+          _defUser == prop.item.username && !prop.color ? "rewardred" : ""
+        }
+      >
         <Grid.Column width={6}>
           <div style={{ marginLeft: 10 }}>
             <LevelIcon

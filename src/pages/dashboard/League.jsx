@@ -15,13 +15,14 @@ import {
   levelLeagueList,
   levelDataInfo,
 } from "../../const";
-import LevelIcon from "../../utils/LevelIcon";
+import LevelIcon from "../../utils/svg";
 import GiftsDesc from "../../utils/GiftsDesc";
 import AddCalendar from "../../utils/AddCalendar";
 import GalaxyIcon from "../../utils/svganim";
 
 import LastRewardList from "./LastRewardList";
 const LevelList = () => {
+  var totalReward = 0;
   return (
     <span className="myaccount popupmenu">
       <List divided inverted verticalAlign="middle" className="myaccount">
@@ -102,6 +103,55 @@ const LevelList = () => {
             />
           </List.Content>
         </List.Item>
+        <ul className="mm-listview menutitle-view">
+          <li className="menutitle mm-listitem"></li>
+          <li className="menutitle mm-listitem">
+            <span className="mm-listitem__text">لیست جوایز لیگ گلکسی</span>
+          </li>
+        </ul>
+        {Array.apply(0, Array(levelLeagueList.length)).map(function (x, i) {
+          totalReward += levelLeagueReward(i);
+          var _lvl = i + 1;
+          var _text = "Level " + (i + 1);
+          if (i == 0) {
+            _text = "HangOver";
+            _lvl = 30;
+          }
+          return (
+            <List.Item key={i} id={"lvl" + (i + 1)}>
+              <List.Content floated="right" className="rtl">
+                <span className="text-gold">
+                  {doCurrency(levelLeagueReward(i))}{" "}
+                </span>
+                <span className="mysmall">
+                  <small className="farsi">تومان پاداش</small>
+                </span>
+                <div className="mysmall">
+                  {doCurrency(totalReward)}{" "}
+                  <small className="farsi mysmall">امتیاز امروز</small>
+                </div>
+              </List.Content>
+              <span style={{ float: "left" }}>
+                <LevelIcon
+                  mode="league"
+                  level={i + 1}
+                  text={"Place " + (i + 1)}
+                  classinside="iconinside0"
+                  number=""
+                  width="36px"
+                  iconamin="swing"
+                />
+              </span>
+              <div
+                style={{
+                  position: "relative",
+                  left: -50,
+                  transform: "scale(.8)",
+                }}
+              ></div>
+            </List.Item>
+          );
+        })}
         <LastRewardList mode="league" />
       </List>
     </span>

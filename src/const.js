@@ -10,6 +10,7 @@ import KingOf from "./pages/dashboard/KingOf";
 import League from "./pages/dashboard/League";
 import Tournament from "./pages/dashboard/Tournament";
 import Gift from "./pages/dashboard/Gifts";
+import MyGift from "./pages/dashboard/MyGifts";
 import TopUsers from "./pages/dashboard/TopUsers";
 import CashoutComponent from "./layouts/admin/forms/FormComponent.jsx";
 import FormComponent from "./layouts/admin/forms/FormComponent.jsx";
@@ -564,6 +565,12 @@ export const menuData = [
         icon: "fas fa-lock",
         component: <CashoutComponent cashMode="ChangePass" />,
       },
+      {
+        label: "جوایر من",
+        title: "جوایر من",
+        icon: "fas fa-gift",
+        component: <MyGift />,
+      },
     ],
   },
   {
@@ -670,14 +677,14 @@ function doCashout() {
 export const doCurrency = (value) => {
   return value?.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
 };
-export const dayOfTournament = 7;
+export const dayOfTournament = 1;
 export const levelList =
   "1,5,15,30,50,100,200,300,400,500,600,700,800,900,1000,1200,1400,1600,1800,2000,2500,3000,3500,4000,4500,5000,6000,7000,8000,10000".split(
     ","
   );
 
 export const activeColorList =
-  "grey,grey,brown,pink,violet,purple,blue,teal,green,olive,yellow,orange,red".split(
+  "grey,grey,brown,pink,purple,violet,blue,teal,green,olive,yellow,orange,red".split(
     ","
   );
 export const activeColorList2 =

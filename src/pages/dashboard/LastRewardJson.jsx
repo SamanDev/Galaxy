@@ -43,7 +43,6 @@ const ActiveTable = (prop) => {
           setTimeout(() => {
             prop.animateCSS(".id-" + myx.id + "", "fadeInDown");
             $("#playreward").trigger("click");
-            prop.bindLastReward();
           }, 1000 * (myData.length - myI));
         } else {
           myI = myI - 1;
@@ -54,6 +53,7 @@ const ActiveTable = (prop) => {
       });
 
       setSortData(_sortD);
+      $("#bindlastreward").trigger("click");
       setTimeout(() => {
         localStorage.setItem("lastRewardSort", JSON.stringify(_sortD));
         //$("#playreward").trigger("click");
@@ -79,7 +79,12 @@ const ActiveTable = (prop) => {
           </List.Item>
         </List>
       ) : (
-        <div style={{ paddingLeft: 15, marginBottom: 200 }}>
+        <div
+          style={{
+            paddingLeft: 15,
+            marginBottom: 50,
+          }}
+        >
           {_sortData.length > 0 && (
             <>
               {_sortData.map(function (bonus, i) {

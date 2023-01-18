@@ -109,6 +109,7 @@ function Admin(prop) {
             removeTabData={removeTabData}
             getwaysList={getwaysList}
             addTabData={addTabData}
+            handleGetGeteways={handleGetGeteways}
           />
         </Tab.Pane>
       ),

@@ -17,6 +17,7 @@ import { adminGetService } from "../../services/admin";
 import TableAdmin from "./components/adminTable.component";
 import Balance from "./balance";
 import Report from "./UserReport";
+import Reward from "./UserReward";
 import { Col } from "react-bootstrap";
 import Users from "./AdminUsers";
 import CheckboxToggle from "./components/toggle.component";
@@ -293,8 +294,8 @@ function Admin(prop) {
     {
       menuItem: "Rewards",
       render: () => (
-        <Tab.Pane as="span" className="ui inverted segment">
-          <Report
+        <Tab.Pane as="span">
+          <Reward
             user={user}
             mode="deposit"
             addTabData={prop.addTabData}

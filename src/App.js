@@ -21,6 +21,7 @@ import LoginArea from "./layouts/admin/auth/Login.jsx";
 import RegisterArea from "./layouts/admin/auth/Register.jsx";
 import ForgetArea from "./layouts/admin/auth/Forget";
 import DCArea from "./layouts/admin/auth/dc.component";
+import UserArea from "./layouts/admin/auth/user.component";
 import GalaxyIcon from "./utils/svg";
 import ConfettiArea from "./utils/partyclick";
 import { Dimmer, Loader } from "semantic-ui-react";
@@ -149,6 +150,8 @@ function App(prop) {
   const [loadingLogin, isLogin] = useIsLogin();
 
   const [isUser, setIsUser] = useState(false);
+  const [userProfile, setUserProfile] = useState("");
+  const [userOpen, setUserOpen] = useState(false);
   const [dcOpen, setDcOpen] = useState(false);
   const [firstOpen, setFirstOpen] = useState(false);
   const [secondOpen, setSecondOpen] = useState(false);
@@ -187,16 +190,26 @@ function App(prop) {
       });
   }
   function bindLastReward() {
-    $(".rewardname")
+    console.log("bindlastreward" + $(".rewardname .iconarea").length);
+    $(".rewardname .iconarea > *")
       .unbind()
       .bind("click", function (event) {
-        var _m = $(this).attr("mode");
+        var _m = $(this).closest(".rewardname").attr("mode");
         if (_m.indexOf("gift") > -1) {
           _m = "giftarea";
         }
         if ($("." + _m, "").length > 0) {
           openPanel("." + _m, "");
         }
+      });
+    $(".rewardname .iconlabel")
+      .addClass("text-gold clk")
+      .unbind()
+      .bind("click", function (event) {
+        var _u = $(this).text();
+
+        setUserProfile(_u);
+        setUserOpen(true);
       });
   }
   const CompGen = (prop) => {
@@ -662,7 +675,7 @@ function App(prop) {
     if (_id.indexOf("gift") > -1) {
       _id = ".giftarea";
     }
-    console.log(_id);
+
     if ($(_id).length == 0) return false;
 
     $(".popup").hide();
@@ -879,10 +892,7 @@ function App(prop) {
       setIsUser(isLogin);
     }
   }, [isLogin]);
-  useEffect(() => {
-    bindActiveTable();
-    bindLastReward();
-  });
+
   useEffect(() => {
     if (window.location.href.toString().indexOf("/login") > -1) {
       if (isUser == false) {
@@ -959,6 +969,26 @@ function App(prop) {
           <ul>{finalPanel}</ul>
         </nav>
         <div className="App">
+          <Modal
+            basic
+            size="tiny"
+            className="myaccount popupmenu  animated backInDown "
+            onClose={() => {
+              setUserOpen(false);
+            }}
+            onOpen={() => setUserOpen(true)}
+            open={userOpen}
+            closeIcon
+          >
+            <UserArea
+              username={userProfile}
+              isLogin={isUser}
+              loadingLogin={loadingLogin}
+              setIsUser={setIsUser}
+              size="small"
+              labelcolor="orange"
+            />
+          </Modal>
           <Modal
             basic
             size="tiny"
@@ -1094,6 +1124,7 @@ function App(prop) {
                   getAccess={getAccess}
                   animateCSS={animateCSS}
                   setRefresh={setRefresh}
+                  bindLastReward={bindLastReward}
                 />
               }
             />

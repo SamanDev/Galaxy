@@ -15,6 +15,17 @@ const Index = (prop) => {
         }}
       />
       <span
+        id="bindlastreward"
+        style={{
+          display: "none",
+        }}
+        onClick={() => {
+          setTimeout(() => {
+            prop.bindLastReward();
+          }, 50);
+        }}
+      />
+      <span
         id="openaddcart"
         style={{
           display: "none",

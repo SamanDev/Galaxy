@@ -27,6 +27,7 @@ const moment = require("moment");
 const Balance = (prop) => {
   var lvlPercent = 0;
   var gLvlPercent = 0;
+  var vLvlPercent = 0;
   const loginToken = JSON.parse(localStorage.getItem("loginToken"));
   const [color, setColor] = useState("grey");
   const [gCount, setGCount] = useState(0);
@@ -49,11 +50,17 @@ const Balance = (prop) => {
     gLvlPercent = parseFloat(
       (loginToken.glevelSecond * 100) / (levelDataInfo[0].hoursLimit * 3600)
     ).toFixed(2);
+    vLvlPercent = parseFloat(
+      (loginToken.vipPlaySecond * 100) / (levelDataInfo[1].hoursLimit * 3600)
+    ).toFixed(2);
     if (gLvlPercent > 100) {
       gLvlPercent = 100;
     }
     if (lvlPercent > 100) {
       lvlPercent = 100;
+    }
+    if (vLvlPercent > 100) {
+      vLvlPercent = 100;
     }
   }
 
@@ -102,8 +109,11 @@ const Balance = (prop) => {
     if (stateMode == 0) {
       setlvlPercentState(lvlPercent);
     }
-    if (stateMode == 1) {
+    if (stateMode == 1 && _event == "GPass") {
       setlvlPercentState(gLvlPercent);
+    }
+    if (stateMode == 1 && _event == "VIP") {
+      setlvlPercentState(vLvlPercent);
     }
   }, [stateMode]);
   useEffect(() => {

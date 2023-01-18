@@ -14,18 +14,24 @@ import { doCurrency, levelLeagueReward, levelLeagueList } from "../../const";
 import LevelIcon from "../../utils/svg";
 import MenuLoader from "../../utils/menuLoader";
 import { getRewardsService } from "../../services/reward";
-import $ from "jquery";
 const LevelList = (prop) => {
+  const loginToken = JSON.parse(localStorage.getItem("loginToken"));
+
+  var _defUserID = "";
+  var _defUser = "";
+  if (loginToken) {
+    _defUserID = loginToken.id;
+    _defUser = loginToken.username;
+  }
   const [data, setData] = useState([]);
 
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const handleGetRewards = async () => {
     setLoading(true);
     try {
-      const res = await getRewardsService("", prop.mode, "");
+      const res = await getRewardsService(_defUserID, "", _defUser);
       if (res.status === 200) {
         setData(res.data);
-        $("#bindlastreward").trigger("click");
       }
     } catch (error) {
       console.log(error.message);
@@ -41,23 +47,16 @@ const LevelList = (prop) => {
   if (loading) {
     return (
       <>
-        <ul className="mm-listview menutitle-view">
-          <li className="menutitle mm-listitem"></li>
-          <li className="menutitle mm-listitem">
-            <span className="mm-listitem__text">آخرین جوایز</span>
-          </li>
-        </ul>
         <MenuLoader />
       </>
     );
   } else {
     return (
       <>
-        <ul className="mm-listview menutitle-view">
-          <li className="menutitle mm-listitem"></li>
-          <li className="menutitle mm-listitem">
-            <span className="mm-listitem__text">آخرین جوایز</span>
-          </li>
+        <ul
+          className="mm-listview menutitle-view"
+          style={{ position: "relative", top: -10 }}
+        >
           <li>
             {data.length == 0 && !prop.pending && (
               <>
@@ -82,13 +81,12 @@ const LevelList = (prop) => {
             <div style={{ paddingLeft: 15 }}>
               {data.map((x, i) => {
                 totalReward += levelLeagueReward(i);
-
                 var _lvl = 20 - i;
                 var _text = x.username;
 
                 return (
                   <div className={"rewardname"} mode={x.mode} key={i}>
-                    <Reward item={x} />
+                    <Reward item={x} color={true} />
                   </div>
                 );
               })}

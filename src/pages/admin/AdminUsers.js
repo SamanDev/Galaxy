@@ -14,6 +14,7 @@ import {
   Select,
 } from "semantic-ui-react";
 import Moment from "react-moment";
+import { useParams } from "react-router-dom";
 import { addDays } from "date-fns";
 import CurrencyInput from "react-currency-input-field";
 const moment = require("moment");
@@ -114,7 +115,7 @@ function Admin(prop) {
   const [totalRows, setTotalRows] = useState(0);
   const [perPage, setPerPage] = useState(10);
   const [dataSortedID, setDataSortedID] = useState(1);
-
+  const params = useParams();
   const [dataSearch, setDataSearch] = useState("");
   const [dataLoginDay, setDataLoginDay] = useState("");
 
@@ -220,6 +221,9 @@ function Admin(prop) {
 
   useEffect(() => {
     prop.handleGetGeteways();
+    if (params.username) {
+      prop.addTabData(params.username, prop.getwaysList);
+    }
   }, []);
   const columnsDownLine = [
     {

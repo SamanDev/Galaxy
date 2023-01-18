@@ -54,6 +54,19 @@ const mainnconfig = {
   perspective: "743px",
   colors: ["#000", "#333", "#666"],
 };
+const pokerconfig = {
+  angle: 90,
+  spread: 360,
+  startVelocity: 40,
+  elementCount: 70,
+  dragFriction: 0.12,
+  duration: 3000,
+  stagger: 3,
+  width: "10px",
+  height: "10px",
+  perspective: "500px",
+  colors: ["#000", "#f00"],
+};
 var nowDay = moment().isoWeekday();
 
 const Banner = (prop) => {
@@ -179,11 +192,20 @@ const Dashboard = (prop) => {
   const [screenOrientation, setScreenOrientation] = useState(
     screen?.orientation?.type
   );
-
+  var defslide = 1;
+  if (_event.toLowerCase() == "gpass") {
+    defslide = 2;
+  }
+  if (_event.toLowerCase() == "vip") {
+    defslide = 3;
+  }
+  if (dayOfTournament == nowDay) {
+    defslide = 3;
+  }
   const [gameLoader, setGameLoader] = useState(true);
   const params = useParams();
   const [activeIndex, setActiveIndex] = useState(0);
-  const [activeSlide, setActiveSlide] = useState(0);
+  const [activeSlide, setActiveSlide] = useState(defslide);
   const [gameOptions, setGameOptions] = useState([]);
   const [secondaryGame, setSecondaryGame] = useState(
     localStorage.getItem("secondaryGame")
@@ -283,7 +305,7 @@ const Dashboard = (prop) => {
     setGameOptions(_gameOptions);
   }, []);
   useEffect(() => {
-    if (!prop.isLogin && curPage == "game") {
+    if (!prop.isLogin && curPage == "game" && prop.loadingLogin == false) {
       setCurPage("dashboard");
       prop.setFirstOpen(true);
 
@@ -402,7 +424,7 @@ const Dashboard = (prop) => {
           >
             <div
               id="carouselExampleControls"
-              className="carousel slide"
+              className="carousel slide carousel-fade"
               data-bs-ride="carousel"
               data-bs-pause="false"
             >
@@ -456,6 +478,9 @@ const Dashboard = (prop) => {
                         link=".tournament"
                         {...prop}
                       />
+                      {dayOfTournament == nowDay && (
+                        <ConfettiArea recycle={false} numberOfPieces="50" />
+                      )}
                     </>
                   )}
                 </div>
@@ -473,7 +498,7 @@ const Dashboard = (prop) => {
                           ? true
                           : false
                       }
-                      config={mainnconfig}
+                      config={pokerconfig}
                     />
                   </div>
                   {activeSlide && (
@@ -498,21 +523,20 @@ const Dashboard = (prop) => {
                   }
                   data-bs-interval="12000"
                 >
-                  <div className="confettimain animated fadeInLeft delay-1s">
-                    <ConfettiClick
-                      width="400px"
-                      active={
-                        _event.toLowerCase() == "vip" && activeSlide == 3
-                          ? true
-                          : false
-                      }
-                      numberOfPieces={10}
-                    />
-                  </div>
                   {activeSlide && (
                     <>
+                      <div className="confettimain">
+                        <ConfettiClick
+                          active={
+                            _event.toLowerCase() == "vip" && activeSlide == 3
+                              ? true
+                              : false
+                          }
+                          config={pokerconfig}
+                        />
+                      </div>
                       <Banner
-                        title="۱۹۲ میلیون تومان"
+                        title={<>۱۹۲ میلیون تومان</>}
                         text="پاداش VIP 25/50K"
                         link=".vip"
                         icon="vip"
@@ -521,6 +545,7 @@ const Dashboard = (prop) => {
                         number=" "
                         {...prop}
                       />
+                      <ConfettiArea recycle={false} numberOfPieces="50" />
                     </>
                   )}
                 </div>
@@ -538,7 +563,7 @@ const Dashboard = (prop) => {
                           ? true
                           : false
                       }
-                      numberOfPieces={10}
+                      config={pokerconfig}
                     />
                   </div>
                   {activeSlide && (
