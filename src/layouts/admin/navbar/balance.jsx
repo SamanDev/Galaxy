@@ -132,6 +132,7 @@ const Balance = (prop) => {
           inverted
           style={{ margin: 0, padding: 10, color: "#fff", top: 3 }}
         >
+          <RisingPitch />
           <span
             onClick={() => {
               ChangeStateMode();

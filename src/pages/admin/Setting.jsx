@@ -12,7 +12,6 @@ import {
   Modal,
   Form,
 } from "semantic-ui-react";
-import ReactJsonViewCompare from "react-json-view-compare";
 import { List, Label, Tab } from "semantic-ui-react";
 import { adminGetService } from "../../services/admin";
 import TableAdmin from "./components/adminTableForm.component";
