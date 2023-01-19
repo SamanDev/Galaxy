@@ -38,21 +38,21 @@ import { isJson, haveAdmin, haveModerator, doCurrency } from "../../const";
 
 const conditionalRowStyles = [
   {
-    when: (row) => row.endBalance < row.startBalance,
+    when: (row) => row.status == "Pending",
+    style: {
+      backgroundColor: "rgba(0,0,255,.1)",
+    },
+  },
+  {
+    when: (row) => moment(row.expireDate) < moment(),
     style: {
       backgroundColor: "rgba(255,0,0,.1)",
     },
   },
   {
-    when: (row) => row.endBalance > row.startBalance,
+    when: (row) => row.status == "Done",
     style: {
       backgroundColor: "rgba(0,255,0,.1)",
-    },
-  },
-  {
-    when: (row) => row.status == "Pending",
-    style: {
-      backgroundColor: "rgba(0,0,255,.1)",
     },
   },
 ];
@@ -82,7 +82,7 @@ const noDataComponent = (
 );
 
 function Admin(prop) {
-  const [data, setData] = useState([]);
+  const [data, setData] = useState(prop.user.userGifts);
 
   const [totalRows, setTotalRows] = useState(0);
   const [perPage, setPerPage] = useState(10);
@@ -150,11 +150,11 @@ function Admin(prop) {
   };
 
   useEffect(() => {
-    fetchUsers(1); // fetch page 1 of users
+    //fetchUsers(1); // fetch page 1 of users
   }, [dataSorted, dataSortedDir, dataMode]);
 
   useEffect(() => {
-    if (!firstOpen && filterOk) fetchUsers(1); // fetch page 1 of users
+    //if (!firstOpen && filterOk) fetchUsers(1); // fetch page 1 of users
   }, [filterOk, firstOpen]);
 
   const columns = [
@@ -172,13 +172,7 @@ function Admin(prop) {
       sortable: true,
       width: "80px",
     },
-    {
-      name: "start",
-      selector: (row) => row.startBalance,
-      format: (row) => <>{doCurrency(row.startBalance)}</>,
-      sortable: true,
-      width: "100px",
-    },
+
     {
       name: "amount",
       selector: (row) =>
@@ -194,13 +188,7 @@ function Admin(prop) {
       sortable: true,
       width: "100px",
     },
-    {
-      name: "end",
-      selector: (row) => row.endBalance,
-      format: (row) => <>{doCurrency(row.endBalance)}</>,
-      sortable: true,
-      width: "100px",
-    },
+
     {
       name: "mode",
       selector: (row) => row.mode,
@@ -209,9 +197,15 @@ function Admin(prop) {
       width: "120px",
     },
     {
-      name: "gateway",
-      selector: (row) => (row.gateway ? row.gateway : ""),
-      format: (row) => <>{row.gateway}</>,
+      name: "text",
+      selector: (row) => row.label,
+      format: (row) => <div className="farsi">{row.label}</div>,
+      sortable: true,
+    },
+    {
+      name: "received",
+      selector: (row) => row.received,
+      format: (row) => <>{row.received ? "Yes" : "No"}</>,
       sortable: true,
     },
     {

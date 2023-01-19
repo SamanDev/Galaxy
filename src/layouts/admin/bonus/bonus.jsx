@@ -334,7 +334,7 @@ const BonusArea = (prop) => {
       }
     }
   };
-  var start = moment(prop.bonus.date);
+  var start = moment(prop.bonus.startDate);
   var expire = moment(prop.bonus.expireDate);
   var end = moment();
   try {
@@ -439,7 +439,7 @@ const BonusArea = (prop) => {
                   prop.ChangeGift();
                 }}
               >
-                {prop.bonus.date}
+                {prop.bonus.startDate}
               </Moment>{" "}
               تا فعالسازی
             </>
@@ -519,15 +519,12 @@ const BonusArea = (prop) => {
               color="grey"
               compact
               style={{ opacity: 1, width: 140 }}
-              onClick={() => {
-                handleConfirm(prop.bonus);
-              }}
             >
               <Button.Content visible>
                 <Icon name="clock" /> {doCurrency(prop.bonus.amount)}
               </Button.Content>
               <Button.Content hidden className="farsi-inline">
-                <Moment fromNow>{prop.bonus.date}</Moment>
+                <Moment fromNow>{prop.bonus.startDate}</Moment>
               </Button.Content>
             </Button>
           </>
