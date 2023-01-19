@@ -216,7 +216,7 @@ const levelDataInfoRules = () => {
   }
 };
 export const levelDataInfo = levelDataInfoRules();
-export const gameDataMain = "poker,bet,boom,backgammon".split(",");
+export const gameDataMain = "poker,sportbet,crash,backgammon".split(",");
 export const gameDataMainCode = "poker,bet,boom,backgammon".split(",");
 export const gameData =
   "blackjack3,blackjacks,roulette,roulette3D,baccarat,slotramses,slotfruits,jacksorbetter,deuceswild,wheeloffortune,slotarabian,highlow,slotsoccer,slotluckychristmas,caribbeanstud,slotspace".split(

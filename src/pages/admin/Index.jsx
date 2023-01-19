@@ -95,7 +95,6 @@ function Admin(prop) {
     ];
   }, []);
   useEffect(() => {
-    console.log(panes);
     if (activeIndex == 0) setTabData(panes);
     if (activeIndex == -1) {
       setActiveIndex(0);

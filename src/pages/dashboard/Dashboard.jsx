@@ -210,7 +210,7 @@ const Dashboard = (prop) => {
   const [secondaryGame, setSecondaryGame] = useState(
     localStorage.getItem("secondaryGame")
       ? localStorage.getItem("secondaryGame")
-      : "blackjack3"
+      : "crash"
   );
   const [mainGame, setMainGame] = useState(
     params.gameId ? params.gameId : "poker"
@@ -277,7 +277,9 @@ const Dashboard = (prop) => {
   useEffect(() => {
     handleSlider();
   }, []);
-
+  function capitalizeTxt(txt) {
+    return txt.charAt(0).toUpperCase() + txt.slice(1); //or if you want lowercase the rest txt.slice(1).toLowerCase();
+  }
   useEffect(() => {
     var _gameOptions = [];
     {
@@ -285,7 +287,7 @@ const Dashboard = (prop) => {
         if (game != mainGame) {
           _gameOptions.push({
             key: game,
-            text: game,
+            text: capitalizeTxt(game),
             value: game,
           });
         }
@@ -296,7 +298,7 @@ const Dashboard = (prop) => {
         if (game != mainGame) {
           _gameOptions.push({
             key: game,
-            text: game,
+            text: capitalizeTxt(game),
             value: game,
           });
         }
@@ -365,10 +367,10 @@ const Dashboard = (prop) => {
             ) : (
               <>
                 <iframe
-                  srdc={
+                  src={
                     "https://glxypkr.com:8443/secured/games/" +
                     mainGame +
-                    ".html?code=E14AB11A9CFD83028B5F273261AC8D47E472739FA49E98690BAF485791D2CB9A"
+                    ".html?code=8035A16CF14CF5E487D16E160D4455FAFC8324EE3ABB490258B98007FDB800B3"
                   }
                   className={isFull ? "framegame  fullscreen" : "framegame "}
                   onLoad={removeFrameLoad}
@@ -401,7 +403,7 @@ const Dashboard = (prop) => {
               src={
                 "https://glxypkr.com:8443/secured/games/" +
                 secondaryGame +
-                ".html?code=E14AB11A9CFD83028B5F273261AC8D47E472739FA49E98690BAF485791D2CB9A"
+                ".html?code=8035A16CF14CF5E487D16E160D4455FAFC8324EE3ABB490258B98007FDB800B3"
               }
               className={
                 isFull ? "framegame frame2  fullscreen" : "framegame frame2"

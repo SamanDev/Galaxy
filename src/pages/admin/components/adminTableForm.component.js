@@ -50,7 +50,10 @@ const TableExampleWarningShorthand = (prop) => {
       </Input>
     );
     if (name == "header") {
-      res = <h1>{myDate}</h1>;
+      res = null;
+    }
+    if (name == "id") {
+      res = <Input size="mini" disabled name={name} defaultValue={myDate} />;
     }
     if (name == "referUrl") {
       res = (
@@ -68,7 +71,11 @@ const TableExampleWarningShorthand = (prop) => {
   const renderBodyRow = ({ name, value, user, x, card }, i) => ({
     key: `row-${name + i}`,
     cells: [
-      capitalizeTxt(name, card) || " ",
+      capitalizeTxt(name, card) || (
+        <td key={`statusrow-${name + i}`}>
+          <h1>{capitalizeTxt(value)}</h1>
+        </td>
+      ),
       typeof value == "boolean"
         ? {
             key: `statusrow-${name + i}`,

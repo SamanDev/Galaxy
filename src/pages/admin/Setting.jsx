@@ -12,6 +12,7 @@ import {
   Modal,
   Form,
 } from "semantic-ui-react";
+import ReactJsonViewCompare from "react-json-view-compare";
 import { List, Label, Tab } from "semantic-ui-react";
 import { adminGetService } from "../../services/admin";
 import TableAdmin from "./components/adminTableForm.component";
@@ -22,6 +23,7 @@ import { Col } from "react-bootstrap";
 import Users from "./AdminUsers";
 import CheckboxToggle from "./components/toggle.component";
 import { Alert } from "../../utils/alerts";
+
 import { adminPutService } from "../../services/admin";
 import { isJson, haveAdmin, haveModerator, doCurrency } from "../../const";
 const getGateways = JSON.parse(localStorage.getItem("getGateways"));
@@ -199,11 +201,13 @@ function Admin(prop) {
   const [activeIndex, setActiveIndex] = useState(0);
   const loginToken = JSON.parse(localStorage.getItem("loginToken"));
   const siteInfo = JSON.parse(localStorage.getItem("siteInfo"));
+
   const [loading, setLoading] = useState(true);
-  const [user, setUser] = useState(siteInfo);
+
+  const [info, setInfo] = useState(siteInfo);
   const updateUserObj = async (name, value, user, x) => {
-    console.log(name);
-    var data = siteInfo;
+    var data = info;
+
     if (name?.name == "referUrl") {
       var val = name.value;
     } else {
@@ -219,12 +223,14 @@ function Admin(prop) {
       data[_name] = val;
     }
     console.log(data);
+
+    setInfo(data);
   };
 
   if (haveAdmin(loginToken.roles)) {
     var newdataInfo = [
       getPathOfKey2(
-        user,
+        info,
         ",referUrl,cashoutLimit,depositLimit,durationTime,startTimeCommission,tartTimeDailyLeague, startTimeGPass,startTimeLevelUp,startTimeRakeBack,startTimeVipTable,"
       ),
     ];
@@ -232,20 +238,19 @@ function Admin(prop) {
   if (haveModerator(loginToken.roles)) {
     var newdataInfo = [
       getPathOfKey2(
-        user,
+        info,
         ",username,level,balance,fullName,refer,firstLogin,lastLogin,bankInfos,cashierGateways,"
       ),
     ];
   }
   var newdataBankInfo = [
     //getPathOfKey(user, ",dailyLeagueSet,"),
-    getPathOfKey(user, ",dailyLeagueSet,gpassSet,levelUps,vipTables,"),
+    getPathOfKey(info, ",dailyLeagueSet,gpassSet,levelUps,vipTables,"),
   ];
 
   var newdataInfoData = JSON.parse(JSON.stringify(newdataInfo));
   var newdatabankInfoData = JSON.parse(JSON.stringify(newdataBankInfo));
 
-  console.log(newdatabankInfoData);
   return (
     <>
       <div
