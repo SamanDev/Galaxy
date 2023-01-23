@@ -28,7 +28,7 @@ const initialValues = {
   email: "",
   password: generateRandomInteger(11111111, 99999999),
   //password: 42101365,
-  refer: loginToken.username,
+  refer: loginToken?.username,
 };
 const validationSchema = Yup.object({
   username: Yup.string()
