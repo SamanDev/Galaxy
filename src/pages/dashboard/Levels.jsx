@@ -23,19 +23,15 @@ import LevelBar from "../../utils/LevelBar";
 const LevelList = () => {
   var totalReward = 0;
   var arra = [];
+  const siteInfo = JSON.parse(localStorage.getItem("siteInfo"));
   const loginToken = JSON.parse(localStorage.getItem("loginToken"));
+  siteInfo?.levelUps?.sort((a, b) => (a.id > b.id ? 1 : -1));
   return (
     <span className="myaccount popupmenu">
       <List divided inverted verticalAlign="middle" className="myaccount">
-        {Array.apply(0, Array(90)).map(function (x, i) {
-          totalReward += levelReward(i);
-          arra.push({
-            level: i + 1,
-            reward: levelReward(i),
-            commission: levelRewardPercent(i),
-            percent: levelPercent(i),
-            point: parseInt((levelReward(i) * 100) / levelPercent(i)),
-          });
+        {siteInfo.levelUps.map((x, i) => {
+          totalReward += x.reward;
+
           return (
             <List.Item
               key={i}
@@ -47,12 +43,12 @@ const LevelList = () => {
               }
             >
               <List.Content floated="right" className="rtl">
-                <span className="text-gold">{doCurrency(levelReward(i))} </span>
+                <span className="text-gold">{doCurrency(x.reward)} </span>
                 <span className="mysmall">
                   <small className="farsi">تومان پاداش</small>
                 </span>
                 <div className="mysmall">
-                  <span className="text-gold">{levelRewardPercent(i)}% </span>
+                  <span className="text-gold">{x.commission}% </span>
                   <small className="farsi">کمیسیون</small>
                   <div>
                     {doCurrency(totalReward)}{" "}
@@ -61,11 +57,11 @@ const LevelList = () => {
                 </div>
               </List.Content>
               <LevelIcon
-                level={i + 1}
+                level={x.level}
                 mode="levels"
-                text={"Level " + (i + 1)}
+                text={"Level " + x.level}
                 classinside={levelClassInside(i)}
-                number={i + 1}
+                number={x.level}
                 width="38px"
               />
 

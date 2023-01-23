@@ -34,6 +34,12 @@ const Reward = (prop) => {
   if (prop.item.mode == "league") {
     _txt = "رتبه " + _lvl + " " + _txt;
   }
+  if (prop.item.mode == "tournament" && _lvl != "") {
+    _txt = "رتبه " + _lvl + " " + _txt;
+  }
+  if (prop.item.mode == "tournament" && _lvl == "") {
+    _txt = "معرفی نفر پایانی تورنومنت ";
+  }
   if (prop.item.mode == "vip") {
     _txt = "پاداش میز VIP";
   }

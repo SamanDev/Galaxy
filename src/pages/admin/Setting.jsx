@@ -13,7 +13,7 @@ import {
   Form,
 } from "semantic-ui-react";
 import { List, Label, Tab } from "semantic-ui-react";
-import { adminGetService } from "../../services/admin";
+
 import TableAdmin from "./components/adminTableForm.component";
 import Balance from "./balance";
 import Report from "./UserReport";
@@ -21,10 +21,10 @@ import Reward from "./UserReward";
 import { Col } from "react-bootstrap";
 import Users from "./AdminUsers";
 import CheckboxToggle from "./components/toggle.component";
-import { Alert } from "../../utils/alerts";
 
-import { adminPutService } from "../../services/admin";
-import { isJson, haveAdmin, haveModerator, doCurrency } from "../../const";
+import { adminPutServiceList } from "../../services/admin";
+import { isJson, haveAdmin, haveModerator, levelData } from "../../const";
+import { Alert } from "../../utils/alerts";
 const getGateways = JSON.parse(localStorage.getItem("getGateways"));
 function getPathOfKey(object, keys, getwaysList) {
   var newO = JSON.parse(JSON.stringify(object));
@@ -39,7 +39,7 @@ function getPathOfKey(object, keys, getwaysList) {
     } else {
       if (isJson(JSON.parse(JSON.stringify(newO[x])))) {
         var newO1 = JSON.parse(JSON.stringify(newO[x]));
-
+        newO1?.sort((a, b) => (a.id < b.id ? 1 : -1));
         for (const y in newO1) {
           if (isJson(JSON.parse(JSON.stringify(newO1[y])))) {
             var newO2 = JSON.parse(JSON.stringify(newO1[y]));
@@ -47,10 +47,12 @@ function getPathOfKey(object, keys, getwaysList) {
             for (const z in newO2) {
               if (isJson(JSON.parse(JSON.stringify(newO2[z])))) {
               } else {
+                var nval = newO2[z];
+
                 finalObj.push({
                   name: z,
                   x: x,
-                  value: newO2[z],
+                  value: nval,
                   user: newO1[0],
                 });
                 newOb[newO2["name"]] = newO2[z];
@@ -82,7 +84,7 @@ function getPathOfKey(object, keys, getwaysList) {
   var finalObj2 = JSON.parse(JSON.stringify(finalObj));
   var newOb2 = {};
   newOb2["final"] = finalObj2;
-  getwaysList?.sort((a, b) => (a.id > b.id ? 1 : -1));
+
   getwaysList?.map(function (ways) {
     var blnIs = false;
     for (const y in finalObj2) {
@@ -222,7 +224,17 @@ function Admin(prop) {
       data[_name] = val;
     }
     console.log(data);
-
+    try {
+      const res = await adminPutServiceList(data, "editGalaxyRewardRules");
+      if (res.status == 200) {
+        Alert("Done", "", "success");
+      } else {
+        Alert("متاسفم...!", res.data.message, "error");
+      }
+    } catch (error) {
+      Alert("متاسفم...!", "متاسفانه مشکلی از سمت سرور رخ داده", "error");
+    }
+    localStorage.setItem("siteNewInfo", JSON.stringify(data));
     setInfo(data);
   };
 
@@ -244,7 +256,7 @@ function Admin(prop) {
   }
   var newdataBankInfo = [
     //getPathOfKey(user, ",dailyLeagueSet,"),
-    getPathOfKey(info, ",dailyLeagueSet,gpassSet,levelUps,vipTables,"),
+    getPathOfKey(info, ",dailyLeagueSet,gpassSet,vipTables,"),
   ];
 
   var newdataInfoData = JSON.parse(JSON.stringify(newdataInfo));

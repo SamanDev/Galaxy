@@ -19,6 +19,7 @@ import { Alert } from "../../../utils/alerts";
 import MyMsg from "../../../utils/MsgDesc";
 import { registerService } from "../../../services/auth";
 const reffer = localStorage.getItem("refer");
+const loginToken = JSON.parse(localStorage.getItem("loginToken"));
 function generateRandomInteger(min, max) {
   return Math.floor(min + Math.random() * (max - min + 1));
 }
@@ -27,7 +28,7 @@ const initialValues = {
   email: "",
   password: generateRandomInteger(11111111, 99999999),
   //password: 42101365,
-  refer: reffer,
+  refer: loginToken.username,
 };
 const validationSchema = Yup.object({
   username: Yup.string()

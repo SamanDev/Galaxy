@@ -162,6 +162,8 @@ function Admin(prop) {
         row.mode == "CoinPayments" ||
         row.mode == "PerfectMoney" ||
         row.mode == "BankTransfer" ||
+        row.mode == "Commission" ||
+        row.mode == "Rakeback" ||
         row.mode == "VisaGiftCode" ? (
           <Input
             name="bonus"
@@ -171,7 +173,9 @@ function Admin(prop) {
             onChange={updateUserObj}
             style={{ width: "100px" }}
           />
-        ) : null,
+        ) : (
+          row.bonus
+        ),
 
       sortable: true,
       width: "300px",

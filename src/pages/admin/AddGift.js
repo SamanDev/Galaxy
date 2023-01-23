@@ -76,6 +76,12 @@ var __bnus = [
     label: "بوناس",
     text: "%5 Bonus",
   },
+  {
+    key: 12,
+    value: "tournament",
+    label: "تورنومنت",
+    text: "Place 1",
+  },
 ];
 const updateUserObj = (e, data) => {
   //console.log(data);

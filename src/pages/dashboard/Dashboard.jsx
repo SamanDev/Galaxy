@@ -26,6 +26,7 @@ import {
 import GalaxyIcon from "../../utils/svganim";
 import ConfettiArea from "../../utils/party";
 import ConfettiClick from "../../utils/partyclick";
+import Noty from "./noti";
 import $ from "jquery";
 const moment = require("moment");
 const config = {
@@ -646,6 +647,7 @@ const Dashboard = (prop) => {
 
           <div id="game_section" className="dashboard_section main_section">
             <Container>
+              <Noty />
               <Grid>
                 {gameDataMain.map((game, i) => (
                   <Grid.Column key={i} mobile={8} tablet={4} computer={4}>

@@ -73,24 +73,31 @@ function getBonus(gateway) {
   } catch (error) {
     var loginToken = [
       {
-        id: 1,
+        id: 2,
         total: 0,
-        bonus: 10,
-        name: "Bitcoin",
+        bonus: 5,
+        name: "USDT",
         mode: "CoinPayments",
         active: true,
       },
       {
-        id: 2,
+        id: 3,
+        total: 0,
+        bonus: 10,
+        name: "PerfectMoney",
+        mode: "PerfectMoney",
+        active: true,
+      },
+      {
+        id: 1,
         total: 0,
         bonus: 0,
         name: "Digipay",
         mode: "IranShetab",
         active: true,
       },
-
       {
-        id: 7,
+        id: 6,
         total: 0,
         bonus: 0,
         name: "Transfer",
@@ -100,33 +107,65 @@ function getBonus(gateway) {
       {
         id: 8,
         total: 0,
+        bonus: 2,
+        name: "VisaGiftCode",
+        mode: "VisaGiftCode",
+        active: true,
+      },
+      {
+        id: 10,
+        total: 0,
+        bonus: 0,
+        name: "Haft80",
+        mode: "IranShetab",
+        active: true,
+      },
+      {
+        id: 4,
+        total: 0,
+        bonus: 0,
+        name: "CartToCart",
+        mode: "CartToCart",
+        active: true,
+      },
+      {
+        id: 12,
+        total: 0,
         bonus: 0,
         name: "Commission",
         mode: "Commission",
         active: true,
       },
       {
-        id: 9,
+        id: 5,
         total: 0,
-        bonus: 5,
-        name: "PerfectMoney",
-        mode: "PerfectMoney",
+        bonus: 0,
+        name: "Rakeback",
+        mode: "Rakeback",
         active: true,
       },
       {
-        id: 10,
+        id: 9,
         total: 0,
-        bonus: 5,
-        name: "USDT",
-        mode: "CoinPayments",
+        bonus: 0,
+        name: "BankTransfer",
+        mode: "BankTransfer",
         active: true,
       },
       {
         id: 11,
         total: 0,
         bonus: 0,
-        name: "Rakeback",
-        mode: "Rakeback",
+        name: "Hamrahcart",
+        mode: "IranShetab",
+        active: true,
+      },
+      {
+        id: 7,
+        total: 0,
+        bonus: 5,
+        name: "Bitcoin",
+        mode: "CoinPayments",
         active: true,
       },
     ];
@@ -463,13 +502,19 @@ function App(prop) {
                                   {submenu.label}
                                 </span>
                                 {getBonus(submenu.getwaykey) > 0 &&
-                                  submenu.bonus.indexOf("-") == -1 &&
+                                  submenu?.bonus?.indexOf("-") == -1 &&
                                   (submenu.bonus =
                                     "+ " + getBonus(submenu.getwaykey) + "%")}
                                 {submenu.bonus &&
                                 submenu.bonus != "0" &&
                                 !submenu.helper ? (
-                                  <small className="ui red  mini floating label myfloatmenu">
+                                  <small
+                                    className={
+                                      submenu?.bonus?.indexOf("+") == -1
+                                        ? "ui mini floating label myfloatmenu red"
+                                        : "ui mini floating label myfloatmenu green"
+                                    }
+                                  >
                                     {submenu.bonus}
                                   </small>
                                 ) : (
@@ -972,7 +1017,7 @@ function App(prop) {
           <Modal
             basic
             size="tiny"
-            className="myaccount popupmenu  animated backInDown "
+            className="myaccount   animated backInDown "
             onClose={() => {
               setUserOpen(false);
             }}

@@ -5,6 +5,123 @@ import GalaxyIcon from "../../utils/svganim";
 import GiftsDesc from "../../utils/GiftsDesc";
 import LastRewardList from "./LastRewardList";
 import Report from "./Report";
+function getBonus(gateway) {
+  try {
+    var loginToken = JSON.parse(localStorage.getItem("loginToken"));
+    var data_filter = loginToken.cashierGateways.filter(
+      (element) => element.name == gateway
+    );
+    var bonus = data_filter[0].bonus;
+  } catch (error) {
+    var loginToken = [
+      {
+        id: 2,
+        total: 0,
+        bonus: 5,
+        name: "USDT",
+        mode: "CoinPayments",
+        active: true,
+      },
+      {
+        id: 3,
+        total: 0,
+        bonus: 10,
+        name: "PerfectMoney",
+        mode: "PerfectMoney",
+        active: true,
+      },
+      {
+        id: 1,
+        total: 0,
+        bonus: 0,
+        name: "Digipay",
+        mode: "IranShetab",
+        active: true,
+      },
+      {
+        id: 6,
+        total: 0,
+        bonus: 0,
+        name: "Transfer",
+        mode: "Transfer",
+        active: true,
+      },
+      {
+        id: 8,
+        total: 0,
+        bonus: 2,
+        name: "VisaGiftCode",
+        mode: "VisaGiftCode",
+        active: true,
+      },
+      {
+        id: 10,
+        total: 0,
+        bonus: 0,
+        name: "Haft80",
+        mode: "IranShetab",
+        active: true,
+      },
+      {
+        id: 4,
+        total: 0,
+        bonus: 0,
+        name: "CartToCart",
+        mode: "CartToCart",
+        active: true,
+      },
+      {
+        id: 12,
+        total: 0,
+        bonus: 0,
+        name: "Commission",
+        mode: "Commission",
+        active: true,
+      },
+      {
+        id: 5,
+        total: 0,
+        bonus: 0,
+        name: "Rakeback",
+        mode: "Rakeback",
+        active: true,
+      },
+      {
+        id: 9,
+        total: 0,
+        bonus: 0,
+        name: "BankTransfer",
+        mode: "BankTransfer",
+        active: true,
+      },
+      {
+        id: 11,
+        total: 0,
+        bonus: 0,
+        name: "Hamrahcart",
+        mode: "IranShetab",
+        active: true,
+      },
+      {
+        id: 7,
+        total: 0,
+        bonus: 5,
+        name: "Bitcoin",
+        mode: "CoinPayments",
+        active: true,
+      },
+    ];
+    var data_filter = loginToken.filter((element) => element.name == gateway);
+
+    if (data_filter.length > 0) {
+      var bonus = data_filter[0].bonus;
+    } else {
+      var bonus = 0;
+    }
+  }
+
+  return bonus;
+}
 const LevelList = (prop) => {
   var totalReward = 0;
   return (
@@ -60,12 +177,17 @@ const LevelList = (prop) => {
                       </>
                     }
                     desc3={
-                      <>
-                        درصورت دریافت از{" "}
-                        <span className="farsi text-gold">ساعت 22 تا 24</span>{" "}
-                        هر شب، <span className="farsi text-gold">5%</span> به
-                        مبلغ آن اضافه خواهد شد.
-                      </>
+                      getBonus("Commission") > 0 && (
+                        <>
+                          درصورت دریافت از{" "}
+                          <span className="farsi text-gold">ساعت 22 تا 24</span>{" "}
+                          هر شب،{" "}
+                          <span className="farsi text-gold">
+                            {getBonus("Commission")}%
+                          </span>{" "}
+                          به مبلغ آن اضافه خواهد شد.
+                        </>
+                      )
                     }
                     desc4="توجه داشته باشید درصورت عدم دریافت تا ساعت 22 شب بعد (24 ساعت)، کمیسیون شما منقضی شده و قابل دریافت نمی باشد."
                     title="از 10% تا 50%"
@@ -109,12 +231,17 @@ const LevelList = (prop) => {
                       </>
                     }
                     desc2={
-                      <>
-                        درصورت دریافت از{" "}
-                        <span className="farsi text-gold">ساعت 22 تا 24</span>{" "}
-                        هر شب، <span className="farsi text-gold">10%</span> به
-                        مبلغ آن اضافه خواهد شد.
-                      </>
+                      getBonus("Rakeback") > 0 && (
+                        <>
+                          درصورت دریافت از{" "}
+                          <span className="farsi text-gold">ساعت 22 تا 24</span>{" "}
+                          هر شب،{" "}
+                          <span className="farsi text-gold">
+                            {getBonus("Rakeback")}%
+                          </span>{" "}
+                          به مبلغ آن اضافه خواهد شد.
+                        </>
+                      )
                     }
                     desc3="توجه داشته باشید درصورت عدم دریافت تا ساعت 22 شب بعد (24 ساعت)، ریک بک شما منقضی شده و قابل دریافت نمی باشد."
                     amount="10%"

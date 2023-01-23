@@ -5,6 +5,7 @@ import $ from "jquery";
 import GiftsDesc from "../../utils/GiftsDesc";
 import AddCalendar from "../../utils/AddCalendarWeekly";
 import GalaxyIcon from "../../utils/svganim";
+import LastRewardList from "./LastRewardList";
 import Moment from "react-moment";
 const moment = require("moment");
 const LevelList = () => {
@@ -155,6 +156,7 @@ const LevelList = () => {
             </Button>
           </List.Content>
         </List.Item>
+        <LastRewardList mode={"tournament"} />
       </List>
     </span>
   );
