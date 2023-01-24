@@ -7,10 +7,12 @@ import {
   levelDataInfo,
 } from "../../const";
 import LevelIcon from "../../utils/svg";
+
 import AddCalendar from "../../utils/AddCalendar";
-import GalaxyIcon from "../../utils/svg";
 import GiftsDesc from "../../utils/GiftsDesc";
 import LastRewardList from "./LastRewardList";
+import GalaxyIcon from "../../utils/svg";
+import GalaxyIcon2 from "../../utils/svg22";
 import LevelBar from "../../utils/GLevelBar";
 const LevelList = () => {
   var totalReward = 0;
@@ -21,7 +23,7 @@ const LevelList = () => {
         <List.Item>
           <List.Content className="rtl text-center ">
             <div className="inline animated ">
-              <GalaxyIcon
+              <GalaxyIcon2
                 mode="gpass"
                 level=""
                 text="GalaxyPass"

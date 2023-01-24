@@ -27,6 +27,7 @@ import GalaxyIcon from "../../utils/svganim";
 import ConfettiArea from "../../utils/party";
 import ConfettiClick from "../../utils/partyclick";
 import Noty from "./noti";
+import Index from "./index";
 import $ from "jquery";
 const moment = require("moment");
 const config = {
@@ -421,257 +422,279 @@ const Dashboard = (prop) => {
     <>
       {curPage == "dashboard" && (
         <div id="dashboard" className="mainsection">
-          <div
-            id="dashboard_section"
-            className="dashboard_section main_section fadeout"
-          >
-            <div
-              id="carouselExampleControls"
-              className="carousel slide carousel-fade"
-              data-bs-ride="carousel"
-              data-bs-pause="false"
-            >
-              <div className="carousel-inner">
+          {loginToken ? (
+            <>
+              <div
+                id="dashboard_section"
+                className="dashboard_section main_section fadeout"
+              >
                 <div
-                  className={
-                    activeSlide == 0 ? "carousel-item active" : "carousel-item"
-                  }
-                  data-bs-interval="12000"
+                  id="carouselExampleControls"
+                  className="carousel slide carousel-fade"
+                  data-bs-ride="carousel"
+                  data-bs-pause="false"
                 >
-                  {activeSlide == 0 && (
-                    <>
-                      <Banner
-                        title="هدیه گلکسی"
-                        text="امشب ساعت ۲۲"
-                        icon="gifts"
-                        amin="inline animated swing "
-                        iconamin="swing"
-                        link=".giftarea"
-                        {...prop}
-                      />
-
-                      <ConfettiArea recycle={false} numberOfPieces="50" />
-                    </>
-                  )}
-                </div>
-                <div
-                  className={
-                    activeSlide == 1 ? "carousel-item active" : "carousel-item"
-                  }
-                  data-bs-interval="12000"
-                >
-                  <div className="confettimain">
-                    <ConfettiClick
-                      active={
-                        dayOfTournament == nowDay && activeSlide == 1
-                          ? true
-                          : false
+                  <div className="carousel-inner">
+                    <div
+                      className={
+                        activeSlide == 0
+                          ? "carousel-item active"
+                          : "carousel-item"
                       }
-                      config={mainnconfig}
-                    />
-                  </div>
-                  {activeSlide && (
-                    <>
-                      <Banner
-                        title="تورنومنت ۲۵+۲۵ "
-                        text="هر جمعه ساعت ۲۲"
-                        icon="tournament"
-                        amin="inline animated swing "
-                        iconamin="swing"
-                        link=".tournament"
-                        {...prop}
-                      />
-                      {dayOfTournament == nowDay && (
-                        <ConfettiArea recycle={false} numberOfPieces="50" />
+                      data-bs-interval="12000"
+                    >
+                      {activeSlide == 0 && (
+                        <>
+                          <Banner
+                            title="هدیه گلکسی"
+                            text="امشب ساعت ۲۲"
+                            icon="gifts"
+                            amin="inline animated swing "
+                            iconamin="swing"
+                            link=".giftarea"
+                            {...prop}
+                          />
+
+                          <ConfettiArea recycle={false} numberOfPieces="50" />
+                        </>
                       )}
-                    </>
-                  )}
-                </div>
-
-                <div
-                  className={
-                    activeSlide == 2 ? "carousel-item active" : "carousel-item"
-                  }
-                  data-bs-interval="12000"
-                >
-                  <div className="confettimain">
-                    <ConfettiClick
-                      active={
-                        _event.toLowerCase() == "gpass" && activeSlide == 2
-                          ? true
-                          : false
+                    </div>
+                    <div
+                      className={
+                        activeSlide == 1
+                          ? "carousel-item active"
+                          : "carousel-item"
                       }
-                      config={pokerconfig}
-                    />
-                  </div>
-                  {activeSlide && (
-                    <>
-                      <Banner
-                        title="۱۱۰ میلیون تومان"
-                        text="پاداش گلکسی پَس"
-                        link=".gpass"
-                        icon="gpass"
-                        amin="animated delay-1s charkhesh"
-                        iconamin="pulse"
-                        number="15"
-                        {...prop}
-                      />
-                    </>
-                  )}
-                </div>
-
-                <div
-                  className={
-                    activeSlide == 3 ? "carousel-item active" : "carousel-item"
-                  }
-                  data-bs-interval="12000"
-                >
-                  {activeSlide && (
-                    <>
+                      data-bs-interval="12000"
+                    >
                       <div className="confettimain">
                         <ConfettiClick
                           active={
-                            _event.toLowerCase() == "vip" && activeSlide == 3
+                            dayOfTournament == nowDay && activeSlide == 1
+                              ? true
+                              : false
+                          }
+                          config={mainnconfig}
+                        />
+                      </div>
+                      {activeSlide && (
+                        <>
+                          <Banner
+                            title="تورنومنت ۲۵+۲۵ "
+                            text="هر جمعه ساعت ۲۲"
+                            icon="tournament"
+                            amin="inline animated swing "
+                            iconamin="swing"
+                            link=".tournament"
+                            {...prop}
+                          />
+                          {dayOfTournament == nowDay && (
+                            <ConfettiArea recycle={false} numberOfPieces="50" />
+                          )}
+                        </>
+                      )}
+                    </div>
+
+                    <div
+                      className={
+                        activeSlide == 2
+                          ? "carousel-item active"
+                          : "carousel-item"
+                      }
+                      data-bs-interval="12000"
+                    >
+                      <div className="confettimain">
+                        <ConfettiClick
+                          active={
+                            _event.toLowerCase() == "gpass" && activeSlide == 2
                               ? true
                               : false
                           }
                           config={pokerconfig}
                         />
                       </div>
-                      <Banner
-                        title={<>۱۹۲ میلیون تومان</>}
-                        text="پاداش VIP 25/50K"
-                        link=".vip"
-                        icon="vip"
-                        amin="inline animated fast flipInY"
-                        iconamin="pulse"
-                        number=" "
-                        {...prop}
-                      />
-                      <ConfettiArea recycle={false} numberOfPieces="50" />
-                    </>
-                  )}
-                </div>
+                      {activeSlide && (
+                        <>
+                          <Banner
+                            title="۱۱۰ میلیون تومان"
+                            text="پاداش گلکسی پَس"
+                            link=".gpass"
+                            icon="gpass"
+                            amin="animated delay-1s charkhesh"
+                            iconamin="pulse"
+                            number="15"
+                            {...prop}
+                          />
+                        </>
+                      )}
+                    </div>
 
-                <div
-                  className={
-                    activeSlide == 4 ? "carousel-item active" : "carousel-item"
-                  }
-                  data-bs-interval="12000"
-                >
-                  <div className="confettimain">
-                    <ConfettiClick
-                      active={
-                        _event.toLowerCase() == "leauge" && activeSlide == 4
-                          ? true
-                          : false
+                    <div
+                      className={
+                        activeSlide == 3
+                          ? "carousel-item active"
+                          : "carousel-item"
                       }
-                      config={pokerconfig}
-                    />
-                  </div>
-                  {activeSlide && (
-                    <>
-                      <Banner
-                        title="۴۵ میلیون تومان"
-                        text="برای لیگ روزانه"
-                        link=".league"
-                        icon="league"
-                        level="big"
-                        number="1"
-                        amin="inline animated swing "
-                        iconamin="swing"
-                        {...prop}
-                      />
-                    </>
-                  )}
-                </div>
+                      data-bs-interval="12000"
+                    >
+                      {activeSlide && (
+                        <>
+                          <div className="confettimain">
+                            <ConfettiClick
+                              active={
+                                _event.toLowerCase() == "vip" &&
+                                activeSlide == 3
+                                  ? true
+                                  : false
+                              }
+                              config={pokerconfig}
+                            />
+                          </div>
+                          <Banner
+                            title={<>۱۹۲ میلیون تومان</>}
+                            text="پاداش VIP 25/50K"
+                            link=".vip"
+                            icon="vip"
+                            amin="inline animated fast flipInY"
+                            iconamin="pulse"
+                            number=" "
+                            {...prop}
+                          />
+                          <ConfettiArea recycle={false} numberOfPieces="50" />
+                        </>
+                      )}
+                    </div>
 
-                <div
-                  className={
-                    activeSlide == 5 ? "carousel-item active" : "carousel-item"
-                  }
-                  data-bs-interval="12000"
-                >
-                  {activeSlide && (
-                    <>
-                      <Banner
-                        title="بیش از ۴ میلیارد"
-                        text="پاداش افزایش لِوِل"
-                        link=".levels"
-                        icon="levels"
-                        amin="animated delay-2s charkhesh"
-                        iconamin="swing"
-                        number="90"
-                        {...prop}
-                      />
-                    </>
-                  )}
-                </div>
-                {_width > 500 && 1 == 2 && (
-                  <div className="carousel-item " data-bs-interval="12000">
-                    <Banner
-                      image="/assets/images/calendar.gif"
-                      title="بیش از ۵۰۰ میلیون"
-                      text="جوایز ماهانه"
-                      {...prop}
-                    />
+                    <div
+                      className={
+                        activeSlide == 4
+                          ? "carousel-item active"
+                          : "carousel-item"
+                      }
+                      data-bs-interval="12000"
+                    >
+                      <div className="confettimain">
+                        <ConfettiClick
+                          active={
+                            _event.toLowerCase() == "leauge" && activeSlide == 4
+                              ? true
+                              : false
+                          }
+                          config={pokerconfig}
+                        />
+                      </div>
+                      {activeSlide && (
+                        <>
+                          <Banner
+                            title="۴۵ میلیون تومان"
+                            text="برای لیگ روزانه"
+                            link=".league"
+                            icon="league"
+                            level="big"
+                            number="1"
+                            amin="inline animated swing "
+                            iconamin="swing"
+                            {...prop}
+                          />
+                        </>
+                      )}
+                    </div>
+
+                    <div
+                      className={
+                        activeSlide == 5
+                          ? "carousel-item active"
+                          : "carousel-item"
+                      }
+                      data-bs-interval="12000"
+                    >
+                      {activeSlide && (
+                        <>
+                          <Banner
+                            title="بیش از ۴ میلیارد"
+                            text="پاداش افزایش لِوِل"
+                            link=".levels"
+                            icon="levels"
+                            amin="animated delay-2s charkhesh"
+                            iconamin="swing"
+                            number="90"
+                            {...prop}
+                          />
+                        </>
+                      )}
+                    </div>
+                    {_width > 500 && 1 == 2 && (
+                      <div className="carousel-item " data-bs-interval="12000">
+                        <Banner
+                          image="/assets/images/calendar.gif"
+                          title="بیش از ۵۰۰ میلیون"
+                          text="جوایز ماهانه"
+                          {...prop}
+                        />
+                      </div>
+                    )}
                   </div>
-                )}
+                  <button
+                    className="carousel-control-prev"
+                    type="button"
+                    data-bs-target="#carouselExampleControls"
+                    data-bs-slide="prev"
+                  >
+                    <span
+                      className="carousel-control-prev-icon"
+                      aria-hidden="true"
+                    ></span>
+                    <span className="visually-hidden">Previous</span>
+                  </button>
+                  <button
+                    className="carousel-control-next"
+                    type="button"
+                    data-bs-target="#carouselExampleControls"
+                    data-bs-slide="next"
+                  >
+                    <span
+                      className="carousel-control-next-icon"
+                      aria-hidden="true"
+                    ></span>
+                    <span className="visually-hidden">Next</span>
+                  </button>
+                </div>
               </div>
-              <button
-                className="carousel-control-prev"
-                type="button"
-                data-bs-target="#carouselExampleControls"
-                data-bs-slide="prev"
-              >
-                <span
-                  className="carousel-control-prev-icon"
-                  aria-hidden="true"
-                ></span>
-                <span className="visually-hidden">Previous</span>
-              </button>
-              <button
-                className="carousel-control-next"
-                type="button"
-                data-bs-target="#carouselExampleControls"
-                data-bs-slide="next"
-              >
-                <span
-                  className="carousel-control-next-icon"
-                  aria-hidden="true"
-                ></span>
-                <span className="visually-hidden">Next</span>
-              </button>
-            </div>
-          </div>
 
-          <div id="game_section" className="dashboard_section main_section">
-            <Container>
-              <Noty />
-              <Grid>
-                {gameDataMain.map((game, i) => (
-                  <Grid.Column key={i} mobile={8} tablet={4} computer={4}>
-                    <Image
-                      className="fadeout"
-                      as={Link}
-                      to={"/games/" + game}
-                      id={"open" + game}
-                      alt={"open " + game}
-                      width="255"
-                      height="255"
-                      src={
-                        "/assets/images/games/" +
-                        gameDataMainCode[i] +
-                        "-min.webp"
-                      }
-                      rounded
-                      fluid
-                    />
-                  </Grid.Column>
-                ))}
-              </Grid>
-            </Container>
-          </div>
+              <div id="game_section" className="dashboard_section main_section">
+                <Container>
+                  <Grid>
+                    {gameDataMain.map((game, i) => (
+                      <Grid.Column key={i} mobile={8} tablet={4} computer={4}>
+                        <Image
+                          className="fadeout"
+                          as={Link}
+                          to={"/games/" + game}
+                          id={"open" + game}
+                          alt={"open " + game}
+                          width="255"
+                          height="255"
+                          src={
+                            "/assets/images/games/" +
+                            gameDataMainCode[i] +
+                            "-min.webp"
+                          }
+                          rounded
+                          fluid
+                        />
+                      </Grid.Column>
+                    ))}
+                  </Grid>
+                </Container>
+              </div>
+            </>
+          ) : (
+            <>
+              <div id="dashboard_section" className="">
+                <Index {...prop} />
+              </div>
+            </>
+          )}
         </div>
       )}
       {curPage == "game" && prop.isLogin && (

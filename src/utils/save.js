@@ -12,8 +12,9 @@ function App(prop) {
 
     // download image
     const link = document.createElement("a");
-    link.download = "lvl" + (prop.id + 1) + ".png";
+    link.download = "glvl" + prop.id + ".png";
     link.href = dataUrl;
+    //$("body").append(link);
     link.click();
     $(".dl" + prop.id).remove();
     setTimeout(() => {
@@ -26,11 +27,14 @@ function App(prop) {
       <button onClick={downloadImage} className={"dl dl" + prop.id}>
         Download Image
       </button>
-
-      <div id="domEl" ref={domEl} style={{ display: "inline-block" }}>
+      <div
+        id="domEl"
+        ref={domEl}
+        style={{ display: "inline-block", padding: 2 }}
+      >
         <LevelIcon
           level={prop.id}
-          mode="levels"
+          mode="gpass"
           text={""}
           classinside={levelClassInside(prop.id)}
           number={prop.id + 1}

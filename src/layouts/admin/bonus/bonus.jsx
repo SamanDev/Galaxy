@@ -172,6 +172,7 @@ const BonusArea = (prop) => {
                   fromNow
                   onChange={(val) => {
                     prop.ChangeGift();
+                    console.log("tik");
                   }}
                 >
                   {prop.bonus.expireDate}

@@ -23,7 +23,6 @@ export function startServiceWorker() {
 
     window.addEventListener("load", () => {
       const swUrl = `${process.env.PUBLIC_URL}/firebase-messaging-sw.js`;
-      console.log("window.addEventListener(load - swUrl: " + swUrl);
 
       navigator.serviceWorker
         .register(swUrl)
@@ -34,11 +33,6 @@ export function startServiceWorker() {
           console.log("Service worker registration failed, error:", err);
         });
       navigator.serviceWorker.ready.then(() => {
-        console.log(
-          "This web app is being served cache-first by a service " +
-            "worker. To learn more, visit https://bit.ly/CRA-PWA"
-        );
-
         self.addEventListener("install", (e) => {
           e.waitUntil(
             caches
@@ -132,7 +126,7 @@ function getPort() {
   }
   //protocol = "wss://";
   let loc = protocol + host + "/users?token=";
-  console.log("location = " + loc);
+
   return loc;
 }
 function getPortPablic() {

@@ -113,6 +113,34 @@ const LevelIcon = (prop) => {
       </span>
     );
   }
+  if (prop.mode == "logo") {
+    var _txt = prop.number ? prop.number : prop.level;
+    var _class = "vipicon";
+    if (prop.text == "big") {
+      _class = _class + " big icn";
+    }
+
+    return (
+      <span onClick={prop.onClick} className="iconarea">
+        <img
+          src={"/assets/images/logosq.png"}
+          className={prop.iconamin + ""}
+          width={prop.width}
+          height={prop.width}
+          alt={prop.mode}
+          style={{
+            position: "absolute",
+            width: prop.width,
+            height: prop.width,
+          }}
+        />
+
+        {prop.text != "big" && prop.text != "" && (
+          <div className="iconlabel">{prop.text}</div>
+        )}
+      </span>
+    );
+  }
 
   if (prop.mode == "tournament") {
     var _txt = prop.number ? prop.number : prop.level;

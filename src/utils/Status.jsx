@@ -30,7 +30,7 @@ const LabelExampleBasic = (prop) => {
   if (prop.status === "Pending") {
     return (
       <Label size={prop.size} color={prop.color ? prop.color : "teal"}>
-        <Icon name="spinner" loading />
+        <Icon name="spinner" />
         {!prop.icon && <> {prop.status}</>}
       </Label>
     );

@@ -1825,7 +1825,7 @@ table {
   position: fixed;
   top: 62px;
   left: 0;
-  overflow: hidden;
+  overflow: auto;
   transition: all 100ms ease;
   -webkit-font-smoothing: antialiased;
   background-color: rgb(56, 65, 74) !important;
@@ -1856,7 +1856,7 @@ table {
 }
 .fadeoutend {
   -webkit-mask-image: linear-gradient(to bottom, black 80%, transparent 100%);
-  mask-image: linear-gradient(to bottom, black 880%, transparent 100%);
+  mask-image: linear-gradient(to bottom, black 80%, transparent 100%);
 }
 .color_tag {
   border: 1px solid black;
