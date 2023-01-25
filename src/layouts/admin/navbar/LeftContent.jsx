@@ -5,7 +5,7 @@ import Balance from "./balance";
 import Login from "./login";
 
 const Leftcontent = (prop) => {
-  const loginToken = localStorage.getItem("loginToken");
+  const loginToken = JSON.parse(localStorage.getItem("loginToken"));
   const [isUser, setIsUser] = useState(loginToken ? true : false);
   useEffect(() => {
     setIsUser(prop.isLogin);
@@ -63,13 +63,14 @@ const Leftcontent = (prop) => {
               color="red"
               floating
               size="mini"
+              hidden={loginToken?.userTickets?.length == 0}
               className="farsi-inline"
               style={{ top: 0, left: 20 }}
               onClick={() => {
                 prop.openPanel(".support");
               }}
             >
-              2
+              {loginToken?.userTickets?.length}
             </Label>
           </Segment>
 

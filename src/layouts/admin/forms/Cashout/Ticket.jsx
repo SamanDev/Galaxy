@@ -17,7 +17,7 @@ import { useNavigate } from "react-router-dom";
 import { FastField, Form, Formik } from "formik";
 import * as Yup from "yup";
 import { Alert } from "../../../../utils/alerts";
-
+import $ from "jquery";
 import CashoutButton from "../../input/CashoutButton";
 import List from "../../../../pages/dashboard/List";
 import { cashierService } from "../../../../services/cashier";
@@ -36,10 +36,11 @@ const validationSchema = Yup.object({
 });
 const onSubmit = async (values, submitMethods, navigate, prop) => {
   try {
-    const res = await cashierService(values, "addTicket", "");
+    const res = await cashierService(values, "submitTicket", "");
     if (res.status == 200) {
-      if (res.data) {
-      }
+      $("#opensupport").trigger("click");
+
+      submitMethods.resetForm();
     } else {
       Alert("متاسفم...!", res.data.message, "error");
     }
@@ -53,9 +54,11 @@ const onSubmit = async (values, submitMethods, navigate, prop) => {
 
 const depositArea = (prop) => {
   const initialValues = {
-    departman: prop.departman ? prop.departman : countryOptions[0].value,
-    ticketID: prop.id ? prop.id : 0,
+    department: prop.departman ? prop.departman : countryOptions[0].value,
+    id: prop.userid ? prop.userid : 0,
+    ticketId: prop.id ? prop.id : 0,
     message: "",
+    status: "unread",
   };
   const [refresh, setRefresh] = useState(false);
   const [depMode, setDepMode] = useState(false);
@@ -75,7 +78,7 @@ const depositArea = (prop) => {
               <FormikControl
                 formik={formik}
                 control="select"
-                name="departman"
+                name="department"
                 label="دپارتمان"
                 labelcolor="yellow"
                 size={prop.size}
@@ -91,6 +94,7 @@ const depositArea = (prop) => {
               type="text"
               name="message"
               labelcolor="orange"
+              className="farsi"
               size={prop.size}
             />
 
@@ -103,7 +107,6 @@ const depositArea = (prop) => {
               color="olive"
               disabled={formik.isSubmitting}
               loading={formik.isSubmitting}
-              refresh={refresh}
             />
           </Form>
         );

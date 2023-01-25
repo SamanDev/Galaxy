@@ -18,6 +18,7 @@ import TableAdmin from "./components/adminTable.component";
 import Balance from "./balance";
 import Report from "./UserReport";
 import Reward from "./UserReward";
+import Tickets from "./UserTicket";
 import { Col } from "react-bootstrap";
 import Users from "./AdminUsers";
 import CheckboxToggle from "./components/toggle.component";
@@ -296,6 +297,19 @@ function Admin(prop) {
       render: () => (
         <Tab.Pane as="span">
           <Reward
+            user={user}
+            mode="deposit"
+            addTabData={prop.addTabData}
+            removeTabData={prop.removeTabData}
+          />
+        </Tab.Pane>
+      ),
+    },
+    {
+      menuItem: "Tickets",
+      render: () => (
+        <Tab.Pane as="span">
+          <Tickets
             user={user}
             mode="deposit"
             addTabData={prop.addTabData}

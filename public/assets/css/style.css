@@ -627,6 +627,14 @@ i.star.big {
 .activetable {
   margin: 0 !important;
 }
+.msg{
+ background: rgba(255,255,255,.1) !important;
+ white-space:break-spaces;
+}
+.msglink{
+  font-size: 100% !important;
+  color:skyblue !important;cursor:pointer;
+}
 .activetable .item {
   padding:  0 !important;
   font-size: 11px !important;

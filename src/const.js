@@ -547,7 +547,7 @@ export const menuData = [
     label: "حساب کاربری",
     title: "حساب کاربری",
     icon: "fas fa-user ",
-    idname: "login",
+    idname: "login settings",
     link: "/logout",
     submenu: [
       {

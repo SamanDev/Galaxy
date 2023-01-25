@@ -3,6 +3,7 @@ import { Icon, Button, Header, Divider } from "semantic-ui-react";
 import $ from "jquery";
 
 const depositArea = (prop) => {
+  const siteInfo = JSON.parse(localStorage.getItem("siteInfo"));
   return (
     <>
       <span className="myaccount popupmenu">
@@ -50,7 +51,7 @@ const depositArea = (prop) => {
             className="farsi"
             size="mini"
             as="a"
-            href="https://telegram.me/GlxySupport"
+            href={"https://t.me/" + siteInfo.telegramSupport}
             target="_blank"
           >
             <Icon
@@ -66,7 +67,7 @@ const depositArea = (prop) => {
             className="farsi"
             size="mini"
             as="a"
-            href="https://t.me/GlxyChannel"
+            href={"https://t.me/" + siteInfo.telegramChanel}
             target="_blank"
           >
             <Icon
@@ -81,7 +82,7 @@ const depositArea = (prop) => {
             className="farsi"
             size="mini"
             as="a"
-            href="https://www.instagram.com/glxy2021.site/"
+            href={"https://instagram.com/" + siteInfo.instagram}
             target="_blank"
           >
             <Icon

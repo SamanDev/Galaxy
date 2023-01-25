@@ -229,7 +229,6 @@ function App(prop) {
       });
   }
   function bindLastReward() {
-    console.log("bindlastreward" + $(".rewardname .iconarea").length);
     $(".rewardname .iconarea > *")
       .unbind()
       .bind("click", function (event) {
@@ -250,6 +249,66 @@ function App(prop) {
         setUserProfile(_u);
         setUserOpen(true);
       });
+  }
+
+  function getLinkId(str) {
+    var _m;
+    if (str.trim() == "دعوت دوستان") {
+      _m = "invite";
+    }
+    if (str.trim() == "حساب کاربری") {
+      _m = "settings";
+    }
+    if (str.trim() == "خرید چیپ") {
+      _m = "deposit";
+    }
+    return _m;
+  }
+  function bindAddLink() {
+    console.log("bindAddLink:" + $(".msgtext").length);
+    $(".msgtext").each(function (txt) {
+      let text = $(this).text();
+
+      let result = text
+        .replace(/ دعوت دوستان | حساب کاربری | خرید چیپ /g, function (x) {
+          return (
+            "<a href='#' data-target='" +
+            getLinkId(x) +
+            "' class='farsi msglink interallink'>" +
+            x +
+            "</a>"
+          );
+        })
+        .replace(/کانال تلگرام/g, function (x) {
+          return (
+            "<a href='http://telegram.me/" +
+            siteInfo.telegramChanel +
+            "' class='farsi msglink' target='_blank'>" +
+            x +
+            "</a>"
+          );
+        })
+        .replace(/ تلگرام | telegram /g, function (x) {
+          return (
+            "<a href='http://telegram.me/" +
+            siteInfo.telegramSupport +
+            "' class='farsi msglink' target='_blank'>" +
+            x +
+            "</a>"
+          );
+        });
+      console.log(result);
+      $(this).html(result);
+      $(".interallink")
+        .unbind()
+        .bind("click", function (event) {
+          var _m = $(this).attr("data-target");
+
+          if ($("." + _m, "").length > 0) {
+            openPanel("." + _m, "");
+          }
+        });
+    });
   }
   const CompGen = (prop) => {
     if (prop?.menu?.title == "میز های فعال") {
@@ -916,6 +975,7 @@ function App(prop) {
     } catch (error) {}
   }, [location.pathname]);
   useEffect(() => {
+    bindAddLink();
     if (activeMenu !== "main" && !activePanel) {
       setActiveMenuOld(activeMenu);
     }
@@ -928,6 +988,7 @@ function App(prop) {
   }, [activeMenu]);
   useEffect(() => {
     finalPanel = "";
+
     if (!activePanel && activeMenu == "main") {
       setActiveMenu(activeMenuOld);
     }

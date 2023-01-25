@@ -53,6 +53,15 @@ const Index = (prop) => {
         }}
       />
       <span
+        id="opensupport"
+        style={{
+          display: "none",
+        }}
+        onClick={() => {
+          prop.openPanel(".support", "");
+        }}
+      />
+      <span
         id="openmenucontent"
         style={{
           display: "none",

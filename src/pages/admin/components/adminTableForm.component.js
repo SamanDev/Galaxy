@@ -55,7 +55,12 @@ const TableExampleWarningShorthand = (prop) => {
     if (name == "id") {
       res = <Input size="mini" disabled name={name} defaultValue={myDate} />;
     }
-    if (name == "referUrl") {
+    if (
+      name == "referUrl" ||
+      name == "instagram" ||
+      name == "telegramSupport" ||
+      name == "telegramChanel"
+    ) {
       res = (
         <Input
           size="mini"

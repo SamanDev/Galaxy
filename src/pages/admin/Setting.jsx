@@ -209,7 +209,12 @@ function Admin(prop) {
   const updateUserObj = async (name, value, user, x) => {
     var data = info;
 
-    if (name?.name == "referUrl") {
+    if (
+      name?.name == "referUrl" ||
+      name?.name == "instagram" ||
+      name?.name == "telegramSupport" ||
+      name?.name == "telegramChanel"
+    ) {
       var val = name.value;
     } else {
       var _val = value.toPersianCharacter();
@@ -242,7 +247,7 @@ function Admin(prop) {
     var newdataInfo = [
       getPathOfKey2(
         info,
-        ",referUrl,cashoutLimit,depositLimit,durationTime,startTimeCommission,tartTimeDailyLeague, startTimeGPass,startTimeLevelUp,startTimeRakeBack,startTimeVipTable,"
+        ",telegramSupport,telegramChanel,instagram,referUrl,cashoutLimit,depositLimit,durationTime,startTimeCommission,startTimeDailyLeague,startTimeGPass,startTimeLevelUp,startTimeRakeBack,startTimeVipTable,"
       ),
     ];
   }
