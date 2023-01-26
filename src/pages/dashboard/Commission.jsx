@@ -4,7 +4,7 @@ import $ from "jquery";
 import GalaxyIcon from "../../utils/svganim";
 import GiftsDesc from "../../utils/GiftsDesc";
 import LastRewardList from "./LastRewardList";
-import Report from "./Report";
+
 function getBonus(gateway) {
   try {
     var loginToken = JSON.parse(localStorage.getItem("loginToken"));

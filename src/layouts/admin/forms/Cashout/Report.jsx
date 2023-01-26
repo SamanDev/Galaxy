@@ -83,7 +83,7 @@ const Report = (prop) => {
                       className="text-gold"
                     />
                     <div className="pad10tb">
-                      {item.mode} ({item.gateway})
+                      {item.mode} {item.gateway && <>({item.gateway})</>}
                     </div>
                   </List.Description>
                 </List.Content>

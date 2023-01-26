@@ -96,6 +96,10 @@ const Balance = (prop) => {
     }
     setStateMode(_n);
   };
+  const openProfile = () => {
+    prop.setUserProfile(loginToken.username);
+    prop.setUserOpen(true);
+  };
   useEffect(() => {
     if (_event == "GPass") {
       setStateMode(1);
@@ -183,7 +187,7 @@ const Balance = (prop) => {
               color="black"
               className="balanceLable"
               onClick={() => {
-                ChangeStateMode();
+                openProfile();
               }}
             >
               {loginToken.username}

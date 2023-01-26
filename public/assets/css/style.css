@@ -627,9 +627,14 @@ i.star.big {
 .activetable {
   margin: 0 !important;
 }
+.tcuntmenu{
+  margin-left: 15px  !important;
+}
 .msg{
  background: rgba(255,255,255,.1) !important;
  white-space:break-spaces;
+ margin: 0 !important;
+ margin-bottom: 1px !important;
 }
 .msglink{
   font-size: 100% !important;

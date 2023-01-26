@@ -308,12 +308,12 @@ function Admin(prop) {
       selector: (row) => row.username,
       format: (row) => (
         <>
-          <a
-            href="#"
+          <span
+            className="msglink"
             onClick={() => prop.addTabData(row.username, prop.getwaysList)}
           >
             {row.username}
-          </a>
+          </span>
         </>
       ),
       sortable: true,
@@ -326,12 +326,12 @@ function Admin(prop) {
       format: (row) => (
         <>
           {row.refer && (
-            <a
-              href="#"
+            <span
+              className="msglink"
               onClick={() => prop.addTabData(row.refer, prop.getwaysList)}
             >
               {row.refer}
-            </a>
+            </span>
           )}
         </>
       ),

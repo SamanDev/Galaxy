@@ -262,23 +262,31 @@ function App(prop) {
     if (str.trim() == "خرید چیپ") {
       _m = "deposit";
     }
+    if (str.trim() == "تراکنش های مالی") {
+      _m = "report";
+    }
+    if (str.trim() == "برداشت") {
+      _m = "cashout";
+    }
     return _m;
   }
   function bindAddLink() {
-    console.log("bindAddLink:" + $(".msgtext").length);
     $(".msgtext").each(function (txt) {
       let text = $(this).text();
 
       let result = text
-        .replace(/ دعوت دوستان | حساب کاربری | خرید چیپ /g, function (x) {
-          return (
-            "<a href='#' data-target='" +
-            getLinkId(x) +
-            "' class='farsi msglink interallink'>" +
-            x +
-            "</a>"
-          );
-        })
+        .replace(
+          / دعوت دوستان | حساب کاربری | خرید چیپ | تراکنش های مالی | برداشت /g,
+          function (x) {
+            return (
+              "<a href='#' data-target='" +
+              getLinkId(x) +
+              "' class='farsi msglink interallink'>" +
+              x +
+              "</a>"
+            );
+          }
+        )
         .replace(/کانال تلگرام/g, function (x) {
           return (
             "<a href='http://telegram.me/" +
@@ -297,7 +305,7 @@ function App(prop) {
             "</a>"
           );
         });
-      console.log(result);
+
       $(this).html(result);
       $(".interallink")
         .unbind()
@@ -1231,6 +1239,8 @@ function App(prop) {
                   animateCSS={animateCSS}
                   setRefresh={setRefresh}
                   bindLastReward={bindLastReward}
+                  setUserProfile={setUserProfile}
+                  setUserOpen={setUserOpen}
                 />
               }
             />

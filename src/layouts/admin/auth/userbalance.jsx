@@ -104,7 +104,11 @@ const Balance = (prop) => {
     setActiveIndex(newIndex);
   };
   const printtotalrowBox = (index, loginToken, mode, title) => {
-    if (gettotal(loginToken.userGifts, mode, "count") == 0) return false;
+    if (
+      gettotal(loginToken.userGifts, mode.replace("gifts", "gift"), "count") ==
+      0
+    )
+      return false;
     var _lvl = 1;
     if (mode == "levels") {
       _lvl = loginToken.level;
@@ -122,7 +126,11 @@ const Balance = (prop) => {
           <List.Content className="lh-lg p-2">
             <div
               className={
-                gettotal(loginToken.userGifts, mode, "count") == 0
+                gettotal(
+                  loginToken.userGifts,
+                  mode.replace("gifts", "gift"),
+                  "count"
+                ) == 0
                   ? "opacity-25 pull-left"
                   : "pull-left"
               }

@@ -11,8 +11,8 @@ import LevelIcon from "../../utils/svg";
 import AddCalendar from "../../utils/AddCalendar";
 import GiftsDesc from "../../utils/GiftsDesc";
 import LastRewardList from "./LastRewardList";
-import GalaxyIcon from "../../utils/svg";
 import GalaxyIcon2 from "../../utils/svg22";
+
 import LevelBar from "../../utils/GLevelBar";
 const LevelList = () => {
   var totalReward = 0;
@@ -107,6 +107,7 @@ const LevelList = () => {
             <span className="mm-listitem__text">لیست جوایز گلکسی پَس</span>
           </li>
         </ul>
+
         {Array.apply(0, Array(levelPassList.length)).map(function (x, i) {
           totalReward += levelPassReward(i);
           return (

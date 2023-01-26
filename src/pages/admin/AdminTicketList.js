@@ -136,7 +136,7 @@ function Admin(prop) {
 
     try {
       const res = await adminGetService(
-        `getAllUserBankInfo?page=${page}&number=500&start=${_s}&end=${_e}`
+        `getAllTicket?page=${page}&number=500&status=unread`
       );
       if (res.status === 200) {
         setData(res.data);

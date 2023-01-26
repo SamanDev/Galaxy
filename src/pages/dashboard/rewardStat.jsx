@@ -132,21 +132,14 @@ const Balance = (prop) => {
           <span className="text-gold">{doCurrency(_totalReward)} تومان</span>
         </Header>
 
-        <Accordion inverted>
-          {printtotalrowBox(1, loginToken, "levels", "پاداش لِوِل ها")}
-          {printtotalrowBox(2, loginToken, "gpass", "گلکسی پَس")}
-          {printtotalrowBox(3, loginToken, "vip", "VIP Table")}
-          {printtotalrowBox(4, loginToken, "league", "لیگ روزانه")}
-          {printtotalrowBox(
-            5,
-            loginToken,
-            "commission",
-            "کمیسیون معرفی دوستان"
-          )}
-          {printtotalrowBox(6, loginToken, "rakeback", "ریک بک پوکر")}
-          {printtotalrowBox(7, loginToken, "gifts", "هدایای گلکسی")}
-          {printtotalrowBox(8, loginToken, "tournament", "تورنومنت ها")}
-        </Accordion>
+        {printtotalrowBox(1, loginToken, "levels", "پاداش لِوِل ها")}
+        {printtotalrowBox(2, loginToken, "gpass", "گلکسی پَس")}
+        {printtotalrowBox(3, loginToken, "vip", "VIP Table")}
+        {printtotalrowBox(4, loginToken, "league", "لیگ روزانه")}
+        {printtotalrowBox(5, loginToken, "commission", "کمیسیون معرفی دوستان")}
+        {printtotalrowBox(6, loginToken, "rakeback", "ریک بک پوکر")}
+        {printtotalrowBox(7, loginToken, "gifts", "هدایای گلکسی")}
+        {printtotalrowBox(8, loginToken, "tournament", "تورنومنت ها")}
       </>
     );
   } else {

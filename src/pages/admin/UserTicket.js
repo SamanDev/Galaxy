@@ -26,9 +26,9 @@ import {
   getReportServiceAdmin,
 } from "../../services/admin";
 import { Alert } from "../../utils/alerts";
-import Comment from "../dashboard/Comment";
+import Comment from "../admin/Comment";
 
-import Ticket from "../../layouts/admin/forms/Cashout/Ticket";
+import Ticket from "../../layouts/admin/forms/Cashout/AdminTicket";
 import { Col } from "react-bootstrap";
 
 import CheckboxToggle from "./components/toggle.component";
@@ -97,16 +97,21 @@ function Admin(prop) {
 
   const [filterText, setFilterText] = React.useState("");
   const [filterOk, setFilterOk] = React.useState(false);
-  const filteredItems = data.filter((item) => item.id);
-
+  const filteredItems = data
+    .sort((a, b) => (a.id < b.id ? 1 : -1))
+    .filter((item) => item.id);
   const [firstOpen, setFirstOpen] = React.useState(false);
   const [resetPaginationToggle, setResetPaginationToggle] =
     React.useState(false);
 
   // data provides access to your row data
+
+  const sortData = (data) => {
+    return data.sort((a, b) => (a.id < b.id ? 1 : -1));
+  };
   const ExpandedComponent = ({ data }) => (
     <div style={{ overflow: "auto" }}>
-      <Segment inverted basic>
+      <Segment inverted basic padded="very">
         <Ticket
           departman={data.department}
           id={data.id}
@@ -114,13 +119,14 @@ function Admin(prop) {
           {...prop}
         />
         <Divider inverted />
-        {data.ticketMessages.map((msg, j) => (
-          <Comment msg={msg} key={j} />
-        ))}
+        {data.ticketMessages
+          .sort((a, b) => (a.id < b.id ? 1 : -1))
+          .map((msg, j) => (
+            <Comment msg={msg} key={j} username={prop.user.username} />
+          ))}
       </Segment>
     </div>
   );
-
   const fetchUsers = async (page) => {
     setLoading(true);
     var _s = moment(startDate).format("YYYY-MM-DD");
@@ -177,17 +183,30 @@ function Admin(prop) {
     {
       name: "status",
       selector: (row) => row.status,
-      format: (row) => <>{row.status}</>,
+      format: (row) => (
+        <>
+          {row.status} - {row.ticketMessages[0].adminUser}
+        </>
+      ),
       sortable: true,
-      width: "80px",
+      width: "180px",
     },
 
     {
       name: "department",
       selector: (row) => row.department,
-      format: (row) => <>{row.department}</>,
+      format: (row) => <span className="farsi">{row.department}</span>,
       sortable: true,
       width: "120px",
+    },
+    {
+      name: "Last Msg",
+      selector: (row) => sortData(row.ticketMessages)[0].message,
+      format: (row) => (
+        <span className="farsi">{sortData(row.ticketMessages)[0].message}</span>
+      ),
+      sortable: true,
+      width: "520px",
     },
 
     {

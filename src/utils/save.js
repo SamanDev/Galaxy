@@ -12,13 +12,13 @@ function App(prop) {
 
     // download image
     const link = document.createElement("a");
-    link.download = "glvl" + prop.id + ".png";
+    link.download = "" + prop.id + ".png";
     link.href = dataUrl;
-    //$("body").append(link);
+    $("body").append(link);
     link.click();
     $(".dl" + prop.id).remove();
     setTimeout(() => {
-      $(".dl:first").trigger("click");
+      //$(".dl:first").trigger("click");
     }, 500);
   };
 
@@ -30,15 +30,15 @@ function App(prop) {
       <div
         id="domEl"
         ref={domEl}
-        style={{ display: "inline-block", padding: 2 }}
+        style={{ display: "inline-block", padding: "0 25px" }}
       >
         <LevelIcon
           level={prop.id}
-          mode="gpass"
+          mode="gifts"
           text={""}
-          classinside={levelClassInside(prop.id)}
-          number={prop.id + 1}
-          width="64px"
+          classinside={levelClassInside(1)}
+          number={""}
+          width="512px"
         />
       </div>
     </div>

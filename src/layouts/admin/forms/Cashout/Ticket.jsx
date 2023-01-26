@@ -39,7 +39,9 @@ const onSubmit = async (values, submitMethods, navigate, prop) => {
     const res = await cashierService(values, "submitTicket", "");
     if (res.status == 200) {
       $("#opensupport").trigger("click");
-
+      if (prop.setRefresh) {
+        prop.setRefresh(res.data);
+      }
       submitMethods.resetForm();
     } else {
       Alert("متاسفم...!", res.data.message, "error");
@@ -58,7 +60,7 @@ const depositArea = (prop) => {
     id: prop.userid ? prop.userid : 0,
     ticketId: prop.id ? prop.id : 0,
     message: "",
-    status: "unread",
+    status: "raed",
   };
   const [refresh, setRefresh] = useState(false);
   const [depMode, setDepMode] = useState(false);
