@@ -138,7 +138,7 @@ const Balance = (prop) => {
               <LevelIcon
                 level={_lvl}
                 text={""}
-                mode={mode}
+                mode={mode.replace("gifts", "gift3")}
                 classinside={levelClassInside(loginToken.level)}
                 number=""
                 width="40px"

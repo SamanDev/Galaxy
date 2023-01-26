@@ -5,9 +5,11 @@ import AccessMsg from "../../utils/accessMsg";
 import { convertDateToJalali } from "../../utils/convertDate";
 import Ticket from "../../layouts/admin/forms/Cashout/Ticket";
 import $ from "jquery";
+import eventBus from "../../services/eventBus";
 const Balance = (prop) => {
   const [activeIndex, setActiveIndex] = useState(-1);
   const [refresh, setRefresh] = useState(false);
+
   const handleClick = (e, titleProps) => {
     const { index } = titleProps;
 
@@ -16,18 +18,27 @@ const Balance = (prop) => {
   };
 
   var loginToken = JSON.parse(localStorage.getItem("loginToken"));
-  var data = loginToken?.userTickets.sort((a, b) => (a.id < b.id ? 1 : -1));
+  var data = loginToken?.userTickets
+    .filter((d) => d.status !== "Closed")
+    .sort((a, b) => (a.id < b.id ? 1 : -1));
   useEffect(() => {
     loginToken = JSON.parse(localStorage.getItem("loginToken"));
-    data = loginToken?.userTickets.sort((a, b) => (a.id < b.id ? 1 : -1));
+    data = loginToken?.userTickets
+      .filter((d) => d.status !== "Closed")
+      .sort((a, b) => (a.id < b.id ? 1 : -1));
   });
+  useEffect(() => {
+    eventBus.on("eventsDataUser", (dataGet) => {
+      setRefresh(dataGet);
+    });
+  }, []);
   if (loginToken?.accessToken) {
     return (
       <span
         className="myaccount popupmenu mm-listview menutitle-view"
         style={{ padding: "0 15px" }}
       >
-        {loginToken.userTickets.length == 0 && (
+        {data.length == 0 && (
           <>
             <List.Item>
               <List.Content>
@@ -47,7 +58,7 @@ const Balance = (prop) => {
             </List.Item>
           </>
         )}
-        {loginToken.userTickets.length > 0 && (
+        {data.length > 0 && (
           <Accordion inverted fluid>
             {data.map((ticket, i) => (
               <Segment key={i} inverted basic>
@@ -79,13 +90,21 @@ const Balance = (prop) => {
                 </Accordion.Content>
 
                 {activeIndex != i && (
-                  <span
-                    onClick={() => {
-                      $("#ticket" + ticket.id).trigger("click");
-                    }}
-                  >
-                    <Comment msg={ticket.ticketMessages[0]} />
-                  </span>
+                  <>
+                    <Ticket
+                      departman={ticket.department}
+                      id={ticket.id}
+                      setRefresh={setRefresh}
+                      status="Close"
+                    />
+                    <span
+                      onClick={() => {
+                        $("#ticket" + ticket.id).trigger("click");
+                      }}
+                    >
+                      <Comment msg={ticket.ticketMessages[0]} />
+                    </span>
+                  </>
                 )}
               </Segment>
             ))}

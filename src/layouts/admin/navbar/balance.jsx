@@ -91,7 +91,7 @@ const Balance = (prop) => {
   const ChangeStateMode = () => {
     var _n = stateMode;
     _n += 1;
-    if (_n > 1 || _event == "League") {
+    if (_n > 1) {
       _n = 0;
     }
     setStateMode(_n);
@@ -105,6 +105,9 @@ const Balance = (prop) => {
       setStateMode(1);
     }
     if (_event == "VIP") {
+      setStateMode(1);
+    }
+    if (_event == "League") {
       setStateMode(1);
     }
     ChangeGift();
@@ -180,6 +183,19 @@ const Balance = (prop) => {
                 mode="vip"
                 onClick={() => {
                   prop.openPanel(".vip", "");
+                }}
+              />
+            )}
+            {stateMode == 1 && _event == "League" && (
+              <LevelIcon
+                classinside="iconinside0"
+                number=""
+                text=""
+                width="30px"
+                level={1}
+                mode="league"
+                onClick={() => {
+                  prop.openPanel(".league", "");
                 }}
               />
             )}

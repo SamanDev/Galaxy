@@ -37,14 +37,13 @@ canRes.map(function (can, i) {
 });
 
 const validationSchema = Yup.object({
-  message: Yup.string()
-    .required("لطفا این فیلد را وارد کنید.")
-    .min(10, "لطفا این فیلد را درست وارد کنید."),
+  message: Yup.string().required("لطفا این فیلد را وارد کنید."),
 });
 const onSubmit = async (values, submitMethods, navigate, prop) => {
   try {
     const res = await cashierService(values, "submitTicket", "");
     if (res.status == 200) {
+      prop.setData(res.data.userTickets);
       submitMethods.resetForm();
     } else {
       Alert("متاسفم...!", res.data.message, "error");
@@ -62,8 +61,8 @@ const depositArea = (prop) => {
     department: prop.departman ? prop.departman : countryOptions[0].value,
     id: prop.userid ? prop.userid : 0,
     ticketId: prop.id ? prop.id : 0,
-    message: "",
-    status: "unread",
+    message: prop.status ? prop.status : "",
+    status: prop.status ? prop.status : "open",
   };
   const [refresh, setRefresh] = useState(false);
   const [depMode, setDepMode] = useState(false);
@@ -71,62 +70,105 @@ const depositArea = (prop) => {
   const handleChange = (e, { name, value }) => {
     $('[name="message"]:visible').val(value);
   };
-  return (
-    <Formik
-      initialValues={initialValues}
-      validationSchema={validationSchema}
-      onSubmit={(values, submitMethods) =>
-        onSubmit(values, submitMethods, navigate, prop, setRefresh)
-      }
-    >
-      {(formik) => {
-        return (
-          <Form>
-            {!prop.departman && (
+  if (prop.status) {
+    return (
+      <Formik
+        initialValues={initialValues}
+        validationSchema={validationSchema}
+        onSubmit={(values, submitMethods) =>
+          onSubmit(values, submitMethods, navigate, prop, setRefresh)
+        }
+      >
+        {(formik) => {
+          return (
+            <Form>
+              <Button
+                content={prop.status}
+                style={
+                  prop.status == "Open"
+                    ? {
+                        top: 10,
+                        right: 60,
+                        padding: "5px 10px",
+                        position: "absolute",
+                      }
+                    : {
+                        top: 10,
+                        right: 0,
+                        padding: "5px 10px",
+                        position: "absolute",
+                      }
+                }
+                className="farsi"
+                type="submit"
+                color="red"
+                size="tiny"
+                disabled={formik.isSubmitting}
+                loading={formik.isSubmitting}
+              />
+            </Form>
+          );
+        }}
+      </Formik>
+    );
+  } else {
+    return (
+      <Formik
+        initialValues={initialValues}
+        validationSchema={validationSchema}
+        onSubmit={(values, submitMethods) =>
+          onSubmit(values, submitMethods, navigate, prop, setRefresh)
+        }
+      >
+        {(formik) => {
+          return (
+            <Form>
+              {!prop.departman && (
+                <FormikControl
+                  formik={formik}
+                  control="select"
+                  name="department"
+                  label="دپارتمان"
+                  labelcolor="yellow"
+                  size={prop.size}
+                  className="farsi"
+                  options={countryOptions}
+                  value={countryOptions[0].value}
+                />
+              )}
+              <Select
+                placeholder="Fast Answer"
+                className="farsi"
+                fluid
+                options={carOptions}
+                onChange={handleChange}
+              />
+
               <FormikControl
                 formik={formik}
-                control="select"
-                name="department"
-                label="دپارتمان"
-                labelcolor="yellow"
-                size={prop.size}
+                control="textarea"
+                type="text"
+                name="message"
+                labelcolor="orange"
                 className="farsi"
-                options={countryOptions}
-                value={countryOptions[0].value}
+                size={prop.size}
               />
-            )}
-            <Select
-              placeholder="Fast Answer"
-              className="farsi"
-              fluid
-              options={carOptions}
-              onChange={handleChange}
-            />
-
-            <FormikControl
-              formik={formik}
-              control="textarea"
-              type="text"
-              name="message"
-              labelcolor="orange"
-              className="farsi"
-              size={prop.size}
-            />
-            <Button
-              content={"ثبت"}
-              fluid
-              style={{ margin: "10px 0" }}
-              className="farsi"
-              type="submit"
-              color="olive"
-              disabled={formik.isSubmitting}
-              loading={formik.isSubmitting}
-            />
-          </Form>
-        );
-      }}
-    </Formik>
-  );
+              <Button
+                content={"ثبت"}
+                fluid
+                style={{ margin: "10px 0" }}
+                className="farsi"
+                type="submit"
+                color="olive"
+                disabled={formik.isSubmitting}
+                loading={formik.isSubmitting}
+              />
+            </Form>
+          );
+        }}
+      </Formik>
+    );
+  }
 };
 
 export default depositArea;

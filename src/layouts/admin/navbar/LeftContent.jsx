@@ -16,7 +16,9 @@ const Leftcontent = (prop) => {
   }, [prop.isLogin]);
 
   const ticketCount = () => {
-    var _data = loginToken?.userTickets.sort((a, b) => (a.id < b.id ? 1 : -1));
+    var _data = loginToken?.userTickets
+      .filter((d) => d.status !== "Closed")
+      .sort((a, b) => (a.id < b.id ? 1 : -1));
     try {
       var d2 = _data.filter(
         (element) =>

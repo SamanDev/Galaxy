@@ -41,16 +41,16 @@ import { isJson, haveAdmin, haveModerator, doCurrency } from "../../const";
 
 const conditionalRowStyles = [
   {
-    when: (row) => row.status == "Pending",
+    when: (row) => row.status == "Closed",
     style: {
       backgroundColor: "rgba(0,0,255,.1)",
     },
   },
 
   {
-    when: (row) => row.status == "Done",
+    when: (row) => row.status != "Closed",
     style: {
-      backgroundColor: "rgba(0,255,0,.1)",
+      backgroundColor: "rgba(255,0,0,.1)",
     },
   },
 ];
@@ -116,7 +116,24 @@ function Admin(prop) {
           departman={data.department}
           id={data.id}
           userid={prop.user.id}
+          setData={setData}
           {...prop}
+        />
+        <Ticket
+          departman={data.department}
+          id={data.id}
+          userid={prop.user.id}
+          {...prop}
+          setData={setData}
+          status="Close"
+        />
+        <Ticket
+          departman={data.department}
+          id={data.id}
+          userid={prop.user.id}
+          {...prop}
+          setData={setData}
+          status="Open"
         />
         <Divider inverted />
         {data.ticketMessages

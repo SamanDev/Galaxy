@@ -1,5 +1,5 @@
 import React from "react";
-import Accordion from "./pages/dashboard/Accordion";
+import Accordion from "./pages/dashboard/Support";
 
 import LevelList from "./pages/dashboard/Levels";
 import PassList from "./pages/dashboard/GalaxyPass";
@@ -722,25 +722,31 @@ export const levelPassClass = (lvl) => {
   return _class;
 };
 export const levelClass = (lvl) => {
-  var _class = "lv" + ((lvl % 30) + 1);
-
-  if (lvl >= 60) {
-    _class = _class + " iconinside2";
-  } else if (lvl >= 30) {
-    _class = _class + " iconinside1";
-  } else {
-    _class = _class + " iconinside0";
+  try {
+    var _class = "lv" + ((lvl % 30) + 1);
+    if (lvl >= 60) {
+      _class = _class + " iconinside2";
+    } else if (lvl >= 30) {
+      _class = _class + " iconinside1";
+    } else {
+      _class = _class + " iconinside0";
+    }
+  } catch (error) {
+    var _class = "lv1";
   }
+
   return _class;
 };
 export const levelClassInside = (lvl) => {
   var _class = "iconinside0";
+  try {
+    if (lvl >= 60) {
+      _class = "iconinside2";
+    } else if (lvl >= 30) {
+      _class = "iconinside1";
+    }
+  } catch (error) {}
 
-  if (lvl >= 60) {
-    _class = "iconinside2";
-  } else if (lvl >= 30) {
-    _class = "iconinside1";
-  }
   return _class;
 };
 export const levelRewardPercent = (lvl) => {

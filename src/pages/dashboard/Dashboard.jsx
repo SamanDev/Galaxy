@@ -201,6 +201,9 @@ const Dashboard = (prop) => {
   if (_event.toLowerCase() == "vip") {
     defslide = 3;
   }
+  if (_event.toLowerCase() == "league") {
+    defslide = 4;
+  }
   if (dayOfTournament == nowDay) {
     defslide = 3;
   }
@@ -539,17 +542,6 @@ const Dashboard = (prop) => {
                     >
                       {activeSlide && (
                         <>
-                          <div className="confettimain">
-                            <ConfettiClick
-                              active={
-                                _event.toLowerCase() == "vip" &&
-                                activeSlide == 3
-                                  ? true
-                                  : false
-                              }
-                              config={pokerconfig}
-                            />
-                          </div>
                           <Banner
                             title={<>۱۹۲ میلیون تومان</>}
                             text="پاداش VIP 25/50K"
@@ -560,7 +552,13 @@ const Dashboard = (prop) => {
                             number=" "
                             {...prop}
                           />
-                          <ConfettiArea recycle={false} numberOfPieces="50" />
+                          {_event.toLowerCase() == "vip" &&
+                            activeSlide == 3 && (
+                              <ConfettiArea
+                                recycle={false}
+                                numberOfPieces="50"
+                              />
+                            )}
                         </>
                       )}
                     </div>
@@ -573,16 +571,6 @@ const Dashboard = (prop) => {
                       }
                       data-bs-interval="12000"
                     >
-                      <div className="confettimain">
-                        <ConfettiClick
-                          active={
-                            _event.toLowerCase() == "leauge" && activeSlide == 4
-                              ? true
-                              : false
-                          }
-                          config={pokerconfig}
-                        />
-                      </div>
                       {activeSlide && (
                         <>
                           <Banner
@@ -597,6 +585,9 @@ const Dashboard = (prop) => {
                             {...prop}
                           />
                         </>
+                      )}
+                      {_event.toLowerCase() == "league" && activeSlide == 4 && (
+                        <ConfettiArea recycle={false} numberOfPieces="50" />
                       )}
                     </div>
 

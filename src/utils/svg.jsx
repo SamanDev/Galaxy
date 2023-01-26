@@ -3,26 +3,7 @@ import { levelClass, levelClassInside } from "../const";
 const LevelIcon = (prop) => {
   if (prop.mode == "gpass") {
     var _txt = prop.number ? prop.number : prop.level;
-    var _class = levelClass(prop.level - 1) + " icn";
 
-    if (prop.text == "big") {
-      _class = _class + " big";
-      const loginToken = JSON.parse(localStorage.getItem("loginToken"));
-
-      if (loginToken) {
-        _txt = loginToken.glevel;
-      } else {
-        _txt = 15;
-      }
-    }
-    if (prop.iconamin) {
-      _class = _class + " " + prop.iconamin;
-    }
-
-    var _class2 = "";
-    if (prop.amin) {
-      _class2 = prop.amin;
-    }
     return (
       <span onClick={prop.onClick} className="iconarea">
         <img
@@ -30,7 +11,7 @@ const LevelIcon = (prop) => {
           width={prop.width}
           height={prop.width}
           alt={prop.mode}
-          className={_class2 + " gpassicon icn"}
+          className={" gpassicon icn"}
           style={{
             width: prop.width,
             height: "auto",
@@ -603,7 +584,7 @@ const LevelIcon = (prop) => {
 
   if (prop.mode == "levels") {
     var _txt = prop.number ? prop.number : prop.level;
-    var _class = levelClass(_txt - 1);
+
     if (prop.text == "big") {
       const loginToken = JSON.parse(localStorage.getItem("loginToken"));
 
@@ -614,7 +595,6 @@ const LevelIcon = (prop) => {
       }
     }
 
-    var _id = _txt + _class.replace(/ /g, "") + Math.floor(Math.random() * 100);
     return (
       <span onClick={prop.onClick} className="iconarea">
         <img
