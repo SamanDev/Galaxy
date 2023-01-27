@@ -638,7 +638,7 @@ i.star.big {
 }
 .msglink{
   font-size: 100% !important;
-  color:skyblue !important;cursor:pointer;
+  color:rgb(60, 121, 146) !important;cursor:pointer;
 }
 .activetable .item {
   padding:  0 !important;

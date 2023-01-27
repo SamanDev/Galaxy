@@ -4,7 +4,8 @@ import { Tab } from "semantic-ui-react";
 import Deposit from "./AdminDepositList";
 import Cashout from "./AdminCashoutList";
 import Carts from "./AdminCartList";
-import Tickets from "./AdminTicketList";
+import Tickets from "./support/List";
+import Reports from "./report/List";
 function Admin(prop) {
   const [activeIndex, setActiveIndex] = useState(0);
   const loginToken = JSON.parse(localStorage.getItem("loginToken"));
@@ -43,6 +44,14 @@ function Admin(prop) {
       render: () => (
         <Tab.Pane>
           <Tickets {...prop} />
+        </Tab.Pane>
+      ),
+    },
+    {
+      menuItem: "Last Actions",
+      render: () => (
+        <Tab.Pane>
+          <Reports {...prop} />
         </Tab.Pane>
       ),
     },

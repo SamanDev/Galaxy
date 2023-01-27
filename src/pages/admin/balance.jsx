@@ -35,6 +35,10 @@ const Balance = (prop) => {
     }
     setStateMode(_n);
   };
+  const openProfile = () => {
+    prop.setUserProfile(loginToken.username);
+    prop.setUserOpen(true);
+  };
   useEffect(() => {
     if (_event == "GPass") {
       setStateMode(1);
@@ -110,7 +114,13 @@ const Balance = (prop) => {
               }}
             />
           )}
-          <Label color="black" className="balanceLable">
+          <Label
+            color="black"
+            className="balanceLable"
+            onClick={() => {
+              openProfile();
+            }}
+          >
             {loginToken.username}
           </Label>
           <Label color="black" className="balanceLable amount">

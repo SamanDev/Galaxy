@@ -4,7 +4,7 @@ import Users from "./AdminUsers";
 import Bots from "./AdminBots";
 import { Navigate } from "react-router-dom";
 import User from "./AdminUser";
-import Report from "./AdminReport";
+
 import GetwaysList from "./components/GetwaysList.component";
 import SiteCartsList from "./components/SiteCartsList.component";
 import Requests from "./Requests";
@@ -65,16 +65,8 @@ function Admin(prop) {
               getwaysList={getwaysData}
               search="username"
               searchValue=""
+              {...prop}
             />
-          </Tab.Pane>
-        ),
-      },
-
-      {
-        menuItem: "Reports",
-        pane: (
-          <Tab.Pane key="Report">
-            <Report removeTabData={removeTabData} addTabData={addTabData} />
           </Tab.Pane>
         ),
       },
@@ -125,6 +117,7 @@ function Admin(prop) {
             getwaysList={getwaysList}
             addTabData={addTabData}
             handleGetGeteways={handleGetGeteways}
+            {...prop}
           />
         </Tab.Pane>
       ),

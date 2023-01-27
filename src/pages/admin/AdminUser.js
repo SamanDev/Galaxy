@@ -16,9 +16,9 @@ import { List, Label, Tab } from "semantic-ui-react";
 import { adminGetService } from "../../services/admin";
 import TableAdmin from "./components/adminTable.component";
 import Balance from "./balance";
-import Report from "./UserReport";
+import Report from "./report/List";
 import Reward from "./UserReward";
-import Tickets from "./UserTicket";
+import Tickets from "./support/List";
 import { Col } from "react-bootstrap";
 import Users from "./AdminUsers";
 import CheckboxToggle from "./components/toggle.component";
@@ -253,8 +253,10 @@ function Admin(prop) {
   var newdataInfoData = JSON.parse(JSON.stringify(newdataInfo));
   var newdatabankInfoData = JSON.parse(JSON.stringify(newdataBankInfo));
   var newdataGetwaysData = JSON.parse(JSON.stringify(newdataGetways));
-  console.log(newdataGetwaysData);
-  console.log(newdatabankInfoData);
+  const openProfile = (user) => {
+    prop.setUserProfile(user);
+    prop.setUserOpen(true);
+  };
   const panes = [
     {
       menuItem: "Info",
@@ -311,7 +313,6 @@ function Admin(prop) {
         <Tab.Pane as="span">
           <Tickets
             user={user}
-            mode="deposit"
             addTabData={prop.addTabData}
             removeTabData={prop.removeTabData}
           />
@@ -346,8 +347,14 @@ function Admin(prop) {
             prop.removeTabData(user.username + "profile");
           }}
         />{" "}
-        {user.username}
-        <Balance user={user} />
+        <span
+          className="text-gold"
+          onClick={() => {
+            openProfile(user.username);
+          }}
+        >
+          {user.username}
+        </span>
       </h2>
       <Tab
         panes={panes}

@@ -1,58 +1,37 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useState } from "react";
 import DataTable from "react-data-table-component";
 import {
-  Input,
   Segment,
   Button,
-  Card,
-  Table,
   Dimmer,
-  Loader,
+  Divider,
   Icon,
   Modal,
-  Form,
-  Select,
 } from "semantic-ui-react";
-import Moment from "react-moment";
-import { convertDateToJalali } from "../../utils/convertDate";
-import CurrencyInput from "react-currency-input-field";
-import AmountColor from "../../utils/AmountColor";
+import { convertDateToJalali } from "../../../utils/convertDate";
+
 import { addDays } from "date-fns";
 const moment = require("moment");
-import {
-  adminGetService,
-  adminPutService,
-  getReportServiceAdmin,
-} from "../../services/admin";
-import { Alert } from "../../utils/alerts";
+import { adminGetService } from "../../../services/admin";
+import Comment from "./Comment";
 
-import { Col } from "react-bootstrap";
+import Ticket from "./Add";
 
-import CheckboxToggle from "./components/toggle.component";
-import DateReng from "./components/dateReng.component";
-import AddGift from "./AddGift";
-import Filter from "./Filter";
-import FilterMode from "./FilterMode";
-
-import { isJson, haveAdmin, haveModerator, doCurrency } from "../../const";
+import DateReng from "../components/dateReng.component";
+import FilterMode from "./Filter";
 
 const conditionalRowStyles = [
   {
-    when: (row) => row.endBalance < row.startBalance,
-    style: {
-      backgroundColor: "rgba(255,0,0,.1)",
-    },
-  },
-  {
-    when: (row) => row.endBalance > row.startBalance,
-    style: {
-      backgroundColor: "rgba(0,255,0,.1)",
-    },
-  },
-  {
-    when: (row) => row.status == "Pending",
+    when: (row) => row.status == "Closed",
     style: {
       backgroundColor: "rgba(0,0,255,.1)",
+    },
+  },
+
+  {
+    when: (row) => row.status != "Closed",
+    style: {
+      backgroundColor: "rgba(255,0,0,.1)",
     },
   },
 ];
@@ -83,14 +62,14 @@ const noDataComponent = (
 
 function Admin(prop) {
   const [data, setData] = useState([]);
-
+  const loginToken = JSON.parse(localStorage.getItem("loginToken"));
   const [totalRows, setTotalRows] = useState(0);
   const [perPage, setPerPage] = useState(10);
   const [dataSortedID, setDataSortedID] = useState(1);
   const [dataSorted, setDataSorted] = useState("id");
   const [dataSortedDir, setDataSortedDir] = useState("desc");
   const [dataSearch, setDataSearch] = useState("");
-  const [dataMode, setDataMode] = useState("all");
+  const [dataMode, setDataMode] = useState("All");
   const [getwaysList, setGetwaysData] = useState([]);
 
   const [startDate, setStartDate] = useState(addDays(new Date(), -6));
@@ -99,31 +78,73 @@ function Admin(prop) {
 
   const [filterText, setFilterText] = React.useState("");
   const [filterOk, setFilterOk] = React.useState(false);
-  const filteredItems = data.filter((item) => item.username);
-
+  const filteredItems = data
+    .sort((a, b) => (a.id < b.id ? 1 : -1))
+    .filter((item) => item.id);
   const [firstOpen, setFirstOpen] = React.useState(false);
   const [resetPaginationToggle, setResetPaginationToggle] =
     React.useState(false);
 
   // data provides access to your row data
+
+  const sortData = (data) => {
+    return data.sort((a, b) => (a.id < b.id ? 1 : -1));
+  };
   const ExpandedComponent = ({ data }) => (
-    <div style={{ overflow: "auto", width: "90vw" }}>
-      <pre>{JSON.stringify(data, null, 2)}</pre>
+    <div style={{ overflow: "auto" }}>
+      <Segment inverted basic padded="very">
+        <Ticket
+          departman={data.department}
+          id={data.id}
+          userid={data.usersId}
+          fetchUsers={fetchUsers}
+          {...prop}
+        />
+        <Ticket
+          departman={data.department}
+          id={data.id}
+          userid={data.usersId}
+          {...prop}
+          fetchUsers={fetchUsers}
+          status="Close"
+        />
+        <Ticket
+          departman={data.department}
+          id={data.id}
+          userid={data.usersId}
+          {...prop}
+          fetchUsers={fetchUsers}
+          status="Open"
+        />
+        <Divider inverted />
+        {data.ticketMessages
+          .sort((a, b) => (a.id < b.id ? 1 : -1))
+          .map((msg, j) => (
+            <Comment msg={msg} key={j} data={data} />
+          ))}
+      </Segment>
     </div>
   );
-
   const fetchUsers = async (page) => {
     setLoading(true);
     var _s = moment(startDate).format("YYYY-MM-DD");
     var _e = moment(endDate).format("YYYY-MM-DD");
-
-    try {
-      const res = await adminGetService(
-        `getReports?username=${prop.user.username}&mode=${dataMode.replace(
-          "all",
+    if (prop?.user?.username) {
+      var res = await adminGetService(
+        `getTickets?page=${page}&number=500&status=${dataMode.replace(
+          "All",
           ""
-        )}&page=${page}&number=500&sort=${dataSorted}&order=${dataSortedDir}&start=${_s}&end=${_e}`
+        )}&username=${prop.user.username}&start=${_s}&end=${_e}`
       );
+    } else {
+      var res = await adminGetService(
+        `getTickets?page=${page}&number=500&status=${dataMode.replace(
+          "All",
+          ""
+        )}&start=${_s}&end=${_e}`
+      );
+    }
+    try {
       if (res.status === 200) {
         setData(res.data);
 
@@ -164,61 +185,58 @@ function Admin(prop) {
       sortable: true,
       width: "80px",
     },
-
+    {
+      name: "username",
+      selector: (row) => row.username,
+      format: (row) => (
+        <>
+          <span
+            className="msglink fw-bold"
+            onClick={() => prop.addTabData(row.username)}
+          >
+            {row.username}
+          </span>
+        </>
+      ),
+      sortable: true,
+    },
     {
       name: "status",
       selector: (row) => row.status,
       format: (row) => <>{row.status}</>,
       sortable: true,
-      width: "80px",
+      width: "180px",
     },
+
     {
-      name: "start",
-      selector: (row) => row.startBalance,
-      format: (row) => <>{doCurrency(row.startBalance)}</>,
-      sortable: true,
-      width: "100px",
-    },
-    {
-      name: "amount",
-      selector: (row) =>
-        row.endBalance >= row.startBalance ? row.amount : row.amount * -1,
-      format: (row) => (
-        <>
-          <AmountColor
-            amount={row.amount}
-            sign={row.endBalance - row.startBalance}
-          />
-        </>
-      ),
-      sortable: true,
-      width: "100px",
-    },
-    {
-      name: "end",
-      selector: (row) => row.endBalance,
-      format: (row) => <>{doCurrency(row.endBalance)}</>,
-      sortable: true,
-      width: "100px",
-    },
-    {
-      name: "mode",
-      selector: (row) => row.mode,
-      format: (row) => <>{row.mode}</>,
+      name: "department",
+      selector: (row) => row.department,
+      format: (row) => <span className="farsi">{row.department}</span>,
       sortable: true,
       width: "120px",
     },
     {
-      name: "gateway",
-      selector: (row) => (row.gateway ? row.gateway : ""),
-      format: (row) => <>{row.gateway}</>,
+      name: "Last Msg",
+      selector: (row) => sortData(row.ticketMessages)[0].message,
+      format: (row) => (
+        <>
+          <span className="fw-bold">{row.ticketMessages[0].adminUser}</span>
+
+          <br />
+          <span className="farsi">
+            {sortData(row.ticketMessages)[0].message}
+          </span>
+        </>
+      ),
       sortable: true,
+      width: "720px",
     },
+
     {
       name: "date",
-      selector: (row) => row.createDate,
+      selector: (row) => row.date,
       format: (row) => (
-        <div className="blacktext">{convertDateToJalali(row.createDate)}</div>
+        <div className="blacktext">{convertDateToJalali(row.date)}</div>
       ),
       sortable: true,
     },
@@ -271,7 +289,7 @@ function Admin(prop) {
         style={{ height: "calc(100vh - 300px)", overflow: "auto" }}
       >
         <DataTable
-          title={prop.user.username + " Reports"}
+          title={prop.user ? prop.user.username + " Tickets" : "Tickets"}
           columns={columns}
           data={filteredItems}
           progressPending={loading}

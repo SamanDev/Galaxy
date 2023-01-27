@@ -1,29 +1,9 @@
-import React, { useEffect, useState, useContext } from "react";
-import DataTable from "react-data-table-component";
-import {
-  Input,
-  Segment,
-  Button,
-  Card,
-  Table,
-  Dimmer,
-  Loader,
-  Icon,
-  Modal,
-  Form,
-} from "semantic-ui-react";
-import { List, Label, Tab } from "semantic-ui-react";
+import React, { useState } from "react";
 
 import TableAdmin from "./components/adminTableForm.component";
-import Balance from "./balance";
-import Report from "./UserReport";
-import Reward from "./UserReward";
-import { Col } from "react-bootstrap";
-import Users from "./AdminUsers";
-import CheckboxToggle from "./components/toggle.component";
 
 import { adminPutServiceList } from "../../services/admin";
-import { isJson, haveAdmin, haveModerator, levelData } from "../../const";
+import { isJson, haveAdmin, haveModerator } from "../../const";
 import { Alert } from "../../utils/alerts";
 const getGateways = JSON.parse(localStorage.getItem("getGateways"));
 function getPathOfKey(object, keys, getwaysList) {

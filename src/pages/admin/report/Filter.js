@@ -15,6 +15,7 @@ const DropdownExampleMultipleSelection = (prop) => {
   return (
     <Dropdown
       placeholder={prop.value}
+      defaultValue="All"
       floated="right"
       selection
       options={options}

@@ -43,6 +43,7 @@ const ActiveTable = (prop) => {
           setTimeout(() => {
             prop.animateCSS(".id-" + myx.id + "", "fadeInDown");
             $("#playreward").trigger("click");
+            $("#bindlastreward").trigger("click");
           }, 1000 * (myData.length - myI));
         } else {
           myI = myI - 1;

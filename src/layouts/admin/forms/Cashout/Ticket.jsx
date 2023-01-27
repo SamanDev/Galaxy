@@ -58,7 +58,7 @@ const depositArea = (prop) => {
     id: prop.userid ? prop.userid : 0,
     ticketId: prop.id ? prop.id : 0,
     message: prop.status ? prop.status : "",
-    status: prop.status ? prop.status : "open",
+    status: prop.status ? prop.status : "Open",
   };
   const [refresh, setRefresh] = useState(false);
   const [depMode, setDepMode] = useState(false);

@@ -1,41 +1,23 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useState } from "react";
 import DataTable from "react-data-table-component";
 import {
-  Input,
   Segment,
   Button,
-  Card,
-  Table,
   Dimmer,
-  Loader,
+  Divider,
   Icon,
   Modal,
-  Form,
-  Select,
 } from "semantic-ui-react";
-import Moment from "react-moment";
-import { convertDateToJalali } from "../../utils/convertDate";
-import AmountColor from "../../utils/AmountColor";
-import CurrencyInput from "react-currency-input-field";
+import { convertDateToJalali } from "../../../utils/convertDate";
+import { doCurrency } from "../../../const";
 import { addDays } from "date-fns";
+import AmountColor from "../../../utils/AmountColor";
+
+import { adminGetService } from "../../../services/admin";
+
+import DateReng from "../components/dateReng.component";
+import FilterMode from "./Filter";
 const moment = require("moment");
-import {
-  adminGetService,
-  adminPutService,
-  getReportServiceAdmin,
-} from "../../services/admin";
-import { Alert } from "../../utils/alerts";
-
-import { Col } from "react-bootstrap";
-
-import CheckboxToggle from "./components/toggle.component";
-import DateReng from "./components/dateReng.component";
-import AddGift from "./AddGift";
-import Filter from "./Filter";
-import FilterMode from "./FilterMode";
-
-import { isJson, haveAdmin, haveModerator, doCurrency } from "../../const";
-
 const conditionalRowStyles = [
   {
     when: (row) => row.status == "Pending",
@@ -84,47 +66,62 @@ const noDataComponent = (
 
 function Admin(prop) {
   const [data, setData] = useState([]);
-
+  const loginToken = JSON.parse(localStorage.getItem("loginToken"));
   const [totalRows, setTotalRows] = useState(0);
   const [perPage, setPerPage] = useState(10);
   const [dataSortedID, setDataSortedID] = useState(1);
   const [dataSorted, setDataSorted] = useState("id");
   const [dataSortedDir, setDataSortedDir] = useState("desc");
   const [dataSearch, setDataSearch] = useState("");
-  const [dataMode, setDataMode] = useState("all");
+  const [dataMode, setDataMode] = useState("All");
   const [getwaysList, setGetwaysData] = useState([]);
 
   const [startDate, setStartDate] = useState(addDays(new Date(), -6));
   const [endDate, setEndDate] = useState(new Date());
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   const [filterText, setFilterText] = React.useState("");
   const [filterOk, setFilterOk] = React.useState(false);
-  const filteredItems = data.filter((item) => item.username);
-
+  const filteredItems = data
+    .sort((a, b) => (a.id < b.id ? 1 : -1))
+    .filter((item) => item.id);
   const [firstOpen, setFirstOpen] = React.useState(false);
   const [resetPaginationToggle, setResetPaginationToggle] =
     React.useState(false);
 
   // data provides access to your row data
+
+  const sortData = (data) => {
+    return data.sort((a, b) => (a.id < b.id ? 1 : -1));
+  };
   const ExpandedComponent = ({ data }) => (
     <div style={{ overflow: "auto", width: "90vw" }}>
       <pre>{JSON.stringify(data, null, 2)}</pre>
     </div>
   );
-
   const fetchUsers = async (page) => {
     setLoading(true);
     var _s = moment(startDate).format("YYYY-MM-DD");
     var _e = moment(endDate).format("YYYY-MM-DD");
 
-    try {
-      const res = await adminGetService(
+    if (prop?.user?.username) {
+      var res = await adminGetService(
         `getReports?mode=${dataMode.replace(
-          "all",
+          "All",
+          ""
+        )}&page=${page}&number=500&sort=${dataSorted}&username=${
+          prop.user.username
+        }&order=${dataSortedDir}&start=${_s}&end=${_e}`
+      );
+    } else {
+      var res = await adminGetService(
+        `getReports?mode=${dataMode.replace(
+          "All",
           ""
         )}&page=${page}&number=500&sort=${dataSorted}&order=${dataSortedDir}&start=${_s}&end=${_e}`
       );
+    }
+    try {
       if (res.status === 200) {
         setData(res.data);
 
@@ -157,7 +154,6 @@ function Admin(prop) {
   useEffect(() => {
     if (!firstOpen && filterOk) fetchUsers(1); // fetch page 1 of users
   }, [filterOk, firstOpen]);
-
   const columns = [
     {
       name: "id",
@@ -170,12 +166,12 @@ function Admin(prop) {
       selector: (row) => row.username,
       format: (row) => (
         <>
-          <a
-            href="#"
-            onClick={() => prop.addTabData(row.username, getwaysList)}
+          <span
+            className="msglink fw-bold"
+            onClick={() => prop.addTabData(row.username)}
           >
             {row.username}
-          </a>
+          </span>
         </>
       ),
       sortable: true,
@@ -240,6 +236,7 @@ function Admin(prop) {
       sortable: true,
     },
   ];
+
   const subHeaderComponentMemo = React.useMemo(() => {
     const handleClear = () => {
       if (filterText) {
@@ -247,15 +244,18 @@ function Admin(prop) {
         setFilterText("");
       }
     };
-    var _s = moment(startDate).format("YYYY-MM-DD");
-    var _e = moment(endDate).format("YYYY-MM-DD");
+    var _s = moment(startDate).format("YY-MM-DD");
+    var _e = moment(endDate).format("YY-MM-DD");
     return (
       <>
         <Button size="small" onClick={() => setFirstOpen(true)}>
-          {_s} to {_e}
+          {_s} / {_e}
         </Button>
         <FilterMode
-          onFilter={(e) => setDataMode(e.target.outerText)}
+          onFilter={(e) => {
+            setDataMode(e.target.outerText);
+            console.log(e.target.outerText);
+          }}
           value={dataMode}
         />
       </>
@@ -282,10 +282,10 @@ function Admin(prop) {
 
       <div
         className="reportTable"
-        style={{ height: "calc(100vh - 250px)", overflow: "auto" }}
+        style={{ height: "calc(100vh - 300px)", overflow: "auto" }}
       >
         <DataTable
-          title="Reports"
+          title={prop.user ? prop.user.username + " Reports" : "Reports"}
           columns={columns}
           data={filteredItems}
           progressPending={loading}

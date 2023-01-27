@@ -243,12 +243,12 @@ function Admin(prop) {
       selector: (row) => row.username,
       format: (row) => (
         <>
-          <a
-            href="#"
+          <span
+            className="msglink fw-bold"
             onClick={() => prop.addTabData(row.username, prop.getwaysList)}
           >
             {row.username}
-          </a>
+          </span>
         </>
       ),
       sortable: true,
@@ -309,7 +309,7 @@ function Admin(prop) {
       format: (row) => (
         <>
           <span
-            className="msglink"
+            className="msglink fw-bold"
             onClick={() => prop.addTabData(row.username, prop.getwaysList)}
           >
             {row.username}
@@ -327,7 +327,7 @@ function Admin(prop) {
         <>
           {row.refer && (
             <span
-              className="msglink"
+              className="msglink fw-bold "
               onClick={() => prop.addTabData(row.refer, prop.getwaysList)}
             >
               {row.refer}
