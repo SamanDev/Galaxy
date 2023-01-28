@@ -30,6 +30,7 @@ import eventBus from "./services/eventBus";
 import { cashierService } from "./services/cashier";
 import ActiveTable from "./pages/dashboard/ActiveTableJson.jsx";
 import LastReward from "./pages/dashboard/LastRewardJson";
+import PWAPrompt from "react-ios-pwa-prompt";
 const moment = require("moment");
 var menu = "no";
 var panelMenu = "no";
@@ -1076,6 +1077,11 @@ function App(prop) {
     }
     return (
       <>
+        <PWAPrompt
+          timesToShow={30}
+          copyClosePrompt="Close"
+          permanentlyHideOnDismiss={false}
+        />
         <nav id="menuleft">
           <ul>{finalMenu}</ul>
         </nav>
@@ -1189,6 +1195,7 @@ function App(prop) {
               labelcolor="green"
             />
           </Modal>
+
           <Routes>
             <Route
               path="/login"
