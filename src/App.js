@@ -1078,7 +1078,25 @@ function App(prop) {
     return (
       <>
         <PWAPrompt
-          timesToShow={30}
+          timesToShow={300}
+          copyTitle="نصب اپ گلکسی"
+          copyBody={
+            <>
+              <Image
+                src={"/maskable_icon_x192.png"}
+                size="mini"
+                verticalAlign="middle"
+                floated="left"
+                alt="اپلیکیشن گلکسی کازینو"
+                title="اپلیکیشن گلکسی کازینو"
+              />
+              <span>
+                <h3>Install IOS Galaxy App</h3>
+                Galexy has app functionality. Add it to your home screen to use
+                it in fullscreen.
+              </span>
+            </>
+          }
           copyClosePrompt="Close"
           permanentlyHideOnDismiss={false}
         />
