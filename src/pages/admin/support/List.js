@@ -100,22 +100,26 @@ function Admin(prop) {
           fetchUsers={fetchUsers}
           {...prop}
         />
-        <Ticket
-          departman={data.department}
-          id={data.id}
-          userid={data.usersId}
-          {...prop}
-          fetchUsers={fetchUsers}
-          status="Close"
-        />
-        <Ticket
-          departman={data.department}
-          id={data.id}
-          userid={data.usersId}
-          {...prop}
-          fetchUsers={fetchUsers}
-          status="Open"
-        />
+        {data.status === "Open" ? (
+          <Ticket
+            departman={data.department}
+            id={data.id}
+            userid={data.usersId}
+            {...prop}
+            fetchUsers={fetchUsers}
+            status="Close"
+          />
+        ) : (
+          <Ticket
+            departman={data.department}
+            id={data.id}
+            userid={data.usersId}
+            {...prop}
+            fetchUsers={fetchUsers}
+            status="Open"
+          />
+        )}
+
         <Divider inverted />
         {data.ticketMessages
           .sort((a, b) => (a.id < b.id ? 1 : -1))

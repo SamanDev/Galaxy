@@ -74,7 +74,7 @@ const depositArea = (prop) => {
                   prop.status == "Open"
                     ? {
                         top: 10,
-                        right: 60,
+                        right: 0,
                         padding: "5px 10px",
                         position: "absolute",
                       }
@@ -87,7 +87,7 @@ const depositArea = (prop) => {
                 }
                 className="farsi"
                 type="submit"
-                color="red"
+                color={prop.status != "Open" ? "red" : "blue"}
                 size="tiny"
                 disabled={formik.isSubmitting}
                 loading={formik.isSubmitting}
