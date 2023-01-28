@@ -137,7 +137,7 @@ const Balance = (prop) => {
         <Segment
           className="myaccount"
           inverted
-          style={{ margin: 0, padding: 10, color: "#fff", top: 3 }}
+          style={{ margin: 0, padding: 10, color: "#fff" }}
         >
           <RisingPitch />
           <span

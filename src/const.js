@@ -676,7 +676,7 @@ function doCashout() {
 export const doCurrency = (value) => {
   return value?.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
 };
-export const dayOfTournament = 1;
+export const dayOfTournament = 5;
 export const levelList =
   "1,5,15,30,50,100,200,300,400,500,600,700,800,900,1000,1200,1400,1600,1800,2000,2500,3000,3500,4000,4500,5000,6000,7000,8000,10000".split(
     ","

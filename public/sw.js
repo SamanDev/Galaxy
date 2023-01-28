@@ -1,42 +1,61 @@
-self.addEventListener("install", (e) => {
-  e.waitUntil(
-    caches
-      .open("fox-store")
-      .then((cache) =>
-        cache.addAll([
-          "/assets/mmenu-js-master/dist/mmenu.css",
-          "/assets/css/bootstrap.min.css",
-          "/assets/css/style.css",
-          "/assets/images/bgs/bg.svg",
-          "/assets/images/bgs/1.png",
+const CACHE_NAME = "offline";
+const OFFLINE_URL = "offline.html";
 
-          "/assets/images/svg/topplayer/icon.svg",
-          "/assets/images/svg/topplayer/deposit.svg",
-          "/assets/images/svg/topplayer/cashout.svg",
+self.addEventListener("install", function (event) {
+  console.log("[ServiceWorker] Install");
 
-          "/assets/images/svg/level/icon.svg",
-          "/assets/images/svg/vip/icon.svg",
-          "/assets/images/svg/gift/icon.svg",
-          "/assets/images/svg/league/icon.svg",
-          "/assets/images/svg/league/1.svg",
-          "/assets/images/svg/league/2.svg",
-
-          "/assets/images/svg/tournament/icon.svg",
-          "/assets/images/svg/tournament/1.svg",
-          "/assets/images/svg/tournament/2.svg",
-          "/assets/images/svg/vip/1.svg",
-          "/assets/images/svg/vip/2.svg",
-          "/assets/mburger-webcomponent-master/dist/mburger/index.js",
-          "/assets/mburger-webcomponent-master/dist/mburger/js/index.js",
-          "/assets/js/bootstrap.bundle.min.js",
-        ])
-      )
+  event.waitUntil(
+    (async () => {
+      const cache = await caches.open(CACHE_NAME);
+      // Setting {cache: 'reload'} in the new request will ensure that the response
+      // isn't fulfilled from the HTTP cache; i.e., it will be from the network.
+      await cache.add(new Request(OFFLINE_URL, { cache: "reload" }));
+    })()
   );
+
+  self.skipWaiting();
 });
 
-self.addEventListener("fetch", (e) => {
-  console.log(e.request.url);
-  e.respondWith(
-    caches.match(e.request).then((response) => response || fetch(e.request))
+self.addEventListener("activate", (event) => {
+  console.log("[ServiceWorker] Activate");
+  event.waitUntil(
+    (async () => {
+      // Enable navigation preload if it's supported.
+      // See https://developers.google.com/web/updates/2017/02/navigation-preload
+      if ("navigationPreload" in self.registration) {
+        await self.registration.navigationPreload.enable();
+      }
+    })()
   );
+
+  // Tell the active service worker to take control of the page immediately.
+  self.clients.claim();
+});
+
+self.addEventListener("fetch", function (event) {
+  // console.log('[Service Worker] Fetch', event.request.url);
+  if (event.request.mode === "navigate") {
+    event.respondWith(
+      (async () => {
+        try {
+          const preloadResponse = await event.preloadResponse;
+          if (preloadResponse) {
+            return preloadResponse;
+          }
+
+          const networkResponse = await fetch(event.request);
+          return networkResponse;
+        } catch (error) {
+          console.log(
+            "[Service Worker] Fetch failed; returning offline page instead.",
+            error
+          );
+
+          const cache = await caches.open(CACHE_NAME);
+          const cachedResponse = await cache.match(OFFLINE_URL);
+          return cachedResponse;
+        }
+      })()
+    );
+  }
 });
