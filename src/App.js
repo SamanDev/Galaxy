@@ -1227,6 +1227,9 @@ function App(prop) {
                   loadingLogin={loadingLogin}
                   setIsUser={setIsUser}
                   getAccess={getAccess}
+                  bindLastReward={bindLastReward}
+                  setUserProfile={setUserProfile}
+                  setUserOpen={setUserOpen}
                 />
               }
             />
@@ -1242,6 +1245,9 @@ function App(prop) {
                   loadingLogin={loadingLogin}
                   setIsUser={setIsUser}
                   getAccess={getAccess}
+                  bindLastReward={bindLastReward}
+                  setUserProfile={setUserProfile}
+                  setUserOpen={setUserOpen}
                 />
               }
             />

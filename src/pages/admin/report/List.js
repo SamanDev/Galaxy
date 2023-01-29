@@ -117,7 +117,7 @@ function Admin(prop) {
       var res = await adminGetService(
         `getReports?mode=${dataMode.replace(
           "All",
-          ""
+          "Deposit,Cashout,Transfer,Bonus"
         )}&page=${page}&number=500&sort=${dataSorted}&order=${dataSortedDir}&start=${_s}&end=${_e}`
       );
     }
