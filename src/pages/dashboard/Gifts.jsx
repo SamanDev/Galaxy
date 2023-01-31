@@ -57,15 +57,21 @@ const LevelList = () => {
                     }}
                   >
                     مخصوص بازیکنان
-                    <br /> لول 20 و بالاتر
+                    <br /> لول {levelDataInfo[4].minLevel} و بالاتر
                   </div>
                 </>
               }
               subtitle={
                 <>
                   <br />
-                  از <span className="text-gold">500K</span> تا{" "}
-                  <span className="text-gold">3M</span>
+                  از{" "}
+                  <span className="text-gold">
+                    {doCurrency(levelDataInfo[4].minAmount)}
+                  </span>{" "}
+                  تا{" "}
+                  <span className="text-gold">
+                    {doCurrency(levelDataInfo[4].maxAmount)}
+                  </span>
                 </>
               }
               title={<>هدیه طلایی</>}
@@ -93,15 +99,22 @@ const LevelList = () => {
                     }}
                   >
                     مخصوص بازیکنان
-                    <br /> لول 5 تا 20
+                    <br /> لول {levelDataInfo[5].minLevel} تا{" "}
+                    {levelDataInfo[5].maxLevel}
                   </div>
                 </>
               }
               subtitle={
                 <>
                   <br />
-                  از <span className="text-gold">100K</span> تا{" "}
-                  <span className="text-gold">500K</span>
+                  از{" "}
+                  <span className="text-gold">
+                    {doCurrency(levelDataInfo[5].minAmount)}
+                  </span>{" "}
+                  تا{" "}
+                  <span className="text-gold">
+                    {doCurrency(levelDataInfo[5].maxAmount)}
+                  </span>
                 </>
               }
               title={<>هدیه بنفش</>}
@@ -129,15 +142,21 @@ const LevelList = () => {
                     }}
                   >
                     مخصوص بازیکنان
-                    <br /> لول 5 و پایین تر
+                    <br /> لول {levelDataInfo[6].maxLevel} و پایین تر
                   </div>
                 </>
               }
               subtitle={
                 <>
                   <br />
-                  از <span className="text-gold">10K</span> تا{" "}
-                  <span className="text-gold">100K</span>
+                  از{" "}
+                  <span className="text-gold">
+                    {doCurrency(levelDataInfo[6].minAmount)}
+                  </span>{" "}
+                  تا{" "}
+                  <span className="text-gold">
+                    {doCurrency(levelDataInfo[6].maxAmount)}
+                  </span>
                 </>
               }
               title={<>هدیه قرمز</>}

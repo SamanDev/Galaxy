@@ -7,25 +7,45 @@ import * as Yup from "yup";
 import { Alert } from "../../../utils/alerts";
 import $ from "jquery";
 import { cashierService } from "../../../services/cashier";
-
+const canRes = JSON.parse(localStorage.getItem("sampleMessage"));
 const supportDepartments = "خرید چیپ,برداشت,پشتیبانی فنی".split(",");
-const canRes =
-  "مشکل برطرف شد@@برای دریافت هدیه بین ساعت 21 تا 24 آنلاین شوید.@@با سلام. منوی برداشت بعد از اولین واریز فعال می شود. @@لطفا مشکلتون رو کامل همراه با جزییات و تاریخ و ساعت توضیح دهید.@@لطفا مشکلتون رو به دپارتمان مربوطه ارسال کنید. برای این کار ابتدا باید این تیکت رو ببندید و با استفاده لینک ثبت تیکت جدید در بالای همین قسمت یک تیکت جدید در دیپارتمان مربوطه ایجاد نمایید.@@لطفا اطلاعات بانکی خود را تصحیح نمایید.@@لطفا قسمت تراکنش های مالی را بررسی کنید.@@کش اوت ها هر روز به نوبت واریز خواهد شد برای اطلاع از وضعیت کش اوت خود به قسمت برداشت نقدی مراجعه نمایید.@@واریز انجام شد. با مراجعه به قسمت برداشت نقدی می توانید وضعیت کش اوت های خود را بررسی کنید.@@واریز انجام شد. با مراجعه به قسمت خرید آنلاین یا تراکنش های مالی می توانید وضعیت خرید های خود را بررسی کنید.@@واریز انجام شد. با مراجعه به قسمت خرید کارت به کارت یا تراکنش های مالی می توانید وضعیت خرید های خود را بررسی کنید.@@لطفا مرورگر خود را مججدا بارگذاری نمایید سپس روی هدیه متحرکی که روی صفحه است کلیک کنید.@@لطفا در صورت مشکل داشتن سیستم خرید آنلاین، از سیستم خرید کارت به کارت استفاده کنید.----روش استفاده:--پس از انتقال مبلغ مورد نظر به کارت درج شده در سایت. در قسمت خرید کارت به کارت مبلغ واریزی و ۴ رقم آخر شماره کارت خودتون را وارد کنید و در عرض چند دقیقه اکانت شما شارژ خواهد شد.@@واریز انجام شد. با تشکر شکیبایی تون@@در صورت عدم دریافت چیپ, تا ۲۰ دقیقه پول تا ساعاتی بعد میاد تو حساب بانکی تون. در غیر این صورت بعد گذشت ۲۴ ساعت به دیپارتمان خرید انلاین چیپ تیکت بزنید.@@مشکل برطرف شد.@@مشکل هنوز پا برجاست یا برطرف شد؟@@لطفا اطلاعات زیر را ارسال نمایید:----مبلغ--تاریخ و ساعت--شماره کارت--شماره پیگیری----توجه داشته باشید برای پیگیری خرید ۷۲ ساعت زمان نیاز است.@@لطفا مشکلتون رو تا رسیدن به نتیجه نهایی نبندید و لطفا مشکل رو کامل شرح بدید.@@حواله شبا واریز شده و مقداری زمان می بره تا به حساب شما برسه. جای هیچ نگرانی نیست.".split(
-    "@@"
-  );
+
 const countryOptions = [];
 supportDepartments.map(function (bank, i) {
   countryOptions.push({ key: i, value: bank, text: bank });
 });
 const carOptions = [];
+canRes.sort((a, b) => (a.id < b.id ? 1 : -1));
 canRes.map(function (can, i) {
-  carOptions.push({ key: i, value: can, text: can });
+  carOptions.push({
+    key: i,
+    value: can.message,
+    text: can.message.replace(/\n/g, ","),
+  });
 });
+const canOptions = [
+  { key: 1, value: false, text: "نه" },
+  { key: 2, value: true, text: "به پیام های سریع اضافه کن" },
+];
 
 const validationSchema = Yup.object({
   message: Yup.string().required("لطفا این فیلد را وارد کنید."),
 });
+
+const addMsg = async (values) => {
+  try {
+    const res = await cashierService(values, "addMessageSample", "");
+    if (res.status == 200) {
+    } else {
+      Alert("متاسفم...!", res.data.message, "error");
+    }
+  } catch (error) {}
+};
 const onSubmit = async (values, submitMethods, navigate, prop) => {
+  if (values.canadd) {
+    addMsg({ message: values.message });
+  }
+
   try {
     const res = await cashierService(values, "submitTicket", "");
     if (res.status == 200) {
@@ -41,21 +61,20 @@ const onSubmit = async (values, submitMethods, navigate, prop) => {
     Alert("متاسفم...!", "متاسفانه مشکلی از سمت سرور رخ داده", "error");
   }
 };
-
 const depositArea = (prop) => {
+  const [refresh, setRefresh] = useState(false);
+  const [msg, setMsg] = useState("");
   const initialValues = {
     department: prop.departman ? prop.departman : countryOptions[0].value,
     id: prop.userid ? prop.userid : 0,
     ticketId: prop.id ? prop.id : 0,
-    message: prop.status ? prop.status : "",
+    message: prop.status ? prop.status : msg,
     status: prop.status ? prop.status : "open",
+    canadd: false,
   };
-  const [refresh, setRefresh] = useState(false);
-  const [depMode, setDepMode] = useState(false);
+
   const navigate = useNavigate();
-  const handleChange = (e, { name, value }) => {
-    $('[name="message"]:visible').val(value);
-  };
+
   if (prop.status) {
     return (
       <Formik
@@ -107,6 +126,16 @@ const depositArea = (prop) => {
         }
       >
         {(formik) => {
+          const handleChange = (e, { name, value }) => {
+            var defval = $('[name="message"]:visible').val();
+            if (defval != "") {
+              defval = defval + "\n";
+            }
+            defval = defval + value;
+            setMsg(defval);
+            formik.setFieldValue("message", defval);
+            // $('[name="message"]:visible').val(defval);
+          };
           return (
             <Form>
               {!prop.departman && (
@@ -122,6 +151,7 @@ const depositArea = (prop) => {
                   value={countryOptions[0].value}
                 />
               )}
+
               <Select
                 placeholder="Fast Answer"
                 className="farsi"
@@ -137,8 +167,21 @@ const depositArea = (prop) => {
                 name="message"
                 labelcolor="orange"
                 className="farsi"
+                value={msg}
                 size={prop.size}
               />
+              <FormikControl
+                formik={formik}
+                control="select"
+                type="text"
+                name="canadd"
+                labelcolor="orange"
+                label="اضافه شود؟"
+                className="farsi"
+                size={prop.size}
+                options={canOptions}
+              />
+
               <Button
                 content={"ثبت"}
                 fluid
@@ -146,7 +189,7 @@ const depositArea = (prop) => {
                 className="farsi"
                 type="submit"
                 color="olive"
-                disabled={formik.isSubmitting}
+                disabled={formik.isSubmitting || msg == ""}
                 loading={formik.isSubmitting}
               />
             </Form>

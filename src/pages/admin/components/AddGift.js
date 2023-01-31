@@ -15,141 +15,9 @@ import {
 } from "semantic-ui-react";
 import Moment from "react-moment";
 import CurrencyInput from "react-currency-input-field";
+import { adminPostService } from "../../../services/admin";
 const moment = require("moment");
-var _bonuses = [
-  {
-    id: 4,
-    date: "2022-08-13T04:01:53.000+00:00",
-    expireDate: "2022-08-13T23:54:03.000+00:00",
-    mode: "commission",
-    label: "کمیسیون",
-    text: "Commission",
-    username: "coce",
-    status: "Pending",
-    received: false,
-    amount: 1040000,
-  },
-  {
-    id: 6,
-    date: "2022-08-13T04:01:53.000+00:00",
-    expireDate: "2023-08-12T23:54:03.000+00:00",
-    mode: "gpass",
-    label: "پاداش گلکسی پَس",
-    text: "Level 15",
-    username: "coce",
-    status: "Pending",
-    received: false,
-    amount: 1000000,
-  },
-  {
-    id: 6,
-    date: "2022-08-13T04:01:53.000+00:00",
-    expireDate: "2023-08-12T23:54:03.000+00:00",
-    mode: "gpass",
-    label: "پاداش گلکسی پَس",
-    text: "Level 1",
-    username: "coce",
-    status: "Pending",
-    received: false,
-    amount: 1000000,
-  },
-  {
-    id: 5,
-    date: "2022-08-13T04:01:53.000+00:00",
-    expireDate: "2022-08-13T23:54:03.000+00:00",
-    mode: "rakeback",
-    label: "ریک بک",
-    text: "Rakeack",
-    username: "coce",
-    status: "Pending",
-    received: false,
-    amount: 1040000,
-  },
-  {
-    id: 1,
-    date: "2022-08-13T18:53:53.000+00:00",
-    expireDate: "2023-08-12T23:54:03.000+00:00",
-    mode: "levels",
-    label: "پاداش افزایش لٍوٍل",
-    text: "Level 59",
-    username: "coce",
-    status: "Pending",
-    received: false,
-    amount: 1000000,
-  },
-  {
-    id: 7,
-    date: "2022-08-13T04:01:53.000+00:00",
-    expireDate: "2023-08-12T23:54:03.000+00:00",
-    mode: "vip",
-    label: "VIP Gift",
-    text: "VIP Gift",
-    username: "coce",
-    status: "Pending",
-    received: false,
-    amount: 1000000,
-  },
-  {
-    id: 8,
-    date: "2022-08-13T04:01:53.000+00:00",
-    expireDate: "2023-08-12T23:54:03.000+00:00",
-    mode: "league",
-    label: "لیگ روزانه",
-    text: "Place 1",
-    username: "coce",
-    status: "Pending",
-    received: false,
-    amount: 1000000,
-  },
-  {
-    id: 3,
-    date: "2022-08-13T18:53:53.000+00:00",
-    expireDate: "2022-08-13T23:54:03.000+00:00",
-    mode: "gift3",
-    label: "هدیه",
-    text: "Free Gift",
-    username: "coce",
-    status: "Pending",
-    received: false,
-    amount: 1000000,
-  },
-  {
-    id: 3,
-    date: "2022-08-13T18:53:53.000+00:00",
-    expireDate: "2022-08-13T23:54:03.000+00:00",
-    mode: "gift2",
-    label: "هدیه",
-    text: "Free Gift",
-    username: "coce",
-    status: "Pending",
-    received: false,
-    amount: 1000000,
-  },
-  {
-    id: 3,
-    date: "2022-08-13T18:53:53.000+00:00",
-    expireDate: "2022-08-13T23:54:03.000+00:00",
-    mode: "gift1",
-    label: "هدیه",
-    text: "Free Gift",
-    username: "coce",
-    status: "Pending",
-    received: false,
-    amount: 1000000,
-  },
-  {
-    id: 2,
-    date: "2022-08-12T18:53:53.000+00:00",
-    expireDate: "2022-08-12T23:54:03.000+00:00",
-    mode: "bonus",
-    label: "بوناس",
-    text: "%5 Bonus",
-    username: "coce",
-    status: "Pending",
-    received: false,
-    amount: 1000000,
-  },
-];
+
 const updateUserObj = (e, data) => {
   //console.log(data);
   var _key = data.userkey;
@@ -172,13 +40,12 @@ const updateUserObj = (e, data) => {
     });
 };
 const addGift = async (data) => {
-  console.log(data);
   var _key = data.userkey;
   var curU = JSON.parse(JSON.stringify(data.user));
   var values = { id: curU.id, key: _key, value: data.checked };
 
   try {
-    const res = await adminPutService(values, "updateUserByAdmin");
+    const res = await adminPostService(values, "addGift");
     if (res.status == 200) {
       setUser(res.data);
       if (res.data?.address) {
@@ -190,6 +57,7 @@ const addGift = async (data) => {
     Alert("متاسفم...!", "متاسفانه مشکلی از سمت سرور رخ داده", "error");
   }
 };
+
 var mindate = new Date();
 var nowdate = new Date();
 var expdate = new Date();

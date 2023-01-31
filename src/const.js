@@ -100,6 +100,27 @@ const levelDataInfoRules = () => {
         minBalance: 1000000,
         banOutHours: 12,
       },
+      {
+        name: "Gift3",
+        minLevel: 30,
+        maxLevel: 90,
+        minAmount: 1000000,
+        maxAmount: 5000000,
+      },
+      {
+        name: "Gift2",
+        minLevel: 10,
+        maxLevel: 30,
+        minAmount: 200000,
+        maxAmount: 1000000,
+      },
+      {
+        name: "Gift1",
+        minLevel: 1,
+        maxLevel: 10,
+        minAmount: 50000,
+        maxAmount: 200000,
+      },
     ];
   } catch (error) {
     return [
@@ -128,6 +149,27 @@ const levelDataInfoRules = () => {
         minLevel: 6,
         minBalance: 1000000,
         banOutHours: 12,
+      },
+      {
+        name: "Gift3",
+        minLevel: 30,
+        maxLevel: 90,
+        minAmount: 1000000,
+        maxAmount: 5000000,
+      },
+      {
+        name: "Gift2",
+        minLevel: 10,
+        maxLevel: 30,
+        minAmount: 500000,
+        maxAmount: 2000000,
+      },
+      {
+        name: "Gift1",
+        minLevel: 1,
+        maxLevel: 10,
+        minAmount: 50000,
+        maxAmount: 500000,
       },
     ];
   }

@@ -27,7 +27,13 @@ import CheckboxToggle from "./components/toggle.component";
 import AddGift from "./AddGift";
 import Filter from "./Filter";
 
-import { isJson, haveAdmin, haveModerator, doCurrency } from "../../const";
+import {
+  isJson,
+  haveAdmin,
+  haveModerator,
+  doCurrency,
+  levelDataInfo,
+} from "../../const";
 
 const conditionalRowStyles = [
   {
@@ -108,7 +114,29 @@ const updateUserObj = async (e, data) => {
     Alert("متاسفم...!", "متاسفانه مشکلی از سمت سرور رخ داده", "error");
   }
 };
-
+function generateRandomInteger(min, max) {
+  return Math.floor(min + Math.random() * (max - min + 1));
+}
+const setGiftAmount = (level) => {
+  if (level >= levelDataInfo[4].minLevel) {
+    var g = generateRandomInteger(
+      levelDataInfo[4].minAmount,
+      levelDataInfo[4].maxAmount
+    );
+  } else if (level >= levelDataInfo[5].minLevel) {
+    var g = generateRandomInteger(
+      levelDataInfo[5].minAmount,
+      levelDataInfo[5].maxAmount
+    );
+  } else {
+    var g = generateRandomInteger(
+      levelDataInfo[6].minAmount,
+      levelDataInfo[6].maxAmount
+    );
+  }
+  g = Math.round(g / 1000) * 1000;
+  return g;
+};
 function Admin(prop) {
   const [data, setData] = useState([]);
   const loginToken = JSON.parse(localStorage.getItem("loginToken"));
@@ -212,6 +240,8 @@ function Admin(prop) {
       selectedRows.map((user, i) => {
         var newUser = {};
         newUser.username = user.username;
+        newUser.level = user.level;
+        newUser.amount = setGiftAmount(user.level);
 
         newSelect.push(newUser);
       });

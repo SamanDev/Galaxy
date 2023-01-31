@@ -13,6 +13,7 @@ import { convertDateToJalali } from "../../../utils/convertDate";
 import { addDays } from "date-fns";
 const moment = require("moment");
 import { adminGetService } from "../../../services/admin";
+import { getReportPenService } from "../../../services/report";
 import Comment from "./Comment";
 
 import Ticket from "./Add";
@@ -86,7 +87,17 @@ function Admin(prop) {
     React.useState(false);
 
   // data provides access to your row data
-
+  const getSampleMsg = async () => {
+    try {
+      var res = await getReportPenService("getMessageSample");
+      if (res.status === 200) {
+        localStorage.setItem("sampleMessage", JSON.stringify(res.data));
+      }
+    } catch (error) {
+      console.log(error.message);
+    } finally {
+    }
+  };
   const sortData = (data) => {
     return data.sort((a, b) => (a.id < b.id ? 1 : -1));
   };
@@ -130,6 +141,7 @@ function Admin(prop) {
     </div>
   );
   const fetchUsers = async (page) => {
+    getSampleMsg();
     setLoading(true);
     var _s = moment(startDate).format("YYYY-MM-DD");
     var _e = moment(endDate).format("YYYY-MM-DD");
