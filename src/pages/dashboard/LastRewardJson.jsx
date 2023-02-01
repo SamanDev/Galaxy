@@ -92,7 +92,7 @@ const ActiveTable = (prop) => {
                 return (
                   <div
                     className={bonus.class + " rewardname"}
-                    mode={bonus.mode}
+                    mode={bonus.mode.toLowerCase()}
                     key={i}
                   >
                     <Reward item={bonus} />

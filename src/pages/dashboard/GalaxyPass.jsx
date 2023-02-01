@@ -35,8 +35,8 @@ const LevelList = () => {
               />
             </div>
             <AddCalendar
-              start="1"
-              dur="15"
+              start={levelDataInfo[0].startDay}
+              dur={levelDataInfo[0].endDay}
               repeat="MONTHLY"
               format="0000"
               title="GallaxyPass"

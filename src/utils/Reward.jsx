@@ -1,15 +1,15 @@
 import React from "react";
 import { Grid, Modal, Button, Icon } from "semantic-ui-react";
 import LevelIcon from "./svg";
-import { doCurrency, levelClassInside } from "../const";
+import { doCurrency, levelClassInside, levelDataInfo } from "../const";
 import { convertDateToJalali } from "./convertDate";
 const Reward = (prop) => {
   const loginToken = JSON.parse(localStorage.getItem("loginToken"));
   var _mode = prop.item.mode;
   if (_mode == "gift") {
-    if (prop.item.amount >= 500000) {
+    if (prop.item.amount >= levelDataInfo[4].minAmount) {
       _mode = "gift3";
-    } else if (prop.item.amount >= 100000) {
+    } else if (prop.item.amount >= levelDataInfo[5].minAmount) {
       _mode = "gift2";
     } else {
       _mode = "gift1";
@@ -43,6 +43,15 @@ const Reward = (prop) => {
   if (prop.item.mode == "vip") {
     _txt = "پاداش میز VIP";
   }
+  if (_mode == "gift3") {
+    _txt = "هدیه طلایی";
+  }
+  if (_mode == "gift2") {
+    _txt = "هدیه بنفش";
+  }
+  if (_mode == "gift1") {
+    _txt = "هدیه قرمز";
+  }
 
   return (
     <Grid
@@ -61,7 +70,7 @@ const Reward = (prop) => {
             <LevelIcon
               level={_lvl}
               number={_lvl}
-              mode={_mode}
+              mode={_mode.toLowerCase()}
               text={prop.item.username}
               classinside={levelClassInside(_lvl - 1)}
               width="36px"

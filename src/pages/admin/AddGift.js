@@ -136,7 +136,7 @@ function Admin(prop) {
       findStateId(myState, "plusText").value
     );
 
-    var endFormat = moment(end).format("YYYY-MM-DD hh:mm:00");
+    var endFormat = moment(end).format("YYYY-MM-DD HH:mm:00");
     onUpdateItem("expired", endFormat);
 
     // 1
@@ -195,6 +195,7 @@ function Admin(prop) {
               <label>Start</label>
               <Input
                 type="text"
+                size="mini"
                 value={findStateId(myState, "start")}
                 min={mindate}
                 onChange={(e) => onUpdateItem("start", e.target.value)}
@@ -205,6 +206,7 @@ function Admin(prop) {
               <label>Plus</label>
               <Input
                 type="text"
+                size="mini"
                 inputMode="number"
                 value={findStateId(myState, "plus")}
                 onChange={(e) => onUpdateItem("plus", e.target.value)}
@@ -214,6 +216,7 @@ function Admin(prop) {
 
             <Form.Field width={4}>
               <Select
+                size="mini"
                 options={[
                   { key: "minutes", value: "minutes", text: "Minutes" },
                   { key: "hours", value: "hours", text: "Hours" },
@@ -232,6 +235,7 @@ function Admin(prop) {
             <Form.Field width={4}>
               <Select
                 options={__bnus}
+                size="mini"
                 value={findStateId(myState, "mode")}
                 onChange={(e, { value }) => {
                   onUpdateItem("mode", value);
@@ -252,7 +256,11 @@ function Admin(prop) {
             </Form.Field>
             <Form.Field width={4}>
               <label>Expired</label>
-              <Input type="text" value={findStateId(myState, "expired")} />
+              <Input
+                type="text"
+                size="mini"
+                value={findStateId(myState, "expired")}
+              />
             </Form.Field>
           </Form.Group>
           <Form.Group inline>

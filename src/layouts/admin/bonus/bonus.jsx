@@ -139,20 +139,44 @@ const BonusArea = (prop) => {
   }
   var _mode = prop.bonus.mode;
   if (_mode == "gift") {
-    if (prop.bonus.amount >= 500000) {
+    if (prop.bonus.amount >= levelDataInfo[4].minAmount) {
       _mode = "gift3";
-    } else if (prop.bonus.amount >= 100000) {
+    } else if (prop.bonus.amount >= levelDataInfo[5].minAmount) {
       _mode = "gift2";
     } else {
       _mode = "gift1";
     }
   }
+  var _txt = prop.bonus.label;
+  if (prop.bonus.mode == "gpass") {
+    _txt = "پاداش لول " + _lvl + " گلکسی پَس";
+  }
+  if (prop.bonus.mode == "league") {
+    _txt = "رتبه " + _lvl + " " + _txt;
+  }
+  if (prop.bonus.mode == "tournament" && _lvl != "") {
+    _txt = "رتبه " + _lvl + " " + _txt;
+  }
+  if (prop.bonus.mode == "tournament" && _lvl == "") {
+    _txt = "معرفی نفر پایانی تورنومنت ";
+  }
+  if (prop.bonus.mode == "vip") {
+    _txt = "پاداش میز VIP";
+  }
+  if (_mode == "gift3") {
+    _txt = "هدیه طلایی";
+  }
+  if (_mode == "gift2") {
+    _txt = "هدیه بنفش";
+  }
+  if (_mode == "gift1") {
+    _txt = "هدیه قرمز";
+  }
   return (
     <List.Item>
       <List.Content floated="right">
         <div className="farsi" style={{ height: 18 }}>
-          <Status status={_status} circular icon size="mini" />{" "}
-          {prop.bonus.label}
+          <Status status={_status} circular icon size="mini" /> {_txt}
         </div>
         <small
           className="farsi"
@@ -289,7 +313,7 @@ const BonusArea = (prop) => {
       <div style={{ padding: 10 }}>
         <LevelIcon
           level={_lvl}
-          mode={_mode}
+          mode={_mode.toLowerCase()}
           text={prop.bonus.text}
           onClick={() => {
             prop.openPanel("." + bonus.mode, "");

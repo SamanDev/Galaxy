@@ -80,6 +80,8 @@ const levelDataInfoRules = () => {
         minBalance: siteinfo.gpassSet[0].minAmount,
         banOutHours: siteinfo.gpassSet[0].hoursUnderLevel,
         hoursLimit: siteinfo.gpassSet[0].hoursLimit,
+        startDay: siteinfo.gpassSet[0].startDay,
+        endDay: siteinfo.gpassSet[0].endDay,
       },
       {
         name: "VIP",
@@ -87,12 +89,16 @@ const levelDataInfoRules = () => {
         minBalance: siteinfo.vipTables[0].minAmount,
         banOutHours: siteinfo.vipTables[0].hoursUnderLevel,
         hoursLimit: siteinfo.vipTables[0].hoursLimit,
+        startDay: siteinfo.vipTables[0].startDay,
+        endDay: siteinfo.vipTables[0].endDay,
       },
       {
         name: "League",
         minLevel: siteinfo.dailyLeagueSet[0].minLevel,
         minBalance: siteinfo.dailyLeagueSet[0].minAmount,
         banOutHours: siteinfo.dailyLeagueSet[0].hoursUnderLevel,
+        startDay: siteinfo.dailyLeagueSet[0].startDay,
+        endDay: siteinfo.dailyLeagueSet[0].endDay,
       },
       {
         name: "Tournament",
@@ -104,22 +110,22 @@ const levelDataInfoRules = () => {
         name: "Gift3",
         minLevel: 30,
         maxLevel: 90,
-        minAmount: 1000000,
+        minAmount: 2000000,
         maxAmount: 5000000,
       },
       {
         name: "Gift2",
         minLevel: 10,
         maxLevel: 30,
-        minAmount: 200000,
-        maxAmount: 1000000,
+        minAmount: 500000,
+        maxAmount: 2000000,
       },
       {
         name: "Gift1",
         minLevel: 1,
         maxLevel: 10,
         minAmount: 50000,
-        maxAmount: 200000,
+        maxAmount: 500000,
       },
     ];
   } catch (error) {
@@ -130,6 +136,8 @@ const levelDataInfoRules = () => {
         minBalance: 10000000,
         banOutHours: 48,
         hoursLimit: 5,
+        startDay: 1,
+        endDay: 15,
       },
       {
         name: "VIP",
@@ -137,12 +145,16 @@ const levelDataInfoRules = () => {
         minBalance: 10000000,
         banOutHours: 24,
         hoursLimit: 1,
+        startDay: 16,
+        endDay: 23,
       },
       {
         name: "League",
         minLevel: 5,
         minBalance: 3000000,
         banOutHours: 12,
+        startDay: 24,
+        endDay: 31,
       },
       {
         name: "Tournament",
@@ -154,7 +166,7 @@ const levelDataInfoRules = () => {
         name: "Gift3",
         minLevel: 30,
         maxLevel: 90,
-        minAmount: 1000000,
+        minAmount: 2000000,
         maxAmount: 5000000,
       },
       {

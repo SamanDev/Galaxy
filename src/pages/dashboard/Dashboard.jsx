@@ -22,12 +22,14 @@ import {
   gameDataMainCode,
   getEvent,
   dayOfTournament,
+  levelDataInfo,
 } from "../../const";
 import GalaxyIcon from "../../utils/svganim";
 import ConfettiArea from "../../utils/party";
 import ConfettiClick from "../../utils/partyclick";
 import Noty from "./noti";
 import Index from "./index";
+import ShowTimeLeft from "../../utils/showTimeLeft";
 import $ from "jquery";
 const moment = require("moment");
 const config = {
@@ -70,7 +72,9 @@ const pokerconfig = {
   colors: ["#000", "#f00"],
 };
 var nowDay = moment().isoWeekday();
-
+var dayMonth = moment().day();
+var _day = moment().day(dayOfTournament);
+var tourDay = moment(_day).date();
 const Banner = (prop) => {
   return (
     <div className="banner">
@@ -82,11 +86,6 @@ const Banner = (prop) => {
             computer={8}
             className="myaccount"
           >
-            {prop.image && (
-              <div className="animated delay-2s fadeInLeft">
-                <Image src={prop.image} rounded />
-              </div>
-            )}
             <div className="inline animated delay-1s fadeInLeft">
               <div className={"inline animated delay-2s " + prop.iconamin}>
                 <GalaxyIcon
@@ -106,6 +105,7 @@ const Banner = (prop) => {
           <Grid.Column mobile={16} tablet={8} computer={8} textAlign="right">
             <div className="inline animated fadeInRight backInLeft delay-nims fast">
               <div className="inline animated flash delay-3s">
+                {prop.showtime && prop.showtime}
                 <h1 className="farsi">{prop.title}</h1>
               </div>
             </div>
@@ -169,6 +169,37 @@ const Banner2 = (prop) => {
 };
 var _width = document.body.clientWidth;
 var _event = getEvent();
+String.prototype.toPersianCharacter = function () {
+  var string = this;
+
+  var obj = {
+    "١": "۱",
+    "٢": "۲",
+    "٣": "۳",
+    "٤": "۴",
+    "٥": "۵",
+    "٦": "۶",
+    "٧": "۷",
+    "٨": "۸",
+    "٩": "۹",
+    "٠": "۰",
+    "۱": "1",
+    "۲": "2",
+    "۳": "3",
+    "۴": "4",
+    "۵": "5",
+    "۶": "6",
+    "۷": "7",
+    "۸": "8",
+    "۹": "9",
+    "۰": "0",
+  };
+
+  Object.keys(obj).forEach(function (key) {
+    string = string.replaceAll(obj[key], key);
+  });
+  return string;
+};
 const Dashboard = (prop) => {
   const navigate = useNavigate();
   const [sessionKey, setSessionKey] = useState("");
@@ -194,24 +225,44 @@ const Dashboard = (prop) => {
   const [screenOrientation, setScreenOrientation] = useState(
     screen?.orientation?.type
   );
+  const getHour = (date, format) => {
+    if (format) {
+      var nowDay = moment(date).format("HH:mm");
+      return nowDay.toPersianCharacter();
+    } else {
+      var nowDay = moment(date).format("HHmm");
+      return nowDay;
+    }
+  };
+  const haveGift = () => {
+    var user = JSON.parse(localStorage.getItem("loginToken"));
+    if (user) {
+      var _bonuses = user?.userGifts;
+
+      var end = Date.now();
+
+      var _pen = _bonuses.filter(
+        (d) =>
+          d.status == "Pending" &&
+          d.mode == "gift" &&
+          d.received == false &&
+          Date.parse(d.date) < end &&
+          Date.parse(d.expireDate) > end
+      );
+    } else {
+      var _pen = [];
+    }
+    return _pen;
+  };
+  var loginToken = JSON.parse(localStorage.getItem("loginToken"));
   var defslide = 1;
-  if (_event.toLowerCase() == "gpass") {
-    defslide = 2;
-  }
-  if (_event.toLowerCase() == "vip") {
-    defslide = 3;
-  }
-  if (_event.toLowerCase() == "league") {
-    defslide = 4;
-  }
-  if (dayOfTournament == nowDay) {
-    defslide = 3;
-  }
+
   const [gameLoader, setGameLoader] = useState(true);
   const params = useParams();
   const [activeIndex, setActiveIndex] = useState(0);
   const [activeSlide, setActiveSlide] = useState(defslide);
   const [gameOptions, setGameOptions] = useState([]);
+
   const [secondaryGame, setSecondaryGame] = useState(
     localStorage.getItem("secondaryGame")
       ? localStorage.getItem("secondaryGame")
@@ -321,8 +372,24 @@ const Dashboard = (prop) => {
 
       navigate("/");
     }
+    if (_event.toLowerCase() == "gpass") {
+      defslide = 1;
+    }
+    if (_event.toLowerCase() == "vip") {
+      defslide = 2;
+    }
+    if (_event.toLowerCase() == "league") {
+      defslide = 3;
+    }
+    if (dayOfTournament == nowDay) {
+      defslide = 0;
+    }
+    if (haveGift().length > 0) {
+      defslide = 0;
+    }
+    setActiveSlide(defslide);
   }, [curPage, prop.isLogin]);
-  var loginToken = JSON.parse(localStorage.getItem("loginToken"));
+
   useEffect(() => {
     if (prop.isLogin && curPage == "game") {
       checkBlock(loginToken);
@@ -449,42 +516,53 @@ const Dashboard = (prop) => {
                       }
                       data-bs-interval="12000"
                     >
-                      {activeSlide == 0 && (
+                      {haveGift().length > 0 ? (
                         <>
                           <Banner
                             title="هدیه گلکسی"
-                            text="امشب ساعت ۲۲"
+                            text={
+                              "ساعت " + getHour(haveGift()[0].startDate, true)
+                            }
                             icon="gifts"
                             amin="inline animated swing "
                             iconamin="swing"
                             link=".giftarea"
+                            showtime={
+                              <ShowTimeLeft
+                                startDay={moment(
+                                  haveGift()[0].startDate
+                                ).format("D")}
+                                startHour={getHour(
+                                  haveGift()[0].startDate,
+                                  false
+                                )}
+                                endDay={moment(haveGift()[0].expireDate).format(
+                                  "D"
+                                )}
+                                endHour={getHour(
+                                  haveGift()[0].expireDate,
+                                  false
+                                )}
+                              />
+                            }
                             {...prop}
                           />
 
                           <ConfettiArea recycle={false} numberOfPieces="50" />
                         </>
-                      )}
-                    </div>
-                    <div
-                      className={
-                        activeSlide == 1
-                          ? "carousel-item active"
-                          : "carousel-item"
-                      }
-                      data-bs-interval="12000"
-                    >
-                      <div className="confettimain">
-                        <ConfettiClick
-                          active={
-                            dayOfTournament == nowDay && activeSlide == 1
-                              ? true
-                              : false
-                          }
-                          config={mainnconfig}
-                        />
-                      </div>
-                      {activeSlide && (
+                      ) : (
                         <>
+                          <div className="confettimain">
+                            <ConfettiClick
+                              active={
+                                dayOfTournament == nowDay && activeSlide == 0
+                                  ? true
+                                  : false
+                              }
+                              config={mainnconfig}
+                            />
+                          </div>
+
                           <Banner
                             title="تورنومنت ۲۵+۲۵ "
                             text="هر جمعه ساعت ۲۲"
@@ -492,6 +570,14 @@ const Dashboard = (prop) => {
                             amin="inline animated swing "
                             iconamin="swing"
                             link=".tournament"
+                            showtime={
+                              <ShowTimeLeft
+                                startDay={tourDay}
+                                startHour="2000"
+                                endDay={tourDay}
+                                endHour="2300"
+                              />
+                            }
                             {...prop}
                           />
                           {dayOfTournament == nowDay && (
@@ -503,22 +589,12 @@ const Dashboard = (prop) => {
 
                     <div
                       className={
-                        activeSlide == 2
+                        activeSlide == 1
                           ? "carousel-item active"
                           : "carousel-item"
                       }
                       data-bs-interval="12000"
                     >
-                      <div className="confettimain">
-                        <ConfettiClick
-                          active={
-                            _event.toLowerCase() == "gpass" && activeSlide == 2
-                              ? true
-                              : false
-                          }
-                          config={pokerconfig}
-                        />
-                      </div>
                       {activeSlide && (
                         <>
                           <Banner
@@ -529,15 +605,26 @@ const Dashboard = (prop) => {
                             amin="animated delay-1s charkhesh"
                             iconamin="pulse"
                             number="15"
+                            showtime={
+                              <ShowTimeLeft
+                                startDay={levelDataInfo[0].startDay}
+                                endDay={levelDataInfo[0].endDay}
+                                startHour="0000"
+                                endHour="2359"
+                              />
+                            }
                             {...prop}
                           />
                         </>
+                      )}
+                      {_event.toLowerCase() == "gpass" && activeSlide == 1 && (
+                        <ConfettiArea recycle={false} numberOfPieces="50" />
                       )}
                     </div>
 
                     <div
                       className={
-                        activeSlide == 3
+                        activeSlide == 2
                           ? "carousel-item active"
                           : "carousel-item"
                       }
@@ -553,10 +640,18 @@ const Dashboard = (prop) => {
                             amin="inline animated fast flipInY"
                             iconamin="pulse"
                             number=" "
+                            showtime={
+                              <ShowTimeLeft
+                                startDay={levelDataInfo[1].startDay}
+                                endDay={levelDataInfo[1].endDay}
+                                startHour="0000"
+                                endHour="2359"
+                              />
+                            }
                             {...prop}
                           />
                           {_event.toLowerCase() == "vip" &&
-                            activeSlide == 3 && (
+                            activeSlide == 2 && (
                               <ConfettiArea
                                 recycle={false}
                                 numberOfPieces="50"
@@ -568,7 +663,7 @@ const Dashboard = (prop) => {
 
                     <div
                       className={
-                        activeSlide == 4
+                        activeSlide == 3
                           ? "carousel-item active"
                           : "carousel-item"
                       }
@@ -585,11 +680,19 @@ const Dashboard = (prop) => {
                             number="1"
                             amin="inline animated swing "
                             iconamin="swing"
+                            showtime={
+                              <ShowTimeLeft
+                                startDay={levelDataInfo[2].startDay}
+                                endDay={levelDataInfo[2].endDay}
+                                startHour="0000"
+                                endHour="2359"
+                              />
+                            }
                             {...prop}
                           />
                         </>
                       )}
-                      {_event.toLowerCase() == "league" && activeSlide == 4 && (
+                      {_event.toLowerCase() == "league" && activeSlide == 3 && (
                         <ConfettiArea recycle={false} numberOfPieces="50" />
                       )}
                     </div>
