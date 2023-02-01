@@ -18,7 +18,7 @@ const printtotalrow = (data, mode, target) => {
   );
 };
 const gettotal = (data, mode, target) => {
-  var _data = data.filter((d) => d.mode === mode);
+  var _data = data.filter((d) => d.mode.toLowerCase() === mode);
   var _totalReward = 0;
   {
     _data.map((x, i) => {
