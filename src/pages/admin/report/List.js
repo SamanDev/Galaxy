@@ -73,7 +73,13 @@ function Admin(prop) {
   const [dataSorted, setDataSorted] = useState("id");
   const [dataSortedDir, setDataSortedDir] = useState("desc");
   const [dataSearch, setDataSearch] = useState("");
-  const [dataMode, setDataMode] = useState("All");
+  if (prop?.user?.username) {
+    var defmde = ["cashout", "deposit", "transfer", "bonus", "poker", "casino"];
+  } else {
+    var defmde = ["cashout", "deposit", "transfer", "bonus"];
+  }
+
+  const [dataMode, setDataMode] = useState(defmde);
   const [getwaysList, setGetwaysData] = useState([]);
 
   const [startDate, setStartDate] = useState(addDays(new Date(), -6));
@@ -106,19 +112,11 @@ function Admin(prop) {
 
     if (prop?.user?.username) {
       var res = await adminGetService(
-        `getReports?mode=${dataMode.replace(
-          "All",
-          ""
-        )}&page=${page}&number=500&sort=${dataSorted}&username=${
-          prop.user.username
-        }&order=${dataSortedDir}&start=${_s}&end=${_e}`
+        `getReports?mode=${dataMode}&page=${page}&number=500&username=${prop.user.username}&start=${_s}&end=${_e}`
       );
     } else {
       var res = await adminGetService(
-        `getReports?mode=${dataMode.replace(
-          "All",
-          "Deposit,Cashout,Transfer,Bonus"
-        )}&page=${page}&number=500&sort=${dataSorted}&order=${dataSortedDir}&start=${_s}&end=${_e}`
+        `getReports?mode=${dataMode}&page=${page}&number=500&start=${_s}&end=${_e}`
       );
     }
     try {
@@ -252,9 +250,8 @@ function Admin(prop) {
           {_s} / {_e}
         </Button>
         <FilterMode
-          onFilter={(e) => {
-            setDataMode(e.target.outerText);
-            console.log(e.target.outerText);
+          onFilter={(e, { value }) => {
+            setDataMode(value.toString());
           }}
           value={dataMode}
         />
@@ -285,7 +282,6 @@ function Admin(prop) {
         style={{ height: "calc(100vh - 300px)", overflow: "auto" }}
       >
         <DataTable
-          title={prop.user ? prop.user.username + " Reports" : "Reports"}
           columns={columns}
           data={filteredItems}
           progressPending={loading}

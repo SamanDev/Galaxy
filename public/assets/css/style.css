@@ -630,6 +630,12 @@ i.star.big {
 .tcuntmenu{
   margin-left: 15px  !important;
 }
+.truncate {
+  
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 .msg{
  background: rgba(255,255,255,.1) !important;
  white-space:break-spaces;

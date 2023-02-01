@@ -3,7 +3,6 @@ import { Dropdown } from "semantic-ui-react";
 
 const options = [];
 
-options.push({ key: 1, text: "All", value: "All" });
 options.push({ key: 2, text: "Cashout", value: "cashout" });
 options.push({ key: 3, text: "Deposit", value: "deposit" });
 options.push({ key: 4, text: "Transfer", value: "transfer" });
@@ -14,10 +13,10 @@ options.push({ key: 7, text: "Casino", value: "casino" });
 const DropdownExampleMultipleSelection = (prop) => {
   return (
     <Dropdown
-      placeholder={prop.value}
-      defaultValue="All"
+      defaultValue={prop.value}
       floated="right"
       selection
+      multiple
       options={options}
       onChange={prop.onFilter}
       style={{ position: "relative", zIndex: 100000 }}

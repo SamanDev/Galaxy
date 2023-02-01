@@ -1,64 +1,74 @@
-import React, { useState } from "react";
-import { Segment } from "semantic-ui-react";
-import { Tab } from "semantic-ui-react";
+import React, { useState, useEffect } from "react";
+
+import { Tab, Menu, Label } from "semantic-ui-react";
 import Deposit from "./AdminDepositList";
 import Cashout from "./AdminCashoutList";
 import Carts from "./AdminCartList";
 import Tickets from "./support/List";
 import Reports from "./report/List";
+var panes = [];
 function Admin(prop) {
   const [activeIndex, setActiveIndex] = useState(0);
   const loginToken = JSON.parse(localStorage.getItem("loginToken"));
   const [loading, setLoading] = useState(false);
   const [user, setUser] = useState({});
-
+  const [tabData, setTabData] = useState([]);
   const handleTabChange = (e, { activeIndex }) => setActiveIndex(activeIndex);
 
-  const panes = [
-    {
-      menuItem: "Deposits",
-      render: () => (
-        <Tab.Pane>
-          <Deposit {...prop} />
-        </Tab.Pane>
-      ),
-    },
-    {
-      menuItem: "Cashouts",
-      render: () => (
-        <Tab.Pane>
-          <Cashout {...prop} />
-        </Tab.Pane>
-      ),
-    },
-    {
-      menuItem: "Carts",
-      render: () => (
-        <Tab.Pane>
-          <Carts {...prop} />
-        </Tab.Pane>
-      ),
-    },
-    {
-      menuItem: "Tickets",
-      render: () => (
-        <Tab.Pane>
-          <Tickets {...prop} />
-        </Tab.Pane>
-      ),
-    },
-    {
-      menuItem: "Last Actions",
-      render: () => (
-        <Tab.Pane>
-          <Reports {...prop} />
-        </Tab.Pane>
-      ),
-    },
-  ];
+  useEffect(() => {
+    panes = [
+      {
+        menuItem: "Deposits",
+        render: () => (
+          <Tab.Pane>
+            <Deposit {...prop} />
+          </Tab.Pane>
+        ),
+      },
+      {
+        menuItem: "Cashouts",
+        render: () => (
+          <Tab.Pane>
+            <Cashout {...prop} />
+          </Tab.Pane>
+        ),
+      },
+      {
+        menuItem: "Carts",
+        render: () => (
+          <Tab.Pane>
+            <Carts {...prop} />
+          </Tab.Pane>
+        ),
+      },
+      {
+        menuItem: (
+          <Menu.Item key="Tickets">
+            Tickets
+            <Label color="red">{prop.tickets}</Label>
+          </Menu.Item>
+        ),
+        render: () => (
+          <Tab.Pane>
+            <Tickets {...prop} />
+          </Tab.Pane>
+        ),
+      },
+      {
+        menuItem: "Last Actions",
+        render: () => (
+          <Tab.Pane>
+            <Reports {...prop} />
+          </Tab.Pane>
+        ),
+      },
+    ];
+    setTabData(panes);
+  }, [prop.tickets]);
+
   return (
     <Tab
-      panes={panes}
+      panes={tabData}
       activeIndex={activeIndex}
       onTabChange={handleTabChange}
     />

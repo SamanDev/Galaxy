@@ -286,7 +286,6 @@ function Admin(prop) {
         style={{ height: "calc(100vh - 250px)", overflow: "auto" }}
       >
         <DataTable
-          title="CartList"
           columns={columns}
           data={filteredItems}
           progressPending={loading}

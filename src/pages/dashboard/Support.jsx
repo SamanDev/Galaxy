@@ -61,7 +61,12 @@ const Balance = (prop) => {
         {data.length > 0 && (
           <Accordion inverted fluid>
             {data.map((ticket, i) => (
-              <Segment key={i} inverted basic>
+              <Segment
+                key={i}
+                inverted
+                basic
+                className={activeIndex === i ? "" : "fadeout opacity-75"}
+              >
                 <Accordion.Title
                   active={activeIndex === i}
                   index={i}
@@ -72,7 +77,9 @@ const Balance = (prop) => {
                   <span className="date">
                     {convertDateToJalali(ticket.date)}
                   </span>
-                  <span className="farsi">{ticket.department}</span>
+                  <span className="farsi fw-bold text-gold">
+                    {ticket.department}
+                  </span>
                 </Accordion.Title>
                 <Accordion.Content active={activeIndex === i}>
                   <Ticket
@@ -102,7 +109,7 @@ const Balance = (prop) => {
                         $("#ticket" + ticket.id).trigger("click");
                       }}
                     >
-                      <Comment msg={ticket.ticketMessages[0]} />
+                      <Comment short={true} msg={ticket.ticketMessages[0]} />
                     </span>
                   </>
                 )}

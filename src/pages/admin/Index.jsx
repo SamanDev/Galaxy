@@ -12,11 +12,13 @@ import Setting from "./Setting";
 import RisingPitch from "./PlayAlert";
 import { adminGetService } from "../../services/admin";
 import { isJson, haveAdmin, haveModerator, doCurrency } from "../../const";
+import { useAdminTicket } from "../../hook/infoHook";
 var panes = [];
 const getGateways = JSON.parse(localStorage.getItem("getGateways"));
 function Admin(prop) {
   const loginToken = JSON.parse(localStorage.getItem("loginToken"));
   const [activeIndex, setActiveIndex] = useState(0);
+  const [loadingtickets, tickets] = useAdminTicket();
   const handleTabChange = (e, { activeIndex }) => setActiveIndex(activeIndex);
   const [tabData, setTabData] = useState([]);
   const [getwaysData, setGetwaysData] = useState([]);
@@ -48,6 +50,8 @@ function Admin(prop) {
               setGetwaysData={setGetwaysData}
               addGatewayTabData={addGatewayTabData}
               removeTabData={removeTabData}
+              tickets={tickets}
+              loadingtickets={loadingtickets}
             />
           </Tab.Pane>
         ),
@@ -86,13 +90,13 @@ function Admin(prop) {
         ),
       },
     ];
-  }, []);
+  }, [loadingtickets]);
   useEffect(() => {
     if (activeIndex == 0) setTabData(panes);
     if (activeIndex == -1) {
       setActiveIndex(0);
     }
-  }, [activeIndex]);
+  }, [activeIndex, loadingtickets]);
   const addTabData = (username, getwaysList) => {
     var newPanes1 = panes;
     const result1 = newPanes1.filter(checkAdult1);

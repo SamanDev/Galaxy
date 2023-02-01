@@ -7,22 +7,14 @@ import * as Yup from "yup";
 import { Alert } from "../../../utils/alerts";
 import $ from "jquery";
 import { cashierService } from "../../../services/cashier";
-const canRes = JSON.parse(localStorage.getItem("sampleMessage"));
+
 const supportDepartments = "خرید چیپ,برداشت,پشتیبانی فنی".split(",");
 
 const countryOptions = [];
 supportDepartments.map(function (bank, i) {
   countryOptions.push({ key: i, value: bank, text: bank });
 });
-const carOptions = [];
-canRes.sort((a, b) => (a.id < b.id ? 1 : -1));
-canRes.map(function (can, i) {
-  carOptions.push({
-    key: i,
-    value: can.message,
-    text: can.message.replace(/\n/g, ","),
-  });
-});
+
 const canOptions = [
   { key: 1, value: false, text: "نه" },
   { key: 2, value: true, text: "به پیام های سریع اضافه کن" },
@@ -62,6 +54,16 @@ const onSubmit = async (values, submitMethods, navigate, prop) => {
   }
 };
 const depositArea = (prop) => {
+  const canRes = JSON.parse(localStorage.getItem("sampleMessage"));
+  const carOptions = [];
+  canRes.sort((a, b) => (a.id < b.id ? 1 : -1));
+  canRes.map(function (can, i) {
+    carOptions.push({
+      key: i,
+      value: can.message,
+      text: can.message.replace(/\n/g, ","),
+    });
+  });
   const [refresh, setRefresh] = useState(false);
   const [msg, setMsg] = useState("");
   const initialValues = {
@@ -172,7 +174,7 @@ const depositArea = (prop) => {
               />
               <FormikControl
                 formik={formik}
-                control="select"
+                control="switch"
                 type="text"
                 name="canadd"
                 labelcolor="orange"
@@ -189,7 +191,7 @@ const depositArea = (prop) => {
                 className="farsi"
                 type="submit"
                 color="olive"
-                disabled={formik.isSubmitting || msg == ""}
+                disabled={formik.isSubmitting}
                 loading={formik.isSubmitting}
               />
             </Form>

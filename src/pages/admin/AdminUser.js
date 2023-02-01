@@ -168,13 +168,14 @@ function Admin(prop) {
     try {
       setLoading(true);
       const res = await adminGetService(
-        "getUsersByAdmin?name=username&page=1&number=1&&contain=true&value=" +
+        "getUsersByAdmin?name=username&page=1&number=100&&contain=true&value=" +
           prop.username
       );
       if (res.status === 200) {
         if (res.data.users.length > 0) {
-          console.log(res.data.users[0]);
-          setUser(res.data.users[0]);
+          setUser(
+            res.data.users.filter((item) => item.username == prop.username)[0]
+          );
         } else {
           prop.removeTabData(prop.username + "profile");
         }

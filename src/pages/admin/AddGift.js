@@ -92,9 +92,6 @@ function Admin(prop) {
     });
   };
   const addGift = async (data) => {
-    console.log(data);
-
-    return false;
     try {
       const res = await adminPostService(data, "addGift");
       if (res.status == 200) {

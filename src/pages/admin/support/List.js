@@ -21,21 +21,6 @@ import Ticket from "./Add";
 import DateReng from "../components/dateReng.component";
 import FilterMode from "./Filter";
 
-const conditionalRowStyles = [
-  {
-    when: (row) => row.status == "Closed",
-    style: {
-      backgroundColor: "rgba(0,0,255,.1)",
-    },
-  },
-
-  {
-    when: (row) => row.status != "Closed",
-    style: {
-      backgroundColor: "rgba(255,0,0,.1)",
-    },
-  },
-];
 const noDataComponent = (
   <div
     style={{
@@ -64,13 +49,36 @@ const noDataComponent = (
 function Admin(prop) {
   const [data, setData] = useState([]);
   const loginToken = JSON.parse(localStorage.getItem("loginToken"));
+  const conditionalRowStyles = [
+    {
+      when: (row) => row.status == "Closed",
+      style: {
+        backgroundColor: "rgba(0,0,0,.1)",
+      },
+    },
+
+    {
+      when: (row) => row.status != "Closed",
+      style: {
+        backgroundColor: "rgba(255,0,0,.1)",
+      },
+    },
+    {
+      when: (row) =>
+        row.status != "Closed" &&
+        row.username != row.ticketMessages[0].adminUser,
+      style: {
+        backgroundColor: "rgba(0,255,0,.1)",
+      },
+    },
+  ];
   const [totalRows, setTotalRows] = useState(0);
   const [perPage, setPerPage] = useState(10);
   const [dataSortedID, setDataSortedID] = useState(1);
   const [dataSorted, setDataSorted] = useState("id");
   const [dataSortedDir, setDataSortedDir] = useState("desc");
   const [dataSearch, setDataSearch] = useState("");
-  const [dataMode, setDataMode] = useState("All");
+  const [dataMode, setDataMode] = useState(["Open"]);
   const [getwaysList, setGetwaysData] = useState([]);
 
   const [startDate, setStartDate] = useState(addDays(new Date(), -6));
@@ -79,9 +87,25 @@ function Admin(prop) {
 
   const [filterText, setFilterText] = React.useState("");
   const [filterOk, setFilterOk] = React.useState(false);
-  const filteredItems = data
-    .sort((a, b) => (a.id < b.id ? 1 : -1))
-    .filter((item) => item.id);
+
+  if (dataMode == "Open") {
+    var filteredItems = data
+      .sort((a, b) => (a.id < b.id ? 1 : -1))
+      .filter(
+        (item) =>
+          item.ticketMessages.sort((a, b) => (a.id < b.id ? 1 : -1))[0]
+            .adminUser == item.username
+      );
+  } else {
+    var filteredItems = data
+      .sort((a, b) => (a.id < b.id ? 1 : -1))
+      .filter(
+        (item) =>
+          item.ticketMessages.sort((a, b) => (a.id < b.id ? 1 : -1))[0]
+            .adminUser != "Admin"
+      );
+  }
+  //.filter((item) => item.id);
   const [firstOpen, setFirstOpen] = React.useState(false);
   const [resetPaginationToggle, setResetPaginationToggle] =
     React.useState(false);
@@ -147,17 +171,17 @@ function Admin(prop) {
     var _e = moment(endDate).format("YYYY-MM-DD");
     if (prop?.user?.username) {
       var res = await adminGetService(
-        `getTickets?page=${page}&number=500&status=${dataMode.replace(
-          "All",
-          ""
-        )}&username=${prop.user.username}&start=${_s}&end=${_e}`
+        `getTickets?page=${page}&number=500&status=${dataMode
+          .toString()
+          .replace("Open,Closed", "")}&username=${
+          prop.user.username
+        }&start=${_s}&end=${_e}`
       );
     } else {
       var res = await adminGetService(
-        `getTickets?page=${page}&number=500&status=${dataMode.replace(
-          "All",
-          ""
-        )}&start=${_s}&end=${_e}`
+        `getTickets?page=${page}&number=500&status=${dataMode
+          .toString()
+          .replace("Open,Closed", "")}&start=${_s}&end=${_e}`
       );
     }
     try {
@@ -272,9 +296,8 @@ function Admin(prop) {
           {_s} to {_e}
         </Button>
         <FilterMode
-          onFilter={(e) => {
-            setDataMode(e.target.outerText);
-            console.log(e.target.outerText);
+          onFilter={(e, { value }) => {
+            setDataMode(value.toString());
           }}
           value={dataMode}
         />
@@ -305,7 +328,6 @@ function Admin(prop) {
         style={{ height: "calc(100vh - 300px)", overflow: "auto" }}
       >
         <DataTable
-          title={prop.user ? prop.user.username + " Tickets" : "Tickets"}
           columns={columns}
           data={filteredItems}
           progressPending={loading}

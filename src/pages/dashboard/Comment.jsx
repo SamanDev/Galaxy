@@ -42,12 +42,19 @@ const CommentExampleMinimal = (prop) => {
           {written}
         </Label>
 
-        <div style={{ marginTop: 10 }}>
+        <div
+          style={{ marginTop: 10 }}
+          className={prop.short ? "truncate fadeout" : ""}
+        >
           {result.map(function (comment, i) {
             return (
               <div
                 key={i}
-                className={written != "You" ? "farsi msgtext" : "farsi"}
+                className={
+                  written != "You"
+                    ? "farsi msgtext text-wrap"
+                    : "farsi text-wrap"
+                }
               >
                 {comment}
               </div>

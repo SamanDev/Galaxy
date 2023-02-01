@@ -2,17 +2,17 @@ import React from "react";
 import { Dropdown } from "semantic-ui-react";
 
 const options = [];
-options.push({ key: 4, text: "All", value: "All" });
+
 options.push({ key: 1, text: "Open", value: "Open" });
 options.push({ key: 2, text: "Closed", value: "Closed" });
 
 const DropdownExampleMultipleSelection = (prop) => {
   return (
     <Dropdown
-      placeholder={prop.value}
+      defaultValue={prop.value}
       floated="right"
-      defaultValue="All"
       selection
+      multiple
       options={options}
       onChange={prop.onFilter}
       style={{ position: "relative", zIndex: 100000 }}
