@@ -64,8 +64,8 @@ self.addEventListener("fetch", function (event) {
         }
       })()
     );
-  } else if (event.request.mode === "no-cors") {
-    console.log(event.request.url);
+  } else if (event.request.mode === "no-corss") {
+    //console.log(event.request.url);
     event.respondWith(
       (async () => {
         try {

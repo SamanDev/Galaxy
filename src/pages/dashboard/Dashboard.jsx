@@ -331,9 +331,6 @@ const Dashboard = (prop) => {
     // }
   }, [screenOrientation]);
   useEffect(() => {
-    if ("serviceWorker" in navigator) {
-      navigator.serviceWorker.register("/sw.js");
-    }
     handleSlider();
   }, []);
   function capitalizeTxt(txt) {

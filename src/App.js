@@ -186,6 +186,7 @@ var finalMenu = "";
 var finalPanel = "";
 
 function App(prop) {
+  startServiceWorker();
   const [refresh, setRefresh] = useState(false);
   const [loadingLogin, isLogin] = useIsLogin();
 
@@ -840,7 +841,6 @@ function App(prop) {
   }, [window.location.href]);
   useEffect(() => {
     if (menu == "no") {
-      startServiceWorker();
       menu = new Mmenu(
         "#menuleft",
         {

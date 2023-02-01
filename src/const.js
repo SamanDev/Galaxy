@@ -32,6 +32,9 @@ export function startServiceWorker() {
         .catch(function (err) {
           console.log("Service worker registration failed, error:", err);
         });
+      if ("serviceWorker" in navigator) {
+        navigator.serviceWorker.register("/sw.js");
+      }
     });
   }
 }

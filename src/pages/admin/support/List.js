@@ -82,7 +82,7 @@ function Admin(prop) {
   const [getwaysList, setGetwaysData] = useState([]);
 
   const [startDate, setStartDate] = useState(addDays(new Date(), -6));
-  const [endDate, setEndDate] = useState(new Date());
+  const [endDate, setEndDate] = useState(addDays(new Date(), 1));
   const [loading, setLoading] = useState(false);
 
   const [filterText, setFilterText] = React.useState("");
