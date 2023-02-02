@@ -1,26 +1,106 @@
 import React, { useEffect, useState } from "react";
 import DataTable from "react-data-table-component";
-import {
-  Segment,
-  Button,
-  Dimmer,
-  Divider,
-  Icon,
-  Modal,
-  Label,
-  Grid,
-} from "semantic-ui-react";
+import { Segment, Button, Dimmer, Icon, Modal, Grid } from "semantic-ui-react";
 import { convertDateToJalali } from "../../../utils/convertDate";
-import { doCurrency } from "../../../const";
-import { addDays } from "date-fns";
+import ActionBtn from "../../../utils/actionBtn";
 import AmountColor from "../../../utils/AmountColor";
-
+import ConvertCart from "../../../utils/convertCart";
+import { addDays } from "date-fns";
+const moment = require("moment");
 import { adminGetService } from "../../../services/admin";
 
 import DateReng from "../utils/dateReng";
 import FilterMode from "./Filter";
-import FilterModeGateway from "./FilterGateway";
-const moment = require("moment");
+
+var _data = [
+  {
+    id: 1,
+
+    amount: 1000000,
+
+    status: "Pending",
+    mode: "Deposit",
+    gateway: "CartToCart",
+
+    username: "HangOver",
+    description: {
+      id: 1,
+      date: "2022-07-26T17:29:52.377+00:00",
+      cardNumber: "5022291011223333",
+      accountNumber: "4454554454",
+      shebaNumber: "454545645645645645646456",
+      holderName: "شسالا",
+      cvv: "458",
+      expiration: "01/01",
+      mobile: "09158885887",
+      bankName: "بانک اقتصاد نوین",
+      active: true,
+      desc: "بابت بدهی 79798873",
+      toCard: "6662502250225050",
+    },
+    readMsg: false,
+    createDate: "2022-07-26T18:18:14.249+00:00",
+    updateDate: "2022-07-26T18:18:14.250+00:00",
+  },
+  {
+    id: 2,
+
+    amount: 5000000,
+
+    status: "Done",
+    mode: "Deposit",
+    gateway: "CartToCart",
+
+    username: "HangOver",
+    description: {
+      id: 1,
+      date: "2022-07-26T17:29:52.377+00:00",
+      cardNumber: "5022291011223333",
+      accountNumber: "4454554454",
+      shebaNumber: "454545645645645645646456",
+      holderName: "شسالا",
+      cvv: "458",
+      expiration: "01/01",
+      mobile: "09158885887",
+      bankName: "بانک اقتصاد نوین",
+      active: true,
+      desc: "بابت بدهی 79798873",
+      toCard: "6662502250225050",
+    },
+    readMsg: false,
+    createDate: "2022-07-26T18:18:14.249+00:00",
+    updateDate: "2022-07-26T18:18:14.250+00:00",
+  },
+  {
+    id: 6,
+
+    amount: 50000,
+
+    status: "Canceled",
+    mode: "Deposit",
+    gateway: "CartToCart",
+
+    username: "HangOver",
+    description: {
+      id: 1,
+      date: "2022-07-26T17:29:52.377+00:00",
+      cardNumber: "5022291011223333",
+      accountNumber: "4454554454",
+      shebaNumber: "454545645645645645646456",
+      holderName: "شسالا",
+      cvv: "458",
+      expiration: "01/01",
+      mobile: "09158885887",
+      bankName: "بانک اقتصاد نوین",
+      active: true,
+      desc: "بابت بدهی 79798873",
+      toCard: "6662502250225050",
+    },
+    readMsg: false,
+    createDate: "2022-07-26T18:18:14.249+00:00",
+    updateDate: "2022-07-26T18:18:14.250+00:00",
+  },
+];
 const conditionalRowStyles = [
   {
     when: (row) => row.status == "Pending",
@@ -30,13 +110,13 @@ const conditionalRowStyles = [
   },
   // You can also pass a callback to style for additional customization
   {
-    when: (row) => row.endBalance > row.startBalance,
+    when: (row) => row.status == "Done",
     style: {
       backgroundColor: "rgba(0,255,0,.1)",
     },
   },
   {
-    when: (row) => row.endBalance < row.startBalance,
+    when: (row) => row.status == "Canceled",
     style: {
       backgroundColor: "rgba(255,0,0,.1)",
     },
@@ -66,63 +146,51 @@ const noDataComponent = (
     </Dimmer>
   </div>
 );
-
+var _timer = 10000;
 function Admin(prop) {
   const [data, setData] = useState([]);
-  const loginToken = JSON.parse(localStorage.getItem("loginToken"));
+
   const [totalRows, setTotalRows] = useState(0);
   const [perPage, setPerPage] = useState(10);
   const [dataSortedID, setDataSortedID] = useState(1);
   const [dataSorted, setDataSorted] = useState("id");
   const [dataSortedDir, setDataSortedDir] = useState("desc");
   const [dataSearch, setDataSearch] = useState("");
-  if (prop?.user?.username) {
-    var defmde = ["cashout", "deposit", "transfer", "bonus", "poker", "casino"];
-  } else {
-    var defmde = ["cashout", "deposit", "transfer", "bonus"];
-  }
-
-  const [dataMode, setDataMode] = useState(defmde);
+  const [dataMode, setDataMode] = useState("Pending");
   const [getwaysList, setGetwaysData] = useState([]);
 
   const [startDate, setStartDate] = useState(addDays(new Date(), -6));
-  const [endDate, setEndDate] = useState(addDays(new Date(), 1));
-  const [loading, setLoading] = useState(false);
+  const [endDate, setEndDate] = useState(new Date());
+  const [loading, setLoading] = useState(true);
 
   const [filterText, setFilterText] = React.useState("");
   const [filterOk, setFilterOk] = React.useState(false);
-  const filteredItems = data
-    .sort((a, b) => (a.id < b.id ? 1 : -1))
-    .filter((item) => item.id);
+  var filteredItems = data.filter((item) => item.username);
+  if (dataMode != "All") {
+    filteredItems = data.filter((item) => {
+      return dataMode == item.status;
+    });
+  }
   const [firstOpen, setFirstOpen] = React.useState(false);
   const [resetPaginationToggle, setResetPaginationToggle] =
     React.useState(false);
 
   // data provides access to your row data
-
-  const sortData = (data) => {
-    return data.sort((a, b) => (a.id < b.id ? 1 : -1));
-  };
   const ExpandedComponent = ({ data }) => (
     <div style={{ overflow: "auto", width: "90vw" }}>
       <pre>{JSON.stringify(data, null, 2)}</pre>
     </div>
   );
+
   const fetchUsers = async (page) => {
     setLoading(true);
     var _s = moment(startDate).format("YYYY-MM-DD");
     var _e = moment(endDate).format("YYYY-MM-DD");
 
-    if (prop?.user?.username) {
-      var res = await adminGetService(
-        `getReports?mode=${dataMode}&page=${page}&number=500&username=${prop.user.username}&start=${_s}&end=${_e}&gateway=${dataSearch}`
-      );
-    } else {
-      var res = await adminGetService(
-        `getReports?mode=${dataMode}&page=${page}&number=500&start=${_s}&end=${_e}&gateway=${dataSearch}`
-      );
-    }
     try {
+      const res = await adminGetService(
+        `getReports?mode=deposit&gateway=CartToCart&page=${page}&number=500&start=${_s}&end=${_e}`
+      );
       if (res.status === 200) {
         setData(res.data);
 
@@ -150,11 +218,26 @@ function Admin(prop) {
 
   useEffect(() => {
     fetchUsers(1); // fetch page 1 of users
-  }, [dataSorted, dataSortedDir, dataMode, dataSearch]);
+  }, [dataSorted, dataSortedDir]);
 
   useEffect(() => {
     if (!firstOpen && filterOk) fetchUsers(1); // fetch page 1 of users
   }, [filterOk, firstOpen]);
+  const updateStatus = (row, status) => {
+    var pay = JSON.parse(row.description);
+    var id = pay.userId;
+    adminService.changeReportStatus("deposit", id, status).then((response) => {
+      if (response) {
+        Swal.fire({
+          title: "Success",
+          text: "Saved",
+          icon: "success",
+          showCancelButton: false,
+          confirmButtonText: `Ok`,
+        }).then(() => {});
+      }
+    });
+  };
   const columns = [
     {
       name: "id",
@@ -163,7 +246,7 @@ function Admin(prop) {
       width: "80px",
     },
     {
-      name: "username",
+      name: "Username",
       selector: (row) => row.username,
       format: (row) => (
         <>
@@ -180,21 +263,29 @@ function Admin(prop) {
     },
 
     {
-      name: "status",
+      name: "Status",
       selector: (row) => row.status,
       format: (row) => <>{row.status}</>,
       sortable: true,
       width: "80px",
     },
     {
-      name: "start",
-      selector: (row) => row.startBalance,
-      format: (row) => <>{doCurrency(row.startBalance)}</>,
+      name: "From",
+      selector: (row) => row.description,
+      format: (row) => (
+        <div className="farsi" style={{ padding: 10, direction: "ltr" }}>
+          {JSON.parse(row.description).holderName}
+          <br />
+          <ConvertCart cartNo={JSON.parse(row.description).cardNumber} />
+          <br />
+          {JSON.parse(row.description).bankName}
+        </div>
+      ),
       sortable: true,
-      width: "100px",
+      width: "200px",
     },
     {
-      name: "amount",
+      name: "Amount",
       selector: (row) =>
         row.endBalance >= row.startBalance ? row.amount : row.amount * -1,
       format: (row) => (
@@ -209,40 +300,41 @@ function Admin(prop) {
       width: "100px",
     },
     {
-      name: "end",
-      selector: (row) => row.endBalance,
-      format: (row) => <>{doCurrency(row.endBalance)}</>,
-      sortable: true,
-      width: "100px",
-    },
-    {
-      name: "mode",
-      selector: (row) => row.mode,
-      format: (row) => <>{row.mode}</>,
-      sortable: true,
-      width: "120px",
-    },
-    {
-      name: "gateway",
-      selector: (row) => (row.gateway ? row.gateway : ""),
+      name: "ToCart",
+      selector: (row) => row.description.toCard,
       format: (row) => (
-        <span onClick={() => setDataSearch(row.gateway)}>{row.gateway}</span>
+        <ConvertCart cartNo={JSON.parse(row.description).toCard} />
       ),
       sortable: true,
+      width: "200px",
     },
     {
-      name: "date",
+      name: "Desc",
+      selector: (row) => row.description.desc,
+      format: (row) => <>{JSON.parse(row.description).desc}</>,
+      sortable: true,
+      width: "200px",
+    },
+
+    {
+      name: "Date",
       selector: (row) => row.createDate,
       format: (row) => (
         <div className="blacktext">{convertDateToJalali(row.createDate)}</div>
       ),
       sortable: true,
     },
+    {
+      name: "Action",
+      selector: (row) => row.id,
+      format: (row) => <ActionBtn row={row} updateStatus={updateStatus} />,
+      sortable: false,
+      width: "200px",
+    },
   ];
-
   const subHeaderComponentMemo = React.useMemo(() => {
-    var _s = moment(startDate).format("YY-MM-DD");
-    var _e = moment(endDate).format("YY-MM-DD");
+    var _s = moment(startDate).format("YYYY-MM-DD");
+    var _e = moment(endDate).format("YYYY-MM-DD");
     return (
       <>
         <Grid
@@ -254,14 +346,6 @@ function Admin(prop) {
         >
           <Grid.Row>
             <Grid.Column>
-              <FilterMode
-                onFilter={(e, { value }) => {
-                  setDataMode(value.toString());
-                }}
-                value={dataMode}
-              />
-            </Grid.Column>
-            <Grid.Column>
               <Button
                 size="small"
                 floating="left"
@@ -269,31 +353,20 @@ function Admin(prop) {
               >
                 {_s} / {_e}
               </Button>
-              {dataSearch != "" ? (
-                <Label
-                  as="a"
-                  color="red"
-                  className="float-end"
-                  tag
-                  onClick={() => setDataSearch("")}
-                >
-                  {dataSearch}
-                </Label>
-              ) : (
-                <FilterModeGateway
-                  onFilter={(e) => {
-                    setDataSearch(e.target.value);
-                  }}
-                  value={dataSearch}
-                  placeholder="Gateway filter"
-                />
-              )}
+            </Grid.Column>
+            <Grid.Column>
+              <FilterMode
+                onFilter={(e, { value }) => {
+                  setDataMode(value.toString());
+                }}
+                value={dataMode}
+              />
             </Grid.Column>
           </Grid.Row>
         </Grid>
       </>
     );
-  }, [filterText, resetPaginationToggle, data, dataSearch]);
+  }, [filterText, resetPaginationToggle, data]);
 
   return (
     <>
@@ -325,16 +398,12 @@ function Admin(prop) {
           defaultSortFieldId={dataSortedID}
           paginationPerPage={perPage}
           defaultSortAsc={false}
-          expandOnRowClicked={true}
-          expandableRowsHideExpander={true}
           conditionalRowStyles={conditionalRowStyles}
           noDataComponent={noDataComponent}
           pagination
           paginationResetDefaultPage={resetPaginationToggle} // optionally, a hook to reset pagination to page 1
           persistTableHead
           paginationRowsPerPageOptions={[10, 25, 50, 100, 500]}
-          expandableRows
-          expandableRowsComponent={ExpandedComponent}
         />
       </div>
     </>

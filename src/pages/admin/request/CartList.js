@@ -1,44 +1,30 @@
 import React, { useEffect, useState } from "react";
 import DataTable from "react-data-table-component";
-import {
-  Segment,
-  Button,
-  Dimmer,
-  Divider,
-  Icon,
-  Modal,
-  Label,
-  Grid,
-} from "semantic-ui-react";
+import { Segment, Button, Dimmer, Icon, Modal, Grid } from "semantic-ui-react";
 import { convertDateToJalali } from "../../../utils/convertDate";
-import { doCurrency } from "../../../const";
+import { adminPostService } from "../../../services/admin";
+import CartFormat from "../../../utils/CartFormat";
 import { addDays } from "date-fns";
-import AmountColor from "../../../utils/AmountColor";
-
-import { adminGetService } from "../../../services/admin";
-
-import DateReng from "../utils/dateReng";
-import FilterMode from "./Filter";
-import FilterModeGateway from "./FilterGateway";
 const moment = require("moment");
+import { adminGetService } from "../../../services/admin";
+import { Alert } from "../../../utils/alerts";
+
+import CheckboxToggle from "../utils/toggle";
+import DateReng from "../utils/dateReng";
+import FilterMode from "./FilterCheck";
+
 const conditionalRowStyles = [
   {
-    when: (row) => row.status == "Pending",
+    when: (row) => !row.active,
     style: {
       backgroundColor: "rgba(0,0,255,.1)",
     },
   },
   // You can also pass a callback to style for additional customization
   {
-    when: (row) => row.endBalance > row.startBalance,
+    when: (row) => row.active,
     style: {
       backgroundColor: "rgba(0,255,0,.1)",
-    },
-  },
-  {
-    when: (row) => row.endBalance < row.startBalance,
-    style: {
-      backgroundColor: "rgba(255,0,0,.1)",
     },
   },
 ];
@@ -66,63 +52,67 @@ const noDataComponent = (
     </Dimmer>
   </div>
 );
-
+var _timer = 10000;
 function Admin(prop) {
   const [data, setData] = useState([]);
-  const loginToken = JSON.parse(localStorage.getItem("loginToken"));
+
   const [totalRows, setTotalRows] = useState(0);
   const [perPage, setPerPage] = useState(10);
   const [dataSortedID, setDataSortedID] = useState(1);
   const [dataSorted, setDataSorted] = useState("id");
   const [dataSortedDir, setDataSortedDir] = useState("desc");
   const [dataSearch, setDataSearch] = useState("");
-  if (prop?.user?.username) {
-    var defmde = ["cashout", "deposit", "transfer", "bonus", "poker", "casino"];
-  } else {
-    var defmde = ["cashout", "deposit", "transfer", "bonus"];
-  }
-
-  const [dataMode, setDataMode] = useState(defmde);
+  const [dataMode, setDataMode] = useState("All");
   const [getwaysList, setGetwaysData] = useState([]);
 
   const [startDate, setStartDate] = useState(addDays(new Date(), -6));
-  const [endDate, setEndDate] = useState(addDays(new Date(), 1));
-  const [loading, setLoading] = useState(false);
+  const [endDate, setEndDate] = useState(new Date());
+  const [loading, setLoading] = useState(true);
 
   const [filterText, setFilterText] = React.useState("");
   const [filterOk, setFilterOk] = React.useState(false);
-  const filteredItems = data
-    .sort((a, b) => (a.id < b.id ? 1 : -1))
-    .filter((item) => item.id);
+
+  var filteredItems = data.filter((item) => item.cardNumber);
+  if (dataMode != "All") {
+    filteredItems = data.filter((item) => {
+      return dataMode == "true" ? item.active : !item.active;
+    });
+  }
   const [firstOpen, setFirstOpen] = React.useState(false);
   const [resetPaginationToggle, setResetPaginationToggle] =
     React.useState(false);
 
   // data provides access to your row data
-
-  const sortData = (data) => {
-    return data.sort((a, b) => (a.id < b.id ? 1 : -1));
-  };
   const ExpandedComponent = ({ data }) => (
     <div style={{ overflow: "auto", width: "90vw" }}>
       <pre>{JSON.stringify(data, null, 2)}</pre>
     </div>
   );
+  const updateUserObj = async (e, data) => {
+    console.log(data);
+    var _key = data.userkey;
+    var curU = JSON.parse(JSON.stringify(data.user));
+    var values = { id: curU.id, active: data.checked };
+
+    try {
+      const res = await adminPostService(values, "editUserBankInfo");
+      if (res.status == 200) {
+      } else {
+        Alert("متاسفم...!", res.data.message, "error");
+      }
+    } catch (error) {
+      Alert("متاسفم...!", "متاسفانه مشکلی از سمت سرور رخ داده", "error");
+    }
+  };
   const fetchUsers = async (page) => {
     setLoading(true);
     var _s = moment(startDate).format("YYYY-MM-DD");
     var _e = moment(endDate).format("YYYY-MM-DD");
 
-    if (prop?.user?.username) {
-      var res = await adminGetService(
-        `getReports?mode=${dataMode}&page=${page}&number=500&username=${prop.user.username}&start=${_s}&end=${_e}&gateway=${dataSearch}`
-      );
-    } else {
-      var res = await adminGetService(
-        `getReports?mode=${dataMode}&page=${page}&number=500&start=${_s}&end=${_e}&gateway=${dataSearch}`
-      );
-    }
     try {
+      const res = await adminGetService(
+        `getAllUserBankInfo?page=${page}&number=500&start=${_s}&end=${_e}`
+      );
       if (res.status === 200) {
         setData(res.data);
 
@@ -150,11 +140,26 @@ function Admin(prop) {
 
   useEffect(() => {
     fetchUsers(1); // fetch page 1 of users
-  }, [dataSorted, dataSortedDir, dataMode, dataSearch]);
+  }, [dataSorted, dataSortedDir]);
 
   useEffect(() => {
     if (!firstOpen && filterOk) fetchUsers(1); // fetch page 1 of users
   }, [filterOk, firstOpen]);
+  const updateStatus = (row, status) => {
+    var pay = row;
+    var id = pay.userId;
+    adminService.changeReportStatus("deposit", id, status).then((response) => {
+      if (response) {
+        Swal.fire({
+          title: "Success",
+          text: "Saved",
+          icon: "success",
+          showCancelButton: false,
+          confirmButtonText: `Ok`,
+        }).then(() => {});
+      }
+    });
+  };
   const columns = [
     {
       name: "id",
@@ -163,7 +168,7 @@ function Admin(prop) {
       width: "80px",
     },
     {
-      name: "username",
+      name: "Username",
       selector: (row) => row.username,
       format: (row) => (
         <>
@@ -178,71 +183,42 @@ function Admin(prop) {
       sortable: true,
       width: "120px",
     },
-
     {
-      name: "status",
-      selector: (row) => row.status,
-      format: (row) => <>{row.status}</>,
-      sortable: true,
-      width: "80px",
-    },
-    {
-      name: "start",
-      selector: (row) => row.startBalance,
-      format: (row) => <>{doCurrency(row.startBalance)}</>,
-      sortable: true,
-      width: "100px",
-    },
-    {
-      name: "amount",
-      selector: (row) =>
-        row.endBalance >= row.startBalance ? row.amount : row.amount * -1,
+      name: "Status",
+      selector: (row) => row.active,
       format: (row) => (
         <>
-          <AmountColor
-            amount={row.amount}
-            sign={row.endBalance - row.startBalance}
+          <CheckboxToggle
+            check={row.active}
+            user={row}
+            userkey="cartBlock"
+            onChange={updateUserObj}
           />
         </>
       ),
       sortable: true,
-      width: "100px",
+      width: "180px",
     },
+
     {
-      name: "end",
-      selector: (row) => row.endBalance,
-      format: (row) => <>{doCurrency(row.endBalance)}</>,
+      name: "Info",
+      selector: (row) => row.cardNumber,
+      format: (row) => <CartFormat row={row} />,
       sortable: true,
-      width: "100px",
+      width: "250px",
     },
     {
-      name: "mode",
-      selector: (row) => row.mode,
-      format: (row) => <>{row.mode}</>,
-      sortable: true,
-      width: "120px",
-    },
-    {
-      name: "gateway",
-      selector: (row) => (row.gateway ? row.gateway : ""),
+      name: "Date",
+      selector: (row) => row.date,
       format: (row) => (
-        <span onClick={() => setDataSearch(row.gateway)}>{row.gateway}</span>
-      ),
-      sortable: true,
-    },
-    {
-      name: "date",
-      selector: (row) => row.createDate,
-      format: (row) => (
-        <div className="blacktext">{convertDateToJalali(row.createDate)}</div>
+        <div className="blacktext">{convertDateToJalali(row.date)}</div>
       ),
       sortable: true,
     },
   ];
-
   const subHeaderComponentMemo = React.useMemo(() => {
-    var _s = moment(startDate).format("YY-MM-DD");
-    var _e = moment(endDate).format("YY-MM-DD");
+    var _s = moment(startDate).format("YYYY-MM-DD");
+    var _e = moment(endDate).format("YYYY-MM-DD");
     return (
       <>
         <Grid
@@ -254,14 +230,6 @@ function Admin(prop) {
         >
           <Grid.Row>
             <Grid.Column>
-              <FilterMode
-                onFilter={(e, { value }) => {
-                  setDataMode(value.toString());
-                }}
-                value={dataMode}
-              />
-            </Grid.Column>
-            <Grid.Column>
               <Button
                 size="small"
                 floating="left"
@@ -269,31 +237,20 @@ function Admin(prop) {
               >
                 {_s} / {_e}
               </Button>
-              {dataSearch != "" ? (
-                <Label
-                  as="a"
-                  color="red"
-                  className="float-end"
-                  tag
-                  onClick={() => setDataSearch("")}
-                >
-                  {dataSearch}
-                </Label>
-              ) : (
-                <FilterModeGateway
-                  onFilter={(e) => {
-                    setDataSearch(e.target.value);
-                  }}
-                  value={dataSearch}
-                  placeholder="Gateway filter"
-                />
-              )}
+            </Grid.Column>
+            <Grid.Column>
+              <FilterMode
+                onFilter={(e, { value }) => {
+                  setDataMode(value.toString());
+                }}
+                value={dataMode}
+              />
             </Grid.Column>
           </Grid.Row>
         </Grid>
       </>
     );
-  }, [filterText, resetPaginationToggle, data, dataSearch]);
+  }, [filterText, resetPaginationToggle, data]);
 
   return (
     <>
@@ -301,6 +258,7 @@ function Admin(prop) {
         onClose={() => setFirstOpen(false)}
         onOpen={() => setFirstOpen(true)}
         open={firstOpen}
+        dimmer="inverted"
         style={{ height: "auto" }}
       >
         <DateReng
@@ -325,16 +283,12 @@ function Admin(prop) {
           defaultSortFieldId={dataSortedID}
           paginationPerPage={perPage}
           defaultSortAsc={false}
-          expandOnRowClicked={true}
-          expandableRowsHideExpander={true}
           conditionalRowStyles={conditionalRowStyles}
           noDataComponent={noDataComponent}
           pagination
           paginationResetDefaultPage={resetPaginationToggle} // optionally, a hook to reset pagination to page 1
           persistTableHead
           paginationRowsPerPageOptions={[10, 25, 50, 100, 500]}
-          expandableRows
-          expandableRowsComponent={ExpandedComponent}
         />
       </div>
     </>

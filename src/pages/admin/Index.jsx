@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { List, Segment, Tab, Icon } from "semantic-ui-react";
-import Users from "./AdminUsers";
+import Users from "./Users";
 import Bots from "./AdminBots";
 import { Navigate } from "react-router-dom";
-import User from "./AdminUser";
+import User from "./user/User";
 
-import GetwaysList from "./components/GetwaysList.component";
-import SiteCartsList from "./components/SiteCartsList.component";
+import GetwaysList from "./setting/GetwaysList";
+import SiteCartsList from "./setting/SiteCartsList";
 import Requests from "./Requests";
 import Setting from "./Setting";
-import RisingPitch from "./PlayAlert";
+import RisingPitch from "./utils/PlayAlert";
 import { adminGetService } from "../../services/admin";
 import { isJson, haveAdmin, haveModerator, doCurrency } from "../../const";
 import { useAdminTicket } from "../../hook/infoHook";
@@ -74,8 +74,9 @@ function Admin(prop) {
           </Tab.Pane>
         ),
       },
-
-      {
+    ];
+    if (haveAdmin(loginToken.roles)) {
+      panes.push({
         menuItem: "Settings",
         pane: (
           <Tab.Pane key="Setting">
@@ -88,8 +89,8 @@ function Admin(prop) {
             />
           </Tab.Pane>
         ),
-      },
-    ];
+      });
+    }
   }, [loadingtickets]);
   useEffect(() => {
     if (activeIndex == 0) setTabData(panes);

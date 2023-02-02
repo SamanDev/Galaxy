@@ -3,7 +3,6 @@ import { Route, Routes } from "react-router-dom";
 import { AdminContext } from "../context/adminLayoutContext";
 import Dashboard from "./dashboard/Dashboard";
 import Admin from "./admin/Index";
-import AdminUser from "./admin/AdminUsers";
 const Content = (prop) => {
   const { showSidebar } = useContext(AdminContext);
 

@@ -45,7 +45,7 @@ const setGiftAmount = (level) => {
   } else {
     var g = generateRandomInteger(
       levelDataInfo[6].minAmount,
-      levelDataInfo[6].maxAmount
+      levelDataInfo[6].minAmount * (level + 1)
     );
   }
   g = Math.round(g / 1000) * 1000;
@@ -55,8 +55,8 @@ const setGiftAmount = (level) => {
 var mindate = new Date();
 var nowdate = new Date();
 var expdate = new Date();
-nowdate = moment(nowdate).format("YYYY-MM-DD HH:mm:00");
-mindate = moment(mindate).format("YYYY-MM-DD HH:mm:00");
+nowdate = moment(nowdate).format("YYYY-MM-DD HH:00:00");
+mindate = moment(mindate).format("YYYY-MM-DD HH:00:00");
 expdate = moment(expdate).add(6, "hours").format("YYYY-MM-DD HH:mm:00");
 function Admin(prop) {
   const [myState, setMyState] = useState({
@@ -195,7 +195,6 @@ function Admin(prop) {
               <label>Start</label>
               <Input
                 type="text"
-                size="mini"
                 value={findStateId(myState, "start")}
                 min={mindate}
                 onChange={(e) => onUpdateItem("start", e.target.value)}
@@ -206,7 +205,6 @@ function Admin(prop) {
               <label>Plus</label>
               <Input
                 type="text"
-                size="mini"
                 inputMode="number"
                 value={findStateId(myState, "plus")}
                 onChange={(e) => onUpdateItem("plus", e.target.value)}
@@ -216,7 +214,6 @@ function Admin(prop) {
 
             <Form.Field width={4}>
               <Select
-                size="mini"
                 options={[
                   { key: "minutes", value: "minutes", text: "Minutes" },
                   { key: "hours", value: "hours", text: "Hours" },
@@ -232,35 +229,10 @@ function Admin(prop) {
                 onBlur={(e) => updateEnd()}
               />
             </Form.Field>
-            <Form.Field width={4}>
-              <Select
-                options={__bnus}
-                size="mini"
-                value={findStateId(myState, "mode")}
-                onChange={(e, { value }) => {
-                  onUpdateItem("mode", value);
-                  onUpdateItem(
-                    "text",
-                    __bnus.filter(function (item) {
-                      return item.value == value;
-                    })[0].text
-                  );
-                  onUpdateItem(
-                    "label",
-                    __bnus.filter(function (item) {
-                      return item.value == value;
-                    })[0].label
-                  );
-                }}
-              />
-            </Form.Field>
+
             <Form.Field width={4}>
               <label>Expired</label>
-              <Input
-                type="text"
-                size="mini"
-                value={findStateId(myState, "expired")}
-              />
+              <Input type="text" value={findStateId(myState, "expired")} />
             </Form.Field>
           </Form.Group>
           <Form.Group inline>

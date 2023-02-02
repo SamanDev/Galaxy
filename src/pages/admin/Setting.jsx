@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import TableAdmin from "./components/adminTableForm.component";
+import TableAdmin from "./utils/tableform";
 
 import { adminPutServiceList } from "../../services/admin";
 import { isJson, haveAdmin, haveModerator } from "../../const";

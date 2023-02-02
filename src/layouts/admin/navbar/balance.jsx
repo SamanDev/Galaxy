@@ -10,8 +10,8 @@ import {
 import DepositArea from "../forms/index";
 
 import LevelIcon from "../../../utils/svg";
-import RisingPitch from "../../../pages/admin/PlayBip";
-import RisingPitchReward from "../../../pages/admin/PlayReward";
+import RisingPitch from "../../../utils/PlayBip";
+import RisingPitchReward from "../../../utils/PlayReward";
 import BonusArea from "../bonus/index.jsx";
 import $ from "jquery";
 //import BonusArea from "../../../pages/dashboard/ActiveTableJson";

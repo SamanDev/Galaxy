@@ -7,6 +7,7 @@ import {
   Divider,
   Icon,
   Modal,
+  Grid,
 } from "semantic-ui-react";
 import { convertDateToJalali } from "../../../utils/convertDate";
 
@@ -18,7 +19,7 @@ import Comment from "./Comment";
 
 import Ticket from "./Add";
 
-import DateReng from "../components/dateReng.component";
+import DateReng from "../utils/dateReng";
 import FilterMode from "./Filter";
 
 const noDataComponent = (
@@ -281,37 +282,48 @@ function Admin(prop) {
       sortable: true,
     },
   ];
+
   const subHeaderComponentMemo = React.useMemo(() => {
-    const handleClear = () => {
-      if (filterText) {
-        setResetPaginationToggle(!resetPaginationToggle);
-        setFilterText("");
-      }
-    };
-    var _s = moment(startDate).format("YYYY-MM-DD");
-    var _e = moment(endDate).format("YYYY-MM-DD");
+    var _s = moment(startDate).format("YY-MM-DD");
+    var _e = moment(endDate).format("YY-MM-DD");
     return (
       <>
-        <Button size="small" onClick={() => setFirstOpen(true)}>
-          {_s} to {_e}
-        </Button>
-        <FilterMode
-          onFilter={(e, { value }) => {
-            setDataMode(value.toString());
-          }}
-          value={dataMode}
-        />
+        <Grid
+          verticalAlign="middle"
+          columns={2}
+          centered
+          as={Segment}
+          color="red"
+        >
+          <Grid.Row>
+            <Grid.Column>
+              <Button
+                size="small"
+                floating="left"
+                onClick={() => setFirstOpen(true)}
+              >
+                {_s} / {_e}
+              </Button>
+            </Grid.Column>
+            <Grid.Column>
+              <FilterMode
+                onFilter={(e, { value }) => {
+                  setDataMode(value.toString());
+                }}
+                value={dataMode}
+              />
+            </Grid.Column>
+          </Grid.Row>
+        </Grid>
       </>
     );
   }, [filterText, resetPaginationToggle, data]);
-
   return (
     <>
       <Modal
         onClose={() => setFirstOpen(false)}
         onOpen={() => setFirstOpen(true)}
         open={firstOpen}
-        dimmer="inverted"
         style={{ height: "auto" }}
       >
         <DateReng
@@ -327,6 +339,7 @@ function Admin(prop) {
         className="reportTable"
         style={{ height: "calc(100vh - 300px)", overflow: "auto" }}
       >
+        {subHeaderComponentMemo}
         <DataTable
           columns={columns}
           data={filteredItems}
@@ -341,8 +354,6 @@ function Admin(prop) {
           noDataComponent={noDataComponent}
           pagination
           paginationResetDefaultPage={resetPaginationToggle} // optionally, a hook to reset pagination to page 1
-          subHeader
-          subHeaderComponent={subHeaderComponentMemo}
           persistTableHead
           paginationRowsPerPageOptions={[10, 25, 50, 100, 500]}
           expandableRows

@@ -14,9 +14,9 @@ const DropdownExampleMultipleSelection = (prop) => {
   return (
     <Dropdown
       defaultValue={prop.value}
-      floated="right"
       selection
       multiple
+      fluid
       options={options}
       onChange={prop.onFilter}
       style={{ position: "relative", zIndex: 100000 }}

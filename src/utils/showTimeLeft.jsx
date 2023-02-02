@@ -144,7 +144,7 @@ class Example extends React.Component {
           {((_next && a < b) || (_start && startTime < now)) && !_finish ? (
             <>
               <Moment
-                className="farsi-inline ui green label"
+                className="farsi-inline ui green label tada delay-1s animated"
                 to={endDatetimeOld}
                 filter={toEnd}
                 onChange={(val) => {

@@ -1,26 +1,15 @@
 import React, { useEffect, useState } from "react";
 import DataTable from "react-data-table-component";
-import {
-  Segment,
-  Button,
-  Dimmer,
-  Divider,
-  Icon,
-  Modal,
-  Label,
-  Grid,
-} from "semantic-ui-react";
+import { Button, Dimmer, Icon, Modal } from "semantic-ui-react";
 import { convertDateToJalali } from "../../../utils/convertDate";
-import { doCurrency } from "../../../const";
-import { addDays } from "date-fns";
 import AmountColor from "../../../utils/AmountColor";
-
+import { addDays } from "date-fns";
+const moment = require("moment");
 import { adminGetService } from "../../../services/admin";
 
 import DateReng from "../utils/dateReng";
-import FilterMode from "./Filter";
-import FilterModeGateway from "./FilterGateway";
-const moment = require("moment");
+import FilterMode from "../FilterMode";
+
 const conditionalRowStyles = [
   {
     when: (row) => row.status == "Pending",
@@ -28,17 +17,16 @@ const conditionalRowStyles = [
       backgroundColor: "rgba(0,0,255,.1)",
     },
   },
-  // You can also pass a callback to style for additional customization
   {
-    when: (row) => row.endBalance > row.startBalance,
+    when: (row) => moment(row.expireDate) < moment(),
     style: {
-      backgroundColor: "rgba(0,255,0,.1)",
+      backgroundColor: "rgba(255,0,0,.1)",
     },
   },
   {
-    when: (row) => row.endBalance < row.startBalance,
+    when: (row) => row.status == "Done",
     style: {
-      backgroundColor: "rgba(255,0,0,.1)",
+      backgroundColor: "rgba(0,255,0,.1)",
     },
   },
 ];
@@ -68,61 +56,48 @@ const noDataComponent = (
 );
 
 function Admin(prop) {
-  const [data, setData] = useState([]);
-  const loginToken = JSON.parse(localStorage.getItem("loginToken"));
+  const [data, setData] = useState(prop.user.userGifts);
+
   const [totalRows, setTotalRows] = useState(0);
   const [perPage, setPerPage] = useState(10);
   const [dataSortedID, setDataSortedID] = useState(1);
   const [dataSorted, setDataSorted] = useState("id");
   const [dataSortedDir, setDataSortedDir] = useState("desc");
   const [dataSearch, setDataSearch] = useState("");
-  if (prop?.user?.username) {
-    var defmde = ["cashout", "deposit", "transfer", "bonus", "poker", "casino"];
-  } else {
-    var defmde = ["cashout", "deposit", "transfer", "bonus"];
-  }
-
-  const [dataMode, setDataMode] = useState(defmde);
+  const [dataMode, setDataMode] = useState("all");
   const [getwaysList, setGetwaysData] = useState([]);
 
   const [startDate, setStartDate] = useState(addDays(new Date(), -6));
-  const [endDate, setEndDate] = useState(addDays(new Date(), 1));
+  const [endDate, setEndDate] = useState(new Date());
   const [loading, setLoading] = useState(false);
 
   const [filterText, setFilterText] = React.useState("");
   const [filterOk, setFilterOk] = React.useState(false);
-  const filteredItems = data
-    .sort((a, b) => (a.id < b.id ? 1 : -1))
-    .filter((item) => item.id);
+  const filteredItems = data.filter((item) => item.username);
+
   const [firstOpen, setFirstOpen] = React.useState(false);
   const [resetPaginationToggle, setResetPaginationToggle] =
     React.useState(false);
 
   // data provides access to your row data
-
-  const sortData = (data) => {
-    return data.sort((a, b) => (a.id < b.id ? 1 : -1));
-  };
   const ExpandedComponent = ({ data }) => (
     <div style={{ overflow: "auto", width: "90vw" }}>
       <pre>{JSON.stringify(data, null, 2)}</pre>
     </div>
   );
+
   const fetchUsers = async (page) => {
     setLoading(true);
     var _s = moment(startDate).format("YYYY-MM-DD");
     var _e = moment(endDate).format("YYYY-MM-DD");
 
-    if (prop?.user?.username) {
-      var res = await adminGetService(
-        `getReports?mode=${dataMode}&page=${page}&number=500&username=${prop.user.username}&start=${_s}&end=${_e}&gateway=${dataSearch}`
-      );
-    } else {
-      var res = await adminGetService(
-        `getReports?mode=${dataMode}&page=${page}&number=500&start=${_s}&end=${_e}&gateway=${dataSearch}`
-      );
-    }
     try {
+      const res = await adminGetService(
+        `getReports?username=${prop.user.username}&mode=${dataMode.replace(
+          "all",
+          ""
+        )}&page=${page}&number=500&sort=${dataSorted}&order=${dataSortedDir}&start=${_s}&end=${_e}`
+      );
       if (res.status === 200) {
         setData(res.data);
 
@@ -149,34 +124,19 @@ function Admin(prop) {
   };
 
   useEffect(() => {
-    fetchUsers(1); // fetch page 1 of users
-  }, [dataSorted, dataSortedDir, dataMode, dataSearch]);
+    //fetchUsers(1); // fetch page 1 of users
+  }, [dataSorted, dataSortedDir, dataMode]);
 
   useEffect(() => {
-    if (!firstOpen && filterOk) fetchUsers(1); // fetch page 1 of users
+    //if (!firstOpen && filterOk) fetchUsers(1); // fetch page 1 of users
   }, [filterOk, firstOpen]);
+
   const columns = [
     {
       name: "id",
       selector: (row) => row.id,
       sortable: true,
       width: "80px",
-    },
-    {
-      name: "username",
-      selector: (row) => row.username,
-      format: (row) => (
-        <>
-          <span
-            className="msglink fw-bold"
-            onClick={() => prop.addTabData(row.username)}
-          >
-            {row.username}
-          </span>
-        </>
-      ),
-      sortable: true,
-      width: "120px",
     },
 
     {
@@ -186,13 +146,7 @@ function Admin(prop) {
       sortable: true,
       width: "80px",
     },
-    {
-      name: "start",
-      selector: (row) => row.startBalance,
-      format: (row) => <>{doCurrency(row.startBalance)}</>,
-      sortable: true,
-      width: "100px",
-    },
+
     {
       name: "amount",
       selector: (row) =>
@@ -208,13 +162,7 @@ function Admin(prop) {
       sortable: true,
       width: "100px",
     },
-    {
-      name: "end",
-      selector: (row) => row.endBalance,
-      format: (row) => <>{doCurrency(row.endBalance)}</>,
-      sortable: true,
-      width: "100px",
-    },
+
     {
       name: "mode",
       selector: (row) => row.mode,
@@ -223,11 +171,15 @@ function Admin(prop) {
       width: "120px",
     },
     {
-      name: "gateway",
-      selector: (row) => (row.gateway ? row.gateway : ""),
-      format: (row) => (
-        <span onClick={() => setDataSearch(row.gateway)}>{row.gateway}</span>
-      ),
+      name: "text",
+      selector: (row) => row.label,
+      format: (row) => <div className="farsi">{row.label}</div>,
+      sortable: true,
+    },
+    {
+      name: "received",
+      selector: (row) => row.received,
+      format: (row) => <>{row.received ? "Yes" : "No"}</>,
       sortable: true,
     },
     {
@@ -239,61 +191,30 @@ function Admin(prop) {
       sortable: true,
     },
   ];
-
   const subHeaderComponentMemo = React.useMemo(() => {
-    var _s = moment(startDate).format("YY-MM-DD");
-    var _e = moment(endDate).format("YY-MM-DD");
+    const handleClear = () => {
+      if (filterText) {
+        setResetPaginationToggle(!resetPaginationToggle);
+        setFilterText("");
+      }
+    };
+    var _s = moment(startDate).format("YYYY-MM-DD");
+    var _e = moment(endDate).format("YYYY-MM-DD");
     return (
       <>
-        <Grid
-          verticalAlign="middle"
-          columns={2}
-          centered
-          as={Segment}
-          color="red"
-        >
-          <Grid.Row>
-            <Grid.Column>
-              <FilterMode
-                onFilter={(e, { value }) => {
-                  setDataMode(value.toString());
-                }}
-                value={dataMode}
-              />
-            </Grid.Column>
-            <Grid.Column>
-              <Button
-                size="small"
-                floating="left"
-                onClick={() => setFirstOpen(true)}
-              >
-                {_s} / {_e}
-              </Button>
-              {dataSearch != "" ? (
-                <Label
-                  as="a"
-                  color="red"
-                  className="float-end"
-                  tag
-                  onClick={() => setDataSearch("")}
-                >
-                  {dataSearch}
-                </Label>
-              ) : (
-                <FilterModeGateway
-                  onFilter={(e) => {
-                    setDataSearch(e.target.value);
-                  }}
-                  value={dataSearch}
-                  placeholder="Gateway filter"
-                />
-              )}
-            </Grid.Column>
-          </Grid.Row>
-        </Grid>
+        <Button size="small" onClick={() => setFirstOpen(true)}>
+          {_s} to {_e}
+        </Button>
+        <FilterMode
+          onFilter={(e) => {
+            setDataMode(e.target.outerText);
+            console.log(e.target.outerText);
+          }}
+          value={dataMode}
+        />
       </>
     );
-  }, [filterText, resetPaginationToggle, data, dataSearch]);
+  }, [filterText, resetPaginationToggle, data]);
 
   return (
     <>
@@ -301,6 +222,7 @@ function Admin(prop) {
         onClose={() => setFirstOpen(false)}
         onOpen={() => setFirstOpen(true)}
         open={firstOpen}
+        dimmer="inverted"
         style={{ height: "auto" }}
       >
         <DateReng
@@ -314,10 +236,10 @@ function Admin(prop) {
 
       <div
         className="reportTable"
-        style={{ height: "calc(100vh - 250px)", overflow: "auto" }}
+        style={{ height: "calc(100vh - 300px)", overflow: "auto" }}
       >
-        {subHeaderComponentMemo}
         <DataTable
+          title={prop.user.username + " Reports"}
           columns={columns}
           data={filteredItems}
           progressPending={loading}
@@ -331,6 +253,8 @@ function Admin(prop) {
           noDataComponent={noDataComponent}
           pagination
           paginationResetDefaultPage={resetPaginationToggle} // optionally, a hook to reset pagination to page 1
+          subHeader
+          subHeaderComponent={subHeaderComponentMemo}
           persistTableHead
           paginationRowsPerPageOptions={[10, 25, 50, 100, 500]}
           expandableRows
