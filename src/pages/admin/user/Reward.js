@@ -6,10 +6,10 @@ import AmountColor from "../../../utils/AmountColor";
 import { addDays } from "date-fns";
 const moment = require("moment");
 import { adminGetService } from "../../../services/admin";
-
+import Moment from "react-moment";
 import DateReng from "../utils/dateReng";
-import FilterMode from "../FilterMode";
-
+import FilterMode from "../report/Filter";
+import { doCurrency } from "../../../const";
 const conditionalRowStyles = [
   {
     when: (row) => row.status == "Pending",
@@ -140,7 +140,7 @@ function Admin(prop) {
     },
 
     {
-      name: "status",
+      name: "Status",
       selector: (row) => row.status,
       format: (row) => <>{row.status}</>,
       sortable: true,
@@ -148,7 +148,7 @@ function Admin(prop) {
     },
 
     {
-      name: "amount",
+      name: "Amount",
       selector: (row) =>
         row.endBalance >= row.startBalance ? row.amount : row.amount * -1,
       format: (row) => (
@@ -164,26 +164,57 @@ function Admin(prop) {
     },
 
     {
-      name: "mode",
+      name: "Mode",
       selector: (row) => row.mode,
       format: (row) => <>{row.mode}</>,
       sortable: true,
       width: "120px",
     },
     {
-      name: "text",
+      name: "Text",
+      selector: (row) => row.text,
+      format: (row) => <>{row.text}</>,
+      sortable: true,
+      width: "120px",
+    },
+    {
+      name: "Label",
       selector: (row) => row.label,
-      format: (row) => <div className="farsi">{row.label}</div>,
+      format: (row) => <div className="farsi">{row.label} </div>,
       sortable: true,
     },
     {
-      name: "received",
+      name: "Received",
       selector: (row) => row.received,
       format: (row) => <>{row.received ? "Yes" : "No"}</>,
       sortable: true,
     },
     {
-      name: "date",
+      name: "startDate",
+      selector: (row) => row.startDate,
+      format: (row) => (
+        <>
+          <Moment fromNow ago>
+            {row.startDate}
+          </Moment>
+        </>
+      ),
+      sortable: true,
+    },
+    {
+      name: "expireDate",
+      selector: (row) => row.expireDate,
+      format: (row) => (
+        <>
+          <Moment fromNow ago>
+            {row.expireDate}
+          </Moment>
+        </>
+      ),
+      sortable: true,
+    },
+    {
+      name: "Date",
       selector: (row) => row.createDate,
       format: (row) => (
         <div className="blacktext">{convertDateToJalali(row.createDate)}</div>
@@ -215,7 +246,49 @@ function Admin(prop) {
       </>
     );
   }, [filterText, resetPaginationToggle, data]);
-
+  const gettotal = (data, status, target) => {
+    var _data = data.filter(
+      (d) => d.status.toLowerCase() === status.toLowerCase()
+    );
+    var _totalReward = 0;
+    {
+      _data.map((x, i) => {
+        var _am = x.amount;
+        _totalReward = _totalReward + _am;
+      });
+    }
+    if (target == "total") return _totalReward;
+    if (target == "count") return _data.length;
+  };
+  var footerTxt = "";
+  if (doCurrency(gettotal(filteredItems, "Done", "count")) > 0) {
+    footerTxt =
+      footerTxt +
+      "Done (" +
+      doCurrency(gettotal(filteredItems, "Done", "count")) +
+      "): " +
+      doCurrency(gettotal(filteredItems, "Done", "total")) +
+      "  َ  َ  َ |  َ  َ  َ  ";
+  }
+  if (doCurrency(gettotal(filteredItems, "Pending", "count")) > 0) {
+    footerTxt =
+      footerTxt +
+      " Pending (" +
+      doCurrency(gettotal(filteredItems, "Pending", "count")) +
+      "): " +
+      doCurrency(gettotal(filteredItems, "Pending", "total")) +
+      "  َ  َ  َ |  َ  َ  َ  ";
+  }
+  if (doCurrency(gettotal(filteredItems, "Canceled", "count")) > 0) {
+    footerTxt =
+      footerTxt +
+      " Canceled (" +
+      doCurrency(gettotal(filteredItems, "Canceled", "count")) +
+      "): " +
+      doCurrency(gettotal(filteredItems, "Canceled", "total")) +
+      "  َ  َ  َ |  َ  َ  َ  ";
+  }
+  footerTxt = footerTxt + "Rows per page:";
   return (
     <>
       <Modal
@@ -239,7 +312,6 @@ function Admin(prop) {
         style={{ height: "calc(100vh - 300px)", overflow: "auto" }}
       >
         <DataTable
-          title={prop.user.username + " Reports"}
           columns={columns}
           data={filteredItems}
           progressPending={loading}
@@ -253,12 +325,17 @@ function Admin(prop) {
           noDataComponent={noDataComponent}
           pagination
           paginationResetDefaultPage={resetPaginationToggle} // optionally, a hook to reset pagination to page 1
-          subHeader
-          subHeaderComponent={subHeaderComponentMemo}
           persistTableHead
           paginationRowsPerPageOptions={[10, 25, 50, 100, 500]}
           expandableRows
           expandableRowsComponent={ExpandedComponent}
+          paginationComponentOptions={{
+            rowsPerPageText: footerTxt,
+            rangeSeparatorText: "of",
+            noRowsPerPage: false,
+            selectAllRowsItem: false,
+            selectAllRowsItemText: "All",
+          }}
         />
       </div>
     </>

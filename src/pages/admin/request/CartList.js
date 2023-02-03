@@ -65,8 +65,8 @@ function Admin(prop) {
   const [dataMode, setDataMode] = useState("All");
   const [getwaysList, setGetwaysData] = useState([]);
 
-  const [startDate, setStartDate] = useState(addDays(new Date(), -6));
-  const [endDate, setEndDate] = useState(new Date());
+  const [startDate, setStartDate] = useState(addDays(new Date(), -14));
+  const [endDate, setEndDate] = useState(addDays(new Date(), 1));
   const [loading, setLoading] = useState(true);
 
   const [filterText, setFilterText] = React.useState("");
@@ -258,7 +258,6 @@ function Admin(prop) {
         onClose={() => setFirstOpen(false)}
         onOpen={() => setFirstOpen(true)}
         open={firstOpen}
-        dimmer="inverted"
         style={{ height: "auto" }}
       >
         <DateReng

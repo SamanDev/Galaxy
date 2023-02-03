@@ -7,7 +7,7 @@ import AmountColor from "../../../utils/AmountColor";
 import { addDays } from "date-fns";
 const moment = require("moment");
 import { adminGetService } from "../../../services/admin";
-
+import { doCurrency } from "../../../const";
 import DateReng from "../utils/dateReng";
 import FilterMode from "./Filter";
 
@@ -158,8 +158,8 @@ function Admin(prop) {
   const [dataMode, setDataMode] = useState("Pending");
   const [getwaysList, setGetwaysData] = useState([]);
 
-  const [startDate, setStartDate] = useState(addDays(new Date(), -6));
-  const [endDate, setEndDate] = useState(new Date());
+  const [startDate, setStartDate] = useState(addDays(new Date(), -14));
+  const [endDate, setEndDate] = useState(addDays(new Date(), 1));
   const [loading, setLoading] = useState(true);
 
   const [filterText, setFilterText] = React.useState("");
@@ -201,7 +201,49 @@ function Admin(prop) {
       setLoading(false);
     }
   };
-
+  const gettotal = (data, status, target) => {
+    var _data = data.filter(
+      (d) => d.status.toLowerCase() === status.toLowerCase()
+    );
+    var _totalReward = 0;
+    {
+      _data.map((x, i) => {
+        var _am = x.endBalance >= x.startBalance ? x.amount : x.amount * -1;
+        _totalReward = _totalReward + _am;
+      });
+    }
+    if (target == "total") return _totalReward;
+    if (target == "count") return _data.length;
+  };
+  var footerTxt = "";
+  if (doCurrency(gettotal(filteredItems, "Done", "count")) > 0) {
+    footerTxt =
+      footerTxt +
+      "Done (" +
+      doCurrency(gettotal(filteredItems, "Done", "count")) +
+      "): " +
+      doCurrency(gettotal(filteredItems, "Done", "total")) +
+      "  َ  َ  َ |  َ  َ  َ  ";
+  }
+  if (doCurrency(gettotal(filteredItems, "Pending", "count")) > 0) {
+    footerTxt =
+      footerTxt +
+      " Pending (" +
+      doCurrency(gettotal(filteredItems, "Pending", "count")) +
+      "): " +
+      doCurrency(gettotal(filteredItems, "Pending", "total")) +
+      "  َ  َ  َ |  َ  َ  َ  ";
+  }
+  if (doCurrency(gettotal(filteredItems, "Canceled", "count")) > 0) {
+    footerTxt =
+      footerTxt +
+      " Canceled (" +
+      doCurrency(gettotal(filteredItems, "Canceled", "count")) +
+      "): " +
+      doCurrency(gettotal(filteredItems, "Canceled", "total")) +
+      "  َ  َ  َ |  َ  َ  َ  ";
+  }
+  footerTxt = footerTxt + "Rows per page:";
   const handlePageChange = (page) => {
     fetchUsers(page);
   };
@@ -388,6 +430,13 @@ function Admin(prop) {
           paginationResetDefaultPage={resetPaginationToggle} // optionally, a hook to reset pagination to page 1
           persistTableHead
           paginationRowsPerPageOptions={[10, 25, 50, 100, 500]}
+          paginationComponentOptions={{
+            rowsPerPageText: footerTxt,
+            rangeSeparatorText: "of",
+            noRowsPerPage: false,
+            selectAllRowsItem: false,
+            selectAllRowsItemText: "All",
+          }}
         />
       </div>
     </>

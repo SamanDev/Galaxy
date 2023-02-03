@@ -82,7 +82,7 @@ function Admin(prop) {
   const [dataMode, setDataMode] = useState(["Open"]);
   const [getwaysList, setGetwaysData] = useState([]);
 
-  const [startDate, setStartDate] = useState(addDays(new Date(), -6));
+  const [startDate, setStartDate] = useState(addDays(new Date(), -14));
   const [endDate, setEndDate] = useState(addDays(new Date(), 1));
   const [loading, setLoading] = useState(false);
 

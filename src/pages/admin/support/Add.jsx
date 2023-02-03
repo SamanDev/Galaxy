@@ -54,6 +54,7 @@ const onSubmit = async (values, submitMethods, navigate, prop) => {
   }
 };
 const depositArea = (prop) => {
+  console.log(prop);
   const canRes = JSON.parse(localStorage.getItem("sampleMessage"));
   const carOptions = [];
   canRes.sort((a, b) => (a.id < b.id ? 1 : -1));

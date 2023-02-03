@@ -480,17 +480,7 @@ div.date .time {
   display: inline-block;
   padding-left: 2px;
 }
-canvas {
 
-  display: block !important;
-
-  bottom: 0 !important;
-  position: absolute !important;
-  top:0 !important;
-  width: 70% !important;
-
-
-}
 .ui.comments .comment .avatar {
   font-size: 30px;
   line-height: 30px;

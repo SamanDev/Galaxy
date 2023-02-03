@@ -8,17 +8,18 @@ import {
   Loader,
   Icon,
   Modal,
+  Grid,
 } from "semantic-ui-react";
 import Moment from "react-moment";
 import { addDays } from "date-fns";
 const moment = require("moment");
-import { adminGetService, adminPutService } from "../../services/admin";
-import { Alert } from "../../utils/alerts";
+import { adminGetService, adminPutService } from "../../../services/admin";
+import { Alert } from "../../../utils/alerts";
 
-import CheckboxToggle from "./utils/toggle";
-import AddGift from "./AddGift";
+import CheckboxToggle from "../utils/toggle";
+import AddGift from "../AddGift";
 
-import { haveAdmin, haveModerator, doCurrency } from "../../const";
+import { haveAdmin, haveModerator, doCurrency } from "../../../const";
 
 const conditionalRowStyles = [
   {
@@ -76,6 +77,7 @@ const FilterComponent = ({
       id="search"
       type="text"
       aria-label="Search Input"
+      className="float-end"
       value={filterText}
       onChange={onFilter}
       onBlur={onFilterOk}
@@ -239,49 +241,39 @@ function Admin(prop) {
       name: "id",
       selector: (row) => row.id,
       sortable: true,
-      grow: 0.5,
+      width: "100px",
     },
     {
-      name: "level",
+      name: "Level",
       selector: (row) => row.level,
       format: (row) => <>{row.level}</>,
       sortable: true,
+      width: "100px",
     },
     {
-      name: "username",
+      name: "Username",
       selector: (row) => row.username,
       format: (row) => (
         <>
-          <a
-            href="#"
-            onClick={() => prop.addTabData(row.username, getwaysList)}
+          <span
+            className="msglink fw-bold"
+            onClick={() => prop.addTabData(row.username)}
           >
             {row.username}
-          </a>
+          </span>
         </>
       ),
       sortable: true,
-      grow: 2,
+      width: "180px",
     },
-
     {
-      name: "refer",
-      selector: (row) => (row.refer ? row.refer : ""),
-      format: (row) => (
-        <>
-          {row.refer && (
-            <a href="#" onClick={() => prop.addTabData(row.refer, getwaysList)}>
-              {row.refer}
-            </a>
-          )}
-        </>
-      ),
+      name: "Balance",
+      selector: (row) => row.balance,
+      format: (row) => <>{doCurrency(row.balance)}</>,
       sortable: true,
-      grow: 2,
     },
-
     {
-      name: "balance",
+      name: "Credit",
       selector: (row) => row.balance,
       format: (row) => <>{doCurrency(row.balance)}</>,
       sortable: true,
@@ -298,51 +290,6 @@ function Admin(prop) {
       ),
       sortable: true,
     },
-
-    {
-      name: "userBlock",
-      selector: (row) => row.userBlock,
-      format: (row) => (
-        <>
-          <CheckboxToggle
-            check={row.userBlock}
-            user={row}
-            userkey="userBlock"
-            onChange={updateUserObj}
-          />
-        </>
-      ),
-      sortable: true,
-    },
-
-    {
-      name: "Admin",
-      selector: (row) => row.roles,
-      format: (row) => (
-        <CheckboxToggle
-          check={haveAdmin(row.roles)}
-          user={row}
-          userkey="Roles"
-          onChange={updateUserObj}
-          disabled={true}
-        />
-      ),
-      sortable: true,
-    },
-    {
-      name: "Moderator",
-      selector: (row) => row.roles,
-      format: (row) => (
-        <CheckboxToggle
-          check={haveModerator(row.roles)}
-          user={row}
-          userkey="Roles"
-          onChange={updateUserObj}
-          disabled={true}
-        />
-      ),
-      sortable: true,
-    },
   ];
   const subHeaderComponentMemo = React.useMemo(() => {
     const handleClear = () => {
@@ -354,11 +301,20 @@ function Admin(prop) {
 
     return (
       <>
-        <FilterComponent
-          onFilter={(e) => setFilterText(e.target.value)}
-          onClear={handleClear}
-          filterText={filterText}
-        />
+        <Grid verticalAlign="middle" columns={2} as={Segment} color="red">
+          <Grid.Row>
+            <Grid.Column>
+              <h1>{prop.searchValue}</h1>
+            </Grid.Column>
+            <Grid.Column>
+              <FilterComponent
+                onFilter={(e) => setFilterText(e.target.value)}
+                onClear={handleClear}
+                filterText={filterText}
+              />
+            </Grid.Column>
+          </Grid.Row>
+        </Grid>
       </>
     );
   }, [filterText, resetPaginationToggle, data]);
@@ -389,8 +345,8 @@ function Admin(prop) {
         <AddGift selectedList={selectedList} />
       </Modal>
       <div style={{ height: "calc(100vh - 150px)", overflow: "auto" }}>
+        {subHeaderComponentMemo}
         <DataTable
-          title={prop.searchValue ? prop.searchValue : "Users"}
           columns={columns}
           data={filteredItems}
           progressPending={loading}
@@ -404,11 +360,8 @@ function Admin(prop) {
           noDataComponent={noDataComponent}
           pagination
           paginationResetDefaultPage={resetPaginationToggle} // optionally, a hook to reset pagination to page 1
-          subHeader
-          subHeaderComponent={subHeaderComponentMemo}
           persistTableHead
           contextActions={contextActions}
-          selectableRows
           paginationRowsPerPageOptions={[10, 25, 50, 100]}
           onSelectedRowsChange={handleChange}
         />

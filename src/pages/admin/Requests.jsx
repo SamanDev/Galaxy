@@ -6,6 +6,7 @@ import Cashout from "./request/CashoutList";
 import Carts from "./request/CartList";
 import Tickets from "./support/List";
 import Reports from "./report/List";
+import Stats from "./report/Stat";
 var panes = [];
 function Admin(prop) {
   const [activeIndex, setActiveIndex] = useState(0);
@@ -59,6 +60,14 @@ function Admin(prop) {
         render: () => (
           <Tab.Pane>
             <Reports {...prop} />
+          </Tab.Pane>
+        ),
+      },
+      {
+        menuItem: "Stats",
+        render: () => (
+          <Tab.Pane>
+            <Stats {...prop} />
           </Tab.Pane>
         ),
       },

@@ -1,21 +1,6 @@
 import React from "react";
-import {
-  Icon,
-  Label,
-  Comment,
-  List,
-  Image,
-  Button,
-  Divider,
-} from "semantic-ui-react";
-import {
-  doCurrency,
-  levelList,
-  levelReward,
-  levelRewardPercent,
-  levelPercent,
-  levelClassInside,
-} from "../../const";
+import { List } from "semantic-ui-react";
+import { doCurrency, levelClassInside } from "../../const";
 import LevelIcon from "../../utils/svg";
 
 import LevelBar from "../../utils/LevelBar";

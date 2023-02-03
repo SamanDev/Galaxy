@@ -9,7 +9,7 @@ options.push({ key: 2, text: "Pending", value: false });
 const DropdownExampleMultipleSelection = (prop) => {
   return (
     <Dropdown
-      placeholder={prop.value}
+      defaultValue={prop.value}
       className="float-end"
       selection
       options={options}

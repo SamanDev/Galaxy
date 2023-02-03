@@ -477,6 +477,11 @@ function Admin(prop) {
                 Runners
               </Button>
               <Button onClick={() => prop.addMainTabData("Bots")}>Bots</Button>
+              {selectedList.length > 0 && (
+                <Button color="red" onClick={() => setFirstOpen(true)}>
+                  Gift {selectedList.length}
+                </Button>
+              )}
             </Grid.Column>
 
             <Grid.Column>
@@ -499,7 +504,7 @@ function Admin(prop) {
         </Grid>
       </>
     );
-  }, [filterText, resetPaginationToggle, data]);
+  }, [filterText, resetPaginationToggle, data, selectedList]);
   if (loading) {
     return (
       <>

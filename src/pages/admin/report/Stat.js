@@ -14,12 +14,14 @@ import { convertDateToJalali } from "../../../utils/convertDate";
 import { doCurrency } from "../../../const";
 import { addDays } from "date-fns";
 import AmountColor from "../../../utils/AmountColor";
-
+import $ from "jquery";
 import { adminGetService } from "../../../services/admin";
 
 import DateReng from "../utils/dateReng";
 import FilterMode from "./Filter";
 import FilterModeGateway from "./FilterGateway";
+import Chart from "chart.js/auto";
+
 const moment = require("moment");
 const conditionalRowStyles = [
   {
@@ -70,22 +72,22 @@ const noDataComponent = (
 function Admin(prop) {
   const [data, setData] = useState([]);
   const loginToken = JSON.parse(localStorage.getItem("loginToken"));
-  const [totalRows, setTotalRows] = useState(0);
+  const [totalRows, setTotalRows] = useState([]);
   const [perPage, setPerPage] = useState(10);
   const [dataSortedID, setDataSortedID] = useState(1);
   const [dataSorted, setDataSorted] = useState("id");
   const [dataSortedDir, setDataSortedDir] = useState("desc");
   const [dataSearch, setDataSearch] = useState("");
   if (prop?.user?.username) {
-    var defmde = ["cashout", "deposit", "transfer", "bonus", "poker", "casino"];
+    var defmde = ["cashout", "deposit"];
   } else {
-    var defmde = ["cashout", "deposit", "transfer", "bonus"];
+    var defmde = ["cashout", "deposit"];
   }
 
   const [dataMode, setDataMode] = useState(defmde);
-  const [getwaysList, setGetwaysData] = useState([]);
+  const [getwaysList, setGetwaysData] = useState();
 
-  const [startDate, setStartDate] = useState(addDays(new Date(), -14));
+  const [startDate, setStartDate] = useState(addDays(new Date(), -24));
   const [endDate, setEndDate] = useState(addDays(new Date(), 1));
   const [loading, setLoading] = useState(false);
 
@@ -144,10 +146,18 @@ function Admin(prop) {
     setDataSorted(column.name);
     setDataSortedDir(sortDirection);
   };
-  const gettotal = (data, status, target) => {
+  const gettotal = (data, status, target, mode, i, gateway) => {
     var _data = data.filter(
-      (d) => d.status.toLowerCase() === status.toLowerCase()
+      (d) =>
+        parseInt(moment(d.createDate).date()) === parseInt(i) &&
+        d.mode.toLowerCase() == mode.toLowerCase()
+      // && d.status.toLowerCase() == status.toLowerCase()
     );
+    if (gateway) {
+      _data = _data.filter(
+        (d) => d.gateway.toLowerCase() == gateway.toLowerCase()
+      );
+    }
     var _totalReward = 0;
     {
       _data.map((x, i) => {
@@ -169,81 +179,113 @@ function Admin(prop) {
   useEffect(() => {
     if (!firstOpen && filterOk) fetchUsers(1); // fetch page 1 of users
   }, [filterOk, firstOpen]);
-  const columns = [
-    {
-      name: "id",
-      selector: (row) => row.id,
-      sortable: true,
-      width: "80px",
-    },
-    {
-      name: "Username",
-      selector: (row) => row.username,
-      format: (row) => (
-        <>
-          <span
-            className="msglink fw-bold"
-            onClick={() => prop.addTabData(row.username)}
-          >
-            {row.username}
-          </span>
-        </>
-      ),
-      sortable: true,
-      width: "180px",
-    },
+  useEffect(() => {
+    var tdata = [];
+    var labels = [];
+    var cvalues = [];
+    var dvalues = [];
+    var bvalues = [];
+    var _s = moment(startDate);
+    var _e = moment(endDate);
+    var _d = _e.diff(_s, "days");
+    for (let index = 0; index < _d; index++) {
+      var _day = moment(_s).add(index, "days").format("MM-DD");
+      var _dayX = moment(_s).add(index, "days").format("D");
 
-    {
-      name: "Status",
-      selector: (row) => row.status,
-      format: (row) => <>{row.status}</>,
-      sortable: true,
-      width: "120px",
-    },
-    {
-      name: "Start",
-      selector: (row) => row.startBalance,
-      format: (row) => <>{doCurrency(row.startBalance)}</>,
-      sortable: true,
-      width: "100px",
-    },
-    {
-      name: "Amount",
-      selector: (row) =>
-        row.endBalance >= row.startBalance ? row.amount : row.amount * -1,
-      format: (row) => (
-        <>
-          <AmountColor
-            amount={row.amount}
-            sign={row.endBalance - row.startBalance}
-          />
-        </>
-      ),
-      sortable: true,
-      width: "100px",
-    },
-    {
-      name: "End",
-      selector: (row) => row.endBalance,
-      format: (row) => <>{doCurrency(row.endBalance)}</>,
-      sortable: true,
-      width: "100px",
-    },
-    {
-      name: "Mode",
-      selector: (row) => row.mode,
-      format: (row) => <>{row.mode}</>,
-      sortable: true,
-      width: "120px",
-    },
-    {
-      name: "Gateway",
-      selector: (row) => (row.gateway ? row.gateway : ""),
-      format: (row) => (
-        <span onClick={() => setDataSearch(row.gateway)}>{row.gateway}</span>
-      ),
-      sortable: true,
-    },
+      labels.push(_day);
+      dvalues.push(gettotal(filteredItems, "Done", "total", "deposit", _dayX));
+      cvalues.push(gettotal(filteredItems, "Done", "total", "cashout", _dayX));
+      bvalues.push(gettotal(filteredItems, "Done", "total", "bonus", _dayX));
+      tdata.push({
+        createDate: _day,
+        dtoman: gettotal(
+          filteredItems,
+          "Done",
+          "total",
+          "deposit",
+          _dayX,
+          "IranShetab"
+        ),
+        dbtc: gettotal(
+          filteredItems,
+          "Done",
+          "total",
+          "cashout",
+          _dayX,
+          "bitcoin"
+        ),
+        ctoman: gettotal(
+          filteredItems,
+          "Done",
+          "total",
+          "cashout",
+          _dayX,
+          "IranShetab"
+        ),
+      });
+    }
+    setTotalRows(tdata);
+    var data = {
+      labels: labels,
+      datasets: [
+        {
+          label: "Deposit",
+          data: dvalues,
+          borderColor: "#36A2EB",
+          backgroundColor: "#9BD0F5",
+          tension: 0.1,
+        },
+        {
+          label: "Cashout",
+          data: cvalues,
+          borderColor: "#FF6384",
+          backgroundColor: "#FFB1C1",
+          tension: 0.1,
+        },
+        {
+          label: "Bonus",
+          data: bvalues,
+          backgroundColor: "#00ff00",
+          borderColor: "#00ff00",
+          tension: 0.1,
+        },
+      ],
+    };
+    setGetwaysData(data);
+  }, [data]);
+  useEffect(() => {
+    $("#chart").html("");
+    $("#chart").append('<canvas id="acquisitions"></canvas>');
+    new Chart(document.getElementById("acquisitions"), {
+      type: "line",
+      data: getwaysList,
+      options: {
+        responsive: true,
+
+        interaction: {
+          intersect: false,
+        },
+        scales: {
+          x: {
+            display: true,
+            title: {
+              display: true,
+            },
+          },
+          y: {
+            display: true,
+            title: {
+              display: true,
+              text: "Value",
+            },
+            suggestedMin: -10,
+            suggestedMax: 200,
+          },
+        },
+      },
+    });
+  }, [getwaysList]);
+  const columns = [
     {
       name: "Date",
       selector: (row) => row.createDate,
@@ -252,27 +294,28 @@ function Admin(prop) {
       ),
       sortable: true,
     },
+    {
+      name: "Toman",
+      selector: (row) => row.dtoman,
+      format: (row) => <>{row.dtoman}</>,
+      sortable: true,
+      width: "120px",
+    },
+    {
+      name: "Bitcoin",
+      selector: (row) => row.dbtc,
+      format: (row) => <>{row.dbtc}</>,
+      sortable: true,
+      width: "120px",
+    },
+    {
+      name: "Cash Tman",
+      selector: (row) => row.ctoman,
+      format: (row) => <>{row.ctoman}</>,
+      sortable: true,
+      width: "120px",
+    },
   ];
-  var footerTxt = "";
-  if (doCurrency(gettotal(filteredItems, "Done", "count")) > 0) {
-    footerTxt =
-      footerTxt +
-      "Done (" +
-      doCurrency(gettotal(filteredItems, "Done", "count")) +
-      "): " +
-      doCurrency(gettotal(filteredItems, "Done", "total")) +
-      "  َ  َ  َ |  َ  َ  َ  ";
-  }
-  if (doCurrency(gettotal(filteredItems, "Pending", "count")) > 0) {
-    footerTxt =
-      footerTxt +
-      " Pending (" +
-      doCurrency(gettotal(filteredItems, "Pending", "count")) +
-      "): " +
-      doCurrency(gettotal(filteredItems, "Pending", "total")) +
-      "  َ  َ  َ |  َ  َ  َ  ";
-  }
-  footerTxt = footerTxt + "Rows per page:";
   const subHeaderComponentMemo = React.useMemo(() => {
     var _s = moment(startDate).format("YY-MM-DD");
     var _e = moment(endDate).format("YY-MM-DD");
@@ -347,35 +390,37 @@ function Admin(prop) {
 
       <div
         className="reportTable"
-        style={{ height: "calc(100vh - 250px)", overflow: "auto" }}
+        style={{ height: "calc(100vh - 150px)", overflow: "auto" }}
       >
         {subHeaderComponentMemo}
-        <DataTable
-          columns={columns}
-          data={filteredItems}
-          progressPending={loading}
-          onChangeRowsPerPage={handlePerRowsChange}
-          defaultSortFieldId={dataSortedID}
-          paginationPerPage={perPage}
-          defaultSortAsc={false}
-          expandOnRowClicked={true}
-          expandableRowsHideExpander={true}
-          conditionalRowStyles={conditionalRowStyles}
-          noDataComponent={noDataComponent}
-          pagination
-          paginationResetDefaultPage={resetPaginationToggle} // optionally, a hook to reset pagination to page 1
-          persistTableHead
-          paginationRowsPerPageOptions={[10, 25, 50, 100, 500]}
-          expandableRows
-          expandableRowsComponent={ExpandedComponent}
-          paginationComponentOptions={{
-            rowsPerPageText: footerTxt,
-            rangeSeparatorText: "of",
-            noRowsPerPage: false,
-            selectAllRowsItem: false,
-            selectAllRowsItemText: "All",
-          }}
-        />
+        <Segment>
+          <div
+            style={{
+              width: "calc(80vw )",
+              margin: "auto",
+            }}
+            id="chart"
+          ></div>
+          <DataTable
+            columns={columns}
+            data={totalRows}
+            progressPending={loading}
+            onChangeRowsPerPage={handlePerRowsChange}
+            defaultSortFieldId={dataSortedID}
+            paginationPerPage={perPage}
+            defaultSortAsc={true}
+            expandOnRowClicked={true}
+            expandableRowsHideExpander={true}
+            conditionalRowStyles={conditionalRowStyles}
+            noDataComponent={noDataComponent}
+            pagination
+            paginationResetDefaultPage={resetPaginationToggle} // optionally, a hook to reset pagination to page 1
+            persistTableHead
+            paginationRowsPerPageOptions={[10, 25, 50, 100, 500]}
+            expandableRows
+            expandableRowsComponent={ExpandedComponent}
+          />
+        </Segment>
       </div>
     </>
   );

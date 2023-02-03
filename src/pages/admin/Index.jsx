@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { List, Segment, Tab, Icon } from "semantic-ui-react";
 import Users from "./Users";
-import Bots from "./AdminBots";
+import Bots from "./user/Bots";
 import { Navigate } from "react-router-dom";
 import User from "./user/User";
 
 import GetwaysList from "./setting/GetwaysList";
 import SiteCartsList from "./setting/SiteCartsList";
+
 import Requests from "./Requests";
 import Setting from "./Setting";
 import RisingPitch from "./utils/PlayAlert";
