@@ -56,7 +56,7 @@ class Example extends React.Component {
       .utc()
       .utcOffset(zones)
       .format("YYYYMMDDTHHmmss" + zones);
-    console.log(this.props.startDay);
+
     var nowDay = moment(now).date();
     var nowMonth = moment(now).month();
     var start = parseInt(this.props.startDay);

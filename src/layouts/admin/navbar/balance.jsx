@@ -22,13 +22,14 @@ import {
   levelClassInside,
   levelDataInfo,
 } from "../../../const";
-
+import eventBus from "../../../services/eventBus";
 const moment = require("moment");
 const Balance = (prop) => {
   var lvlPercent = 0;
   var gLvlPercent = 0;
   var vLvlPercent = 0;
-  const loginToken = JSON.parse(localStorage.getItem("loginToken"));
+
+  const [loginToken, setLoginToken] = useState();
   const [color, setColor] = useState("grey");
   const [gCount, setGCount] = useState(0);
   const [stateMode, setStateMode] = useState(0);
@@ -38,35 +39,9 @@ const Balance = (prop) => {
   };
   var _event = getEvent();
 
-  if (loginToken) {
-    if (loginToken.level == 0) {
-      loginToken.level = 1;
-    }
-    var _lvlFinal = levelData.filter((d) => d.level === loginToken.level);
-
-    lvlPercent = parseFloat(
-      (loginToken.levelPoint * 100) / _lvlFinal[0].point
-    ).toFixed(2);
-    gLvlPercent = parseFloat(
-      (loginToken.glevelSecond * 100) / (levelDataInfo[0].hoursLimit * 3600)
-    ).toFixed(2);
-    vLvlPercent = parseFloat(
-      (loginToken.vipPlaySecond * 100) / (levelDataInfo[1].hoursLimit * 3600)
-    ).toFixed(2);
-    if (gLvlPercent > 100) {
-      gLvlPercent = 100;
-    }
-    if (lvlPercent > 100) {
-      lvlPercent = 100;
-    }
-    if (vLvlPercent > 100) {
-      vLvlPercent = 100;
-    }
-  }
-
   const [lvlPercentState, setlvlPercentState] = useState(lvlPercent);
   const ChangeGift = () => {
-    var user = JSON.parse(localStorage.getItem("loginToken"));
+    var user = loginToken;
     if (user) {
       var _bonuses = user?.userGifts;
 
@@ -101,6 +76,7 @@ const Balance = (prop) => {
     prop.setUserOpen(true);
   };
   useEffect(() => {
+    setLoginToken(JSON.parse(localStorage.getItem("loginToken")));
     if (_event == "GPass") {
       setStateMode(1);
     }
@@ -110,9 +86,36 @@ const Balance = (prop) => {
     if (_event == "League") {
       setStateMode(1);
     }
-    ChangeGift();
+    eventBus.on("eventsDataUser", (dataGet) => {
+      setLoginToken(dataGet);
+    });
   }, []);
   useEffect(() => {
+    if (loginToken) {
+      if (loginToken.level == 0) {
+        loginToken.level = 1;
+      }
+      var _lvlFinal = levelData.filter((d) => d.level === loginToken.level);
+
+      lvlPercent = parseFloat(
+        (loginToken.levelPoint * 100) / _lvlFinal[0].point
+      ).toFixed(2);
+      gLvlPercent = parseFloat(
+        (loginToken.glevelSecond * 100) / (levelDataInfo[0].hoursLimit * 3600)
+      ).toFixed(2);
+      vLvlPercent = parseFloat(
+        (loginToken.vipPlaySecond * 100) / (levelDataInfo[1].hoursLimit * 3600)
+      ).toFixed(2);
+      if (gLvlPercent > 100) {
+        gLvlPercent = 100;
+      }
+      if (lvlPercent > 100) {
+        lvlPercent = 100;
+      }
+      if (vLvlPercent > 100) {
+        vLvlPercent = 100;
+      }
+    }
     if (stateMode == 0) {
       setlvlPercentState(lvlPercent);
     }
@@ -122,7 +125,7 @@ const Balance = (prop) => {
     if (stateMode == 1 && _event == "VIP") {
       setlvlPercentState(vLvlPercent);
     }
-  }, [stateMode]);
+  }, [stateMode, loginToken]);
   useEffect(() => {
     if (gCount > 0) {
       $("#playbip").trigger("click");
