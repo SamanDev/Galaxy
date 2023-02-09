@@ -3,33 +3,26 @@ import { List } from "semantic-ui-react";
 import $ from "jquery";
 import Reward from "../../utils/Reward";
 import eventBus from "../../services/eventBus";
+import { useLastReward } from "../../hook/userHook";
+var _sortDataOld = [];
+
+var _sortDataNew = [];
+var _sortD = [];
+try {
+  _sortDataOld = JSON.parse(localStorage.getItem("lastRewardSort"));
+} catch (error) {
+  localStorage.removeItem("lastRewardSort");
+}
+if (_sortDataOld == null) {
+  _sortDataOld = [];
+}
 const ActiveTable = (prop) => {
-  var _sortDataOld = [];
+  const [lastReward] = useLastReward();
 
-  var _sortDataNew = [];
-  var _sortD = [];
-  try {
-    _sortDataOld = JSON.parse(localStorage.getItem("lastRewardSort"));
-  } catch (error) {
-    localStorage.removeItem("lastRewardSort");
-  }
-  if (_sortDataOld == null) {
-    _sortDataOld = [];
-  }
-  try {
-    _sortDataNew = JSON.parse(localStorage.getItem("lastReward"));
-  } catch (error) {
-    localStorage.removeItem("lastReward");
-  }
-  if (_sortDataNew == null) {
-    _sortDataNew = [];
-  }
-
-  const [_data, setData] = useState(_sortDataNew);
   const [_sortData, setSortData] = useState(_sortDataOld);
 
   useEffect(() => {
-    var myData = _data;
+    var myData = lastReward;
 
     try {
       var myI = myData.length;
@@ -41,9 +34,9 @@ const ActiveTable = (prop) => {
           myx.class = "lastlogs id-" + myx.id + " hiddenmenu fast";
           myI = myI - 1;
           setTimeout(() => {
-            prop.animateCSS(".id-" + myx.id + "", "fadeInDown");
+            //prop.animateCSS(".id-" + myx.id + "", "fadeInDown");
             $("#playreward").trigger("click");
-            $("#bindlastreward").trigger("click");
+            //prop.bindLastReward();
           }, 1000 * (myData.length - myI));
         } else {
           myI = myI - 1;
@@ -54,23 +47,14 @@ const ActiveTable = (prop) => {
       });
 
       setSortData(_sortD);
-      $("#bindlastreward").trigger("click");
+
       setTimeout(() => {
         localStorage.setItem("lastRewardSort", JSON.stringify(_sortD));
         //$("#playreward").trigger("click");
       }, 700 * myI);
     } catch (error) {}
+  }, [lastReward]);
 
-    localStorage.setItem("lastReward", JSON.stringify(_data));
-    //prop.animateCSS(".hiddenmenu.lastlogs", "slideInUp");
-    //console.log(_data);
-  }, [_data]);
-  useEffect(() => {
-    eventBus.on("LastReward", (dataGet) => {
-      var mydataGet = dataGet.sort((a, b) => (a.id < b.id ? 1 : -1));
-      setData(mydataGet);
-    });
-  }, []);
   return (
     <>
       {_sortData.length == 0 ? (

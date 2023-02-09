@@ -5,11 +5,11 @@ import LevelIcon from "../../utils/svg";
 
 import LevelBar from "../../utils/LevelBar";
 
-const LevelList = () => {
+const LevelList = (prop) => {
   var totalReward = 0;
-  var arra = [];
+
   const siteInfo = JSON.parse(localStorage.getItem("siteInfo"));
-  const loginToken = JSON.parse(localStorage.getItem("loginToken"));
+  const loginToken = prop.loginToken;
   siteInfo?.levelUps?.sort((a, b) => (a.id > b.id ? 1 : -1));
   return (
     <span className="myaccount popupmenu">
@@ -21,11 +21,7 @@ const LevelList = () => {
             <List.Item
               key={i}
               id={"lvl" + (i + 1)}
-              className={
-                loginToken?.level == i + 1
-                  ? "active animated fadeIn faster"
-                  : " animated fadeIn faster"
-              }
+              className={loginToken?.level == x.level ? "active" : ""}
             >
               <List.Content floated="right" className="rtl">
                 <span className="text-gold">{doCurrency(x.reward)} </span>

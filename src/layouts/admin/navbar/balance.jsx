@@ -23,20 +23,18 @@ import {
   levelDataInfo,
 } from "../../../const";
 import eventBus from "../../../services/eventBus";
+import { useUser } from "../../../hook/userHook";
 const moment = require("moment");
 const Balance = (prop) => {
   var lvlPercent = 0;
   var gLvlPercent = 0;
   var vLvlPercent = 0;
+  const loginToken = prop.loginToken;
 
-  const [loginToken, setLoginToken] = useState();
   const [color, setColor] = useState("grey");
   const [gCount, setGCount] = useState(0);
   const [stateMode, setStateMode] = useState(0);
-  const handleConfirmTest = (bonus, _bonuses, i, loginToken) => {
-    loginToken.userGifts = _bonuses;
-    localStorage.setItem("loginToken", JSON.stringify(loginToken));
-  };
+
   var _event = getEvent();
 
   const [lvlPercentState, setlvlPercentState] = useState(lvlPercent);
@@ -76,7 +74,6 @@ const Balance = (prop) => {
     prop.setUserOpen(true);
   };
   useEffect(() => {
-    setLoginToken(JSON.parse(localStorage.getItem("loginToken")));
     if (_event == "GPass") {
       setStateMode(1);
     }
@@ -86,9 +83,6 @@ const Balance = (prop) => {
     if (_event == "League") {
       setStateMode(1);
     }
-    eventBus.on("eventsDataUser", (dataGet) => {
-      setLoginToken(dataGet);
-    });
   }, []);
   useEffect(() => {
     if (loginToken) {
@@ -128,13 +122,13 @@ const Balance = (prop) => {
   }, [stateMode, loginToken]);
   useEffect(() => {
     if (gCount > 0) {
-      $("#playbip").trigger("click");
+      //$("#playbip").trigger("click");
     }
   }, [gCount]);
   useEffect(() => {
     ChangeGift();
   });
-  if (loginToken && !prop.loadingLogin) {
+  if (loginToken) {
     return (
       <>
         <Segment
@@ -157,9 +151,6 @@ const Balance = (prop) => {
                   classinside={levelClassInside(loginToken.level)}
                   number=""
                   width="30px"
-                  onClick={() => {
-                    prop.openPanel(".levels", "#lvl" + loginToken.level);
-                  }}
                 />
               </span>
             )}
@@ -171,9 +162,6 @@ const Balance = (prop) => {
                 number={loginToken.glevel}
                 text=""
                 width="30px"
-                onClick={() => {
-                  prop.openPanel(".gpass", "#lvl" + loginToken.glevel);
-                }}
               />
             )}
             {stateMode == 1 && _event == "VIP" && (

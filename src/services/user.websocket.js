@@ -3,85 +3,9 @@ import eventBus from "./eventBus";
 
 var ws;
 var ws2;
-var timerId = 0;
-var res = false;
-var _bonuses = [
-  {
-    id: 2,
-    date: "2022-08-13T18:53:53.000+00:00",
-    expireDate: "2022-08-13T23:54:03.000+00:00",
-    mode: "gift1",
-    label: "هدیه",
-    text: "Free Gift",
-    username: "coce",
-    status: "Pending",
-    received: false,
-    amount: 1000000,
-  },
-  {
-    id: 3,
-    date: "2022-08-12T18:53:53.000+00:00",
-    expireDate: "2022-08-12T23:54:03.000+00:00",
-    mode: "bonus",
-    label: "بوناس",
-    text: "%5 Bonus",
-    username: "coce",
-    status: "Pending",
-    received: false,
-    amount: 1000000,
-  },
-  {
-    id: 4,
-    date: "2022-08-13T04:01:53.000+00:00",
-    expireDate: "2022-08-13T23:54:03.000+00:00",
-    mode: "commission",
-    label: "کمیسیون",
-    text: "Commission",
-    username: "coce",
-    status: "Pending",
-    received: false,
-    amount: 1040000,
-  },
-  {
-    id: 5,
-    date: "2022-08-13T04:01:53.000+00:00",
-    expireDate: "2023-08-12T23:54:03.000+00:00",
-    mode: "gpass",
-    label: "پاداش گلکسی پَس",
-    text: "Level 10",
-    username: "m11001100mWW",
-    status: "Pending",
-    received: false,
-    amount: 1000000,
-  },
-  {
-    id: 6,
-    date: "2022-08-13T04:01:53.000+00:00",
-    expireDate: "2022-08-13T23:54:03.000+00:00",
-    mode: "rakeback",
-    label: "ریک بک",
-    text: "Rakeack",
-    username: "coce",
-    status: "Pending",
-    received: false,
-    amount: 1040000,
-  },
-  {
-    id: 9,
-    date: "2022-08-13T18:53:53.000+00:00",
-    expireDate: "2023-08-12T23:54:03.000+00:00",
-    mode: "levels",
-    label: "پاداش افزایش لٍوٍل",
-    text: "Level 55",
-    username: "coce",
-    status: "Pending",
-    received: false,
-    amount: 1000000,
-  },
-];
+
 class UserWebsocket {
   connect(token, user) {
-    //console.log(ws);
     if (token) {
       if (ws == null || ws == ws2) {
         ws?.close();
@@ -107,7 +31,7 @@ class UserWebsocket {
     ws.onopen = function live() {
       if (ws?.readyState == ws?.OPEN) {
         if (ws) {
-          eventBus.dispatch("eventsConnect", "");
+          //eventBus.dispatch("eventsConnect", "");
           // eventBus.dispatch("LastReward", _bonuses);
         }
       }
@@ -155,18 +79,12 @@ class UserWebsocket {
           var msg = JSON.parse(message);
 
           //alert((msg.Command))
-          if (msg.Command === "event") {
-            eventBus.dispatch("updateAllEvents", msg.data);
-          } else if (msg.Command === "updateUser") {
-            eventBus.dispatch("eventsDataUser", msg.data);
-            //eventBus.dispatch("LastReward", _bonuses);
-          } else if (msg.Command === "eventId") {
-            eventBus.dispatch("updateEventId", msg.data);
+          if (msg.Command === "updateUser") {
+            eventBus.dispatch("updateUser", msg.data);
           } else if (msg.Command === "ActiveTables") {
-            eventBus.dispatch("ActiveTables", msg.data);
+            eventBus.dispatch("updateActiveTables", msg.data);
           } else if (msg.Command === "LastReward") {
-            eventBus.dispatch("LastReward", msg.data);
-            // eventBus.dispatch("LastReward", _bonuses);
+            eventBus.dispatch("updateLastReward", msg.data);
           } else if (msg.Command === "startTick") {
             // setYvalStart(msg.tick);
           }
@@ -204,7 +122,7 @@ class UserWebsocket {
 
         if (e.type === "error") {
           //localStorage.setItem("user", JSON.stringify(defUser));
-          eventBus.dispatch("eventsDC", "");
+          //eventBus.dispatch("eventsDC", "");
           // localStorage.clear();
           //window.location.reload();
           //window.location.replace("/auth/login-page");
@@ -213,7 +131,7 @@ class UserWebsocket {
       ws.onclose = function (e) {
         setTimeout(function () {
           if (ws2 == null && token) {
-            eventBus.dispatch("eventsDC", "");
+            // eventBus.dispatch("eventsDC", "");
           }
         }, 100);
         //ws?.close();

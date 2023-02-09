@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import AdminLayout from "./layouts/admin/Index";
+import RightPanel from "./Panel";
 import { Image, Modal } from "semantic-ui-react";
 import {
   menuData,
@@ -13,6 +14,8 @@ import {
 } from "./const";
 import { Link } from "react-router-dom";
 import { useIsLogin } from "./hook/authHook";
+import { useUser } from "./hook/userHook";
+
 import { useSiteInfo, useActiveTable, useLastReward } from "./hook/infoHook";
 import $ from "jquery";
 import { Route, Routes } from "react-router-dom";
@@ -29,14 +32,114 @@ import UserWebsocket from "./services/user.websocket";
 import eventBus from "./services/eventBus";
 import { cashierService } from "./services/cashier";
 import ActiveTable from "./pages/dashboard/ActiveTableJson.jsx";
+import RewardStat from "./pages/dashboard/rewardStat";
 import LastReward from "./pages/dashboard/LastRewardJson";
 import PWAPrompt from "react-ios-pwa-prompt";
+import LevelList from "./pages/dashboard/Levels";
+import GalaxyPass from "./pages/dashboard/GalaxyPass";
 const moment = require("moment");
 var menu = "no";
 var panelMenu = "no";
 var api;
 var apiPanel;
-
+var defMethod = [
+  {
+    id: 1,
+    total: 0,
+    bonus: 0,
+    name: "Digipay",
+    mode: "IranShetab",
+    active: true,
+  },
+  {
+    id: 12,
+    total: 0,
+    bonus: 0,
+    name: "Commission",
+    mode: "Commission",
+    active: true,
+  },
+  {
+    id: 3,
+    total: 0,
+    bonus: 0,
+    name: "PerfectMoney",
+    mode: "PerfectMoney",
+    active: true,
+  },
+  {
+    id: 7,
+    total: 0,
+    bonus: 0,
+    name: "Bitcoin",
+    mode: "CoinPayments",
+    active: true,
+  },
+  {
+    id: 9,
+    total: 0,
+    bonus: 0,
+    name: "BankTransfer",
+    mode: "BankTransfer",
+    active: false,
+  },
+  {
+    id: 8,
+    total: 0,
+    bonus: 20,
+    name: "VisaGiftCode",
+    mode: "VisaGiftCode",
+    active: false,
+  },
+  {
+    id: 4,
+    total: 0,
+    bonus: 0,
+    name: "CartToCart",
+    mode: "CartToCart",
+    active: false,
+  },
+  {
+    id: 2,
+    total: 0,
+    bonus: 5,
+    name: "USDT",
+    mode: "CoinPayments",
+    active: true,
+  },
+  {
+    id: 5,
+    total: 0,
+    bonus: 0,
+    name: "Rakeback",
+    mode: "Rakeback",
+    active: true,
+  },
+  {
+    id: 5,
+    total: 0,
+    bonus: 0,
+    name: "Transfer",
+    mode: "Transfer",
+    active: true,
+  },
+  {
+    id: 10,
+    total: 0,
+    bonus: 0,
+    name: "Haft80",
+    mode: "IranShetab",
+    active: true,
+  },
+  {
+    id: 11,
+    total: 0,
+    bonus: 0,
+    name: "Hamrahcart",
+    mode: "IranShetab",
+    active: true,
+  },
+];
 var _event = getEvent();
 var nowDay = moment().isoWeekday();
 const animateCSS = (element, animation, prefix = "") =>
@@ -64,130 +167,12 @@ const animateCSS = (element, animation, prefix = "") =>
     }
   });
 
-function getBonus(gateway) {
-  try {
-    var loginToken = JSON.parse(localStorage.getItem("loginToken"));
-    var data_filter = loginToken.cashierGateways.filter(
-      (element) => element.name == gateway
-    );
-    var bonus = data_filter[0].bonus;
-  } catch (error) {
-    var loginToken = [
-      {
-        id: 2,
-        total: 0,
-        bonus: 5,
-        name: "USDT",
-        mode: "CoinPayments",
-        active: true,
-      },
-      {
-        id: 3,
-        total: 0,
-        bonus: 10,
-        name: "PerfectMoney",
-        mode: "PerfectMoney",
-        active: true,
-      },
-      {
-        id: 1,
-        total: 0,
-        bonus: 0,
-        name: "Digipay",
-        mode: "IranShetab",
-        active: true,
-      },
-      {
-        id: 6,
-        total: 0,
-        bonus: 0,
-        name: "Transfer",
-        mode: "Transfer",
-        active: true,
-      },
-      {
-        id: 8,
-        total: 0,
-        bonus: 2,
-        name: "VisaGiftCode",
-        mode: "VisaGiftCode",
-        active: true,
-      },
-      {
-        id: 10,
-        total: 0,
-        bonus: 0,
-        name: "Haft80",
-        mode: "IranShetab",
-        active: true,
-      },
-      {
-        id: 4,
-        total: 0,
-        bonus: 0,
-        name: "CartToCart",
-        mode: "CartToCart",
-        active: true,
-      },
-      {
-        id: 12,
-        total: 0,
-        bonus: 0,
-        name: "Commission",
-        mode: "Commission",
-        active: true,
-      },
-      {
-        id: 5,
-        total: 0,
-        bonus: 0,
-        name: "Rakeback",
-        mode: "Rakeback",
-        active: true,
-      },
-      {
-        id: 9,
-        total: 0,
-        bonus: 0,
-        name: "BankTransfer",
-        mode: "BankTransfer",
-        active: true,
-      },
-      {
-        id: 11,
-        total: 0,
-        bonus: 0,
-        name: "Hamrahcart",
-        mode: "IranShetab",
-        active: true,
-      },
-      {
-        id: 7,
-        total: 0,
-        bonus: 5,
-        name: "Bitcoin",
-        mode: "CoinPayments",
-        active: true,
-      },
-    ];
-    var data_filter = loginToken.filter((element) => element.name == gateway);
-
-    if (data_filter.length > 0) {
-      var bonus = data_filter[0].bonus;
-    } else {
-      var bonus = 0;
-    }
-  }
-
-  return bonus;
-}
 localStorage.removeItem("getGateways");
 var finalMenu = "";
 var finalPanel = "";
 
 function App(prop) {
-  startServiceWorker();
-  const [refresh, setRefresh] = useState(false);
+  const [refresh, setRefresh] = useState();
   const [loadingLogin, isLogin] = useIsLogin();
 
   const [isUser, setIsUser] = useState(false);
@@ -206,8 +191,9 @@ function App(prop) {
   const [activePanel, setActivePanel] = useState(false);
   const [activeMenuOld, setActiveMenuOld] = useState(activeMenu);
   const navigate = useNavigate();
-  var loginToken;
+
   const location = useLocation();
+  const [loginToken] = useUser();
   const handleOpenTable = async (tableName) => {
     var values = { tableName: tableName };
     if (isUser) {
@@ -229,6 +215,7 @@ function App(prop) {
           handleOpenTable($(this).find(".name").text());
         }
       });
+    bindLastReward();
   }
   function bindLastReward() {
     $(".rewardname .iconarea > *")
@@ -321,23 +308,15 @@ function App(prop) {
     });
   }
   const CompGen = (prop) => {
-    if (prop?.menu?.title == "میز های فعال") {
-      return <ActiveTable bindActiveTable={bindActiveTable} />;
-    } else if (prop?.menu?.title == "آخرین پاداش ها") {
-      return (
-        <LastReward animateCSS={animateCSS} bindLastReward={bindLastReward} />
-      );
+    console.log(prop);
+    if (prop?.menu?.title == "پاداش لِوِل ها") {
+      return <LevelList loginToken={loginToken} />;
+    } else if (prop?.menu?.title == "گلکسی پَس") {
+      return <GalaxyPass loginToken={loginToken} />;
     } else {
-      return <>{prop.com}</>;
+      return <>{prop?.menu?.component}</>;
     }
   };
-
-  try {
-    loginToken = JSON.parse(localStorage.getItem("loginToken"));
-  } catch (error) {
-    localStorage.removeItem("loginToken");
-    window.location = "/";
-  }
 
   function doMenu(menu, y, isPanel, isUser) {
     //if (panelMenu != "no") return false;
@@ -494,8 +473,11 @@ function App(prop) {
                   {menu.helper}
                 </small>
               )}
-              {getBonus(menu.getwaykey) > 0 &&
-                (menu.bonus = "+" + getBonus(menu.getwaykey) + "%")}
+              {getBonus(menu.getwaykey, loginToken?.cashierGateways) > 0 &&
+                (menu.bonus =
+                  "+" +
+                  getBonus(menu.getwaykey, loginToken?.cashierGateways) +
+                  "%")}
               {menu.bonus && menu.bonus != "0" && (
                 <small
                   className="ui red  mini floating label myfloatmenu"
@@ -570,10 +552,18 @@ function App(prop) {
                                 >
                                   {submenu.label}
                                 </span>
-                                {getBonus(submenu.getwaykey) > 0 &&
+                                {getBonus(
+                                  submenu.getwaykey,
+                                  loginToken?.cashierGateways
+                                ) > 0 &&
                                   submenu?.bonus?.indexOf("-") == -1 &&
                                   (submenu.bonus =
-                                    "+ " + getBonus(submenu.getwaykey) + "%")}
+                                    "+ " +
+                                    getBonus(
+                                      submenu.getwaykey,
+                                      loginToken?.cashierGateways
+                                    ) +
+                                    "%")}
                                 {submenu.bonus &&
                                 submenu.bonus != "0" &&
                                 !submenu.helper ? (
@@ -648,7 +638,17 @@ function App(prop) {
                                 {activeMenu == submenu.label &&
                                   !activePanel && (
                                     <li>
-                                      <span>{submenu.component}</span>
+                                      <span>
+                                        {
+                                          <CompGen
+                                            comp={submenu.component}
+                                            menu={submenu}
+                                            openPanel={openPanel}
+                                            openGame={openGame}
+                                            setFirstOpen={setFirstOpen}
+                                          />
+                                        }
+                                      </span>
                                     </li>
                                   )}
                               </ul>
@@ -664,9 +664,16 @@ function App(prop) {
                                     </ul>
                                   </>
                                 )}
-                                {activeMenu == menu.label &&
-                                  !activePanel &&
-                                  submenu.component}
+                                {activeMenu == submenu.label &&
+                                  !activePanel && (
+                                    <CompGen
+                                      comp={submenu.component}
+                                      menu={submenu}
+                                      openPanel={openPanel}
+                                      openGame={openGame}
+                                      setFirstOpen={setFirstOpen}
+                                    />
+                                  )}
                               </span>
                             )}
                           </>
@@ -686,74 +693,36 @@ function App(prop) {
       }
     }
   }
-  const closeMenu = () => {
+  const closeMenu = (apis) => {
     try {
-      api.close();
+      apis.close();
     } catch (error) {}
+  };
+  const getBonus = (gateway, methods) => {
+    var userMethods = defMethod;
+    if (loginToken) {
+      userMethods = loginToken.cashierGateways;
+    }
+    try {
+      userMethods.sort((a, b) => (a.mode > b.mode ? 1 : -1));
+    } catch (error) {
+      localStorage.removeItem("loginToken");
+    }
+
+    var data_filter = userMethods.filter((element) => element.name == gateway);
+    if (data_filter.length > 0) {
+      var bonus = data_filter[0].bonus;
+    } else {
+      var bonus = 0;
+    }
+
+    return bonus;
   };
   const getAccess = (keyAccess) => {
     if (!keyAccess) {
       return true;
     }
-    var userMethods = [
-      {
-        id: 1,
-        total: 0,
-        bonus: 10,
-        name: "Bitcoin",
-        mode: "CoinPayments",
-        active: true,
-      },
-      {
-        id: 2,
-        total: 0,
-        bonus: 0,
-        name: "Digipay",
-        mode: "IranShetab",
-        active: true,
-      },
-
-      {
-        id: 7,
-        total: 0,
-        bonus: 0,
-        name: "Transfer",
-        mode: "Transfer",
-        active: true,
-      },
-      {
-        id: 8,
-        total: 0,
-        bonus: 0,
-        name: "Commission",
-        mode: "Commission",
-        active: true,
-      },
-      {
-        id: 9,
-        total: 0,
-        bonus: 5,
-        name: "PerfectMoney",
-        mode: "PerfectMoney",
-        active: true,
-      },
-      {
-        id: 10,
-        total: 0,
-        bonus: 5,
-        name: "USDT",
-        mode: "CoinPayments",
-        active: true,
-      },
-      {
-        id: 11,
-        total: 0,
-        bonus: 0,
-        name: "Rakeback",
-        mode: "Rakeback",
-        active: true,
-      },
-    ];
+    var userMethods = defMethod;
 
     if (loginToken) {
       userMethods = loginToken.cashierGateways;
@@ -781,11 +750,10 @@ function App(prop) {
 
   const openPanelRight = () => {
     $(".popup").hide();
-
-    apiPanel.open();
   };
   const openPanel = (id, toId) => {
     var _id = id;
+    console.log(_id);
     if (_id.indexOf("gift") > -1) {
       _id = ".giftarea";
     }
@@ -832,9 +800,11 @@ function App(prop) {
 
   useEffect(() => {
     if (window.location.href.toString().indexOf("/logout") > -1) {
+      eventBus.dispatch("updateUser", "");
       setIsUser(false);
       localStorage.removeItem("loginToken");
       UserWebsocket.connect();
+
       navigate("/");
       //window.location = "/";
     }
@@ -886,32 +856,8 @@ function App(prop) {
       );
       // Get the API
 
-      panelMenu = new Mmenu(
-        "#panelright",
-        {
-          offCanvas: {
-            position: "right-front",
-          },
-          navbar: {
-            add: false,
-            title: "پنل کاربری",
-          },
-          theme: "dark",
-        },
-        {
-          offCanvas: {
-            menu: {
-              insertSelector: "body",
-            },
-            page: {
-              selector: "#root",
-              noSelector: "[body]",
-            },
-          },
-        }
-      );
       api = menu.API;
-      apiPanel = panelMenu.API;
+
       api.bind("openPanel:before", (panel) => {
         var _parent = $("#" + panel.id + "").attr("data-mm-parent");
         if (_parent) {
@@ -957,24 +903,12 @@ function App(prop) {
           }
         }
       });
-      api.bind("open:before", () => {
-        apiPanel.close();
+      api.bind("open:after", () => {
         setActivePanel(false);
+        $("#nav-icon2").addClass("open");
       });
       api.bind("close:after", () => {
-        setActivePanel(true);
-      });
-      apiPanel.bind("open:before", () => {
-        setActivePanel(true);
-        setActiveMenu("main");
-      });
-      apiPanel.bind("open:after", () => {
-        $(".mm-wrapper__blocker").hide();
-      });
-      apiPanel.bind("close:after", () => {
-        $(".mm-wrapper__blocker").show();
-
-        //setActivePanel(false);
+        $("#nav-icon2").removeClass("open");
       });
     }
   }, []);
@@ -990,13 +924,13 @@ function App(prop) {
     }
   }, [activeMenu]);
   useEffect(() => {
-    finalMenu = "";
+    // finalMenu = "";
     if (window.matchMedia("(display-mode: standalone)").matches) {
       //alert();
     }
   }, [activeMenu]);
   useEffect(() => {
-    finalPanel = "";
+    //finalPanel = "";
 
     if (!activePanel && activeMenu == "main") {
       setActiveMenu(activeMenuOld);
@@ -1033,7 +967,7 @@ function App(prop) {
     if (isUser) {
       setFirstOpen(!isUser);
     }
-    finalMenu = "";
+    //finalMenu = "";
   }, [isUser]);
   useEffect(() => {
     $('[rel="stylesheet"]').removeAttr("disabled");
@@ -1047,15 +981,9 @@ function App(prop) {
     eventBus.on("eventsConnect", () => {
       setDcOpen(false);
     });
+    startServiceWorker();
   }, []);
-  useEffect(() => {
-    eventBus.on("eventsDataUser", (dataGet) => {
-      finalMenu = "";
-      var ref = refresh;
-      console.log(dataGet);
-      setRefresh(dataGet);
-    });
-  }, []);
+
   if (loadingLogin && 1 == 2) {
     return (
       <Dimmer active>
@@ -1070,11 +998,7 @@ function App(prop) {
         return doMenu(menu, i, false, isUser);
       });
     }
-    if (finalPanel == "" || 1 == 1) {
-      finalPanel = panelData.map(function (menu, i) {
-        return doMenu(menu, i, "panel");
-      });
-    }
+
     return (
       <>
         <PWAPrompt
@@ -1100,13 +1024,30 @@ function App(prop) {
           copyClosePrompt="Close"
           permanentlyHideOnDismiss={false}
         />
-        <nav id="menuleft">
-          <ul>{finalMenu}</ul>
-        </nav>
-        <nav id="panelright" className="fadeoutend">
-          <ul>{finalPanel}</ul>
-        </nav>
         <div className="App">
+          <div className="Main">
+            <nav id="menuleft">
+              <ul>{finalMenu}</ul>
+            </nav>
+            <nav
+              id="panelright"
+              className={
+                activePanel
+                  ? "active fadeoutend mm-menu--theme-dark"
+                  : "fadeoutend mm-menu--theme-dark"
+              }
+            >
+              <RightPanel
+                loginToken={loginToken}
+                openPanel={openPanel}
+                setActivePanel={setActivePanel}
+                activePanel={activePanel}
+                animateCSS={animateCSS}
+                bindActiveTable={bindActiveTable}
+                bindLastReward={bindLastReward}
+              />
+            </nav>
+          </div>
           <Modal
             basic
             size="tiny"
@@ -1118,14 +1059,7 @@ function App(prop) {
             open={userOpen}
             closeIcon
           >
-            <UserArea
-              username={userProfile}
-              isLogin={isUser}
-              loadingLogin={loadingLogin}
-              setIsUser={setIsUser}
-              size="small"
-              labelcolor="orange"
-            />
+            <UserArea username={userProfile} size="small" labelcolor="orange" />
           </Modal>
           <Modal
             basic
@@ -1219,15 +1153,23 @@ function App(prop) {
               path="/login"
               element={
                 <AdminLayout
+                  loginToken={loginToken}
                   openPanel={openPanel}
-                  showLogin={isUser ? false : true}
+                  setActivePanel={setActivePanel}
+                  activePanel={activePanel}
+                  animateCSS={animateCSS}
+                  bindActiveTable={bindActiveTable}
+                  bindLastReward={bindLastReward}
+                  openPanelRight={openPanelRight}
+                  openGame={openGame}
                   setFirstOpen={setFirstOpen}
                   setSecondOpen={setSecondOpen}
+                  setActiveMenu={setActiveMenu}
+                  activeMenu={activeMenu}
                   isLogin={isUser}
                   loadingLogin={loadingLogin}
-                  setIsUser={setIsUser}
                   getAccess={getAccess}
-                  bindLastReward={bindLastReward}
+                  setRefresh={setRefresh}
                   setUserProfile={setUserProfile}
                   setUserOpen={setUserOpen}
                 />
@@ -1237,15 +1179,23 @@ function App(prop) {
               path="/register"
               element={
                 <AdminLayout
+                  loginToken={loginToken}
                   openPanel={openPanel}
-                  showRegister={true}
+                  setActivePanel={setActivePanel}
+                  activePanel={activePanel}
+                  animateCSS={animateCSS}
+                  bindActiveTable={bindActiveTable}
+                  bindLastReward={bindLastReward}
+                  openPanelRight={openPanelRight}
+                  openGame={openGame}
                   setFirstOpen={setFirstOpen}
                   setSecondOpen={setSecondOpen}
+                  setActiveMenu={setActiveMenu}
+                  activeMenu={activeMenu}
                   isLogin={isUser}
                   loadingLogin={loadingLogin}
-                  setIsUser={setIsUser}
                   getAccess={getAccess}
-                  bindLastReward={bindLastReward}
+                  setRefresh={setRefresh}
                   setUserProfile={setUserProfile}
                   setUserOpen={setUserOpen}
                 />
@@ -1255,21 +1205,23 @@ function App(prop) {
               path="*"
               element={
                 <AdminLayout
+                  loginToken={loginToken}
                   openPanel={openPanel}
+                  setActivePanel={setActivePanel}
+                  activePanel={activePanel}
+                  animateCSS={animateCSS}
+                  bindActiveTable={bindActiveTable}
+                  bindLastReward={bindLastReward}
                   openPanelRight={openPanelRight}
                   openGame={openGame}
                   setFirstOpen={setFirstOpen}
                   setSecondOpen={setSecondOpen}
                   setActiveMenu={setActiveMenu}
                   activeMenu={activeMenu}
-                  setActivePanel={setActivePanel}
                   isLogin={isUser}
                   loadingLogin={loadingLogin}
-                  setIsUser={setIsUser}
                   getAccess={getAccess}
-                  animateCSS={animateCSS}
                   setRefresh={setRefresh}
-                  bindLastReward={bindLastReward}
                   setUserProfile={setUserProfile}
                   setUserOpen={setUserOpen}
                 />

@@ -3,8 +3,9 @@ import { Grid, Modal, Button, Icon } from "semantic-ui-react";
 import LevelIcon from "./svg";
 import { doCurrency, levelClassInside, levelDataInfo } from "../const";
 import { convertDateToJalali } from "./convertDate";
+
 const Reward = (prop) => {
-  const loginToken = JSON.parse(localStorage.getItem("loginToken"));
+  const loginToken = prop.loginToken;
   var _mode = prop.item.mode;
   if (_mode == "gift") {
     if (prop.item.amount >= levelDataInfo[4].minAmount) {

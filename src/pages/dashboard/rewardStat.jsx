@@ -1,150 +1,123 @@
 import React, { useState, useEffect } from "react";
-import { Divider, Header, List, Accordion } from "semantic-ui-react";
-import Reward from "../../utils/Reward";
+import { Grid } from "semantic-ui-react";
 import LevelIcon from "../../utils/svg";
-
+import { useLastReward } from "../../hook/userHook";
 import { doCurrency, levelClassInside } from "../../const";
+const groupBy = (array, key) => {
+  // Return the end result
+  return array.reduce((result, currentValue) => {
+    // If an array already present for key, push it to the array. Else create an array and push the object
+    (result[currentValue[key]] = result[currentValue[key]] || []).push(
+      currentValue
+    );
+    // Return the current iteration `result` value, this will be taken as next iteration `result` value and accumulate
+    return result;
+  }, {}); // empty object is the initial value for result object
+};
+const sumOf = (array) => {
+  return array.reduce((sum, currentValue) => {
+    var _am = currentValue.amount;
+    return sum + _am;
+  }, 0);
+};
 
-const printtotalrow = (data, mode, target) => {
+const RewardStat = (prop) => {
+  const [lastReward] = useLastReward();
+  const [statData, setstatData] = useState();
+  const [totalRows, setTotalRows] = useState(sumOf(lastReward));
+
+  useEffect(() => {
+    var stat = [];
+    if (lastReward.length > 0) {
+      var _gmode = groupBy(lastReward, "mode");
+
+      for (const property in _gmode) {
+        var psum = sumOf(_gmode[property]);
+        stat.push({
+          title: property
+            .toLocaleLowerCase()
+            .replace("gift", "gifts")
+            .replace("levels", "پاداش لِوِل ها")
+            .replace("gpass", "گلکسی پَس")
+            .replace("vip", "VIP Table")
+            .replace("league", "لیگ روزانه")
+            .replace("commission", "کمیسیون معرفی دوستان")
+            .replace("rakeback", "ریک بک پوکر")
+            .replace("gifts", "هدایای گلکسی")
+            .replace("tournament", "تورنومنت ها"),
+          mode: property.toLocaleLowerCase().replace("gift", "gifts"),
+          sum: psum,
+          count: _gmode[property].length,
+        });
+      }
+      setTotalRows(sumOf(lastReward));
+    }
+    setstatData(stat);
+  }, [lastReward]);
+
   return (
     <>
-      <div className="farsi text-right">
-        <span className="text-gold">
-          {doCurrency(gettotal(data, mode, target))} تومان
-        </span>{" "}
-        پاداش در {doCurrency(gettotal(data, mode, "count"))} رکورد
-      </div>
+      <li className="menutitle mm-listitem">
+        <span className="mm-listitem__text lh-lg">
+          مجموع پاداش های این هفته
+          <div className="text-gold">{doCurrency(totalRows)} تومان</div>
+        </span>
+      </li>
+      <li>
+        <div
+          style={{
+            paddingLeft: 15,
+          }}
+        >
+          <>
+            {statData?.map(function (bonus, i) {
+              var _lvl = 1;
+
+              return (
+                <Grid
+                  verticalAlign="middle"
+                  divided="vertically"
+                  inverted
+                  padded="vertically"
+                  key={i}
+                  className="rewardname"
+                  mode={bonus.mode}
+                >
+                  <Grid.Row>
+                    <Grid.Column width={12} textAlign="right">
+                      <div className="farsi rewardtext"> {bonus.title}</div>
+                      <small
+                        className="farsi text-right"
+                        style={{ display: "block" }}
+                      >
+                        <span className="text-gold">
+                          {doCurrency(bonus.sum)} تومان
+                        </span>{" "}
+                        پاداش
+                        <br /> در {doCurrency(bonus.count)} رکورد
+                      </small>
+                    </Grid.Column>
+                    <Grid.Column width={4} className="fadeout">
+                      <div style={{ marginLeft: 10 }}>
+                        <LevelIcon
+                          level={_lvl}
+                          text={""}
+                          mode={bonus.mode}
+                          classinside={levelClassInside(_lvl)}
+                          number=""
+                          width={bonus.mode == "gifts" ? "80px" : "70px"}
+                        />
+                      </div>
+                    </Grid.Column>
+                  </Grid.Row>
+                </Grid>
+              );
+            })}
+          </>
+        </div>
+      </li>
     </>
   );
 };
-const gettotal = (data, mode, target) => {
-  var _data = data.filter((d) => d.mode.toLowerCase() === mode);
-  var _totalReward = 0;
-  {
-    _data.map((x, i) => {
-      _totalReward = _totalReward + x.amount;
-    });
-  }
-  if (target == "total") return _totalReward;
-  if (target == "count") return _data.length;
-};
-const printreward = (data, mode) => {
-  var _data = data.filter((d) => d.mode === mode);
-  return (
-    <div
-      style={{
-        paddingLeft: 15,
-        marginRight: 10,
-        position: "relative",
-        top: -13,
-        background: "rgba(0,0,0,.2)",
-      }}
-      className="animated fadeInDown"
-    >
-      {_data.map((x, i) => {
-        return (
-          <div className={"rewardname"} mode={x.mode} key={i}>
-            <Reward item={x} />
-          </div>
-        );
-      })}
-    </div>
-  );
-};
-const Balance = (prop) => {
-  const [activeIndex, setActiveIndex] = useState(0);
-  const handleClick = (e, titleProps) => {};
-  const printtotalrowBox = (index, loginToken, mode, title) => {
-    if (gettotal(loginToken, mode.replace("gifts", "gift"), "count") == 0)
-      return false;
-    var _lvl = 1;
 
-    return (
-      <>
-        <Accordion.Title index={index} className="rewardname" mode={mode}>
-          <List.Content className="lh-lg p-2">
-            <div
-              className={
-                gettotal(loginToken, mode.replace("gifts", "gift"), "count") ==
-                0
-                  ? "opacity-25 pull-left"
-                  : "pull-left"
-              }
-            >
-              <LevelIcon
-                level={_lvl}
-                text={""}
-                mode={mode}
-                classinside={levelClassInside(_lvl)}
-                number=""
-                width="40px"
-              />
-            </div>
-
-            <List.Header as="div" className="farsi text-end" color="grey">
-              {title}
-            </List.Header>
-            <List.Description
-              className={
-                gettotal(loginToken, mode.replace("gifts", "gift"), "count") ==
-                0
-                  ? "opacity-25 fw-lighter"
-                  : "fw-lighter"
-              }
-            >
-              {printtotalrow(
-                loginToken,
-                mode.replace("gifts", "gift"),
-                "total"
-              )}
-            </List.Description>
-          </List.Content>
-
-          <Divider inverted fitted />
-        </Accordion.Title>
-      </>
-    );
-  };
-
-  const loginToken = JSON.parse(localStorage.getItem("lastReward"));
-  useEffect(() => {
-    prop.bindLastReward();
-  }, []);
-  if (loginToken) {
-    var _totalReward = 0;
-    {
-      loginToken.map((x, i) => {
-        _totalReward = _totalReward + x.amount;
-      });
-    }
-    return (
-      <>
-        <Header
-          as="h3"
-          className="farsi text-center"
-          inverted
-          style={{
-            lineHeight: "180%",
-          }}
-        >
-          مجموع پاداش های این هفته
-          <br />
-          <span className="text-gold">{doCurrency(_totalReward)} تومان</span>
-        </Header>
-
-        {printtotalrowBox(1, loginToken, "levels", "پاداش لِوِل ها")}
-        {printtotalrowBox(2, loginToken, "gpass", "گلکسی پَس")}
-        {printtotalrowBox(3, loginToken, "vip", "VIP Table")}
-        {printtotalrowBox(4, loginToken, "league", "لیگ روزانه")}
-        {printtotalrowBox(5, loginToken, "commission", "کمیسیون معرفی دوستان")}
-        {printtotalrowBox(6, loginToken, "rakeback", "ریک بک پوکر")}
-        {printtotalrowBox(7, loginToken, "gifts", "هدایای گلکسی")}
-        {printtotalrowBox(8, loginToken, "tournament", "تورنومنت ها")}
-      </>
-    );
-  } else {
-    return null;
-  }
-};
-
-export default Balance;
+export default RewardStat;

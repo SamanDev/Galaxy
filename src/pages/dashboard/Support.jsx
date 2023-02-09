@@ -6,6 +6,7 @@ import { convertDateToJalali } from "../../utils/convertDate";
 import Ticket from "../../layouts/admin/forms/Cashout/Ticket";
 import $ from "jquery";
 import eventBus from "../../services/eventBus";
+import { useUser } from "../../hook/userHook";
 const Balance = (prop) => {
   const [activeIndex, setActiveIndex] = useState(-1);
   const [refresh, setRefresh] = useState(false);
@@ -16,22 +17,17 @@ const Balance = (prop) => {
     const newIndex = activeIndex === index ? -1 : index;
     setActiveIndex(newIndex);
   };
+  const [loginToken] = useUser();
 
-  var loginToken = JSON.parse(localStorage.getItem("loginToken"));
   var data = loginToken?.userTickets
     .filter((d) => d.status !== "Closed")
     .sort((a, b) => (a.id < b.id ? 1 : -1));
   useEffect(() => {
-    loginToken = JSON.parse(localStorage.getItem("loginToken"));
     data = loginToken?.userTickets
       .filter((d) => d.status !== "Closed")
       .sort((a, b) => (a.id < b.id ? 1 : -1));
   });
-  useEffect(() => {
-    eventBus.on("eventsDataUser", (dataGet) => {
-      setRefresh(dataGet);
-    });
-  }, []);
+
   if (loginToken?.accessToken) {
     return (
       <span

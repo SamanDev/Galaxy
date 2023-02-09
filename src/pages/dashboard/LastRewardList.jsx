@@ -16,6 +16,7 @@ import MenuLoader from "../../utils/menuLoader";
 import { getRewardsService } from "../../services/reward";
 import $ from "jquery";
 const LevelList = (prop) => {
+  console.log(prop);
   const [data, setData] = useState([]);
 
   const [loading, setLoading] = useState(false);

@@ -1,8 +1,6 @@
 import React from "react";
 import Accordion from "./pages/dashboard/Support";
 
-import LevelList from "./pages/dashboard/Levels";
-import PassList from "./pages/dashboard/GalaxyPass";
 import Commission from "./pages/dashboard/Commission";
 import VIP from "./pages/dashboard/VIP";
 import TopPlayers from "./pages/dashboard/TopPlayers";
@@ -14,8 +12,10 @@ import MyGift from "./pages/dashboard/MyGifts";
 import TopUsers from "./pages/dashboard/TopUsers";
 import CashoutComponent from "./layouts/admin/forms/FormComponent.jsx";
 import FormComponent from "./layouts/admin/forms/FormComponent.jsx";
+
 export const USERSOCKETURL = getPort();
 export const USERSOCKETPUBLICURL = getPortPablic();
+
 export function startServiceWorker() {
   if ("serviceWorker" in navigator) {
     // The URL constructor is available in all browsers that support SW.
@@ -365,7 +365,7 @@ export const menuData = [
         label: "تراکنش های مالی",
         title: "تراکنش های مالی",
         aria: "giftsarea animated bounceIn delay-02s",
-        icon: "fas fa-stream text-muted",
+        icon: "fas fa-stream",
         idname: "login report",
         component: <CashoutComponent cashMode="Report" />,
       },
@@ -383,9 +383,9 @@ export const menuData = [
         title: "پاداش لِوِل ها",
         idname: "levels",
         icon: "fas fa-star yellow",
-        aria: "giftsarea animated bounceIn delay-02s",
+        aria: "giftsarea",
         icongalaxy: "levels",
-        component: <LevelList />,
+        component: <></>,
       },
 
       {
@@ -397,7 +397,7 @@ export const menuData = [
         icon: "fab fa-google yellow",
         icongalaxy: "gpass",
         aria: "giftsarea animated bounceIn delay-02s",
-        component: <PassList />,
+        component: <></>,
       },
       {
         label: "VIP Table 25/50K",
@@ -555,6 +555,7 @@ export const menuData = [
   {
     label: "خروج",
     icon: "fas icon sign-out alternate ",
+    idname: "logout",
     link: "/logout",
   },
 ];
@@ -562,6 +563,12 @@ export const panelData = [
   {
     label: "panel",
     title: "میز های فعال",
+
+    component: <></>,
+  },
+  {
+    label: "panel",
+    title: "پاداش ها",
 
     component: <></>,
   },

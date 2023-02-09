@@ -21,7 +21,7 @@ template.innerHTML = `
 
 customElements.define(
     webcomponentName,
-    class extends WebComponent {s
+    class extends WebComponent {
         constructor() {
             super(template);
         }

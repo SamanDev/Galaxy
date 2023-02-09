@@ -1,16 +1,7 @@
-import React, { useState, useEffect } from "react";
-import {
-  Icon,
-  Item,
-  Button,
-  Header,
-  Divider,
-  Image,
-  List,
-} from "semantic-ui-react";
+import React, { useState } from "react";
+import { Icon, Button, List } from "semantic-ui-react";
 import LevelIcon from "../../../utils/svg";
 import { doCurrency, levelDataInfo, levelClassInside } from "../../../const";
-import { Alert } from "../../../utils/alerts";
 import { MyConfirm, MyToast, MyDeposit } from "../../../utils/myAlert";
 import Status from "../../../utils/Status";
 import { cashierService } from "../../../services/cashier";
@@ -25,7 +16,7 @@ const openDeposit = () => {
 
 const BonusArea = (prop) => {
   const [loading, setLoading] = useState(false);
-  var loginToken = JSON.parse(localStorage.getItem("loginToken"));
+  const loginToken = prop.loginToken;
 
   const getReward = async (bonus) => {
     setLoading(true);
@@ -33,31 +24,12 @@ const BonusArea = (prop) => {
       const res = await cashierService({ id: bonus.id }, "submitReward", "");
       if (res.status == 200) {
         setLoading(false);
-        MyToast("انجام شد");
+        // MyToast("انجام شد");
       } else {
       }
     } catch (error) {
       setLoading(false);
     }
-  };
-  const handleConfirmTest = (bonus, loginToken) => {
-    var bonus = loginToken.userGifts.filter((d) => d.id == bonus.id);
-    bonus.status = "Done";
-    bonus.received = true;
-
-    loginToken.userGifts = _bonuses;
-
-    localStorage.setItem("loginToken", JSON.stringify(loginToken));
-
-    lastReward.push(bonus);
-    lastReward.sort((a, b) => (a.id < b.id ? 1 : -1));
-    prop.setRefresh(lastReward);
-    localStorage.setItem("lastReward", JSON.stringify(lastReward));
-
-    setTimeout(() => {
-      prop.openPanelRight();
-    }, 500);
-    MyToast("انجام شد");
   };
 
   const handleConfirm = (bonus) => {

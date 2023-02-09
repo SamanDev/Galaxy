@@ -1,10 +1,5 @@
-import React, { useState } from "react";
-import { Segment, Icon, Label, Popup, Button, Modal } from "semantic-ui-react";
-import LoginArea from "../auth/Login.jsx";
-import RegisterArea from "../auth/Register.jsx";
-import LevelIcon from "../../../utils/LevelIcon";
-import { Outlet, unstable_HistoryRouter, useParams } from "react-router-dom";
-import { Navigate, Route, Routes } from "react-router-dom";
+import React from "react";
+import { Segment, Button } from "semantic-ui-react";
 
 const Balance = (prop) => {
   return (

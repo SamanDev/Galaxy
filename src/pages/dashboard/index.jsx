@@ -10,7 +10,6 @@ import {
   Container,
 } from "semantic-ui-react";
 import $ from "jquery";
-import Stat from "./rewardStat";
 function SegmentExamplePlaceholderInline(prop) {
   const [refresh, setRefresh] = useState(0);
   useEffect(() => {
@@ -250,22 +249,7 @@ function SegmentExamplePlaceholderInline(prop) {
           </Grid.Column>
         </Grid>
       </Segment>
-      <Segment inverted padded="very" as={Container} className="fadeoutend">
-        <h2 className="farsi text-end">جوایز میلیونی در گلکسی کازینو </h2>
-        <Grid>
-          <Grid.Column mobile={16} tablet={10} computer={10}>
-            <div>
-              <Stat {...prop} />
-            </div>
-          </Grid.Column>
-          <Grid.Column tablet={6} computer={6} only="tablet computer">
-            <Image
-              src="https://emperorpoker.online/wp-content/uploads/2020/09/emperor-poker.png"
-              fluid
-            />
-          </Grid.Column>
-        </Grid>
-      </Segment>
+
       <br />
       <br />
 

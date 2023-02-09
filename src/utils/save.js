@@ -27,18 +27,14 @@ function App(prop) {
       <button onClick={downloadImage} className={"dl dl" + prop.id}>
         Download Image
       </button>
-      <div
-        id="domEl"
-        ref={domEl}
-        style={{ display: "inline-block", padding: "0 25px" }}
-      >
+      <div id="domEl" ref={domEl} style={{ display: "inline-block" }}>
         <LevelIcon
           level={prop.id}
-          mode="gifts"
+          mode={prop.id}
           text={""}
           classinside={levelClassInside(1)}
           number={""}
-          width="512px"
+          width="128px"
         />
       </div>
     </div>

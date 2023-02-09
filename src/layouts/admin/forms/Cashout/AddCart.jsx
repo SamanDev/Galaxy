@@ -8,6 +8,7 @@ import { Alert } from "../../../../utils/alerts";
 
 import List from "../../../../pages/dashboard/List";
 import { cashierService } from "../../../../services/cashier";
+import { useUser } from "../../../../hook/userHook";
 const SelectB =
   "بانک ملّی ایران,بانک اقتصاد نوین,بانک قرض‌الحسنه مهر ایران,بانک سپه,بانک پارسیان,بانک قرض‌الحسنه رسالت,بانک صنعت و معدن,بانک کارآفرین,بانک کشاورزی,بانک سامان,بانک مسکن,بانک سینا,بانک توسعه صادرات ایران,بانک خاور میانه,بانک توسعه تعاون,بانک شهر,پست بانک ایران,بانک دی,بانک صادرات,بانک ملت,بانک تجارت,بانک رفاه,بانک حکمت ایرانیان,بانک گردشگری,بانک ایران زمین,بانک قوامین,بانک انصار,بانک سرمایه,بانک پاسارگاد,بانک مشترک ایران-ونزوئلا".split(
     ","
@@ -151,9 +152,9 @@ const MyField = (props) => {
 };
 
 const depositArea = (prop) => {
-  const [depMode, setDepMode] = useState(false);
   const navigate = useNavigate();
-  const loginToken = JSON.parse(localStorage.getItem("loginToken"));
+  const [loginToken] = useUser();
+  const [depMode, setDepMode] = useState(loginToken);
 
   if (loginToken?.bankInfos.length > 0) {
     _name = loginToken.bankInfos[0].holderName;

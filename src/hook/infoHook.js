@@ -57,7 +57,8 @@ export const useLastReward = () => {
       const res = await getReportPenService("getLastRewards");
 
       if (res.status === 200) {
-        localStorage.setItem("lastReward", JSON.stringify(res.data));
+        var mydataGet = res.data.sort((a, b) => (a.id < b.id ? 1 : -1));
+        localStorage.setItem("lastReward", JSON.stringify(mydataGet));
         //setLastReward(res.data);
         //setLastReward(_bonuses);
       }

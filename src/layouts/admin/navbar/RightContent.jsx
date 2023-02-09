@@ -1,33 +1,34 @@
 import React from "react";
 
-import { Segment, Icon, Label, Popup } from "semantic-ui-react";
-import BonusArea from "../bonus/index.jsx";
-
+import { Segment } from "semantic-ui-react";
+import $ from "jquery";
 const Rightcontent = (prop) => {
   return (
     <div className="right_content  d-flex">
-      <Segment
-        basic
-        inverted
-        style={{
-          margin: 0,
-          padding: 0,
-          background: "transparent",
-          zIndex: 2000,
-          position: "relative",
-        }}
-      >
-        <a
-          className="menu-link-wrapper"
-          href="#panelright"
-          title="openpanel"
-          name="openpanel"
+      {!prop.activePanel && (
+        <Segment
+          basic
+          style={{
+            color: "#fff",
+            position: "absolute",
+            top: 12,
+            right: 5,
+            opacity: 0.5,
+            padding: 0,
+            cursor: "pointer",
+          }}
+          onClick={() => {
+            prop.setActivePanel(!prop.activePanel);
+            $("#nav-icon1").toggleClass("open");
+          }}
         >
-          <div className="menu-link menu-trigger-open">
-            <span className="lines"></span>
+          <div id="nav-icon1">
+            <span></span>
+            <span></span>
+            <span></span>
           </div>
-        </a>
-      </Segment>
+        </Segment>
+      )}
     </div>
   );
 };

@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { List, Segment } from "semantic-ui-react";
 import { activeColorList } from "../../const";
-import eventBus from "../../services/eventBus";
-
+import { useActiveTable } from "../../hook/userHook";
+import $ from "jquery";
 const ActiveTable = (prop) => {
   var _sortDataOld = [];
 
-  var _sortDataNew = [];
   var _sortD = [];
   try {
     _sortDataOld = JSON.parse(localStorage.getItem("activeTableSort"));
@@ -17,61 +16,56 @@ const ActiveTable = (prop) => {
     _sortDataOld = [];
   }
 
-  try {
-    _sortDataNew = JSON.parse(localStorage.getItem("activeTable"));
-  } catch (error) {
-    localStorage.removeItem("activeTable");
-  }
-  if (_sortDataNew == null) {
-    _sortDataNew = [];
-  }
-  const [_data, setData] = useState(_sortDataNew);
+  const [activeTable] = useActiveTable();
+
   const [_sortData, setSortData] = useState(_sortDataOld);
 
   useEffect(() => {
     try {
       {
-        Array.apply(0, Array(_data.RingGames)).map(function (x, i) {
+        Array.apply(0, Array(activeTable?.RingGames)).map(function (x, i) {
           if (
-            //_data.Status[i].indexOf("Waiting: 0/") > -1 ||
-            _data.Status[i].indexOf("Waiting: 1/") > -1 ||
-            _data.Status[i].indexOf("Playing") > -1
+            //activeTable.Status[i].indexOf("Waiting: 0/") > -1 ||
+            activeTable.Status[i].indexOf("Waiting: 1/") > -1 ||
+            activeTable.Status[i].indexOf("Playing") > -1
           ) {
-            var _p = _data.Status[i].split(": ")[1].split("/")[0];
+            var _p = activeTable.Status[i].split(": ")[1].split("/")[0];
             var strColor = "#cbff2c";
-            strColor = activeColorList[parseInt(_data.Name[i].split(" ")[0])];
+            strColor =
+              activeColorList[parseInt(activeTable.Name[i].split(" ")[0])];
 
             if (
-              _sortDataOld.filter((d) => d.name == _data.Name[i]).length == 0
+              _sortDataOld.filter((d) => d.name == activeTable.Name[i])
+                .length == 0
             ) {
               _sortD.push({
-                name: _data.Name[i],
+                name: activeTable.Name[i],
                 color: strColor,
-                status: _p + "/" + _data.Seats[i],
-                stack: _data.SmallBlind[i] + _data.BigBlind[i],
+                status: _p + "/" + activeTable.Seats[i],
+                stack: activeTable.SmallBlind[i] + activeTable.BigBlind[i],
                 class: " bounceIn " + strColor,
               });
             } else {
               if (
                 _sortDataOld.filter(
                   (d) =>
-                    d.name == _data.Name[i] &&
-                    d.status == _p + "/" + _data.Seats[i]
+                    d.name == activeTable.Name[i] &&
+                    d.status == _p + "/" + activeTable.Seats[i]
                 ).length == 0
               ) {
                 _sortD.push({
-                  name: _data.Name[i],
+                  name: activeTable.Name[i],
                   color: strColor,
-                  status: _p + "/" + _data.Seats[i],
-                  stack: _data.SmallBlind[i] + _data.BigBlind[i],
+                  status: _p + "/" + activeTable.Seats[i],
+                  stack: activeTable.SmallBlind[i] + activeTable.BigBlind[i],
                   class: "update",
                 });
               } else {
                 _sortD.push({
-                  name: _data.Name[i],
+                  name: activeTable.Name[i],
                   color: strColor,
-                  status: _p + "/" + _data.Seats[i],
-                  stack: _data.SmallBlind[i] + _data.BigBlind[i],
+                  status: _p + "/" + activeTable.Seats[i],
+                  stack: activeTable.SmallBlind[i] + activeTable.BigBlind[i],
                   class: strColor,
                 });
               }
@@ -83,14 +77,11 @@ const ActiveTable = (prop) => {
       setSortData(_sortD);
       localStorage.setItem("activeTableSort", JSON.stringify(_sortD));
       prop.bindActiveTable();
-    } catch (error) {}
-  }, [_data]);
-  useEffect(() => {
-    eventBus.on("ActiveTables", (dataGet) => {
-      localStorage.setItem("activeTable", JSON.stringify(dataGet));
-      setData(dataGet);
-    });
-  }, []);
+    } catch (error) {
+      prop.bindActiveTable();
+    }
+  }, [activeTable]);
+
   return (
     <>
       <Segment
@@ -98,19 +89,24 @@ const ActiveTable = (prop) => {
         inverted
         style={{
           color: "#fff",
-          position: "fixed",
-          top: 18,
-          right: 10,
+          position: "absolute",
+          top: 10,
+          right: 5,
           opacity: 0.5,
           padding: 0,
+          cursor: "pointer",
         }}
-        menu="panelright"
-        tabIndex="0"
-        fx="spin"
-        ease="funky"
-        role="button"
-        as="mm-burger"
-      ></Segment>
+        onClick={() => {
+          prop.setActivePanel(!prop.activePanel);
+          $("#nav-icon1").toggleClass("open");
+        }}
+      >
+        <div id="nav-icon1" className="open">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+      </Segment>
 
       <List
         divided

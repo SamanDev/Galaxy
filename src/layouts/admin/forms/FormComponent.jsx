@@ -6,10 +6,11 @@ import Cashout from "./Cashout/cashoutComponent";
 import AccessMsg from "../../../utils/accessMsg";
 
 import { Divider, Header } from "semantic-ui-react";
+import { useUser } from "../../../hook/userHook";
 const depositArea = (prop) => {
   const [refresh, setRefresh] = useState(false);
+  const [loginToken] = useUser();
 
-  const loginToken = JSON.parse(localStorage.getItem("loginToken"));
   if (loginToken?.accessToken) {
     return (
       <span className="myaccount popupmenu">

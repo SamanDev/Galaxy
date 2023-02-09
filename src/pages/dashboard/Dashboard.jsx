@@ -202,6 +202,7 @@ String.prototype.toPersianCharacter = function () {
 };
 const Dashboard = (prop) => {
   const navigate = useNavigate();
+  const loginToken = prop.loginToken;
   const [sessionKey, setSessionKey] = useState("");
   const handleCheckLogin = async () => {
     try {
@@ -235,7 +236,7 @@ const Dashboard = (prop) => {
     }
   };
   const haveGift = () => {
-    var user = JSON.parse(localStorage.getItem("loginToken"));
+    var user = loginToken;
     if (user) {
       var _bonuses = user?.userGifts;
 
@@ -254,7 +255,7 @@ const Dashboard = (prop) => {
     }
     return _pen;
   };
-  var loginToken = JSON.parse(localStorage.getItem("loginToken"));
+
   var defslide = 1;
 
   const [gameLoader, setGameLoader] = useState(true);
@@ -363,7 +364,7 @@ const Dashboard = (prop) => {
     setGameOptions(_gameOptions);
   }, []);
   useEffect(() => {
-    if (!prop.isLogin && curPage == "game" && prop.loadingLogin == false) {
+    if (!loginToken?.username && curPage == "game") {
       setCurPage("dashboard");
       prop.setFirstOpen(true);
 
@@ -389,7 +390,7 @@ const Dashboard = (prop) => {
 
   useEffect(() => {
     if (prop.isLogin && curPage == "game") {
-      checkBlock(loginToken);
+      // checkBlock(loginToken);
     } else {
       handleSlider();
     }

@@ -14,9 +14,12 @@ import LastRewardList from "./LastRewardList";
 import GalaxyIcon2 from "../../utils/svg22";
 
 import LevelBar from "../../utils/GLevelBar";
-const LevelList = () => {
+const LevelList = (prop) => {
   var totalReward = 0;
-  const loginToken = JSON.parse(localStorage.getItem("loginToken"));
+
+  const siteInfo = JSON.parse(localStorage.getItem("siteInfo"));
+  const loginToken = prop.loginToken;
+  siteInfo?.galaxyPassSet?.sort((a, b) => (a.id > b.id ? 1 : -1));
   return (
     <span className="myaccount popupmenu">
       <List divided inverted verticalAlign="middle" className="myaccount">
@@ -35,8 +38,8 @@ const LevelList = () => {
               />
             </div>
             <AddCalendar
-              start={levelDataInfo[0].startDay}
-              dur={levelDataInfo[0].endDay}
+              start={siteInfo?.galaxyPassSet[0].startDay}
+              dur={siteInfo?.galaxyPassSet[0].endDay}
               repeat="MONTHLY"
               format="0000"
               title="GallaxyPass"
@@ -58,10 +61,14 @@ const LevelList = () => {
               desc2={
                 <>
                   هر بازیکن با{" "}
-                  <span className="farsi text-gold">5 ساعت بازی</span> روی
-                  میزهای{" "}
                   <span className="farsi text-gold">
-                    25K/50K و بالاتر طی مدت 24 ساعت
+                    {siteInfo.galaxyPassSet[0].hoursLimit} ساعت بازی
+                  </span>{" "}
+                  روی میزهای{" "}
+                  <span className="farsi text-gold">
+                    {siteInfo.galaxyPassSet[0].bigBlindLimit / 2}K/
+                    {siteInfo.galaxyPassSet[0].bigBlindLimit}K و بالاتر طی مدت
+                    24 ساعت
                   </span>{" "}
                   جایزه آن روز را دریافت می نماید و به مرحله بعدی خواهد رفت.
                 </>
@@ -108,8 +115,9 @@ const LevelList = () => {
           </li>
         </ul>
 
-        {Array.apply(0, Array(levelPassList.length)).map(function (x, i) {
-          totalReward += levelPassReward(i);
+        {siteInfo.galaxyPassSet.map((x, i) => {
+          totalReward += x.reward;
+
           return (
             <List.Item
               className={
@@ -121,9 +129,7 @@ const LevelList = () => {
               id={"lvl" + (i + 1)}
             >
               <List.Content floated="right" className="rtl">
-                <span className="text-gold">
-                  {doCurrency(levelPassReward(i))}{" "}
-                </span>
+                <span className="text-gold">{doCurrency(x.reward)}</span>{" "}
                 <span className="mysmall">
                   <small className="farsi">تومان پاداش</small>
                 </span>

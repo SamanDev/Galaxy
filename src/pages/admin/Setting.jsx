@@ -208,6 +208,203 @@ function Admin(prop) {
       var _name = name?.name ? name?.name : name;
       data[_name] = val;
     }
+    /* data.galaxyPassSet = [
+      {
+        id: 1,
+        level: 1,
+        startDay: 1,
+        endDay: 15,
+        hoursLimit: 5,
+        bigBlindLimit: 50,
+        totalRewards: 500000,
+        reward: 500000,
+        minLevel: 10,
+        hoursUnderLevel: 48,
+        minAmount: 10000000,
+      },
+      {
+        id: 2,
+        level: 2,
+        startDay: 1,
+        endDay: 15,
+        hoursLimit: 5,
+        bigBlindLimit: 50,
+        totalRewards: 1500000,
+        reward: 1000000,
+        minLevel: 10,
+        hoursUnderLevel: 48,
+        minAmount: 10000000,
+      },
+      {
+        id: 3,
+        level: 3,
+        startDay: 1,
+        endDay: 15,
+        hoursLimit: 5,
+        bigBlindLimit: 50,
+        totalRewards: 2500000,
+        reward: 1000000,
+        minLevel: 10,
+        hoursUnderLevel: 48,
+        minAmount: 10000000,
+      },
+      {
+        id: 4,
+        level: 4,
+        startDay: 1,
+        endDay: 15,
+        hoursLimit: 5,
+        bigBlindLimit: 50,
+        totalRewards: 4500000,
+        reward: 2000000,
+        minLevel: 10,
+        hoursUnderLevel: 48,
+        minAmount: 10000000,
+      },
+      {
+        id: 5,
+        level: 5,
+        startDay: 1,
+        endDay: 15,
+        hoursLimit: 5,
+        bigBlindLimit: 50,
+        totalRewards: 7000000,
+        reward: 2500000,
+        minLevel: 10,
+        hoursUnderLevel: 48,
+        minAmount: 10000000,
+      },
+      {
+        id: 6,
+        level: 6,
+        startDay: 1,
+        endDay: 15,
+        hoursLimit: 5,
+        bigBlindLimit: 50,
+        totalRewards: 10000000,
+        reward: 3000000,
+        minLevel: 10,
+        hoursUnderLevel: 48,
+        minAmount: 10000000,
+      },
+      {
+        id: 7,
+        level: 7,
+        startDay: 1,
+        endDay: 15,
+        hoursLimit: 5,
+        bigBlindLimit: 50,
+        totalRewards: 14000000,
+        reward: 4000000,
+        minLevel: 10,
+        hoursUnderLevel: 48,
+        minAmount: 10000000,
+      },
+      {
+        id: 8,
+        level: 8,
+        startDay: 1,
+        endDay: 15,
+        hoursLimit: 5,
+        bigBlindLimit: 50,
+        totalRewards: 19000000,
+        reward: 5000000,
+        minLevel: 10,
+        hoursUnderLevel: 48,
+        minAmount: 10000000,
+      },
+      {
+        id: 9,
+        level: 9,
+        startDay: 1,
+        endDay: 15,
+        hoursLimit: 5,
+        bigBlindLimit: 50,
+        totalRewards: 25000000,
+        reward: 6000000,
+        minLevel: 10,
+        hoursUnderLevel: 48,
+        minAmount: 10000000,
+      },
+      {
+        id: 10,
+        level: 10,
+        startDay: 1,
+        endDay: 15,
+        hoursLimit: 5,
+        bigBlindLimit: 50,
+        totalRewards: 32000000,
+        reward: 7000000,
+        minLevel: 10,
+        hoursUnderLevel: 48,
+        minAmount: 10000000,
+      },
+      {
+        id: 11,
+        level: 11,
+        startDay: 1,
+        endDay: 15,
+        hoursLimit: 5,
+        bigBlindLimit: 50,
+        totalRewards: 40000000,
+        reward: 8000000,
+        minLevel: 10,
+        hoursUnderLevel: 48,
+        minAmount: 10000000,
+      },
+      {
+        id: 12,
+        level: 12,
+        startDay: 1,
+        endDay: 15,
+        hoursLimit: 5,
+        bigBlindLimit: 50,
+        totalRewards: 50000000,
+        reward: 10000000,
+        minLevel: 10,
+        hoursUnderLevel: 48,
+        minAmount: 10000000,
+      },
+      {
+        id: 13,
+        level: 13,
+        startDay: 1,
+        endDay: 15,
+        hoursLimit: 5,
+        bigBlindLimit: 50,
+        totalRewards: 65000000,
+        reward: 15000000,
+        minLevel: 10,
+        hoursUnderLevel: 48,
+        minAmount: 10000000,
+      },
+      {
+        id: 14,
+        level: 14,
+        startDay: 1,
+        endDay: 15,
+        hoursLimit: 5,
+        bigBlindLimit: 50,
+        totalRewards: 85000000,
+        reward: 20000000,
+        minLevel: 10,
+        hoursUnderLevel: 48,
+        minAmount: 10000000,
+      },
+      {
+        id: 15,
+        level: 15,
+        startDay: 1,
+        endDay: 15,
+        hoursLimit: 5,
+        bigBlindLimit: 50,
+        totalRewards: 110000000,
+        reward: 25000000,
+        minLevel: 10,
+        hoursUnderLevel: 48,
+        minAmount: 10000000,
+      },
+    ]; */
     /* data.levelUps = [
       {
         id: 53,
@@ -636,7 +833,7 @@ function Admin(prop) {
       },
       { id: 29, level: 29, commission: 38, point: 266666666, reward: 8000000 },
     ]; */
-    console.log(data);
+
     try {
       const res = await adminPutServiceList(data, "editGalaxyRewardRules");
       if (res.status == 200) {
@@ -651,25 +848,16 @@ function Admin(prop) {
     setInfo(data);
   };
 
-  if (haveAdmin(loginToken.roles)) {
-    var newdataInfo = [
-      getPathOfKey2(
-        info,
-        ",telegramSupport,telegramChanel,instagram,referUrl,cashoutLimit,depositLimit,durationTime,startTimeCommission,startTimeDailyLeague,startTimeGPass,startTimeLevelUp,startTimeRakeBack,startTimeVipTable,"
-      ),
-    ];
-  }
-  if (haveModerator(loginToken.roles)) {
-    var newdataInfo = [
-      getPathOfKey2(
-        info,
-        ",username,level,balance,fullName,refer,firstLogin,lastLogin,bankInfos,cashierGateways,"
-      ),
-    ];
-  }
+  var newdataInfo = [
+    getPathOfKey2(
+      info,
+      ",telegramSupport,telegramChanel,instagram,referUrl,cashoutLimit,depositLimit,durationTime,startTimeCommission,startTimeDailyLeague,startTimeGPass,startTimeLevelUp,startTimeRakeBack,startTimeVipTable,"
+    ),
+  ];
+
   var newdataBankInfo = [
     //getPathOfKey(user, ",dailyLeagueSet,"),
-    getPathOfKey(info, ",levelUps,"),
+    getPathOfKey(info, ",galaxyPassSet,"),
   ];
 
   var newdataInfoData = JSON.parse(JSON.stringify(newdataInfo));

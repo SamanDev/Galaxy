@@ -2,6 +2,7 @@ import axios from "axios";
 import { Alert } from "../utils/alerts";
 import config from "./config.json";
 import UserWebsocket from "./user.websocket";
+import eventBus from "./eventBus";
 export const apiPath = config.onlinePath;
 export function checkBlock(data) {
   var loginToken = JSON.parse(localStorage.getItem("loginToken"));
@@ -9,7 +10,7 @@ export function checkBlock(data) {
     if (loginToken.username == data.username) {
       if (!data.userBlock) {
         localStorage.setItem("loginToken", JSON.stringify(data));
-
+        eventBus.dispatch("updateUser", data);
         UserWebsocket.connect(
           data.accessToken + "&user=" + data.username,
           data
@@ -21,9 +22,10 @@ export function checkBlock(data) {
   } else {
     if (!data.userBlock) {
       localStorage.setItem("loginToken", JSON.stringify(data));
-
+      eventBus.dispatch("updateUser", data);
       UserWebsocket.connect(data.accessToken + "&user=" + data.username, data);
     } else {
+      eventBus.dispatch("updateUser", "");
       UserWebsocket.connect();
       // window.location = "/";
     }

@@ -1,6 +1,8 @@
 import React from "react";
 import { levelClass, levelClassInside } from "../const";
+
 const LevelIcon = (prop) => {
+  const loginToken = JSON.parse(localStorage.getItem("loginToken"));
   if (prop.mode == "gpass") {
     var _txt = prop.number ? prop.number : prop.level;
 
@@ -283,111 +285,7 @@ const LevelIcon = (prop) => {
       </span>
     );
   }
-  if (prop.mode == "gift3") {
-    var _txt = prop.number ? prop.number : prop.level;
-    var _class = "";
-    if (prop.text == "big") {
-      _class = _class + " big";
-    }
-    var _class2 = _class;
-    if (prop.iconamin) {
-      var _class2 = _class2 + " " + prop.iconamin;
-    }
-    return (
-      <span onClick={prop.onClick} className="iconarea">
-        <img
-          src={"/assets/images/svg/gift/icon.svg"}
-          width={prop.width}
-          height={prop.width}
-          alt={prop.mode}
-          style={{
-            width: prop.width,
-            height: "auto",
-          }}
-        />
-        {prop.text != "big" && prop.text != "" && (
-          <div className="iconlabel">{prop.text}</div>
-        )}
-      </span>
-    );
-  }
-  if (prop.mode == "gift1") {
-    var _txt = prop.number ? prop.number : prop.level;
-    var _class = "";
-    if (prop.text == "big") {
-      _class = _class + " big";
-    }
-    var _class2 = _class;
-    if (prop.iconamin) {
-      var _class2 = _class2 + " " + prop.iconamin;
-    }
-    return (
-      <span onClick={prop.onClick} className="iconarea">
-        <span
-          className="inline animated"
-          style={{
-            width: prop.width,
-            height: "auto",
-            position: "relative",
-            zIndex: 1,
-          }}
-        >
-          <img
-            src={"/assets/gift.svg"}
-            width={prop.width}
-            height={prop.width}
-            alt={prop.mode}
-            style={{
-              width: prop.width,
-              height: "auto",
-            }}
-          />
-        </span>
-        {prop.text != "big" && prop.text != "" && (
-          <div className="iconlabel">{prop.text}</div>
-        )}
-      </span>
-    );
-  }
-  if (prop.mode == "gift2") {
-    var _txt = prop.number ? prop.number : prop.level;
-    var _class = "";
-    if (prop.text == "big") {
-      _class = _class + " big";
-    }
-    var _class2 = _class;
-    if (prop.iconamin) {
-      var _class2 = _class2 + " " + prop.iconamin;
-    }
-    return (
-      <span onClick={prop.onClick} className="iconarea">
-        <span
-          className="inline animated"
-          style={{
-            width: prop.width,
-            height: "auto",
-            position: "relative",
-            zIndex: 1,
-            filter: "hue-rotate(-90deg)",
-          }}
-        >
-          <img
-            src={"/assets/gift.svg"}
-            width={prop.width}
-            height={prop.width}
-            alt={prop.mode}
-            style={{
-              width: prop.width,
-              height: "auto",
-            }}
-          />
-        </span>
-        {prop.text != "big" && prop.text != "" && (
-          <div className="iconlabel">{prop.text}</div>
-        )}
-      </span>
-    );
-  }
+
   if (prop.mode == "gifts") {
     var _txt = prop.number ? prop.number : prop.level;
     var _class = "";
@@ -417,8 +315,39 @@ const LevelIcon = (prop) => {
         />
       </div>
     );
+  } else if (prop.mode.indexOf("gift") > -1) {
+    var _txt = prop.number ? prop.number : prop.level;
+    var _class = "";
+    if (prop.text == "big") {
+      _class = _class + " big";
+    }
+    var _class2 = _class;
+    if (prop.iconamin) {
+      var _class2 =
+        _class +
+        " " +
+        prop.iconamin.replace("charkhesh", "").replace("inline", "") +
+        " tada";
+    }
+    return (
+      <div onClick={prop.onClick} className="iconarea">
+        <img
+          src={"/assets/images/icons/" + prop.mode + ".png"}
+          width={prop.width}
+          height={prop.width}
+          alt={prop.mode}
+          className={_class2 + "  icn"}
+          style={{
+            width: prop.width,
+            height: "auto",
+          }}
+        />
+        {prop.text != "big" && prop.text != "" && (
+          <div className="iconlabel">{prop.text}</div>
+        )}
+      </div>
+    );
   }
-
   if (prop.mode == "topplayer") {
     var _txt = prop.number ? prop.number : prop.level;
     var _class = "vipicon";
@@ -586,8 +515,6 @@ const LevelIcon = (prop) => {
     var _txt = prop.number ? prop.number : prop.level;
 
     if (prop.text == "big") {
-      const loginToken = JSON.parse(localStorage.getItem("loginToken"));
-
       if (loginToken) {
         _txt = loginToken.level;
       } else {

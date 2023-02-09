@@ -4,8 +4,6 @@ import { AdminContext } from "../context/adminLayoutContext";
 import Dashboard from "./dashboard/Dashboard";
 import Admin from "./admin/Index";
 const Content = (prop) => {
-  const { showSidebar } = useContext(AdminContext);
-
   return (
     <section id="content_section" className={`py-2 px-3`}>
       <Routes>

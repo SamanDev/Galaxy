@@ -36,8 +36,8 @@ const onSubmit = async (values, submitMethods, navigate, prop, setRefresh) => {
     const res = await cashierService(values, "createCashoutShetab", "");
     if (res.status == 200) {
       if (res.data?.accessToken) {
-        setRefresh(true);
-        Alert("Done", "انجام شد.", "success");
+        //setRefresh(true);
+        //Alert("Done", "انجام شد.", "success");
       }
     } else {
       Alert("متاسفم...!", res.data, "error");

@@ -147,9 +147,6 @@ class Example extends React.Component {
                 className="farsi-inline ui green label tada delay-1s animated"
                 to={endDatetimeOld}
                 filter={toEnd}
-                onChange={(val) => {
-                  console.log(val);
-                }}
               >
                 {now}
               </Moment>
@@ -160,7 +157,6 @@ class Example extends React.Component {
                 className="farsi-inline ui label red opacity-50"
                 fromNow
                 filter={toStart}
-                onChange={(val) => {}}
               >
                 {startTime}
               </Moment>
