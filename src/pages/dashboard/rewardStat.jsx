@@ -100,7 +100,7 @@ const RewardStat = (prop) => {
                             className="fadeout"
                             style={{
                               transform: "rotate(20deg)",
-                              opacity: 0.4,
+                              opacity: 1,
                               marginBottom: 20,
                             }}
                           >

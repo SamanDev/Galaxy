@@ -1,9 +1,13 @@
 import { useEffect, useState } from "react";
+
+import { publicGetRules } from "../services/public";
 import { getReportPenService } from "../services/report";
 import eventBus from "../services/eventBus";
 export const useUser = () => {
   const [loginToken, setLoginToken] = useState(
-    JSON.parse(localStorage.getItem("loginToken"))
+    localStorage.getItem("loginToken")
+      ? JSON.parse(localStorage.getItem("loginToken"))
+      : null
   );
 
   useEffect(() => {
@@ -14,6 +18,33 @@ export const useUser = () => {
     });
   }, []);
   return [loginToken];
+};
+export const useSiteInfo = () => {
+  const [siteInfo, setSiteInfo] = useState(
+    localStorage.getItem("siteInfo")
+      ? JSON.parse(localStorage.getItem("siteInfo"))
+      : []
+  );
+  const [loading, setLoading] = useState(true);
+  const handleCheckLogin = async () => {
+    try {
+      const res = await publicGetRules();
+      setSiteInfo(res.data);
+      localStorage.setItem("siteInfo", JSON.stringify(res.data));
+      //setLoading(false);
+    } catch (error) {
+      setLoading(false);
+    }
+  };
+  useEffect(() => {
+    handleCheckLogin();
+    eventBus.on("updateSiteInfo", (dataGet) => {
+      setSiteInfo(dataGet);
+      localStorage.setItem("siteInfo", JSON.stringify(dataGet));
+    });
+  }, []);
+
+  return [loading, siteInfo];
 };
 export const useActiveTable = () => {
   const [activeTable, setActiveTable] = useState(
@@ -31,7 +62,9 @@ export const useActiveTable = () => {
 
 export const useLastReward = () => {
   const [lastReward, setLastReward] = useState(
-    JSON.parse(localStorage.getItem("lastReward"))
+    localStorage.getItem("lastReward")
+      ? JSON.parse(localStorage.getItem("lastReward"))
+      : []
   );
 
   useEffect(() => {

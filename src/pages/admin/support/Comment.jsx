@@ -1,7 +1,6 @@
 import React from "react";
 import { Label, Segment } from "semantic-ui-react";
 import { convertDateToJalali } from "../../../utils/convertDate";
-const siteInfo = JSON.parse(localStorage.getItem("siteInfo"));
 
 const CommentExampleMinimal = (prop) => {
   const string = prop.msg.message;

@@ -22,7 +22,7 @@ export function checkBlock(data) {
   } else {
     if (!data.userBlock) {
       localStorage.setItem("loginToken", JSON.stringify(data));
-      // eventBus.dispatch("updateUser", data);
+      eventBus.dispatch("updateUser", data);
       UserWebsocket.connect(data.accessToken + "&user=" + data.username, data);
     } else {
       eventBus.dispatch("updateUser", "");

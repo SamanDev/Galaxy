@@ -30,7 +30,7 @@ const depositArea = (prop) => {
 
   return (
     <>
-      {!loginToken.userActivate ? (
+      {!loginToken?.userActivate ? (
         <>
           <ActivetMsg {...prop} />
         </>

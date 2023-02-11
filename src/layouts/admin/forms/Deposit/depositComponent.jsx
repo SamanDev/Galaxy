@@ -15,7 +15,7 @@ const depositArea = (prop) => {
   const loginToken = prop.loginToken;
   return (
     <>
-      {!loginToken.userActivate ? (
+      {!loginToken?.userActivate ? (
         <>
           <ActivetMsg {...prop} />
         </>

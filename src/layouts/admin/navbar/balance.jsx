@@ -3,6 +3,7 @@ import { Segment, Icon, Label, Popup, Progress } from "semantic-ui-react";
 import DepositArea from "../forms/index";
 
 import LevelIcon from "../../../utils/svg";
+import CountUp from "../../../utils/CountUp";
 import RisingPitch from "../../../utils/PlayBip";
 import BonusArea from "../bonus/index.jsx";
 import $ from "jquery";
@@ -191,7 +192,7 @@ const Balance = (prop) => {
               $("#opendepicon").trigger("click");
             }}
           >
-            {doCurrency(loginToken.balance)}
+            <CountUp balance={loginToken.balance} />
           </Label>
           <Popup
             on="click"

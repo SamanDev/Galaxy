@@ -2,12 +2,12 @@ import React from "react";
 import { Icon, Button, Header, Divider } from "semantic-ui-react";
 import $ from "jquery";
 
-const depositArea = (prop) => {
-  const siteInfo = JSON.parse(localStorage.getItem("siteInfo"));
+const accessArea = (prop) => {
+  const siteInfo = prop?.siteInfo;
   return (
     <>
       <span className="myaccount popupmenu">
-        {prop.title && (
+        {prop?.title && (
           <>
             <Header
               as="h4"
@@ -98,4 +98,4 @@ const depositArea = (prop) => {
   );
 };
 
-export default depositArea;
+export default accessArea;

@@ -13,9 +13,9 @@ import {
 } from "./const";
 import { Link } from "react-router-dom";
 import { useIsLogin } from "./hook/authHook";
-import { useUser } from "./hook/userHook";
+import { useUser, useSiteInfo } from "./hook/userHook";
 
-import { useSiteInfo, useActiveTable, useLastReward } from "./hook/infoHook";
+import { useActiveTable, useLastReward } from "./hook/infoHook";
 import $ from "jquery";
 import { Route, Routes } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
@@ -304,6 +304,7 @@ function App(prop) {
     return (
       <ChildComp
         loginToken={loginToken}
+        siteInfo={siteInfo}
         openPanel={openPanel}
         openGame={openGame}
         setFirstOpen={setFirstOpen}
@@ -999,6 +1000,7 @@ function App(prop) {
             >
               <RightPanel
                 loginToken={loginToken}
+                siteInfo={siteInfo}
                 openPanel={openPanel}
                 setActivePanel={setActivePanel}
                 activePanel={activePanel}
@@ -1114,6 +1116,7 @@ function App(prop) {
               element={
                 <AdminLayout
                   loginToken={loginToken}
+                  siteInfo={siteInfo}
                   openPanel={openPanel}
                   setActivePanel={setActivePanel}
                   activePanel={activePanel}
@@ -1140,6 +1143,7 @@ function App(prop) {
               element={
                 <AdminLayout
                   loginToken={loginToken}
+                  siteInfo={siteInfo}
                   openPanel={openPanel}
                   setActivePanel={setActivePanel}
                   activePanel={activePanel}
@@ -1166,6 +1170,7 @@ function App(prop) {
               element={
                 <AdminLayout
                   loginToken={loginToken}
+                  siteInfo={siteInfo}
                   openPanel={openPanel}
                   setActivePanel={setActivePanel}
                   activePanel={activePanel}
