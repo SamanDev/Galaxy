@@ -64,6 +64,7 @@ const BonusArea = (prop) => {
   var start = moment(prop.bonus.startDate);
   var expire = moment(prop.bonus.expireDate);
   var end = moment();
+  var _mode = prop.bonus.mode.toLowerCase();
   try {
     var _lvl = prop.bonus.text
       .split(" ")[1]
@@ -73,30 +74,21 @@ const BonusArea = (prop) => {
     var _lvl = "1";
   }
 
-  if (prop.bonus.mode == "bonus") {
+  if (_mode == "bonus") {
     prop.bonus.banaction = 24;
   }
-  if (
-    prop.bonus.mode == "gpass" &&
-    loginToken.level < levelDataInfo[0].minLevel
-  ) {
+  if (_mode == "gpass" && loginToken.level < levelDataInfo[0].minLevel) {
     prop.bonus.banaction = levelDataInfo[0].banOutHours;
     prop.bonus.balancereq = levelDataInfo[0].minBalance;
     prop.bonus.levelreq = levelDataInfo[0].minLevel;
   }
-  if (
-    prop.bonus.mode == "vip" &&
-    loginToken.level < levelDataInfo[1].minLevel
-  ) {
+  if (_mode == "vip" && loginToken.level < levelDataInfo[1].minLevel) {
     prop.bonus.banaction = levelDataInfo[1].banOutHours;
     prop.bonus.balancereq = levelDataInfo[1].minBalance;
     prop.bonus.levelreq = levelDataInfo[1].minLevel;
   }
 
-  if (
-    prop.bonus.mode == "league" &&
-    loginToken.level < levelDataInfo[2].minLevel
-  ) {
+  if (_mode == "league" && loginToken.level < levelDataInfo[2].minLevel) {
     prop.bonus.banaction = levelDataInfo[2].banOutHours;
     prop.bonus.balancereq = levelDataInfo[2].minBalance;
     prop.bonus.levelreq = levelDataInfo[2].minLevel;
@@ -109,7 +101,7 @@ const BonusArea = (prop) => {
   if (_status == "Pending" && !start.isBefore(end)) {
     _status = "Clock";
   }
-  var _mode = prop.bonus.mode;
+
   if (_mode == "gift") {
     if (prop.bonus.amount >= levelDataInfo[4].minAmount) {
       _mode = "gift3";
@@ -120,19 +112,19 @@ const BonusArea = (prop) => {
     }
   }
   var _txt = prop.bonus.label;
-  if (prop.bonus.mode == "gpass") {
+  if (_mode == "gpass") {
     _txt = "پاداش لول " + _lvl + " گلکسی پَس";
   }
-  if (prop.bonus.mode == "league") {
+  if (_mode == "league") {
     _txt = "رتبه " + _lvl + " " + _txt;
   }
-  if (prop.bonus.mode == "tournament" && _lvl != "") {
+  if (_mode == "tournament" && _lvl != "") {
     _txt = "رتبه " + _lvl + " " + _txt;
   }
-  if (prop.bonus.mode == "tournament" && _lvl == "") {
+  if (_mode == "tournament" && _lvl == "") {
     _txt = "معرفی نفر پایانی تورنومنت ";
   }
-  if (prop.bonus.mode == "vip") {
+  if (_mode == "vip") {
     _txt = "پاداش میز VIP";
   }
   if (_mode == "gift3") {
@@ -282,14 +274,15 @@ const BonusArea = (prop) => {
           </>
         )}
       </List.Content>
-      <div style={{ padding: 10 }}>
+      <div
+        style={{ padding: 10 }}
+        className={"rewardname"}
+        mode={_mode.toLowerCase()}
+      >
         <LevelIcon
           level={_lvl}
           mode={_mode.toLowerCase()}
-          text={prop.bonus.text}
-          onClick={() => {
-            prop.openPanel("." + bonus.mode, "");
-          }}
+          text={prop.bonus.username}
           classinside={levelClassInside(_lvl - 1)}
           number={_lvl}
           width="36px"

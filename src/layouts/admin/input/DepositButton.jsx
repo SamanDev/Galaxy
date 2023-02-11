@@ -4,48 +4,51 @@ import $ from "jquery";
 import Report from "../../../pages/dashboard/ReportDep";
 import ReportPen from "../../../pages/dashboard/ReportPen";
 const loginToken = JSON.parse(localStorage.getItem("loginToken"));
-const DepositButton = (prop) => (
-  <>
-    <Button
-      content={prop.val ? prop.val : "واریز"}
-      fluid
-      style={{ marginTop: 10 }}
-      className="farsi"
-      color="teal"
-      type="submit"
-      loading={prop.loading}
-      disabled={prop.disabled}
-      hidden={prop.hidden}
-      onClick={() => {
-        $("#dep1").hide();
-        $("#dep2").show();
-      }}
-    />
-    {prop.mode && prop.list ? (
-      <>
-        <ul className="mm-listview">
-          <li className="menutitle menutitleinside mm-listitem">
-            <span className="mm-listitem__text"></span>
-          </li>
-        </ul>
+const DepositButton = (prop) => {
+  const loginToken = prop.loginToken;
+  return (
+    <>
+      <Button
+        content={prop.val ? prop.val : "واریز"}
+        fluid
+        style={{ marginTop: 10 }}
+        className="farsi"
+        color="teal"
+        type="submit"
+        loading={prop.loading}
+        disabled={prop.disabled}
+        hidden={prop.hidden}
+        onClick={() => {
+          $("#dep1").hide();
+          $("#dep2").show();
+        }}
+      />
+      {prop.mode && prop.list ? (
+        <>
+          <ul className="mm-listview">
+            <li className="menutitle menutitleinside mm-listitem">
+              <span className="mm-listitem__text"></span>
+            </li>
+          </ul>
 
-        <Report {...prop} />
-      </>
-    ) : (
-      <div style={{ overflow: "hidden" }}>
-        <div
-          style={{
-            overflow: "hidden",
-            overflowY: "auto",
-            maxHeight: 300,
-            marginTop: 10,
-          }}
-        >
-          <ReportPen mode={prop.mode} pending={true} count={1} {...prop} />
+          <Report {...prop} />
+        </>
+      ) : (
+        <div style={{ overflow: "hidden" }}>
+          <div
+            style={{
+              overflow: "hidden",
+              overflowY: "auto",
+              maxHeight: 300,
+              marginTop: 10,
+            }}
+          >
+            <ReportPen mode={prop.mode} pending={true} count={1} {...prop} />
+          </div>
         </div>
-      </div>
-    )}
-  </>
-);
+      )}
+    </>
+  );
+};
 
 export default DepositButton;

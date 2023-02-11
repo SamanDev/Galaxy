@@ -2,7 +2,7 @@ import React from "react";
 import { Progress, Icon } from "semantic-ui-react";
 import { levelData } from "../const";
 const Balance = (prop) => {
-  const loginToken = JSON.parse(localStorage.getItem("loginToken"));
+  const loginToken = prop.loginToken;
 
   if (loginToken) {
     if (loginToken.level == 0) {

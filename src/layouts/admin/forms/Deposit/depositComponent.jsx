@@ -12,7 +12,7 @@ import ActivetMsg from "./activetMsg";
 
 const depositArea = (prop) => {
   const [depMode, setDepMode] = useState(prop.gateway);
-  const loginToken = JSON.parse(localStorage.getItem("loginToken"));
+  const loginToken = prop.loginToken;
   return (
     <>
       {!loginToken.userActivate ? (

@@ -10,7 +10,7 @@ const defColBtn = "grey";
 const selColBtn = "orange";
 const depositArea = (prop) => {
   const [loading, setLoading] = useState(false);
-  const loginToken = JSON.parse(localStorage.getItem("loginToken"));
+  const loginToken = prop.loginToken;
   const onSubmit = async () => {
     setLoading(true);
     try {

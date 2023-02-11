@@ -33,6 +33,10 @@ const RewardStat = (prop) => {
 
       for (const property in _gmode) {
         var psum = sumOf(_gmode[property]);
+        const propOwn = Object.getOwnPropertyNames(
+          groupBy(_gmode[property], "username")
+        );
+
         stat.push({
           title: property
             .toLocaleLowerCase()
@@ -45,8 +49,9 @@ const RewardStat = (prop) => {
             .replace("rakeback", "ریک بک پوکر")
             .replace("gifts", "هدایای گلکسی")
             .replace("tournament", "تورنومنت ها"),
-          mode: property.toLocaleLowerCase().replace("gift", "gifts"),
+          mode: property.toLocaleLowerCase().replace("gift", "gift3"),
           sum: psum,
+          players: propOwn.length,
           count: _gmode[property].length,
         });
       }
@@ -69,51 +74,98 @@ const RewardStat = (prop) => {
             paddingLeft: 15,
           }}
         >
-          <>
-            {statData?.map(function (bonus, i) {
-              var _lvl = 1;
+          <div id="carouselExample" className="carousel slide">
+            <div className="carousel-inner">
+              {statData?.map(function (bonus, i) {
+                var _lvl = 1;
 
-              return (
-                <Grid
-                  verticalAlign="middle"
-                  divided="vertically"
-                  inverted
-                  padded="vertically"
-                  key={i}
-                  className="rewardname"
-                  mode={bonus.mode}
+                return (
+                  <div
+                    key={i}
+                    className={
+                      i == 0 ? "carousel-item active" : "carousel-item"
+                    }
+                  >
+                    <Grid
+                      verticalAlign="middle"
+                      divided="vertically"
+                      inverted
+                      padded="vertically"
+                      className="rewardname"
+                      mode={bonus.mode}
+                    >
+                      <Grid.Row style={{ height: 250 }} textAlign="center">
+                        <Grid.Column textAlign="center">
+                          <div
+                            className="fadeout"
+                            style={{
+                              transform: "rotate(20deg)",
+                              opacity: 0.4,
+                              marginBottom: 20,
+                            }}
+                          >
+                            <LevelIcon
+                              level={_lvl}
+                              text={"big"}
+                              mode={bonus.mode}
+                              classinside={levelClassInside(_lvl)}
+                              number=""
+                              width={bonus.mode == "gifts" ? "100px" : "80px"}
+                            />
+                          </div>
+                          <div className="farsi rewardtext fw-bold text-center text-gold">
+                            {bonus.title}
+                          </div>
+                          <small
+                            className="farsi text-center"
+                            style={{ display: "block" }}
+                          >
+                            <span className="text-gold">
+                              {doCurrency(bonus.sum)} تومان
+                            </span>{" "}
+                            پاداش
+                            <br /> پرداخت شده به {doCurrency(
+                              bonus.players
+                            )}{" "}
+                            بازیکن
+                            <br /> در {doCurrency(bonus.count)} رکورد
+                          </small>
+                        </Grid.Column>
+                      </Grid.Row>
+                    </Grid>
+                  </div>
+                );
+              })}
+            </div>
+            {statData?.length > 0 && (
+              <>
+                <button
+                  className="carousel-control-prev"
+                  type="button"
+                  data-bs-target="#carouselExample"
+                  data-bs-slide="prev"
                 >
-                  <Grid.Row>
-                    <Grid.Column width={12} textAlign="right">
-                      <div className="farsi rewardtext"> {bonus.title}</div>
-                      <small
-                        className="farsi text-right"
-                        style={{ display: "block" }}
-                      >
-                        <span className="text-gold">
-                          {doCurrency(bonus.sum)} تومان
-                        </span>{" "}
-                        پاداش
-                        <br /> در {doCurrency(bonus.count)} رکورد
-                      </small>
-                    </Grid.Column>
-                    <Grid.Column width={4} className="fadeout">
-                      <div style={{ marginLeft: 10 }}>
-                        <LevelIcon
-                          level={_lvl}
-                          text={""}
-                          mode={bonus.mode}
-                          classinside={levelClassInside(_lvl)}
-                          number=""
-                          width={bonus.mode == "gifts" ? "80px" : "70px"}
-                        />
-                      </div>
-                    </Grid.Column>
-                  </Grid.Row>
-                </Grid>
-              );
-            })}
-          </>
+                  <span
+                    className="carousel-control-prev-icon"
+                    aria-hidden="true"
+                  ></span>
+                  <span className="visually-hidden">Previous</span>
+                </button>
+                <button
+                  className="carousel-control-next"
+                  type="button"
+                  data-bs-target="#carouselExample"
+                  data-bs-slide="next"
+                >
+                  <span
+                    className="carousel-control-next-icon"
+                    aria-hidden="true"
+                  ></span>
+                  <span className="visually-hidden">Next</span>
+                </button>
+              </>
+            )}
+          </div>
         </div>
       </li>
     </>

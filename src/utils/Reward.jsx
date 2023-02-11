@@ -6,7 +6,7 @@ import { convertDateToJalali } from "./convertDate";
 
 const Reward = (prop) => {
   const loginToken = prop.loginToken;
-  var _mode = prop.item.mode;
+  var _mode = prop.item.mode.toLowerCase();
   if (_mode == "gift") {
     if (prop.item.amount >= levelDataInfo[4].minAmount) {
       _mode = "gift3";
@@ -29,19 +29,19 @@ const Reward = (prop) => {
   } catch (error) {
     var _lvl = "";
   }
-  if (prop.item.mode == "gpass") {
+  if (_mode == "gpass") {
     _txt = "پاداش لول " + _lvl + " گلکسی پَس";
   }
-  if (prop.item.mode == "league") {
+  if (_mode == "league") {
     _txt = "رتبه " + _lvl + " " + _txt;
   }
-  if (prop.item.mode == "tournament" && _lvl != "") {
+  if (_mode == "tournament" && _lvl != "") {
     _txt = "رتبه " + _lvl + " " + _txt;
   }
-  if (prop.item.mode == "tournament" && _lvl == "") {
+  if (_mode == "tournament" && _lvl == "") {
     _txt = "معرفی نفر پایانی تورنومنت ";
   }
-  if (prop.item.mode == "vip") {
+  if (_mode == "vip") {
     _txt = "پاداش میز VIP";
   }
   if (_mode == "gift3") {

@@ -2,13 +2,13 @@ import React from "react";
 import { Progress, Icon } from "semantic-ui-react";
 import { levelData, levelDataInfo } from "../const";
 const Balance = (prop) => {
-  const loginToken = JSON.parse(localStorage.getItem("loginToken"));
+  const loginToken = prop.loginToken;
 
   if (loginToken) {
     if (loginToken.glevel == 0) {
       loginToken.glevel = 1;
     }
-    var lvlPercent = parseInt(
+    var lvlPercent = parseFloat(
       (loginToken.glevelSecond * 100) / (levelDataInfo[0].hoursLimit * 3600)
     ).toFixed(2);
     if (lvlPercent > 100) {

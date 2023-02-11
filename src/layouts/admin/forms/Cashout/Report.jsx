@@ -7,12 +7,12 @@ import AmountColor from "../../../../utils/AmountColor";
 import { getReportService } from "../../../../services/report";
 
 const Report = (prop) => {
-  const loginToken = JSON.parse(localStorage.getItem("loginToken"));
+  const loginToken = prop.loginToken;
   const [data, setData] = useState([]);
-  console.log(prop);
+
   const [loading, setLoading] = useState(true);
   const handleGetReports = async () => {
-    setLoading(true);
+    //setLoading(true);
     try {
       const res = await getReportService(
         loginToken.id,
@@ -22,16 +22,16 @@ const Report = (prop) => {
       if (res.status === 200) {
         setData(res.data);
       }
+      setLoading(false);
     } catch (error) {
       console.log(error.message);
-    } finally {
-      setLoading(false);
     }
   };
 
   useEffect(() => {
     handleGetReports();
   }, []);
+
   if (loading) {
     return <MenuLoader />;
   } else {

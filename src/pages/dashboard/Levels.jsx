@@ -50,17 +50,17 @@ const LevelList = (prop) => {
                 <div className="levelbar">
                   {loginToken.level == i + 1 ? (
                     <>
-                      <LevelBar progress />
+                      <LevelBar progress {...prop} />
                     </>
                   ) : (
                     <>
                       {loginToken.level > i + 1 ? (
                         <>
-                          <LevelBar val="100" progress />
+                          <LevelBar val="100" progress {...prop} />
                         </>
                       ) : (
                         <>
-                          <LevelBar val="0" />
+                          <LevelBar val="0" {...prop} />
                         </>
                       )}
                     </>

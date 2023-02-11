@@ -1,22 +1,10 @@
 import React, { useEffect, useState } from "react";
-import {
-  Icon,
-  Label,
-  Comment,
-  List,
-  Image,
-  Button,
-  Divider,
-  Segment,
-} from "semantic-ui-react";
+import { Icon, List } from "semantic-ui-react";
 import Reward from "../../utils/Reward";
-import { doCurrency, levelLeagueReward, levelLeagueList } from "../../const";
-import LevelIcon from "../../utils/svg";
+import { levelLeagueReward } from "../../const";
 import MenuLoader from "../../utils/menuLoader";
 import { getRewardsService } from "../../services/reward";
-import $ from "jquery";
 const LevelList = (prop) => {
-  console.log(prop);
   const [data, setData] = useState([]);
 
   const [loading, setLoading] = useState(false);
@@ -26,12 +14,11 @@ const LevelList = (prop) => {
       const res = await getRewardsService("", prop.mode, "");
       if (res.status === 200) {
         setData(res.data);
-        $("#bindlastreward").trigger("click");
+        setLoading(false);
+        prop.bindLastReward();
       }
     } catch (error) {
       console.log(error.message);
-    } finally {
-      setLoading(false);
     }
   };
 

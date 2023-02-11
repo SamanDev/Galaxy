@@ -16,9 +16,9 @@ import Moment from "react-moment";
 const moment = require("moment");
 
 const depositArea = (prop) => {
-  const [depMode] = useState(prop.gateway);
+  const depMode = prop.gateway;
 
-  const loginToken = JSON.parse(localStorage.getItem("loginToken"));
+  const loginToken = prop.loginToken;
   var _now = moment();
   var _block = moment(loginToken.blockDateOut);
   //var _block = moment("2022-12-08T19:09:55+03:30");
@@ -37,20 +37,25 @@ const depositArea = (prop) => {
       ) : (
         <>
           {prop.cashMode === "Report" && (
-            <Report size="mini" labelcolor="orange" list={true} />
+            <Report size="mini" labelcolor="orange" list={true} {...prop} />
           )}
           {prop.cashMode === "Ticket" && (
-            <Ticket size="mini" labelcolor="orange" list={true} />
+            <Ticket size="mini" labelcolor="orange" list={true} {...prop} />
           )}
           {prop.cashMode === "Invite" && (
-            <Invite size="mini" labelcolor="orange" list={true} />
+            <Invite size="mini" labelcolor="orange" list={true} {...prop} />
           )}
           {prop.cashMode === "addCart" && (
-            <AddCart size="mini" labelcolor="orange" list={true} />
+            <AddCart size="mini" labelcolor="orange" list={true} {...prop} />
           )}
 
           {prop.cashMode === "ChangePass" && (
-            <ChangePass size="mini" labelcolor="orange" list={true} />
+            <ChangePass
+              size="mini"
+              labelcolor="orange"
+              list={false}
+              {...prop}
+            />
           )}
 
           {prop.mode === "transfer" && (

@@ -1,17 +1,9 @@
 import React, { useState, useEffect } from "react";
-import {
-  Segment,
-  Icon,
-  Label,
-  Popup,
-  Progress,
-  Divider,
-} from "semantic-ui-react";
+import { Segment, Icon, Label, Popup, Progress } from "semantic-ui-react";
 import DepositArea from "../forms/index";
 
 import LevelIcon from "../../../utils/svg";
 import RisingPitch from "../../../utils/PlayBip";
-import RisingPitchReward from "../../../utils/PlayReward";
 import BonusArea from "../bonus/index.jsx";
 import $ from "jquery";
 //import BonusArea from "../../../pages/dashboard/ActiveTableJson";
@@ -22,14 +14,14 @@ import {
   levelClassInside,
   levelDataInfo,
 } from "../../../const";
-import eventBus from "../../../services/eventBus";
-import { useUser } from "../../../hook/userHook";
 const moment = require("moment");
 const Balance = (prop) => {
   var lvlPercent = 0;
   var gLvlPercent = 0;
   var vLvlPercent = 0;
+  const siteInfo = JSON.parse(localStorage.getItem("siteInfo"));
   const loginToken = prop.loginToken;
+  siteInfo?.galaxyPassSet?.sort((a, b) => (a.id > b.id ? 1 : -1));
 
   const [color, setColor] = useState("grey");
   const [gCount, setGCount] = useState(0);
@@ -74,7 +66,7 @@ const Balance = (prop) => {
     prop.setUserOpen(true);
   };
   useEffect(() => {
-    if (_event == "GPass") {
+    if (_event == "GPass" && !loginToken.takeGPass) {
       setStateMode(1);
     }
     if (_event == "VIP") {
@@ -86,16 +78,14 @@ const Balance = (prop) => {
   }, []);
   useEffect(() => {
     if (loginToken) {
-      if (loginToken.level == 0) {
-        loginToken.level = 1;
-      }
       var _lvlFinal = levelData.filter((d) => d.level === loginToken.level);
 
       lvlPercent = parseFloat(
         (loginToken.levelPoint * 100) / _lvlFinal[0].point
       ).toFixed(2);
       gLvlPercent = parseFloat(
-        (loginToken.glevelSecond * 100) / (levelDataInfo[0].hoursLimit * 3600)
+        (loginToken.glevelSecond * 100) /
+          (siteInfo?.galaxyPassSet[0].hoursLimit * 3600)
       ).toFixed(2);
       vLvlPercent = parseFloat(
         (loginToken.vipPlaySecond * 100) / (levelDataInfo[1].hoursLimit * 3600)
@@ -150,7 +140,7 @@ const Balance = (prop) => {
                   mode="levels"
                   classinside={levelClassInside(loginToken.level)}
                   number=""
-                  width="30px"
+                  width="38px"
                 />
               </span>
             )}
@@ -161,7 +151,7 @@ const Balance = (prop) => {
                 classinside="iconinside0"
                 number={loginToken.glevel}
                 text=""
-                width="30px"
+                width="38px"
               />
             )}
             {stateMode == 1 && _event == "VIP" && (
@@ -169,12 +159,9 @@ const Balance = (prop) => {
                 classinside="iconinside0"
                 number=""
                 text=""
-                width="30px"
+                width="38px"
                 level={1}
                 mode="vip"
-                onClick={() => {
-                  prop.openPanel(".vip", "");
-                }}
               />
             )}
             {stateMode == 1 && _event == "League" && (
@@ -182,12 +169,9 @@ const Balance = (prop) => {
                 classinside="iconinside0"
                 number=""
                 text=""
-                width="30px"
+                width="38px"
                 level={1}
                 mode="league"
-                onClick={() => {
-                  prop.openPanel(".league", "");
-                }}
               />
             )}
             <Label
@@ -244,9 +228,6 @@ const Balance = (prop) => {
             offset={[-78, 0]}
             basic
             pinned
-            onClose={() => {
-              prop.setActiveMenu("main");
-            }}
             trigger={
               <Icon
                 circular
@@ -272,7 +253,6 @@ const Balance = (prop) => {
             position="bottom center"
             offset={[-106, 0]}
             basic
-            pinned
             hideOnScroll
             disabled={gCount == -1 ? true : false}
             trigger={

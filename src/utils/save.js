@@ -1,7 +1,7 @@
 import React, { useRef } from "react";
 
 import * as htmlToImage from "html-to-image";
-import LevelIcon from "./svg";
+import LevelIcon from "./svg22";
 import { levelClassInside } from "../const";
 import $ from "jquery";
 function App(prop) {
@@ -35,6 +35,8 @@ function App(prop) {
           classinside={levelClassInside(1)}
           number={""}
           width="128px"
+          iconamin={"inline animated charkhesh delay-1s big"}
+          amin={"inline animated pulse"}
         />
       </div>
     </div>

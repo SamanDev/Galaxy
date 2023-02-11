@@ -10,7 +10,7 @@ import Moment from "react-moment";
 import LevelIcon from "../../utils/svg";
 
 import LastRewardList from "./LastRewardList";
-const LevelList = () => {
+const LevelList = (prop) => {
   return (
     <span className="myaccount popupmenu">
       <ConfettiArea recycle={false} numberOfPieces="50" />
@@ -163,7 +163,7 @@ const LevelList = () => {
             />
           </List.Content>
         </List.Item>
-        <LastRewardList mode="gift" />
+        <LastRewardList mode="gift" {...prop} />
       </List>
     </span>
   );

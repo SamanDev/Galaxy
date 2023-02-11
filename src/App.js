@@ -5,7 +5,6 @@ import RightPanel from "./Panel";
 import { Image, Modal } from "semantic-ui-react";
 import {
   menuData,
-  panelData,
   haveAdmin,
   haveModerator,
   getEvent,
@@ -31,17 +30,11 @@ import { Dimmer, Loader } from "semantic-ui-react";
 import UserWebsocket from "./services/user.websocket";
 import eventBus from "./services/eventBus";
 import { cashierService } from "./services/cashier";
-import ActiveTable from "./pages/dashboard/ActiveTableJson.jsx";
-import RewardStat from "./pages/dashboard/rewardStat";
-import LastReward from "./pages/dashboard/LastRewardJson";
+import ChildComp from "./Components";
 import PWAPrompt from "react-ios-pwa-prompt";
-import LevelList from "./pages/dashboard/Levels";
-import GalaxyPass from "./pages/dashboard/GalaxyPass";
 const moment = require("moment");
 var menu = "no";
-var panelMenu = "no";
 var api;
-var apiPanel;
 var defMethod = [
   {
     id: 1,
@@ -144,7 +137,7 @@ var _event = getEvent();
 var nowDay = moment().isoWeekday();
 const animateCSS = (element, animation, prefix = "") =>
   // We create a Promise and return it
-  new Promise((resolve, reject) => {
+  new Promise((resolve) => {
     const animationName = `${prefix}${animation}`;
     const node = document.querySelector(element);
 
@@ -169,7 +162,6 @@ const animateCSS = (element, animation, prefix = "") =>
 
 localStorage.removeItem("getGateways");
 var finalMenu = "";
-var finalPanel = "";
 
 function App(prop) {
   const [refresh, setRefresh] = useState();
@@ -189,6 +181,7 @@ function App(prop) {
 
   const [activeMenu, setActiveMenu] = useState("main");
   const [activePanel, setActivePanel] = useState(false);
+  const [activeMenuOpen, setActiveMenuOpen] = useState(false);
   const [activeMenuOld, setActiveMenuOld] = useState(activeMenu);
   const navigate = useNavigate();
 
@@ -198,14 +191,13 @@ function App(prop) {
     var values = { tableName: tableName };
     if (isUser) {
       try {
-        const res = await cashierService(values, "openTable");
       } catch (error) {}
     }
   };
   function bindActiveTable() {
     $(".tablename")
       .unbind()
-      .bind("click", function (event) {
+      .bind("click", function () {
         if (window.location.href.toString().indexOf("/games/poker") == -1) {
           navigate("/games/poker");
           setTimeout(() => {
@@ -215,29 +207,30 @@ function App(prop) {
           handleOpenTable($(this).find(".name").text());
         }
       });
-    bindLastReward();
   }
   function bindLastReward() {
-    $(".rewardname .iconarea > *")
-      .unbind()
-      .bind("click", function (event) {
-        var _m = $(this).closest(".rewardname").attr("mode");
-        if (_m.indexOf("gift") > -1) {
-          _m = "giftarea";
-        }
-        if ($("." + _m, "").length > 0) {
-          openPanel("." + _m, "");
-        }
-      });
-    $(".rewardname .iconlabel")
-      .addClass("text-gold clk")
-      .unbind()
-      .bind("click", function (event) {
-        var _u = $(this).text();
+    setTimeout(() => {
+      $(".rewardname .iconarea > *")
+        .unbind()
+        .bind("click", function () {
+          var _m = $(this).closest(".rewardname").attr("mode");
+          if (_m.indexOf("gift") > -1) {
+            _m = "giftarea";
+          }
+          if ($("." + _m, "").length > 0) {
+            openPanel("." + _m, "");
+          }
+        });
+      $(".rewardname .iconlabel")
+        .addClass("text-gold clk")
+        .unbind()
+        .bind("click", function () {
+          var _u = $(this).text();
 
-        setUserProfile(_u);
-        setUserOpen(true);
-      });
+          setUserProfile(_u);
+          setUserOpen(true);
+        });
+    }, 500);
   }
 
   function getLinkId(str) {
@@ -260,7 +253,7 @@ function App(prop) {
     return _m;
   }
   function bindAddLink() {
-    $(".msgtext").each(function (txt) {
+    $(".msgtext").each(function () {
       let text = $(this).text();
 
       let result = text
@@ -298,7 +291,7 @@ function App(prop) {
       $(this).html(result);
       $(".interallink")
         .unbind()
-        .bind("click", function (event) {
+        .bind("click", function () {
           var _m = $(this).attr("data-target");
 
           if ($("." + _m, "").length > 0) {
@@ -308,14 +301,17 @@ function App(prop) {
     });
   }
   const CompGen = (prop) => {
-    console.log(prop);
-    if (prop?.menu?.title == "پاداش لِوِل ها") {
-      return <LevelList loginToken={loginToken} />;
-    } else if (prop?.menu?.title == "گلکسی پَس") {
-      return <GalaxyPass loginToken={loginToken} />;
-    } else {
-      return <>{prop?.menu?.component}</>;
-    }
+    return (
+      <ChildComp
+        loginToken={loginToken}
+        openPanel={openPanel}
+        openGame={openGame}
+        setFirstOpen={setFirstOpen}
+        bindLastReward={bindLastReward}
+        activeMenuOpen={activeMenuOpen}
+        {...prop}
+      />
+    );
   };
 
   function doMenu(menu, y, isPanel, isUser) {
@@ -339,7 +335,7 @@ function App(prop) {
                 <Link
                   to={menu.link}
                   as="a"
-                  onClick={(e) => closeMenu()}
+                  onClick={() => closeMenu()}
                   className="mm-btn mm-btn--next mm-listitem__btn mm-listitem__text"
                 >
                   {menu.image ? (
@@ -381,16 +377,10 @@ function App(prop) {
                           </span>
                         </li>
                       )}
-                      {activeMenu == menu.label && !activePanel && (
+                      {activeMenu == menu.label && (
                         <li>
                           <span>
-                            <CompGen
-                              menu={menu}
-                              comp={menu.component}
-                              openPanel={openPanel}
-                              openGame={openGame}
-                              setFirstOpen={setFirstOpen}
-                            />
+                            <CompGen menu={menu} />
                           </span>
                         </li>
                       )}
@@ -407,15 +397,9 @@ function App(prop) {
                                 </span>
                               </li>
                               <li>
-                                {(activeMenu == menu.label || activePanel) && (
+                                {activeMenu == menu.label && (
                                   <>
-                                    <CompGen
-                                      comp={menu.component}
-                                      menu={menu}
-                                      openPanel={openPanel}
-                                      openGame={openGame}
-                                      setFirstOpen={setFirstOpen}
-                                    />
+                                    <CompGen menu={menu} />
                                   </>
                                 )}
                               </li>
@@ -506,7 +490,7 @@ function App(prop) {
                                 className="fadeout"
                                 as={Link}
                                 to={"/games/" + submenu.label}
-                                onClick={(e) => closeMenu()}
+                                onClick={() => closeMenu()}
                                 src={
                                   "/assets/images/games/" +
                                   submenu.image +
@@ -635,22 +619,11 @@ function App(prop) {
                                     <span>{submenu.title}</span>
                                   </li>
                                 )}
-                                {activeMenu == submenu.label &&
-                                  !activePanel && (
-                                    <li>
-                                      <span>
-                                        {
-                                          <CompGen
-                                            comp={submenu.component}
-                                            menu={submenu}
-                                            openPanel={openPanel}
-                                            openGame={openGame}
-                                            setFirstOpen={setFirstOpen}
-                                          />
-                                        }
-                                      </span>
-                                    </li>
-                                  )}
+                                {activeMenu == submenu.label && (
+                                  <li>
+                                    <span>{<CompGen menu={submenu} />}</span>
+                                  </li>
+                                )}
                               </ul>
                             ) : (
                               <span>
@@ -664,16 +637,9 @@ function App(prop) {
                                     </ul>
                                   </>
                                 )}
-                                {activeMenu == submenu.label &&
-                                  !activePanel && (
-                                    <CompGen
-                                      comp={submenu.component}
-                                      menu={submenu}
-                                      openPanel={openPanel}
-                                      openGame={openGame}
-                                      setFirstOpen={setFirstOpen}
-                                    />
-                                  )}
+                                {activeMenu == menu.label && (
+                                  <CompGen menu={submenu} />
+                                )}
                               </span>
                             )}
                           </>
@@ -698,7 +664,7 @@ function App(prop) {
       apis.close();
     } catch (error) {}
   };
-  const getBonus = (gateway, methods) => {
+  const getBonus = (gateway) => {
     var userMethods = defMethod;
     if (loginToken) {
       userMethods = loginToken.cashierGateways;
@@ -735,7 +701,7 @@ function App(prop) {
 
     var canAdd = false;
     {
-      userMethods.map(function (cashierGateway, u) {
+      userMethods.map(function (cashierGateway) {
         if (
           (cashierGateway.mode == keyAccess ||
             cashierGateway.name == keyAccess) &&
@@ -859,6 +825,7 @@ function App(prop) {
       api = menu.API;
 
       api.bind("openPanel:before", (panel) => {
+        setActiveMenu("main");
         var _parent = $("#" + panel.id + "").attr("data-mm-parent");
         if (_parent) {
           setTimeout(() => {
@@ -905,9 +872,11 @@ function App(prop) {
       });
       api.bind("open:after", () => {
         setActivePanel(false);
+        setActiveMenuOpen(true);
         $("#nav-icon2").addClass("open");
       });
       api.bind("close:after", () => {
+        setActiveMenuOpen(false);
         $("#nav-icon2").removeClass("open");
       });
     }
@@ -919,9 +888,6 @@ function App(prop) {
   }, [location.pathname]);
   useEffect(() => {
     bindAddLink();
-    if (activeMenu !== "main" && !activePanel) {
-      setActiveMenuOld(activeMenu);
-    }
   }, [activeMenu]);
   useEffect(() => {
     // finalMenu = "";
@@ -929,13 +895,7 @@ function App(prop) {
       //alert();
     }
   }, [activeMenu]);
-  useEffect(() => {
-    //finalPanel = "";
 
-    if (!activePanel && activeMenu == "main") {
-      setActiveMenu(activeMenuOld);
-    }
-  }, [activePanel]);
   useEffect(() => {
     if (!loadingLogin) {
       setIsUser(isLogin);

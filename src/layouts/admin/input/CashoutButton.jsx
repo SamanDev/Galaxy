@@ -25,7 +25,7 @@ const toStart = (d) => {
   return d + " تا بارگشایی";
 };
 const CashoutButton = (prop) => {
-  const loginToken = JSON.parse(localStorage.getItem("loginToken"));
+  const loginToken = prop.loginToken;
 
   var startTime = getchatTime(loginToken.blockDateOut);
   //var startTime = getchatTime("2022-12-08T19:09:55+03:30");
@@ -61,7 +61,7 @@ const CashoutButton = (prop) => {
         />
       )}
 
-      {prop.mode && (
+      {prop.mode && prop.mode != "ChangePass" && (
         <>
           {prop.mode && prop.list ? (
             <>

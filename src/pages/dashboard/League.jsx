@@ -1,14 +1,5 @@
-import React from "react";
-import {
-  Icon,
-  Label,
-  Comment,
-  List,
-  Image,
-  Button,
-  Divider,
-  Segment,
-} from "semantic-ui-react";
+import React, { useEffect, useState } from "react";
+import { List } from "semantic-ui-react";
 import {
   doCurrency,
   levelLeagueReward,
@@ -19,10 +10,32 @@ import LevelIcon from "../../utils/svg";
 import GiftsDesc from "../../utils/GiftsDesc";
 import AddCalendar from "../../utils/AddCalendar";
 import GalaxyIcon from "../../utils/svganim";
-
+import { getReportPenService } from "../../services/report";
 import LastRewardList from "./LastRewardList";
-const LevelList = () => {
+const LevelList = (prop) => {
   var totalReward = 0;
+  const [data, setData] = useState([]);
+
+  const [loading, setLoading] = useState(false);
+  const handleGetRewards = async () => {
+    setLoading(true);
+    try {
+      const res = await getReportPenService("getDailyLeague");
+      if (res.status === 200) {
+        setData(
+          res.data.sort((a, b) => (a.dailyPoint < b.dailyPoint ? 1 : -1))
+        );
+        setLoading(false);
+        prop.bindLastReward();
+      }
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
+  useEffect(() => {
+    handleGetRewards();
+  }, []);
   return (
     <span className="myaccount popupmenu">
       <List divided inverted verticalAlign="middle" className="myaccount">
@@ -112,13 +125,20 @@ const LevelList = () => {
         {Array.apply(0, Array(levelLeagueList.length)).map(function (x, i) {
           totalReward += levelLeagueReward(i);
           var _lvl = i + 1;
-          var _text = "Level " + (i + 1);
-          if (i == 0) {
-            _text = "HangOver";
+          var _text = "Place " + (i + 1);
+          var _label = "مجموع جوایز";
+          if (data[i]) {
+            _text = data[i].username;
             _lvl = 30;
+            totalReward = data[i].dailyPoint;
           }
           return (
-            <List.Item key={i} id={"lvl" + (i + 1)}>
+            <List.Item
+              key={i}
+              id={"lvl" + (i + 1)}
+              className={"rewardname"}
+              mode="leauge"
+            >
               <List.Content floated="right" className="rtl">
                 <span className="text-gold">
                   {doCurrency(levelLeagueReward(i))}{" "}
@@ -135,7 +155,7 @@ const LevelList = () => {
                 <LevelIcon
                   mode="league"
                   level={i + 1}
-                  text={"Place " + (i + 1)}
+                  text={_text}
                   classinside="iconinside0"
                   number=""
                   width="36px"
@@ -152,8 +172,8 @@ const LevelList = () => {
             </List.Item>
           );
         })}
-        <LastRewardList mode="league" />
       </List>
+      <LastRewardList mode="league" {...prop} />
     </span>
   );
 };

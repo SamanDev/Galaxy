@@ -150,17 +150,17 @@ const LevelList = (prop) => {
                 <div className="levelbar">
                   {loginToken.glevel == i + 1 ? (
                     <>
-                      <LevelBar progress />
+                      <LevelBar progress {...prop} />
                     </>
                   ) : (
                     <>
                       {loginToken.glevel > i + 1 ? (
                         <>
-                          <LevelBar val="100" progress />
+                          <LevelBar val="100" progress {...prop} />
                         </>
                       ) : (
                         <>
-                          <LevelBar val="0" />
+                          <LevelBar val="0" {...prop} />
                         </>
                       )}
                     </>
@@ -171,7 +171,7 @@ const LevelList = (prop) => {
           );
         })}
       </List>
-      <LastRewardList mode="gpass" />
+      <LastRewardList mode="gpass" {...prop} />
     </span>
   );
 };

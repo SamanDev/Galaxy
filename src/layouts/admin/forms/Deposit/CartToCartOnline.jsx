@@ -171,7 +171,7 @@ const depositArea = (prop) => {
   const [btnLoading, setBtnLoading] = useState(false);
   const navigate = useNavigate();
 
-  const loginToken = JSON.parse(localStorage.getItem("loginToken"));
+  const loginToken = prop.loginToken;
 
   if (loginToken) {
     countryOptions = [];

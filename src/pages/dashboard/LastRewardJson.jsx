@@ -34,9 +34,9 @@ const ActiveTable = (prop) => {
           myx.class = "lastlogs id-" + myx.id + " hiddenmenu fast";
           myI = myI - 1;
           setTimeout(() => {
-            //prop.animateCSS(".id-" + myx.id + "", "fadeInDown");
+            prop.animateCSS(".id-" + myx.id + "", "fadeInDown");
             $("#playreward").trigger("click");
-            //prop.bindLastReward();
+            prop.bindLastReward();
           }, 1000 * (myData.length - myI));
         } else {
           myI = myI - 1;
@@ -50,9 +50,10 @@ const ActiveTable = (prop) => {
 
       setTimeout(() => {
         localStorage.setItem("lastRewardSort", JSON.stringify(_sortD));
-        //$("#playreward").trigger("click");
+        prop.bindLastReward();
       }, 700 * myI);
     } catch (error) {}
+    prop.bindLastReward();
   }, [lastReward]);
 
   return (

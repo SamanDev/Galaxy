@@ -8,7 +8,7 @@ import { getReportService } from "../../services/report";
 import { doCurrency } from "../../const";
 
 const Report = (prop) => {
-  const loginToken = JSON.parse(localStorage.getItem("loginToken"));
+  const loginToken = prop.loginToken;
   const [data, setData] = useState([]);
 
   const [loading, setLoading] = useState(true);
@@ -35,7 +35,7 @@ const Report = (prop) => {
 
   useEffect(() => {
     handleGetReports();
-  }, [prop.refresh]);
+  }, [loginToken]);
   var canShow = true;
   var canShowPending = true;
   if (loading) {

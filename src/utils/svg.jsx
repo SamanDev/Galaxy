@@ -6,10 +6,15 @@ const LevelIcon = (prop) => {
   if (prop.mode == "gpass") {
     var _txt = prop.number ? prop.number : prop.level;
 
+    if (prop.text == "big") {
+      _txt = "icons/gpass";
+    } else {
+      _txt = "gpass/glvl" + _txt;
+    }
     return (
       <span onClick={prop.onClick} className="iconarea">
         <img
-          src={"/assets/images/gpass/glvl" + _txt + ".png"}
+          src={"/assets/images/" + _txt + ".png"}
           width={prop.width}
           height={prop.width}
           alt={prop.mode}
@@ -303,7 +308,7 @@ const LevelIcon = (prop) => {
     return (
       <div onClick={prop.onClick} className="iconarea">
         <img
-          src={"/assets/images/icons/gifts.png"}
+          src={"/assets/images/icons/gift3.png"}
           width={prop.width}
           height={prop.width}
           alt={prop.mode}

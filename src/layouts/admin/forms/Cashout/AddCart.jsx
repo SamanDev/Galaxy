@@ -13,11 +13,14 @@ const SelectB =
   "بانک ملّی ایران,بانک اقتصاد نوین,بانک قرض‌الحسنه مهر ایران,بانک سپه,بانک پارسیان,بانک قرض‌الحسنه رسالت,بانک صنعت و معدن,بانک کارآفرین,بانک کشاورزی,بانک سامان,بانک مسکن,بانک سینا,بانک توسعه صادرات ایران,بانک خاور میانه,بانک توسعه تعاون,بانک شهر,پست بانک ایران,بانک دی,بانک صادرات,بانک ملت,بانک تجارت,بانک رفاه,بانک حکمت ایرانیان,بانک گردشگری,بانک ایران زمین,بانک قوامین,بانک انصار,بانک سرمایه,بانک پاسارگاد,بانک مشترک ایران-ونزوئلا".split(
     ","
   );
-const accs = "شماره شبا,شماره حساب".split(",");
+const accs = "IR - شماره شبا,شماره حساب".split(",");
 const accsName = "shebaNumber,accountNumber".split(",");
+const accsMax = "24,50".split(",");
 const accsNameHolder = "Sheba Number,Account Number".split(",");
 const carts = "شماره کارت,cvv2 کارت".split(",");
+
 const cartsName = "cardNumber,cvv".split(",");
+const cartsMax = "16,4".split(",");
 const cartsNameHolder = "Cart Number,CVV2".split(",");
 const bankOptions = [];
 const monthOptions = [];
@@ -153,8 +156,7 @@ const MyField = (props) => {
 
 const depositArea = (prop) => {
   const navigate = useNavigate();
-  const [loginToken] = useUser();
-  const [depMode, setDepMode] = useState(loginToken);
+  const loginToken = prop.loginToken;
 
   if (loginToken?.bankInfos.length > 0) {
     _name = loginToken.bankInfos[0].holderName;
@@ -202,7 +204,8 @@ const depositArea = (prop) => {
               formik={formik}
               control="input"
               name="mobile"
-              label=" شماره همراه"
+              label="شماره همراه"
+              maxLength="11"
               labelcolor="red"
               size={prop.size}
               inputmode="numeric"
@@ -249,6 +252,7 @@ const depositArea = (prop) => {
                 control="input"
                 type="text"
                 name={accsName[i]}
+                maxLength={accsMax[i]}
                 autoComplete={accsName[i]}
                 placeholder={accsNameHolder[i]}
                 label={item}
@@ -285,6 +289,7 @@ const depositArea = (prop) => {
                 type="text"
                 name={cartsName[i]}
                 autoComplete={cartsName[i]}
+                maxLength={cartsMax[i]}
                 placeholder={cartsNameHolder[i]}
                 label={item}
                 labelcolor="orange"

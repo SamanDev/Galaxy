@@ -13,7 +13,7 @@ import Reward from "../../utils/Reward";
 import { doCurrency, levelLeagueReward, levelLeagueList } from "../../const";
 import LevelIcon from "../../utils/svg";
 import MenuLoader from "../../utils/menuLoader";
-import { getRewardsService } from "../../services/reward";
+import { getReportPenService } from "../../services/report";
 const LevelList = (prop) => {
   const [data, setData] = useState([]);
 
@@ -21,7 +21,7 @@ const LevelList = (prop) => {
   const handleGetRewards = async () => {
     setLoading(true);
     try {
-      const res = await getRewardsService("", prop.mode, "");
+      const res = await getReportPenService("getDailyLeague");
       if (res.status === 200) {
         setData(res.data);
       }
@@ -83,9 +83,9 @@ const LevelList = (prop) => {
           var _text = x.username;
 
           return (
-            <>
+            <div className={"rewardname"} mode={x.mode} key={i}>
               <Reward item={x} />
-            </>
+            </div>
           );
         })}
       </>

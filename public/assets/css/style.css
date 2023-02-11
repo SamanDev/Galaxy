@@ -350,6 +350,10 @@ body.fullscreen #content_section {
   display: inline-block;
 
   position: relative;
+
+}
+.banner .iconarea {
+ 
   filter: drop-shadow(rgba(0, 0, 0, 1) 0px 0px 30px);
 }
 .mm-menu .iconarea {

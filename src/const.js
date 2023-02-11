@@ -1,15 +1,10 @@
 import React from "react";
 import Accordion from "./pages/dashboard/Support";
 
-import Commission from "./pages/dashboard/Commission";
-import VIP from "./pages/dashboard/VIP";
 import TopPlayers from "./pages/dashboard/TopPlayers";
 import KingOf from "./pages/dashboard/KingOf";
-import League from "./pages/dashboard/League";
 import Tournament from "./pages/dashboard/Tournament";
-import Gift from "./pages/dashboard/Gifts";
 import MyGift from "./pages/dashboard/MyGifts";
-import TopUsers from "./pages/dashboard/TopUsers";
 import CashoutComponent from "./layouts/admin/forms/FormComponent.jsx";
 import FormComponent from "./layouts/admin/forms/FormComponent.jsx";
 
@@ -75,16 +70,18 @@ const moment = require("moment");
 const levelDataInfoRules = () => {
   try {
     var siteinfo = JSON.parse(localStorage.getItem("siteInfo"));
-
+    var gpass = siteinfo.galaxyPassSet.sort((a, b) =>
+      a.id > b.id ? 1 : -1
+    )[0];
     return [
       {
         name: "gPass",
-        minLevel: siteinfo.gpassSet[0].minLevel,
-        minBalance: siteinfo.gpassSet[0].minAmount,
-        banOutHours: siteinfo.gpassSet[0].hoursUnderLevel,
-        hoursLimit: siteinfo.gpassSet[0].hoursLimit,
-        startDay: siteinfo.gpassSet[0].startDay,
-        endDay: siteinfo.gpassSet[0].endDay,
+        minLevel: gpass.minLevel,
+        minBalance: gpass.minAmount,
+        banOutHours: gpass.hoursUnderLevel,
+        hoursLimit: gpass.hoursLimit,
+        startDay: gpass.startDay,
+        endDay: gpass.endDay,
       },
       {
         name: "VIP",
@@ -352,14 +349,10 @@ export const menuData = [
         icon: "fas fa-exchange-alt",
         icongalaxy: "topplayer",
         aria: "giftsarea animated bounceIn delay-02s",
-        component: (
-          <FormComponent
-            mode="transfer"
-            size="mini"
-            labelcolor="orange"
-            gateway=""
-          />
-        ),
+        component: "CashoutComponent",
+        mode: "transfer",
+        size: "mini",
+        labelcolor: "orange",
       },
       {
         label: "تراکنش های مالی",
@@ -367,7 +360,10 @@ export const menuData = [
         aria: "giftsarea animated bounceIn delay-02s",
         icon: "fas fa-stream",
         idname: "login report",
-        component: <CashoutComponent cashMode="Report" />,
+        component: "CashoutComponent",
+        cashMode: "Report",
+        size: "mini",
+        labelcolor: "orange",
       },
     ],
   },
@@ -385,7 +381,7 @@ export const menuData = [
         icon: "fas fa-star yellow",
         aria: "giftsarea",
         icongalaxy: "levels",
-        component: <></>,
+        component: "levels",
       },
 
       {
@@ -397,7 +393,7 @@ export const menuData = [
         icon: "fab fa-google yellow",
         icongalaxy: "gpass",
         aria: "giftsarea animated bounceIn delay-02s",
-        component: <></>,
+        component: "gpass",
       },
       {
         label: "VIP Table 25/50K",
@@ -408,7 +404,7 @@ export const menuData = [
         icon: "fab fa-viacoin yellow",
         icongalaxy: "vip",
         aria: "giftsarea animated bounceIn delay-02s",
-        component: <VIP />,
+        component: "vip",
       },
       {
         label: "لیگ روزانه",
@@ -418,7 +414,7 @@ export const menuData = [
         bonus: "Level " + levelDataInfo[2].minLevel,
         icon: "fas fa-medal yellow",
         icongalaxy: "league",
-        component: <League />,
+        component: "league",
       },
       {
         label: "کمیسیون معرفی دوستان",
@@ -430,7 +426,7 @@ export const menuData = [
         icon: "fas fa-heart red",
         getwaykey: "Commission",
         aria: "giftsarea animated bounceIn delay-02s",
-        component: <Commission mode="commission" />,
+        component: "commission",
       },
       {
         label: "ریک بک پوکر",
@@ -442,7 +438,7 @@ export const menuData = [
         icon: "fas fa-heart red",
         aria: "giftsarea animated bounceIn delay-02s",
         getwaykey: "Rakeback",
-        component: <Commission mode="rakeback" />,
+        component: "rakeback",
       },
 
       {
@@ -463,7 +459,7 @@ export const menuData = [
         icon: "fab fa-viacoin yellow",
         icongalaxy: "gifts",
         aria: "giftsarea animated bounceIn delay-02s",
-        component: <Gift />,
+        component: "gifts",
       },
       {
         label: "برترین بازیکنان",
@@ -494,13 +490,13 @@ export const menuData = [
     icon: "fas fa-heart red",
 
     idname: "login invite",
+
     submenu: [
       {
-        icon: "fas fa-plus",
-        idname: "login register",
-        component: (
-          <CashoutComponent cashMode="Invite" size="mini" labelcolor="orange" />
-        ),
+        component: "CashoutComponent",
+        cashMode: "Invite",
+        size: "mini",
+        labelcolor: "orange",
       },
     ],
   },
@@ -515,11 +511,16 @@ export const menuData = [
         label: "ثبت تیکت جدید",
         title: "ثبت تیکت جدید",
         icon: "fas fa-plus",
-
-        component: <CashoutComponent cashMode="Ticket" />,
+        component: "CashoutComponent",
+        cashMode: "Ticket",
+        size: "mini",
+        labelcolor: "orange",
       },
       {
-        component: <Accordion />,
+        component: "support",
+
+        size: "mini",
+        labelcolor: "orange",
       },
     ],
   },
@@ -536,13 +537,20 @@ export const menuData = [
         title: "ثبت کارت  بانکی",
         idname: "addcart",
         icon: "fas fa-plus text-danger",
-        component: <CashoutComponent cashMode="addCart" />,
+        component: "CashoutComponent",
+        cashMode: "addCart",
+
+        size: "mini",
+        labelcolor: "orange",
       },
       {
         label: "تغییر رمز عبور",
         title: "تغییر رمز عبور",
         icon: "fas fa-lock",
-        component: <CashoutComponent cashMode="ChangePass" />,
+        component: "CashoutComponent",
+        cashMode: "ChangePass",
+        size: "mini",
+        labelcolor: "orange",
       },
       {
         label: "جوایر من",
@@ -616,15 +624,12 @@ export function doDeposit() {
         bonus: "",
         icon: game.icon,
         idname: "login Deposit" + game.value,
-        component: (
-          <FormComponent
-            mode="deposit"
-            size="mini"
-            labelcolor="orange"
-            gateway={game.value}
-            getwaykey={game.getwaykey}
-          />
-        ),
+        component: "CashoutComponent",
+        mode: "deposit",
+
+        size: "mini",
+        labelcolor: "orange",
+        gateway: game.value,
       });
     });
   }
@@ -645,15 +650,12 @@ function doCashout() {
         bonus: game.bonus,
         icon: game.icon,
         idname: "login Cashout" + game.value,
-        component: (
-          <FormComponent
-            mode="cashout"
-            size="mini"
-            labelcolor="orange"
-            gateway={game.value}
-            getwaykey={game.getwaykey}
-          />
-        ),
+        component: "CashoutComponent",
+        mode: "cashout",
+
+        size: "mini",
+        labelcolor: "orange",
+        gateway: game.value,
       });
     });
   }

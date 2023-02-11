@@ -5,8 +5,7 @@ import AddCalendar from "../../utils/AddCalendar";
 import GalaxyIcon from "../../utils/svganim";
 import GiftsDesc from "../../utils/GiftsDesc";
 import LastRewardList from "./LastRewardList";
-const LevelList = () => {
-  var totalReward = 0;
+const LevelList = (prop) => {
   return (
     <span className="myaccount popupmenu">
       <List divided inverted verticalAlign="middle" className="myaccount">
@@ -85,7 +84,7 @@ const LevelList = () => {
             />
           </List.Content>
         </List.Item>
-        <LastRewardList mode="vip" />
+        <LastRewardList mode="vip" {...prop} />
       </List>
     </span>
   );

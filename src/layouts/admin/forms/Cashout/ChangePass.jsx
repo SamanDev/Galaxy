@@ -8,36 +8,7 @@ import { Alert } from "../../../../utils/alerts";
 import { forgetPasswordService } from "../../../../services/auth";
 import MyMsg from "../../../../utils/MsgDesc";
 import CashoutButton from "../../input/CashoutButton";
-try {
-  const loginToken = JSON.parse(localStorage.getItem("loginToken"));
-  var _email = loginToken.email;
-} catch (error) {
-  var _email = "";
-}
 
-const initialValues = {
-  password: "",
-  newPassword: "",
-  email: _email,
-};
-const validationSchema = Yup.object({
-  email: Yup.string()
-    .required("لطفا یک ایمیل معتبر وارد کنید.")
-    .email("لطفا یک ایمیل معتبر وارد کنید."),
-  password: Yup.string()
-    .required("کلمه عبور حداقل باشد 6 کاراکتر باشد.")
-    .min(6, "کلمه عبور حداقل باشد 6 کاراکتر باشد.")
-
-    .matches(/(?=.*\d)/, "کلمه عبور حتما باید شامل یک عدد باشد.")
-
-    .matches(/((?=.*[A-Z]){1})/, "کلمه عبور حتما باید شامل یک حرف بزرگ باشد.")
-    .matches(/(?=.*\W)/, "کلمه عبور حتما باید شامل علامت (?!@...) باشد."),
-  newPassword: Yup.string()
-
-    .required("کلمه عبور حداقل باشد 6 کاراکتر باشد.")
-
-    .oneOf([Yup.ref("password"), null], "کلمه های عبور باید مطابقت ندارند."),
-});
 const onSubmit = async (values, submitMethods, prop) => {
   try {
     const res = await forgetPasswordService(values);
@@ -60,6 +31,37 @@ const onSubmit = async (values, submitMethods, prop) => {
 };
 
 const depositArea = (prop) => {
+  console.log(prop);
+  const loginToken = prop.loginToken;
+  try {
+    var _email = loginToken.email;
+  } catch (error) {
+    var _email = "";
+  }
+
+  const initialValues = {
+    password: "",
+    newPassword: "",
+    email: _email,
+  };
+  const validationSchema = Yup.object({
+    email: Yup.string()
+      .required("لطفا یک ایمیل معتبر وارد کنید.")
+      .email("لطفا یک ایمیل معتبر وارد کنید."),
+    password: Yup.string()
+      .required("کلمه عبور حداقل باشد 6 کاراکتر باشد.")
+      .min(6, "کلمه عبور حداقل باشد 6 کاراکتر باشد.")
+
+      .matches(/(?=.*\d)/, "کلمه عبور حتما باید شامل یک عدد باشد.")
+
+      .matches(/((?=.*[A-Z]){1})/, "کلمه عبور حتما باید شامل یک حرف بزرگ باشد.")
+      .matches(/(?=.*\W)/, "کلمه عبور حتما باید شامل علامت (?!@...) باشد."),
+    newPassword: Yup.string()
+
+      .required("کلمه عبور حداقل باشد 6 کاراکتر باشد.")
+
+      .oneOf([Yup.ref("password"), null], "کلمه های عبور باید مطابقت ندارند."),
+  });
   const [depMode, setDepMode] = useState(false);
   return (
     <Formik
@@ -107,6 +109,7 @@ const depositArea = (prop) => {
               color="olive"
               disabled={formik.isSubmitting}
               loading={formik.isSubmitting}
+              {...prop}
             />
           </Form>
         );

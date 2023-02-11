@@ -110,7 +110,7 @@ const depositArea = (prop) => {
   const [depMode, setDepMode] = useState(false);
   const navigate = useNavigate();
   const [btnLoading, setBtnLoading] = useState(false);
-  const loginToken = JSON.parse(localStorage.getItem("loginToken"));
+  const loginToken = prop.loginToken;
 
   if (loginToken) {
     return (

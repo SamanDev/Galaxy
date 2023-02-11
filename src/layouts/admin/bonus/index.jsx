@@ -5,6 +5,7 @@ import Bonus from "./bonus";
 const BonusArea = (prop) => {
   const loginToken = prop.loginToken;
   var _bonuses = loginToken.userGifts;
+  prop.bindLastReward();
   _bonuses.sort((a, b) => (a.id < b.id ? 1 : -1));
   return (
     <div style={{ margin: "5px 0 5px 0" }} className="bonuslist fadeoutend">

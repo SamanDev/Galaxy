@@ -54,7 +54,9 @@ export const useLastReward = () => {
 
   const handleGetLastReward = async () => {
     try {
-      const res = await getReportPenService("getLastRewards");
+      const res = await getReportPenService(
+        "getLastRewards?&page=1&number=500"
+      );
 
       if (res.status === 200) {
         var mydataGet = res.data.sort((a, b) => (a.id < b.id ? 1 : -1));

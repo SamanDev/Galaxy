@@ -9,7 +9,7 @@ import { Divider, Header } from "semantic-ui-react";
 import { useUser } from "../../../hook/userHook";
 const depositArea = (prop) => {
   const [refresh, setRefresh] = useState(false);
-  const [loginToken] = useUser();
+  const loginToken = prop.loginToken;
 
   if (loginToken?.accessToken) {
     return (

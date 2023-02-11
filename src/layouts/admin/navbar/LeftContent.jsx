@@ -4,7 +4,7 @@ import Balance from "./balance";
 import Login from "./login";
 import $ from "jquery";
 const Leftcontent = (prop) => {
-  const [loginToken, setloginToken] = useState(prop.loginToken);
+  const loginToken = prop.loginToken;
   const [tCount, setTCount] = useState(0);
 
   const ticketCount = () => {
@@ -66,6 +66,11 @@ const Leftcontent = (prop) => {
         <span></span>
         <span></span>
         <span></span>
+        {tCount > 0 && (
+          <Label color="red" floating size="big">
+            {tCount}
+          </Label>
+        )}
       </Segment>
       {!prop.loginToken ? (
         <>

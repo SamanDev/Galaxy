@@ -2,9 +2,6 @@ import React, { useState } from "react";
 import { Icon, Label, Button, Header, Divider } from "semantic-ui-react";
 import $ from "jquery";
 import CashoutArea from "./cashoutComponent";
-import USDT from "./USDT";
-import BTC from "./BTC";
-import Toman from "./Toman";
 import { cashoutData } from "../../../../const";
 const defCol = "black";
 const selCol = "green";
@@ -12,7 +9,6 @@ const defColBtn = "grey";
 const selColBtn = "orange";
 const depositArea = (prop) => {
   const [depMode, setDepMode] = useState(false);
-  const loginToken = JSON.parse(localStorage.getItem("loginToken"));
 
   return (
     <>

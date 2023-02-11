@@ -26,6 +26,7 @@ const InputF = ({
   readOnly,
   autoComplete,
   autoFocus,
+  maxLength,
 }) => {
   String.prototype.replaceAll = function (search, replacement) {
     var target = this;
@@ -99,7 +100,8 @@ const InputF = ({
   };
   React.useEffect(() => {
     if (inputmode == "numeric") {
-      var _val = formik.values[name].toPersianCharacter();
+      var _val = formik.values[name].toPersianCharacter().replace(/\W/g, "");
+
       if (_val != formik.values[name]) formik.setFieldValue(name, _val);
     }
   }, [formik.values[name]]);
@@ -129,6 +131,7 @@ const InputF = ({
           inputMode={inputmode}
           readOnly={readOnly}
           autoComplete={autoComplete}
+          maxLength={maxLength}
         />
       </Form.Input>
     </Form>

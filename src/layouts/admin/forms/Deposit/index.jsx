@@ -10,7 +10,7 @@ const defColBtn = "grey";
 const selColBtn = "orange";
 const depositArea = (prop) => {
   const [depMode, setDepMode] = useState(false);
-  const loginToken = JSON.parse(localStorage.getItem("loginToken"));
+  const loginToken = prop.loginToken;
   function getBonus(gateway) {
     try {
       var data_filter = loginToken.cashierGateways.filter(
