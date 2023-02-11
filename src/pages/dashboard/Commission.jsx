@@ -2,6 +2,7 @@ import React from "react";
 import { Icon, List, Button } from "semantic-ui-react";
 import $ from "jquery";
 import GalaxyIcon from "../../utils/svganim";
+
 import GiftsDesc from "../../utils/GiftsDesc";
 
 import LastRewardList from "./LastRewardList";
