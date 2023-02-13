@@ -20,13 +20,7 @@ import LevelIcon from "../../../utils/svg";
 import { convertDateToJalali } from "../../../utils/convertDate";
 import $ from "jquery";
 //import BonusArea from "../../../pages/dashboard/ActiveTableJson";
-import {
-  doCurrency,
-  levelData,
-  getEvent,
-  levelClassInside,
-  levelDataInfo,
-} from "../../../const";
+import { doCurrency, levelClassInside } from "../../../const";
 
 const moment = require("moment");
 const printtotal = (data, mode, target) => {
@@ -188,7 +182,7 @@ const Balance = (prop) => {
   siteInfo?.vipTables?.sort((a, b) => (a.id > b.id ? 1 : -1));
   var viprules = siteInfo?.vipTables[0];
   var levelData = siteInfo?.levelUps;
-  if (loginToken) {
+  if (loginToken && levelData) {
     if (loginToken.level == 0) {
       loginToken.level = 1;
     }

@@ -26,7 +26,7 @@ import { tr } from "date-fns/locale";
 
 const depositArea = (prop) => {
   const [data, setData] = useState([]);
-  const loginToken = JSON.parse(localStorage.getItem("loginToken"));
+  const loginToken = prop.loginToken;
 
   const [loading, setLoading] = useState(true);
   const handleGetReports = async () => {
@@ -88,7 +88,7 @@ const depositArea = (prop) => {
               Open Profile
             </Button>
           )}
-          <Balance data={data} />
+          <Balance data={data} {...prop} />
         </Segment>
       </>
     );

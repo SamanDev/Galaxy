@@ -133,7 +133,7 @@ const LevelList = (prop) => {
           var _text = "Place " + (i + 1);
           var _label = "مجموع جوایز";
           var _point = 0;
-          if (data[i] && data[i].dailyPoint >= x.reward / 2) {
+          if (data[i] && data[i].dailyPoint >= x.reward / 20000) {
             _text = data[i].username;
             _lvl = 30;
             _point = data[i].dailyPoint;

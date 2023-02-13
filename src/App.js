@@ -15,7 +15,7 @@ import { Link } from "react-router-dom";
 import { useIsLogin } from "./hook/authHook";
 import { useUser, useSiteInfo } from "./hook/userHook";
 
-import { useActiveTable, useLastReward } from "./hook/infoHook";
+import { useActiveTable } from "./hook/infoHook";
 import $ from "jquery";
 import { Route, Routes } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
@@ -176,8 +176,6 @@ function App(prop) {
   const [thirdOpen, setThirdOpen] = useState(false);
   const [siteInfo] = useSiteInfo();
   const [loadingTable, activatTableData] = useActiveTable();
-
-  const [loadingReward, lastRewardData] = useLastReward();
 
   const [activeMenu, setActiveMenu] = useState("main");
   const [activePanel, setActivePanel] = useState(false);
@@ -954,7 +952,7 @@ function App(prop) {
       </Dimmer>
     );
   } else {
-    if (finalMenu == "" || 1 == 1) {
+    if (siteInfo) {
       var menuData = GetMenu(siteInfo);
       finalMenu = menuData.map(function (menu, i) {
         return doMenu(menu, i, false, isUser);
@@ -1022,7 +1020,13 @@ function App(prop) {
             open={userOpen}
             closeIcon
           >
-            <UserArea username={userProfile} size="small" labelcolor="orange" />
+            <UserArea
+              username={userProfile}
+              siteInfo={siteInfo}
+              loginToken={loginToken}
+              size="small"
+              labelcolor="orange"
+            />
           </Modal>
           <Modal
             basic

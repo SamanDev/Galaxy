@@ -23,7 +23,7 @@ export const useSiteInfo = () => {
   const [siteInfo, setSiteInfo] = useState(
     localStorage.getItem("siteInfo")
       ? JSON.parse(localStorage.getItem("siteInfo"))
-      : []
+      : null
   );
 
   const handleCheckLogin = async () => {
@@ -64,12 +64,26 @@ export const useLastReward = () => {
       : []
   );
 
+  const handleGetLastReward = async () => {
+    try {
+      const res = await getReportPenService(
+        "getLastRewards?&page=1&number=500"
+      );
+
+      if (res.status === 200) {
+        var mydataGet = res.data.sort((a, b) => (a.id < b.id ? 1 : -1));
+        localStorage.setItem("lastReward", JSON.stringify(mydataGet));
+        setLastReward(mydataGet);
+      }
+    } catch (error) {
+      //console.log(error.message);
+      // setLastReward(_bonuses);
+      //localStorage.setItem("lastReward", JSON.stringify(_bonuses));
+    }
+  };
+
   useEffect(() => {
-    eventBus.on("updateLastReward", (dataGet) => {
-      var mydataGet = dataGet.sort((a, b) => (a.id < b.id ? 1 : -1));
-      setLastReward(mydataGet);
-      localStorage.setItem("lastReward", JSON.stringify(mydataGet));
-    });
+    handleGetLastReward();
   }, []);
   return [lastReward];
 };

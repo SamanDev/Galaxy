@@ -22,7 +22,7 @@ const sumOf = (array) => {
 };
 
 const RewardStat = (prop) => {
-  const [lastReward] = useLastReward();
+  const lastReward = prop.lastReward;
   const [statData, setstatData] = useState();
   const [totalRows, setTotalRows] = useState(sumOf(lastReward));
 

@@ -295,6 +295,7 @@ export const depositData = [
   },
 ];
 export const GetMenu = (siteInfo) => {
+  if (siteInfo == null) return false;
   siteInfo?.galaxyPassSet?.sort((a, b) => (a.id > b.id ? 1 : -1));
   var gpassrules = siteInfo?.galaxyPassSet[0];
   siteInfo?.vipTables?.sort((a, b) => (a.id > b.id ? 1 : -1));

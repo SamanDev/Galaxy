@@ -81,7 +81,7 @@ const Balance = (prop) => {
     }
   }, []);
   useEffect(() => {
-    if (loginToken) {
+    if (loginToken && levelData) {
       var _lvlFinal = levelData.filter((d) => d.level === loginToken.level);
 
       lvlPercent = parseFloat(
