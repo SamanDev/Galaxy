@@ -9,7 +9,7 @@ import GetwaysList from "./setting/GetwaysList";
 import SiteCartsList from "./setting/SiteCartsList";
 
 import Requests from "./Requests";
-import Setting from "./Setting";
+import Setting from "./JsonSetting";
 import RisingPitch from "./utils/PlayAlert";
 import { adminGetService } from "../../services/admin";
 import { isJson, haveAdmin, haveModerator, doCurrency } from "../../const";
@@ -53,6 +53,7 @@ function Admin(prop) {
               removeTabData={removeTabData}
               tickets={tickets}
               loadingtickets={loadingtickets}
+              {...prop}
             />
           </Tab.Pane>
         ),
@@ -87,6 +88,7 @@ function Admin(prop) {
               setGetwaysData={setGetwaysData}
               addGatewayTabData={addGatewayTabData}
               removeTabData={removeTabData}
+              {...prop}
             />
           </Tab.Pane>
         ),

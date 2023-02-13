@@ -203,6 +203,14 @@ String.prototype.toPersianCharacter = function () {
 const Dashboard = (prop) => {
   const navigate = useNavigate();
   const loginToken = prop.loginToken;
+  const siteInfo = prop.siteInfo;
+  siteInfo?.galaxyPassSet?.sort((a, b) => (a.id > b.id ? 1 : -1));
+  var gpassrules = siteInfo?.galaxyPassSet[0];
+  siteInfo?.vipTables?.sort((a, b) => (a.id > b.id ? 1 : -1));
+  var viprules = siteInfo?.vipTables[0];
+  siteInfo?.dailyLeagueSet?.sort((a, b) => (a.id > b.id ? 1 : -1));
+  var leaguerules = siteInfo?.dailyLeagueSet[0];
+  var levelData = siteInfo?.levelUps;
   const [sessionKey, setSessionKey] = useState("");
   const handleCheckLogin = async () => {
     try {
@@ -234,6 +242,12 @@ const Dashboard = (prop) => {
       var nowDay = moment(date).format("HHmm");
       return nowDay;
     }
+  };
+  const getMil = (totalRewards) => {
+    if (!totalRewards) return 0;
+    var mil = totalRewards / 1000000;
+
+    return mil.toString().toPersianCharacter();
   };
   const haveGift = () => {
     var user = loginToken;
@@ -596,7 +610,9 @@ const Dashboard = (prop) => {
                       {activeSlide && (
                         <>
                           <Banner
-                            title="۱۱۰ میلیون تومان"
+                            title={
+                              getMil(gpassrules?.totalRewards) + " میلیون تومان"
+                            }
                             text="پاداش گلکسی پَس"
                             link=".gpass"
                             icon="gpass"
@@ -605,8 +621,8 @@ const Dashboard = (prop) => {
                             number="15"
                             showtime={
                               <ShowTimeLeft
-                                startDay={levelDataInfo[0].startDay}
-                                endDay={levelDataInfo[0].endDay}
+                                startDay={gpassrules.startDay}
+                                endDay={gpassrules.endDay}
                                 startHour="0000"
                                 endHour="2359"
                               />
@@ -632,7 +648,13 @@ const Dashboard = (prop) => {
                         <>
                           <Banner
                             title={<>۱۹۲ میلیون تومان</>}
-                            text="پاداش VIP 25/50K"
+                            text={
+                              "پاداش VIP " +
+                              viprules.bigBlindLimit / 2 +
+                              "K/" +
+                              viprules.bigBlindLimit +
+                              "K"
+                            }
                             link=".vip"
                             icon="vip"
                             amin="inline animated fast flipInY"
@@ -640,8 +662,8 @@ const Dashboard = (prop) => {
                             number=" "
                             showtime={
                               <ShowTimeLeft
-                                startDay={levelDataInfo[1].startDay}
-                                endDay={levelDataInfo[1].endDay}
+                                startDay={viprules.startDay}
+                                endDay={viprules.endDay}
                                 startHour="0000"
                                 endHour="2359"
                               />
@@ -670,7 +692,10 @@ const Dashboard = (prop) => {
                       {activeSlide && (
                         <>
                           <Banner
-                            title="۴۵ میلیون تومان"
+                            title={
+                              getMil(leaguerules?.totalRewards) +
+                              " میلیون تومان"
+                            }
                             text="برای لیگ روزانه"
                             link=".league"
                             icon="league"
@@ -680,8 +705,8 @@ const Dashboard = (prop) => {
                             iconamin="swing"
                             showtime={
                               <ShowTimeLeft
-                                startDay={levelDataInfo[2].startDay}
-                                endDay={levelDataInfo[2].endDay}
+                                startDay={leaguerules.startDay}
+                                endDay={leaguerules.endDay}
                                 startHour="0000"
                                 endHour="2359"
                               />

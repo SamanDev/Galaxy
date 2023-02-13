@@ -10,7 +10,6 @@ import $ from "jquery";
 //import BonusArea from "../../../pages/dashboard/ActiveTableJson";
 import {
   doCurrency,
-  levelData,
   getEvent,
   levelClassInside,
   levelDataInfo,
@@ -20,9 +19,13 @@ const Balance = (prop) => {
   var lvlPercent = 0;
   var gLvlPercent = 0;
   var vLvlPercent = 0;
-  const siteInfo = JSON.parse(localStorage.getItem("siteInfo"));
-  const loginToken = prop.loginToken;
+  const siteInfo = prop.siteInfo;
   siteInfo?.galaxyPassSet?.sort((a, b) => (a.id > b.id ? 1 : -1));
+  var gpassrules = siteInfo?.galaxyPassSet[0];
+  siteInfo?.vipTables?.sort((a, b) => (a.id > b.id ? 1 : -1));
+  var viprules = siteInfo?.vipTables[0];
+  var levelData = siteInfo?.levelUps;
+  const loginToken = prop.loginToken;
 
   const [color, setColor] = useState("grey");
   const [gCount, setGCount] = useState(0);
@@ -85,11 +88,10 @@ const Balance = (prop) => {
         (loginToken.levelPoint * 100) / _lvlFinal[0].point
       ).toFixed(2);
       gLvlPercent = parseFloat(
-        (loginToken.glevelSecond * 100) /
-          (siteInfo?.galaxyPassSet[0].hoursLimit * 3600)
+        (loginToken.glevelSecond * 100) / (gpassrules.hoursLimit * 3600)
       ).toFixed(2);
       vLvlPercent = parseFloat(
-        (loginToken.vipPlaySecond * 100) / (levelDataInfo[1].hoursLimit * 3600)
+        (loginToken.vipPlaySecond * 100) / (viprules.hoursLimit * 3600)
       ).toFixed(2);
       if (gLvlPercent > 100) {
         gLvlPercent = 100;

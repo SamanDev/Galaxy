@@ -85,8 +85,8 @@ class UserWebsocket {
             eventBus.dispatch("updateActiveTables", msg.data);
           } else if (msg.Command === "LastReward") {
             eventBus.dispatch("updateLastReward", msg.data);
-          } else if (msg.Command === "startTick") {
-            // setYvalStart(msg.tick);
+          } else if (msg.Command === "updateSetting") {
+            eventBus.dispatch("updateSiteInfo", msg.data);
           }
         } else {
           if (message === "closeConnection") {

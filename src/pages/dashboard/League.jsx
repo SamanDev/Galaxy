@@ -14,6 +14,10 @@ import { getReportPenService } from "../../services/report";
 import LastRewardList from "./LastRewardList";
 const LevelList = (prop) => {
   var totalReward = 0;
+  const siteInfo = prop.siteInfo;
+  const loginToken = prop.loginToken;
+  siteInfo?.dailyLeagueSet?.sort((a, b) => (a.id > b.id ? 1 : -1));
+  var rules = siteInfo?.dailyLeagueSet[0];
   const [data, setData] = useState([]);
 
   const [loading, setLoading] = useState(false);
@@ -53,9 +57,10 @@ const LevelList = (prop) => {
                 iconamin="swing inline animated"
               />
             </div>
+
             <AddCalendar
-              start="24"
-              dur="8"
+              start={rules.startDay}
+              dur={rules.endDay - rules.startDay + 1}
               repeat="MONTHLY"
               format="0000"
               title="GalaxyLeague"
@@ -79,7 +84,7 @@ const LevelList = (prop) => {
                 <>
                   جوایز در پایان هر روز به{" "}
                   <span className="farsi text-gold">
-                    {levelLeagueList.length} نفری
+                    {rules.totalPlayer} نفری
                   </span>{" "}
                   که بیشترین امتیاز را در طول هر روز از گلکسی کسب کرده اند, اهدا
                   خواهد شد.
@@ -89,11 +94,11 @@ const LevelList = (prop) => {
                 <>
                   برای شرکت در لیگ گلکسی یا باید{" "}
                   <span className="farsi text-gold">
-                    لول شما {levelDataInfo[2].minLevel} یا بالاتر
+                    لول شما {rules.minLevel} یا بالاتر
                   </span>{" "}
                   باشد یا موجودی اکانت شما بیش از{" "}
                   <span className="farsi text-gold">
-                    {doCurrency(levelDataInfo[2].minBalance)} تومان
+                    {doCurrency(rules.minAmount)} تومان
                   </span>{" "}
                   باشد.
                 </>
@@ -102,16 +107,16 @@ const LevelList = (prop) => {
                 <>
                   توجه داشته باشید اگر لِوِل شما{" "}
                   <span className="farsi text-gold">
-                    کمتر از {levelDataInfo[2].minLevel}
+                    کمتر از {rules.minLevel}
                   </span>{" "}
                   باشد، با دریافت هر پاداش، برداشت و انتقال شما به مدت{" "}
                   <span className="farsi text-gold">
-                    {levelDataInfo[2].banOutHours} ساعت
+                    {rules.hoursUnderLevel} ساعت
                   </span>{" "}
                   بسته خواهد شد.
                 </>
               }
-              amount="45000000"
+              amount={rules.totalRewards}
               subtitle="تومان هر روز"
             />
           </List.Content>
@@ -122,53 +127,49 @@ const LevelList = (prop) => {
             <span className="mm-listitem__text">لیست جوایز لیگ گلکسی</span>
           </li>
         </ul>
-        {Array.apply(0, Array(levelLeagueList.length)).map(function (x, i) {
-          totalReward += levelLeagueReward(i);
+        {siteInfo.dailyLeagueSet.map((x, i) => {
+          totalReward += x.reward;
           var _lvl = i + 1;
           var _text = "Place " + (i + 1);
           var _label = "مجموع جوایز";
-          if (data[i]) {
+          var _point = 0;
+          if (data[i] && data[i].dailyPoint >= x.reward / 2) {
             _text = data[i].username;
             _lvl = 30;
-            totalReward = data[i].dailyPoint;
+            _point = data[i].dailyPoint;
           }
           return (
             <List.Item
               key={i}
               id={"lvl" + (i + 1)}
-              className={"rewardname"}
+              className={_point > 0 ? "rewardname" : ""}
               mode="leauge"
             >
               <List.Content floated="right" className="rtl">
-                <span className="text-gold">
-                  {doCurrency(levelLeagueReward(i))}{" "}
-                </span>
+                <span className="text-gold">{doCurrency(x.reward)}</span>{" "}
                 <span className="mysmall">
                   <small className="farsi">تومان پاداش</small>
                 </span>
                 <div className="mysmall">
                   {doCurrency(totalReward)}{" "}
-                  <small className="farsi mysmall">امتیاز امروز</small>
+                  <small className="farsi mysmall">مجموع پاداش</small>
                 </div>
+                {_point > 0 && (
+                  <div className="mysmall">
+                    {doCurrency(_point)}{" "}
+                    <small className="farsi mysmall">امتیاز امروز</small>
+                  </div>
+                )}
               </List.Content>
-              <span style={{ float: "left" }}>
-                <LevelIcon
-                  mode="league"
-                  level={i + 1}
-                  text={_text}
-                  classinside="iconinside0"
-                  number=""
-                  width="36px"
-                  iconamin="swing"
-                />
-              </span>
-              <div
-                style={{
-                  position: "relative",
-                  left: -50,
-                  transform: "scale(.8)",
-                }}
-              ></div>
+              <LevelIcon
+                mode="league"
+                level={i + 1}
+                text={_text}
+                classinside="iconinside0"
+                number=""
+                width="36px"
+                iconamin="swing"
+              />
             </List.Item>
           );
         })}

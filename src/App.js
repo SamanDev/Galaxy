@@ -4,7 +4,7 @@ import AdminLayout from "./layouts/admin/Index";
 import RightPanel from "./Panel";
 import { Image, Modal } from "semantic-ui-react";
 import {
-  menuData,
+  GetMenu,
   haveAdmin,
   haveModerator,
   getEvent,
@@ -174,7 +174,7 @@ function App(prop) {
   const [firstOpen, setFirstOpen] = useState(false);
   const [secondOpen, setSecondOpen] = useState(false);
   const [thirdOpen, setThirdOpen] = useState(false);
-  const [loadingInfo, siteInfo] = useSiteInfo();
+  const [siteInfo] = useSiteInfo();
   const [loadingTable, activatTableData] = useActiveTable();
 
   const [loadingReward, lastRewardData] = useLastReward();
@@ -955,6 +955,7 @@ function App(prop) {
     );
   } else {
     if (finalMenu == "" || 1 == 1) {
+      var menuData = GetMenu(siteInfo);
       finalMenu = menuData.map(function (menu, i) {
         return doMenu(menu, i, false, isUser);
       });

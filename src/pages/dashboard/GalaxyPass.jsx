@@ -17,9 +17,10 @@ import LevelBar from "../../utils/GLevelBar";
 const LevelList = (prop) => {
   var totalReward = 0;
 
-  const siteInfo = JSON.parse(localStorage.getItem("siteInfo"));
+  const siteInfo = prop.siteInfo;
   const loginToken = prop.loginToken;
   siteInfo?.galaxyPassSet?.sort((a, b) => (a.id > b.id ? 1 : -1));
+  var rules = siteInfo?.galaxyPassSet[0];
   return (
     <span className="myaccount popupmenu">
       <List divided inverted verticalAlign="middle" className="myaccount">
@@ -38,8 +39,8 @@ const LevelList = (prop) => {
               />
             </div>
             <AddCalendar
-              start={siteInfo?.galaxyPassSet[0].startDay}
-              dur={siteInfo?.galaxyPassSet[0].endDay}
+              start={rules.startDay}
+              dur={rules.endDay - rules.startDay + 1}
               repeat="MONTHLY"
               format="0000"
               title="GallaxyPass"
@@ -80,11 +81,11 @@ const LevelList = (prop) => {
                 <>
                   برای شرکت در گلکسی پَس یا باید{" "}
                   <span className="farsi text-gold">
-                    لول شما {levelDataInfo[0].minLevel} یا بالاتر
+                    لول شما {rules.minLevel} یا بالاتر
                   </span>{" "}
                   باشد یا موجودی اکانت شما بیش از{" "}
                   <span className="farsi text-gold">
-                    {doCurrency(levelDataInfo[0].minBalance)} تومان
+                    {doCurrency(rules.minAmount)} تومان
                   </span>{" "}
                   باشد.
                 </>
@@ -93,16 +94,16 @@ const LevelList = (prop) => {
                 <>
                   توجه داشته باشید اگر لِوِل شما{" "}
                   <span className="farsi text-gold">
-                    کمتر از {levelDataInfo[0].minLevel}
+                    کمتر از {rules.minLevel}
                   </span>{" "}
                   باشد،با دریافت هر پاداش، برداشت و انتقال شما به مدت{" "}
                   <span className="farsi text-gold">
-                    {levelDataInfo[0].banOutHours} ساعت
+                    {rules.hoursUnderLevel} ساعت
                   </span>{" "}
                   بسته خواهد شد.
                 </>
               }
-              amount="110000000"
+              amount={rules.totalRewards}
               subtitle="تومان برای هر بازیکن"
             />
           </List.Content>

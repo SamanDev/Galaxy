@@ -25,16 +25,13 @@ export const useSiteInfo = () => {
       ? JSON.parse(localStorage.getItem("siteInfo"))
       : []
   );
-  const [loading, setLoading] = useState(true);
+
   const handleCheckLogin = async () => {
     try {
       const res = await publicGetRules();
       setSiteInfo(res.data);
       localStorage.setItem("siteInfo", JSON.stringify(res.data));
-      //setLoading(false);
-    } catch (error) {
-      setLoading(false);
-    }
+    } catch (error) {}
   };
   useEffect(() => {
     handleCheckLogin();
@@ -44,7 +41,7 @@ export const useSiteInfo = () => {
     });
   }, []);
 
-  return [loading, siteInfo];
+  return [siteInfo];
 };
 export const useActiveTable = () => {
   const [activeTable, setActiveTable] = useState(

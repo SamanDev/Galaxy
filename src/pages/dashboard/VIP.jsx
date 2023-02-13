@@ -6,6 +6,10 @@ import GalaxyIcon from "../../utils/svganim";
 import GiftsDesc from "../../utils/GiftsDesc";
 import LastRewardList from "./LastRewardList";
 const LevelList = (prop) => {
+  const siteInfo = prop.siteInfo;
+  const loginToken = prop.loginToken;
+  siteInfo?.vipTables?.sort((a, b) => (a.id > b.id ? 1 : -1));
+  var rules = siteInfo?.vipTables[0];
   return (
     <span className="myaccount popupmenu">
       <List divided inverted verticalAlign="middle" className="myaccount">
@@ -23,8 +27,8 @@ const LevelList = (prop) => {
             />
 
             <AddCalendar
-              start="16"
-              dur="8"
+              start={rules.startDay}
+              dur={rules.endDay - rules.startDay + 1}
               repeat="MONTHLY"
               format="0000"
               title="GalaxyVIPTable"
@@ -36,7 +40,8 @@ const LevelList = (prop) => {
             <GiftsDesc
               desc={
                 <>
-                  میز وی آی پی 25/50K از{" "}
+                  میز وی آی پی {rules.bigBlindLimit / 2}K/
+                  {rules.bigBlindLimit}K از{" "}
                   <span className="farsi text-gold">
                     شانزدهم تا بیست و سوم هر ماه میلادی
                   </span>{" "}
@@ -48,20 +53,27 @@ const LevelList = (prop) => {
                   هر بازیکن با{" "}
                   <span className="farsi text-gold">هر ساعت بازی</span> روی
                   میزهای{" "}
-                  <span className="farsi text-gold">25K/50K و بالاتر </span>{" "}
-                  مبلغ <span className="farsi text-gold">1,000,000 تومان</span>{" "}
+                  <span className="farsi text-gold">
+                    {rules.bigBlindLimit / 2}K/
+                    {rules.bigBlindLimit}K و بالاتر{" "}
+                  </span>{" "}
+                  مبلغ{" "}
+                  <span className="farsi text-gold">
+                    {doCurrency(rules.reward)} تومان
+                  </span>{" "}
                   دریافت می نماید.
                 </>
               }
               desc3={
                 <>
-                  برای شرکت در VIP 25/50K یا باید{" "}
+                  برای شرکت در VIP {rules.bigBlindLimit / 2}K/
+                  {rules.bigBlindLimit}K یا باید{" "}
                   <span className="farsi text-gold">
-                    لول شما {levelDataInfo[1].minLevel} یا بالاتر
+                    لول شما {rules.minLevel} یا بالاتر
                   </span>{" "}
                   باشد یا موجودی اکانت شما بیش از{" "}
                   <span className="farsi text-gold">
-                    {doCurrency(levelDataInfo[1].minBalance)} تومان
+                    {doCurrency(rules.minAmount)} تومان
                   </span>{" "}
                   باشد.
                 </>
@@ -70,11 +82,11 @@ const LevelList = (prop) => {
                 <>
                   توجه داشته باشید اگر لِوِل شما{" "}
                   <span className="farsi text-gold">
-                    کمتر از {levelDataInfo[1].minLevel}
+                    کمتر از {rules.minLevel}
                   </span>{" "}
                   باشد، با دریافت هر پاداش، برداشت و انتقال شما به مدت{" "}
                   <span className="farsi text-gold">
-                    {levelDataInfo[1].banOutHours} ساعت
+                    {rules.hoursUnderLevel} ساعت
                   </span>{" "}
                   بسته خواهد شد.
                 </>

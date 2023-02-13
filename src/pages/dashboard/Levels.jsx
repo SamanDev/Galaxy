@@ -8,7 +8,7 @@ import LevelBar from "../../utils/LevelBar";
 const LevelList = (prop) => {
   var totalReward = 0;
 
-  const siteInfo = JSON.parse(localStorage.getItem("siteInfo"));
+  const siteInfo = prop.siteInfo;
   const loginToken = prop.loginToken;
   siteInfo?.levelUps?.sort((a, b) => (a.id > b.id ? 1 : -1));
   return (

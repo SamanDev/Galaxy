@@ -1,14 +1,16 @@
 import React from "react";
 import { Progress, Icon } from "semantic-ui-react";
-import { levelData } from "../const";
+
 const Balance = (prop) => {
   const loginToken = prop.loginToken;
-
+  const siteInfo = prop.siteInfo;
+  siteInfo?.levelUps?.sort((a, b) => (a.id > b.id ? 1 : -1));
+  var rules = siteInfo?.levelUps;
   if (loginToken) {
     if (loginToken.level == 0) {
       loginToken.level = 1;
     }
-    var _lvlFinal = levelData.filter((d) => d.level === loginToken.level);
+    var _lvlFinal = rules.filter((d) => d.level === loginToken.level);
     var lvlPercent = parseInt(
       (loginToken.levelPoint * 100) / _lvlFinal[0].point
     ).toFixed(2);
