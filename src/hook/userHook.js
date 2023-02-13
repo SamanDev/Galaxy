@@ -71,7 +71,7 @@ export const useLastReward = () => {
       );
 
       if (res.status === 200) {
-        var mydataGet = res.data.sort((a, b) => (a.id < b.id ? 1 : -1));
+        var mydataGet = res.data;
         localStorage.setItem("lastReward", JSON.stringify(mydataGet));
         setLastReward(mydataGet);
       }

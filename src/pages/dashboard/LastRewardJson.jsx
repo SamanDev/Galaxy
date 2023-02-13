@@ -22,7 +22,7 @@ const ActiveTable = (prop) => {
   const [_sortData, setSortData] = useState(_sortDataOld);
 
   useEffect(() => {
-    var myData = lastReward;
+    var myData = lastReward.sort((a, b) => (a.date < b.date ? 1 : -1));
 
     try {
       var myI = myData.length;
@@ -30,18 +30,13 @@ const ActiveTable = (prop) => {
       myData.map(function (x, i) {
         var myx = x;
 
-        if (_sortDataOld.filter((d, i) => d.id == myx.id).length == 0) {
-          myx.class = "lastlogs id-" + myx.id + " hiddenmenu fast";
-          myI = myI - 1;
-          setTimeout(() => {
-            prop.animateCSS(".id-" + myx.id + "", "fadeInDown");
-            $("#playreward").trigger("click");
-            prop.bindLastReward();
-          }, 500 * (myData.length - myI));
-        } else {
-          myI = myI - 1;
-          myx.class = "lastlogs";
-        }
+        myx.class = "lastlogs id-" + myx.id + " hiddenmenu faster";
+        myI = myI - 1;
+        setTimeout(() => {
+          prop.animateCSS(".id-" + myx.id + "", "fadeInDown");
+          $("#playreward").trigger("click");
+          prop.bindLastReward();
+        }, 50 * (myData.length - i));
 
         _sortD.push(myx);
       });
@@ -52,9 +47,6 @@ const ActiveTable = (prop) => {
         prop.bindLastReward();
       }, 700 * myI);
     } catch (error) {}
-    prop.bindLastReward();
-  }, [lastReward]);
-  useEffect(() => {
     eventBus.on("updateLastReward", (dataGet) => {
       var myx = dataGet;
 
@@ -68,7 +60,7 @@ const ActiveTable = (prop) => {
       var _lastReward = lastReward;
       _lastReward = [myx].concat(_lastReward);
 
-      setSortData(_lastReward);
+      //setSortData(_lastReward);
       localStorage.setItem("lastRewardSort", JSON.stringify(_lastReward));
     });
   }, []);

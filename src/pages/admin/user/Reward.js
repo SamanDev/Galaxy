@@ -149,14 +149,10 @@ function Admin(prop) {
 
     {
       name: "Amount",
-      selector: (row) =>
-        row.endBalance >= row.startBalance ? row.amount : row.amount * -1,
+      selector: (row) => row.amount,
       format: (row) => (
         <>
-          <AmountColor
-            amount={row.amount}
-            sign={row.endBalance - row.startBalance}
-          />
+          <AmountColor amount={row.amount} />
         </>
       ),
       sortable: true,
@@ -215,9 +211,9 @@ function Admin(prop) {
     },
     {
       name: "Date",
-      selector: (row) => row.createDate,
+      selector: (row) => row.data,
       format: (row) => (
-        <div className="blacktext">{convertDateToJalali(row.createDate)}</div>
+        <div className="blacktext">{convertDateToJalali(row.data)}</div>
       ),
       sortable: true,
     },
