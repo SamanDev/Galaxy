@@ -32,145 +32,144 @@ import Index from "./index";
 import ShowTimeLeft from "../../utils/showTimeLeft";
 import $ from "jquery";
 const moment = require("moment");
+const config = {
+  angle: "0",
+  spread: "32",
+  startVelocity: "20",
+  elementCount: "200",
+  dragFriction: "0.09",
+  duration: "4090",
+  stagger: "3",
+  width: "9px",
+  height: "10px",
+  perspective: "500px",
+  colors: ["#a864fd", "#29cdff", "#78ff44", "#ff718d", "#fdff6a"],
+};
+const mainnconfig = {
+  angle: "229",
+  spread: 360,
+  startVelocity: 40,
+  elementCount: 70,
+  dragFriction: 0.12,
+  duration: "20000",
+  stagger: 3,
+  width: "10px",
+  height: "10px",
+  perspective: "743px",
+  colors: ["#000", "#333", "#666"],
+};
+const pokerconfig = {
+  angle: 90,
+  spread: 360,
+  startVelocity: 40,
+  elementCount: 70,
+  dragFriction: 0.12,
+  duration: 3000,
+  stagger: 3,
+  width: "10px",
+  height: "10px",
+  perspective: "500px",
+  colors: ["#000", "#f00"],
+};
+var nowDay = moment().isoWeekday();
+var dayMonth = moment().day();
+var _day = moment().day(dayOfTournament);
+var tourDay = moment(_day).date();
+const Banner = (prop) => {
+  return (
+    <div className="banner">
+      <Grid reversed="computer tablet">
+        <Grid.Row>
+          <Grid.Column
+            mobile={16}
+            tablet={8}
+            computer={8}
+            className="myaccount"
+          >
+            <div className="inline animated delay-1s fadeInLeft">
+              <div className={"inline animated delay-2s " + prop.iconamin}>
+                <GalaxyIcon
+                  mode={prop.icon}
+                  level={prop.number}
+                  text="big"
+                  className="bannericon"
+                  classinside="iconinside2"
+                  number={prop.number}
+                  amin={"inline animated " + prop.amin}
+                  width="12vw"
+                  iconamin={"inline animated delay-2s " + prop.iconamin}
+                />
+              </div>
+            </div>
+          </Grid.Column>
+          <Grid.Column mobile={16} tablet={8} computer={8} textAlign="right">
+            <div className="inline animated fadeInRight backInLeft delay-nims fast">
+              <div className="inline animated flash delay-3s">
+                {prop.showtime && prop.showtime}
+                <h1 className="farsi">{prop.title}</h1>
+              </div>
+            </div>
+            <div className="farsi text  animated fadeInRight fast delay-1s">
+              {prop.text}
+            </div>
 
+            {prop.link && (
+              <div className="animated delay-1s fadeInDown">
+                <Button
+                  className="farsi"
+                  color="red"
+                  onClick={() => {
+                    prop.openPanel(prop.link);
+                  }}
+                >
+                  اطلاعات بیشتر
+                </Button>
+              </div>
+            )}
+          </Grid.Column>
+        </Grid.Row>
+      </Grid>
+    </div>
+  );
+};
+const Banner2 = (prop) => {
+  return (
+    <div className="banner">
+      {prop.image && <Image src={prop.image} rounded />}
+
+      <h1 className="farsi">{prop.title}</h1>
+      <div className="text farsi myaccount">
+        <GalaxyIcon
+          mode={prop.icon}
+          level=""
+          text=""
+          className="bannericon"
+          number={prop.number}
+        />
+        {prop.text}
+        <br />
+        <br />
+        <br />
+        <br />
+        {prop.link && (
+          <Button
+            size="big"
+            className="farsi"
+            color="teal"
+            onClick={() => {
+              prop.openPanel(prop.link);
+            }}
+          >
+            اطلاعات بیشتر
+          </Button>
+        )}
+      </div>
+    </div>
+  );
+};
+var _width = document.body.clientWidth;
+var _event = getEvent();
 const Dashboard = (prop) => {
-  const config = {
-    angle: "0",
-    spread: "32",
-    startVelocity: "20",
-    elementCount: "200",
-    dragFriction: "0.09",
-    duration: "4090",
-    stagger: "3",
-    width: "9px",
-    height: "10px",
-    perspective: "500px",
-    colors: ["#a864fd", "#29cdff", "#78ff44", "#ff718d", "#fdff6a"],
-  };
-  const mainnconfig = {
-    angle: "229",
-    spread: 360,
-    startVelocity: 40,
-    elementCount: 70,
-    dragFriction: 0.12,
-    duration: "20000",
-    stagger: 3,
-    width: "10px",
-    height: "10px",
-    perspective: "743px",
-    colors: ["#000", "#333", "#666"],
-  };
-  const pokerconfig = {
-    angle: 90,
-    spread: 360,
-    startVelocity: 40,
-    elementCount: 70,
-    dragFriction: 0.12,
-    duration: 3000,
-    stagger: 3,
-    width: "10px",
-    height: "10px",
-    perspective: "500px",
-    colors: ["#000", "#f00"],
-  };
-  var nowDay = moment().isoWeekday();
-  var dayMonth = moment().day();
-  var _day = moment().day(dayOfTournament);
-  var tourDay = moment(_day).date();
-  const Banner = (prop) => {
-    return (
-      <div className="banner">
-        <Grid reversed="computer tablet">
-          <Grid.Row>
-            <Grid.Column
-              mobile={16}
-              tablet={8}
-              computer={8}
-              className="myaccount"
-            >
-              <div className="inline animated delay-1s fadeInLeft">
-                <div className={"inline animated delay-2s " + prop.iconamin}>
-                  <GalaxyIcon
-                    mode={prop.icon}
-                    level={prop.number}
-                    text="big"
-                    className="bannericon"
-                    classinside="iconinside2"
-                    number={prop.number}
-                    amin={"inline animated " + prop.amin}
-                    width="12vw"
-                    iconamin={"inline animated delay-2s " + prop.iconamin}
-                  />
-                </div>
-              </div>
-            </Grid.Column>
-            <Grid.Column mobile={16} tablet={8} computer={8} textAlign="right">
-              <div className="inline animated fadeInRight backInLeft delay-nims fast">
-                <div className="inline animated flash delay-3s">
-                  {prop.showtime && prop.showtime}
-                  <h1 className="farsi">{prop.title}</h1>
-                </div>
-              </div>
-              <div className="farsi text  animated fadeInRight fast delay-1s">
-                {prop.text}
-              </div>
-
-              {prop.link && (
-                <div className="animated delay-1s fadeInDown">
-                  <Button
-                    className="farsi"
-                    color="red"
-                    onClick={() => {
-                      prop.openPanel(prop.link);
-                    }}
-                  >
-                    اطلاعات بیشتر
-                  </Button>
-                </div>
-              )}
-            </Grid.Column>
-          </Grid.Row>
-        </Grid>
-      </div>
-    );
-  };
-  const Banner2 = (prop) => {
-    return (
-      <div className="banner">
-        {prop.image && <Image src={prop.image} rounded />}
-
-        <h1 className="farsi">{prop.title}</h1>
-        <div className="text farsi myaccount">
-          <GalaxyIcon
-            mode={prop.icon}
-            level=""
-            text=""
-            className="bannericon"
-            number={prop.number}
-          />
-          {prop.text}
-          <br />
-          <br />
-          <br />
-          <br />
-          {prop.link && (
-            <Button
-              size="big"
-              className="farsi"
-              color="teal"
-              onClick={() => {
-                prop.openPanel(prop.link);
-              }}
-            >
-              اطلاعات بیشتر
-            </Button>
-          )}
-        </div>
-      </div>
-    );
-  };
-  var _width = document.body.clientWidth;
-  var _event = getEvent();
   String.prototype.toPersianCharacter = function () {
     var string = this;
 
@@ -835,7 +834,7 @@ const Dashboard = (prop) => {
                 color="violet"
                 link
                 onClick={() => {
-                  prop.setActivePanel(!prop.activePanel);
+                  prop.setActivePanel(false);
                   $(".picn").toggleClass("open");
                 }}
                 style={

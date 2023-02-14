@@ -1180,7 +1180,6 @@ function App(prop) {
                   siteInfo={siteInfo}
                   openPanel={openPanel}
                   setActivePanel={setActivePanel}
-                  activePanel={activePanel}
                   animateCSS={animateCSS}
                   bindActiveTable={bindActiveTable}
                   bindLastReward={bindLastReward}

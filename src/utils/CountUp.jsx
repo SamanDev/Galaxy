@@ -6,7 +6,9 @@ const CompleteHook = (prop) => {
     ? localStorage.getItem("balance")
     : 0;
   useEffect(() => {
-    localStorage.setItem("balance", prop.balance);
+    setTimeout(() => {
+      localStorage.setItem("balance", prop.balance);
+    }, 500);
   }, [prop.balance]);
   const [loading, setLoading] = React.useState(false);
 

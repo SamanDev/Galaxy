@@ -11,6 +11,14 @@ const LabelExampleBasic = (prop) => {
   if (prop.status === "Clock") {
     return <Icon name="clock" color="grey" loading />;
   }
+  if (prop.status === "ClockReward") {
+    return (
+      <Label size={prop.size} color={prop.color ? prop.color : "green"}>
+        <Icon name="clock" color="grey" />
+        {!prop.icon && <> {prop.status}</>}
+      </Label>
+    );
+  }
   if (prop.status === "Done") {
     return (
       <Label size={prop.size} color={prop.color ? prop.color : "green"}>

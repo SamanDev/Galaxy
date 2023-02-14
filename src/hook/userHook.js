@@ -12,7 +12,6 @@ export const useUser = () => {
 
   useEffect(() => {
     eventBus.on("updateUser", (dataGet) => {
-      console.log(dataGet);
       setLoginToken(dataGet);
       localStorage.setItem("loginToken", JSON.stringify(dataGet));
     });

@@ -21,7 +21,6 @@ const ActiveTable = (prop) => {
   const [_sortData, setSortData] = useState(_sortDataOld);
 
   useEffect(() => {
-    console.log(lastReward);
     var myData = lastReward
       .filter((d) => d.received === true)
       .sort((a, b) => (a.date < b.date ? 1 : -1));

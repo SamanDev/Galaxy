@@ -256,7 +256,7 @@ const Balance = (prop) => {
             position="bottom center"
             offset={[-106, 0]}
             basic
-            hideOnScroll
+            defaultOpen={gCount > 0 ? true : false}
             disabled={gCount == -1 ? true : false}
             trigger={
               <Icon

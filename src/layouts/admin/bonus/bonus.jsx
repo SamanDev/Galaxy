@@ -99,7 +99,7 @@ const BonusArea = (prop) => {
     _status = "Canceled";
   }
   if (_status == "Pending" && !start.isBefore(end)) {
-    _status = "Clock";
+    _status = "ClockReward";
   }
 
   if (_mode == "gift") {
@@ -213,9 +213,8 @@ const BonusArea = (prop) => {
           end.isBefore(expire) && (
             <>
               <Button
-                animated="fade"
                 size="mini"
-                color="green"
+                color="orange"
                 compact
                 loading={loading}
                 disabled={loading}
@@ -225,12 +224,7 @@ const BonusArea = (prop) => {
                   prop.ChangeGift();
                 }}
               >
-                <Button.Content visible>
-                  {doCurrency(prop.bonus.amount)}
-                </Button.Content>
-                <Button.Content hidden className="farsi-inline">
-                  <Icon name="download" /> دریافت
-                </Button.Content>
+                {doCurrency(prop.bonus.amount)}
               </Button>
             </>
           )}

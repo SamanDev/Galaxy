@@ -4,6 +4,7 @@ import ActiveTable from "./pages/dashboard/ActiveTableJson.jsx";
 import RewardStat from "./pages/dashboard/rewardStat";
 import LastReward from "./pages/dashboard/LastRewardJson";
 import { useLastReward } from "./hook/userHook";
+import BonusArea from "./layouts/admin/bonus/index.jsx";
 function RightPanel(prop) {
   const [lastReward] = useLastReward();
   //if (!prop.activePanel) return null;

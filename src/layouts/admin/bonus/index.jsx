@@ -13,7 +13,7 @@ const BonusArea = (prop) => {
         <>
           <List divided inverted verticalAlign="middle">
             {_bonuses.map(function (bonus, i) {
-              return <Bonus key={i} bonus={bonus} {...prop} />;
+              if (i < 5) return <Bonus key={i} bonus={bonus} {...prop} />;
             })}
           </List>
           <Divider fitted />
