@@ -131,21 +131,20 @@ const Balance = (prop) => {
         >
           <RisingPitch />
           <span
+            style={{ top: -4, position: "relative" }}
             onClick={() => {
               ChangeStateMode();
             }}
           >
             {stateMode == 0 && (
-              <span style={{ top: -2, position: "relative" }}>
-                <LevelIcon
-                  level={loginToken.level}
-                  text=""
-                  mode="levels"
-                  classinside={levelClassInside(loginToken.level)}
-                  number=""
-                  width="30px"
-                />
-              </span>
+              <LevelIcon
+                level={loginToken.level}
+                text=""
+                mode="levels"
+                classinside={levelClassInside(loginToken.level)}
+                number=""
+                width="30px"
+              />
             )}
             {stateMode == 1 && _event == "GPass" && (
               <LevelIcon
@@ -177,16 +176,16 @@ const Balance = (prop) => {
                 mode="league"
               />
             )}
-            <Label
-              color="black"
-              className="balanceLable"
-              onClick={() => {
-                openProfile();
-              }}
-            >
-              {loginToken.username}
-            </Label>
           </span>
+          <Label
+            color="black"
+            className="balanceLable"
+            onClick={() => {
+              openProfile();
+            }}
+          >
+            {loginToken.username}
+          </Label>
           <Label
             color="black"
             className="balanceLable amount"
@@ -261,7 +260,6 @@ const Balance = (prop) => {
             trigger={
               <Icon
                 circular
-                size="small"
                 color={color}
                 inverted={color == "grey" ? false : true}
                 name="gift"

@@ -270,7 +270,7 @@ const BonusArea = (prop) => {
       </List.Content>
       <div
         style={{ padding: 10 }}
-        className={"rewardname"}
+        className={"rewardnam e"}
         mode={_mode.toLowerCase()}
       >
         <LevelIcon
