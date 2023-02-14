@@ -228,7 +228,7 @@ function App(prop) {
           setUserProfile(_u);
           setUserOpen(true);
         });
-    }, 500);
+    }, 50);
   }
 
   function getLinkId(str) {
@@ -985,28 +985,28 @@ function App(prop) {
           permanentlyHideOnDismiss={false}
         />
         <div className="App">
+          <nav
+            id="panelright"
+            className={
+              activePanel
+                ? "active fadeoutend mm-menu--theme-dark"
+                : "fadeoutend mm-menu--theme-dark"
+            }
+          >
+            <RightPanel
+              loginToken={loginToken}
+              siteInfo={siteInfo}
+              openPanel={openPanel}
+              setActivePanel={setActivePanel}
+              activePanel={activePanel}
+              animateCSS={animateCSS}
+              bindActiveTable={bindActiveTable}
+              bindLastReward={bindLastReward}
+            />
+          </nav>
           <div className="Main">
             <nav id="menuleft">
               <ul>{finalMenu}</ul>
-            </nav>
-            <nav
-              id="panelright"
-              className={
-                activePanel
-                  ? "active fadeoutend mm-menu--theme-dark"
-                  : "fadeoutend mm-menu--theme-dark"
-              }
-            >
-              <RightPanel
-                loginToken={loginToken}
-                siteInfo={siteInfo}
-                openPanel={openPanel}
-                setActivePanel={setActivePanel}
-                activePanel={activePanel}
-                animateCSS={animateCSS}
-                bindActiveTable={bindActiveTable}
-                bindLastReward={bindLastReward}
-              />
             </nav>
           </div>
           <Modal
@@ -1042,6 +1042,8 @@ function App(prop) {
           >
             <DCArea
               setDcOpen={setDcOpen}
+              loginToken={loginToken}
+              siteInfo={siteInfo}
               isLogin={isUser}
               loadingLogin={loadingLogin}
               setIsUser={setIsUser}

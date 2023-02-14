@@ -4,66 +4,78 @@ import $ from "jquery";
 import Reward from "../../utils/Reward";
 import eventBus from "../../services/eventBus";
 import { useLastReward } from "../../hook/userHook";
-var _sortDataOld = [];
 
-var _sortDataNew = [];
-var _sortD = [];
-try {
-  _sortDataOld = JSON.parse(localStorage.getItem("lastRewardSort"));
-} catch (error) {
-  localStorage.removeItem("lastRewardSort");
-}
-if (_sortDataOld == null) {
-  _sortDataOld = [];
-}
 const ActiveTable = (prop) => {
   const lastReward = prop.lastReward;
 
+  var _sortDataOld = [];
+
+  try {
+    _sortDataOld = JSON.parse(localStorage.getItem("lastRewardSort"));
+  } catch (error) {
+    localStorage.removeItem("lastRewardSort");
+  }
+  if (_sortDataOld == null) {
+    _sortDataOld = [];
+  }
   const [_sortData, setSortData] = useState(_sortDataOld);
 
   useEffect(() => {
-    var myData = lastReward.sort((a, b) => (a.date < b.date ? 1 : -1));
+    console.log(lastReward);
+    var myData = lastReward
+      .filter((d) => d.received === true)
+      .sort((a, b) => (a.date < b.date ? 1 : -1));
+    var _new = myData.filter((d) => !d.class);
 
-    try {
-      var myI = myData.length;
+    var myI = myData.length;
+    var newmyI = _new.length;
+    if (myI > 0) {
+      var _sortD = [];
+      if (newmyI == myI) {
+        myData.map(function (x, i) {
+          var myx = x;
+          if (!x.class) {
+            myx.class = "lastlogs id-" + myx.id + " hiddenmenu faster";
+            myI = myI - 1;
+            setTimeout(() => {
+              prop.animateCSS(".id-" + myx.id + "", "fadeInDown");
+              //$("#playreward").trigger("click");
+              prop.bindLastReward();
+            }, 50 * (myI - i));
+          } else {
+            myI = myI - 1;
+            myx.class = x.class.replace(/hiddenmenu/g, "");
+          }
+          _sortD.push(myx);
+        });
+      } else {
+        myData.map(function (x, i) {
+          var myx = x;
+          if (!x.class) {
+            myx.class = "lastlogs id-" + myx.id + " hiddenmenu faster";
 
-      myData.map(function (x, i) {
-        var myx = x;
+            setTimeout(() => {
+              prop.animateCSS(".id-" + myx.id + "", "fadeInDown");
+              //$("#playreward").trigger("click");
+              prop.bindLastReward();
+            }, 100);
+          } else {
+            myx.class = x.class.replace(/hiddenmenu/g, "");
+          }
 
-        myx.class = "lastlogs id-" + myx.id + " hiddenmenu faster";
-        myI = myI - 1;
-        setTimeout(() => {
-          prop.animateCSS(".id-" + myx.id + "", "fadeInDown");
-          $("#playreward").trigger("click");
-          prop.bindLastReward();
-        }, 50 * (myData.length - i));
-
-        _sortD.push(myx);
-      });
-
+          _sortD.push(myx);
+        });
+      }
       setSortData(_sortD);
-      localStorage.setItem("lastRewardSort", JSON.stringify(_sortD));
-      setTimeout(() => {
-        prop.bindLastReward();
-      }, 700 * myI);
-    } catch (error) {}
-    eventBus.on("updateLastReward", (dataGet) => {
-      var myx = dataGet;
+    }
+  }, [lastReward]);
+  useEffect(() => {
+    localStorage.setItem("lastRewardSort", JSON.stringify(_sortData));
+    localStorage.setItem("lastReward", JSON.stringify(_sortData));
+    prop.bindLastReward();
+  }, [_sortData]);
 
-      myx.class = "lastlogs id-" + myx.id + " hiddenmenu fast";
-      setTimeout(() => {
-        prop.animateCSS(".id-" + myx.id + "", "fadeInDown");
-
-        prop.bindLastReward();
-      }, 500);
-
-      var _lastReward = lastReward;
-      _lastReward = [myx].concat(_lastReward);
-
-      //setSortData(_lastReward);
-      localStorage.setItem("lastRewardSort", JSON.stringify(_lastReward));
-    });
-  }, []);
+  if (!_sortData) return null;
   return (
     <>
       {_sortData.length == 0 ? (
@@ -79,21 +91,17 @@ const ActiveTable = (prop) => {
             marginBottom: 50,
           }}
         >
-          {_sortData.length > 0 && (
-            <>
-              {_sortData.map(function (bonus, i) {
-                return (
-                  <div
-                    className={bonus.class + " rewardname"}
-                    mode={bonus.mode.toLowerCase()}
-                    key={i}
-                  >
-                    <Reward item={bonus} />
-                  </div>
-                );
-              })}
-            </>
-          )}
+          {_sortData.map(function (bonus, i) {
+            return (
+              <div
+                className={bonus?.class + " rewardname"}
+                mode={bonus?.mode.toLowerCase()}
+                key={i}
+              >
+                <Reward item={bonus} />
+              </div>
+            );
+          })}
         </div>
       )}
     </>

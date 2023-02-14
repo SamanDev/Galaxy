@@ -6,6 +6,7 @@ import LastReward from "./pages/dashboard/LastRewardJson";
 import { useLastReward } from "./hook/userHook";
 function RightPanel(prop) {
   const [lastReward] = useLastReward();
+  //if (!prop.activePanel) return null;
   return (
     <>
       <ul className="mm-listview" style={{ overflow: "hidden" }}>

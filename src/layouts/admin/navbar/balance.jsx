@@ -143,7 +143,7 @@ const Balance = (prop) => {
                   mode="levels"
                   classinside={levelClassInside(loginToken.level)}
                   number=""
-                  width="38px"
+                  width="30px"
                 />
               </span>
             )}
@@ -154,7 +154,7 @@ const Balance = (prop) => {
                 classinside="iconinside0"
                 number={loginToken.glevel}
                 text=""
-                width="38px"
+                width="30px"
               />
             )}
             {stateMode == 1 && _event == "VIP" && (
@@ -162,7 +162,7 @@ const Balance = (prop) => {
                 classinside="iconinside0"
                 number=""
                 text=""
-                width="38px"
+                width="30px"
                 level={1}
                 mode="vip"
               />
@@ -172,7 +172,7 @@ const Balance = (prop) => {
                 classinside="iconinside0"
                 number=""
                 text=""
-                width="38px"
+                width="30px"
                 level={1}
                 mode="league"
               />

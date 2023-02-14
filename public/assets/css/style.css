@@ -654,7 +654,7 @@ div.date .time {
   right: 0;
   bottom: 0;
   left: auto;
-  z-index: 1000 !important;
+  z-index: 200000 !important;
 height: 100%;
 overflow: auto;
   width: 100%;
@@ -2031,6 +2031,7 @@ table {
   background-size: 100%;
   background-repeat: no-repeat;
   padding: 0 !important;
+  z-index: 3;
 }
 #dashboard_section {
   background-image: url("/assets/images/bgs/1-min.webp");

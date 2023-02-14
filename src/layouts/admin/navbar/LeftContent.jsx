@@ -52,7 +52,7 @@ const Leftcontent = (prop) => {
         style={{
           color: "#fff",
           position: "relative",
-          top: 7,
+          top: 2,
         }}
         as="a"
         href="#menuleft"

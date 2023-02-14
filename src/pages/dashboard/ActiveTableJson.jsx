@@ -84,29 +84,31 @@ const ActiveTable = (prop) => {
 
   return (
     <>
-      <Segment
-        basic
-        inverted
-        style={{
-          color: "#fff",
-          position: "absolute",
-          top: 10,
-          right: 5,
-          opacity: 0.5,
-          padding: 0,
-          cursor: "pointer",
-        }}
-        onClick={() => {
-          prop.setActivePanel(!prop.activePanel);
-          $("#nav-icon1").toggleClass("open");
-        }}
-      >
-        <div id="nav-icon1" className="open">
-          <span></span>
-          <span></span>
-          <span></span>
-        </div>
-      </Segment>
+      {prop.activePanel && (
+        <Segment
+          basic
+          inverted
+          style={{
+            color: "#fff",
+            position: "absolute",
+            top: 10,
+            right: 5,
+            opacity: 0.5,
+            padding: 0,
+            cursor: "pointer",
+          }}
+          onClick={() => {
+            prop.setActivePanel(!prop.activePanel);
+            $(".picn").toggleClass("open");
+          }}
+        >
+          <div id="nav-icon1" className="picn open">
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+        </Segment>
+      )}
 
       <List
         divided

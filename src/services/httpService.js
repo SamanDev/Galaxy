@@ -25,7 +25,7 @@ export function checkBlock(data) {
       eventBus.dispatch("updateUser", data);
       UserWebsocket.connect(data.accessToken + "&user=" + data.username, data);
     } else {
-      eventBus.dispatch("updateUser", "");
+      eventBus.dispatch("updateUser", {});
       UserWebsocket.connect();
       // window.location = "/";
     }
@@ -54,7 +54,8 @@ axios.interceptors.response.use(
   (error) => {
     if (error.response.status == 401) {
       //window.location = "/logout";
-      localStorage.removeItem("loginToken");
+
+      eventBus.dispatch("updateUser", null);
       UserWebsocket.connect();
     }
     if (error.response.status != 401) {

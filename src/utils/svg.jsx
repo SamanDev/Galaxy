@@ -2,7 +2,7 @@ import React from "react";
 import { levelClass, levelClassInside } from "../const";
 
 const LevelIcon = (prop) => {
-  const loginToken = JSON.parse(localStorage.getItem("loginToken"));
+  const loginToken = prop.loginToken;
   if (prop.mode == "gpass") {
     var _txt = prop.number ? prop.number : prop.level;
 

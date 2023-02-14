@@ -11,7 +11,7 @@ const Rightcontent = (prop) => {
           style={{
             color: "#fff",
             position: "absolute",
-            top: 12,
+            top: 8,
             right: 5,
             opacity: 0.5,
             padding: 0,
@@ -19,10 +19,10 @@ const Rightcontent = (prop) => {
           }}
           onClick={() => {
             prop.setActivePanel(!prop.activePanel);
-            $("#nav-icon1").toggleClass("open");
+            $(".picn").toggleClass("open");
           }}
         >
-          <div id="nav-icon1">
+          <div id="nav-icon1" className="picn">
             <span></span>
             <span></span>
             <span></span>

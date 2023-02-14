@@ -1,31 +1,11 @@
 import React, { useState } from "react";
-import {
-  Label,
-  Input,
-  Header,
-  Divider,
-  Icon,
-  Button,
-  Segment,
-  Message,
-} from "semantic-ui-react";
-import Amount from "../input/Amount";
-import DepositButton from "../input/DepositButton";
-import AuthFormikControl from "../../../components/authForm/AuthFormikControl";
-import { useNavigate } from "react-router-dom";
-import { FastField, Form, Formik } from "formik";
-import * as Yup from "yup";
-import { Alert } from "../../../utils/alerts";
-import { loginService } from "../../../services/auth";
+import { Header, Divider, Button, Segment } from "semantic-ui-react";
 import { checkBlock } from "../../../services/httpService";
 
 const depositArea = (prop) => {
   const [depMode, setDepMode] = useState(false);
-  var loginToken;
+  const loginToken = prop.loginToken;
 
-  try {
-    loginToken = JSON.parse(localStorage.getItem("loginToken"));
-  } catch (error) {}
   return (
     <Segment
       inverted

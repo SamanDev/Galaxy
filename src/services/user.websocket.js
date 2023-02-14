@@ -31,7 +31,7 @@ class UserWebsocket {
     ws.onopen = function live() {
       if (ws?.readyState == ws?.OPEN) {
         if (ws) {
-          //eventBus.dispatch("eventsConnect", "");
+          eventBus.dispatch("eventsConnect", "");
           // eventBus.dispatch("LastReward", _bonuses);
         }
       }
@@ -97,7 +97,7 @@ class UserWebsocket {
 
             ws?.close();
             ws = null;
-            //  eventBus.dispatch("eventsDC", "");
+            eventBus.dispatch("eventsDC", "");
           } else if (message === "PasswordChanged") {
             eventBus.dispatch(
               "eventsDataPass",
