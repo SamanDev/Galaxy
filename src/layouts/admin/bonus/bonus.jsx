@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Icon, Button, List } from "semantic-ui-react";
 import LevelIcon from "../../../utils/svg";
 import { doCurrency, levelDataInfo, levelClassInside } from "../../../const";
@@ -18,6 +18,7 @@ const BonusArea = (prop) => {
   const [loading, setLoading] = useState(false);
   const loginToken = prop.loginToken;
   const siteInfo = prop.siteInfo;
+  const bonus = prop.bonus;
   siteInfo?.galaxyPassSet?.sort((a, b) => (a.id > b.id ? 1 : -1));
   var gpassrules = siteInfo?.galaxyPassSet[0];
   siteInfo?.vipTables?.sort((a, b) => (a.id > b.id ? 1 : -1));
@@ -73,12 +74,14 @@ const BonusArea = (prop) => {
       }
     }
   };
-  var start = moment(prop.bonus.startDate);
-  var expire = moment(prop.bonus.expireDate);
+  var start = moment(bonus.startDate);
+  var expire = moment(bonus.expireDate);
   var end = moment();
-  var _mode = prop.bonus.mode.toLowerCase();
+  var _mode = bonus.mode.toLowerCase();
+  var _status = bonus.status;
+  var _txt = bonus.label;
   try {
-    var _lvl = prop.bonus.text
+    var _lvl = bonus.text
       .split(" ")[1]
       .replace("Bonus", "")
       .replace("Gift", "");
@@ -87,26 +90,25 @@ const BonusArea = (prop) => {
   }
 
   if (_mode == "bonus") {
-    prop.bonus.banaction = 24;
+    bonus.banaction = 24;
   }
   if (_mode == "gpass" && loginToken.level < gpassrules.minLevel) {
-    prop.bonus.banaction = gpassrules.hoursUnderLevel;
-    prop.bonus.balancereq = gpassrules.minAmount;
-    prop.bonus.levelreq = gpassrules.minLevel;
+    bonus.banaction = gpassrules.hoursUnderLevel;
+    bonus.balancereq = gpassrules.minAmount;
+    bonus.levelreq = gpassrules.minLevel;
   }
   if (_mode == "vip" && loginToken.level < viprules.minLevel) {
-    prop.bonus.banaction = viprules.hoursUnderLevel;
-    prop.bonus.balancereq = viprules.minAmount;
-    prop.bonus.levelreq = viprules.minLevel;
+    bonus.banaction = viprules.hoursUnderLevel;
+    bonus.balancereq = viprules.minAmount;
+    bonus.levelreq = viprules.minLevel;
   }
 
   if (_mode == "league" && loginToken.level < leaguerules.minLevel) {
-    prop.bonus.banaction = leaguerules.hoursUnderLevel;
-    prop.bonus.balancereq = leaguerules.minAmount;
-    prop.bonus.levelreq = leaguerules.minLevel;
+    bonus.banaction = leaguerules.hoursUnderLevel;
+    bonus.balancereq = leaguerules.minAmount;
+    bonus.levelreq = leaguerules.minLevel;
   }
 
-  var _status = prop.bonus.status;
   if (!end.isBefore(expire) && _status == "Pending") {
     _status = "Canceled";
   }
@@ -115,15 +117,15 @@ const BonusArea = (prop) => {
   }
 
   if (_mode == "gift") {
-    if (prop.bonus.amount >= levelDataInfo[4].minAmount) {
+    if (bonus.amount >= levelDataInfo[4].minAmount) {
       _mode = "gift3";
-    } else if (prop.bonus.amount >= levelDataInfo[5].minAmount) {
+    } else if (bonus.amount >= levelDataInfo[5].minAmount) {
       _mode = "gift2";
     } else {
       _mode = "gift1";
     }
   }
-  var _txt = prop.bonus.label;
+
   if (_mode == "gpass") {
     _txt = "پاداش لول " + _lvl + " گلکسی پَس";
   }
@@ -148,6 +150,7 @@ const BonusArea = (prop) => {
   if (_mode == "gift1") {
     _txt = "هدیه قرمز";
   }
+
   return (
     <List.Item>
       <List.Content floated="right">
@@ -163,8 +166,8 @@ const BonusArea = (prop) => {
             paddingTop: 5,
           }}
         >
-          {prop.bonus.status == "Done" && <>دریافت شده</>}
-          {prop.bonus.status == "Pending" &&
+          {bonus.status == "Done" && <>دریافت شده</>}
+          {bonus.status == "Pending" &&
             start.isBefore(end) &&
             end.isBefore(expire) && (
               <>
@@ -172,22 +175,21 @@ const BonusArea = (prop) => {
                   fromNow
                   onChange={(val) => {
                     prop.ChangeGift();
-                    console.log("tik");
                   }}
                 >
-                  {prop.bonus.expireDate}
+                  {bonus.expireDate}
                 </Moment>{" "}
                 تا انقضا
               </>
             )}
-          {prop.bonus.status == "Pending" &&
+          {bonus.status == "Pending" &&
             start.isBefore(end) &&
             !end.isBefore(expire) && (
               <>
-                انقضا در <Moment fromNow>{prop.bonus.expireDate}</Moment>
+                انقضا در <Moment fromNow>{bonus.expireDate}</Moment>
               </>
             )}
-          {prop.bonus.status == "Pending" && !start.isBefore(end) && (
+          {bonus.status == "Pending" && !start.isBefore(end) && (
             <>
               <Moment
                 fromNow
@@ -195,13 +197,13 @@ const BonusArea = (prop) => {
                   prop.ChangeGift();
                 }}
               >
-                {prop.bonus.startDate}
+                {bonus.startDate}
               </Moment>{" "}
               تا فعالسازی
             </>
           )}
         </small>
-        {prop.bonus.status == "Done" && (
+        {bonus.status == "Done" && (
           <>
             <Button
               animated="fade"
@@ -213,7 +215,7 @@ const BonusArea = (prop) => {
               style={{ opacity: 1, width: 140, marginRight: 10 }}
             >
               <Button.Content visible>
-                <Icon name="check" /> {doCurrency(prop.bonus.amount)}
+                <Icon name="check" /> {doCurrency(bonus.amount)}
               </Button.Content>
               <Button.Content hidden className="farsi-inline">
                 <Icon name="check" /> دریافت شده
@@ -221,7 +223,7 @@ const BonusArea = (prop) => {
             </Button>
           </>
         )}
-        {prop.bonus.status == "Pending" &&
+        {bonus.status == "Pending" &&
           start.isBefore(end) &&
           end.isBefore(expire) && (
             <>
@@ -234,15 +236,15 @@ const BonusArea = (prop) => {
                 loading={loading}
                 disabled={loading}
                 onClick={() => {
-                  handleConfirm(prop.bonus, loginToken);
+                  handleConfirm(bonus, loginToken);
                   prop.ChangeGift();
                 }}
               >
-                {doCurrency(prop.bonus.amount)}
+                {doCurrency(bonus.amount)}
               </Button>
             </>
           )}
-        {prop.bonus.status == "Pending" &&
+        {bonus.status == "Pending" &&
           start.isBefore(end) &&
           !end.isBefore(expire) && (
             <>
@@ -256,7 +258,7 @@ const BonusArea = (prop) => {
                 style={{ opacity: 1, width: 140, marginRight: 10 }}
               >
                 <Button.Content visible>
-                  <Icon name="times" /> {doCurrency(prop.bonus.amount)}
+                  <Icon name="times" /> {doCurrency(bonus.amount)}
                 </Button.Content>
                 <Button.Content hidden className="farsi-inline">
                   <Icon name="times" /> منقضی شده
@@ -264,7 +266,7 @@ const BonusArea = (prop) => {
               </Button>
             </>
           )}
-        {prop.bonus.status == "Pending" && !start.isBefore(end) && (
+        {bonus.status == "Pending" && !start.isBefore(end) && (
           <>
             <Button
               animated="fade"
@@ -275,10 +277,10 @@ const BonusArea = (prop) => {
               style={{ opacity: 1, width: 140, marginRight: 10 }}
             >
               <Button.Content visible>
-                <Icon name="clock" /> {doCurrency(prop.bonus.amount)}
+                <Icon name="clock" /> {doCurrency(bonus.amount)}
               </Button.Content>
               <Button.Content hidden className="farsi-inline">
-                <Moment fromNow>{prop.bonus.startDate}</Moment>
+                <Moment fromNow>{bonus.startDate}</Moment>
               </Button.Content>
             </Button>
           </>
@@ -292,7 +294,7 @@ const BonusArea = (prop) => {
         <LevelIcon
           level={_lvl}
           mode={_mode.toLowerCase()}
-          text={prop.bonus.username}
+          text={bonus.username}
           classinside={levelClassInside(_lvl - 1)}
           number={_lvl}
           width="36px"

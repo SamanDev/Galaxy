@@ -116,7 +116,8 @@ const Balance = (prop) => {
   }, [stateMode, loginToken]);
   useEffect(() => {
     if (gCount > 0) {
-      $("#playbip").trigger("click");
+      //$("#playbip").trigger("click");
+      $("#opengifts").trigger("click");
     }
   }, [gCount]);
   useEffect(() => {
@@ -279,6 +280,7 @@ const Balance = (prop) => {
             trigger={
               <Icon
                 circular
+                id="opengifts"
                 color={color}
                 inverted={color == "grey" ? false : true}
                 name="gift"
