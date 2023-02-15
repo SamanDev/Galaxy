@@ -768,7 +768,7 @@ export const levelPercent = (lvl) => {
   }
 };
 export const getEvent = (siteInfo) => {
-  if (siteInfo == null) return false;
+  if (siteInfo == null) return "";
   siteInfo?.galaxyPassSet?.sort((a, b) => (a.id > b.id ? 1 : -1));
   var gpassrules = siteInfo?.galaxyPassSet[0];
   siteInfo?.vipTables?.sort((a, b) => (a.id > b.id ? 1 : -1));
