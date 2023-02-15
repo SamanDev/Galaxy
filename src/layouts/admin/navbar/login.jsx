@@ -11,11 +11,10 @@ const Balance = (prop) => {
         basic
         style={{
           margin: 0,
-          padding: 10,
+          padding: 8,
           color: "#fff",
           background: "transparent",
           position: "relative",
-          top: 2,
         }}
       >
         <Button
