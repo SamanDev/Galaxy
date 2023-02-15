@@ -79,7 +79,7 @@ const LevelList = (prop) => {
 
                 return (
                   <div className={"rewardname"} mode={x.mode} key={i}>
-                    <Reward item={x} {...prop} />
+                    <Reward item={x} {...prop} color={true} />
                   </div>
                 );
               })}

@@ -768,6 +768,7 @@ function App(prop) {
       eventBus.dispatch("updateUser", "");
       setIsUser(false);
       localStorage.removeItem("loginToken");
+      localStorage.removeItem("balance");
       UserWebsocket.connect();
 
       navigate("/");

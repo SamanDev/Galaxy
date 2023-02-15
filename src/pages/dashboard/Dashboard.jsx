@@ -260,7 +260,7 @@ const Dashboard = (prop) => {
       var _pen = _bonuses.filter(
         (d) =>
           d.status == "Pending" &&
-          d.mode == "gift" &&
+          d.mode.toLowerCase() == "gift" &&
           d.received == false &&
           Date.parse(d.date) < end &&
           Date.parse(d.expireDate) > end
@@ -401,7 +401,7 @@ const Dashboard = (prop) => {
       defslide = 0;
     }
     setActiveSlide(defslide);
-  }, [curPage, prop.isLogin]);
+  }, [curPage, prop.isLogin, loginToken]);
 
   useEffect(() => {
     if (prop.isLogin && curPage == "game") {

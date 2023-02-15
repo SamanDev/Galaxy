@@ -23,7 +23,7 @@ var __bnus = [
   {
     key: 1,
 
-    value: "gift",
+    value: "Gift",
     label: "هدیه",
     text: "Free Gift",
   },

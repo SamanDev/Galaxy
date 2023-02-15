@@ -117,7 +117,7 @@ const Balance = (prop) => {
   useEffect(() => {
     if (gCount > 0) {
       //$("#playbip").trigger("click");
-      $("#opengifts").trigger("click");
+      $("#opengifts:not(.open)").trigger("click");
     }
   }, [gCount]);
   useEffect(() => {
@@ -275,6 +275,12 @@ const Balance = (prop) => {
             offset={[-106, 0]}
             basic
             pinned
+            onClose={() => {
+              $("#opengifts").removeClass("open");
+            }}
+            onOpen={() => {
+              $("#opengifts").addClass("open");
+            }}
             defaultOpen={gCount > 0 ? true : false}
             disabled={gCount == -1 ? true : false}
             trigger={
@@ -284,9 +290,7 @@ const Balance = (prop) => {
                 color={color}
                 inverted={color == "grey" ? false : true}
                 name="gift"
-                className={
-                  gCount == 0 ? "animated" : "animated heartBeat  slow"
-                }
+                className={gCount == 0 ? "animated" : "animated heartBeat slow"}
                 link
               >
                 <Label

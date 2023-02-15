@@ -4,7 +4,7 @@ export const getRewardsService = (
   id = null,
   mode = "",
   username = "",
-  number = 100
+  number = 500
 ) => {
   if (id) {
     return httpService(
