@@ -31,9 +31,9 @@ const Balance = (prop) => {
   const [gCount, setGCount] = useState(0);
   const [stateMode, setStateMode] = useState(0);
 
-  var _event = getEvent();
+  var _event = getEvent(siteInfo);
 
-  const [lvlPercentState, setlvlPercentState] = useState(lvlPercent);
+  const [lvlPercentState, setlvlPercentState] = useState(0);
   const ChangeGift = () => {
     var user = loginToken;
     if (user) {
@@ -112,24 +112,25 @@ const Balance = (prop) => {
     if (stateMode == 1 && _event == "VIP") {
       setlvlPercentState(vLvlPercent);
     }
+    ChangeGift();
   }, [stateMode, loginToken]);
   useEffect(() => {
     if (gCount > 0) {
-      //$("#playbip").trigger("click");
+      $("#playbip").trigger("click");
     }
   }, [gCount]);
   useEffect(() => {
     ChangeGift();
-  });
+  }, []);
   if (loginToken) {
     return (
       <>
+        <RisingPitch />
         <Segment
           className="myaccount"
           inverted
           style={{ margin: 0, padding: 10, color: "#fff" }}
         >
-          <RisingPitch />
           <span
             style={{ top: -4, position: "relative" }}
             onClick={() => {
@@ -147,14 +148,31 @@ const Balance = (prop) => {
               />
             )}
             {stateMode == 1 && _event == "GPass" && (
-              <LevelIcon
-                mode="gpass"
-                level={loginToken.glevel}
-                classinside="iconinside0"
-                number={loginToken.glevel}
-                text=""
-                width="30px"
-              />
+              <>
+                {loginToken.takeGPass && (
+                  <>
+                    <Icon
+                      name="check"
+                      color="green"
+                      size="large"
+                      style={{
+                        position: "absolute",
+                        zIndex: 3,
+                        top: -10,
+                        right: -15,
+                      }}
+                    />
+                  </>
+                )}
+                <LevelIcon
+                  mode="gpass"
+                  level={loginToken.glevel}
+                  classinside="iconinside0"
+                  number={loginToken.glevel}
+                  text=""
+                  width="30px"
+                />
+              </>
             )}
             {stateMode == 1 && _event == "VIP" && (
               <LevelIcon
@@ -255,6 +273,7 @@ const Balance = (prop) => {
             position="bottom center"
             offset={[-106, 0]}
             basic
+            pinned
             defaultOpen={gCount > 0 ? true : false}
             disabled={gCount == -1 ? true : false}
             trigger={

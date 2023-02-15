@@ -21,9 +21,7 @@ const ActiveTable = (prop) => {
   const [_sortData, setSortData] = useState(_sortDataOld);
 
   useEffect(() => {
-    var myData = lastReward
-      .filter((d) => d.received === true)
-      .sort((a, b) => (a.date < b.date ? 1 : -1));
+    var myData = lastReward.sort((a, b) => (a.date < b.date ? 1 : -1));
     var _new = myData.filter((d) => !d.class);
 
     var myI = myData.length;
@@ -97,7 +95,7 @@ const ActiveTable = (prop) => {
                 mode={bonus?.mode.toLowerCase()}
                 key={i}
               >
-                <Reward item={bonus} />
+                <Reward item={bonus} color={false} {...prop} />
               </div>
             );
           })}

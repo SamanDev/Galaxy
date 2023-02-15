@@ -35,7 +35,7 @@ const Report = (prop) => {
 
   useEffect(() => {
     handleGetReports();
-  }, [loginToken]);
+  }, []);
   var canShow = true;
   var canShowPending = true;
   if (loading) {

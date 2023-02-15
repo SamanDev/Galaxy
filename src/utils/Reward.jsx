@@ -16,10 +16,7 @@ const Reward = (prop) => {
       _mode = "gift1";
     }
   }
-  var _defUser = "";
-  if (loginToken) {
-    _defUser = loginToken.username;
-  }
+
   var _txt = prop.item.label;
   try {
     var _lvl = prop.item.text
@@ -63,7 +60,9 @@ const Reward = (prop) => {
     >
       <Grid.Row
         className={
-          _defUser == prop.item.username && !prop.color ? "rewardred" : ""
+          loginToken?.username == prop.item.username && !prop.color
+            ? "rewardred"
+            : ""
         }
       >
         <Grid.Column width={6}>
@@ -78,7 +77,7 @@ const Reward = (prop) => {
             />
           </div>
         </Grid.Column>
-        <Grid.Column width={10} textAlign="right">
+        <Grid.Column width={10} textAlign="right" style={{ paddingRight: 20 }}>
           <div className="farsi">
             <span className="text-gold">{doCurrency(prop.item.amount)}</span>{" "}
             تومان

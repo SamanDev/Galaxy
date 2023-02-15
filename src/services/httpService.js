@@ -9,8 +9,16 @@ export function checkBlock(data) {
   if (loginToken) {
     if (loginToken.username == data.username) {
       if (!data.userBlock) {
-        localStorage.setItem("loginToken", JSON.stringify(data));
-        //eventBus.dispatch("updateUser", data);
+        const oldu = Object.entries(loginToken)
+          .sort(([, a], [, b]) => a - b)
+          .reduce((r, [k, v]) => ({ ...r, [k]: v }), {});
+        const newu = Object.entries(data)
+          .sort(([, a], [, b]) => a - b)
+          .reduce((r, [k, v]) => ({ ...r, [k]: v }), {});
+        if (oldu != newu) {
+          eventBus.dispatch("updateUser", newu);
+        }
+
         UserWebsocket.connect(
           data.accessToken + "&user=" + data.username,
           data
@@ -21,7 +29,6 @@ export function checkBlock(data) {
     }
   } else {
     if (!data.userBlock) {
-      localStorage.setItem("loginToken", JSON.stringify(data));
       eventBus.dispatch("updateUser", data);
       UserWebsocket.connect(data.accessToken + "&user=" + data.username, data);
     } else {

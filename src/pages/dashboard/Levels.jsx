@@ -4,7 +4,7 @@ import { doCurrency, levelClassInside } from "../../const";
 import LevelIcon from "../../utils/svg";
 
 import LevelBar from "../../utils/LevelBar";
-
+import LastRewardList from "./LastRewardList";
 const LevelList = (prop) => {
   var totalReward = 0;
 
@@ -70,6 +70,7 @@ const LevelList = (prop) => {
             </List.Item>
           );
         })}
+        <LastRewardList mode="levels" {...prop} />
       </List>
     </span>
   );

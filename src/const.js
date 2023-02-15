@@ -767,14 +767,22 @@ export const levelPercent = (lvl) => {
     return 1;
   }
 };
-export const getEvent = () => {
+export const getEvent = (siteInfo) => {
+  if (siteInfo == null) return false;
+  siteInfo?.galaxyPassSet?.sort((a, b) => (a.id > b.id ? 1 : -1));
+  var gpassrules = siteInfo?.galaxyPassSet[0];
+  siteInfo?.vipTables?.sort((a, b) => (a.id > b.id ? 1 : -1));
+  var viprules = siteInfo?.vipTables[0];
+  siteInfo?.dailyLeagueSet?.sort((a, b) => (a.id > b.id ? 1 : -1));
+  var leaguerules = siteInfo?.dailyLeagueSet[0];
+  var levelData = siteInfo?.levelUps;
   var now = moment().format("YYYYMMDDTHHmmss");
   var nowDay = moment(now).date();
   var friDay = moment(now).day();
 
-  if (nowDay <= 15) {
+  if (nowDay <= gpassrules.endDay) {
     return "GPass";
-  } else if (nowDay <= 23) {
+  } else if (nowDay <= viprules.endDay) {
     return "VIP";
   } else {
     return "League";

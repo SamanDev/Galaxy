@@ -1238,8 +1238,7 @@ svg {
   fill: #fff;
   font-size: 160px;
   font-family: monospace;
-  filter: drop-shadow(rgba(0, 0, 0, 1) 0px 0px 3px)
-    drop-shadow(rgba(0, 0, 0, 1) 0px 0px 3px);
+ 
 }
 .leagueicontext.text1 {
   font-size: 200px;
@@ -1255,8 +1254,7 @@ svg text {
   font-size: 7px;
   text-anchor: middle;
   font-style: italic;
-  filter: drop-shadow(rgba(0, 0, 0, 1) 0px 0px 3px)
-    drop-shadow(rgba(0, 0, 0, 1) 0px 0px 3px);
+ 
 }
 .vipicontext {
   fill: #fff;
@@ -1382,35 +1380,11 @@ svg text {
   transform: scale(0.8); position: absolute; z-index: 100; height: auto;
  
 }
-.levelicon:not(.big) {
 
-  filter:  drop-shadow(rgba(0, 0, 0, 1) 0px 0px 1px) drop-shadow(rgba(0, 0, 0, 1) 0px 0px 1px)   drop-shadow(rgba(255, 255, 255, .5) 0px 0px 3px)
- ;
-}
-.mm-menu .levelicon:not(.big) {
 
-  filter:  none
- ;
-}
 
-.iconinside1:not(.levelicon) {
-  fill: #740e0e;
-  color: #740e0e;
-  filter:  drop-shadow(rgba(255, 255, 255, 1) 0px 0px 1px) drop-shadow(rgba(255, 255, 255, .8) 0px 0px 2px)
-  ;
-  opacity: .7;
-  transform: scale(0.8); position: absolute; z-index: 100; height: auto;
 
-}
-.iconinside2:not(.levelicon) {
-  fill: #000000;
-  color: #000000;
-  filter:  drop-shadow(rgba(0, 0, 0, 1) 0px 0px 1px) drop-shadow(rgba(0, 0, 0, 1) 0px 0px 1px)   drop-shadow(rgba(255, 255, 255, .5) 0px 0px 3px)
- ;
-  opacity: .7;
-  transform: scale(0.8); position: absolute; z-index: 100; height: auto;
 
-}
 
 .lv1 {
   color: #fdd300;
@@ -1870,14 +1844,9 @@ table {
 
 .top_navbar .navbar-brand img {
   transition: var(--transition_300);
-  filter: drop-shadow(0 0 6px white);
-  -webkit-filter: drop-shadow(0 0 6px white);
+ 
 }
 
-.top_navbar .navbar-brand img:hover {
-  filter: drop-shadow(0 0 3px white);
-  -webkit-filter: drop-shadow(0 0 3px white);
-}
 
 .top_navbar .left_content > i {
   font-size: 1.3rem;

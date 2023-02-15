@@ -131,7 +131,9 @@ class UserWebsocket {
       ws.onclose = function (e) {
         setTimeout(function () {
           if (ws2 == null && token) {
-            // eventBus.dispatch("eventsDC", "");
+            ws?.close();
+            ws = null;
+            eventBus.dispatch("eventsDC", "");
           }
         }, 100);
         //ws?.close();

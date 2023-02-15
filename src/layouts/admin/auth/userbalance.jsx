@@ -67,7 +67,9 @@ const gettotal = (data, mode, target) => {
   if (target == "count") return _data.length;
 };
 const printreward = (data, mode) => {
-  var _data = data.filter((d) => d.mode.toLowerCase() === mode);
+  var _data = data
+    .filter((d) => d.mode.toLowerCase() === mode)
+    .sort((a, b) => (a.id < b.id ? 1 : -1));
   return (
     <div
       style={{
@@ -282,6 +284,21 @@ const Balance = (prop) => {
                     : ""
                 }
               >
+                {loginToken.takeGPass && (
+                  <>
+                    <Icon
+                      name="check"
+                      color="green"
+                      size="big"
+                      style={{
+                        position: "absolute",
+                        zIndex: 3,
+                        top: -10,
+                        marginLeft: 30,
+                      }}
+                    />
+                  </>
+                )}
                 <LevelIcon
                   mode="gpass"
                   level={loginToken.glevel}

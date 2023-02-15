@@ -4,6 +4,7 @@ import Reward from "../../utils/Reward";
 import { levelLeagueReward } from "../../const";
 import MenuLoader from "../../utils/menuLoader";
 import { getRewardsService } from "../../services/reward";
+import RewardStat from "./rewardStat";
 const LevelList = (prop) => {
   const [data, setData] = useState([]);
 
@@ -46,6 +47,7 @@ const LevelList = (prop) => {
           <li className="menutitle mm-listitem">
             <span className="mm-listitem__text">آخرین جوایز</span>
           </li>
+          <RewardStat lastReward={data} />
           <li>
             {data.length == 0 && !prop.pending && (
               <>
@@ -67,6 +69,7 @@ const LevelList = (prop) => {
                 </List.Item>
               </>
             )}
+
             <div style={{ paddingLeft: 15 }}>
               {data.map((x, i) => {
                 totalReward += levelLeagueReward(i);
@@ -76,7 +79,7 @@ const LevelList = (prop) => {
 
                 return (
                   <div className={"rewardname"} mode={x.mode} key={i}>
-                    <Reward item={x} />
+                    <Reward item={x} {...prop} />
                   </div>
                 );
               })}

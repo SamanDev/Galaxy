@@ -17,7 +17,12 @@ const openDeposit = () => {
 const BonusArea = (prop) => {
   const [loading, setLoading] = useState(false);
   const loginToken = prop.loginToken;
-
+  const siteInfo = prop.siteInfo;
+  siteInfo?.galaxyPassSet?.sort((a, b) => (a.id > b.id ? 1 : -1));
+  var gpassrules = siteInfo?.galaxyPassSet[0];
+  siteInfo?.vipTables?.sort((a, b) => (a.id > b.id ? 1 : -1));
+  var viprules = siteInfo?.vipTables[0];
+  var leaguerules = siteInfo?.dailyLeagueSet[0];
   const getReward = async (bonus) => {
     setLoading(true);
     try {
@@ -41,19 +46,26 @@ const BonusArea = (prop) => {
       if (!start.isBefore(end)) {
       } else {
         if (bonus.banaction) {
-          var _msg = `در صورت دریافت بونوس برداشت و انتقال شما به مدت <span class="text-gold">${bonus.banaction} ساعت</span> بسته خواهد شد.`;
-          if (bonus.balancereq > loginToken.balance || 1 == 1) {
-            _msg = `برای دریافت این هدیه یا باید <span class="text-gold">لول شما  ${
-              bonus.levelreq
-            } یا بالاتر</span> باشد.<br/> یا موجودی اکانت شما بیش از <span class="text-gold">${doCurrency(
-              bonus.balancereq
-            )} تومان</span>  باشد. <br/><br/>${_msg}`;
-          }
+          var _msg = `<small class="opacity-50 animated heartBeat delay-2s" style="display:block;margin-top:10px">توجه داشته باشید اگر لِوِل شما کمتر از <span class="text-gold">${bonus.levelreq} </span> باشد، با دریافت هر پاداش، برداشت و انتقال شما به مدت <span class="text-gold">${bonus.banaction} ساعت</span> بسته خواهد شد.</small>`;
 
-          if (parseInt(loginToken.balance) >= parseInt(bonus.balancereq)) {
-            MyConfirm("تایید دریافت", _msg, getReward, bonus);
+          var _msg2 = `<div class="text-end fs-6"><p class="fw-semibold fs-5">برای دریافت این هدیه:</p>`;
+          if (parseInt(bonus.balancereq) < parseInt(loginToken.balance)) {
+            _msg2 = `${_msg2}<div><i class="fas fa-times fa-fw text-danger"></i> یا باید <span class="text-gold">لول شما  ${
+              bonus.levelreq
+            } یا بالاتر</span> باشد.</div><div><i class="fas fa-check fa-fw text-success"></i> یا موجودی اکانت شما بیش از <span class="text-gold">${doCurrency(
+              bonus.balancereq
+            )} تومان</span>  باشد.</div> ${_msg}</div>`;
           } else {
-            MyDeposit("تایید دریافت", _msg, openDeposit);
+            _msg2 = `${_msg2}<div><i class="fas fa-times fa-fw text-danger"></i> یا باید <span class="text-gold">لول شما  ${
+              bonus.levelreq
+            } یا بالاتر</span> باشد.</div><div><i class="fas fa-times fa-fw text-danger"></i> یا موجودی اکانت شما بیش از <span class="text-gold">${doCurrency(
+              bonus.balancereq
+            )} تومان</span>  باشد.</div> ${_msg}</div>`;
+          }
+          if (parseInt(loginToken.balance) >= parseInt(bonus.balancereq)) {
+            MyConfirm("تایید دریافت", _msg2, getReward, bonus);
+          } else {
+            MyDeposit("تایید دریافت", _msg2, openDeposit);
           }
         } else {
           getReward(bonus);
@@ -77,21 +89,21 @@ const BonusArea = (prop) => {
   if (_mode == "bonus") {
     prop.bonus.banaction = 24;
   }
-  if (_mode == "gpass" && loginToken.level < levelDataInfo[0].minLevel) {
-    prop.bonus.banaction = levelDataInfo[0].banOutHours;
-    prop.bonus.balancereq = levelDataInfo[0].minBalance;
-    prop.bonus.levelreq = levelDataInfo[0].minLevel;
+  if (_mode == "gpass" && loginToken.level < gpassrules.minLevel) {
+    prop.bonus.banaction = gpassrules.hoursUnderLevel;
+    prop.bonus.balancereq = gpassrules.minAmount;
+    prop.bonus.levelreq = gpassrules.minLevel;
   }
-  if (_mode == "vip" && loginToken.level < levelDataInfo[1].minLevel) {
-    prop.bonus.banaction = levelDataInfo[1].banOutHours;
-    prop.bonus.balancereq = levelDataInfo[1].minBalance;
-    prop.bonus.levelreq = levelDataInfo[1].minLevel;
+  if (_mode == "vip" && loginToken.level < viprules.minLevel) {
+    prop.bonus.banaction = viprules.hoursUnderLevel;
+    prop.bonus.balancereq = viprules.minAmount;
+    prop.bonus.levelreq = viprules.minLevel;
   }
 
-  if (_mode == "league" && loginToken.level < levelDataInfo[2].minLevel) {
-    prop.bonus.banaction = levelDataInfo[2].banOutHours;
-    prop.bonus.balancereq = levelDataInfo[2].minBalance;
-    prop.bonus.levelreq = levelDataInfo[2].minLevel;
+  if (_mode == "league" && loginToken.level < leaguerules.minLevel) {
+    prop.bonus.banaction = leaguerules.hoursUnderLevel;
+    prop.bonus.balancereq = leaguerules.minAmount;
+    prop.bonus.levelreq = leaguerules.minLevel;
   }
 
   var _status = prop.bonus.status;
@@ -197,7 +209,8 @@ const BonusArea = (prop) => {
               color="green"
               compact
               disabled
-              style={{ opacity: 1, width: 140 }}
+              floated="right"
+              style={{ opacity: 1, width: 140, marginRight: 10 }}
             >
               <Button.Content visible>
                 <Icon name="check" /> {doCurrency(prop.bonus.amount)}
@@ -215,10 +228,11 @@ const BonusArea = (prop) => {
               <Button
                 size="mini"
                 color="orange"
+                floated="right"
+                style={{ opacity: 1, width: 140, marginRight: 10 }}
                 compact
                 loading={loading}
                 disabled={loading}
-                style={{ opacity: 1, width: 140 }}
                 onClick={() => {
                   handleConfirm(prop.bonus, loginToken);
                   prop.ChangeGift();
@@ -238,7 +252,8 @@ const BonusArea = (prop) => {
                 color="red"
                 compact
                 disabled
-                style={{ opacity: 1, width: 140 }}
+                floated="right"
+                style={{ opacity: 1, width: 140, marginRight: 10 }}
               >
                 <Button.Content visible>
                   <Icon name="times" /> {doCurrency(prop.bonus.amount)}
@@ -256,7 +271,8 @@ const BonusArea = (prop) => {
               size="mini"
               color="grey"
               compact
-              style={{ opacity: 1, width: 140 }}
+              floated="right"
+              style={{ opacity: 1, width: 140, marginRight: 10 }}
             >
               <Button.Content visible>
                 <Icon name="clock" /> {doCurrency(prop.bonus.amount)}

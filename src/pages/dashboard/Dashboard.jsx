@@ -168,7 +168,7 @@ const Banner2 = (prop) => {
   );
 };
 var _width = document.body.clientWidth;
-var _event = getEvent();
+
 const Dashboard = (prop) => {
   String.prototype.toPersianCharacter = function () {
     var string = this;
@@ -204,6 +204,7 @@ const Dashboard = (prop) => {
   const navigate = useNavigate();
   const loginToken = prop.loginToken;
   const siteInfo = prop.siteInfo;
+  var _event = getEvent(siteInfo);
   siteInfo?.galaxyPassSet?.sort((a, b) => (a.id > b.id ? 1 : -1));
   var gpassrules = siteInfo?.galaxyPassSet[0];
   siteInfo?.vipTables?.sort((a, b) => (a.id > b.id ? 1 : -1));

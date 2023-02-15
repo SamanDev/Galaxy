@@ -65,14 +65,10 @@ export const useLastReward = () => {
 
   const handleGetLastReward = async () => {
     try {
-      const res = await getReportPenService(
-        "getLastRewards?&page=1&number=500"
-      );
+      const res = await getReportPenService("getLastRewards?page=1&number=500");
 
       if (res.status === 200) {
-        var mydataGet = res.data
-          .filter((d) => d.received === true)
-          .sort((a, b) => (a.date < b.date ? 1 : -1));
+        var mydataGet = res.data.sort((a, b) => (a.date < b.date ? 1 : -1));
         localStorage.setItem("lastReward", JSON.stringify(mydataGet));
         setLastReward(mydataGet);
       }
@@ -87,9 +83,9 @@ export const useLastReward = () => {
     handleGetLastReward();
 
     eventBus.on("updateLastReward", (dataGet) => {
-      var _lastReward = JSON.parse(localStorage.getItem("lastReward"))
-        .filter((d) => d.received === true)
-        .sort((a, b) => (a.date < b.date ? 1 : -1));
+      var _lastReward = JSON.parse(localStorage.getItem("lastReward")).sort(
+        (a, b) => (a.date < b.date ? 1 : -1)
+      );
       _lastReward = [dataGet].concat(_lastReward);
       localStorage.setItem("lastReward", JSON.stringify(_lastReward));
       setLastReward(_lastReward);

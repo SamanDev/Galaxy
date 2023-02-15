@@ -133,7 +133,7 @@ var defMethod = [
     active: true,
   },
 ];
-var _event = getEvent();
+
 var nowDay = moment().isoWeekday();
 const animateCSS = (element, animation, prefix = "") =>
   // We create a Promise and return it
@@ -182,7 +182,7 @@ function App(prop) {
   const [activeMenuOpen, setActiveMenuOpen] = useState(false);
   const [activeMenuOld, setActiveMenuOld] = useState(activeMenu);
   const navigate = useNavigate();
-
+  var _event = getEvent(siteInfo);
   const location = useLocation();
   const [loginToken] = useUser();
   const handleOpenTable = async (tableName) => {
@@ -259,11 +259,11 @@ function App(prop) {
           / دعوت دوستان | حساب کاربری | خرید چیپ | تراکنش های مالی | برداشت /g,
           function (x) {
             return (
-              "<a href='#' data-target='" +
+              "<span data-target='" +
               getLinkId(x) +
               "' class='farsi msglink interallink'>" +
               x +
-              "</a>"
+              "</span>"
             );
           }
         )
@@ -871,6 +871,7 @@ function App(prop) {
       });
       api.bind("open:after", () => {
         setActivePanel(false);
+        $(".picn").removeClass("open");
         setActiveMenuOpen(true);
         $("#nav-icon2").addClass("open");
       });

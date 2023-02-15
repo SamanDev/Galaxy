@@ -62,12 +62,14 @@ const RewardStat = (prop) => {
 
   return (
     <>
-      <li className="menutitle mm-listitem">
-        <span className="mm-listitem__text lh-lg">
-          مجموع پاداش های این هفته
-          <div className="text-gold">{doCurrency(totalRows)} تومان</div>
-        </span>
-      </li>
+      {statData?.length > 1 && (
+        <li className="menutitle mm-listitem">
+          <span className="mm-listitem__text lh-lg">
+            مجموع پاداش های این هفته
+            <div className="text-gold">{doCurrency(totalRows)} تومان</div>
+          </span>
+        </li>
+      )}
       <li>
         <div
           style={{
@@ -137,7 +139,7 @@ const RewardStat = (prop) => {
                 );
               })}
             </div>
-            {statData?.length > 0 && (
+            {statData?.length > 1 && (
               <>
                 <button
                   className="carousel-control-prev"
