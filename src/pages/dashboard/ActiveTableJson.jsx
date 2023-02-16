@@ -123,7 +123,7 @@ const ActiveTable = (prop) => {
                   id={"lvl" + (i + 1)}
                   as="div"
                   className={
-                    x.minstack > loginToken.balance
+                    x.minstack > loginToken?.balance
                       ? "tablename opacity-100 " + x.class
                       : "tablename " + x.class
                   }
