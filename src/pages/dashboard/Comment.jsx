@@ -6,7 +6,7 @@ const CommentExampleMinimal = (prop) => {
   const string = prop.msg.message;
   var written = prop.msg.adminUser;
   const loginToken = prop.loginToken;
-  if (written != loginToken.username) {
+  if (written != loginToken?.username) {
     written = "Admin";
   } else {
     written = "You";
