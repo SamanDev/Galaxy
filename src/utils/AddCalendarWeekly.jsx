@@ -172,7 +172,7 @@ class Example extends React.Component {
               <Icon name="clock outline" size="huge" color="grey" inverted />
 
               <div style={{ marginTop: 10 }}>
-                <Moment fromNow>{startTimes}</Moment> تا{" "}
+                <Moment fromNow>{startTime}</Moment> تا{" "}
               </div>
               <div className="h4">شروع ثبت نام</div>
             </Button>

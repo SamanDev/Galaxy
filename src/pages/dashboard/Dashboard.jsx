@@ -588,7 +588,7 @@ const Dashboard = (prop) => {
                                 startDay={tourDay}
                                 startHour="2000"
                                 endDay={tourDay}
-                                endHour="2300"
+                                endHour="2200"
                               />
                             }
                             {...prop}

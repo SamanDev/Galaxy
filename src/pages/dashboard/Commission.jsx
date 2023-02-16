@@ -202,6 +202,7 @@ const LevelList = (prop) => {
                     style={{ margin: "10px 0" }}
                     className="farsi"
                     color="orange"
+                    onClick={() => $("#openinvite").trigger("click")}
                   >
                     <Icon.Group size="huge">
                       <Icon name="user" inverted />
