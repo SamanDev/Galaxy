@@ -44,10 +44,26 @@ export const useSiteInfo = () => {
 };
 export const useActiveTable = () => {
   const [activeTable, setActiveTable] = useState(
-    JSON.parse(localStorage.getItem("activeTable"))
+    localStorage.getItem("activeTable")
+      ? JSON.parse(localStorage.getItem("activeTable"))
+      : []
   );
+  const handleGetActiveTable = async () => {
+    try {
+      const res = await getReportPenService("getActiveTables");
+      if (res.status === 200) {
+        setActiveTable(res.data);
+        //setActiveTable(tt);
+        localStorage.setItem("activeTable", JSON.stringify(res.data));
+      }
+    } catch (error) {
+      //console.log(error.message);
+    }
+  };
 
   useEffect(() => {
+    handleGetActiveTable();
+
     eventBus.on("updateActiveTables", (dataGet) => {
       setActiveTable(dataGet);
       localStorage.setItem("activeTable", JSON.stringify(dataGet));

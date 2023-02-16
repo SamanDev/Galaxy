@@ -15,7 +15,6 @@ import { Link } from "react-router-dom";
 import { useIsLogin } from "./hook/authHook";
 import { useUser, useSiteInfo } from "./hook/userHook";
 
-import { useActiveTable } from "./hook/infoHook";
 import $ from "jquery";
 import { Route, Routes } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
@@ -175,7 +174,6 @@ function App(prop) {
   const [secondOpen, setSecondOpen] = useState(false);
   const [thirdOpen, setThirdOpen] = useState(false);
   const [siteInfo] = useSiteInfo();
-  const [loadingTable, activatTableData] = useActiveTable();
 
   const [activeMenu, setActiveMenu] = useState("main");
   const [activePanel, setActivePanel] = useState(false);
