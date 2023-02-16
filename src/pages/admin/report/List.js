@@ -173,6 +173,7 @@ function Admin(prop) {
     {
       name: "id",
       selector: (row) => row.id,
+      format: (row) => <>{parseInt(row.id)}</>,
       sortable: true,
       width: "80px",
     },
