@@ -180,8 +180,8 @@ function Admin(prop) {
     return string;
   };
   const [activeIndex, setActiveIndex] = useState(0);
-  const loginToken = JSON.parse(localStorage.getItem("loginToken"));
-  const siteInfo = JSON.parse(localStorage.getItem("siteInfo"));
+  const loginToken = prop.loginToken;
+  const siteInfo = prop.siteInfo;
 
   const [loading, setLoading] = useState(true);
 

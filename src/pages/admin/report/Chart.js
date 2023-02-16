@@ -42,7 +42,7 @@ const sumOf = (array) => {
 };
 function Admin(prop) {
   const [data, setData] = useState([]);
-  const loginToken = JSON.parse(localStorage.getItem("loginToken"));
+  const loginToken = prop.loginToken;
 
   const [getwaysList, setGetwaysData] = useState();
 

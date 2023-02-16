@@ -279,7 +279,7 @@ a {
 .framegame {
   width: calc(100%) !important;
   min-width: 650px !important;
-  height: calc(100vh - 64px) !important;
+  height: calc(100vh - 65px) !important;
   position: relative;
 
   overflow: auto;
@@ -525,7 +525,8 @@ div.date .time {
 }
 
 #nav-icon1 span:nth-child(2) {
-  top: 18px;
+  top: 19px;
+  width: 90%;
 }
 
 #nav-icon1 span:nth-child(3) {
@@ -650,7 +651,7 @@ div.date .time {
   padding: 0;
   margin: 0;
   position: absolute;
-  top: 0;
+  top: 60px;
   right: 0;
   bottom: 0;
   left: auto;
@@ -835,13 +836,19 @@ i.star.big {
   cursor: default ;
   transition: all 0.2s ease;
 }
+.activetable .detail {
+  color: #fff !important;
+  font-size: 10px !important;
+text-align: center !important;
+}
 .activetable .item:hover {
-  background: rgba(255, 255, 255, 0.05);
+  background: rgba(0, 0, 0, 0.5);
 }
 .activetable .item .ui.button {
   border: none !important;
+  background: none !important;
   box-shadow: none !important;
-  height: 28px;
+  height: 50px;
 }
 .activetable .item .right.floated.content {
   display: inline-block

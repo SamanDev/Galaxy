@@ -17,8 +17,6 @@ function RightPanel(prop) {
         <li>
           <ActiveTable {...prop} />
         </li>
-        <li className="menutitle mm-listitem"></li>
-        <RewardStat lastReward={lastReward} />
 
         <li className="menutitle mm-listitem"></li>
         <li className="menutitle mm-listitem">

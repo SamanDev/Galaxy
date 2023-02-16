@@ -15,7 +15,7 @@ import LevelIcon from "../../utils/svg";
 import MenuLoader from "../../utils/menuLoader";
 import { getRewardsService } from "../../services/reward";
 const LevelList = (prop) => {
-  const loginToken = JSON.parse(localStorage.getItem("loginToken"));
+  const loginToken = prop.loginToken;
 
   var _defUserID = "";
   var _defUser = "";

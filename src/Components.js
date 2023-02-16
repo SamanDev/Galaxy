@@ -8,6 +8,7 @@ import Commission from "./pages/dashboard/Commission";
 import League from "./pages/dashboard/League";
 import Support from "./pages/dashboard/Support";
 import CashoutComponent from "./layouts/admin/forms/FormComponent.jsx";
+import MyGift from "./pages/dashboard/MyGifts";
 const CompGen = (prop) => {
   if (prop.activeMenuOpen === false) return false;
   if (prop?.menu?.component == "levels") {
@@ -22,6 +23,8 @@ const CompGen = (prop) => {
     return <League {...prop} />;
   } else if (prop?.menu?.component == "support") {
     return <Support {...prop} />;
+  } else if (prop?.menu?.component == "mygifts") {
+    return <MyGift {...prop} />;
   } else if (prop?.menu?.component == "CashoutComponent") {
     return (
       <CashoutComponent

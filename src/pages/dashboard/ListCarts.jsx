@@ -6,7 +6,7 @@ import AmountColor from "../../utils/AmountColor";
 import { convertDateToJalali } from "../../utils/convertDate";
 import ConvertCart from "../../utils/convertCart";
 const ListExampleInverted = (prop) => {
-  const loginToken = JSON.parse(localStorage.getItem("loginToken"));
+  const loginToken = prop.loginToken;
   return (
     <>
       {prop.title && (

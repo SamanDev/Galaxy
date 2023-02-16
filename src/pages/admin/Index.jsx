@@ -17,7 +17,7 @@ import { useAdminTicket } from "../../hook/infoHook";
 var panes = [];
 const getGateways = JSON.parse(localStorage.getItem("getGateways"));
 function Admin(prop) {
-  const loginToken = JSON.parse(localStorage.getItem("loginToken"));
+  const loginToken = prop.loginToken;
   const [activeIndex, setActiveIndex] = useState(0);
   const [loadingtickets, tickets] = useAdminTicket();
   const handleTabChange = (e, { activeIndex }) => setActiveIndex(activeIndex);

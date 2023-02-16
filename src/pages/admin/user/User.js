@@ -146,7 +146,7 @@ function getPathOfKey2(object, keys, getwaysList) {
 
 function Admin(prop) {
   const [activeIndex, setActiveIndex] = useState(0);
-  const loginToken = JSON.parse(localStorage.getItem("loginToken"));
+  const loginToken = prop.loginToken;
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState({});
   const handleGetReports = async () => {

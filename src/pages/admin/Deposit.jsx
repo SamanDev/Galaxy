@@ -9,7 +9,7 @@ import GetwaysList from "./components/GetwaysList.component";
 import { isJson, haveAdmin, haveModerator, doCurrency } from "../../const";
 var panes = [];
 function Admin(prop) {
-  const loginToken = JSON.parse(localStorage.getItem("loginToken"));
+  const loginToken = prop.loginToken;
   const [activeIndex, setActiveIndex] = useState(0);
   const handleTabChange = (e, { activeIndex }) => setActiveIndex(activeIndex);
   const [tabData, setTabData] = useState([]);

@@ -9,8 +9,8 @@ import InviteLink from "../../../../pages/dashboard/InviteLink";
 const depositArea = (prop) => {
   return (
     <>
-      <Invite />
-      <InviteLink />
+      <Invite {...prop} />
+      <InviteLink {...prop} />
     </>
   );
 };

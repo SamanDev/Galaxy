@@ -31,18 +31,9 @@ const ActiveTable = (prop) => {
       if (newmyI == myI) {
         myData.map(function (x, i) {
           var myx = x;
-          if (!x.class) {
-            myx.class = "lastlogs id-" + myx.id + " hiddenmenu faster";
-            myI = myI - 1;
-            setTimeout(() => {
-              prop.animateCSS(".id-" + myx.id + "", "fadeInDown");
-              //$("#playreward").trigger("click");
-              prop.bindLastReward();
-            }, 50 * (myI - i));
-          } else {
-            myI = myI - 1;
-            myx.class = x.class.replace(/hiddenmenu/g, "");
-          }
+
+          myx.class = "lastlogs";
+
           _sortD.push(myx);
         });
       } else {

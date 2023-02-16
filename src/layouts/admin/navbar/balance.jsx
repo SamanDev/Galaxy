@@ -130,7 +130,7 @@ const Balance = (prop) => {
         <Segment
           className="myaccount"
           inverted
-          style={{ margin: 0, padding: 10, color: "#fff" }}
+          style={{ margin: 0, padding: 10, color: "#fff", height: 50 }}
         >
           <span
             style={{ top: -4, position: "relative" }}

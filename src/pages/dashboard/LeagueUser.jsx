@@ -17,8 +17,8 @@ import {
 } from "../../const";
 import LevelIcon from "../../utils/LevelIcon";
 import LevelBar from "../../utils/LevelBar";
-const LevelList = () => {
-  const loginToken = JSON.parse(localStorage.getItem("loginToken"));
+const LevelList = (prop) => {
+  const loginToken = prop.loginToken;
 
   return (
     <>

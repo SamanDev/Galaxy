@@ -1181,6 +1181,7 @@ function App(prop) {
                   loginToken={loginToken}
                   siteInfo={siteInfo}
                   openPanel={openPanel}
+                  activePanel={activePanel}
                   setActivePanel={setActivePanel}
                   animateCSS={animateCSS}
                   bindActiveTable={bindActiveTable}

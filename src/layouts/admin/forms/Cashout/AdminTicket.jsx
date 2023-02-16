@@ -1,25 +1,11 @@
 import React, { useState } from "react";
-import {
-  Label,
-  Input,
-  Header,
-  Divider,
-  Icon,
-  Button,
-  Segment,
-  Message,
-  Select,
-} from "semantic-ui-react";
-import Amount from "../../input/Amount";
-import DepositButton from "../../input/DepositButton";
+import { Button, Select } from "semantic-ui-react";
 import FormikControl from "../../../../components/form/FormikControl";
 import { useNavigate } from "react-router-dom";
-import { FastField, Form, Formik } from "formik";
+import { Form, Formik } from "formik";
 import * as Yup from "yup";
 import { Alert } from "../../../../utils/alerts";
 import $ from "jquery";
-import CashoutButton from "../../input/CashoutButton";
-import List from "../../../../pages/dashboard/List";
 import { cashierService } from "../../../../services/cashier";
 
 const supportDepartments = "خرید چیپ,برداشت,پشتیبانی فنی".split(",");

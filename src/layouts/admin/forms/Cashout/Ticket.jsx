@@ -19,7 +19,7 @@ import * as Yup from "yup";
 import { Alert } from "../../../../utils/alerts";
 import $ from "jquery";
 import CashoutButton from "../../input/CashoutButton";
-import List from "../../../../pages/dashboard/List";
+import List from "../../../../pages/dashboard/ListCarts";
 import { cashierService } from "../../../../services/cashier";
 
 const supportDepartments = "خرید چیپ,برداشت,پشتیبانی فنی".split(",");

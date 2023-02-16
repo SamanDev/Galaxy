@@ -1,35 +1,15 @@
 import React, { useState } from "react";
-import {
-  Label,
-  Input,
-  Header,
-  Divider,
-  Icon,
-  Button,
-  Segment,
-  Message,
-} from "semantic-ui-react";
-import Amount from "../input/Amount";
-import DepositButton from "../input/DepositButton";
+import { Button } from "semantic-ui-react";
 import AuthFormikControl from "../../../components/form/FormikControl";
 import { useNavigate } from "react-router-dom";
-import { FastField, Form, Formik } from "formik";
+import { Form, Formik } from "formik";
 import * as Yup from "yup";
-import { Alert } from "../../../utils/alerts";
-import MyMsg from "../../../utils/MsgDesc";
 import { registerService } from "../../../services/auth";
-const reffer = localStorage.getItem("refer");
-const loginToken = JSON.parse(localStorage.getItem("loginToken"));
+
 function generateRandomInteger(min, max) {
   return Math.floor(min + Math.random() * (max - min + 1));
 }
-const initialValues = {
-  username: "",
-  email: "",
-  password: generateRandomInteger(11111111, 99999999),
-  //password: 42101365,
-  refer: loginToken?.username,
-};
+
 const validationSchema = Yup.object({
   username: Yup.string()
     .required("نام کاربری حداقل باشد 3 کاراکتر باشد.")
@@ -57,10 +37,16 @@ const onSubmit = async (values, submitMethods, navigate, prop) => {
 const depositArea = (prop) => {
   const [depMode, setDepMode] = useState(false);
   const navigate = useNavigate();
-
+  const loginToken = prop.loginToken;
   return (
     <Formik
-      initialValues={initialValues}
+      initialValues={{
+        username: "",
+        email: "",
+        password: generateRandomInteger(11111111, 99999999),
+
+        refer: loginToken?.username,
+      }}
       onSubmit={(values, submitMethods) =>
         onSubmit(values, submitMethods, navigate, prop)
       }

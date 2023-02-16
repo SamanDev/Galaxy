@@ -6,7 +6,7 @@ const CommentExampleMinimal = (prop) => {
   const string = prop.msg.message;
   var written = prop.msg.adminUser;
 
-  const loginToken = JSON.parse(localStorage.getItem("loginToken"));
+  const loginToken = prop.loginToken;
 
   const result = string.split("\n");
   return (

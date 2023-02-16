@@ -1,21 +1,11 @@
 import React from "react";
-import {
-  Button,
-  Comment,
-  Divider,
-  Message,
-  Label,
-  Segment,
-} from "semantic-ui-react";
-import LevelIcon from "../../utils/Level";
+import { Label, Segment } from "semantic-ui-react";
 import { convertDateToJalali } from "../../utils/convertDate";
-const siteInfo = JSON.parse(localStorage.getItem("siteInfo"));
 
 const CommentExampleMinimal = (prop) => {
   const string = prop.msg.message;
   var written = prop.msg.adminUser;
-
-  const loginToken = JSON.parse(localStorage.getItem("loginToken"));
+  const loginToken = prop.loginToken;
   if (written != loginToken.username) {
     written = "Admin";
   } else {

@@ -3,9 +3,8 @@ import { Button, Divider } from "semantic-ui-react";
 import $ from "jquery";
 import Report from "../../../pages/dashboard/ReportDep";
 import ReportPen from "../../../pages/dashboard/ReportPen";
-const loginToken = JSON.parse(localStorage.getItem("loginToken"));
+
 const DepositButton = (prop) => {
-  const loginToken = prop.loginToken;
   return (
     <>
       <Button

@@ -20,10 +20,10 @@ const Toast = Swal.mixin({
   timerProgressBar: false,
 });
 
-const depositArea = () => {
+const depositArea = (prop) => {
   const [copy, setCopy] = useState(false);
-  const siteInfo = JSON.parse(localStorage.getItem("siteInfo"));
-  var loginToken = JSON.parse(localStorage.getItem("loginToken"));
+  const siteInfo = prop.siteInfo;
+  const loginToken = prop.loginToken;
   var link = siteInfo.referUrl + "ref/" + loginToken.username;
   const copyDo = () => {
     setCopy(true);

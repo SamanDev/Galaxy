@@ -6,7 +6,7 @@ import * as Yup from "yup";
 import FormikControl from "../../../../components/form/FormikControl";
 import { Alert } from "../../../../utils/alerts";
 
-import List from "../../../../pages/dashboard/List";
+import List from "../../../../pages/dashboard/ListCarts";
 import { cashierService } from "../../../../services/cashier";
 import { useUser } from "../../../../hook/userHook";
 const SelectB =

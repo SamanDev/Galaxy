@@ -4,7 +4,6 @@ import Accordion from "./pages/dashboard/Support";
 import TopPlayers from "./pages/dashboard/TopPlayers";
 import KingOf from "./pages/dashboard/KingOf";
 import Tournament from "./pages/dashboard/Tournament";
-import MyGift from "./pages/dashboard/MyGifts";
 
 export const USERSOCKETURL = getPort();
 export const USERSOCKETPUBLICURL = getPortPablic();
@@ -562,7 +561,7 @@ export const GetMenu = (siteInfo) => {
           label: "جوایر من",
           title: "جوایر من",
           icon: "fas fa-gift",
-          component: <MyGift />,
+          component: "mygifts",
         },
       ],
     },
