@@ -17,7 +17,7 @@ const Balance = (prop) => {
     const newIndex = activeIndex === index ? -1 : index;
     setActiveIndex(newIndex);
   };
-  const [loginToken] = useUser();
+  const loginToken = prop.loginToken;
 
   var data = loginToken?.userTickets
     .filter((d) => d.status !== "Closed")
@@ -88,7 +88,7 @@ const Balance = (prop) => {
                   {ticket.ticketMessages
                     .sort((a, b) => (a.id < b.id ? 1 : -1))
                     .map((msg, j) => (
-                      <Comment msg={msg} key={j} />
+                      <Comment msg={msg} key={j} {...prop} />
                     ))}
                 </Accordion.Content>
 
@@ -105,7 +105,11 @@ const Balance = (prop) => {
                         $("#ticket" + ticket.id).trigger("click");
                       }}
                     >
-                      <Comment short={true} msg={ticket.ticketMessages[0]} />
+                      <Comment
+                        short={true}
+                        msg={ticket.ticketMessages[0]}
+                        {...prop}
+                      />
                     </span>
                   </>
                 )}
