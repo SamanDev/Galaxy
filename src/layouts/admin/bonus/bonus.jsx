@@ -287,7 +287,7 @@ const BonusArea = (prop) => {
         )}
       </List.Content>
       <div
-        style={{ padding: 10 }}
+        style={{ padding: 10, overflow: "hidden" }}
         className={"rewardnam e"}
         mode={_mode.toLowerCase()}
       >
