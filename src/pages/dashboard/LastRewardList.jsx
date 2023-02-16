@@ -14,7 +14,7 @@ const LevelList = (prop) => {
     try {
       const res = await getRewardsService("", prop.mode, "");
       if (res.status === 200) {
-        setData(res.data);
+        setData(res.data.sort((a, b) => (a.date < b.date ? 1 : -1)));
         setLoading(false);
         prop.bindLastReward();
       }
