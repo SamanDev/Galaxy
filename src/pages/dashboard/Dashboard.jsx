@@ -835,7 +835,7 @@ const Dashboard = (prop) => {
                 color="violet"
                 link
                 onClick={() => {
-                  prop.setActivePanel(false);
+                  prop.setActivePanel(!prop.activePanel);
                   $(".picn").toggleClass("open");
                 }}
                 style={

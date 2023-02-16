@@ -101,6 +101,29 @@ const ActiveTable = (prop) => {
 
   return (
     <>
+      <Segment
+        basic
+        style={{
+          color: "#fff",
+          position: "absolute",
+          top: 8,
+          right: 5,
+          opacity: 1,
+          padding: 0,
+          cursor: "pointer",
+        }}
+        className="fullopenpanel"
+        onClick={() => {
+          prop.setActivePanel(!prop.activePanel);
+          $(".picn").toggleClass("open");
+        }}
+      >
+        <div id="nav-icon1" className="picn">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+      </Segment>
       <List
         divided
         inverted

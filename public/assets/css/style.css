@@ -333,6 +333,21 @@ body.fullscreen #content_section {
   height: calc(100vh) !important;
   z-index: 10000;
 }
+body.fullscreen #panelright{
+ 
+  top: 0;
+  
+}
+.fullopenpanel{
+ 
+  display: none;
+  
+}
+body.fullscreen .fullopenpanel{
+ 
+  display: block;
+  
+}
 .menutitle-view{
   margin: 0 -20px !important;
 }
