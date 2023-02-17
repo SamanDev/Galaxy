@@ -40,12 +40,12 @@ export const MyDeposit = (title, text, openDeposit) => {
     }
   });
 };
-export const MyToast = (title, text) => {
+export const MyToast = (title, icon) => {
   const Toast = Swal.mixin({
     toast: true,
-    position: "top-end",
+
     showConfirmButton: false,
-    timer: 2000,
+    timer: 10000,
     timerProgressBar: true,
     didOpen: (toast) => {
       toast.addEventListener("mouseenter", Swal.stopTimer);
@@ -54,7 +54,17 @@ export const MyToast = (title, text) => {
   });
 
   Toast.fire({
-    icon: "success",
-    title,
+    icon,
+    title:
+      "خطا:\n\n" +
+      title
+        .replace(
+          "Error: Email is already in use!",
+          "این ایمیل در گلکسی موجود است."
+        )
+        .replace(
+          "Error: Username is already taken!",
+          "این نام کاربری در گلکسی موجود است."
+        ),
   });
 };

@@ -4,6 +4,9 @@ import { Dropdown } from "semantic-ui-react";
 const options = [];
 options.push({ key: "blank", text: "No Filter", value: "" });
 options.push({ key: "leaders", text: "ChipLeaders", value: "chip" });
+options.push({ key: "vip", text: "VIP", value: "vip" });
+options.push({ key: "gpass", text: "GPass", value: "gpass" });
+options.push({ key: "dailypoint", text: "Point", value: "dailypoint" });
 Array.apply(0, Array(90)).map(function (x, i) {
   options.push({ key: i, text: "Level" + (i + 1), value: i + 1 });
   options.push({

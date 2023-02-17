@@ -25,8 +25,8 @@ const validationSchema = Yup.object({
     .min(3, "نام کاربری حداقل باشد 3 کاراکتر باشد.")
     .max(12, "نام کاربری حداکثر باشد 12 کاراکتر باشد."),
   password: Yup.string()
-    .required("کلمه عبور حداقل باشد 6 کاراکتر باشد.")
-    .min(6, "کلمه عبور حداقل باشد 6 کاراکتر باشد."),
+    .required("کلمه عبور حداقل باشد 8 کاراکتر باشد.")
+    .min(8, "کلمه عبور حداقل باشد 8 کاراکتر باشد."),
 });
 const onSubmit = async (values, submitMethods, navigate, prop, setRefresh) => {
   try {

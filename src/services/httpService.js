@@ -1,5 +1,6 @@
 import axios from "axios";
 import { Alert } from "../utils/alerts";
+import { MyConfirm, MyToast, MyDeposit } from "../utils/myAlert";
 import config from "./config.json";
 import UserWebsocket from "./user.websocket";
 import eventBus from "./eventBus";
@@ -63,7 +64,8 @@ axios.interceptors.response.use(
       UserWebsocket.connect();
     }
     if (error.response.status != 401) {
-      Alert(error.response.status, error.response.data.message, "error");
+      MyToast(error.response.data.message, "error");
+      // Alert(error.response.status, error.response.data.message, "error");
     }
 
     return Promise.reject(error);

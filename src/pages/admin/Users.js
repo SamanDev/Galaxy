@@ -335,6 +335,12 @@ function Admin(prop) {
       sortable: true,
     },
     {
+      name: "Glevel",
+      selector: (row) => row.glevel,
+      format: (row) => <>{row.glevel}</>,
+      sortable: true,
+    },
+    {
       name: "username",
       selector: (row) => row.username,
       format: (row) => (
@@ -374,6 +380,24 @@ function Admin(prop) {
       name: "balance",
       selector: (row) => row.balance,
       format: (row) => <>{doCurrency(row.balance)}</>,
+      sortable: true,
+    },
+    {
+      name: "point",
+      selector: (row) => row.dailyPoint,
+      format: (row) => <>{row.dailyPoint}</>,
+      sortable: true,
+    },
+    {
+      name: "vip",
+      selector: (row) => row.vipPlaySecond,
+      format: (row) => <>{row.vipPlaySecond}</>,
+      sortable: true,
+    },
+    {
+      name: "gpass",
+      selector: (row) => row.glevelSecond,
+      format: (row) => <>{row.glevelSecond}</>,
       sortable: true,
     },
     {
