@@ -138,13 +138,13 @@ class Example extends React.Component {
     const ATCWrapper = (args) => (
       <>
         <div
-          style={{ marginTop: -20, position: "absolute" }}
+          style={{ marginTop: -10, position: "absolute" }}
           className="text-center"
         >
           {((_next && a < b) || (_start && startTime < now)) && !_finish ? (
             <>
               <Moment
-                className="farsi-inline ui green label tada delay-1s animated"
+                className="farsi-inline ui green trans basic small label tada delay-1s animated"
                 to={endDatetimeOld}
                 filter={toEnd}
               >

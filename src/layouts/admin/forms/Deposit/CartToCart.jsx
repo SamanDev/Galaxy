@@ -17,15 +17,12 @@ import { cashierService } from "../../../../services/cashier";
 function generateRandomInteger(min, max) {
   return Math.floor(min + Math.random() * (max - min + 1));
 }
-var countryOptions = [
-  {
-    key: "a4f",
-    value: "6662502250225050",
-    text: "6662502250225050",
-    name: "Ali (Melli)",
-  },
-  { key: "af", value: "5022502250225050", text: "5022502250225050" },
-];
+var countryOptions = {
+  key: "a4f",
+  value: "6662502250225050",
+  text: "6662502250225050",
+  name: "Ali (Melli)",
+};
 var carts = [];
 var cartOptions = [];
 var amounts = [
@@ -47,21 +44,25 @@ const validationSchema = Yup.object({
 });
 
 const localAmount = (values, prop) => {
-  var getAmount = JSON.parse(localStorage.getItem(prop.mode));
+  var getAmount = JSON.parse(localStorage.getItem(prop.gateway));
   if (!getAmount) {
     getAmount = [];
   }
   getAmount.push(values);
-  localStorage.setItem(prop.mode, JSON.stringify(getAmount));
+  localStorage.setItem(prop.gateway, JSON.stringify(getAmount));
 };
 const onGetCart = async (formik, prop, setBtnLoading) => {
   setBtnLoading(true);
 
   try {
-    const res = await cashierService(formik.values, "getCart");
+    const res = await cashierService(formik.values, "getBankCard");
     if (res.status == 200) {
+      formik.setFieldValue("tocart", res.data.cardNumber);
+      formik.setFieldValue("tocartname", res.data.holderName);
+      formik.setFieldValue("tobankName", res.data.bankName);
       $(".onarea").hide();
       $(".online2").show();
+      localAmount(formik.values, prop);
     } else {
       $(".onarea").hide();
       $(".online2").show();
@@ -108,6 +109,7 @@ const updateAmount = (id, formik, mode) => {
 const depositArea = (prop) => {
   const [depMode, setDepMode] = useState(false);
   const navigate = useNavigate();
+  const [countryOption, setCountryOption] = useState(countryOptions);
   const [btnLoading, setBtnLoading] = useState(false);
   const loginToken = prop.loginToken;
 
@@ -116,12 +118,14 @@ const depositArea = (prop) => {
       <Formik
         initialValues={{
           amount: 0,
+          geteway: prop.gateway,
           code: "بابت بدهی " + generateRandomInteger(11111111, 99999999),
-          tocart: countryOptions[0].value,
-          tocartname: countryOptions[0].name,
+          tocart: "",
+          tocartname: "",
           mobile: "",
           cardNumber: "",
           bankName: "",
+          tobankName: "",
           dateCreated: new Date(),
         }}
         onSubmit={(values, submitMethods) =>
@@ -149,6 +153,8 @@ const depositArea = (prop) => {
                   size={prop.size}
                   namemix
                   updateCartInfo={updateCartInfo}
+                  gateway={prop.gateway}
+                  {...prop}
                 />
                 <AmountSelect
                   formik={formik}
@@ -158,6 +164,7 @@ const depositArea = (prop) => {
                   mode={prop.mode}
                   amounts={amounts}
                   updateAmount={updateAmount}
+                  {...prop}
                 />
                 <Divider inverted />
                 <Button
@@ -240,6 +247,17 @@ const depositArea = (prop) => {
                   label="به نام"
                   labelcolor="red"
                   size={prop.size}
+                  className="farsi"
+                  readOnly
+                />
+                <FormikControl
+                  formik={formik}
+                  control="input"
+                  name="tobankName"
+                  label="نام بانک"
+                  labelcolor="red"
+                  size={prop.size}
+                  className="farsi"
                   readOnly
                 />
 

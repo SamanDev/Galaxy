@@ -69,17 +69,17 @@ const InputF = ({
   placeholder,
   className,
   updateAmount,
-  mode,
+  gateway,
   amounts,
 }) => {
-  editAmount(amounts, mode, formik);
+  editAmount(amounts, gateway, formik);
 
   useEffect(() => {
-    updateAmount(cartsOptions[0].value, formik, mode);
+    updateAmount(cartsOptions[0].value, formik, gateway);
   }, []);
   useEffect(() => {
-    editAmount(amounts, mode, formik);
-    updateAmount(cartsOptions[0].value, formik, mode);
+    editAmount(amounts, gateway, formik);
+    updateAmount(cartsOptions[0].value, formik, gateway);
   }, [formik.values.cardNumber]);
   return (
     <Form as="div">
@@ -110,7 +110,7 @@ const InputF = ({
           fluid
           options={cartsOptions}
           onChange={(e, data) => {
-            updateAmount(data.value, formik, mode);
+            updateAmount(data.value, formik, gateway);
           }}
         />
       </Form.Input>

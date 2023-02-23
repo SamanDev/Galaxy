@@ -343,6 +343,10 @@ body.fullscreen #panelright{
   display: none;
   
 }
+.ui.basic.green.label.trans{
+  background: transparent !important;
+  
+}
 body.fullscreen .fullopenpanel{
  
   display: block;
@@ -855,6 +859,8 @@ i.star.big {
   color: #fff !important;
   font-size: 10px !important;
 text-align: center !important;
+position: relative;
+    top: -7px;
 }
 .activetable .item:hover {
   background: rgba(0, 0, 0, 0.5);

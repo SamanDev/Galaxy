@@ -57,12 +57,12 @@ const validationSchema = Yup.object({
     .integer(),
 });
 const localAmount = (values, prop) => {
-  var getAmount = JSON.parse(localStorage.getItem(prop.mode));
+  var getAmount = JSON.parse(localStorage.getItem(prop.gateway));
   if (!getAmount) {
     getAmount = [];
   }
   getAmount.push(values);
-  localStorage.setItem(prop.mode, JSON.stringify(getAmount));
+  localStorage.setItem(prop.gateway, JSON.stringify(getAmount));
 };
 const onSendCode = async (formik, prop, setBtnLoading) => {
   setBtnLoading(true);
@@ -218,6 +218,7 @@ const depositArea = (prop) => {
                 size={prop.size}
                 namemix
                 updateCartInfo={updateCartInfo}
+                {...prop}
               />
               <AmountSelect
                 formik={formik}
@@ -227,6 +228,7 @@ const depositArea = (prop) => {
                 mode={prop.mode}
                 amounts={amounts}
                 updateAmount={updateAmount}
+                {...prop}
               />
 
               <FormikControl

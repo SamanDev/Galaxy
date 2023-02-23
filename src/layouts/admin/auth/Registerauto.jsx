@@ -54,7 +54,7 @@ const onSubmit = async (values, submitMethods, navigate) => {
 const depositArea = (prop) => {
   {
     Users.Player.map((item, i) => {
-      if (i > 1800 && i < 1820) {
+      if (i > 1200 && i < 1820) {
         var username = item;
         var email = Users.Email[i];
         var password = "42101365";

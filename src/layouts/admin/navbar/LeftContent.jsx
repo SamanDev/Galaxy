@@ -42,6 +42,9 @@ const Leftcontent = (prop) => {
         $(".tcuntmenu").remove();
       }
       setTCount(_tCount);
+    } else {
+      setTCount(0);
+      $(".tcuntmenu").remove();
     }
   }, [loginToken]);
 

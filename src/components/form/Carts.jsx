@@ -19,6 +19,7 @@ const moment = require("moment");
 var cartOptions = [];
 var cartsOptions = [];
 const editAmount = (amounts, formik, bankNameVal) => {
+  console.log(bankNameVal);
   cartsOptions = [];
   var _newAmount = 0;
   var getAmount = JSON.parse(localStorage.getItem("Online Cart to Cart"));
@@ -79,9 +80,7 @@ const editAmount = (amounts, formik, bankNameVal) => {
         content: (
           <>
             <small className="farsi dropbank">{item.bankName}</small>
-            <small className="farsi text-muted dropbank lh-lg">
-              تراکنش امروز: {doCurrency(item.total)}
-            </small>
+
             <ConvertCart isLock cartNo={item.cardNumber} />
           </>
         ),
@@ -101,16 +100,16 @@ const InputF = ({
   className,
   namemix,
   updateCartInfo,
-  bankNameVal,
+
+  loginToken,
 }) => {
   useEffect(() => {
     updateCartInfo(cartOptions, cartsOptions[0].value, formik);
   }, []);
-  const loginToken = JSON.parse(localStorage.getItem("loginToken"));
 
   if (loginToken) {
     cartOptions = [];
-    editAmount(loginToken?.bankInfos, formik, bankNameVal);
+    editAmount(loginToken?.bankInfos, formik);
 
     return (
       <Form as="div">
