@@ -112,6 +112,7 @@ const depositArea = (prop) => {
               <Divider inverted />
 
               <Divider inverted />
+
               <AuthFormikControl
                 formik={formik}
                 control="input"
