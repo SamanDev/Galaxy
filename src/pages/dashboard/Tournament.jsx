@@ -8,7 +8,7 @@ import GalaxyIcon from "../../utils/svganim";
 import LastRewardList from "./LastRewardList";
 import Moment from "react-moment";
 const moment = require("moment");
-const LevelList = () => {
+const LevelList = (prop) => {
   var _day = moment().day(dayOfTournament);
   var nowDay = moment(_day).date();
   var start = moment(_day).format("YYYYMMDDT200000");
@@ -156,7 +156,7 @@ const LevelList = () => {
             </Button>
           </List.Content>
         </List.Item>
-        <LastRewardList mode={"tournament"} />
+        <LastRewardList mode={"tournament"} {...prop} />
       </List>
     </span>
   );

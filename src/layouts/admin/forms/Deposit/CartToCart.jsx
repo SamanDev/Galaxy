@@ -36,12 +36,6 @@ var amounts = [
   { value: 2750000 },
   { value: 3000000 },
 ];
-const validationSchema = Yup.object({
-  amount: Yup.number()
-    .required("لطفا این فیلد را وارد کنید.")
-    .min(100000, "لطفا این فیلد را درست وارد کنید.")
-    .integer(),
-});
 
 const localAmount = (values, prop) => {
   var getAmount = JSON.parse(localStorage.getItem(prop.gateway));
@@ -112,7 +106,13 @@ const depositArea = (prop) => {
   const [countryOption, setCountryOption] = useState(countryOptions);
   const [btnLoading, setBtnLoading] = useState(false);
   const loginToken = prop.loginToken;
-
+  const validationSchema = Yup.object({
+    amount: Yup.number()
+      .required("لطفا این فیلد را وارد کنید.")
+      .min(100000, "لطفا این فیلد را درست وارد کنید.")
+      .max(loginToken.balance, "لطفا این فیلد را درست وارد کنید.")
+      .integer(),
+  });
   if (loginToken) {
     return (
       <Formik

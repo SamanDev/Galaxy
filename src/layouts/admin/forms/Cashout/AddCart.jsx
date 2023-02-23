@@ -35,7 +35,7 @@ for (let i = 1; i < 13; i++) {
   }
   monthOptions.push({ key: i, value: "" + j + "", text: j });
 }
-for (let x = 1400; x < 1431; x++) {
+for (let x = 1401; x < 1431; x++) {
   yearOptions.push({ key: x, value: "" + x + "", text: x });
 }
 const nameRegex =
@@ -168,13 +168,13 @@ const depositArea = (prop) => {
       initialValues={{
         holderName: _name,
         mobile: _mobile,
-        bankName: "",
+        bankName: bankOptions[0].value,
         shebaNumber: "",
         accountNumber: "",
         cardNumber: "",
         cvv: "",
-        monthno: "",
-        yearno: "",
+        monthno: monthOptions[0].value,
+        yearno: yearOptions[0].value,
         expiration: "",
       }}
       validationSchema={validationSchema}

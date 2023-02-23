@@ -9,6 +9,9 @@ import League from "./pages/dashboard/League";
 import Support from "./pages/dashboard/Support";
 import CashoutComponent from "./layouts/admin/forms/FormComponent.jsx";
 import MyGift from "./pages/dashboard/MyGifts";
+import TopPlayers from "./pages/dashboard/TopPlayers";
+import KingOf from "./pages/dashboard/KingOf";
+import Tournament from "./pages/dashboard/Tournament";
 const CompGen = (prop) => {
   if (prop.activeMenuOpen === false) return false;
   if (prop?.menu?.component == "levels") {
@@ -25,6 +28,8 @@ const CompGen = (prop) => {
     return <Support {...prop} />;
   } else if (prop?.menu?.component == "mygifts") {
     return <MyGift {...prop} />;
+  } else if (prop?.menu?.component == "tournament") {
+    return <Tournament {...prop} />;
   } else if (prop?.menu?.component == "CashoutComponent") {
     return (
       <CashoutComponent

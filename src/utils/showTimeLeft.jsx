@@ -154,7 +154,7 @@ class Example extends React.Component {
           ) : (
             <>
               <Moment
-                className="farsi-inline ui label red opacity-50"
+                className="farsi-inline ui trans basic tiny label red opacity-75"
                 fromNow
                 filter={toStart}
               >

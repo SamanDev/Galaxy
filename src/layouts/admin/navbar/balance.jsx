@@ -35,9 +35,8 @@ const Balance = (prop) => {
 
   const [lvlPercentState, setlvlPercentState] = useState(0);
   const ChangeGift = () => {
-    var user = loginToken;
-    if (user) {
-      var _bonuses = user?.userGifts;
+    if (loginToken) {
+      var _bonuses = loginToken?.userGifts;
 
       var end = Date.now();
 
@@ -45,7 +44,6 @@ const Balance = (prop) => {
         (d) =>
           d.status == "Pending" &&
           d.received == false &&
-          Date.parse(d.date) < end &&
           Date.parse(d.expireDate) > end
       );
       if (_pen.length > 0) {
@@ -103,7 +101,7 @@ const Balance = (prop) => {
         vLvlPercent = 100;
       }
     }
-    if (stateMode == 0) {
+    if (stateMode == 0 || _event == "League") {
       setlvlPercentState(lvlPercent);
     }
     if (stateMode == 1 && _event == "GPass") {

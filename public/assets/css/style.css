@@ -343,8 +343,9 @@ body.fullscreen #panelright{
   display: none;
   
 }
-.ui.basic.green.label.trans{
+.ui.basic.green.label.trans,.ui.basic.red.label.trans{
   background: transparent !important;
+  color: #fff !important;
   
 }
 body.fullscreen .fullopenpanel{
@@ -428,7 +429,8 @@ body.fullscreen .fullopenpanel{
 }
 #game_section {
   position: relative;
-  top: -10vh;
+  top: -15vh;
+  z-index: 100;
 }
 .text-gold {
   color: gold !important;

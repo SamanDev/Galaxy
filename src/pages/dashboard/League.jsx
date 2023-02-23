@@ -5,6 +5,7 @@ import {
   levelLeagueReward,
   levelLeagueList,
   levelDataInfo,
+  getEvent,
 } from "../../const";
 import LevelIcon from "../../utils/svg";
 import GiftsDesc from "../../utils/GiftsDesc";
@@ -19,7 +20,7 @@ const LevelList = (prop) => {
   siteInfo?.dailyLeagueSet?.sort((a, b) => (a.id > b.id ? 1 : -1));
   var rules = siteInfo?.dailyLeagueSet[0];
   const [data, setData] = useState([]);
-
+  var _event = getEvent(siteInfo);
   const [loading, setLoading] = useState(false);
   const handleGetRewards = async () => {
     setLoading(true);
@@ -38,7 +39,7 @@ const LevelList = (prop) => {
   };
 
   useEffect(() => {
-    handleGetRewards();
+    if (_event == "League") handleGetRewards();
   }, []);
   return (
     <span className="myaccount popupmenu">

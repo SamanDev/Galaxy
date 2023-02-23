@@ -253,7 +253,9 @@ const Dashboard = (prop) => {
   const haveGift = () => {
     var user = loginToken;
     if (user) {
-      var _bonuses = user?.userGifts;
+      var _bonuses = user?.userGifts?.sort((a, b) =>
+        a.date < b.date ? 1 : -1
+      );
 
       var end = Date.now();
 
@@ -512,7 +514,7 @@ const Dashboard = (prop) => {
             <>
               <div
                 id="dashboard_section"
-                className="dashboard_section main_section fadeout"
+                className="dashboard_section main_section fadeoutend"
               >
                 <div
                   id="carouselExampleControls"
@@ -723,7 +725,7 @@ const Dashboard = (prop) => {
 
                     <div
                       className={
-                        activeSlide == 5
+                        activeSlide == 4
                           ? "carousel-item active"
                           : "carousel-item"
                       }

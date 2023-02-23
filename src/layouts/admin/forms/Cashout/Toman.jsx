@@ -25,12 +25,7 @@ const initialValues = {
 
   amountDollar: 0,
 };
-const validationSchema = Yup.object({
-  amount: Yup.number()
-    .required("لطفا این فیلد را وارد کنید.")
-    .min(100000, "لطفا این فیلد را درست وارد کنید.")
-    .integer(),
-});
+
 const onSubmit = async (values, submitMethods, navigate, prop, setRefresh) => {
   try {
     const res = await cashierService(values, "createCashoutShetab", "");
@@ -55,6 +50,14 @@ const onSubmit = async (values, submitMethods, navigate, prop, setRefresh) => {
 const depositArea = (prop) => {
   const [refresh, setRefresh] = useState(false);
   const navigate = useNavigate();
+  const loginToken = prop.loginToken;
+  const validationSchema = Yup.object({
+    amount: Yup.number()
+      .required("لطفا این فیلد را وارد کنید.")
+      .min(100000, "لطفا این فیلد را درست وارد کنید.")
+      .max(loginToken.balance, "لطفا این فیلد را درست وارد کنید.")
+      .integer(),
+  });
   return (
     <Formik
       initialValues={initialValues}

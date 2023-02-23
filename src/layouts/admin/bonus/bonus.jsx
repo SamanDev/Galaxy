@@ -182,13 +182,14 @@ const BonusArea = (prop) => {
                 تا انقضا
               </>
             )}
-          {bonus.status == "Pending" &&
+          {((bonus.status == "Pending" &&
             start.isBefore(end) &&
-            !end.isBefore(expire) && (
-              <>
-                انقضا در <Moment fromNow>{bonus.expireDate}</Moment>
-              </>
-            )}
+            !end.isBefore(expire)) ||
+            bonus.status == "Expired") && (
+            <>
+              انقضا در <Moment fromNow>{bonus.expireDate}</Moment>
+            </>
+          )}
           {bonus.status == "Pending" && !start.isBefore(end) && (
             <>
               <Moment
@@ -244,28 +245,29 @@ const BonusArea = (prop) => {
               </Button>
             </>
           )}
-        {bonus.status == "Pending" &&
+        {((bonus.status == "Pending" &&
           start.isBefore(end) &&
-          !end.isBefore(expire) && (
-            <>
-              <Button
-                animated="fade"
-                size="mini"
-                color="red"
-                compact
-                disabled
-                floated="right"
-                style={{ opacity: 1, width: 140, marginRight: 10 }}
-              >
-                <Button.Content visible>
-                  <Icon name="times" /> {doCurrency(bonus.amount)}
-                </Button.Content>
-                <Button.Content hidden className="farsi-inline">
-                  <Icon name="times" /> منقضی شده
-                </Button.Content>
-              </Button>
-            </>
-          )}
+          !end.isBefore(expire)) ||
+          bonus.status == "Expired") && (
+          <>
+            <Button
+              animated="fade"
+              size="mini"
+              color="red"
+              compact
+              disabled
+              floated="right"
+              style={{ opacity: 1, width: 140, marginRight: 10 }}
+            >
+              <Button.Content visible>
+                <Icon name="times" /> {doCurrency(bonus.amount)}
+              </Button.Content>
+              <Button.Content hidden className="farsi-inline">
+                <Icon name="times" /> منقضی شده
+              </Button.Content>
+            </Button>
+          </>
+        )}
         {bonus.status == "Pending" && !start.isBefore(end) && (
           <>
             <Button

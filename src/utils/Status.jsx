@@ -27,7 +27,7 @@ const LabelExampleBasic = (prop) => {
       </Label>
     );
   }
-  if (prop.status === "Canceled") {
+  if (prop.status === "Canceled" || prop.status == "Expired") {
     return (
       <Label size={prop.size} color={prop.color ? prop.color : "red"}>
         <Icon name="times" color={prop.icon && "red"} />

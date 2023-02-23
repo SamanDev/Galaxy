@@ -765,8 +765,7 @@ function App(prop) {
     if (window.location.href.toString().indexOf("/logout") > -1) {
       eventBus.dispatch("updateUser", "");
       setIsUser(false);
-      localStorage.removeItem("loginToken");
-      localStorage.removeItem("balance");
+      localStorage.clear();
       UserWebsocket.connect();
 
       navigate("/");

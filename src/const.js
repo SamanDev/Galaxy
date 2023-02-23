@@ -454,7 +454,7 @@ export const GetMenu = (siteInfo) => {
           icon: "fab fa-viacoin yellow",
           icongalaxy: "tournament",
           aria: "giftsarea animated bounceIn delay-02s",
-          component: <Tournament />,
+          component: "tournament",
         },
         {
           label: "هدایای گلکسی",
