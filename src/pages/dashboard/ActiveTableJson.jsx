@@ -49,38 +49,22 @@ const ActiveTable = (prop) => {
   const [_filterData, setFilterData] = useState([]);
 
   useEffect(() => {
-    {
-      Array.apply(0, Array(activeTable?.RingGames)).map(function (x, i) {
-        if (
-          activeTable.Status[i].indexOf("Waiting: 0/") > -1 ||
-          activeTable.Status[i].indexOf("Waiting: 1/") > -1 ||
-          activeTable.Status[i].indexOf("Playing") > -1
-        ) {
-          var _p = activeTable.Status[i].split(": ")[1].split("/")[0];
-          var strColor = "#cbff2c";
-          strColor =
-            activeColorList[parseInt(activeTable.Name[i].split(" ")[0])];
-
+    if (activeTable.RingGames) {
+      {
+        Array.apply(0, Array(activeTable?.RingGames)).map(function (x, i) {
           if (
-            _sortDataOld.filter((d) => d.name == activeTable.Name[i]).length ==
-            0
+            activeTable.Status[i].indexOf("Waiting: 0/") > -1 ||
+            activeTable.Status[i].indexOf("Waiting: 1/") > -1 ||
+            activeTable.Status[i].indexOf("Playing") > -1
           ) {
-            _sortD.push({
-              name: activeTable.Name[i],
-              color: strColor,
-              status: _p + "/" + activeTable.Seats[i],
-              minstack: activeTable.BuyInMin[i],
-              stack: activeTable.SmallBlind[i] + activeTable.BigBlind[i],
-              blind: activeTable.SmallBlind[i] + "/" + activeTable.BigBlind[i],
-              class: " bounceIn " + strColor,
-            });
-          } else {
+            var _p = activeTable.Status[i].split(": ")[1].split("/")[0];
+            var strColor = "#cbff2c";
+            strColor =
+              activeColorList[parseInt(activeTable.Name[i].split(" ")[0])];
+
             if (
-              _sortDataOld.filter(
-                (d) =>
-                  d.name == activeTable.Name[i] &&
-                  d.status == _p + "/" + activeTable.Seats[i]
-              ).length == 0
+              _sortDataOld.filter((d) => d.name == activeTable.Name[i])
+                .length == 0
             ) {
               _sortD.push({
                 name: activeTable.Name[i],
@@ -90,45 +74,67 @@ const ActiveTable = (prop) => {
                 stack: activeTable.SmallBlind[i] + activeTable.BigBlind[i],
                 blind:
                   activeTable.SmallBlind[i] + "/" + activeTable.BigBlind[i],
-                class: "update",
+                class: " bounceIn " + strColor,
               });
             } else {
-              _sortD.push({
-                name: activeTable.Name[i],
-                color: strColor,
-                status: _p + "/" + activeTable.Seats[i],
-                minstack: activeTable.BuyInMin[i],
-                stack: activeTable.SmallBlind[i] + activeTable.BigBlind[i],
-                blind:
-                  activeTable.SmallBlind[i] + "/" + activeTable.BigBlind[i],
-                class: strColor,
-              });
+              if (
+                _sortDataOld.filter(
+                  (d) =>
+                    d.name == activeTable.Name[i] &&
+                    d.status == _p + "/" + activeTable.Seats[i]
+                ).length == 0
+              ) {
+                _sortD.push({
+                  name: activeTable.Name[i],
+                  color: strColor,
+                  status: _p + "/" + activeTable.Seats[i],
+                  minstack: activeTable.BuyInMin[i],
+                  stack: activeTable.SmallBlind[i] + activeTable.BigBlind[i],
+                  blind:
+                    activeTable.SmallBlind[i] + "/" + activeTable.BigBlind[i],
+                  class: "update",
+                });
+              } else {
+                _sortD.push({
+                  name: activeTable.Name[i],
+                  color: strColor,
+                  status: _p + "/" + activeTable.Seats[i],
+                  minstack: activeTable.BuyInMin[i],
+                  stack: activeTable.SmallBlind[i] + activeTable.BigBlind[i],
+                  blind:
+                    activeTable.SmallBlind[i] + "/" + activeTable.BigBlind[i],
+                  class: strColor,
+                });
+              }
             }
           }
-        }
-      });
+        });
+      }
+      if (_sortD.length > 0) {
+        _sortD.sort((a, b) => (a.stack < b.stack ? 1 : -1));
+        setSortData(_sortD);
+        localStorage.setItem("activeTableSort", JSON.stringify(_sortD));
+      }
     }
-
-    _sortD.sort((a, b) => (a.stack < b.stack ? 1 : -1));
-    setSortData(_sortD);
   }, [activeTable]);
   useEffect(() => {
-    localStorage.setItem("activeTableSort", JSON.stringify(_sortData));
-    var _data = _sortData;
-    if (fil != "") {
-      _data = _data.filter((d) => d.name.indexOf(fil) !== -1);
-    }
-    var _g = groupBy(_data, "minstack");
-    _sortD = [];
-    for (const property in _g) {
-      _g[property].sort((a, b) => (a.status < b.status ? 1 : -1));
+    if (_sortData.length > 0) {
+      var _data = _sortData;
+      if (fil != "") {
+        _data = _data.filter((d) => d.name.indexOf(fil) !== -1);
+      }
+      var _g = groupBy(_data, "minstack");
+      _sortD = [];
+      for (const property in _g) {
+        _g[property].sort((a, b) => (a.status < b.status ? 1 : -1));
 
-      _sortD.push(_g[property][0]);
-    }
-    _sortD.sort((a, b) => (a.name < b.name ? 1 : -1));
+        _sortD.push(_g[property][0]);
+      }
+      _sortD.sort((a, b) => (a.name < b.name ? 1 : -1));
 
-    setFilterData(_sortD);
-  }, [_sortData, fil, prop.activePanel]);
+      setFilterData(_sortD);
+    }
+  }, [_sortData, fil]);
   useEffect(() => {
     _filterData?.map(function (x, i) {
       var aarName = x.name.split(" ");
