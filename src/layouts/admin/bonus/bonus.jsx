@@ -150,6 +150,10 @@ const BonusArea = (prop) => {
   if (_mode == "gift1") {
     _txt = "هدیه قرمز";
   }
+  if (_mode == "levels") {
+    //s_txt = "هدیه قرمز";
+    _lvl = _lvl - 1;
+  }
 
   return (
     <List.Item>
