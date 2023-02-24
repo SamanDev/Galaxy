@@ -76,14 +76,20 @@ class Example extends React.Component {
     if (end - nowDay < 0) {
       _finish = true;
     }
-    if (dir < 0) {
+    if (dir < 0 && end != start) {
       _next = true;
     }
 
-    if (end >= 31) {
+    if (end >= 31 && this.props.startHour == "0000") {
       var today = new Date();
+      var lastDayOfMonth = new Date(
+        today.getFullYear(),
+        today.getMonth() + 1,
+        0
+      );
 
-      end = 1;
+      end = moment(lastDayOfMonth).date();
+      //end = lastDayOfMonth.toString();
     }
 
     var startDatetimeOld = getchatTime(__start);

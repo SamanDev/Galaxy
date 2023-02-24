@@ -107,7 +107,7 @@ const Balance = (prop) => {
       return false;
     var _lvl = 1;
     if (mode == "levels") {
-      _lvl = loginToken.level;
+      _lvl = loginToken.level - 1;
     }
     if (mode == "gpass") {
       _lvl = loginToken.glevel;

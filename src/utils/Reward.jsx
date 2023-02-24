@@ -50,6 +50,11 @@ const Reward = (prop) => {
   if (_mode == "gift1") {
     _txt = "هدیه قرمز";
   }
+  if (_mode == "levels") {
+    try {
+      _lvl = _lvl - 1;
+    } catch (error) {}
+  }
 
   return (
     <Grid

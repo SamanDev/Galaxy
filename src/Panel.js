@@ -22,7 +22,7 @@ function RightPanel(prop) {
         <li className="menutitle mm-listitem">
           <span className="mm-listitem__text">آخرین پاداش ها</span>
         </li>
-        <li>
+        <li style={{ overflow: "auto", maxHeight: "40vh" }}>
           <LastReward {...prop} lastReward={lastReward} />
         </li>
       </ul>

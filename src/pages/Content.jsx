@@ -2,6 +2,7 @@ import React, { useContext } from "react";
 import { Route, Routes } from "react-router-dom";
 import { AdminContext } from "../context/adminLayoutContext";
 import Dashboard from "./dashboard/Dashboard";
+import Game from "./dashboard/Game";
 import Admin from "./admin/Index";
 const Content = (prop) => {
   return (
@@ -12,8 +13,8 @@ const Content = (prop) => {
 
         <Route path="/admin/:username" element={<Admin {...prop} />} />
         <Route path="/requests" element={<Admin request={true} {...prop} />} />
-        <Route path="/games" element={<Dashboard {...prop} />}>
-          <Route path=":gameId" element={<Dashboard {...prop} />} />
+        <Route path="/games">
+          <Route path=":gameId" element={<Game {...prop} />} />
         </Route>
       </Routes>
     </section>

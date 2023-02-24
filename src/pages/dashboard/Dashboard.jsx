@@ -334,9 +334,7 @@ const Dashboard = (prop) => {
       handleSlider();
     }
   }, [window.location.href]);
-  useEffect(() => {
-    handleSession();
-  }, [mainGame, prop.isLogin]);
+
   useEffect(() => {
     // if (_width < 800 || 1 == 1) {
     //   if (screenOrientation.indexOf("landscape") > -1) {
@@ -585,12 +583,13 @@ const Dashboard = (prop) => {
                             amin="inline animated swing "
                             iconamin="swing"
                             link=".tournament"
-                            showtime={
+                            showtime2={
                               <ShowTimeLeft
                                 startDay={tourDay}
                                 startHour="2000"
                                 endDay={tourDay}
                                 endHour="2200"
+                                className="hiddenmenu"
                               />
                             }
                             {...prop}

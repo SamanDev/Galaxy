@@ -189,7 +189,7 @@ const Balance = (prop) => {
                 number=""
                 text=""
                 width="30px"
-                level={1}
+                level={20}
                 mode="league"
               />
             )}

@@ -1,5 +1,5 @@
 import Swal from "sweetalert2";
-
+import { doCurrency } from "../const";
 export const MyConfirm = (
   title,
   text,
@@ -66,5 +66,35 @@ export const MyToast = (title, icon) => {
           "Error: Username is already taken!",
           "این نام کاربری در گلکسی موجود است."
         ),
+  });
+};
+export const MyToastActive = (title, icon, handleOpenTable) => {
+  const Toast = Swal.mixin({
+    toast: true,
+    position: "top",
+    confirmButtonText: "Open",
+    padding: "1.2em",
+    showCloseButton: true,
+    buttonsStyling: false,
+    customClass: {
+      htmlContainer: "position-absolute p-2 lh-base",
+      timerProgressBar: "bg-gold",
+      actions: "",
+      confirmButton: "ui button mini red",
+    },
+    background: "#000",
+    timer: 3000,
+    timerProgressBar: true,
+  });
+
+  Toast.fire({
+    html:
+      "<small class='text-gold lh-bold'>" +
+      title.name +
+      "</small><br/> is opened.",
+  }).then((result) => {
+    if (result.isConfirmed) {
+      handleOpenTable(title.name);
+    }
   });
 };

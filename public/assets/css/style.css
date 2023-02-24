@@ -134,7 +134,7 @@ display: block;
   background-position-y: 0%, 0%;
   background-size: auto, auto;
 }
-.swal2-popup {
+.swal2-popup:not(.swal2-show) {
   background-color: rgb(30, 36, 41) !important;
   background-image: url(/assets/images/bgs/bg.svg);
   background-position-x: 50%, 50%;
@@ -372,10 +372,7 @@ body.fullscreen .fullopenpanel{
   position: relative;
 
 }
-.banner .iconarea {
- 
-  filter: drop-shadow(rgba(0, 0, 0, 1) 0px 0px 30px);
-}
+
 .mm-menu .iconarea {
 
   filter: none
@@ -434,6 +431,9 @@ body.fullscreen .fullopenpanel{
 }
 .text-gold {
   color: gold !important;
+}
+.bg-gold {
+  background: rgba(255, 215, 0,.5) !important;
 }
 .accordion .title {
   font-size: 12px !important;

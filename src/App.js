@@ -185,25 +185,18 @@ function App(prop) {
   const [loginToken] = useUser();
   const handleOpenTable = async (tableName) => {
     var values = { tableName: tableName };
-    if (isUser) {
+    if (
+      loginToken &&
+      window.location.href.toString().indexOf("/games/poker") > -1
+    ) {
       try {
+        const res = await cashierService(values, "openTable");
       } catch (error) {}
+    } else {
+      navigate("/games/poker");
     }
   };
-  function bindActiveTable() {
-    $(".tablename")
-      .unbind()
-      .bind("click", function () {
-        if (window.location.href.toString().indexOf("/games/poker") == -1) {
-          navigate("/games/poker");
-          setTimeout(() => {
-            handleOpenTable($(this).find(".name").text());
-          }, 4000);
-        } else {
-          handleOpenTable($(this).find(".name").text());
-        }
-      });
-  }
+  function bindActiveTable() {}
   function bindLastReward() {
     setTimeout(() => {
       $(".rewardname .iconarea > *")
@@ -1001,6 +994,7 @@ function App(prop) {
               animateCSS={animateCSS}
               bindActiveTable={bindActiveTable}
               bindLastReward={bindLastReward}
+              handleOpenTable={handleOpenTable}
             />
           </nav>
           <div className="Main">
