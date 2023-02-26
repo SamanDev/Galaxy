@@ -6,7 +6,7 @@ import Game from "./dashboard/Game";
 import Admin from "./admin/Index";
 const Content = (prop) => {
   return (
-    <section id="content_section" className={`py-2 px-3`}>
+    <section id="content_section" className={`py-2 px-3 panelfull`}>
       <Routes>
         <Route path="/" element={<Dashboard {...prop} />} />
         <Route path="/admin" element={<Admin {...prop} />} />

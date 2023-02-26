@@ -75,8 +75,10 @@ const ActiveTable = (prop) => {
       ) : (
         <div
           style={{
-            paddingLeft: 15,
+            paddingLeft: 17,
             marginBottom: 50,
+            width: "100%",
+            overflow: "hidden",
           }}
         >
           {_sortData.map(function (bonus, i) {

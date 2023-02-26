@@ -62,7 +62,27 @@ const Dashboard = (prop) => {
   const [screenOrientation, setScreenOrientation] = useState(
     screen?.orientation?.type
   );
+  const isLandscape = () =>
+      window.matchMedia("(orientation:landscape)").matches,
+    [orientation, setOrientation] = useState(
+      isLandscape() ? "landscape" : "portrait"
+    ),
+    onWindowResize = () => {
+      clearTimeout(window.resizeLag);
+      window.resizeLag = setTimeout(() => {
+        delete window.resizeLag;
+        setOrientation(isLandscape() ? "landscape" : "portrait");
+      }, 200);
+    };
 
+  useEffect(
+    () => (
+      onWindowResize(),
+      window.addEventListener("resize", onWindowResize),
+      () => window.removeEventListener("resize", onWindowResize)
+    ),
+    []
+  );
   const haveGift = () => {
     var user = loginToken;
     if (user) {
@@ -114,6 +134,7 @@ const Dashboard = (prop) => {
   const handleFullscreen = (e) => {
     $(".framegame,body").toggleClass("fullscreen");
     setIsFull(!isFull);
+    prop.reportWindowSize();
   };
 
   const handleReload = (e) => {
@@ -126,6 +147,7 @@ const Dashboard = (prop) => {
   };
   const removeFrameLoad = (e) => {
     setGameLoader(false);
+    prop.reportWindowSize();
   };
   const handleTabChange = (e, { activeIndex }) => setActiveIndex(activeIndex);
   useEffect(() => {
@@ -136,16 +158,15 @@ const Dashboard = (prop) => {
   }, []);
 
   useEffect(() => {
-    // if (_width < 800 || 1 == 1) {
-    //   if (screenOrientation.indexOf("landscape") > -1) {
-    //     $(".framegame,body").addClass("fullscreen");
-    //     setIsFull(true);
-    //   } else {
-    //     setIsFull(false);
-    //     $(".framegame,body").removeClass("fullscreen");
-    //   }
-    // }
-  }, [screenOrientation]);
+    let viewportHeight = window.innerHeight;
+    if (
+      orientation.indexOf("landscape") > -1 &&
+      viewportHeight < 600 &&
+      !$("body").hasClass("fullscreen")
+    ) {
+      handleFullscreen();
+    }
+  }, [orientation]);
 
   function capitalizeTxt(txt) {
     return txt.charAt(0).toUpperCase() + txt.slice(1); //or if you want lowercase the rest txt.slice(1).toLowerCase();
@@ -213,7 +234,15 @@ const Dashboard = (prop) => {
       menuItem: "Tab 1",
       pane: (
         <Tab.Pane key="tab1" attached={false}>
-          <div id="gamesec1" style={{ overflow: "auto" }}>
+          <div
+            id="gamesec1"
+            className="gamesec"
+            style={
+              isFull
+                ? { overflowX: "auto", overflowY: "hidden" }
+                : { overflow: "auto" }
+            }
+          >
             {(gameLoader || sessionKey == "") && (
               <div
                 className={
@@ -238,7 +267,12 @@ const Dashboard = (prop) => {
                       sessionKey
                     }
                     id="pokerframe"
-                    className={isFull ? "framegame  fullscreen" : "framegame "}
+                    frameBorder="0"
+                    className={
+                      isFull
+                        ? "framegame panelfull fullscreen"
+                        : "framegame panelfull"
+                    }
                     onLoad={removeFrameLoad}
                   ></iframe>
                 )}
@@ -251,7 +285,9 @@ const Dashboard = (prop) => {
                     mainGame +
                     ".html?code=8035A16CF14CF5E487D16E160D4455FAFC8324EE3ABB490258B98007FDB800B3"
                   }
-                  className={isFull ? "framegame  fullscreen" : "framegame "}
+                  className={
+                    isFull ? "framegame  fullscreen panelfull" : "framegame "
+                  }
                   onLoad={removeFrameLoad}
                 ></iframe>
               </>
@@ -285,7 +321,9 @@ const Dashboard = (prop) => {
                 ".html?code=8035A16CF14CF5E487D16E160D4455FAFC8324EE3ABB490258B98007FDB800B3"
               }
               className={
-                isFull ? "framegame frame2  fullscreen" : "framegame frame2"
+                isFull
+                  ? "framegame frame2  fullscreen panelfull"
+                  : "framegame frame2"
               }
               onLoad={removeFrameLoad}
             ></iframe>
@@ -298,7 +336,7 @@ const Dashboard = (prop) => {
   return (
     <>
       {curPage == "game" && (
-        <div className="mainsection dashboard_section main_section">
+        <div className="mainsection dashboard_section main_section panelfull">
           <Tab
             onTabChange={handleTabChange}
             panes={panes}

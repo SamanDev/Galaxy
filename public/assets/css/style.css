@@ -273,15 +273,17 @@ a {
 .menutitle .mm-listitem__text {
   margin: 0 !important;
 }
+
 .menutitle.mm-listitem:after {
   right: 0 !important;
 }
 .framegame {
-  width: calc(100%) !important;
-  min-width: 650px !important;
-  height: calc(100vh - 65px) !important;
+  width: calc(100vw) !important;
+  
+  min-height: 400px;
+  height: calc(100vh);
   position: relative;
-
+  border:none;
   overflow: auto;
   transition: all 100ms ease;
   -webkit-font-smoothing: antialiased;
@@ -310,14 +312,15 @@ a {
 
 .framegame.fullscreen {
   width: calc(100vw) !important;
-  min-width: calc(100vw) !important;
-
-  height: calc(100vh) !important;
-  position: fixed;
+  
+  min-width: auto !important;
+  min-height: auto !important;
+  transition: all 100ms ease;
+  
   top: 0;
   left: 0;
   overflow: hidden;
-  transition: all 100ms ease;
+bottom: 0;
   -webkit-font-smoothing: antialiased;
   background: rgba(0, 0, 0, 0.9);
 }
@@ -1160,7 +1163,7 @@ a.mm-listitem__text {
   position: fixed;
   top: 50%;
   text-align: right !important;
-  transform: translateY(-50%);
+
   right: 0;
   z-index: 1000;
 }
@@ -1749,7 +1752,7 @@ i.inverted.circular.black {
 .navbar.fixed-top {
   z-index: unset !important;
   background:rgb(31 36 41) !important;
- 
+ height: 65px;
 }
 
 .disabled {
@@ -2179,6 +2182,7 @@ table {
     background-color: #6c757d !important;
     width: 100px;
   }
+ 
   .ui.black.label.balanceLable.amount {
     min-width: 50px !important;
     width: calc(100vw - 270px);
@@ -2186,7 +2190,9 @@ table {
   #game_section {
     top: 0px;
   }
-
+  .menutitle .mm-listitem__text {
+    padding: 5px !important;
+  }
   #content_section {
     background-size: auto 100%;
   }
@@ -2280,5 +2286,6 @@ table {
   }
 
   @media (orientation: portrait) {
+   
   }
 }

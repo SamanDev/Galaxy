@@ -5,6 +5,7 @@ import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { getUserService, getPokerSession } from "../../services/auth";
 import { checkBlock } from "../../services/httpService";
+import PWAPrompt from "react-ios-pwa-prompt";
 import {
   Grid,
   Image,
@@ -300,6 +301,7 @@ const Dashboard = (prop) => {
   const handleRangeChange = (e) => setActiveIndex(activeIndex == 0 ? 1 : 0);
   const handleFullscreen = (e) => {
     $(".framegame,body").toggleClass("fullscreen");
+
     setIsFull(!isFull);
   };
   const handleSlider = (e) => {
@@ -348,7 +350,9 @@ const Dashboard = (prop) => {
   }, [screenOrientation]);
   useEffect(() => {
     handleSlider();
+    $(".framegame,body").removeClass("fullscreen");
   }, []);
+
   function capitalizeTxt(txt) {
     return txt.charAt(0).toUpperCase() + txt.slice(1); //or if you want lowercase the rest txt.slice(1).toLowerCase();
   }
@@ -510,6 +514,29 @@ const Dashboard = (prop) => {
         <div id="dashboard" className="mainsection">
           {loginToken ? (
             <>
+              <PWAPrompt
+                timesToShow={300}
+                copyTitle="نصب اپ گلکسی"
+                copyBody={
+                  <>
+                    <Image
+                      src={"/maskable_icon_x192.png"}
+                      size="mini"
+                      verticalAlign="middle"
+                      floated="left"
+                      alt="اپلیکیشن گلکسی کازینو"
+                      title="اپلیکیشن گلکسی کازینو"
+                    />
+                    <span>
+                      <h3>Install IOS Galaxy App</h3>
+                      Galexy has app functionality. Add it to your home screen
+                      to use it in fullscreen.
+                    </span>
+                  </>
+                }
+                copyClosePrompt="Close"
+                permanentlyHideOnDismiss={false}
+              />
               <div
                 id="dashboard_section"
                 className="dashboard_section main_section fadeoutend"

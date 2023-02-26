@@ -153,29 +153,6 @@ const ActiveTable = (prop) => {
 
   return (
     <>
-      <Segment
-        basic
-        style={{
-          color: "#fff",
-          position: "absolute",
-          top: 8,
-          right: 5,
-          opacity: 1,
-          padding: 0,
-          cursor: "pointer",
-        }}
-        className="fullopenpanel"
-        onClick={() => {
-          prop.setActivePanel(!prop.activePanel);
-          $(".picn").toggleClass("open");
-        }}
-      >
-        <div id="nav-icon1" className="picn">
-          <span></span>
-          <span></span>
-          <span></span>
-        </div>
-      </Segment>
       <div
         style={{
           padding: 10,
@@ -225,7 +202,6 @@ const ActiveTable = (prop) => {
         relaxed
         verticalAlign="middle"
         className="activetable"
-        style={{ overflow: "auto", maxHeight: "40vh" }}
       >
         {_filterData.length == 0 ? (
           <List.Item className="text-center">

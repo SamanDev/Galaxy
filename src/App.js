@@ -30,7 +30,7 @@ import UserWebsocket from "./services/user.websocket";
 import eventBus from "./services/eventBus";
 import { cashierService } from "./services/cashier";
 import ChildComp from "./Components";
-import PWAPrompt from "react-ios-pwa-prompt";
+
 const moment = require("moment");
 var menu = "no";
 var api;
@@ -196,6 +196,39 @@ function App(prop) {
       navigate("/games/poker");
     }
   };
+  function reportWindowSize() {
+    setTimeout(() => {
+      let viewportHeight = window.innerHeight;
+
+      const navbar = document.getElementById("navbar");
+
+      try {
+        let pHeight = viewportHeight - navbar.offsetHeight;
+        $("#content_section,#panelright").css({
+          top: navbar.offsetHeight + "px",
+        });
+        if ($("body").hasClass("fullscreen")) {
+          pHeight = viewportHeight;
+          $("#content_section,#panelright").css({ top: 0 + "px" });
+        }
+        $(".gameicons").css({
+          top: (viewportHeight - $(".gameicons").height()) / 2 + "px",
+        });
+
+        $("#root").height(viewportHeight + "px");
+        let pHalf = pHeight / 2;
+        if (pHalf < 250) {
+          pHalf = 250;
+        }
+        $(".panelfull,.gamesec,#panelright").height(pHeight + "px");
+        $(".panelhalf").height(pHalf + "px");
+      } catch (error) {
+        setTimeout(() => {
+          reportWindowSize();
+        }, 1000);
+      }
+    }, 10);
+  }
   function bindActiveTable() {}
   function bindLastReward() {
     setTimeout(() => {
@@ -871,8 +904,12 @@ function App(prop) {
         $("#nav-icon2").removeClass("open");
       });
     }
+    window.onresize = reportWindowSize;
+
+    reportWindowSize();
   }, []);
   useEffect(() => {
+    reportWindowSize();
     try {
       api.close();
     } catch (error) {}
@@ -953,36 +990,11 @@ function App(prop) {
 
     return (
       <>
-        <PWAPrompt
-          timesToShow={300}
-          copyTitle="نصب اپ گلکسی"
-          copyBody={
-            <>
-              <Image
-                src={"/maskable_icon_x192.png"}
-                size="mini"
-                verticalAlign="middle"
-                floated="left"
-                alt="اپلیکیشن گلکسی کازینو"
-                title="اپلیکیشن گلکسی کازینو"
-              />
-              <span>
-                <h3>Install IOS Galaxy App</h3>
-                Galexy has app functionality. Add it to your home screen to use
-                it in fullscreen.
-              </span>
-            </>
-          }
-          copyClosePrompt="Close"
-          permanentlyHideOnDismiss={false}
-        />
         <div className="App">
           <nav
             id="panelright"
             className={
-              activePanel
-                ? "active fadeoutend mm-menu--theme-dark"
-                : "fadeoutend mm-menu--theme-dark"
+              activePanel ? "active mm-menu--theme-dark" : "mm-menu--theme-dark"
             }
           >
             <RightPanel
@@ -1189,50 +1201,56 @@ function App(prop) {
                   setRefresh={setRefresh}
                   setUserProfile={setUserProfile}
                   setUserOpen={setUserOpen}
+                  reportWindowSize={reportWindowSize}
                 />
               }
             />
           </Routes>
-          <svg
-            version="1.1"
-            xmlns="http://www.w3.org/2000/svg"
-            x="0px"
-            y="0px"
-            viewBox="0 0 512.001 512.001"
-            style={{ position: "absolute", zIndex: -1 }}
-          >
-            <linearGradient id="vipicongrad" gradientTransform="rotate(70)">
-              <stop offset="0%" stopColor="#f6e27a" />
-              <stop offset="50%" stopColor="#f6f2c0" />
-              <stop offset="55%" stopColor="#f6e27a" />
-              <stop offset="78%" stopColor="#cb9b51" />
-              <stop offset="100%" stopColor="#cb9b51" />
-            </linearGradient>
-            <linearGradient id="leagueicongrad" gradientTransform="rotate(90)">
-              <stop offset="0%" stopColor="#fdd300" />
-
-              <stop offset="70%" stopColor="#cc3f00" />
-
-              <stop offset="100%" stopColor="#ffffff" />
-            </linearGradient>
-            <linearGradient id="gpassicongrad" gradientTransform="rotate(70)">
-              <stop offset="0%" stopColor="#c93100" />
-
-              <stop offset="50%" stopColor="#cc3f00" />
-
-              <stop offset="100%" stopColor="#333a6f" />
-            </linearGradient>
-            <linearGradient
-              id="gpassicongradnew"
-              gradientTransform="rotate(10)"
+          <div style={{ position: "absolute", top: -1000000 }}>
+            <svg
+              version="1.1"
+              xmlns="http://www.w3.org/2000/svg"
+              x="0px"
+              y="0px"
+              viewBox="0 0 512.001 512.001"
+              style={{ position: "absolute", zIndex: -1 }}
             >
-              <stop offset="0%" stopColor="#fdd300" />
+              <linearGradient id="vipicongrad" gradientTransform="rotate(70)">
+                <stop offset="0%" stopColor="#f6e27a" />
+                <stop offset="50%" stopColor="#f6f2c0" />
+                <stop offset="55%" stopColor="#f6e27a" />
+                <stop offset="78%" stopColor="#cb9b51" />
+                <stop offset="100%" stopColor="#cb9b51" />
+              </linearGradient>
+              <linearGradient
+                id="leagueicongrad"
+                gradientTransform="rotate(90)"
+              >
+                <stop offset="0%" stopColor="#fdd300" />
 
-              <stop offset="50%" stopColor="#e47900" />
+                <stop offset="70%" stopColor="#cc3f00" />
 
-              <stop offset="100%" stopColor="#a70300" />
-            </linearGradient>
-          </svg>
+                <stop offset="100%" stopColor="#ffffff" />
+              </linearGradient>
+              <linearGradient id="gpassicongrad" gradientTransform="rotate(70)">
+                <stop offset="0%" stopColor="#c93100" />
+
+                <stop offset="50%" stopColor="#cc3f00" />
+
+                <stop offset="100%" stopColor="#333a6f" />
+              </linearGradient>
+              <linearGradient
+                id="gpassicongradnew"
+                gradientTransform="rotate(10)"
+              >
+                <stop offset="0%" stopColor="#fdd300" />
+
+                <stop offset="50%" stopColor="#e47900" />
+
+                <stop offset="100%" stopColor="#a70300" />
+              </linearGradient>
+            </svg>
+          </div>
         </div>
       </>
     );

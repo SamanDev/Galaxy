@@ -135,17 +135,12 @@ const LevelList = (prop) => {
           var _label = "مجموع جوایز";
           var _point = 0;
           if (data[i] && data[i].dailyPoint >= x.reward / 20000) {
-            _text = data[i].username;
+            //_text = " -";
             _lvl = 30;
             _point = data[i].dailyPoint;
           }
           return (
-            <List.Item
-              key={i}
-              id={"lvl" + (i + 1)}
-              className={_point > 0 ? "rewardname" : ""}
-              mode="leauge"
-            >
+            <List.Item key={i} id={"lvl" + (i + 1)} mode="leauge">
               <List.Content floated="right" className="rtl">
                 <span className="text-gold">{doCurrency(x.reward)}</span>{" "}
                 <span className="mysmall">
@@ -162,6 +157,7 @@ const LevelList = (prop) => {
                   </div>
                 )}
               </List.Content>
+
               <LevelIcon
                 mode="league"
                 level={i + 1}
@@ -171,6 +167,22 @@ const LevelList = (prop) => {
                 width="36px"
                 iconamin="swing"
               />
+              {_point > 0 && (
+                <span
+                  className={_point > 0 ? "rewardname animated fadeInLeft" : ""}
+                  style={{ marginLeft: 10 }}
+                >
+                  <LevelIcon
+                    mode="levels"
+                    level={data[i].level}
+                    text={data[i].username}
+                    classinside="iconinside0"
+                    number=""
+                    width="36px"
+                    iconamin="swing"
+                  />
+                </span>
+              )}
             </List.Item>
           );
         })}

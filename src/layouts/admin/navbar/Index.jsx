@@ -4,7 +4,7 @@ import Rightcontent from "./RightContent";
 
 const Index = (prop) => {
   return (
-    <nav className="navbar fixed-top">
+    <nav id="navbar" className="navbar fixed-top">
       <span
         id="openlevellist"
         style={{

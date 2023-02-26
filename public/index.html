@@ -60,26 +60,11 @@
       home screen</button>
 
 
-    <div id="root" style="overflow: hidden;"></div>
+    <div id="root" style="overflow-x: hidden;"></div>
     <div id="modals-root"></div>
 
     <script src="/assets/js/bootstrap.bundle.min.js"></script>
     <script src="/assets/mmenu-js-master/dist/mmenu.js"></script>
 
-    <script>
-    let viewportHeight = window.innerHeight;
-  let viewportWidth = window.innerWidth;
-  const elem = document.getElementById('root');
-  elem.style.height = viewportHeight+"px";
-
-  function reportWindowSize() {
-    let viewportHeight = window.innerHeight;
-    const elem = document.getElementById('root');
-  elem.style.height = viewportHeight+"px";
-}
-
-window.onresize = reportWindowSize;
-
-  </script>
   </body>
 </html>
