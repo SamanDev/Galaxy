@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Segment, Icon, Label, Popup, Progress } from "semantic-ui-react";
 import DepositArea from "../forms/index";
 
+import { MyToastActive } from "../../../utils/myAlert";
 import LevelIcon from "../../../utils/svg";
 import CountUp from "../../../utils/CountUp";
 import RisingPitch from "../../../utils/PlayBip";
@@ -116,6 +117,8 @@ const Balance = (prop) => {
     if (gCount > 0) {
       //$("#playbip").trigger("click");
       $("#opengifts:not(.open)").trigger("click");
+    } else {
+      $("#opengifts.open").trigger("click");
     }
   }, [gCount]);
   useEffect(() => {

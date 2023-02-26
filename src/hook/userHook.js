@@ -101,9 +101,14 @@ export const useLastReward = () => {
     handleGetLastReward();
 
     eventBus.on("updateLastReward", (dataGet) => {
-      var _lastReward = JSON.parse(localStorage.getItem("lastReward")).sort(
-        (a, b) => (a.date < b.date ? 1 : -1)
-      );
+      try {
+        var _lastReward = JSON.parse(localStorage.getItem("lastReward")).sort(
+          (a, b) => (a.date < b.date ? 1 : -1)
+        );
+      } catch (error) {
+        var _lastReward = [];
+      }
+
       _lastReward = [dataGet].concat(_lastReward);
       localStorage.setItem("lastReward", JSON.stringify(_lastReward));
       setLastReward(_lastReward);

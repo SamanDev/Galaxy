@@ -68,7 +68,7 @@ export const MyToast = (title, icon) => {
         ),
   });
 };
-export const MyToastActive = (title, icon, handleOpenTable) => {
+export const MyToastActive = (title, handleOpenTable) => {
   const Toast = Swal.mixin({
     toast: true,
     position: "top",

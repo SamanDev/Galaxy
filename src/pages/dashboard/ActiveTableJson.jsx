@@ -21,6 +21,7 @@ const sumOf = (array) => {
     return sum + _am;
   }, 0);
 };
+
 const ActiveTable = (prop) => {
   var _sortDataOld = [];
 
@@ -47,7 +48,75 @@ const ActiveTable = (prop) => {
   const [fil, setFil] = useState("OM");
   const [_sortData, setSortData] = useState(_sortDataOld);
   const [_filterData, setFilterData] = useState([]);
-
+  const GenTable = (x) => {
+    var aarName = x.name.split(" ");
+    return (
+      <div className={"ui  inverted button  fluid"}>
+        <Statistic
+          horizontal
+          inverted
+          color={x.color}
+          size="mini"
+          style={{ width: "100%", display: "block" }}
+        >
+          <Statistic.Value className="left floated text-center fw-lighter">
+            {aarName[0]}
+            <div className="detail">{aarName[1]}</div>
+          </Statistic.Value>
+          <Statistic.Label
+            style={
+              x.status.indexOf("0/") > -1
+                ? {
+                    textTransform: "none",
+                    filter: "grayscale(100%)",
+                  }
+                : { textTransform: "none" }
+            }
+            className="name left floated text-start"
+          >
+            {aarName[2]}
+            <br />
+            {_event == "VIP" &&
+              parseInt(x.minstack / 20) >=
+                parseInt(viprules.bigBlindLimit * 1000) && (
+                <small className="text-gold fw-lighter">VIP Table</small>
+              )}
+            {_event == "GPass" &&
+              parseInt(x.minstack / 20) >=
+                parseInt(gpassrules.bigBlindLimit * 1000) && (
+                <small className="text-gold fw-lighter">GPass Table</small>
+              )}
+            {_event == "League" && (
+              <small className="text-gold fw-lighter">Daily League</small>
+            )}
+          </Statistic.Label>
+          <Statistic.Value
+            style={
+              x.status.indexOf("0/") > -1 &&
+              parseInt(x.minstack) > loginToken?.balance
+                ? {
+                    filter: "grayscale(100%)",
+                  }
+                : {}
+            }
+            className={
+              x.class == "update"
+                ? "animated bounceIn text-end right floated lh-base"
+                : "text-end right floated lh-base"
+            }
+          >
+            {x.status.indexOf("0/") == -1 ? (
+              <>{x.status}</>
+            ) : (
+              <>
+                <small className="text-gold fw-lighter">Open</small>
+              </>
+            )}
+          </Statistic.Value>
+        </Statistic>
+      </div>
+    );
+  };
   useEffect(() => {
     if (activeTable.RingGames) {
       {
@@ -210,7 +279,6 @@ const ActiveTable = (prop) => {
         ) : (
           <>
             {_filterData?.map(function (x, i) {
-              var aarName = x.name.split(" ");
               var minstack = 10000000;
               if (loginToken?.balance) {
                 minstack = 1000000;
@@ -230,80 +298,12 @@ const ActiveTable = (prop) => {
                         ? "tablename  " + x.class
                         : "tablename " + x.class
                     }
-                    onClick={() => prop.handleOpenTable(x.name)}
+                    onClick={() => {
+                      prop.handleOpenTable(x.name);
+                      MyToastActive(x, prop.handleOpenTable);
+                    }}
                   >
-                    <div className={"ui  inverted button  fluid"}>
-                      <Statistic
-                        horizontal
-                        inverted
-                        color={x.color}
-                        size="mini"
-                        style={{ width: "100%", display: "block" }}
-                      >
-                        <Statistic.Value className="left floated text-center fw-lighter">
-                          {aarName[0]}
-                          <div className="detail">{aarName[1]}</div>
-                        </Statistic.Value>
-                        <Statistic.Label
-                          style={
-                            x.status.indexOf("0/") > -1
-                              ? {
-                                  textTransform: "none",
-                                  filter: "grayscale(100%)",
-                                }
-                              : { textTransform: "none" }
-                          }
-                          className="name left floated text-start"
-                        >
-                          {aarName[2]}
-                          <br />
-                          {_event == "VIP" &&
-                            parseInt(x.minstack / 20) >=
-                              parseInt(viprules.bigBlindLimit * 1000) && (
-                              <small className="text-gold fw-lighter">
-                                VIP Table
-                              </small>
-                            )}
-                          {_event == "GPass" &&
-                            parseInt(x.minstack / 20) >=
-                              parseInt(gpassrules.bigBlindLimit * 1000) && (
-                              <small className="text-gold fw-lighter">
-                                GPass Table
-                              </small>
-                            )}
-                          {_event == "League" && (
-                            <small className="text-gold fw-lighter">
-                              Daily League
-                            </small>
-                          )}
-                        </Statistic.Label>
-                        <Statistic.Value
-                          style={
-                            x.status.indexOf("0/") > -1 &&
-                            parseInt(x.minstack) > loginToken?.balance
-                              ? {
-                                  filter: "grayscale(100%)",
-                                }
-                              : {}
-                          }
-                          className={
-                            x.class == "update"
-                              ? "animated bounceIn text-end right floated lh-base"
-                              : "text-end right floated lh-base"
-                          }
-                        >
-                          {x.status.indexOf("0/") == -1 ? (
-                            <>{x.status}</>
-                          ) : (
-                            <>
-                              <small className="text-gold fw-lighter">
-                                Open
-                              </small>
-                            </>
-                          )}
-                        </Statistic.Value>
-                      </Statistic>
-                    </div>
+                    {GenTable(x)}
                   </List.Item>
                 );
               }
