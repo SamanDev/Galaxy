@@ -3,13 +3,16 @@ import { Progress, Icon } from "semantic-ui-react";
 import { levelData, levelDataInfo } from "../const";
 const Balance = (prop) => {
   const loginToken = prop.loginToken;
-
+  const siteInfo = prop.siteInfo;
+  siteInfo?.galaxyPassSet?.sort((a, b) => (a.id > b.id ? 1 : -1));
+  var rules = siteInfo?.galaxyPassSet[0];
   if (loginToken) {
     if (loginToken.glevel == 0) {
       loginToken.glevel = 1;
     }
+
     var lvlPercent = parseFloat(
-      (loginToken.glevelSecond * 100) / (levelDataInfo[0].hoursLimit * 3600)
+      (loginToken.glevelSecond * 100) / (rules.hoursLimit * 3600)
     ).toFixed(2);
     if (lvlPercent > 100) {
       lvlPercent = 100;

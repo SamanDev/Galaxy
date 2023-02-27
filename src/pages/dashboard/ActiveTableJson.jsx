@@ -196,8 +196,11 @@ const ActiveTable = (prop) => {
       _sortD = [];
       for (const property in _g) {
         _g[property].sort((a, b) => (a.status < b.status ? 1 : -1));
-
-        _sortD.push(_g[property][0]);
+        _g[property]?.map(function (x, i) {
+          if (x.status.indexOf("0/") == -1 || i == 0) {
+            _sortD.push(x);
+          }
+        });
       }
       _sortD.sort((a, b) => (a.name < b.name ? 1 : -1));
 
@@ -300,7 +303,12 @@ const ActiveTable = (prop) => {
                     }
                     onClick={() => {
                       prop.handleOpenTable(x.name);
-                      MyToastActive(x, prop.handleOpenTable);
+                      if (
+                        $(".swal2-container").html() == "" ||
+                        $(".swal2-container").length == 0
+                      ) {
+                        MyToastActive(x, prop.handleOpenTable);
+                      }
                     }}
                   >
                     {GenTable(x)}

@@ -54,9 +54,30 @@ const onSubmit = async (values, submitMethods, navigate, prop, setRefresh) => {
 const depositArea = (prop) => {
   const [refresh, setRefresh] = useState(false);
   const navigate = useNavigate();
+  const loginToken = prop.loginToken;
+  const getRate = localStorage.getItem("getRate") || 31250;
+  const validationSchema = Yup.object({
+    amount: Yup.number()
+      .required("لطفا این فیلد را وارد کنید.")
+      .min(100000, "لطفا این فیلد را درست وارد کنید.")
+      .max(loginToken.balance, "لطفا این فیلد را درست وارد کنید.")
+      .integer(),
+
+    amountDollar: Yup.number()
+      .required("لطفا این فیلد را وارد کنید.")
+      .min(100, "لطفا این فیلد را درست وارد کنید.")
+      .integer(),
+  });
   return (
     <Formik
-      initialValues={initialValues}
+      initialValues={{
+        amount: parseInt(loginToken.balance / 100000) * 100000,
+
+        amountDollar:
+          (parseInt(loginToken.balance / 100000) * 100000) / getRate >= 100
+            ? (parseInt(loginToken.balance / 100000) * 100000) / getRate
+            : 100,
+      }}
       onSubmit={(values, submitMethods) =>
         onSubmit(values, submitMethods, navigate, prop, setRefresh)
       }

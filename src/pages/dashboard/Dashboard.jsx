@@ -133,41 +133,7 @@ const Banner = (prop) => {
     </div>
   );
 };
-const Banner2 = (prop) => {
-  return (
-    <div className="banner">
-      {prop.image && <Image src={prop.image} rounded />}
 
-      <h1 className="farsi">{prop.title}</h1>
-      <div className="text farsi myaccount">
-        <GalaxyIcon
-          mode={prop.icon}
-          level=""
-          text=""
-          className="bannericon"
-          number={prop.number}
-        />
-        {prop.text}
-        <br />
-        <br />
-        <br />
-        <br />
-        {prop.link && (
-          <Button
-            size="big"
-            className="farsi"
-            color="teal"
-            onClick={() => {
-              prop.openPanel(prop.link);
-            }}
-          >
-            اطلاعات بیشتر
-          </Button>
-        )}
-      </div>
-    </div>
-  );
-};
 var _width = document.body.clientWidth;
 
 const Dashboard = (prop) => {
@@ -405,7 +371,7 @@ const Dashboard = (prop) => {
       defslide = 0;
     }
     setActiveSlide(defslide);
-  }, [curPage, prop.isLogin, loginToken]);
+  }, [loginToken]);
 
   useEffect(() => {
     if (prop.isLogin && curPage == "game") {
@@ -843,122 +809,6 @@ const Dashboard = (prop) => {
                 <Index {...prop} />
               </div>
             </>
-          )}
-        </div>
-      )}
-      {curPage == "game" && prop.isLogin && (
-        <div className="mainsection dashboard_section main_section">
-          <Tab
-            onTabChange={handleTabChange}
-            panes={panes}
-            renderActiveOnly={false}
-            activeIndex={activeIndex}
-            menu={{ attached: false }}
-          />
-          {(!gameLoader || 1 == 1) && (
-            <div className="gameicons">
-              <Icon
-                circular
-                inverted
-                color="violet"
-                link
-                onClick={() => {
-                  prop.setActivePanel(!prop.activePanel);
-                  $(".picn").toggleClass("open");
-                }}
-                style={
-                  !isFull
-                    ? {
-                        transform: "translateY(-150px)",
-                        transformOrigin: "center",
-                        opacity: 0,
-                      }
-                    : {
-                        transform: "translateY(0px)",
-                        transformOrigin: "center",
-                      }
-                }
-              >
-                <i className="fas fa-arrow-left"></i>
-              </Icon>
-
-              <Icon
-                circular
-                inverted
-                link
-                color="grey"
-                onClick={handleFullscreen}
-              >
-                <i
-                  className={
-                    isFull
-                      ? "fas fa-compress-arrows-alt"
-                      : "fas fa-expand-arrows-alt"
-                  }
-                ></i>
-              </Icon>
-              <Icon circular inverted link color="grey" onClick={handleReload}>
-                <i className="fas fa-sync-alt"></i>
-              </Icon>
-
-              <Icon
-                circular
-                inverted
-                link
-                color={activeIndex == 0 ? "orange" : "grey"}
-                onClick={handleRangeChange}
-                style={{
-                  fontSize: 25,
-                  right: -10,
-                }}
-              >
-                <i
-                  className={
-                    activeIndex == 0
-                      ? "fas fa-angle-right"
-                      : "fas fa-angle-left"
-                  }
-                ></i>
-              </Icon>
-
-              <Dropdown
-                value={secondaryGame}
-                options={gameOptions}
-                selectOnNavigation={false}
-                name="false"
-                direction="left"
-                className="selectgame"
-                style={
-                  activeIndex == 0
-                    ? {
-                        transform: "translateY(-250px) translateX(-50px)",
-                        transformOrigin: "center right",
-                        opacity: 0,
-                      }
-                    : {
-                        transform: "translateY(-180px) translateX(-50px)",
-                        transformOrigin: "center right",
-                      }
-                }
-                compact
-                scrolling
-                onChange={handleChange}
-                trigger={
-                  <Icon
-                    circular
-                    inverted
-                    link
-                    color="orange"
-                    style={{
-                      transform: "translateX(28px) translateY(28px) ",
-                      transformOrigin: "center right",
-                    }}
-                  >
-                    <i className="fas fa-angle-double-down"></i>
-                  </Icon>
-                }
-              />
-            </div>
           )}
         </div>
       )}

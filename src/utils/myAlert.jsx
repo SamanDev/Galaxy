@@ -1,5 +1,6 @@
 import Swal from "sweetalert2";
-import { doCurrency } from "../const";
+import { doCurrency, updateBonusLabel } from "../const";
+const moment = require("moment");
 export const MyConfirm = (
   title,
   text,
@@ -95,6 +96,43 @@ export const MyToastActive = (title, handleOpenTable) => {
   }).then((result) => {
     if (result.isConfirmed) {
       handleOpenTable(title.name);
+    }
+  });
+};
+export const MyToastReward = (bonus, getReward, loginToken, siteInfo) => {
+  var newb = updateBonusLabel(bonus, loginToken, siteInfo);
+  const Toast = Swal.mixin({
+    toast: true,
+    position: "top",
+    confirmButtonText: "دریافت",
+    padding: "1.2em",
+    showCloseButton: true,
+    buttonsStyling: false,
+    customClass: {
+      htmlContainer: "position-absolute p-2 ",
+      timerProgressBar: "bg-success",
+      actions: "",
+      confirmButton: "ui button mini green",
+    },
+    background: "#000",
+    timer: 10000,
+    timerProgressBar: true,
+  });
+
+  Toast.fire({
+    html:
+      "<div class='text-gold  farsi fs-6'>" +
+      newb.mytext +
+      "</div><div class='lh-bold farsi text-secondary-emphasis'>" +
+      doCurrency(bonus.amount) +
+      " تومان</div>",
+    iconHtml:
+      "<img  src='/assets/images/" +
+      bonus.mymode +
+      ".png' style='width: 40px' />",
+  }).then((result) => {
+    if (result.isConfirmed) {
+      getReward(bonus);
     }
   });
 };

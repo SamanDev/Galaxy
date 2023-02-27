@@ -17,20 +17,7 @@ const initialValues = {
   username: "",
   password: "",
 };
-const validationSchema = Yup.object({
-  amount: Yup.number().required("لطفا این فیلد را وارد کنید.").integer(),
 
-  amountDollar: Yup.number()
-    .required("لطفا این فیلد را وارد کنید.")
-    .min(100, "لطفا این فیلد را درست وارد کنید.")
-    .integer(),
-  userWalletAddress: Yup.string()
-    .required("لطفا این فیلد را وارد کنید.")
-    .min(10, "لطفا این فیلد را درست وارد کنید."),
-  password: Yup.string()
-    .required("کلمه عبور حداقل باشد 8 کاراکتر باشد.")
-    .min(8, "کلمه عبور حداقل باشد 8 کاراکتر باشد."),
-});
 const onSubmit = async (values, submitMethods, navigate, prop, setRefresh) => {
   try {
     const res = await cashierService(values, "coinPayments", "");
@@ -52,9 +39,42 @@ const onSubmit = async (values, submitMethods, navigate, prop, setRefresh) => {
 const depositArea = (prop) => {
   const [refresh, setRefresh] = useState(false);
   const navigate = useNavigate();
+  const loginToken = prop.loginToken;
+  const getRate = localStorage.getItem("getRate") || 31250;
+  const validationSchema = Yup.object({
+    amount: Yup.number()
+      .required("لطفا این فیلد را وارد کنید.")
+      .min(100000, "لطفا این فیلد را درست وارد کنید.")
+      .max(loginToken.balance, "لطفا این فیلد را درست وارد کنید.")
+      .integer(),
+
+    amountDollar: Yup.number()
+      .required("لطفا این فیلد را وارد کنید.")
+      .min(100, "لطفا این فیلد را درست وارد کنید.")
+      .integer(),
+    userWalletAddress: Yup.string()
+      .required("لطفا این فیلد را وارد کنید.")
+      .min(10, "لطفا این فیلد را درست وارد کنید."),
+    password: Yup.string()
+      .required("کلمه عبور حداقل باشد 8 کاراکتر باشد.")
+      .min(8, "کلمه عبور حداقل باشد 8 کاراکتر باشد."),
+  });
   return (
     <Formik
-      initialValues={initialValues}
+      initialValues={{
+        amount: parseInt(loginToken.balance / 100000) * 100000,
+
+        action: "cashout",
+
+        coin: "USDT.TRC20",
+        amountDollar:
+          (parseInt(loginToken.balance / 100000) * 100000) / getRate >= 100
+            ? (parseInt(loginToken.balance / 100000) * 100000) / getRate
+            : 100,
+        userWalletAddress: "",
+        username: "",
+        password: "",
+      }}
       onSubmit={(values, submitMethods) =>
         onSubmit(values, submitMethods, navigate, prop, setRefresh)
       }

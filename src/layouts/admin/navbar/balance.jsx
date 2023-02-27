@@ -2,12 +2,14 @@ import React, { useState, useEffect } from "react";
 import { Segment, Icon, Label, Popup, Progress } from "semantic-ui-react";
 import DepositArea from "../forms/index";
 
-import { MyToastActive } from "../../../utils/myAlert";
+import { MyToastReward, MyConfirm, MyDeposit } from "../../../utils/myAlert";
 import LevelIcon from "../../../utils/svg";
 import CountUp from "../../../utils/CountUp";
 import RisingPitch from "../../../utils/PlayBip";
 import BonusArea from "../bonus/index.jsx";
 import $ from "jquery";
+import addNotification from "react-push-notification";
+import { cashierService } from "../../../services/cashier";
 //import BonusArea from "../../../pages/dashboard/ActiveTableJson";
 import {
   doCurrency,
@@ -15,7 +17,11 @@ import {
   levelClassInside,
   levelDataInfo,
 } from "../../../const";
+
 const moment = require("moment");
+const openDeposit = () => {
+  $("#opendeposit").trigger("click");
+};
 const Balance = (prop) => {
   var lvlPercent = 0;
   var gLvlPercent = 0;
@@ -33,7 +39,51 @@ const Balance = (prop) => {
   const [stateMode, setStateMode] = useState(0);
 
   var _event = getEvent(siteInfo);
+  const getReward = async (bonus) => {
+    try {
+      const res = await cashierService({ id: bonus.id }, "submitReward", "");
+      if (res.status == 200) {
+      } else {
+      }
+    } catch (error) {}
+  };
 
+  const handleConfirm = (bonus) => {
+    var start = moment(bonus.date);
+    var end = moment();
+    var _br = "\n";
+
+    if (bonus.status == "Pending") {
+      if (!start.isBefore(end)) {
+      } else {
+        if (bonus.banaction) {
+          var _msg = `<small class="opacity-50 animated heartBeat delay-2s" style="display:block;margin-top:10px">توجه داشته باشید اگر لِوِل شما کمتر از <span class="text-gold">${bonus.levelreq} </span> باشد، با دریافت هر پاداش، برداشت و انتقال شما به مدت <span class="text-gold">${bonus.banaction} ساعت</span> بسته خواهد شد.</small>`;
+
+          var _msg2 = `<div class="text-end fs-6"><p class="fw-semibold fs-5">برای دریافت این هدیه:</p>`;
+          if (parseInt(bonus.balancereq) < parseInt(loginToken.balance)) {
+            _msg2 = `${_msg2}<div><i class="fas fa-times fa-fw text-danger"></i> یا باید <span class="text-gold">لول شما  ${
+              bonus.levelreq
+            } یا بالاتر</span> باشد.</div><div><i class="fas fa-check fa-fw text-success"></i> یا موجودی اکانت شما بیش از <span class="text-gold">${doCurrency(
+              bonus.balancereq
+            )} تومان</span>  باشد.</div> ${_msg}</div>`;
+          } else {
+            _msg2 = `${_msg2}<div><i class="fas fa-times fa-fw text-danger"></i> یا باید <span class="text-gold">لول شما  ${
+              bonus.levelreq
+            } یا بالاتر</span> باشد.</div><div><i class="fas fa-times fa-fw text-danger"></i> یا موجودی اکانت شما بیش از <span class="text-gold">${doCurrency(
+              bonus.balancereq
+            )} تومان</span>  باشد.</div> ${_msg}</div>`;
+          }
+          if (parseInt(loginToken.balance) >= parseInt(bonus.balancereq)) {
+            MyConfirm("تایید دریافت", _msg2, getReward, bonus);
+          } else {
+            MyDeposit("تایید دریافت", _msg2, openDeposit);
+          }
+        } else {
+          getReward(bonus);
+        }
+      }
+    }
+  };
   const [lvlPercentState, setlvlPercentState] = useState(0);
   const ChangeGift = () => {
     if (loginToken) {
@@ -48,6 +98,13 @@ const Balance = (prop) => {
           Date.parse(d.expireDate) > end
       );
       if (_pen.length > 0) {
+        if (
+          $(".swal2-container").html() == "" ||
+          $(".swal2-container").length == 0
+        ) {
+          MyToastReward(_pen[0], handleConfirm, loginToken, siteInfo);
+        }
+
         setColor("orange");
         setGCount(_pen.length);
       } else {
@@ -116,9 +173,9 @@ const Balance = (prop) => {
   useEffect(() => {
     if (gCount > 0) {
       //$("#playbip").trigger("click");
-      $("#opengifts:not(.open)").trigger("click");
+      //$("#opengifts:not(.open)").trigger("click");
     } else {
-      $("#opengifts.open").trigger("click");
+      //$("#opengifts.open").trigger("click");
     }
   }, [gCount]);
   useEffect(() => {

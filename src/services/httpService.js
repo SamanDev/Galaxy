@@ -42,6 +42,8 @@ axios.interceptors.response.use(
     if (res.status == 200) {
       if (res.data?.accessToken) {
         checkBlock(res.data);
+      } else {
+        //MyToast(res.data, "error");
       }
     }
     if (res.status != 200 && res.status != 201) {
@@ -52,6 +54,7 @@ axios.interceptors.response.use(
         }
         res.data.message = message;
       }
+
       Alert("مشکل...!", res.data.message, "warning");
     }
     return res;

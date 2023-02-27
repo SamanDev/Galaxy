@@ -60,7 +60,11 @@ const depositArea = (prop) => {
   });
   return (
     <Formik
-      initialValues={initialValues}
+      initialValues={{
+        amount: parseInt(loginToken.balance / 100000) * 100000,
+
+        amountDollar: 0,
+      }}
       onSubmit={(values, submitMethods) =>
         onSubmit(values, submitMethods, navigate, prop, setRefresh)
       }

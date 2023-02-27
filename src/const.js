@@ -766,6 +766,107 @@ export const levelPercent = (lvl) => {
     return 1;
   }
 };
+export const updateBonusLabel = (bonusOld, loginToken, siteInfo) => {
+  if (siteInfo == null) return "";
+  siteInfo?.galaxyPassSet?.sort((a, b) => (a.id > b.id ? 1 : -1));
+  var gpassrules = siteInfo?.galaxyPassSet[0];
+  siteInfo?.vipTables?.sort((a, b) => (a.id > b.id ? 1 : -1));
+  var viprules = siteInfo?.vipTables[0];
+  siteInfo?.dailyLeagueSet?.sort((a, b) => (a.id > b.id ? 1 : -1));
+  var leaguerules = siteInfo?.dailyLeagueSet[0];
+  var levelData = siteInfo?.levelUps;
+  var bonus = bonusOld;
+  var start = moment(bonus.startDate);
+  var expire = moment(bonus.expireDate);
+  var end = moment();
+  var _mode = bonus.mode.toLowerCase();
+  var _status = bonus.status;
+  var _txt = bonus.label;
+  try {
+    var _lvl = bonus.text
+      .split(" ")[1]
+      .replace("Bonus", "")
+      .replace("Gift", "");
+  } catch (error) {
+    var _lvl = "1";
+  }
+
+  if (_mode == "bonus") {
+    bonus.banaction = 24;
+  }
+  if (_mode == "gpass" && loginToken.level < gpassrules.minLevel) {
+    bonus.banaction = gpassrules.hoursUnderLevel;
+    bonus.balancereq = gpassrules.minAmount;
+    bonus.levelreq = gpassrules.minLevel;
+  }
+  if (_mode == "vip" && loginToken.level < viprules.minLevel) {
+    bonus.banaction = viprules.hoursUnderLevel;
+    bonus.balancereq = viprules.minAmount;
+    bonus.levelreq = viprules.minLevel;
+  }
+
+  if (_mode == "league" && loginToken.level < leaguerules.minLevel) {
+    bonus.banaction = leaguerules.hoursUnderLevel;
+    bonus.balancereq = leaguerules.minAmount;
+    bonus.levelreq = leaguerules.minLevel;
+  }
+
+  if (!end.isBefore(expire) && _status == "Pending") {
+    _status = "Canceled";
+  }
+  if (_status == "Pending" && !start.isBefore(end)) {
+    _status = "ClockReward";
+  }
+
+  if (_mode == "gift") {
+    if (bonus.amount >= levelDataInfo[4].minAmount) {
+      _mode = "gift3";
+    } else if (bonus.amount >= levelDataInfo[5].minAmount) {
+      _mode = "gift2";
+    } else {
+      _mode = "gift1";
+    }
+  }
+
+  if (_mode == "gpass") {
+    _txt = "لول " + _lvl + " گلکسی پَس";
+  }
+  if (_mode == "league") {
+    _txt = "رتبه " + _lvl + " " + _txt;
+  }
+  if (_mode == "tournament" && _lvl != "") {
+    _txt = "رتبه " + _lvl + " " + _txt;
+  }
+  if (_mode == "tournament" && _lvl == "") {
+    _txt = "معرفی نفر پایانی تورنومنت ";
+  }
+  if (_mode == "vip") {
+    _txt = "پاداش میز VIP";
+  }
+  if (_mode == "gift3") {
+    _txt = "هدیه طلایی";
+  }
+  if (_mode == "gift2") {
+    _txt = "هدیه بنفش";
+  }
+  if (_mode == "gift1") {
+    _txt = "هدیه قرمز";
+  }
+  if (_mode == "levels") {
+    //s_txt = "هدیه قرمز";
+    _lvl = _lvl - 1;
+    _mode = "stars/lvl" + _lvl;
+  } else if (_mode == "gpass") {
+    //s_txt = "هدیه قرمز";
+
+    _mode = "gpass/glvl" + _lvl;
+  } else {
+    _mode = "icons/" + _mode;
+  }
+  bonus.mytext = _txt;
+  bonus.mymode = _mode;
+  return bonus;
+};
 export const getEvent = (siteInfo) => {
   if (siteInfo == null) return "";
   siteInfo?.galaxyPassSet?.sort((a, b) => (a.id > b.id ? 1 : -1));
