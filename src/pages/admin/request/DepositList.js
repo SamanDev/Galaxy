@@ -5,6 +5,7 @@ import { convertDateToJalali } from "../../../utils/convertDate";
 import ActionBtn from "../../../utils/actionBtn";
 import AmountColor from "../../../utils/AmountColor";
 import ConvertCart from "../../../utils/convertCart";
+import CartFormat from "../../../utils/CartFormat";
 import { addDays } from "date-fns";
 const moment = require("moment");
 import { adminGetService } from "../../../services/admin";
@@ -272,15 +273,13 @@ function Admin(prop) {
     {
       name: "From",
       selector: (row) => row.description,
-      format: (row) => (
-        <div className="farsi" style={{ padding: 10, direction: "ltr" }}>
-          {JSON.parse(row.description).holderName}
-          <br />
-          <ConvertCart cartNo={JSON.parse(row.description).cardNumber} />
-          <br />
-          {JSON.parse(row.description).bankName}
-        </div>
-      ),
+      format: (row) => {
+        row.description != "" ? (
+          <CartFormat row={JSON.parse(row.description)[0]} />
+        ) : (
+          <></>
+        );
+      },
       sortable: true,
       width: "200px",
     },
@@ -301,17 +300,28 @@ function Admin(prop) {
     },
     {
       name: "ToCart",
-      selector: (row) => row.description.toCard,
-      format: (row) => (
-        <ConvertCart cartNo={JSON.parse(row.description).toCard} />
-      ),
+      selector: (row) => row.description,
+      format: (row) => {
+        row.description != "" ? (
+          <CartFormat row={JSON.parse(row.description)[1]} />
+        ) : (
+          <></>
+        );
+      },
       sortable: true,
       width: "200px",
     },
     {
       name: "Desc",
-      selector: (row) => row.description.desc,
-      format: (row) => <>{JSON.parse(row.description).desc}</>,
+      selector: (row) => row.description,
+      format: (row) => (
+        <div className="farsi" style={{ padding: 10, direction: "ltr" }}>
+          بابت بدهی
+          <br />
+          {row.id}
+        </div>
+      ),
+
       sortable: true,
       width: "200px",
     },

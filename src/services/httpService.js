@@ -60,6 +60,7 @@ axios.interceptors.response.use(
     return res;
   },
   (error) => {
+    MyToast("متاسفانه مشکلی از سمت سرور رخ داده", "error");
     if (error.response.status == 401) {
       //window.location = "/logout";
 
@@ -68,6 +69,10 @@ axios.interceptors.response.use(
     }
     if (error.response.status != 401) {
       MyToast(error.response.data.message, "error");
+      // Alert(error.response.status, error.response.data.message, "error");
+    }
+    if (error.response.status == 0) {
+      MyToast("متاسفانه مشکلی از سمت سرور رخ داده", "error");
       // Alert(error.response.status, error.response.data.message, "error");
     }
 

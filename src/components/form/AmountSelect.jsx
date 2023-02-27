@@ -57,6 +57,14 @@ const editAmount = (amounts, mode, formik) => {
       });
     }
   });
+  if (cartsOptions.length == 0) {
+    cartsOptions.push({
+      key: "10",
+
+      text: doCurrency(3000000),
+      value: 3000000,
+    });
+  }
 };
 const InputF = ({
   formik,

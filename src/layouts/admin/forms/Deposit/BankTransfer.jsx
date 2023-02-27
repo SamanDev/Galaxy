@@ -84,14 +84,10 @@ const onSubmit = async (values, submitMethods, navigate, prop) => {
     const res = await cashierService(values, "Deposit", prop.mode);
     if (res.status == 200) {
       localAmount(values, prop);
-    } else {
-      Alert("متاسفم...!", res.data.message, "error");
     }
     submitMethods.setSubmitting(false);
   } catch (error) {
     submitMethods.setSubmitting(false);
-
-    Alert("متاسفم...!", "متاسفانه مشکلی از سمت سرور رخ داده", "error");
   }
 };
 const updateCartInfo = (cartOptions, id, formik) => {
@@ -117,9 +113,7 @@ const depositArea = (prop) => {
       <Formik
         initialValues={{
           amount: 0,
-          code: "بابت بدهی " + generateRandomInteger(11111111, 99999999),
-          tocart: countryOptions[0].value,
-          tocartname: countryOptions[0].name,
+
           mobile: "",
           cardNumber: "",
           bankName: "",
@@ -145,15 +139,14 @@ const depositArea = (prop) => {
               <Carts
                 formik={formik}
                 name="cardNumber"
-                className="farsi"
-                label="نام بانک"
+                label="واریز از"
                 labelcolor={prop.labelcolor}
                 size={prop.size}
                 namemix
                 updateCartInfo={updateCartInfo}
-                bankNameVal
+                gateway={prop.gateway}
+                {...prop}
               />
-
               <AmountSelect
                 formik={formik}
                 name="amount"
@@ -181,7 +174,7 @@ const depositArea = (prop) => {
                 num="2"
                 color="yellow"
                 size="mini"
-                text="قایقی پس از ارسال، برای هماهنگی و ارسال شماره حساب با شما
+                text="دقایقی پس از ارسال، برای هماهنگی و ارسال شماره حساب با شما
                 تماس خواهیم گرفت."
               />
 

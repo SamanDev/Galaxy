@@ -19,7 +19,6 @@ const moment = require("moment");
 var cartOptions = [];
 var cartsOptions = [];
 const editAmount = (amounts, formik, bankNameVal) => {
-  console.log(bankNameVal);
   cartsOptions = [];
   var _newAmount = 0;
   var getAmount = JSON.parse(localStorage.getItem("Online Cart to Cart"));
@@ -102,6 +101,7 @@ const InputF = ({
   updateCartInfo,
 
   loginToken,
+  carts,
 }) => {
   useEffect(() => {
     updateCartInfo(cartOptions, cartsOptions[0].value, formik);
@@ -109,7 +109,11 @@ const InputF = ({
 
   if (loginToken) {
     cartOptions = [];
-    editAmount(loginToken?.bankInfos, formik);
+    if (carts) {
+      editAmount(carts, formik);
+    } else {
+      editAmount(loginToken?.bankInfos, formik);
+    }
 
     return (
       <Form as="div">

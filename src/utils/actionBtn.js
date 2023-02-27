@@ -1,6 +1,7 @@
 import React from "react";
 import { Button } from "semantic-ui-react";
-const convertCart = (prop) => {
+
+const Actios = (prop) => {
   if (prop.row.status === "Pending") {
     return (
       <>
@@ -31,4 +32,4 @@ const convertCart = (prop) => {
     );
   }
 };
-export default convertCart;
+export default Actios;

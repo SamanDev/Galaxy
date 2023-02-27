@@ -10,96 +10,8 @@ import { adminGetService } from "../../../services/admin";
 import { doCurrency } from "../../../const";
 import DateReng from "../utils/dateReng";
 import FilterMode from "./Filter";
+import Confirm from "./Confirm";
 
-var _data = [
-  {
-    id: 1,
-
-    amount: 1000000,
-
-    status: "Pending",
-    mode: "Deposit",
-    gateway: "CartToCart",
-
-    username: "HangOver",
-    description: {
-      id: 1,
-      date: "2022-07-26T17:29:52.377+00:00",
-      cardNumber: "5022291011223333",
-      accountNumber: "4454554454",
-      shebaNumber: "454545645645645645646456",
-      holderName: "شسالا",
-      cvv: "458",
-      expiration: "01/01",
-      mobile: "09158885887",
-      bankName: "بانک اقتصاد نوین",
-      active: true,
-      desc: "بابت بدهی 79798873",
-      toCard: "6662502250225050",
-    },
-    readMsg: false,
-    createDate: "2022-07-26T18:18:14.249+00:00",
-    updateDate: "2022-07-26T18:18:14.250+00:00",
-  },
-  {
-    id: 2,
-
-    amount: 5000000,
-
-    status: "Done",
-    mode: "Deposit",
-    gateway: "CartToCart",
-
-    username: "HangOver",
-    description: {
-      id: 1,
-      date: "2022-07-26T17:29:52.377+00:00",
-      cardNumber: "5022291011223333",
-      accountNumber: "4454554454",
-      shebaNumber: "454545645645645645646456",
-      holderName: "شسالا",
-      cvv: "458",
-      expiration: "01/01",
-      mobile: "09158885887",
-      bankName: "بانک اقتصاد نوین",
-      active: true,
-      desc: "بابت بدهی 79798873",
-      toCard: "6662502250225050",
-    },
-    readMsg: false,
-    createDate: "2022-07-26T18:18:14.249+00:00",
-    updateDate: "2022-07-26T18:18:14.250+00:00",
-  },
-  {
-    id: 6,
-
-    amount: 50000,
-
-    status: "Canceled",
-    mode: "Deposit",
-    gateway: "CartToCart",
-
-    username: "HangOver",
-    description: {
-      id: 1,
-      date: "2022-07-26T17:29:52.377+00:00",
-      cardNumber: "5022291011223333",
-      accountNumber: "4454554454",
-      shebaNumber: "454545645645645645646456",
-      holderName: "شسالا",
-      cvv: "458",
-      expiration: "01/01",
-      mobile: "09158885887",
-      bankName: "بانک اقتصاد نوین",
-      active: true,
-      desc: "بابت بدهی 79798873",
-      toCard: "6662502250225050",
-    },
-    readMsg: false,
-    createDate: "2022-07-26T18:18:14.249+00:00",
-    updateDate: "2022-07-26T18:18:14.250+00:00",
-  },
-];
 const conditionalRowStyles = [
   {
     when: (row) => row.status == "Pending",
@@ -148,6 +60,7 @@ const noDataComponent = (
 var _timer = 10000;
 function Admin(prop) {
   const [data, setData] = useState([]);
+  const [carts, setCarts] = useState([]);
 
   const [totalRows, setTotalRows] = useState(0);
   const [perPage, setPerPage] = useState(10);
@@ -171,6 +84,7 @@ function Admin(prop) {
     });
   }
   const [firstOpen, setFirstOpen] = React.useState(false);
+  const [firstDone, setFirstDone] = React.useState(false);
   const [resetPaginationToggle, setResetPaginationToggle] =
     React.useState(false);
 
@@ -180,7 +94,16 @@ function Admin(prop) {
       <pre>{JSON.stringify(data, null, 2)}</pre>
     </div>
   );
-
+  const fetchCart = async (page) => {
+    try {
+      const res = await adminGetService(`getSiteBankCards`);
+      if (res.status === 200) {
+        setCarts(res.data);
+      }
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
   const fetchUsers = async (page) => {
     setLoading(true);
     var _s = moment(startDate).format("YYYY-MM-DD");
@@ -264,20 +187,11 @@ function Admin(prop) {
   useEffect(() => {
     if (!firstOpen && filterOk) fetchUsers(1); // fetch page 1 of users
   }, [filterOk, firstOpen]);
+  useEffect(() => {
+    fetchCart();
+  }, []);
   const updateStatus = (row, status) => {
-    var pay = JSON.parse(row.description);
-    var id = pay.userId;
-    adminService.changeReportStatus("deposit", id, status).then((response) => {
-      if (response) {
-        Swal.fire({
-          title: "Success",
-          text: "Saved",
-          icon: "success",
-          showCancelButton: false,
-          confirmButtonText: `Ok`,
-        }).then(() => {});
-      }
-    });
+    setFirstDone(true);
   };
   const columns = [
     {
@@ -353,7 +267,9 @@ function Admin(prop) {
     {
       name: "Action",
       selector: (row) => row.id,
-      format: (row) => <ActionBtn row={row} updateStatus={updateStatus} />,
+      format: (row) => (
+        <ActionBtn row={row} carts={carts} updateStatus={updateStatus} />
+      ),
       sortable: false,
       width: "200px",
     },
@@ -407,6 +323,19 @@ function Admin(prop) {
           endDate={endDate}
           setStartDate={setStartDate}
           setEndDate={setEndDate}
+          setFilterOk={setFilterOk}
+        />
+      </Modal>
+      <Modal
+        onClose={() => setFirstDone(false)}
+        onOpen={() => setFirstDone(true)}
+        open={firstDone}
+        style={{ height: "auto" }}
+      >
+        <Confirm
+          {...prop}
+          carts={carts}
+          gateway="BankTransfer"
           setFilterOk={setFilterOk}
         />
       </Modal>

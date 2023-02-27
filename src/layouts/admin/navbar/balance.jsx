@@ -8,7 +8,6 @@ import CountUp from "../../../utils/CountUp";
 import RisingPitch from "../../../utils/PlayBip";
 import BonusArea from "../bonus/index.jsx";
 import $ from "jquery";
-import addNotification from "react-push-notification";
 import { cashierService } from "../../../services/cashier";
 //import BonusArea from "../../../pages/dashboard/ActiveTableJson";
 import {
