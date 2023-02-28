@@ -167,7 +167,7 @@ const depositArea = (prop) => {
                     fluid
                     style={{ marginTop: 10 }}
                     loading={btnLoading}
-                    disabled={btnLoading || !formik.isValid}
+                    disabled={btnLoading}
                     type="button"
                     onClick={() => {
                       onGetCart(formik, prop, setBtnLoading, setDepMode);
