@@ -121,7 +121,7 @@ const Amount = (prop) => {
               {prop.formik.errors[prop.name]}
             </Label>
           )}
-          <Input size="mini" fluid labelPosition="left">
+          <Input size={prop.size} fluid labelPosition="left">
             <Label
               pointing="right"
               color={prop.formik.errors[prop.name] ? "red" : prop.labelcolor}

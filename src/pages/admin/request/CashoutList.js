@@ -85,6 +85,7 @@ function Admin(prop) {
   }
   const [firstOpen, setFirstOpen] = React.useState(false);
   const [firstDone, setFirstDone] = React.useState(false);
+  const [firstDoneRow, setFirstDoneRow] = React.useState(false);
   const [resetPaginationToggle, setResetPaginationToggle] =
     React.useState(false);
 
@@ -192,6 +193,7 @@ function Admin(prop) {
   }, []);
   const updateStatus = (row, status) => {
     setFirstDone(true);
+    setFirstDoneRow(row);
   };
   const columns = [
     {
@@ -331,13 +333,17 @@ function Admin(prop) {
         onOpen={() => setFirstDone(true)}
         open={firstDone}
         style={{ height: "auto" }}
+        basic
       >
-        <Confirm
-          {...prop}
-          carts={carts}
-          gateway="BankTransfer"
-          setFilterOk={setFilterOk}
-        />
+        <div className="myaccount popupmenu">
+          <Confirm
+            {...prop}
+            carts={carts}
+            gateway="BankTransfer"
+            setFilterOk={setFilterOk}
+            item={firstDoneRow}
+          />
+        </div>
       </Modal>
 
       <div

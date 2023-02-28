@@ -1,145 +1,96 @@
-import React, { useState } from "react";
-import { Divider, Button } from "semantic-ui-react";
+import React, { useState, useEffect } from "react";
+import { Divider, Button, Input, Label, Form } from "semantic-ui-react";
 
-import Carts from "../../../components/form/Carts";
-import AmountSelect from "../../../components/form/AmountSelect";
+import Amount from "../../../components/form/Amount";
+import Carts from "../../../components/form/AdminCarts";
 import FormikControl from "../../../components/form/FormikControl";
 import { useNavigate } from "react-router-dom";
-import { Form, Formik } from "formik";
+import { Formik } from "formik";
 import * as Yup from "yup";
 import CopyBtn from "../../../utils/copyInputBtn";
 import MyMsg from "../../../utils/MsgDesc";
 import { doCurrency } from "../../../const";
 import ConvertCart from "../../../utils/convertCart";
+import { adminGetService } from "../../../services/admin";
 import $ from "jquery";
 import { cashierService } from "../../../services/cashier";
-function generateRandomInteger(min, max) {
-  return Math.floor(min + Math.random() * (max - min + 1));
-}
-var countryOptions = {
-  key: "a4f",
-  value: "6662502250225050",
-  text: "6662502250225050",
-  name: "Ali (Melli)",
-};
-var carts = [];
-var cartOptions = [];
-var amounts = [
-  { value: 1000000 },
-  { value: 1250000 },
-  { value: 1500000 },
-  { value: 1750000 },
-  { value: 2000000 },
-  { value: 2250000 },
-  { value: 2500000 },
-  { value: 2750000 },
-  { value: 3000000 },
-];
 
-const localAmount = (values, prop) => {
-  var getAmount = JSON.parse(localStorage.getItem(prop.gateway));
-  if (!getAmount) {
-    getAmount = [];
-  }
-  getAmount.push(values);
-  localStorage.setItem(prop.gateway, JSON.stringify(getAmount));
-};
-const onGetCart = async (formik, prop, setBtnLoading, setDepMode) => {
-  setBtnLoading(true);
+const onSubmit = async (values, submitMethods) => {
+  submitMethods.setSubmitting(true);
 
-  try {
-    const res = await cashierService(formik.values, "bankTransfer");
-    if (res.status == 200 && res.data.cardNumber) {
-      formik.setFieldValue("tocart", res.data.cardNumber);
-      formik.setFieldValue("tocartname", res.data.holderName);
-      formik.setFieldValue("tobankName", res.data.bankName);
-      formik.setFieldValue("code", "بابت بدهی " + res.data.txID);
-      $(".onarea").hide();
-      $(".online2").show();
-      localAmount(formik.values, prop);
-      setDepMode(2);
-    }
-    setBtnLoading(false);
-    formik.setSubmitting(false);
-  } catch (error) {
-    setBtnLoading(false);
-    formik.setSubmitting(false);
+  const res = await cashierService(values, "createDepositShetab", "");
+  if (res.status == 200) {
+    submitMethods.resetForm();
   }
-};
-const onSubmit = async (values, submitMethods, navigate, prop) => {
-  try {
-    const res = await cashierService(values, "createDepositShetab", "");
-    if (res.status == 200) {
-      localAmount(values, prop);
-      submitMethods.resetForm();
-    }
 
-    submitMethods.setSubmitting(false);
-  } catch (error) {
-    submitMethods.setSubmitting(false);
-  }
+  submitMethods.setSubmitting(false);
 };
 const updateCartInfo = (cartOptions, id, formik) => {
   var selectedCart = cartOptions.filter((d) => d.cardNumber == id)[0];
+  formik.setFieldValue("frombank", id);
 
-  formik.setFieldValue("cardNumber", id);
-
-  formik.setFieldValue("bankName", selectedCart.bankName);
-
-  formik.setFieldValue("mobile", selectedCart.mobile);
+  formik.setFieldValue("fromobj", selectedCart);
 };
-const updateAmount = (id, formik, mode) => {
-  formik.setFieldValue("amount", id);
+const updateCartInfoTo = (cartOptions, id, formik) => {
+  var selectedCart = cartOptions.filter((d) => d.cardNumber == id)[0];
+  formik.setFieldValue("tobank", id);
+
+  formik.setFieldValue("toobj", selectedCart);
 };
+
 const depositArea = (prop) => {
-  const [depMode, setDepMode] = useState(1);
-  const navigate = useNavigate();
-  const [countryOption, setCountryOption] = useState(countryOptions);
-  const [btnLoading, setBtnLoading] = useState(false);
-  const loginToken = prop.loginToken;
   const validationSchema = Yup.object({
     amount: Yup.number()
       .required("لطفا این فیلد را وارد کنید.")
       .min(100000, "لطفا این فیلد را درست وارد کنید.")
       .integer(),
   });
-
-  return (
-    <Formik
-      initialValues={{
-        action: "deposit",
-        amount: 0,
-        geteway: prop.gateway.replace(/ /g, ""),
-        code: "",
-        tocart: "",
-        tocartname: "",
-        mobile: "",
-        cardNumber: "",
-        bankName: "",
-        tobankName: "",
-        dateCreated: new Date(),
-      }}
-      onSubmit={(values, submitMethods) =>
-        onSubmit(values, submitMethods, navigate, prop)
+  const [user, setUser] = useState(false);
+  const handleGetReports = async () => {
+    try {
+      const res = await adminGetService(
+        "getUsersByAdmin?name=username&page=1&number=100&contain=false&value=" +
+          prop.item.username
+      );
+      if (res.status === 200) {
+        if (res.data.users.length > 0) {
+          setUser(
+            res.data.users.filter(
+              (item) => item.username == prop.item.username
+            )[0]
+          );
+        }
       }
-      validationSchema={validationSchema}
-    >
-      {(formik) => {
-        return (
-          <Form>
-            {depMode == 1 && (
+    } catch (error) {}
+  };
+
+  useEffect(() => {
+    handleGetReports();
+  }, []);
+  if (!user) {
+    return <>loadings</>;
+  } else {
+    return (
+      <Formik
+        initialValues={{
+          action: "cashout",
+          amount: prop.item.amount,
+          geteway: prop.gateway.replace(/ /g, ""),
+          fromobj: "",
+          toobj: "",
+          frombank: "",
+          tobank: "",
+        }}
+        onSubmit={(values, submitMethods) => onSubmit(values, submitMethods)}
+        validationSchema={validationSchema}
+      >
+        {(formik) => {
+          return (
+            <Form>
               <div className="onarea online1">
-                <MyMsg
-                  icon="num"
-                  num="1"
-                  color="yellow"
-                  size="mini"
-                  text="ابتدا کارت و مبلغ مورد نظر خود را انتخاب کنید."
-                />
-                <Divider inverted hidden />
                 <Carts
                   formik={formik}
-                  name="cardNumber"
+                  name="frombank"
                   label="واریز از"
                   labelcolor={prop.labelcolor}
                   size={prop.size}
@@ -150,46 +101,144 @@ const depositArea = (prop) => {
                 />
                 <Carts
                   formik={formik}
-                  name="tocart"
-                  label="واریز از"
+                  name="tobank"
+                  label="واریز به"
                   labelcolor={prop.labelcolor}
                   size={prop.size}
                   namemix
-                  updateCartInfo={updateCartInfo}
+                  updateCartInfo={updateCartInfoTo}
                   gateway={prop.gateway}
+                  loginToken={user}
                 />
-                <AmountSelect
+
+                <FormikControl
                   formik={formik}
+                  control="amount"
                   name="amount"
                   labelcolor={prop.labelcolor}
                   size={prop.size}
-                  mode={prop.mode}
-                  amounts={amounts}
-                  updateAmount={updateAmount}
-                  {...prop}
                 />
 
+                <Divider />
+                <CopyBtn text={formik.values.toobj?.cardNumber} />
+                <Form as="div">
+                  <Form.Input
+                    size={prop.size}
+                    fluid
+                    labelPosition="left"
+                    defaultValue=""
+                  >
+                    <Label size="tiny" pointing="right" className="farsi">
+                      شماره کارت
+                    </Label>
+                    <Input
+                      control="input"
+                      value={formik.values.toobj?.cardNumber}
+                      readOnly
+                    ></Input>
+                  </Form.Input>
+                </Form>
+                <CopyBtn text={formik.values.toobj?.shebaNumber} />
+                <Form as="div">
+                  <Form.Input
+                    size={prop.size}
+                    fluid
+                    labelPosition="left"
+                    defaultValue=""
+                  >
+                    <Label size="tiny" pointing="right" className="farsi">
+                      شماره شبا
+                    </Label>
+                    <Input
+                      control="input"
+                      value={formik.values.toobj?.shebaNumber}
+                      readOnly
+                    ></Input>
+                  </Form.Input>
+                </Form>
+                <CopyBtn text={formik.values.toobj?.accountNumber} />
+                <Form as="div">
+                  <Form.Input
+                    size={prop.size}
+                    fluid
+                    labelPosition="left"
+                    defaultValue=""
+                  >
+                    <Label size="tiny" pointing="right" className="farsi">
+                      شماره حساب
+                    </Label>
+                    <Input
+                      control="input"
+                      className="farsi"
+                      value={formik.values.toobj?.accountNumber}
+                      readOnly
+                    ></Input>
+                  </Form.Input>
+                </Form>
+                <CopyBtn text={formik.values.toobj?.holderName} />
+                <Form as="div">
+                  <Form.Input
+                    size={prop.size}
+                    fluid
+                    labelPosition="left"
+                    defaultValue=""
+                  >
+                    <Label size="tiny" pointing="right" className="farsi">
+                      نام
+                    </Label>
+                    <Input
+                      control="input"
+                      className="farsi"
+                      value={formik.values.toobj?.holderName}
+                      readOnly
+                    ></Input>
+                  </Form.Input>
+                </Form>
+                <Divider />
+                <CopyBtn text={"بابت بدهی " + prop.item.id} />
+                <Form as="div">
+                  <Form.Input
+                    size={prop.size}
+                    fluid
+                    labelPosition="left"
+                    defaultValue=""
+                  >
+                    <Label size="tiny" pointing="right" className="farsi">
+                      توضیحات
+                    </Label>
+                    <Input
+                      control="input"
+                      className="farsi"
+                      value={"بابت بدهی " + prop.item.id}
+                      readOnly
+                    ></Input>
+                  </Form.Input>
+                </Form>
+                <Divider />
                 <Button
-                  className="farsi"
-                  color="teal"
+                  content={"انجام شد"}
                   fluid
                   style={{ marginTop: 10 }}
-                  loading={btnLoading}
-                  disabled={btnLoading || !formik.isValid}
+                  className="farsi"
+                  color="teal"
                   type="button"
                   onClick={() => {
-                    onGetCart(formik, prop, setBtnLoading, setDepMode);
+                    onSubmit(formik.values, formik);
                   }}
-                >
-                  ادامه
-                </Button>
+                  disabled={
+                    formik.isSubmitting || formik.values.toobj == ""
+                      ? true
+                      : false
+                  }
+                  loading={formik.isSubmitting}
+                />
               </div>
-            )}
-          </Form>
-        );
-      }}
-    </Formik>
-  );
+            </Form>
+          );
+        }}
+      </Formik>
+    );
+  }
 };
 
 export default depositArea;
