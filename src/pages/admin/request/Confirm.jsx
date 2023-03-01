@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Divider, Button, Input, Label, Form } from "semantic-ui-react";
+import { Divider, Button, Input, Label, Form, Select } from "semantic-ui-react";
 
 import Amount from "../../../components/form/Amount";
 import Carts from "../../../components/form/AdminCarts";
@@ -11,16 +11,18 @@ import CopyBtn from "../../../utils/copyInputBtn";
 import MyMsg from "../../../utils/MsgDesc";
 import { doCurrency } from "../../../const";
 import ConvertCart from "../../../utils/convertCart";
-import { adminGetService } from "../../../services/admin";
+import { adminGetService, adminPostService } from "../../../services/admin";
 import $ from "jquery";
 import { cashierService } from "../../../services/cashier";
 
-const onSubmit = async (values, submitMethods) => {
+const onSubmit = async (values, submitMethods, prop) => {
   submitMethods.setSubmitting(true);
 
-  const res = await cashierService(values, "createDepositShetab", "");
+  const res = await adminPostService(values, "editPendingRequest", "");
   if (res.status == 200) {
     submitMethods.resetForm();
+    prop.setFirstDone(false);
+    prop.setFirstStatus("");
   }
 
   submitMethods.setSubmitting(false);
@@ -30,12 +32,14 @@ const updateCartInfo = (cartOptions, id, formik) => {
   formik.setFieldValue("frombank", id);
 
   formik.setFieldValue("fromobj", selectedCart);
+  formik.setFieldValue("bankId", selectedCart.id);
 };
 const updateCartInfoTo = (cartOptions, id, formik) => {
   var selectedCart = cartOptions.filter((d) => d.cardNumber == id)[0];
   formik.setFieldValue("tobank", id);
 
   formik.setFieldValue("toobj", selectedCart);
+  formik.setFieldValue("userBankId", selectedCart.id);
 };
 
 const depositArea = (prop) => {
@@ -45,6 +49,13 @@ const depositArea = (prop) => {
       .min(100000, "لطفا این فیلد را درست وارد کنید.")
       .integer(),
   });
+  const carOptions = [
+    {
+      key: "1",
+      value: "لطفا اطلاعات بانکی خود را تصحیح نمایید.",
+      text: "لطفا اطلاعات بانکی خود را تصحیح نمایید.",
+    },
+  ];
   const [user, setUser] = useState(false);
   const handleGetReports = async () => {
     try {
@@ -73,165 +84,214 @@ const depositArea = (prop) => {
     return (
       <Formik
         initialValues={{
-          action: "cashout",
+          action: prop.status,
+          id: prop.item.id,
           amount: prop.item.amount,
           geteway: prop.gateway.replace(/ /g, ""),
+          bankId: "",
+          userBankId: "",
           fromobj: "",
           toobj: "",
           frombank: "",
           tobank: "",
+          ticket: "",
         }}
-        onSubmit={(values, submitMethods) => onSubmit(values, submitMethods)}
+        onSubmit={(values, submitMethods) =>
+          onSubmit(values, submitMethods, prop)
+        }
         validationSchema={validationSchema}
       >
         {(formik) => {
+          const handleChange = (e, { name, value }) => {
+            formik.setFieldValue("ticket", value);
+            // $('[name="message"]:visible').val(defval);
+          };
           return (
             <Form>
               <div className="onarea online1">
-                <Carts
-                  formik={formik}
-                  name="frombank"
-                  label="واریز از"
-                  labelcolor={prop.labelcolor}
-                  size={prop.size}
-                  namemix
-                  updateCartInfo={updateCartInfo}
-                  gateway={prop.gateway}
-                  {...prop}
-                />
-                <Carts
-                  formik={formik}
-                  name="tobank"
-                  label="واریز به"
-                  labelcolor={prop.labelcolor}
-                  size={prop.size}
-                  namemix
-                  updateCartInfo={updateCartInfoTo}
-                  gateway={prop.gateway}
-                  loginToken={user}
-                />
+                {prop.status == "Done" ? (
+                  <>
+                    <Carts
+                      formik={formik}
+                      name="frombank"
+                      label="واریز از"
+                      labelcolor={prop.labelcolor}
+                      size={prop.size}
+                      namemix
+                      updateCartInfo={updateCartInfo}
+                      gateway={prop.gateway}
+                      {...prop}
+                    />
+                    <Carts
+                      formik={formik}
+                      name="tobank"
+                      label="واریز به"
+                      labelcolor={prop.labelcolor}
+                      size={prop.size}
+                      namemix
+                      updateCartInfo={updateCartInfoTo}
+                      gateway={prop.gateway}
+                      loginToken={user}
+                      carts={""}
+                    />
 
-                <FormikControl
-                  formik={formik}
-                  control="amount"
-                  name="amount"
-                  labelcolor={prop.labelcolor}
-                  size={prop.size}
-                />
+                    <FormikControl
+                      formik={formik}
+                      control="amount"
+                      name="amount"
+                      labelcolor={prop.labelcolor}
+                      size={prop.size}
+                    />
 
-                <Divider />
-                <CopyBtn text={formik.values.toobj?.cardNumber} />
-                <Form as="div">
-                  <Form.Input
-                    size={prop.size}
-                    fluid
-                    labelPosition="left"
-                    defaultValue=""
-                  >
-                    <Label size="tiny" pointing="right" className="farsi">
-                      شماره کارت
-                    </Label>
-                    <Input
-                      control="input"
-                      value={formik.values.toobj?.cardNumber}
-                      readOnly
-                    ></Input>
-                  </Form.Input>
-                </Form>
-                <CopyBtn text={formik.values.toobj?.shebaNumber} />
-                <Form as="div">
-                  <Form.Input
-                    size={prop.size}
-                    fluid
-                    labelPosition="left"
-                    defaultValue=""
-                  >
-                    <Label size="tiny" pointing="right" className="farsi">
-                      شماره شبا
-                    </Label>
-                    <Input
-                      control="input"
-                      value={formik.values.toobj?.shebaNumber}
-                      readOnly
-                    ></Input>
-                  </Form.Input>
-                </Form>
-                <CopyBtn text={formik.values.toobj?.accountNumber} />
-                <Form as="div">
-                  <Form.Input
-                    size={prop.size}
-                    fluid
-                    labelPosition="left"
-                    defaultValue=""
-                  >
-                    <Label size="tiny" pointing="right" className="farsi">
-                      شماره حساب
-                    </Label>
-                    <Input
-                      control="input"
+                    <Divider />
+                    <CopyBtn text={formik.values.toobj?.cardNumber} />
+                    <Form as="div">
+                      <Form.Input
+                        size={prop.size}
+                        fluid
+                        labelPosition="left"
+                        defaultValue=""
+                      >
+                        <Label size="tiny" pointing="right" className="farsi">
+                          شماره کارت
+                        </Label>
+                        <Input
+                          control="input"
+                          value={formik.values.toobj?.cardNumber}
+                          readOnly
+                        ></Input>
+                      </Form.Input>
+                    </Form>
+                    <CopyBtn text={formik.values.toobj?.shebaNumber} />
+                    <Form as="div">
+                      <Form.Input
+                        size={prop.size}
+                        fluid
+                        labelPosition="left"
+                        defaultValue=""
+                      >
+                        <Label size="tiny" pointing="right" className="farsi">
+                          شماره شبا
+                        </Label>
+                        <Input
+                          control="input"
+                          value={formik.values.toobj?.shebaNumber}
+                          readOnly
+                        ></Input>
+                      </Form.Input>
+                    </Form>
+                    <CopyBtn text={formik.values.toobj?.accountNumber} />
+                    <Form as="div">
+                      <Form.Input
+                        size={prop.size}
+                        fluid
+                        labelPosition="left"
+                        defaultValue=""
+                      >
+                        <Label size="tiny" pointing="right" className="farsi">
+                          شماره حساب
+                        </Label>
+                        <Input
+                          control="input"
+                          className="farsi"
+                          value={formik.values.toobj?.accountNumber}
+                          readOnly
+                        ></Input>
+                      </Form.Input>
+                    </Form>
+                    <CopyBtn text={formik.values.toobj?.holderName} />
+                    <Form as="div">
+                      <Form.Input
+                        size={prop.size}
+                        fluid
+                        labelPosition="left"
+                        defaultValue=""
+                      >
+                        <Label size="tiny" pointing="right" className="farsi">
+                          نام
+                        </Label>
+                        <Input
+                          control="input"
+                          className="farsi"
+                          value={formik.values.toobj?.holderName}
+                          readOnly
+                        ></Input>
+                      </Form.Input>
+                    </Form>
+                    <Divider />
+                    <CopyBtn text={"بابت بدهی " + prop.item.id} />
+                    <Form as="div">
+                      <Form.Input
+                        size={prop.size}
+                        fluid
+                        labelPosition="left"
+                        defaultValue=""
+                      >
+                        <Label size="tiny" pointing="right" className="farsi">
+                          توضیحات
+                        </Label>
+                        <Input
+                          control="input"
+                          className="farsi"
+                          value={"بابت بدهی " + prop.item.id}
+                          readOnly
+                        ></Input>
+                      </Form.Input>
+                    </Form>
+                    <Divider />
+                    <Button
+                      content={"انجام شد"}
+                      fluid
+                      style={{ marginTop: 10 }}
                       className="farsi"
-                      value={formik.values.toobj?.accountNumber}
-                      readOnly
-                    ></Input>
-                  </Form.Input>
-                </Form>
-                <CopyBtn text={formik.values.toobj?.holderName} />
-                <Form as="div">
-                  <Form.Input
-                    size={prop.size}
-                    fluid
-                    labelPosition="left"
-                    defaultValue=""
-                  >
-                    <Label size="tiny" pointing="right" className="farsi">
-                      نام
-                    </Label>
-                    <Input
-                      control="input"
+                      color="teal"
+                      type="button"
+                      onClick={() => {
+                        onSubmit(formik.values, formik, prop);
+                      }}
+                      disabled={
+                        formik.isSubmitting || formik.values.toobj == ""
+                          ? true
+                          : false
+                      }
+                      loading={formik.isSubmitting}
+                    />
+                  </>
+                ) : (
+                  <>
+                    <FormikControl
+                      formik={formik}
+                      control="amount"
+                      name="amount"
+                      labelcolor={prop.labelcolor}
+                      size={prop.size}
+                    />
+
+                    <Divider />
+                    <Select
+                      placeholder="علت"
                       className="farsi"
-                      value={formik.values.toobj?.holderName}
-                      readOnly
-                    ></Input>
-                  </Form.Input>
-                </Form>
-                <Divider />
-                <CopyBtn text={"بابت بدهی " + prop.item.id} />
-                <Form as="div">
-                  <Form.Input
-                    size={prop.size}
-                    fluid
-                    labelPosition="left"
-                    defaultValue=""
-                  >
-                    <Label size="tiny" pointing="right" className="farsi">
-                      توضیحات
-                    </Label>
-                    <Input
-                      control="input"
+                      fluid
+                      options={carOptions}
+                      onChange={handleChange}
+                    />
+
+                    <Divider />
+                    <Button
+                      content={"Cancele This Cashout"}
+                      fluid
+                      style={{ marginTop: 10 }}
                       className="farsi"
-                      value={"بابت بدهی " + prop.item.id}
-                      readOnly
-                    ></Input>
-                  </Form.Input>
-                </Form>
-                <Divider />
-                <Button
-                  content={"انجام شد"}
-                  fluid
-                  style={{ marginTop: 10 }}
-                  className="farsi"
-                  color="teal"
-                  type="button"
-                  onClick={() => {
-                    onSubmit(formik.values, formik);
-                  }}
-                  disabled={
-                    formik.isSubmitting || formik.values.toobj == ""
-                      ? true
-                      : false
-                  }
-                  loading={formik.isSubmitting}
-                />
+                      color="red"
+                      type="button"
+                      onClick={() => {
+                        onSubmit(formik.values, formik, prop);
+                      }}
+                      disabled={formik.isSubmitting ? true : false}
+                      loading={formik.isSubmitting}
+                    />
+                  </>
+                )}
               </div>
             </Form>
           );

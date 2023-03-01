@@ -18,6 +18,12 @@ body {
   text-align: right;
   /* box-sizing: content-box */
 }
+input.farsi {
+  font-size: 80% !important;
+}
+.ui.dimmer{
+  z-index: 10000 !important;
+}
 *{outline-color: transparent !important; outline-width: 0px !important;outline-style: solid !important;}
 .rewardtext{
   height: 24px;

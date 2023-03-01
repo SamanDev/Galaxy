@@ -85,7 +85,7 @@ const Balance = (prop) => {
   };
   const [lvlPercentState, setlvlPercentState] = useState(0);
   const ChangeGift = () => {
-    if (loginToken) {
+    if (loginToken?.accessToken) {
       var _bonuses = loginToken?.userGifts;
 
       var end = Date.now();
@@ -136,7 +136,7 @@ const Balance = (prop) => {
     }
   }, []);
   useEffect(() => {
-    if (loginToken && levelData) {
+    if (loginToken?.accessToken && levelData) {
       var _lvlFinal = levelData.filter((d) => d.level === loginToken.level);
 
       lvlPercent = parseFloat(

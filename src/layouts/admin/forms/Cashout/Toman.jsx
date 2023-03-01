@@ -18,6 +18,7 @@ import { useNavigate } from "react-router-dom";
 import { FastField, Form, Formik } from "formik";
 import * as Yup from "yup";
 import { Alert } from "../../../../utils/alerts";
+import { getCashAmount } from "../../../../const";
 import { cashierService } from "../../../../services/cashier";
 
 const initialValues = {
@@ -31,7 +32,7 @@ const onSubmit = async (values, submitMethods, navigate, prop, setRefresh) => {
     const res = await cashierService(values, "createCashoutShetab", "");
     if (res.status == 200) {
       if (res.data?.accessToken) {
-        //setRefresh(true);
+        setRefresh(true);
         //Alert("Done", "انجام شد.", "success");
       }
     } else {
@@ -61,7 +62,7 @@ const depositArea = (prop) => {
   return (
     <Formik
       initialValues={{
-        amount: parseInt(loginToken.balance / 100000) * 100000,
+        amount: getCashAmount(loginToken.balance),
 
         amountDollar: 0,
       }}

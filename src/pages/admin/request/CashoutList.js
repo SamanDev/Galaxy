@@ -86,6 +86,7 @@ function Admin(prop) {
   const [firstOpen, setFirstOpen] = React.useState(false);
   const [firstDone, setFirstDone] = React.useState(false);
   const [firstDoneRow, setFirstDoneRow] = React.useState(false);
+  const [firstStatus, setFirstStatus] = React.useState(false);
   const [resetPaginationToggle, setResetPaginationToggle] =
     React.useState(false);
 
@@ -105,8 +106,10 @@ function Admin(prop) {
       console.log(error.message);
     }
   };
-  const fetchUsers = async (page) => {
-    setLoading(true);
+  const fetchUsers = async (page, load) => {
+    if (load) {
+      setLoading(true);
+    }
     var _s = moment(startDate).format("YYYY-MM-DD");
     var _e = moment(endDate).format("YYYY-MM-DD");
 
@@ -169,7 +172,7 @@ function Admin(prop) {
   }
   footerTxt = footerTxt + "Rows per page:";
   const handlePageChange = (page) => {
-    fetchUsers(page);
+    fetchUsers(page, true);
   };
   const handleSort = (column, sortDirection) => {
     console.log(sortDirection);
@@ -182,18 +185,22 @@ function Admin(prop) {
   };
 
   useEffect(() => {
-    fetchUsers(1); // fetch page 1 of users
+    fetchUsers(1, true); // fetch page 1 of users
   }, [dataSorted, dataSortedDir]);
 
   useEffect(() => {
-    if (!firstOpen && filterOk) fetchUsers(1); // fetch page 1 of users
+    if (!firstOpen && filterOk) fetchUsers(1, true); // fetch page 1 of users
   }, [filterOk, firstOpen]);
+  useEffect(() => {
+    if (!firstDone && firstStatus == "") fetchUsers(1); // fetch page 1 of users
+  }, [firstDone]);
   useEffect(() => {
     fetchCart();
   }, []);
   const updateStatus = (row, status) => {
     setFirstDone(true);
     setFirstDoneRow(row);
+    setFirstStatus(status);
   };
   const columns = [
     {
@@ -334,14 +341,19 @@ function Admin(prop) {
         open={firstDone}
         style={{ height: "auto" }}
         basic
+        closeOnDimmerClick={false}
+        closeIcon
       >
-        <div className="myaccount popupmenu">
+        <div className="myaccount popupmenu" style={{ margin: 50 }}>
           <Confirm
             {...prop}
             carts={carts}
             gateway="BankTransfer"
             setFilterOk={setFilterOk}
             item={firstDoneRow}
+            status={firstStatus}
+            setFirstDone={setFirstDone}
+            setFirstStatus={setFirstStatus}
           />
         </div>
       </Modal>

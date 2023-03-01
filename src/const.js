@@ -912,6 +912,25 @@ export const haveModerator = (userTags) => {
 
   return isAdmin;
 };
+export const getCashAmount = (balance) => {
+  var defMod = 100000;
+  if (balance > defMod * 2) {
+    defMod = defMod * 2;
+  }
+  if (balance > defMod * 2.5) {
+    defMod = defMod * 2.5;
+  }
+  if (balance > defMod * 2) {
+    defMod = defMod * 2;
+  }
+  if (balance > defMod * 2) {
+    defMod = defMod * 2;
+  }
+
+  var _balance = parseInt(balance / defMod) * defMod;
+
+  return _balance;
+};
 export const isJson = (item) => {
   item = typeof item !== "string" ? JSON.stringify(item) : item;
 

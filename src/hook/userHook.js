@@ -4,18 +4,22 @@ import { publicGetRules } from "../services/public";
 import { getReportPenService } from "../services/report";
 import eventBus from "../services/eventBus";
 export const useUser = () => {
+  var loginKey = localStorage.getItem("galaxyUserkeyToken");
+
   const [loginToken, setLoginToken] = useState(
-    localStorage.getItem("loginToken")
-      ? JSON.parse(localStorage.getItem("loginToken"))
-      : null
+    localStorage.getItem(loginKey + "Token")
+      ? JSON.parse(localStorage.getItem(loginKey + "Token"))
+      : {}
   );
 
   useEffect(() => {
     eventBus.on("updateUser", (dataGet) => {
+      var loginKey = localStorage.getItem("galaxyUserkeyToken");
       setLoginToken(dataGet);
-      localStorage.setItem("loginToken", JSON.stringify(dataGet));
+      localStorage.setItem(loginKey + "Token", JSON.stringify(dataGet));
     });
   }, []);
+
   return [loginToken];
 };
 export const useSiteInfo = () => {

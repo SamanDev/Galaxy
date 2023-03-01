@@ -19,10 +19,12 @@ export const useIsLogin = () => {
     }
   };
   useEffect(() => {
-    const loginToken = JSON.parse(localStorage.getItem("loginToken"));
+    var loginKey = localStorage.getItem("galaxyUserkeyToken");
+
+    var loginToken = JSON.parse(localStorage.getItem(loginKey + "Token"));
 
     if (
-      loginToken &&
+      loginToken?.accessToken &&
       window.location.href.toString().indexOf("/logout") == -1
     ) {
       handleCheckLogin();

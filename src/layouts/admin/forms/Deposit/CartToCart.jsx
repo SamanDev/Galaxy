@@ -55,6 +55,7 @@ const onGetCart = async (formik, prop, setBtnLoading, setDepMode) => {
       formik.setFieldValue("tocartname", res.data.holderName);
       formik.setFieldValue("tobankName", res.data.bankName);
       formik.setFieldValue("code", "بابت بدهی " + res.data.txID);
+      formik.setFieldValue("bankId", res.data.id);
       $(".onarea").hide();
       $(".online2").show();
       localAmount(formik.values, prop);
@@ -86,7 +87,7 @@ const updateCartInfo = (cartOptions, id, formik) => {
   formik.setFieldValue("cardNumber", id);
 
   formik.setFieldValue("bankName", selectedCart.bankName);
-
+  formik.setFieldValue("userBankId", selectedCart.id);
   formik.setFieldValue("mobile", selectedCart.mobile);
 };
 const updateAmount = (id, formik, mode) => {
@@ -102,7 +103,7 @@ const depositArea = (prop) => {
     amount: Yup.number()
       .required("لطفا این فیلد را وارد کنید.")
       .min(100000, "لطفا این فیلد را درست وارد کنید.")
-      .max(loginToken.balance, "لطفا این فیلد را درست وارد کنید.")
+
       .integer(),
   });
   if (loginToken) {
@@ -113,6 +114,8 @@ const depositArea = (prop) => {
           amount: 0,
           geteway: prop.gateway.replace(/ /g, ""),
           code: "",
+          bankId: "",
+          userBankId: "",
           tocart: "",
           tocartname: "",
           mobile: "",
@@ -196,7 +199,7 @@ const depositArea = (prop) => {
                           />
                         </span>{" "}
                         مبلغ{" "}
-                        <span className="text-danger">
+                        <span className="text-danger lh-bold">
                           {doCurrency(formik.values.amount)} تومان
                         </span>{" "}
                         را به کارت زیر انتقال دهید.

@@ -5,6 +5,8 @@ export const cashierService = (values, mode, geteway = "") => {
   });
 };
 export const rateService = () => {
-  const tokenInfo = JSON.parse(localStorage.getItem("loginToken"));
+  var loginKey = localStorage.getItem("galaxyUserkeyToken");
+
+  var tokenInfo = JSON.parse(localStorage.getItem(loginKey + "Token"));
   if (tokenInfo?.accessToken) return httpService("/req/getPrice", "get");
 };

@@ -132,7 +132,29 @@ var defMethod = [
     active: true,
   },
 ];
+const cipher = (salt) => {
+  const textToChars = (text) => text.split("").map((c) => c.charCodeAt(0));
+  const byteHex = (n) => ("0" + Number(n).toString(16)).substr(-2);
+  const applySaltToChar = (code) =>
+    textToChars(salt).reduce((a, b) => a ^ b, code);
 
+  return (text) =>
+    text.split("").map(textToChars).map(applySaltToChar).map(byteHex).join("");
+};
+
+const decipher = (salt) => {
+  const textToChars = (text) => text.split("").map((c) => c.charCodeAt(0));
+  const applySaltToChar = (code) =>
+    textToChars(salt).reduce((a, b) => a ^ b, code);
+  return (encoded) =>
+    encoded
+      .match(/.{1,2}/g)
+      .map((hex) => parseInt(hex, 16))
+      .map(applySaltToChar)
+      .map((charCode) => String.fromCharCode(charCode))
+      .join("");
+};
+const myCipher = cipher("mySecretSalt");
 var nowDay = moment().isoWeekday();
 const animateCSS = (element, animation, prefix = "") =>
   // We create a Promise and return it
@@ -690,15 +712,18 @@ function App(prop) {
   const getBonus = (gateway) => {
     var userMethods = defMethod;
     if (loginToken) {
-      userMethods = loginToken.cashierGateways;
-    }
-    try {
-      userMethods.sort((a, b) => (a.mode > b.mode ? 1 : -1));
-    } catch (error) {
-      localStorage.removeItem("loginToken");
+      userMethods = loginToken?.cashierGateways;
     }
 
-    var data_filter = userMethods.filter((element) => element.name == gateway);
+    try {
+      userMethods.sort((a, b) => (a.mode > b.mode ? 1 : -1));
+      var data_filter = userMethods.filter(
+        (element) => element.name == gateway
+      );
+    } catch (error) {
+      data_filter = [];
+    }
+
     if (data_filter.length > 0) {
       var bonus = data_filter[0].bonus;
     } else {
@@ -714,16 +739,14 @@ function App(prop) {
     var userMethods = defMethod;
 
     if (loginToken) {
-      userMethods = loginToken.cashierGateways;
+      userMethods = loginToken?.cashierGateways;
     }
     try {
       userMethods.sort((a, b) => (a.mode > b.mode ? 1 : -1));
-    } catch (error) {
-      localStorage.removeItem("loginToken");
-    }
+    } catch (error) {}
 
     var canAdd = false;
-    {
+    if (userMethods?.length > 0) {
       userMethods.map(function (cashierGateway) {
         if (
           (cashierGateway.mode == keyAccess ||
@@ -789,9 +812,11 @@ function App(prop) {
 
   useEffect(() => {
     if (window.location.href.toString().indexOf("/logout") > -1) {
-      eventBus.dispatch("updateUser", "");
+      var _old = loginToken;
+      _old.logout = true;
+      eventBus.dispatch("updateUser", _old);
       setIsUser(false);
-      localStorage.clear();
+      localStorage.removeItem("galaxyUserkeyToken");
       UserWebsocket.connect();
 
       navigate("/");

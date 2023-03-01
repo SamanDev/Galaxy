@@ -1,7 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import { Button } from "semantic-ui-react";
-
 const Actios = (prop) => {
+  const [loading, setLoading] = useState(false);
   if (prop.row.status === "Pending") {
     return (
       <>
@@ -9,13 +9,17 @@ const Actios = (prop) => {
           size="mini"
           color="green"
           icon="check"
-          onClick={() => prop.updateStatus(prop.row, "Done")}
+          loading={loading}
+          disabled={loading}
+          onClick={() => prop.updateStatus(prop.row, "Done", setLoading)}
         />{" "}
         <Button
           size="mini"
           color="red"
           icon="times"
-          onClick={() => prop.updateStatus(prop.row, "Canceled")}
+          loading={loading}
+          disabled={loading}
+          onClick={() => prop.updateStatus(prop.row, "Canceled", setLoading)}
         />
       </>
     );
@@ -26,7 +30,9 @@ const Actios = (prop) => {
           size="mini"
           color="yellow"
           icon="refresh"
-          onClick={() => prop.updateStatus(prop.row, "Pending")}
+          loading={loading}
+          disabled={loading}
+          onClick={() => prop.updateStatus(prop.row, "Pending", setLoading)}
         />
       </>
     );

@@ -19,7 +19,7 @@ import { FastField, Form, Formik } from "formik";
 import * as Yup from "yup";
 import { Alert } from "../../../../utils/alerts";
 import { cashierService } from "../../../../services/cashier";
-
+import { getCashAmount } from "../../../../const";
 const initialValues = {
   amount: 0,
 
@@ -68,15 +68,13 @@ const depositArea = (prop) => {
       .min(100, "لطفا این فیلد را درست وارد کنید.")
       .integer(),
   });
+  var _bal = getCashAmount(loginToken.balance);
   return (
     <Formik
       initialValues={{
-        amount: parseInt(loginToken.balance / 100000) * 100000,
+        amount: _bal,
 
-        amountDollar:
-          (parseInt(loginToken.balance / 100000) * 100000) / getRate >= 100
-            ? (parseInt(loginToken.balance / 100000) * 100000) / getRate
-            : 100,
+        amountDollar: _bal / getRate >= 100 ? _bal / getRate : 100,
       }}
       onSubmit={(values, submitMethods) =>
         onSubmit(values, submitMethods, navigate, prop, setRefresh)

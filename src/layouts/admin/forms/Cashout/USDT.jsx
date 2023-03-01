@@ -7,7 +7,7 @@ import { Form, Formik } from "formik";
 import * as Yup from "yup";
 import { Alert } from "../../../../utils/alerts";
 import { cashierService } from "../../../../services/cashier";
-
+import { getCashAmount } from "../../../../const";
 const initialValues = {
   action: "cashout",
   amount: 0,
@@ -59,18 +59,16 @@ const depositArea = (prop) => {
       .required("کلمه عبور حداقل باشد 8 کاراکتر باشد.")
       .min(8, "کلمه عبور حداقل باشد 8 کاراکتر باشد."),
   });
+  var _bal = getCashAmount(loginToken.balance);
   return (
     <Formik
       initialValues={{
-        amount: parseInt(loginToken.balance / 100000) * 100000,
+        amount: _bal,
 
         action: "cashout",
 
         coin: "USDT.TRC20",
-        amountDollar:
-          (parseInt(loginToken.balance / 100000) * 100000) / getRate >= 100
-            ? (parseInt(loginToken.balance / 100000) * 100000) / getRate
-            : 100,
+        amountDollar: _bal / getRate >= 100 ? _bal / getRate : 100,
         userWalletAddress: "",
         username: "",
         password: "",

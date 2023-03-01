@@ -1,34 +1,127 @@
-import React from "react";
+import React, { useState } from "react";
 
-import { Segment } from "semantic-ui-react";
 import $ from "jquery";
+import {
+  Label,
+  Header,
+  Loader,
+  Dimmer,
+  Segment,
+  Dropdown,
+} from "semantic-ui-react";
+
+import { loginService, getUserService } from "../../../services/auth";
+import eventBus from "../../../services/eventBus";
 const Rightcontent = (prop) => {
   const activePanel = prop.activePanel;
+  const [loading, setLoading] = useState(false);
+  const keysArea = () => {
+    var loginKey = localStorage.getItem("galaxyUserkeyToken");
+    var loginToken = JSON.parse(localStorage.getItem(loginKey + "Token"));
+    if (!loginToken?.accessToken) return null;
+    var _key = [
+      {
+        key: "1",
+        text: loginToken.username,
+        value: loginToken.username,
+        active: true,
+
+        image: {
+          avatar: true,
+          src: "/assets/images/stars/lvl" + loginToken.level + ".png",
+        },
+      },
+    ];
+    for (var key in localStorage) {
+      if (
+        key.indexOf("Token") > -1 &&
+        key.replace("Token", "") !== loginKey &&
+        key != "galaxyUserkeyToken"
+      ) {
+        var loginToken = JSON.parse(localStorage.getItem(key));
+        _key.push({
+          key: loginToken.username,
+          text: loginToken.username,
+          value: loginToken.username,
+          image: {
+            avatar: true,
+            src: "/assets/images/stars/lvl" + loginToken.level + ".png",
+          },
+        });
+      }
+    }
+    if (_key.length == 1) return null;
+
+    return (
+      <div style={{ right: 80, position: "absolute", top: 20, color: "white" }}>
+        <Dropdown
+          labeled
+          basic
+          pointing="top right"
+          options={_key}
+          defaultValue={_key[0].value}
+          onChange={handleChange}
+        />
+      </div>
+    );
+  };
+  const handleCheckLogin = async (value) => {
+    setLoading(true);
+    try {
+      const res = await getUserService();
+      if (res.status == 200) {
+        var loginToken = JSON.parse(
+          localStorage.getItem(res.data.username + "Token")
+        );
+
+        eventBus.dispatch("updateUser", loginToken);
+        prop.setIsUser(true);
+      }
+      setLoading(false);
+    } catch (error) {
+      setLoading(false);
+    }
+  };
+  const handleChange = (e, { value }) => {
+    localStorage.setItem("galaxyUserkeyToken", value);
+    handleCheckLogin(value);
+  };
   return (
-    <div className="right_content  d-flex">
-      <Segment
-        basic
-        style={{
-          color: "#fff",
-          position: "absolute",
-          top: 8,
-          right: 5,
-          opacity: 1,
-          padding: 0,
-          cursor: "pointer",
-        }}
-        onClick={() => {
-          prop.setActivePanel(!activePanel);
-          $(".picn").toggleClass("open");
-        }}
-      >
-        <div id="nav-icon1" className="picn">
-          <span></span>
-          <span></span>
-          <span></span>
-        </div>
-      </Segment>
-    </div>
+    <>
+      {loading && (
+        <Dimmer active>
+          <Loader className="farsi-inline" size="large">
+            لطفا صبر کنید...
+          </Loader>
+        </Dimmer>
+      )}
+
+      <div className="right_content  d-flex">
+        <Segment
+          basic
+          style={{
+            color: "#fff",
+            position: "absolute",
+            top: 8,
+            right: 5,
+            opacity: 1,
+            padding: 0,
+            cursor: "pointer",
+          }}
+          onClick={() => {
+            prop.setActivePanel(!activePanel);
+            $(".picn").toggleClass("open");
+          }}
+        >
+          <div id="nav-icon1" className="picn">
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+        </Segment>{" "}
+        {keysArea()}
+      </div>
+    </>
   );
 };
 

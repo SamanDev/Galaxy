@@ -6,9 +6,10 @@ import ActionBtn from "../../../utils/actionBtn";
 import AmountColor from "../../../utils/AmountColor";
 import ConvertCart from "../../../utils/convertCart";
 import CartFormat from "../../../utils/CartFormat";
+import { isJson, doCurrency } from "../../../const";
 import { addDays } from "date-fns";
 const moment = require("moment");
-import { adminGetService } from "../../../services/admin";
+import { adminGetService, adminPostService } from "../../../services/admin";
 
 import DateReng from "../utils/dateReng";
 import FilterMode from "./Filter";
@@ -169,7 +170,7 @@ function Admin(prop) {
   var filteredItems = data.filter((item) => item.username);
   if (dataMode != "All") {
     filteredItems = data.filter((item) => {
-      return dataMode == item.status;
+      return dataMode == item?.status;
     });
   }
   const [firstOpen, setFirstOpen] = React.useState(false);
@@ -183,8 +184,11 @@ function Admin(prop) {
     </div>
   );
 
-  const fetchUsers = async (page) => {
-    setLoading(true);
+  const fetchUsers = async (page, load) => {
+    if (load) {
+      setLoading(true);
+    }
+
     var _s = moment(startDate).format("YYYY-MM-DD");
     var _e = moment(endDate).format("YYYY-MM-DD");
 
@@ -203,7 +207,49 @@ function Admin(prop) {
       setLoading(false);
     }
   };
-
+  const gettotal = (data, status, target) => {
+    var _data = data.filter(
+      (d) => d.status.toLowerCase() === status.toLowerCase()
+    );
+    var _totalReward = 0;
+    {
+      _data.map((x, i) => {
+        var _am = x.endBalance >= x.startBalance ? x.amount : x.amount * -1;
+        _totalReward = _totalReward + _am;
+      });
+    }
+    if (target == "total") return _totalReward;
+    if (target == "count") return _data.length;
+  };
+  var footerTxt = "";
+  if (doCurrency(gettotal(filteredItems, "Done", "count")) > 0) {
+    footerTxt =
+      footerTxt +
+      "Done (" +
+      doCurrency(gettotal(filteredItems, "Done", "count")) +
+      "): " +
+      doCurrency(gettotal(filteredItems, "Done", "total")) +
+      "  َ  َ  َ |  َ  َ  َ  ";
+  }
+  if (doCurrency(gettotal(filteredItems, "Pending", "count")) > 0) {
+    footerTxt =
+      footerTxt +
+      " Pending (" +
+      doCurrency(gettotal(filteredItems, "Pending", "count")) +
+      "): " +
+      doCurrency(gettotal(filteredItems, "Pending", "total")) +
+      "  َ  َ  َ |  َ  َ  َ  ";
+  }
+  if (doCurrency(gettotal(filteredItems, "Canceled", "count")) > 0) {
+    footerTxt =
+      footerTxt +
+      " Canceled (" +
+      doCurrency(gettotal(filteredItems, "Canceled", "count")) +
+      "): " +
+      doCurrency(gettotal(filteredItems, "Canceled", "total")) +
+      "  َ  َ  َ |  َ  َ  َ  ";
+  }
+  footerTxt = footerTxt + "Rows per page:";
   const handlePageChange = (page) => {
     fetchUsers(page);
   };
@@ -218,26 +264,25 @@ function Admin(prop) {
   };
 
   useEffect(() => {
-    fetchUsers(1); // fetch page 1 of users
+    fetchUsers(1, true); // fetch page 1 of users
   }, [dataSorted, dataSortedDir]);
 
   useEffect(() => {
-    if (!firstOpen && filterOk) fetchUsers(1); // fetch page 1 of users
+    if (!firstOpen && filterOk) fetchUsers(1, true); // fetch page 1 of users
   }, [filterOk, firstOpen]);
-  const updateStatus = (row, status) => {
-    var pay = JSON.parse(row.description);
-    var id = pay.userId;
-    adminService.changeReportStatus("deposit", id, status).then((response) => {
-      if (response) {
-        Swal.fire({
-          title: "Success",
-          text: "Saved",
-          icon: "success",
-          showCancelButton: false,
-          confirmButtonText: `Ok`,
-        }).then(() => {});
-      }
-    });
+  const updateStatus = async (row, status, setLoading) => {
+    setLoading(true);
+    var values = {
+      action: status,
+      id: row.id,
+      amount: row.amount,
+      geteway: row.gateway.replace(/ /g, ""),
+    };
+    const res = await adminPostService(values, "editPendingRequest", "");
+    if (res.status == 200) {
+      fetchUsers(1);
+    }
+    setLoading(false);
   };
   const columns = [
     {
@@ -274,7 +319,7 @@ function Admin(prop) {
       name: "From",
       selector: (row) => row.description,
       format: (row) => {
-        row.description != "" ? (
+        isJson(row.description) ? (
           <CartFormat row={JSON.parse(row.description)[0]} />
         ) : (
           <></>
@@ -302,7 +347,7 @@ function Admin(prop) {
       name: "ToCart",
       selector: (row) => row.description,
       format: (row) => {
-        row.description != "" ? (
+        isJson(row.description) ? (
           <CartFormat row={JSON.parse(row.description)[1]} />
         ) : (
           <></>
@@ -414,6 +459,13 @@ function Admin(prop) {
           paginationResetDefaultPage={resetPaginationToggle} // optionally, a hook to reset pagination to page 1
           persistTableHead
           paginationRowsPerPageOptions={[10, 25, 50, 100, 500]}
+          paginationComponentOptions={{
+            rowsPerPageText: footerTxt,
+            rangeSeparatorText: "of",
+            noRowsPerPage: false,
+            selectAllRowsItem: false,
+            selectAllRowsItemText: "All",
+          }}
         />
       </div>
     </>

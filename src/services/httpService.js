@@ -6,12 +6,13 @@ import UserWebsocket from "./user.websocket";
 import eventBus from "./eventBus";
 export const apiPath = config.onlinePath;
 export function checkBlock(data) {
-  var loginToken = JSON.parse(localStorage.getItem("loginToken"));
+  var loginKey = localStorage.getItem("galaxyUserkeyToken");
+
+  var loginToken = JSON.parse(localStorage.getItem(loginKey + "Token"));
   if (loginToken) {
     if (loginToken.username == data.username) {
       if (!data.userBlock) {
-        localStorage.setItem("loginToken", JSON.stringify(data));
-
+        localStorage.setItem(data.username + "Token", JSON.stringify(data));
         if (loginToken != data) {
           eventBus.dispatch("updateUser", data);
         }
@@ -26,7 +27,8 @@ export function checkBlock(data) {
     }
   } else {
     if (!data.userBlock) {
-      localStorage.setItem("loginToken", JSON.stringify(data));
+      localStorage.setItem("galaxyUserkeyToken", data.username);
+      localStorage.setItem(data.username + "Token", JSON.stringify(data));
       eventBus.dispatch("updateUser", data);
       UserWebsocket.connect(data.accessToken + "&user=" + data.username, data);
     } else {
@@ -60,14 +62,15 @@ axios.interceptors.response.use(
     return res;
   },
   (error) => {
-    MyToast("متاسفانه مشکلی از سمت سرور رخ داده", "error");
     if (error.response.status == 401) {
+      //MyToast("متاسفانه مشکلی از سمت سرور رخ داده", "error");
       //window.location = "/logout";
-
-      eventBus.dispatch("updateUser", null);
-      UserWebsocket.connect();
+      localStorage.removeItem("galaxyUserkeyToken");
+      //eventBus.dispatch("updateUser", null);
+      //UserWebsocket.connect();
     }
     if (error.response.status != 401) {
+      MyToast("متاسفانه مشکلی از سمت سرور رخ داده", "error");
       MyToast(error.response.data.message, "error");
       // Alert(error.response.status, error.response.data.message, "error");
     }
@@ -81,7 +84,9 @@ axios.interceptors.response.use(
 );
 
 export const httpService = (url, method, data = null) => {
-  const tokenInfo = JSON.parse(localStorage.getItem("loginToken"));
+  var loginKey = localStorage.getItem("galaxyUserkeyToken");
+
+  var tokenInfo = JSON.parse(localStorage.getItem(loginKey + "Token"));
   return axios({
     url: apiPath + "/api" + url,
     method,

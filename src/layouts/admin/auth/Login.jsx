@@ -1,11 +1,19 @@
 import React, { useState } from "react";
-import { Label, Header, Divider, Button, Segment } from "semantic-ui-react";
+import {
+  Label,
+  Header,
+  Divider,
+  Button,
+  Segment,
+  Dropdown,
+} from "semantic-ui-react";
 import AuthFormikControl from "../../../components/authForm/AuthFormikControl";
 import { useNavigate } from "react-router-dom";
 import { Form, Formik } from "formik";
 import * as Yup from "yup";
 import { Alert } from "../../../utils/alerts";
-import { loginService } from "../../../services/auth";
+import { loginService, getUserService } from "../../../services/auth";
+import eventBus from "../../../services/eventBus";
 
 const initialValues = {
   username: "",
@@ -50,6 +58,7 @@ const onSubmit = async (values, submitMethods, navigate, prop) => {
 const depositArea = (prop) => {
   const [depMode, setDepMode] = useState(false);
   const navigate = useNavigate();
+
   return (
     <Formik
       initialValues={initialValues}
@@ -59,6 +68,70 @@ const depositArea = (prop) => {
       validationSchema={validationSchema}
     >
       {(formik) => {
+        const keysArea = () => {
+          var _key = [];
+          for (var key in localStorage) {
+            if (key.indexOf("Token") > -1 && key != "galaxyUserkeyToken") {
+              var loginToken = JSON.parse(localStorage.getItem(key));
+              _key.push({
+                key: loginToken.username,
+                text: loginToken.username,
+                value: loginToken.username,
+                image: {
+                  avatar: true,
+                  src: "/assets/images/stars/lvl" + loginToken.level + ".png",
+                },
+              });
+            }
+          }
+          if (localStorage.getItem("galaxyUserkeyToken") || _key.length == 0)
+            return null;
+
+          return (
+            <div style={{ marginBottom: 20 }}>
+              <small className="farsi">می خوای با کدوم وارد بشی؟ </small>
+              <Dropdown
+                className="float-end"
+                inline
+                options={_key}
+                onChange={handleChange}
+                placeholder={
+                  formik.values.username
+                    ? formik.values.username
+                    : _key[0].value
+                }
+              />
+            </div>
+          );
+        };
+        const handleCheckLogin = async (value) => {
+          formik.setSubmitting(true);
+          formik.setFieldValue("username", value);
+          try {
+            const res = await getUserService();
+            if (res.status == 200) {
+              var loginToken = JSON.parse(
+                localStorage.getItem(res.data.username + "Token")
+              );
+
+              eventBus.dispatch("updateUser", loginToken);
+              prop.setIsUser(true);
+            } else {
+              formik.setFieldValue("password", "");
+            }
+
+            formik.setSubmitting(false);
+          } catch (error) {
+            formik.setFieldValue("password", "");
+
+            formik.setSubmitting(false);
+          }
+        };
+        const handleChange = (e, { value }) => {
+          localStorage.setItem("galaxyUserkeyToken", value);
+          handleCheckLogin(value);
+        };
+
         return (
           <Form>
             <Segment
@@ -75,7 +148,7 @@ const depositArea = (prop) => {
                 ورود به گلکسی
               </Header>
               <Divider hidden />
-
+              {keysArea()}
               <AuthFormikControl
                 formik={formik}
                 control="input"

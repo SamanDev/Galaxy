@@ -225,15 +225,18 @@ const Dashboard = (prop) => {
       );
 
       var end = Date.now();
-
-      var _pen = _bonuses.filter(
-        (d) =>
-          d.status == "Pending" &&
-          d.mode.toLowerCase() == "gift" &&
-          d.received == false &&
-          Date.parse(d.date) < end &&
-          Date.parse(d.expireDate) > end
-      );
+      try {
+        var _pen = _bonuses.filter(
+          (d) =>
+            d.status == "Pending" &&
+            d.mode.toLowerCase() == "gift" &&
+            d.received == false &&
+            Date.parse(d.date) < end &&
+            Date.parse(d.expireDate) > end
+        );
+      } catch (error) {
+        var _pen = [];
+      }
     } else {
       var _pen = [];
     }
@@ -386,7 +389,15 @@ const Dashboard = (prop) => {
       $("#gamesec2").scrollLeft($("#gamesec2").width() / 2);
     } catch (error) {}
   }, [gameLoader]);
-
+  if (!siteInfo?.galaxyPassSet) {
+    return (
+      <Dimmer active>
+        <Loader className="farsi-inline" size="large">
+          لطفا صبر کنید...
+        </Loader>
+      </Dimmer>
+    );
+  }
   const panes = [
     {
       menuItem: "Tab 1",
