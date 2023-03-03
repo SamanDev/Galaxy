@@ -6,7 +6,7 @@ const BonusArea = (prop) => {
   const loginToken = prop.loginToken;
   var _bonuses = loginToken.userGifts;
   _bonuses.sort(function (a, b) {
-    return a.date > b.date;
+    return a.id < b.id;
   });
   return (
     <div style={{ margin: "5px 0 5px 0" }} className="bonuslist fadeoutend">
@@ -14,7 +14,7 @@ const BonusArea = (prop) => {
         <>
           <List divided inverted verticalAlign="middle">
             {_bonuses.map(function (bonus, i) {
-              if (i <= 1) return <Bonus key={i} bonus={bonus} {...prop} />;
+              if (i <= 100) return <Bonus key={i} bonus={bonus} {...prop} />;
             })}
           </List>
           <Divider fitted />

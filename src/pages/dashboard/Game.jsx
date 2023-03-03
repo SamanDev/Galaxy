@@ -42,11 +42,6 @@ const Dashboard = (prop) => {
   var _event = getEvent(siteInfo);
 
   const [sessionKey, setSessionKey] = useState("");
-  const handleCheckLogin = async () => {
-    try {
-      const res = await getUserService(sessionKey);
-    } catch (error) {}
-  };
 
   const handleSession = async () => {
     try {
@@ -201,29 +196,13 @@ const Dashboard = (prop) => {
     setGameOptions(_gameOptions);
   }, []);
   useEffect(() => {
-    if (loginToken?.logout && curPage == "game") {
+    if (loginToken?.logout) {
       setCurPage("dashboard");
       prop.setFirstOpen(true);
 
       navigate("/");
     }
-    if (_event.toLowerCase() == "gpass") {
-      defslide = 1;
-    }
-    if (_event.toLowerCase() == "vip") {
-      defslide = 2;
-    }
-    if (_event.toLowerCase() == "league") {
-      defslide = 3;
-    }
-    if (dayOfTournament == nowDay) {
-      defslide = 0;
-    }
-    if (haveGift().length > 0) {
-      defslide = 0;
-    }
-    setActiveSlide(defslide);
-  }, [curPage, prop.isLogin, loginToken]);
+  }, [prop.isLogin, loginToken]);
 
   useEffect(() => {
     try {

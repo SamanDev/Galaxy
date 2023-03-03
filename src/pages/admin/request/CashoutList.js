@@ -77,7 +77,7 @@ function Admin(prop) {
 
   const [filterText, setFilterText] = React.useState("");
   const [filterOk, setFilterOk] = React.useState(false);
-  var filteredItems = data.filter((item) => item.username);
+  var filteredItems = data.filter((item) => item.gateway != "Cancele Cashout");
   if (dataMode != "All") {
     filteredItems = data.filter((item) => {
       return dataMode == item.status;

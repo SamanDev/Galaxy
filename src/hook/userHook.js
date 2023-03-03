@@ -11,7 +11,11 @@ export const useUser = () => {
       ? JSON.parse(localStorage.getItem(loginKey + "Token"))
       : {}
   );
-
+  var _old = loginToken;
+  if (_old.logout) {
+    _old.logout = false;
+    setLoginToken(_old);
+  }
   useEffect(() => {
     eventBus.on("updateUser", (dataGet) => {
       var loginKey = localStorage.getItem("galaxyUserkeyToken");

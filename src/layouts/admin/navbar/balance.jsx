@@ -86,14 +86,16 @@ const Balance = (prop) => {
   const [lvlPercentState, setlvlPercentState] = useState(0);
   const ChangeGift = () => {
     if (loginToken?.accessToken && !loginToken?.logout) {
-      var _bonuses = loginToken?.userGifts;
-
+      var _bonuses = loginToken?.userGifts?.sort((a, b) =>
+        a.startDate < b.startDate ? 1 : -1
+      );
       var end = Date.now();
 
       var _pen = _bonuses.filter(
         (d) =>
           d.status == "Pending" &&
           d.received == false &&
+          Date.parse(d.startDate) < end &&
           Date.parse(d.expireDate) > end
       );
       if (_pen.length > 0) {

@@ -12,11 +12,32 @@
 body {
   background: #384146;
 }
-.farsi {
+.iOSPWA-container:not([style*="display: none"]) {
+  bottom: 30% !important;
+}
+.farsi,.iOSPWA-body {
   font-family: "BYekan" !important;
   direction: rtl;
   text-align: right;
   /* box-sizing: content-box */
+}
+.iOSPWA-title  {
+  font-family: "BYekan" !important;
+  direction: rtl;
+  font-size: 17px!important;
+  line-height: 32px!important;
+}
+.iOSPWA-body span,.iOSPWA-steps p {
+  font-family: "BYekan" !important;
+  direction: rtl;
+  line-height: 23px!important;
+  text-align: right;
+  
+}
+.iOSPWA-steps p {
+  line-height: 21px!important;
+  font-size: 80% !important;
+
 }
 input.farsi {
   font-size: 80% !important;
@@ -2292,6 +2313,8 @@ table {
   }
 
   @media (orientation: portrait) {
-   
+    .menutitle .mm-listitem__text {
+      padding: 5px !important;
+    }
   }
 }

@@ -77,6 +77,7 @@ const BonusArea = (prop) => {
   var start = moment(bonus.startDate);
   var expire = moment(bonus.expireDate);
   var end = moment();
+
   var _mode = bonus.mode.toLowerCase();
   var _status = bonus.status;
   var _txt = bonus.label;

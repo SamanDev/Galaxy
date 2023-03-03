@@ -135,7 +135,7 @@ const Banner = (prop) => {
 };
 
 var _width = document.body.clientWidth;
-
+var defslide = 1;
 const Dashboard = (prop) => {
   String.prototype.toPersianCharacter = function () {
     var string = this;
@@ -221,7 +221,7 @@ const Dashboard = (prop) => {
     var user = loginToken;
     if (user && !user?.logout) {
       var _bonuses = user?.userGifts?.sort((a, b) =>
-        a.date < b.date ? 1 : -1
+        a.startDate < b.startDate ? 1 : -1
       );
 
       var end = Date.now();
@@ -243,8 +243,6 @@ const Dashboard = (prop) => {
     return _pen;
   };
 
-  var defslide = 1;
-
   const [gameLoader, setGameLoader] = useState(true);
   const params = useParams();
   const [activeIndex, setActiveIndex] = useState(0);
@@ -260,19 +258,6 @@ const Dashboard = (prop) => {
     params.gameId ? params.gameId : "poker"
   );
 
-  const handleChange = (e, { name, value }) => {
-    setGameLoader(true);
-    setSecondaryGame(value);
-    setActiveIndex(1);
-    localStorage.setItem("secondaryGame", value);
-  };
-
-  const handleRangeChange = (e) => setActiveIndex(activeIndex == 0 ? 1 : 0);
-  const handleFullscreen = (e) => {
-    $(".framegame,body").toggleClass("fullscreen");
-
-    setIsFull(!isFull);
-  };
   const handleSlider = (e) => {
     var myCarousel = document.getElementById("carouselExampleControls");
     try {
@@ -281,46 +266,6 @@ const Dashboard = (prop) => {
       });
     } catch (error) {}
   };
-  const handleReload = (e) => {
-    if ($("#pokerframe:visible").length > 0) {
-      setSessionKey("");
-      handleSession();
-    }
-    setGameLoader(true);
-    $(".framegame:visible").attr("src", $(".framegame:visible").attr("src"));
-  };
-  const removeFrameLoad = (e) => {
-    setGameLoader(false);
-  };
-  const handleTabChange = (e, { activeIndex }) => setActiveIndex(activeIndex);
-  useEffect(() => {
-    if (window.location.href.toString().indexOf("/games") > -1) {
-      setCurPage("game");
-      setMainGame(params.gameId);
-      setSessionKey("");
-
-      handleSession();
-    } else {
-      setCurPage("dashboard");
-      handleSlider();
-    }
-  }, [window.location.href]);
-
-  useEffect(() => {
-    // if (_width < 800 || 1 == 1) {
-    //   if (screenOrientation.indexOf("landscape") > -1) {
-    //     $(".framegame,body").addClass("fullscreen");
-    //     setIsFull(true);
-    //   } else {
-    //     setIsFull(false);
-    //     $(".framegame,body").removeClass("fullscreen");
-    //   }
-    // }
-  }, [screenOrientation]);
-  useEffect(() => {
-    handleSlider();
-    $(".framegame,body").removeClass("fullscreen");
-  }, []);
 
   function capitalizeTxt(txt) {
     return txt.charAt(0).toUpperCase() + txt.slice(1); //or if you want lowercase the rest txt.slice(1).toLowerCase();
@@ -352,12 +297,6 @@ const Dashboard = (prop) => {
     setGameOptions(_gameOptions);
   }, []);
   useEffect(() => {
-    if (!loginToken?.username && curPage == "game") {
-      setCurPage("dashboard");
-      prop.setFirstOpen(true);
-
-      navigate("/");
-    }
     if (_event.toLowerCase() == "gpass") {
       defslide = 1;
     }
@@ -376,19 +315,6 @@ const Dashboard = (prop) => {
     setActiveSlide(defslide);
   }, [loginToken]);
 
-  useEffect(() => {
-    if (prop.isLogin && curPage == "game") {
-      // checkBlock(loginToken);
-    } else {
-      handleSlider();
-    }
-  }, [curPage]);
-  useEffect(() => {
-    try {
-      $("#gamesec1").scrollLeft($("#gamesec1").width() / 2);
-      $("#gamesec2").scrollLeft($("#gamesec2").width() / 2);
-    } catch (error) {}
-  }, [gameLoader]);
   if (!siteInfo?.galaxyPassSet) {
     return (
       <Dimmer active>
@@ -398,92 +324,6 @@ const Dashboard = (prop) => {
       </Dimmer>
     );
   }
-  const panes = [
-    {
-      menuItem: "Tab 1",
-      pane: (
-        <Tab.Pane key="tab1" attached={false}>
-          <div id="gamesec1" style={{ overflow: "auto" }}>
-            {(gameLoader || sessionKey == "") && (
-              <div
-                className={
-                  isFull ? "framegame loader fullscreen" : "framegame loader"
-                }
-              >
-                <Dimmer active>
-                  <Loader className="farsi-inline" size="large">
-                    لطفا صبر کنید...
-                  </Loader>
-                </Dimmer>
-              </div>
-            )}
-            {mainGame == "poker" ? (
-              <>
-                {sessionKey != "" && (
-                  <iframe
-                    src={
-                      "http://139.99.144.72:2053?LoginName=" +
-                      loginToken?.username +
-                      "&SessionKey=" +
-                      sessionKey
-                    }
-                    id="pokerframe"
-                    className={isFull ? "framegame  fullscreen" : "framegame "}
-                    onLoad={removeFrameLoad}
-                  ></iframe>
-                )}
-              </>
-            ) : (
-              <>
-                <iframe
-                  src={
-                    "https://glxypkr.com:8443/secured/games/" +
-                    mainGame +
-                    ".html?code=8035A16CF14CF5E487D16E160D4455FAFC8324EE3ABB490258B98007FDB800B3"
-                  }
-                  className={isFull ? "framegame  fullscreen" : "framegame "}
-                  onLoad={removeFrameLoad}
-                ></iframe>
-              </>
-            )}
-          </div>
-        </Tab.Pane>
-      ),
-    },
-    {
-      menuItem: "Tab 2",
-      pane: (
-        <Tab.Pane key="tab2" attached={false}>
-          <div id="gamesec2" style={{ overflow: "auto" }}>
-            {gameLoader && (
-              <div
-                className={
-                  isFull ? "framegame loader fullscreen" : "framegame loader"
-                }
-              >
-                <Dimmer active>
-                  <Loader className="farsi-inline" size="large">
-                    لطفا صبر کنید...
-                  </Loader>
-                </Dimmer>
-              </div>
-            )}
-            <iframe
-              src={
-                "https://glxypkr.com:8443/secured/games/" +
-                secondaryGame +
-                ".html?code=8035A16CF14CF5E487D16E160D4455FAFC8324EE3ABB490258B98007FDB800B3"
-              }
-              className={
-                isFull ? "framegame frame2  fullscreen" : "framegame frame2"
-              }
-              onLoad={removeFrameLoad}
-            ></iframe>
-          </div>
-        </Tab.Pane>
-      ),
-    },
-  ];
 
   return (
     <>
@@ -493,8 +333,8 @@ const Dashboard = (prop) => {
             <>
               <PWAPrompt
                 timesToShow={300}
-                copyTitle="نصب اپ گلکسی"
-                copyBody={
+                delay={100}
+                copyTitle={
                   <>
                     <Image
                       src={"/maskable_icon_x192.png"}
@@ -503,16 +343,32 @@ const Dashboard = (prop) => {
                       floated="left"
                       alt="اپلیکیشن گلکسی کازینو"
                       title="اپلیکیشن گلکسی کازینو"
+                      style={{ marginBottom: 0 }}
                     />
+                    <span className="farsi">نصب اپ گلکسی</span>
+                  </>
+                }
+                copyBody={
+                  <>
                     <span>
-                      <h3>Install IOS Galaxy App</h3>
-                      Galexy has app functionality. Add it to your home screen
-                      to use it in fullscreen.
+                      گلکسی دارای <span>اپلیکیشن</span> است. فقط با{" "}
+                      <span>دو کلیک</span> آن را به HomeScreen خود اضافه کنید تا
+                      به صورت <span>FullScreen</span> از آن استفاده کنید.
                     </span>
                   </>
                 }
                 copyClosePrompt="Close"
                 permanentlyHideOnDismiss={false}
+                copyShareButtonLabel={
+                  <span className="animated inline headShake infinite slower delay-2s">
+                    ابتدا دکمه آبی رنگ اشتراک گذاری را در نوار منو فشار دهید.
+                  </span>
+                }
+                copyAddHomeButtonLabel={
+                  <span className="animated inline headShake infinite slower delay-4s">
+                    سپس از منوی باز شده 'Add to Home Screen' را فشار دهید.
+                  </span>
+                }
               />
               <div
                 id="dashboard_section"
@@ -613,30 +469,29 @@ const Dashboard = (prop) => {
                       }
                       data-bs-interval="12000"
                     >
-                      {activeSlide && (
-                        <>
-                          <Banner
-                            title={
-                              getMil(gpassrules?.totalRewards) + " میلیون تومان"
-                            }
-                            text="پاداش گلکسی پَس"
-                            link=".gpass"
-                            icon="gpass"
-                            amin="animated delay-1s charkhesh"
-                            iconamin="pulse"
-                            number="15"
-                            showtime={
-                              <ShowTimeLeft
-                                startDay={gpassrules.startDay}
-                                endDay={gpassrules.endDay}
-                                startHour="0000"
-                                endHour="2359"
-                              />
-                            }
-                            {...prop}
-                          />
-                        </>
-                      )}
+                      <>
+                        <Banner
+                          title={
+                            getMil(gpassrules?.totalRewards) + " میلیون تومان"
+                          }
+                          text="پاداش گلکسی پَس"
+                          link=".gpass"
+                          icon="gpass"
+                          amin="animated delay-1s charkhesh"
+                          iconamin="pulse"
+                          number="15"
+                          showtime={
+                            <ShowTimeLeft
+                              startDay={gpassrules.startDay}
+                              endDay={gpassrules.endDay}
+                              startHour="0000"
+                              endHour="2359"
+                            />
+                          }
+                          {...prop}
+                        />
+                      </>
+
                       {_event.toLowerCase() == "gpass" && activeSlide == 1 && (
                         <ConfettiArea recycle={false} numberOfPieces="50" />
                       )}
@@ -650,41 +505,35 @@ const Dashboard = (prop) => {
                       }
                       data-bs-interval="12000"
                     >
-                      {activeSlide && (
-                        <>
-                          <Banner
-                            title={<>۱۹۲ میلیون تومان</>}
-                            text={
-                              "پاداش VIP " +
-                              viprules.bigBlindLimit / 2 +
-                              "K/" +
-                              viprules.bigBlindLimit +
-                              "K"
-                            }
-                            link=".vip"
-                            icon="vip"
-                            amin="inline animated fast flipInY"
-                            iconamin="pulse"
-                            number=" "
-                            showtime={
-                              <ShowTimeLeft
-                                startDay={viprules.startDay}
-                                endDay={viprules.endDay}
-                                startHour="0000"
-                                endHour="2359"
-                              />
-                            }
-                            {...prop}
-                          />
-                          {_event.toLowerCase() == "vip" &&
-                            activeSlide == 2 && (
-                              <ConfettiArea
-                                recycle={false}
-                                numberOfPieces="50"
-                              />
-                            )}
-                        </>
-                      )}
+                      <>
+                        <Banner
+                          title={<>۱۹۲ میلیون تومان</>}
+                          text={
+                            "پاداش VIP " +
+                            viprules.bigBlindLimit / 2 +
+                            "K/" +
+                            viprules.bigBlindLimit +
+                            "K"
+                          }
+                          link=".vip"
+                          icon="vip"
+                          amin="inline animated fast flipInY"
+                          iconamin="pulse"
+                          number=" "
+                          showtime={
+                            <ShowTimeLeft
+                              startDay={viprules.startDay}
+                              endDay={viprules.endDay}
+                              startHour="0000"
+                              endHour="2359"
+                            />
+                          }
+                          {...prop}
+                        />
+                        {_event.toLowerCase() == "vip" && activeSlide == 2 && (
+                          <ConfettiArea recycle={false} numberOfPieces="50" />
+                        )}
+                      </>
                     </div>
 
                     <div
@@ -695,32 +544,30 @@ const Dashboard = (prop) => {
                       }
                       data-bs-interval="12000"
                     >
-                      {activeSlide && (
-                        <>
-                          <Banner
-                            title={
-                              getMil(leaguerules?.totalRewards) +
-                              " میلیون تومان"
-                            }
-                            text="برای لیگ روزانه"
-                            link=".league"
-                            icon="league"
-                            level="big"
-                            number="1"
-                            amin="inline animated swing "
-                            iconamin="swing"
-                            showtime={
-                              <ShowTimeLeft
-                                startDay={leaguerules.startDay}
-                                endDay={leaguerules.endDay}
-                                startHour="0000"
-                                endHour="2359"
-                              />
-                            }
-                            {...prop}
-                          />
-                        </>
-                      )}
+                      <>
+                        <Banner
+                          title={
+                            getMil(leaguerules?.totalRewards) + " میلیون تومان"
+                          }
+                          text="برای لیگ روزانه"
+                          link=".league"
+                          icon="league"
+                          level="big"
+                          number="1"
+                          amin="inline animated swing "
+                          iconamin="swing"
+                          showtime={
+                            <ShowTimeLeft
+                              startDay={leaguerules.startDay}
+                              endDay={leaguerules.endDay}
+                              startHour="0000"
+                              endHour="2359"
+                            />
+                          }
+                          {...prop}
+                        />
+                      </>
+
                       {_event.toLowerCase() == "league" && activeSlide == 3 && (
                         <ConfettiArea recycle={false} numberOfPieces="50" />
                       )}
@@ -734,20 +581,18 @@ const Dashboard = (prop) => {
                       }
                       data-bs-interval="12000"
                     >
-                      {activeSlide && (
-                        <>
-                          <Banner
-                            title="بیش از ۴ میلیارد"
-                            text="پاداش افزایش لِوِل"
-                            link=".levels"
-                            icon="levels"
-                            amin="animated delay-2s charkhesh"
-                            iconamin="swing"
-                            number="90"
-                            {...prop}
-                          />
-                        </>
-                      )}
+                      <>
+                        <Banner
+                          title="بیش از ۴ میلیارد"
+                          text="پاداش افزایش لِوِل"
+                          link=".levels"
+                          icon="levels"
+                          amin="animated delay-2s charkhesh"
+                          iconamin="swing"
+                          number="90"
+                          {...prop}
+                        />
+                      </>
                     </div>
                     {_width > 500 && 1 == 2 && (
                       <div className="carousel-item " data-bs-interval="12000">

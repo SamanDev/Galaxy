@@ -25,7 +25,7 @@ const Rightcontent = (prop) => {
         text: loginToken.username,
         value: loginToken.username,
         active: true,
-
+        hidden: true,
         image: {
           avatar: true,
           src: "/assets/images/stars/lvl" + loginToken.level + ".png",
@@ -53,7 +53,15 @@ const Rightcontent = (prop) => {
     if (_key.length == 1) return null;
 
     return (
-      <div style={{ right: 80, position: "absolute", top: 20, color: "white" }}>
+      <div
+        style={{
+          right: 80,
+          position: "absolute",
+          top: 20,
+          color: "white",
+          zindex: 1000000,
+        }}
+      >
         <Dropdown
           labeled
           basic
@@ -95,7 +103,8 @@ const Rightcontent = (prop) => {
     _old.logout = true;
     eventBus.dispatch("updateUser", _old);
     localStorage.setItem("galaxyUserkeyToken", value);
-    handleCheckLogin(value);
+    //handleCheckLogin(value);
+    window.location.reload();
   };
   return (
     <>
