@@ -19,16 +19,15 @@ const Balance = (prop) => {
   };
   const loginToken = prop.loginToken;
 
-  var data = loginToken?.userTickets
-    .filter((d) => d.status !== "Closed")
-    .sort((a, b) => (a.id < b.id ? 1 : -1));
-  useEffect(() => {
-    data = loginToken?.userTickets
+  if (loginToken?.accessToken && !loginToken?.logout) {
+    var data = loginToken?.userTickets
       .filter((d) => d.status !== "Closed")
       .sort((a, b) => (a.id < b.id ? 1 : -1));
-  });
-
-  if (loginToken?.accessToken && !loginToken?.logout) {
+    useEffect(() => {
+      data = loginToken?.userTickets
+        .filter((d) => d.status !== "Closed")
+        .sort((a, b) => (a.id < b.id ? 1 : -1));
+    });
     return (
       <span
         className="myaccount popupmenu mm-listview menutitle-view"

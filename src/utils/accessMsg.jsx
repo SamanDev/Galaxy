@@ -51,7 +51,7 @@ const accessArea = (prop) => {
             className="farsi"
             size="mini"
             as="a"
-            href={"https://t.me/" + siteInfo.telegramSupport}
+            href={"https://t.me/" + siteInfo?.telegramSupport}
             target="_blank"
           >
             <Icon
@@ -67,7 +67,7 @@ const accessArea = (prop) => {
             className="farsi"
             size="mini"
             as="a"
-            href={"https://t.me/" + siteInfo.telegramChanel}
+            href={"https://t.me/" + siteInfo?.telegramChanel}
             target="_blank"
           >
             <Icon
@@ -82,7 +82,7 @@ const accessArea = (prop) => {
             className="farsi"
             size="mini"
             as="a"
-            href={"https://instagram.com/" + siteInfo.instagram}
+            href={"https://instagram.com/" + siteInfo?.instagram}
             target="_blank"
           >
             <Icon
