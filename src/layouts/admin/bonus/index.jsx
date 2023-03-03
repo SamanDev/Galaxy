@@ -1,12 +1,16 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Divider, List } from "semantic-ui-react";
 import Bonus from "./bonus";
 
 const BonusArea = (prop) => {
   const loginToken = prop.loginToken;
-  var _bonuses = loginToken.userGifts;
-  _bonuses.sort(function (a, b) {
+  var _bonuses = loginToken?.userGifts?.sort(function (a, b) {
     return a.id < b.id;
+  });
+  useEffect(() => {
+    _bonuses = loginToken?.userGifts?.sort(function (a, b) {
+      return a.id < b.id;
+    });
   });
   return (
     <div style={{ margin: "5px 0 5px 0" }} className="bonuslist fadeoutend">

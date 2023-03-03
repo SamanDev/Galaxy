@@ -87,7 +87,7 @@ const Balance = (prop) => {
   const ChangeGift = () => {
     if (loginToken?.accessToken && !loginToken?.logout) {
       var _bonuses = loginToken?.userGifts?.sort((a, b) =>
-        a.startDate < b.startDate ? 1 : -1
+        a.id < b.id ? 1 : -1
       );
       var end = Date.now();
 
