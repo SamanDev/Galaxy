@@ -40,10 +40,11 @@ const ActiveTable = (prop) => {
         myData.map(function (x, i) {
           var myx = x;
           if (!x.class) {
-            myx.class = "lastlogs id-" + myx.id + " hiddenmenu faster";
+            myx.class =
+              "lastlogs id-" + myx.id ? myx.id : i + " hiddenmenu faster";
 
             setTimeout(() => {
-              prop.animateCSS(".id-" + myx.id + "", "fadeInDown");
+              prop.animateCSS(".id-" + myx.id ? myx.id : i + "", "fadeInDown");
               //$("#playreward").trigger("click");
               prop.bindLastReward();
             }, 100);
