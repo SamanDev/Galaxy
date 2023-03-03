@@ -11,7 +11,7 @@ const depositArea = (prop) => {
   const [refresh, setRefresh] = useState(false);
   const loginToken = prop.loginToken;
 
-  if (loginToken?.accessToken) {
+  if (loginToken?.accessToken && !loginToken?.logout) {
     return (
       <span className="myaccount popupmenu">
         {prop.title && (

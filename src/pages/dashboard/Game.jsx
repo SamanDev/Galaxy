@@ -85,21 +85,24 @@ const Dashboard = (prop) => {
   );
   const haveGift = () => {
     var user = loginToken;
-    if (user) {
+    if (user && !user?.logout) {
       var _bonuses = user?.userGifts?.sort((a, b) =>
         a.date < b.date ? 1 : -1
       );
 
       var end = Date.now();
-
-      var _pen = _bonuses.filter(
-        (d) =>
-          d.status == "Pending" &&
-          d.mode.toLowerCase() == "gift" &&
-          d.received == false &&
-          Date.parse(d.date) < end &&
-          Date.parse(d.expireDate) > end
-      );
+      try {
+        var _pen = _bonuses.filter(
+          (d) =>
+            d.status == "Pending" &&
+            d.mode.toLowerCase() == "gift" &&
+            d.received == false &&
+            Date.parse(d.date) < end &&
+            Date.parse(d.expireDate) > end
+        );
+      } catch (error) {
+        var _pen = [];
+      }
     } else {
       var _pen = [];
     }
@@ -198,7 +201,7 @@ const Dashboard = (prop) => {
     setGameOptions(_gameOptions);
   }, []);
   useEffect(() => {
-    if (!loginToken?.username && curPage == "game") {
+    if (!loginToken?.logout && curPage == "game") {
       setCurPage("dashboard");
       prop.setFirstOpen(true);
 

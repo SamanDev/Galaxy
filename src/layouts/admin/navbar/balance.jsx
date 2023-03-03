@@ -85,7 +85,7 @@ const Balance = (prop) => {
   };
   const [lvlPercentState, setlvlPercentState] = useState(0);
   const ChangeGift = () => {
-    if (loginToken?.accessToken) {
+    if (loginToken?.accessToken && !loginToken?.logout) {
       var _bonuses = loginToken?.userGifts;
 
       var end = Date.now();

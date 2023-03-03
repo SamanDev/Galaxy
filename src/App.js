@@ -816,7 +816,13 @@ function App(prop) {
       _old.logout = true;
       eventBus.dispatch("updateUser", _old);
       setIsUser(false);
-      localStorage.removeItem("galaxyUserkeyToken");
+      if (localStorage.getItem("galaxyUserkeyToken")) {
+        localStorage.setItem(
+          "oldgalaxyUserkey",
+          localStorage.getItem("galaxyUserkeyToken")
+        );
+        localStorage.removeItem("galaxyUserkeyToken");
+      }
       UserWebsocket.connect();
 
       navigate("/");
@@ -1098,6 +1104,7 @@ function App(prop) {
               setThirdOpen={setThirdOpen}
               isLogin={isUser}
               loadingLogin={loadingLogin}
+              loginToken={loginToken}
               setIsUser={setIsUser}
               size="small"
               labelcolor="orange"

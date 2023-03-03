@@ -65,7 +65,14 @@ axios.interceptors.response.use(
     if (error.response.status == 401) {
       //MyToast("متاسفانه مشکلی از سمت سرور رخ داده", "error");
       //window.location = "/logout";
-      localStorage.removeItem("galaxyUserkeyToken");
+      if (localStorage.getItem("galaxyUserkeyToken")) {
+        localStorage.setItem(
+          "oldgalaxyUserkey",
+          localStorage.getItem("galaxyUserkeyToken")
+        );
+        localStorage.removeItem("galaxyUserkeyToken");
+      }
+
       //eventBus.dispatch("updateUser", null);
       //UserWebsocket.connect();
     }

@@ -75,14 +75,25 @@ const Rightcontent = (prop) => {
         );
 
         eventBus.dispatch("updateUser", loginToken);
-        prop.setIsUser(true);
       }
       setLoading(false);
     } catch (error) {
       setLoading(false);
+
+      if (localStorage.getItem("galaxyUserkeyToken")) {
+        localStorage.setItem(
+          "oldgalaxyUserkey",
+          localStorage.getItem("galaxyUserkeyToken")
+        );
+        localStorage.removeItem("galaxyUserkeyToken");
+      }
+      prop.setFirstOpen(true);
     }
   };
   const handleChange = (e, { value }) => {
+    var _old = prop.loginToken;
+    _old.logout = true;
+    eventBus.dispatch("updateUser", _old);
     localStorage.setItem("galaxyUserkeyToken", value);
     handleCheckLogin(value);
   };

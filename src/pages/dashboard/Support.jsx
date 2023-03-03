@@ -28,7 +28,7 @@ const Balance = (prop) => {
       .sort((a, b) => (a.id < b.id ? 1 : -1));
   });
 
-  if (loginToken?.accessToken) {
+  if (loginToken?.accessToken && !loginToken?.logout) {
     return (
       <span
         className="myaccount popupmenu mm-listview menutitle-view"

@@ -219,7 +219,7 @@ const Dashboard = (prop) => {
   };
   const haveGift = () => {
     var user = loginToken;
-    if (user) {
+    if (user && !user?.logout) {
       var _bonuses = user?.userGifts?.sort((a, b) =>
         a.date < b.date ? 1 : -1
       );
@@ -489,7 +489,7 @@ const Dashboard = (prop) => {
     <>
       {curPage == "dashboard" && (
         <div id="dashboard" className="mainsection">
-          {loginToken ? (
+          {loginToken?.accessToken && !loginToken?.logout ? (
             <>
               <PWAPrompt
                 timesToShow={300}

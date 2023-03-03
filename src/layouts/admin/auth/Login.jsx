@@ -15,10 +15,6 @@ import { Alert } from "../../../utils/alerts";
 import { loginService, getUserService } from "../../../services/auth";
 import eventBus from "../../../services/eventBus";
 
-const initialValues = {
-  username: "",
-  password: "",
-};
 const validationSchema = Yup.object({
   username: Yup.string()
     .required("نام کاربری حداقل باشد 3 کاراکتر باشد.")
@@ -41,6 +37,7 @@ const onSubmit = async (values, submitMethods, navigate, prop) => {
           Alert("متاسفم...!", "اکانت شما مسدود می باشد.", "error");
         } else {
           prop.setIsUser(true);
+          prop.setFirstOpen(false);
           //window.location.reload();
         }
       }
@@ -61,7 +58,12 @@ const depositArea = (prop) => {
 
   return (
     <Formik
-      initialValues={initialValues}
+      initialValues={{
+        username: localStorage.getItem("oldgalaxyUserkey")
+          ? localStorage.getItem("oldgalaxyUserkey")
+          : "",
+        password: "",
+      }}
       onSubmit={(values, submitMethods) =>
         onSubmit(values, submitMethods, navigate, prop)
       }
@@ -88,16 +90,18 @@ const depositArea = (prop) => {
             return null;
 
           return (
-            <div style={{ marginBottom: 20 }}>
-              <small className="farsi">می خوای با کدوم وارد بشی؟ </small>
+            <div style={{ marginBottom: 60 }}>
+              <small className="farsi float-end">
+                می خوای با کدوم وارد بشی؟{" "}
+              </small>
               <Dropdown
-                className="float-end"
+                className="float-start"
                 inline
                 options={_key}
                 onChange={handleChange}
                 placeholder={
-                  formik.values.username
-                    ? formik.values.username
+                  localStorage.getItem("oldgalaxyUserkey")
+                    ? localStorage.getItem("oldgalaxyUserkey")
                     : _key[0].value
                 }
               />
@@ -116,6 +120,7 @@ const depositArea = (prop) => {
 
               eventBus.dispatch("updateUser", loginToken);
               prop.setIsUser(true);
+              prop.setFirstOpen(false);
             } else {
               formik.setFieldValue("password", "");
             }
