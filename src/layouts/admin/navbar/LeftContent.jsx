@@ -56,19 +56,21 @@ const Leftcontent = (prop) => {
           color: "#fff",
           position: "relative",
           top: 2,
+          padding: 0,
         }}
         as="a"
         href="#menuleft"
         aria-label="openmenu"
         title="openmenu"
-        id="nav-icon2"
       >
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
+        <div id="nav-icon2" className="step3">
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
         {tCount > 0 && (
           <Label color="red" floating size="big">
             {tCount}

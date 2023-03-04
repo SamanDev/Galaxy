@@ -12,7 +12,7 @@ function RightPanel(prop) {
   return (
     <div style={{ overflow: "hidden" }}>
       <ul
-        className="mm-listview panelhalf fadeoutend"
+        className="mm-listview panelhalf fadeoutend step1-1"
         style={{ overflow: "hidden" }}
       >
         <li className="menutitle mm-listitem" style={{ position: "relative" }}>
@@ -48,7 +48,7 @@ function RightPanel(prop) {
         </li>
       </ul>
       <ul
-        className="mm-listview panelhalf fadeoutend"
+        className="mm-listview panelhalf fadeoutend  step1-3"
         style={{ overflow: "hidden" }}
       >
         <li className="menutitle mm-listitem">

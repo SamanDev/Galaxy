@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { getUserService, getPokerSession } from "../../services/auth";
 import { checkBlock } from "../../services/httpService";
 import PWAPrompt from "react-ios-pwa-prompt";
+import Tour from "../../Tour";
 import {
   Grid,
   Image,

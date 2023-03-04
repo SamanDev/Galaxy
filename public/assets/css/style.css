@@ -363,6 +363,9 @@ body.fullscreen #content_section {
   height: calc(100vh) !important;
   z-index: 10000;
 }
+body.fullscreen .navbar.fixed-top {
+  display: none;
+}
 body.fullscreen #panelright{
  
   top: 0;
@@ -997,7 +1000,7 @@ a.mm-listitem__text {
 .ui.black.label.balanceLable {
   position: absolute;
   color: gold !important;
-  font-size: 9px;
+  font-size: 11px;
   background: transparent !important;
   margin-top: -3px;
   padding: 0 15px;

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 import $ from "jquery";
 import {
@@ -9,12 +9,13 @@ import {
   Segment,
   Dropdown,
 } from "semantic-ui-react";
-
+import Tour from "../../../Tour";
 import { loginService, getUserService } from "../../../services/auth";
 import eventBus from "../../../services/eventBus";
 const Rightcontent = (prop) => {
   const activePanel = prop.activePanel;
   const [loading, setLoading] = useState(false);
+
   const keysArea = () => {
     var loginKey = localStorage.getItem("galaxyUserkeyToken");
     var loginToken = JSON.parse(localStorage.getItem(loginKey + "Token"));
@@ -55,7 +56,7 @@ const Rightcontent = (prop) => {
     return (
       <div
         style={{
-          right: 80,
+          right: 130,
           position: "absolute",
           top: 20,
           color: "white",
@@ -119,6 +120,7 @@ const Rightcontent = (prop) => {
       <div className="right_content  d-flex">
         <Segment
           basic
+          className="step1click"
           style={{
             color: "#fff",
             position: "absolute",
@@ -133,13 +135,13 @@ const Rightcontent = (prop) => {
             $(".picn").toggleClass("open");
           }}
         >
-          <div id="nav-icon1" className="picn">
+          <div id="nav-icon1" className="picn step1">
             <span></span>
             <span></span>
             <span></span>
           </div>
-        </Segment>{" "}
-        {keysArea()}
+        </Segment>
+        <Tour /> {keysArea()}
       </div>
     </>
   );

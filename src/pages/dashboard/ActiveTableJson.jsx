@@ -226,6 +226,7 @@ const ActiveTable = (prop) => {
   return (
     <>
       <div
+        className="step1-2"
         style={{
           padding: 10,
           borderBottom: "1px solid gray",

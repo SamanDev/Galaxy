@@ -1045,6 +1045,7 @@ function App(prop) {
               <ul>{finalMenu}</ul>
             </nav>
           </div>
+
           <Modal
             basic
             size="tiny"

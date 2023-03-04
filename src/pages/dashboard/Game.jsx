@@ -302,7 +302,7 @@ const Dashboard = (prop) => {
             menu={{ attached: false }}
           />
           {(!gameLoader || 1 == 1) && (
-            <div className="gameicons">
+            <div className="gameicons step2">
               <Icon
                 circular
                 inverted

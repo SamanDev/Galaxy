@@ -12,14 +12,18 @@ export const useUser = () => {
       : {}
   );
   var _old = loginToken;
-  if (_old.logout) {
+  if (
+    _old.logout &&
+    _old.username == localStorage.getItem("galaxyUserkeyToken")
+  ) {
     _old.logout = false;
     setLoginToken(_old);
   }
   useEffect(() => {
     eventBus.on("updateUser", (dataGet) => {
-      var loginKey = localStorage.getItem("galaxyUserkeyToken");
       setLoginToken(dataGet);
+      var loginKey = localStorage.getItem("galaxyUserkeyToken");
+
       localStorage.setItem(loginKey + "Token", JSON.stringify(dataGet));
     });
   }, []);

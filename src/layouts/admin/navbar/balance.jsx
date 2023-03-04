@@ -187,12 +187,13 @@ const Balance = (prop) => {
       <>
         <RisingPitch />
         <Segment
-          className="myaccount"
+          className="myaccount step0"
           inverted
           style={{ margin: 0, padding: 10, color: "#fff", height: 50 }}
         >
           <span
             style={{ top: -4, position: "relative" }}
+            className="step0-1"
             onClick={() => {
               ChangeStateMode();
             }}
@@ -257,7 +258,7 @@ const Balance = (prop) => {
           </span>
           <Label
             color="black"
-            className="balanceLable"
+            className="balanceLable step0-2"
             onClick={() => {
               openProfile();
             }}
