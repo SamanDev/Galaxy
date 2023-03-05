@@ -33,8 +33,8 @@ function RightPanel() {
       ),
       position: "left",
       padding: {
-        mask: 10,
-        popover: [5, 10],
+        mask: 5,
+        popover: [5, 5],
       },
       style: {
         backgroundColor: "#041014",
@@ -246,7 +246,7 @@ function RightPanel() {
             labeled
             icon
             size="mini"
-            style={{ marginTop: 80 }}
+            style={{ marginTop: 40 }}
           >
             <Button
               icon="times"
@@ -255,15 +255,15 @@ function RightPanel() {
                 setIsOpen(false);
                 setCurrentStep(0);
               }}
-              content="مرسی"
+              content="مرسی. ببندش"
             />
           </Button.Group>
         </>
       ),
       position: "right",
       padding: {
-        mask: 10,
-        popover: [5, 10],
+        mask: 5,
+        popover: [5, 5],
       },
       style: {
         backgroundColor: "#041014",
@@ -311,7 +311,7 @@ function RightPanel() {
         labeled
         icon
         size="mini"
-        style={{ marginTop: 80 }}
+        style={{ marginTop: 40 }}
       >
         {content1 && (
           <>
@@ -375,7 +375,7 @@ function RightPanel() {
                     $(".step1click").trigger("click");
                     setTimeout(() => {
                       setCurrentStep((s) => nextTargetMain(s, nextSelection));
-                    }, 500);
+                    }, 50);
                   } else {
                     setCurrentStep((s) => nextTargetMain(s, nextSelection));
                   }
@@ -422,7 +422,9 @@ function RightPanel() {
           "--reactour-accent": "#ef5a3d",
           borderRadius: 10,
           background: "#071e26",
-          color: "#fff",
+          color: "#eee",
+          fontSize: 12,
+          lineHeight: 20,
         }),
         maskArea: (base) => ({ ...base, rx: 8 }),
         maskWrapper: (base) => ({ ...base, color: "#be4d25" }),

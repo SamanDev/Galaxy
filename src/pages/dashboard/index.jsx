@@ -87,7 +87,6 @@ function SegmentExamplePlaceholderInline(prop) {
             <strong className="farsi fs-4 ui label red mini pointing">
               با پول واقعی در ایران
             </strong>
-            <Tour />
           </Segment>
           {refresh > 0 ? (
             <>

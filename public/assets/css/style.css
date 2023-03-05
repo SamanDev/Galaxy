@@ -12,6 +12,16 @@
 body {
   background: #384146;
 }
+.reactour__popover {
+ width: 70vw !important;
+ max-width: 300px !important;
+}
+.reactour__popover p{
+  color: #d2d2d2;
+  line-height: 22px;
+  padding: 5px;
+    text-align: justify;
+}
 .iOSPWA-container:not([style*="display: none"]) {
   bottom: 30% !important;
 }
