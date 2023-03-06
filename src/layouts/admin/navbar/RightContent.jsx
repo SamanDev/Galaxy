@@ -62,6 +62,7 @@ const Rightcontent = (prop) => {
           color: "white",
           zindex: 1000000,
         }}
+        className="d-none d-md-block"
       >
         <Dropdown
           labeled

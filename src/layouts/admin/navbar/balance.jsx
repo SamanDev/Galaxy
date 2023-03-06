@@ -187,202 +187,211 @@ const Balance = (prop) => {
       <>
         <RisingPitch />
         <Segment
-          className="myaccount step0"
+          className="myaccount"
           inverted
           style={{ margin: 0, padding: 10, color: "#fff", height: 50 }}
         >
-          <span
-            style={{ top: -4, position: "relative" }}
-            className="step0-1"
-            onClick={() => {
-              ChangeStateMode();
-            }}
-          >
-            {stateMode == 0 && (
-              <LevelIcon
-                level={loginToken.level}
-                text=""
-                mode="levels"
-                classinside={levelClassInside(loginToken.level)}
-                number=""
-                width="30px"
-              />
-            )}
-            {stateMode == 1 && _event == "GPass" && (
-              <>
-                {loginToken.takeGPass && (
-                  <>
-                    <Icon
-                      name="check"
-                      color="green"
-                      size="large"
-                      style={{
-                        position: "absolute",
-                        zIndex: 3,
-                        top: -10,
-                        right: -15,
-                      }}
-                    />
-                  </>
-                )}
+          <span className="step0">
+            <span
+              style={{ top: -4, position: "relative" }}
+              className="step0-1"
+              onClick={() => {
+                ChangeStateMode();
+              }}
+            >
+              {stateMode == 0 && (
                 <LevelIcon
-                  mode="gpass"
-                  level={loginToken.glevel}
-                  classinside="iconinside0"
-                  number={loginToken.glevel}
+                  level={loginToken.level}
                   text=""
+                  mode="levels"
+                  classinside={levelClassInside(loginToken.level)}
+                  number=""
                   width="30px"
                 />
-              </>
-            )}
-            {stateMode == 1 && _event == "VIP" && (
-              <LevelIcon
-                classinside="iconinside0"
-                number=""
-                text=""
-                width="30px"
-                level={1}
-                mode="vip"
-              />
-            )}
-            {stateMode == 1 && _event == "League" && (
-              <LevelIcon
-                classinside="iconinside0"
-                number=""
-                text=""
-                width="30px"
-                level={20}
-                mode="league"
-              />
-            )}
-          </span>
-          <Label
-            color="black"
-            className="balanceLable step0-2"
-            onClick={() => {
-              openProfile();
-            }}
-          >
-            {loginToken.username}
-          </Label>
-          <Label
-            color="black"
-            className="balanceLable amount"
-            onClick={() => {
-              $("#opendepicon").trigger("click");
-            }}
-          >
-            <CountUp balance={loginToken.balance} />
-          </Label>
-          <Popup
-            on="click"
-            className="myaccount"
-            inverted
-            position="bottom center"
-            offset={[-50, 0]}
-            basic
-            pinned
-            trigger={
-              <Icon
-                circular
-                size="small"
+              )}
+              {stateMode == 1 && _event == "GPass" && (
+                <>
+                  {loginToken.takeGPass && (
+                    <>
+                      <Icon
+                        name="check"
+                        color="green"
+                        size="large"
+                        style={{
+                          position: "absolute",
+                          zIndex: 3,
+                          top: -10,
+                          right: -15,
+                        }}
+                      />
+                    </>
+                  )}
+                  <LevelIcon
+                    mode="gpass"
+                    level={loginToken.glevel}
+                    classinside="iconinside0"
+                    number={loginToken.glevel}
+                    text=""
+                    width="30px"
+                  />
+                </>
+              )}
+              {stateMode == 1 && _event == "VIP" && (
+                <LevelIcon
+                  classinside="iconinside0"
+                  number=""
+                  text=""
+                  width="30px"
+                  level={1}
+                  mode="vip"
+                />
+              )}
+              {stateMode == 1 && _event == "League" && (
+                <LevelIcon
+                  classinside="iconinside0"
+                  number=""
+                  text=""
+                  width="30px"
+                  level={20}
+                  mode="league"
+                />
+              )}
+            </span>
+            <Label
+              color="black"
+              className="balanceLable step0-2"
+              onClick={() => {
+                openProfile();
+              }}
+            >
+              {loginToken.username}
+            </Label>
+            <Label
+              color="black"
+              className="balanceLable amount"
+              onClick={() => {
+                $("#opendepicon").trigger("click");
+              }}
+            >
+              <CountUp balance={loginToken.balance} />
+            </Label>
+            <div className="step0-3" style={{ display: "inline-block" }}>
+              <Popup
+                on="click"
+                className="myaccount"
                 inverted
-                name="plus"
-                color="green"
-                link
-                id="opendepicon"
-              />
-            }
-          >
-            <DepositArea
-              mode="deposit"
-              size="mini"
-              labelcolor="orange"
-              {...prop}
-            />
-          </Popup>{" "}
-          <Popup
-            on="click"
-            className="myaccount"
-            inverted
-            position="bottom center"
-            offset={[-78, 0]}
-            basic
-            pinned
-            trigger={
-              <Icon
-                circular
-                size="small"
-                inverted
-                color="red"
-                name="minus"
-                link
-              />
-            }
-          >
-            <DepositArea
-              mode="cashout"
-              size="mini"
-              labelcolor="orange"
-              {...prop}
-            />
-          </Popup>{" "}
-          <Popup
-            on="click"
-            className="myaccount"
-            inverted
-            position="bottom center"
-            offset={[-106, 0]}
-            basic
-            pinned
-            onClose={() => {
-              $("#opengifts").removeClass("open");
-            }}
-            onOpen={() => {
-              $("#opengifts").addClass("open");
-            }}
-            defaultOpen={gCount > 0 ? true : false}
-            disabled={gCount == -1 ? true : false}
-            trigger={
-              <Icon
-                circular
-                id="opengifts"
-                color={color}
-                inverted={color == "grey" ? false : true}
-                name="gift"
-                className={gCount == 0 ? "animated" : "animated heartBeat slow"}
-                link
+                position="bottom center"
+                offset={[-50, 0]}
+                basic
+                pinned
+                trigger={
+                  <Icon
+                    circular
+                    size="small"
+                    inverted
+                    name="plus"
+                    color="green"
+                    link
+                    id="opendepicon"
+                  />
+                }
               >
-                <Label
-                  color="red"
-                  floating
+                <DepositArea
+                  mode="deposit"
                   size="mini"
-                  className="farsi-inline"
-                  hidden={gCount == 0 ? true : true}
-                  style={{ top: 5, left: "95%" }}
-                >
-                  {gCount}
-                </Label>
-              </Icon>
-            }
-          >
-            <BonusArea {...prop} ChangeGift={ChangeGift} />
-          </Popup>
-          <Popup
-            trigger={
-              <Progress
-                percent={lvlPercentState}
+                  labelcolor="orange"
+                  {...prop}
+                />
+              </Popup>{" "}
+              <Popup
+                on="click"
+                className="myaccount"
                 inverted
-                indicating
-                size="tiny"
-                className="myprogress"
-              />
-            }
-            size="mini"
-            inverted
-            content={"%" + lvlPercentState}
-            position="bottom center"
-          />
+                position="bottom center"
+                offset={[-78, 0]}
+                basic
+                pinned
+                trigger={
+                  <Icon
+                    circular
+                    size="small"
+                    inverted
+                    color="red"
+                    name="minus"
+                    link
+                  />
+                }
+              >
+                <DepositArea
+                  mode="cashout"
+                  size="mini"
+                  labelcolor="orange"
+                  {...prop}
+                />
+              </Popup>
+            </div>{" "}
+            <Popup
+              on="click"
+              className="myaccount"
+              inverted
+              position="bottom center"
+              offset={[-106, 0]}
+              basic
+              pinned
+              onClose={() => {
+                $("#opengifts").removeClass("open");
+              }}
+              onOpen={() => {
+                $("#opengifts").addClass("open");
+              }}
+              defaultOpen={gCount > 0 ? true : false}
+              disabled={gCount == -1 ? true : false}
+              trigger={
+                <Icon
+                  circular
+                  id="opengifts"
+                  color={color}
+                  inverted={color == "grey" ? false : true}
+                  name="gift"
+                  size="small"
+                  className={
+                    gCount == 0
+                      ? "animated step0-4"
+                      : "animated heartBeat slow step0-4"
+                  }
+                  link
+                >
+                  <Label
+                    color="red"
+                    floating
+                    size="mini"
+                    className="farsi-inline"
+                    hidden={gCount == 0 ? true : true}
+                    style={{ top: 5, left: "95%" }}
+                  >
+                    {gCount}
+                  </Label>
+                </Icon>
+              }
+            >
+              <BonusArea {...prop} ChangeGift={ChangeGift} />
+            </Popup>
+            <Popup
+              trigger={
+                <Progress
+                  percent={lvlPercentState}
+                  inverted
+                  indicating
+                  size="tiny"
+                  className="myprogress"
+                />
+              }
+              size="mini"
+              inverted
+              content={"%" + lvlPercentState}
+              position="bottom center"
+            />
+          </span>
         </Segment>
       </>
     );

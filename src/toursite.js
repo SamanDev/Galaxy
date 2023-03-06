@@ -1,217 +1,33 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { createRoot } from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
 import { TourProvider } from "@reactour/tour";
 import App from "./App";
 import $ from "jquery";
 import { Button } from "semantic-ui-react";
-
-var step0count = 3;
+var totalStep = 4;
+var step0count = 5;
 var step1count = 4;
-
+const groupBy = (array, key) => {
+  // Return the end result
+  return array.reduce((result, currentValue) => {
+    // If an array already present for key, push it to the array. Else create an array and push the object
+    (result[currentValue[key].split("-")[0]] =
+      result[currentValue[key].split("-")[0]] || []).push(currentValue);
+    // Return the current iteration `result` value, this will be taken as next iteration `result` value and accumulate
+    return result;
+  }, {}); // empty object is the initial value for result object
+};
 function RightPanel() {
   const steps = [
     {
-      selector: ".step1",
-
-      content: ({ setCurrentStep }) => (
-        <>
-          <p className="farsi">
-            با این دکمه پنل سمت راست باز می شود و اطلاعات میزهای فعال و آخرین
-            جوایز را نمایش می دهد.
-          </p>
-          {printBtn(
-            "خب بازش کن و بیشتر بگو",
-            "برو بعدی",
-            setCurrentStep,
-            step1count + step0count,
-            true,
-            false,
-            ".step2"
-          )}
-        </>
-      ),
-      position: "left",
-      padding: {
-        mask: 5,
-        popover: [5, 5],
-      },
-      style: {
-        backgroundColor: "#041014",
-      },
-    },
-    {
-      selector: ".step1-1",
-      content: ({ setCurrentStep }) => (
-        <>
-          <p className="farsi">
-            لیست میز های فعال که با کلیک روی هر میز برای شما باز خواهد شد.
-          </p>
-          {printBtn(
-            "ادامه بده",
-            "برو بعدی",
-            setCurrentStep,
-            step1count + step0count,
-            true,
-            true,
-            ".step2"
-          )}
-        </>
-      ),
-      position: "left",
-      padding: {
-        mask: 0,
-        popover: [5, 10],
-      },
-      style: {
-        backgroundColor: "#041014",
-      },
-    },
-    {
-      selector: ".step1-2",
-      content: ({ setCurrentStep }) => (
-        <>
-          <p className="farsi">
-            با استفاده از این دکمه ها می توانید لیست میز های فعال رو فیلتر کنید.
-          </p>
-          {printBtn(
-            "ادامه بده",
-            "برو بعدی",
-            setCurrentStep,
-            step1count + step0count,
-            true,
-            true,
-            ".step2"
-          )}
-        </>
-      ),
-      position: "left",
-      padding: {
-        mask: 0,
-        popover: [5, 10],
-      },
-      style: {
-        backgroundColor: "#041014",
-      },
-    },
-    {
-      selector: ".step1-3",
-      content: ({ setCurrentStep }) => (
-        <>
-          <p className="farsi">
-            لیست آخرین پاداش ها که با کلیک کردن روی هر کاربر می توانید پروفایل
-            آن را مشاهده نمایید.
-          </p>
-          {printBtn(
-            "",
-            "برو بعدی",
-            setCurrentStep,
-            step1count + step0count,
-            false,
-            true,
-            ".step2"
-          )}
-        </>
-      ),
-      position: "left",
-      padding: {
-        mask: 0,
-        popover: [5, 10],
-      },
-      style: {
-        backgroundColor: "#041014",
-      },
-    },
-    {
-      selector: ".step0",
-
-      content: ({ setCurrentStep }) => (
-        <>
-          <p className="farsi">
-            در این قسمت به اطلاعات اکانت خود و همچنین خرید و برداشت سریع دسترسی
-            خواهید داشت.
-          </p>
-
-          {printBtn(
-            "بیشتر در موردش بگو",
-            "برو بعدی",
-            setCurrentStep,
-            step0count,
-            false,
-            false,
-            ".step1"
-          )}
-        </>
-      ),
-      position: "bottom",
-      padding: {
-        mask: 5,
-        popover: [5, 10],
-      },
-      style: {
-        backgroundColor: "#041014",
-      },
-    },
-    {
-      selector: ".step0-1",
-
-      content: ({ setCurrentStep }) => (
-        <>
-          <p className="farsi">
-            با کلیک روی این آیکون اطلاعات همه جوایز در انتظار را خواهید دید.
-          </p>
-          {printBtn(
-            "ادامه بده",
-            "برو بعدی",
-            setCurrentStep,
-            step0count,
-            false,
-            false,
-            ".step1"
-          )}
-        </>
-      ),
-      position: "bottom",
-      padding: {
-        mask: [10, 20],
-        popover: [5, 10],
-      },
-      style: {
-        backgroundColor: "#041014",
-      },
-    },
-    {
-      selector: ".step0-2",
-
-      content: ({ setCurrentStep }) => (
-        <>
-          <p className="farsi">
-            با کلیک روی این قسمت اطلاعات پروفایل خود را خواهید دید.
-          </p>
-          {printBtn(
-            "",
-            "برو بعدی",
-            setCurrentStep,
-            step0count,
-            false,
-            false,
-            ".step1"
-          )}
-        </>
-      ),
-      position: "bottom",
-      padding: {
-        mask: [5, 5],
-        popover: [5, 10],
-      },
-      style: {
-        backgroundColor: "#041014",
-      },
-    },
-    {
       selector: ".step2",
-
-      content: ({ setCurrentStep, setIsOpen }) => (
+      action: () => {
+        if ($(".step1").hasClass("open")) {
+          $(".step1click").trigger("click");
+        }
+      },
+      content: ({ setCurrentStep, currentStep }) => (
         <>
           <p className="farsi">
             با این دکمه ها می توانید صفحه بازی را کنترل نمایید.
@@ -223,7 +39,9 @@ function RightPanel() {
             step1count + step0count + 1,
             false,
             true,
-            ".step3"
+            ".step0",
+            currentStep,
+            ".step2"
           )}
         </>
       ),
@@ -233,6 +51,291 @@ function RightPanel() {
         backgroundColor: "#041014",
       },
     },
+    {
+      selector: ".step0",
+      action: () => {
+        if ($(".step1").hasClass("open")) {
+          $(".step1click").trigger("click");
+        }
+      },
+      content: ({ setCurrentStep, currentStep }) => (
+        <>
+          <p className="farsi">
+            در این قسمت به اطلاعات اکانت خود و همچنین خرید و برداشت سریع دسترسی
+            خواهید داشت.
+          </p>
+
+          {printBtn(
+            "بیشتر در موردش بگو",
+            "برو بعدی",
+            setCurrentStep,
+            step0count + step1count,
+            false,
+            false,
+            ".step1",
+            currentStep,
+            ".step0"
+          )}
+        </>
+      ),
+      position: "bottom",
+      padding: {
+        mask: [15, 20],
+        popover: [15, 15],
+      },
+      style: {
+        backgroundColor: "#041014",
+      },
+    },
+    {
+      selector: ".step0-1",
+
+      content: ({ setCurrentStep, currentStep }) => (
+        <>
+          <p className="farsi">
+            با کلیک روی این آیکون اطلاعات پیشرفت جوایز در انتظار را خواهید دید.
+          </p>
+          {printBtn(
+            "ادامه بده",
+            "برو بعدی",
+            setCurrentStep,
+            step0count + step1count,
+            false,
+            false,
+            ".step1",
+            currentStep,
+            ".step0"
+          )}
+        </>
+      ),
+      position: "bottom",
+      padding: {
+        mask: [10, 17],
+        popover: [15, 15],
+      },
+      style: {
+        backgroundColor: "#041014",
+      },
+    },
+    {
+      selector: ".step0-2",
+
+      content: ({ setCurrentStep, currentStep }) => (
+        <>
+          <p className="farsi">
+            با کلیک روی این قسمت اطلاعات پروفایل خود را خواهید دید.
+          </p>
+          {printBtn(
+            "ادامه بده",
+            "برو بعدی",
+            setCurrentStep,
+            step0count + step1count,
+            false,
+            false,
+            ".step1",
+            currentStep,
+            ".step0"
+          )}
+        </>
+      ),
+      position: "bottom",
+      padding: {
+        mask: [2, 5],
+        popover: [15, 15],
+      },
+      style: {
+        backgroundColor: "#041014",
+      },
+    },
+    {
+      selector: ".step0-3",
+
+      content: ({ setCurrentStep, currentStep, selector }) => (
+        <>
+          <p className="farsi">
+            با استفاده از این دکمه ها به خرید و برداشت سریع دسترسی خواهید داشت.
+          </p>
+          {printBtn(
+            "ادامه بده",
+            "برو بعدی",
+            setCurrentStep,
+            step0count + step1count,
+            false,
+            false,
+            ".step1",
+            currentStep,
+            ".step0"
+          )}
+        </>
+      ),
+      position: "bottom",
+      padding: {
+        mask: [5, 10],
+        popover: [20, 15],
+      },
+      style: {
+        backgroundColor: "#041014",
+      },
+    },
+    {
+      selector: ".step0-4",
+
+      content: ({ setCurrentStep, currentStep }) => (
+        <>
+          <p className="farsi">
+            با استفاده از این دکمه به جوایز خود دسترسی خواهید داشت.
+          </p>
+          {printBtn(
+            "",
+            "برو بعدی",
+            setCurrentStep,
+            step0count + step1count,
+            false,
+            false,
+            ".step1",
+            currentStep,
+            ".step0"
+          )}
+        </>
+      ),
+      position: "bottom",
+      padding: {
+        mask: [5, 10],
+        popover: [20, 15],
+      },
+      style: {
+        backgroundColor: "#041014",
+      },
+    },
+    {
+      selector: ".step1",
+
+      content: ({ setCurrentStep, currentStep }) => (
+        <>
+          <p className="farsi">
+            با این دکمه پنل سمت راست باز می شود و اطلاعات میزهای فعال و آخرین
+            جوایز را نمایش می دهد.
+          </p>
+          {printBtn(
+            "خب بازش کن و بیشتر بگو",
+            "برو بعدی",
+            setCurrentStep,
+            step1count,
+            false,
+            false,
+            ".step3",
+            currentStep,
+            ".step1"
+          )}
+        </>
+      ),
+
+      position: "left",
+      padding: {
+        mask: [10, 10],
+        popover: [15, 15],
+      },
+      observe: ".step1-1",
+    },
+    {
+      selector: ".step1-1",
+      action: () => {
+        if (!$(".step1").hasClass("open")) {
+          $(".step1click").trigger("click");
+        }
+      },
+      content: ({ setCurrentStep, currentStep }) => (
+        <>
+          <p className="farsi">
+            لیست میز های فعال که با کلیک روی هر میز برای شما باز خواهد شد.
+          </p>
+          {printBtn(
+            "ادامه بده",
+            "برو بعدی",
+            setCurrentStep,
+            step1count,
+            true,
+            true,
+            ".step3",
+            currentStep,
+            ".step1"
+          )}
+        </>
+      ),
+
+      position: "left",
+      padding: {
+        mask: 0,
+        popover: [5, 10],
+      },
+    },
+    {
+      selector: ".step1-2",
+      action: () => {
+        if (!$(".step1").hasClass("open")) {
+          $(".step1click").trigger("click");
+        }
+      },
+      content: ({ setCurrentStep, currentStep }) => (
+        <>
+          <p className="farsi">
+            با استفاده از این دکمه ها می توانید لیست میز های فعال رو فیلتر کنید.
+          </p>
+          {printBtn(
+            "ادامه بده",
+            "برو بعدی",
+            setCurrentStep,
+            step1count,
+            true,
+            true,
+            ".step3",
+            currentStep,
+            ".step1"
+          )}
+        </>
+      ),
+      position: "left",
+      padding: {
+        mask: 0,
+        popover: [5, 10],
+      },
+    },
+    {
+      selector: ".step1-3",
+      action: () => {
+        if (!$(".step1").hasClass("open")) {
+          $(".step1click").trigger("click");
+        }
+      },
+      content: ({ setCurrentStep, currentStep }) => (
+        <>
+          <p className="farsi">
+            لیست آخرین پاداش ها که با کلیک کردن روی هر کاربر می توانید پروفایل
+            آن را مشاهده نمایید.
+          </p>
+          {printBtn(
+            "",
+            "برو بعدی",
+            setCurrentStep,
+            step1count,
+            false,
+            true,
+            ".step3",
+            currentStep,
+            ".step1"
+          )}
+        </>
+      ),
+      position: "left",
+      padding: {
+        mask: 0,
+        popover: [5, 10],
+      },
+      style: {
+        backgroundColor: "#041014",
+      },
+    },
+
     {
       selector: ".step3",
 
@@ -262,8 +365,8 @@ function RightPanel() {
       ),
       position: "right",
       padding: {
-        mask: 5,
-        popover: [5, 5],
+        mask: [10, 10],
+        popover: [15, 15],
       },
       style: {
         backgroundColor: "#041014",
@@ -293,6 +396,7 @@ function RightPanel() {
         }
       }
     });
+
     return def;
   }
   function printBtn(
@@ -302,7 +406,9 @@ function RightPanel() {
     step,
     openpanel,
     closepanel,
-    nextSelection
+    nextSelection,
+    currentStep,
+    mainStep
   ) {
     return (
       <Button.Group
@@ -315,105 +421,46 @@ function RightPanel() {
       >
         {content1 && (
           <>
-            {openpanel ? (
-              <Button
-                onClick={() => {
-                  if (!$(".step1").hasClass("open")) {
-                    $(".step1click").trigger("click");
-                    setTimeout(() => {
-                      setCurrentStep((s) => s + 1);
-                    }, 500);
-                  } else {
-                    setCurrentStep((s) => s + 1);
-                  }
-                }}
-                className="farsi"
-                icon="ellipsis vertical"
-                content={content1}
-              />
-            ) : (
-              <>
-                {closepanel ? (
-                  <Button
-                    onClick={() => {
-                      if ($(".step1").hasClass("open")) {
-                        $(".step1click").trigger("click");
-                        setTimeout(() => {
-                          setCurrentStep((s) => s + 1);
-                        }, 500);
-                      } else {
-                        setCurrentStep((s) => s + 1);
-                      }
-                    }}
-                    className="farsi"
-                    icon="ellipsis vertical"
-                    content={content1}
-                  />
-                ) : (
-                  <Button
-                    onClick={() => {
-                      setCurrentStep((s) => nextTarget(s));
-                    }}
-                    className="farsi"
-                    icon="ellipsis vertical"
-                    content={content1}
-                  />
-                )}
-              </>
-            )}
+            <Button
+              onClick={() => {
+                setCurrentStep((s) => nextTarget(s));
+              }}
+              className="farsi"
+              icon="ellipsis vertical"
+              content={content1}
+            />
           </>
         )}
         {content2 && (
           <>
-            {closepanel ? (
-              <Button
-                icon="arrow left"
-                color="red"
-                className="farsi"
-                onClick={() => {
-                  if ($(".step1").hasClass("open")) {
-                    $(".step1click").trigger("click");
-                    setTimeout(() => {
-                      setCurrentStep((s) => nextTargetMain(s, nextSelection));
-                    }, 50);
-                  } else {
-                    setCurrentStep((s) => nextTargetMain(s, nextSelection));
-                  }
-                }}
-                content={content2}
-              />
-            ) : (
-              <Button
-                icon="arrow left"
-                color="red"
-                className="farsi"
-                onClick={() => {
-                  setCurrentStep((s) => nextTargetMain(s, nextSelection));
-                }}
-                content={content2}
-              />
-            )}
+            <Button
+              icon="arrow left"
+              color="red"
+              className="farsi"
+              onClick={() => {
+                setCurrentStep((s) => nextTargetMain(s, nextSelection));
+              }}
+              content={content2}
+            />
           </>
         )}
       </Button.Group>
     );
   }
+
   return (
     <TourProvider
       steps={steps}
-      rtl
-      startAt={nextTarget(0)}
-      disableInteraction
-      onClickHighlighted={(e) => {
-        e.stopPropagation();
-        $(".reactour__popover").find(".button:first").trigger("click");
-      }}
+      showBadge={false}
+      showNavigation={false}
       onClickMask={({ setCurrentStep, currentStep, steps, setIsOpen }) => {
         if (steps) {
           if (currentStep === steps.length - 1) {
             setIsOpen(false);
           }
-          $(".reactour__popover").find(".button:first").trigger("click");
+
+          setCurrentStep((s) => nextTarget(s));
+          //$(".reactour__popover").find(".button:first").trigger("click");
         }
       }}
       styles={{
@@ -428,8 +475,7 @@ function RightPanel() {
         }),
         maskArea: (base) => ({ ...base, rx: 8 }),
         maskWrapper: (base) => ({ ...base, color: "#be4d25" }),
-        badge: (base) => ({ ...base, left: "auto", right: "-0.8125em" }),
-        controls: (base) => ({ ...base, display: "none" }),
+
         close: (base) => ({
           ...base,
           right: "auto",

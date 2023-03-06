@@ -220,8 +220,10 @@ function App(prop) {
   };
   function reportWindowSize() {
     setTimeout(() => {
+      let viewportWidth = window.innerWidth;
       let viewportHeight = window.innerHeight;
-
+      $("html,body").width(viewportWidth + "px");
+      $("html,body").scrollLeft(0);
       const navbar = document.getElementById("navbar");
 
       try {
@@ -362,6 +364,7 @@ function App(prop) {
   function doMenu(menu, y, isPanel, isUser) {
     //if (panelMenu != "no") return false;
     //console.log(menu, y, isPanel, isUser);
+
     if (getAccess(menu.getwaykey)) {
       if (!menu.submenu) {
         if (
@@ -866,10 +869,10 @@ function App(prop) {
         {
           offCanvas: {
             menu: {
-              insertSelector: "#root",
+              insertSelector: ".App",
             },
             page: {
-              selector: ".App",
+              selector: "#mypage",
             },
           },
         }
@@ -1021,25 +1024,25 @@ function App(prop) {
 
     return (
       <>
+        <nav
+          id="panelright"
+          className={
+            activePanel ? "active mm-menu--theme-dark" : "mm-menu--theme-dark"
+          }
+        >
+          <RightPanel
+            loginToken={loginToken}
+            siteInfo={siteInfo}
+            openPanel={openPanel}
+            setActivePanel={setActivePanel}
+            activePanel={activePanel}
+            animateCSS={animateCSS}
+            bindActiveTable={bindActiveTable}
+            bindLastReward={bindLastReward}
+            handleOpenTable={handleOpenTable}
+          />
+        </nav>
         <div className="App">
-          <nav
-            id="panelright"
-            className={
-              activePanel ? "active mm-menu--theme-dark" : "mm-menu--theme-dark"
-            }
-          >
-            <RightPanel
-              loginToken={loginToken}
-              siteInfo={siteInfo}
-              openPanel={openPanel}
-              setActivePanel={setActivePanel}
-              activePanel={activePanel}
-              animateCSS={animateCSS}
-              bindActiveTable={bindActiveTable}
-              bindLastReward={bindLastReward}
-              handleOpenTable={handleOpenTable}
-            />
-          </nav>
           <div className="Main">
             <nav id="menuleft">
               <ul>{finalMenu}</ul>

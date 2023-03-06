@@ -5,7 +5,7 @@ import Navbar from "./navbar/Index";
 
 const Index = (prop) => {
   return (
-    <div>
+    <div id="mypage">
       <Content {...prop} />
       <Navbar {...prop} />
     </div>
