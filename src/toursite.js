@@ -463,6 +463,7 @@ function RightPanel() {
           //$(".reactour__popover").find(".button:first").trigger("click");
         }
       }}
+      position="center"
       styles={{
         popover: (base) => ({
           ...base,
@@ -473,7 +474,10 @@ function RightPanel() {
           fontSize: 12,
           lineHeight: 20,
         }),
-        maskArea: (base) => ({ ...base, rx: 8 }),
+        maskArea: (base) => ({
+          ...base,
+          rx: 3,
+        }),
         maskWrapper: (base) => ({ ...base, color: "#be4d25" }),
 
         close: (base) => ({

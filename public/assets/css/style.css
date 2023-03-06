@@ -18,11 +18,16 @@ html,body {
  right: 0;
 overflow: hidden !important;
 }
+.reactour__mask svg mask rect[rx]{
+  stroke-width: 10px;
+  stroke: red;
+}
 .reactour__popover {
  width: 70vw !important;
  max-width: 300px !important;
  position: absolute;
  transition: transform .5s ease  !important;
+ box-shadow: rgb(0 0 0 / 90%) 0px 0.5em 3em;
 }
 .reactour__popover p{
   color: #d2d2d2;
