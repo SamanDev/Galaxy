@@ -745,7 +745,7 @@ overflow: auto;
 }
 #panelright.active{
   opacity: 1;
-  z-index: 20000 !important;
+  z-index: 2000 !important;
 }
 #panelright > *{
   

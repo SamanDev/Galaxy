@@ -100,7 +100,7 @@ const ActiveTable = (prop) => {
                 : {}
             }
             className={
-              x.class == "update"
+              x?.class == "update"
                 ? "animated bounceIn text-end right floated lh-base"
                 : "text-end right floated lh-base"
             }
@@ -214,7 +214,7 @@ const ActiveTable = (prop) => {
       if (
         x.minstack < loginToken?.balance &&
         x.status.indexOf("1/") > -1 &&
-        x.class.indexOf("update") > -1 &&
+        x?.class.indexOf("update") > -1 &&
         x.name.indexOf(fil) !== -1 &&
         !prop.activePanel
       ) {
@@ -299,8 +299,8 @@ const ActiveTable = (prop) => {
                     as="div"
                     className={
                       x.minstack > loginToken?.balance
-                        ? "tablename  " + x.class
-                        : "tablename " + x.class
+                        ? "tablename  " + x?.class
+                        : "tablename " + x?.class
                     }
                     onClick={() => {
                       prop.handleOpenTable(x.name);
