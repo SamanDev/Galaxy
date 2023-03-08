@@ -29,7 +29,7 @@ const initialValues = {
 
 const onSubmit = async (values, submitMethods, navigate, prop, setRefresh) => {
   try {
-    const res = await cashierService(values, "createCashoutShetab", "");
+    const res = await cashierService(values, "bankTransfer", "");
     if (res.status == 200) {
       if (res.data?.accessToken) {
         setRefresh(true);
@@ -63,7 +63,7 @@ const depositArea = (prop) => {
     <Formik
       initialValues={{
         amount: getCashAmount(loginToken.balance),
-
+        action: "cashout",
         amountDollar: 0,
       }}
       onSubmit={(values, submitMethods) =>
