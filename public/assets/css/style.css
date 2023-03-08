@@ -22,6 +22,10 @@ overflow: hidden !important;
   stroke-width: 10px;
   stroke: red;
 }
+.banner img,.banner svg,.banner h1 ,.banner time,.banner .text {
+  filter: drop-shadow(3px 5px 2px rgb(0 0 0 / 0.3)) !important;
+  
+}
 .reactour__popover {
  width: 70vw !important;
  max-width: 300px !important;
