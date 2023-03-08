@@ -22,7 +22,7 @@ overflow: hidden !important;
   stroke-width: 10px;
   stroke: red;
 }
-.banner img,.banner svg,.banner h1 ,.banner time,.banner .text,.rewardname,.iconarea {
+.banner img,.banner svg,.banner h1 ,.banner time,.banner .text {
   filter: drop-shadow(1px 1px 2px rgb(0 0 0 / 0.4)) !important;
   
 }
