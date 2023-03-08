@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Button } from "semantic-ui-react";
 const Actios = (prop) => {
   const [loading, setLoading] = useState(false);
-  if (prop.row.status === "Pending") {
+  if (prop.row.status === "Pending" && prop.row.gateway === "IranShetab") {
     return (
       <>
         <Button
@@ -13,29 +13,36 @@ const Actios = (prop) => {
           disabled={loading}
           onClick={() => prop.updateStatus(prop.row, "Done", setLoading)}
         />{" "}
-        <Button
-          size="mini"
-          color="red"
-          icon="times"
-          loading={loading}
-          disabled={loading}
-          onClick={() => prop.updateStatus(prop.row, "Canceled", setLoading)}
-        />
+        {(prop.row.pendingAmount > 0 || prop.row.mode === "Deposit") && (
+          <Button
+            size="mini"
+            color="red"
+            icon="times"
+            loading={loading}
+            disabled={loading}
+            onClick={() => prop.updateStatus(prop.row, "Canceled", setLoading)}
+          />
+        )}
       </>
     );
   } else {
-    return (
-      <>
-        <Button
-          size="mini"
-          color="yellow"
-          icon="refresh"
-          loading={loading}
-          disabled={loading}
-          onClick={() => prop.updateStatus(prop.row, "Pending", setLoading)}
-        />
-      </>
-    );
+    if (
+      (prop.row.status === "Done" && prop.row.pendingAmount > 0) ||
+      prop.row.mode === "Deposit"
+    ) {
+      return (
+        <>
+          <Button
+            size="mini"
+            color="yellow"
+            icon="refresh"
+            loading={loading}
+            disabled={loading}
+            onClick={() => prop.updateStatus(prop.row, "Pending", setLoading)}
+          />
+        </>
+      );
+    }
   }
 };
 export default Actios;

@@ -179,8 +179,6 @@ const LevelIcon = (prop) => {
           <img
             src={"/assets/images/svg/tournament/2.svg"}
             className={prop.amin + ""}
-            width={prop.width}
-            height={prop.width}
             alt={prop.mode}
             style={{
               width: prop.width,

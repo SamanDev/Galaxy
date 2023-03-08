@@ -1,24 +1,40 @@
 import React, { useEffect, useState } from "react";
 import DataTable from "react-data-table-component";
-import { Segment, Button, Dimmer, Icon, Modal, Grid } from "semantic-ui-react";
+import {
+  Segment,
+  Button,
+  Dimmer,
+  Icon,
+  Modal,
+  Grid,
+  Divider,
+} from "semantic-ui-react";
 import { convertDateToJalali } from "../../../utils/convertDate";
 import ActionBtn from "../../../utils/actionBtn";
 import AmountColor from "../../../utils/AmountColor";
 import { addDays } from "date-fns";
+import CartFormat from "../../../utils/CartFormat";
 const moment = require("moment");
 import { adminGetService } from "../../../services/admin";
-import { doCurrency } from "../../../const";
+import { doCurrency, isJson } from "../../../const";
 import DateReng from "../utils/dateReng";
 import FilterMode from "./Filter";
 import Confirm from "./Confirm";
 
 const conditionalRowStyles = [
   {
-    when: (row) => row.status == "Pending",
+    when: (row) => row.status == "Pending" && row.amount == row.pendingAmount,
     style: {
       backgroundColor: "rgba(0,0,255,.1)",
     },
   },
+  {
+    when: (row) => row.status == "Pending" && row.amount != row.pendingAmount,
+    style: {
+      backgroundColor: "rgb(105 28 242 / 10%)",
+    },
+  },
+
   // You can also pass a callback to style for additional customization
   {
     when: (row) => row.status == "Done",
@@ -129,13 +145,27 @@ function Admin(prop) {
     }
   };
   const gettotal = (data, status, target) => {
+    if (!data) return false;
     var _data = data.filter(
-      (d) => d.status.toLowerCase() === status.toLowerCase()
+      (d) =>
+        d.status.toLowerCase() === status.toLowerCase() ||
+        (status.toLowerCase() == "done" &&
+          d.status.toLowerCase() == "pending" &&
+          d.pendingAmount != d.pending)
     );
     var _totalReward = 0;
     {
       _data.map((x, i) => {
-        var _am = x.endBalance >= x.startBalance ? x.amount : x.amount * -1;
+        var _am =
+          x.amount == x.pendingAmount || x.pendingAmount == 0
+            ? x.amount
+            : x.pendingAmount;
+        if (
+          status.toLowerCase() == "done" &&
+          x.status.toLowerCase() == "pending"
+        ) {
+          _am = x.amount - x.pendingAmount;
+        }
         _totalReward = _totalReward + _am;
       });
     }
@@ -161,6 +191,7 @@ function Admin(prop) {
       doCurrency(gettotal(filteredItems, "Pending", "total")) +
       "  َ  َ  َ |  َ  َ  َ  ";
   }
+
   if (doCurrency(gettotal(filteredItems, "Canceled", "count")) > 0) {
     footerTxt =
       footerTxt +
@@ -192,7 +223,7 @@ function Admin(prop) {
     if (!firstOpen && filterOk) fetchUsers(1, true); // fetch page 1 of users
   }, [filterOk, firstOpen]);
   useEffect(() => {
-    if (!firstDone && firstStatus == "") fetchUsers(1); // fetch page 1 of users
+    if (!firstDone && firstStatus == "reload") fetchUsers(1); // fetch page 1 of users
   }, [firstDone]);
   useEffect(() => {
     fetchCart();
@@ -258,11 +289,86 @@ function Admin(prop) {
       name: "PendingAmount",
       selector: (row) => row.pendingAmount,
       format: (row) => (
-        <>
+        <span className=" fw-bold">
           <AmountColor amount={row.pendingAmount} />
+        </span>
+      ),
+      sortable: true,
+    },
+    {
+      name: "Data",
+      selector: (row) => row.cashoutDescriptionSet,
+      format: (row) => (
+        <>
+          <div
+            id={"carouselExampleInterval" + row.id}
+            className="carousel slide text-center"
+            style={{ width: "500px" }}
+          >
+            <div className="carousel-inner">
+              {row.cashoutDescriptionSet.map((f, i) => (
+                <div
+                  key={i.toString()}
+                  className={i == 0 ? "carousel-item active" : "carousel-item "}
+                >
+                  <Grid columns={2} relaxed="very">
+                    <Grid.Column>
+                      <CartFormat
+                        row={f.cashoutDescriptionFromSet[0]}
+                        amount={true}
+                        className="text-center"
+                      />
+                    </Grid.Column>
+                    <Grid.Column>
+                      <CartFormat
+                        row={f.cashoutDescriptionToSet[0]}
+                        className="text-center"
+                      />
+                    </Grid.Column>
+                  </Grid>
+                  <Divider vertical>
+                    &rarr;
+                    {row.cashoutDescriptionSet.length}
+                  </Divider>
+                </div>
+              ))}
+            </div>
+            {row.cashoutDescriptionSet.length > 1 && (
+              <>
+                <button
+                  className="carousel-control-prev"
+                  type="button"
+                  data-bs-target={"#carouselExampleInterval" + row.id}
+                  data-bs-slide="prev"
+                >
+                  <Icon
+                    className="carousel-control-prev-icon text-danger-emphasis"
+                    aria-hidden="true"
+                    name="arrow left"
+                  />
+
+                  <span className="visually-hidden">Previous</span>
+                </button>
+                <button
+                  className="carousel-control-next"
+                  type="button"
+                  data-bs-target={"#carouselExampleInterval" + row.id}
+                  data-bs-slide="next"
+                >
+                  <Icon
+                    className="carousel-control-prev-icon text-danger-emphasis"
+                    aria-hidden="true"
+                    name="arrow right"
+                  />
+                  <span className="visually-hidden">Next</span>
+                </button>
+              </>
+            )}
+          </div>
         </>
       ),
       sortable: true,
+      width: "600px",
     },
 
     {

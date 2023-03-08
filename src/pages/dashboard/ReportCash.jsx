@@ -1,12 +1,29 @@
 import React, { useEffect, useState } from "react";
-import { List, Icon } from "semantic-ui-react";
+import { List, Icon, Grid, Divider, Segment } from "semantic-ui-react";
 import Status from "../../utils/Status";
 import MenuLoader from "../../utils/menuLoader";
 import { convertDateToJalali } from "../../utils/convertDate";
 import AmountColor from "../../utils/AmountColor";
 import { getReportService } from "../../services/report";
 import { doCurrency } from "../../const";
-
+import ConvertCart from "../../utils/convertCart";
+import CartFormat from "../../utils/CartFormat";
+const sumOf = (array, id) => {
+  try {
+    return array.reduce((sum, currentValue) => {
+      if (currentValue.id <= id) {
+        var _am = currentValue.cashoutDescriptionFromSet[0].amount;
+      } else {
+        var _am = 0;
+      }
+      return sum + _am;
+    }, 0);
+  } catch (error) {
+    return array.reduce((sum, currentValue) => {
+      console.log(currentValue);
+    }, 0);
+  }
+};
 const Report = (prop) => {
   const loginToken = prop.loginToken;
   const [data, setData] = useState([]);
@@ -78,14 +95,14 @@ const Report = (prop) => {
             return (
               <List.Item key={i}>
                 <List.Content>
-                  <List.Description className="rightfloat">
+                  <List.Description className="float-end lh-lg">
                     {convertDateToJalali(item.createDate)}
 
-                    <div className="text-end pad10tb">
+                    <div className="text-end lh-lg">
                       <Status status={item.status} size="mini" />
                     </div>
                   </List.Description>
-                  <List.Description>
+                  <List.Description className="lh-base">
                     <AmountColor
                       amount={item.amount}
                       sign={item.endBalance - item.startBalance}
@@ -99,9 +116,9 @@ const Report = (prop) => {
                     )}
 
                     <div className="cashlist">
-                      {(prop.mode == "Bitcoin" ||
-                        prop.mode == "USDT" ||
-                        prop.mode == "PerfectMoney") && (
+                      {(prop.gateway == "Bitcoin" ||
+                        prop.gateway == "USDT" ||
+                        prop.gateway == "PerfectMoney") && (
                         <>
                           Amount &nbsp;
                           <span className="text-gold">${doCurrency(120)}</span>
@@ -126,6 +143,59 @@ const Report = (prop) => {
                       )}
                     </div>
                   </List.Description>
+                  {item.cashoutDescriptionSet &&
+                    item.gateway == "IranShetab" && (
+                      <Segment inverted size="mini">
+                        {item.cashoutDescriptionSet
+                          .sort((a, b) => (a.id > b.id ? 1 : -1))
+                          .map((f, i) => (
+                            <div key={i.toString()}>
+                              <span className="rightfloat">
+                                {convertDateToJalali(
+                                  f.cashoutDescriptionFromSet[0].date
+                                )}
+                              </span>
+                              <span className="text-gold">
+                                {doCurrency(
+                                  f.cashoutDescriptionFromSet[0].amount
+                                )}
+                              </span>
+                              <br />
+                              <div className="farsi text-secondary rightfloat">
+                                واریز به <br />
+                                مجموع:{" "}
+                                <span className="text-gold">
+                                  {doCurrency(
+                                    sumOf(item.cashoutDescriptionSet, f.id)
+                                  )}
+                                </span>
+                              </div>
+                              <span className="farsi">
+                                {f.cashoutDescriptionToSet[0].bankName}
+                              </span>
+                              <br />
+                              <ConvertCart
+                                cartNo={f.cashoutDescriptionToSet[0].cardNumber}
+                                isLock={true}
+                              />
+                              <br />
+                              <div className="farsi text-secondary float-end">
+                                از
+                              </div>{" "}
+                              <br />
+                              <ConvertCart
+                                cartNo={
+                                  f.cashoutDescriptionFromSet[0].cardNumber
+                                }
+                                isLock={true}
+                              />
+                              {item.cashoutDescriptionSet.length > i + 1 && (
+                                <Divider />
+                              )}
+                            </div>
+                          ))}
+                      </Segment>
+                    )}
                 </List.Content>
               </List.Item>
             );

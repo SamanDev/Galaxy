@@ -76,11 +76,21 @@ const InputF = ({
   carts,
 }) => {
   cartOptions = [];
+  useEffect(() => {
+    if (!carts && loginToken != {} && cartsOptions.length)
+      updateCartInfo(
+        loginToken?.bankInfos,
+        loginToken?.bankInfos[0].cardNumber,
+        formik
+      );
+    console.log("updateCartInfo:");
+  }, []);
   if (carts) {
     editAmount(carts, true, formik);
   } else {
     editAmount(loginToken?.bankInfos, false, formik);
   }
+
   return (
     <Form as="div">
       {formik.errors[name] && formik.touched[name] && (

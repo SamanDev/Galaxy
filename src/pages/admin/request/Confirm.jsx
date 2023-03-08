@@ -22,7 +22,7 @@ const onSubmit = async (values, submitMethods, prop) => {
   if (res.status == 200) {
     submitMethods.resetForm();
     prop.setFirstDone(false);
-    prop.setFirstStatus("");
+    prop.setFirstStatus("reload");
   }
 
   submitMethods.setSubmitting(false);
@@ -32,22 +32,29 @@ const updateCartInfo = (cartOptions, id, formik) => {
   formik.setFieldValue("frombank", id);
 
   formik.setFieldValue("fromobj", selectedCart);
-  formik.setFieldValue("bankId", selectedCart.id);
+  if (selectedCart?.id) {
+    formik.setFieldValue("bankId", selectedCart?.id);
+  }
 };
 const updateCartInfoTo = (cartOptions, id, formik) => {
   var selectedCart = cartOptions.filter((d) => d.cardNumber == id)[0];
   formik.setFieldValue("tobank", id);
 
   formik.setFieldValue("toobj", selectedCart);
-  formik.setFieldValue("userBankId", selectedCart.id);
+  if (selectedCart?.id) {
+    formik.setFieldValue("userBankId", selectedCart?.id);
+  }
 };
 
 const depositArea = (prop) => {
   const validationSchema = Yup.object({
     amount: Yup.number()
       .required("لطفا این فیلد را وارد کنید.")
-      .min(100000, "لطفا این فیلد را درست وارد کنید.")
+
       .integer(),
+    userBankId: Yup.string().required("لطفا این فیلد را وارد کنید."),
+
+    bankId: Yup.string().required("لطفا این فیلد را وارد کنید."),
   });
   const carOptions = [
     {
@@ -86,7 +93,7 @@ const depositArea = (prop) => {
         initialValues={{
           action: prop.status,
           id: prop.item.id,
-          amount: prop.item.amount,
+          amount: prop.item.pendingAmount,
           geteway: prop.gateway.replace(/ /g, ""),
           bankId: "",
           userBankId: "",
@@ -120,6 +127,7 @@ const depositArea = (prop) => {
                       namemix
                       updateCartInfo={updateCartInfo}
                       gateway={prop.gateway}
+                      loginToken={{}}
                       {...prop}
                     />
                     <Carts
@@ -250,7 +258,10 @@ const depositArea = (prop) => {
                         onSubmit(formik.values, formik, prop);
                       }}
                       disabled={
-                        formik.isSubmitting || formik.values.toobj == ""
+                        formik.isSubmitting ||
+                        formik.values.bankId == "" ||
+                        formik.values.amount > prop.item.pendingAmount ||
+                        formik.values.userBankId == ""
                           ? true
                           : false
                       }
