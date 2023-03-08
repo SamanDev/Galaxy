@@ -22,18 +22,14 @@ const editAmount = (carts, total, formik) => {
   cartsOptions = [];
   carts.sort((a, b) => (a.id < b.id ? 1 : -1));
   carts.map((item, i) => {
-    if (total) {
-      item.total = (i + 1) * 10000000;
-    }
-
     cartsOptions.push({
       key: i.toString(),
       id: item.id,
-      // disabled: formik.values.amount > item.total ? true : false,
-      text: item.total ? (
+      disabled: formik.values.amount > item.amount ? true : false,
+      text: item.amount ? (
         <span className="farsi">
           <ConvertCart isLock cartNo={item.cardNumber} /> | {item.bankName} |{" "}
-          {doCurrency(item.total)}
+          {item.holderName} | {doCurrency(item.amount)}
         </span>
       ) : (
         <>
@@ -45,9 +41,10 @@ const editAmount = (carts, total, formik) => {
       value: item.cardNumber,
       content: (
         <>
-          {item.total ? (
+          {item.amount ? (
             <small className="farsi dropbank">
-              {item.bankName} | موجودی: {doCurrency(item.total)}
+              {item.bankName} | {item.holderName} | موجودی:{" "}
+              {doCurrency(item.amount)}
             </small>
           ) : (
             <small className="farsi dropbank">{item.bankName}</small>
