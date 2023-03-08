@@ -2100,9 +2100,24 @@ table {
   z-index: 3;
 }
 #dashboard_section {
+ position: relative;
+
+}
+#dashboard_section:before {
+  content: ' ';
+  display: block;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.6;
   background-image: url("/assets/images/bgs/1-min.webp");
-  background-size: auto, auto;
+  background-size: 70%;
+
   background-repeat: no-repeat;
+  background-position: 100% 0;
+  
 }
 #dashboard_sectio2sn {
   background-image: url("/assets/images/bgs/3.png");
