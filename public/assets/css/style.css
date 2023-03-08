@@ -2314,12 +2314,24 @@ table {
   .banner .button {
     font-size: 4vw !important;
   }
-  #dashboard_section {
-    background-size: 150%;
+  #dashboard_section:before {
+   
+    background-size: 100%;
+  
     background-repeat: no-repeat;
+    background-position: 100% 100%;
+    
   }
 
   @media only screen and (orientation: landscape) {
+    #dashboard_section:before {
+   
+      background-size: 60%;
+    
+      background-repeat: no-repeat;
+      background-position: 100% 50%;
+      
+    }
     .ui.black.label.balanceLable.amount {
       min-width: 50px !important;
       width: calc(100vw - 300px);
