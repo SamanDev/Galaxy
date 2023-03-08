@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Button } from "semantic-ui-react";
 const Actios = (prop) => {
   const [loading, setLoading] = useState(false);
-  if (prop.row.status === "Pending" && prop.row.gateway === "IranShetab") {
+  if (prop.row.status === "Pending") {
     return (
       <>
         <Button
