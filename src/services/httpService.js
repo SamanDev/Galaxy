@@ -1,7 +1,7 @@
 import axios from "axios";
 import { Alert } from "../utils/alerts";
 import { MyConfirm, MyToast, MyDeposit } from "../utils/myAlert";
-import APIURL from "./config.json";
+import { APIURL } from "../const";
 import UserWebsocket from "./user.websocket";
 import eventBus from "./eventBus";
 export const apiPath = APIURL.onlinePath;
