@@ -142,3 +142,119 @@ export const MyToastReward = (bonus, getReward, loginToken, siteInfo) => {
     }
   });
 };
+function getRemaining() {
+  const now = moment();
+  const end = moment().format("YYYY-MM-DD 23:59:59");
+  const then = moment(end);
+  const diff = then.diff(now);
+  const dur = moment.duration(diff);
+
+  let parts = [];
+  for (const part of ["hours", "minutes"]) {
+    const d = dur[part]();
+    dur.subtract(moment.duration(d, part));
+    parts.push(d);
+  }
+  return parts;
+}
+
+function typeHour(rem) {
+  var _left = "";
+  if (rem[0] > 0) {
+    _left = parseInt(rem[0]) + " ساعت";
+  }
+  if (rem[1] > 0) {
+    _left = _left + " و " + parseInt(rem[1]) + " دقیقه";
+  }
+
+  return _left;
+}
+function getTotGpass(set, day, lvl) {
+  var total = set[0].totalRewards;
+  var totalget = 0;
+  var totalgetCan = 0;
+  var totalleft = 0;
+  {
+    set.map((x, i) => {
+      if (x.level < lvl) {
+        totalget += x.reward;
+      }
+      if (x.level < day) {
+        totalgetCan += x.reward;
+      }
+    });
+  }
+  var _gpass = doCurrency(totalget) + " تومان دریافت کرده اید";
+  if (totalgetCan - totalget > 0) {
+    _gpass =
+      _gpass +
+      " که البته می توانستید مبلغ " +
+      doCurrency(totalgetCan) +
+      " تومان دریافت کرده باشید.";
+  }
+  return _gpass;
+}
+
+export const MyToastText = (loginToken, siteInfo, event) => {
+  siteInfo?.galaxyPassSet?.sort((a, b) => (a.id > b.id ? 1 : -1));
+  var gpassrules = siteInfo?.galaxyPassSet[0];
+  siteInfo?.vipTables?.sort((a, b) => (a.id > b.id ? 1 : -1));
+  var viprules = siteInfo?.vipTables[0];
+  var levelData = siteInfo?.levelUps;
+  const nowDate = new Date();
+  const nowDay = nowDate.getDate();
+  if (event == "GPass") {
+    var passSec = gpassrules.hoursLimit * 3600 - loginToken.glevelSecond;
+    var gLvlLeft = [
+      new Date(passSec * 1000).toISOString().substring(11, 13),
+      new Date(passSec * 1000).toISOString().substring(14, 16),
+    ];
+    console.log(gLvlLeft);
+    const rem = getRemaining();
+    var _left = typeHour(rem) + " مانده تا پایان روز " + nowDay + " گلکسی پس.";
+    if (loginToken.glevel < nowDay) {
+      _left =
+        _left +
+        "هم اکنون شما در مرحه " +
+        loginToken.glevel +
+        " هستید و تا الان مبلغ " +
+        getTotGpass(siteInfo.galaxyPassSet, nowDay, loginToken.glevel);
+    }
+    var icon = "gpass";
+    var newb =
+      _left +
+      "تا جایزه بعدی " +
+      typeHour(gLvlLeft) +
+      " بازی نیاز است. با بازی همرمان روی چند میز رودتر تمام می شود.";
+  }
+  const Toast = Swal.mixin({
+    toast: true,
+    position: "top",
+
+    padding: "1.2em",
+    buttonsStyling: false,
+    showCloseButton: true,
+
+    showConfirmButton: false,
+    customClass: {
+      htmlContainer: "p-2 ",
+      timerProgressBar: "bg-success",
+      actions: "",
+      confirmButton: "ui button mini green",
+    },
+    background: "#000",
+    timer: 100000,
+    timerProgressBar: true,
+  });
+
+  Toast.fire({
+    html: "<div class='farsi fs-6 pd-10'>" + newb + "</div>",
+    iconHtml:
+      "<img  src='/assets/images/icons/" +
+      icon +
+      ".png' style='width: 40px' />",
+  }).then((result) => {
+    if (result.isConfirmed) {
+    }
+  });
+};

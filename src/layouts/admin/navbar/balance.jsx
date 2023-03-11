@@ -1,8 +1,21 @@
-import React, { useState, useEffect } from "react";
-import { Segment, Icon, Label, Popup, Progress } from "semantic-ui-react";
+import React, { useState, useEffect, useRef } from "react";
+import {
+  Segment,
+  Icon,
+  Label,
+  Popup,
+  Progress,
+  Header,
+} from "semantic-ui-react";
 import DepositArea from "../forms/index";
 
-import { MyToastReward, MyConfirm, MyDeposit } from "../../../utils/myAlert";
+import {
+  MyToastReward,
+  MyConfirm,
+  MyDeposit,
+  MyToastText,
+} from "../../../utils/myAlert";
+import { getHelp } from "../../../utils/getHelp";
 import LevelIcon from "../../../utils/svg";
 import CountUp from "../../../utils/CountUp";
 import RisingPitch from "../../../utils/PlayBip";
@@ -98,12 +111,12 @@ const Balance = (prop) => {
           Date.parse(d.startDate) < end &&
           Date.parse(d.expireDate) > end
       );
-      if (_pen.length > 0) {
+      if (_pen.length > -1) {
         if (
           $(".swal2-container").html() == "" ||
           $(".swal2-container").length == 0
         ) {
-          MyToastReward(_pen[0], handleConfirm, loginToken, siteInfo);
+          //MyToastReward(_pen[0], handleConfirm, loginToken, siteInfo);
         }
 
         setColor("orange");
@@ -186,77 +199,103 @@ const Balance = (prop) => {
     return (
       <>
         <RisingPitch />
+
         <Segment
           className="myaccount"
           inverted
           style={{ margin: 0, padding: 10, color: "#fff", height: 50 }}
         >
           <span className="step0">
-            <span
-              style={{ top: -4, position: "relative" }}
-              className="step0-1"
-              onClick={() => {
-                ChangeStateMode();
-              }}
-            >
-              {stateMode == 0 && (
-                <LevelIcon
-                  level={loginToken.level}
-                  text=""
-                  mode="levels"
-                  classinside={levelClassInside(loginToken.level)}
-                  number=""
-                  width="30px"
-                />
-              )}
-              {stateMode == 1 && _event == "GPass" && (
-                <>
-                  {loginToken.takeGPass && (
+            <Popup
+              offset={[-8, 20]}
+              disabled={_event != "GPass"}
+              content={
+                <div
+                  className="helparea fadeoutend"
+                  style={{
+                    height: "100%",
+                    maxHeight: "50vh",
+                    overflow: "auto",
+                  }}
+                >
+                  {getHelp(loginToken, siteInfo, _event)}
+                </div>
+              }
+              hoverable
+              inverted
+              size="mini"
+              trigger={
+                <span
+                  style={{ top: -4, position: "relative" }}
+                  className="step0-1"
+                  onClick={() => {
+                    ChangeStateMode();
+                  }}
+                >
+                  {stateMode == 0 && (
+                    <LevelIcon
+                      level={loginToken.level}
+                      text=""
+                      mode="levels"
+                      classinside={levelClassInside(loginToken.level)}
+                      number=""
+                      width="30px"
+                    />
+                  )}
+                  {stateMode == 1 && _event == "GPass" && (
                     <>
-                      <Icon
-                        name="check"
-                        color="green"
-                        size="large"
-                        style={{
-                          position: "absolute",
-                          zIndex: 3,
-                          top: -10,
-                          right: -15,
-                        }}
-                      />
+                      {loginToken.takeGPass && (
+                        <>
+                          <Icon
+                            name="check"
+                            color="green"
+                            size="large"
+                            style={{
+                              position: "absolute",
+                              zIndex: 3,
+                              top: -10,
+                              right: -15,
+                            }}
+                          />
+                        </>
+                      )}
+
+                      <div style={{ display: "inline-block" }}>
+                        <LevelIcon
+                          mode="gpass"
+                          level={loginToken.glevel}
+                          classinside="iconinside0"
+                          number={loginToken.glevel}
+                          text=""
+                          width="30px"
+                        />
+                      </div>
                     </>
                   )}
-                  <LevelIcon
-                    mode="gpass"
-                    level={loginToken.glevel}
-                    classinside="iconinside0"
-                    number={loginToken.glevel}
-                    text=""
-                    width="30px"
-                  />
-                </>
-              )}
-              {stateMode == 1 && _event == "VIP" && (
-                <LevelIcon
-                  classinside="iconinside0"
-                  number=""
-                  text=""
-                  width="30px"
-                  level={1}
-                  mode="vip"
-                />
-              )}
-              {stateMode == 1 && _event == "League" && (
-                <LevelIcon
-                  classinside="iconinside0"
-                  number=""
-                  text=""
-                  width="30px"
-                  level={20}
-                  mode="league"
-                />
-              )}
-            </span>
+
+                  {stateMode == 1 && _event == "VIP" && (
+                    <LevelIcon
+                      classinside="iconinside0"
+                      number=""
+                      text=""
+                      width="30px"
+                      level={1}
+                      mode="vip"
+                    />
+                  )}
+                  {stateMode == 1 && _event == "League" && (
+                    <LevelIcon
+                      classinside="iconinside0"
+                      number=""
+                      text=""
+                      width="30px"
+                      level={20}
+                      mode="league"
+                    />
+                  )}
+                </span>
+              }
+            />
             <Label
               color="black"
               className="balanceLable step0-2"

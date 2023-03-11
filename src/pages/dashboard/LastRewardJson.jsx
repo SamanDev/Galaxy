@@ -39,7 +39,7 @@ const ActiveTable = (prop) => {
       } else {
         myData.map(function (x, i) {
           var myx = x;
-          if (!x.class) {
+          if (!x?.class) {
             myx.class =
               "lastlogs id-" + myx.id ? myx.id : i + " hiddenmenu faster";
 
@@ -49,7 +49,7 @@ const ActiveTable = (prop) => {
               prop.bindLastReward();
             }, 100);
           } else {
-            myx.class = x.class.replace(/hiddenmenu/g, "");
+            myx.class = x?.class.replace(/hiddenmenu/g, "");
           }
 
           _sortD.push(myx);

@@ -39,9 +39,7 @@ overflow: hidden !important;
   padding: 5px;
     text-align: justify;
 }
-.iOSPWA-container:not([style*="display: none"]) {
-  bottom: 30% !important;
-}
+
 .farsi,.iOSPWA-body {
   font-family: "BYekan" !important;
   direction: rtl;
@@ -70,7 +68,7 @@ input.farsi {
   font-size: 80% !important;
 }
 .ui.dimmer{
-  z-index: 10000 !important;
+  z-index: 1000000 !important;
 }
 *{outline-color: transparent !important; outline-width: 0px !important;outline-style: solid !important;}
 .rewardtext{
@@ -460,7 +458,17 @@ body.fullscreen .fullopenpanel{
   margin: 0 !important;
   padding: 0 !important;
 }
+.helparea {
 
+  padding-bottom: 20px !important;
+
+}
+.helparea p{
+  text-align: justify;
+  padding: 10px;
+  margin: 0 !important;
+  line-height: 18px;
+}
 .banner h1 {
   font-weight: 900;
   font-size: 3vw;
