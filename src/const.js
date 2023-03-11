@@ -5,6 +5,7 @@ import TopPlayers from "./pages/dashboard/TopPlayers";
 import KingOf from "./pages/dashboard/KingOf";
 import Tournament from "./pages/dashboard/Tournament";
 
+export const APIURL = getAPI();
 export const USERSOCKETURL = getPort();
 export const USERSOCKETPUBLICURL = getPortPablic();
 
@@ -30,7 +31,29 @@ export function startServiceWorker() {
     });
   }
 }
+function getAPI() {
+  //let host = document.location.host;
+  let host = {
+    onlinePath: "http://139.99.144.72:8081",
+    offlinePath: "http://127.0.0.1:8000",
+  };
+  //let host = "loole.gg:443";
+  let protocol2 = document.location.protocol;
+  let protocol = "";
+  if (protocol2 == "https:") {
+    protocol = "wss://";
+    host = {
+      onlinePath: "https://api.khodekhalse.com",
+      offlinePath: "http://127.0.0.1:8000",
+    };
+  } else {
+    protocol = "ws://";
+  }
+  //protocol = "wss://";
+  let loc = protocol + host + "/users?token=";
 
+  return host;
+}
 function getPort() {
   //let host = document.location.host;
   let host = "139.99.144.72:8081";
@@ -39,6 +62,7 @@ function getPort() {
   let protocol = "";
   if (protocol2 == "https:") {
     protocol = "wss://";
+    host = "api.khodekhalse.com";
   } else {
     protocol = "ws://";
   }
@@ -55,6 +79,7 @@ function getPortPablic() {
   let protocol = "";
   if (protocol2 == "https:") {
     protocol = "wss://";
+    host = "api.khodekhalse.com";
   } else {
     protocol = "ws://";
   }

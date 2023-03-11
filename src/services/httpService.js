@@ -1,10 +1,10 @@
 import axios from "axios";
 import { Alert } from "../utils/alerts";
 import { MyConfirm, MyToast, MyDeposit } from "../utils/myAlert";
-import config from "./config.json";
+import APIURL from "./config.json";
 import UserWebsocket from "./user.websocket";
 import eventBus from "./eventBus";
-export const apiPath = config.onlinePath;
+export const apiPath = APIURL.onlinePath;
 export function checkBlock(data) {
   var loginKey = localStorage.getItem("galaxyUserkeyToken");
 
