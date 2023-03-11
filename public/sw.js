@@ -12,12 +12,8 @@ self.addEventListener("install", function (event) {
       await cache.add(new Request(OFFLINE_URL, { cache: "reload" }));
       await cache.add(new Request("favicon.png"));
       await cache.add(new Request("assets/fonts/yekan/Sans.woff"));
-      await cache.add(new Request("static/js/bundle.js"));
-      await cache.add(new Request("assets/js/bootstrap.bundle.min.js"));
+
       await cache.add(new Request("assets/mmenu-js-master/dist/mmenu.js"));
-      await cache.add(
-        new Request("assets/mburger-webcomponent-master/dist/mburger/index.js")
-      );
     })()
   );
 
