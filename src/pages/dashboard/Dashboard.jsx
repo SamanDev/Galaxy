@@ -316,16 +316,6 @@ const Dashboard = (prop) => {
     setActiveSlide(defslide);
   }, [loginToken]);
 
-  if (!siteInfo?.galaxyPassSet) {
-    return (
-      <Dimmer active>
-        <Loader className="farsi-inline" size="large">
-          لطفا صبر کنید...
-        </Loader>
-      </Dimmer>
-    );
-  }
-
   return (
     <>
       {curPage == "dashboard" && (
@@ -444,8 +434,8 @@ const Dashboard = (prop) => {
                           number="15"
                           showtime={
                             <ShowTimeLeft
-                              startDay={gpassrules.startDay}
-                              endDay={gpassrules.endDay}
+                              startDay={gpassrules?.startDay}
+                              endDay={gpassrules?.endDay}
                               startHour="0000"
                               endHour="2359"
                             />
@@ -472,9 +462,9 @@ const Dashboard = (prop) => {
                           title={<>۱۹۲ میلیون تومان</>}
                           text={
                             "پاداش VIP " +
-                            viprules.bigBlindLimit / 2 +
+                            viprules?.bigBlindLimit / 2 +
                             "K/" +
-                            viprules.bigBlindLimit +
+                            viprules?.bigBlindLimit +
                             "K"
                           }
                           link=".vip"
@@ -484,8 +474,8 @@ const Dashboard = (prop) => {
                           number=" "
                           showtime={
                             <ShowTimeLeft
-                              startDay={viprules.startDay}
-                              endDay={viprules.endDay}
+                              startDay={viprules?.startDay}
+                              endDay={viprules?.endDay}
                               startHour="0000"
                               endHour="2359"
                             />
@@ -520,8 +510,8 @@ const Dashboard = (prop) => {
                           iconamin="swing"
                           showtime={
                             <ShowTimeLeft
-                              startDay={leaguerules.startDay}
-                              endDay={leaguerules.endDay}
+                              startDay={leaguerules?.startDay}
+                              endDay={leaguerules?.endDay}
                               startHour="0000"
                               endHour="2359"
                             />

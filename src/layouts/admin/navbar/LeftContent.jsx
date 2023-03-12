@@ -77,7 +77,7 @@ const Leftcontent = (prop) => {
           </Label>
         )}
       </Segment>
-      {prop.loginToken?.logout || !prop.loginToken?.accessToken ? (
+      {loginToken?.logout || !loginToken?.accessToken ? (
         <>
           <Login {...prop} />
         </>

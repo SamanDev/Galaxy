@@ -68,30 +68,35 @@ function getTotGpass(set, day, lvl) {
 }
 
 export const getHelp = (loginToken, siteInfo, event) => {
+  if (!siteInfo?.galaxyPassSet) {
+    return null;
+  }
   siteInfo?.galaxyPassSet?.sort((a, b) => (a.id > b.id ? 1 : -1));
   var gpassrules = siteInfo?.galaxyPassSet[0];
   siteInfo?.vipTables?.sort((a, b) => (a.id > b.id ? 1 : -1));
   var viprules = siteInfo?.vipTables[0];
-  viprules.totalRewards = "192000000";
+  try {
+    viprules.totalRewards = "192000000";
+  } catch (error) {}
+
   var levelData = siteInfo?.levelUps;
   const nowDate = new Date();
   const nowDay = nowDate.getDate();
 
-  if (event == "GPass") {
+  if (event == "GPass" && gpassrules.length > 0) {
     var rem = getRemaining();
-    var total = siteInfo.galaxyPassSet[0].totalRewards;
+    var total = gpassrules[0]?.totalRewards;
     var totalget = 0;
     var totalgetCan = 0;
     var totalleft = 0;
     {
-      siteInfo.galaxyPassSet.map((x, i) => {
+      gpassrules.map((x, i) => {
         if (x.level < loginToken.glevel) {
           totalget += x.reward;
         }
         if (
           x.level >= loginToken.glevel &&
-          x.level <=
-            loginToken.glevel + siteInfo.galaxyPassSet[0].endDay - nowDay
+          x.level <= loginToken.glevel + gpassrules[0]?.endDay - nowDay
         ) {
           totalleft += x.reward;
         }
@@ -100,7 +105,7 @@ export const getHelp = (loginToken, siteInfo, event) => {
         }
       });
     }
-    var passSec = gpassrules.hoursLimit * 3600 - loginToken.glevelSecond;
+    var passSec = gpassrules?.hoursLimit * 3600 - loginToken.glevelSecond;
     var gLvlLeft = [
       new Date(passSec * 1000).toISOString().substring(11, 13),
       new Date(passSec * 1000).toISOString().substring(14, 16),
@@ -162,10 +167,9 @@ export const getHelp = (loginToken, siteInfo, event) => {
         </p>
         {loginToken.glevel < nowDay && (
           <p className="farsi">
-            با توجه به {siteInfo.galaxyPassSet[0].endDay - nowDay} روز زمان
-            باقیمانده از گلکسی پَس، شما می توانید تا مرحله{" "}
-            {loginToken.glevel + siteInfo.galaxyPassSet[0].endDay - nowDay}{" "}
-            پیشروی کرده و
+            با توجه به {gpassrules[0].endDay - nowDay} روز زمان باقیمانده از
+            گلکسی پَس، شما می توانید تا مرحله{" "}
+            {loginToken.glevel + gpassrules[0].endDay - nowDay} پیشروی کرده و
             <span className="text-success-emphasis">
               {" "}
               مبلغ {doCurrency(totalleft)} تومان
