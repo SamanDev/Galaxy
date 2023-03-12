@@ -2,15 +2,14 @@ const CACHE_NAME = "offline";
 const OFFLINE_URL = "offline.html";
 
 self.addEventListener("install", function (event) {
-  /* console.log("[ServiceWorker] Install");
+  console.log("[ServiceWorker] Install");
 
   event.waitUntil(
     (async () => {
       const cache = await caches.open(CACHE_NAME);
-      // Setting {cache: 'reload'} in the new request will ensure that the response
-      // isn't fulfilled from the HTTP cache; i.e., it will be from the network.
-      // await cache.add(new Request(OFFLINE_URL, { cache: "reload" }));
-      // await cache.add(new Request("favicon.png"));
+
+      await cache.add(new Request(OFFLINE_URL, { cache: "reload" }));
+      await cache.add(new Request("favicon.png"));
       // await cache.add(new Request("assets/fonts/yekan/Sans.woff"));
       // await cache.add(new Request("static/js/bundle.js"));
       // await cache.add(new Request("assets/js/bootstrap.bundle.min.js"));
@@ -21,7 +20,7 @@ self.addEventListener("install", function (event) {
     })()
   );
 
-  self.skipWaiting(); */
+  self.skipWaiting();
 });
 
 self.addEventListener("activate", (event) => {
@@ -64,7 +63,7 @@ self.addEventListener("fetch", function (event) {
         }
       })()
     );
-  } else if (event.request.mode === "no-corsss") {
+  } else if (event.request.mode === "no-corss") {
     //console.log(event.request.url);
     event.respondWith(
       (async () => {
