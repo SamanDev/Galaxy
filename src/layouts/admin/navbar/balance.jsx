@@ -208,7 +208,9 @@ const Balance = (prop) => {
           <span className="step0">
             <Popup
               offset={[-8, 20]}
-              disabled={_event != "GPass"}
+              disabled={
+                _event != "GPass" || loginToken.takeGPass || stateMode == 0
+              }
               content={
                 <div
                   className="helparea fadeoutend"
