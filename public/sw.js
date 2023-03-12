@@ -2,7 +2,7 @@ const CACHE_NAME = "offline";
 const OFFLINE_URL = "offline.html";
 
 self.addEventListener("install", function (event) {
-  console.log("[ServiceWorker] Install");
+  /* console.log("[ServiceWorker] Install");
 
   event.waitUntil(
     (async () => {
@@ -21,7 +21,7 @@ self.addEventListener("install", function (event) {
     })()
   );
 
-  self.skipWaiting();
+  self.skipWaiting(); */
 });
 
 self.addEventListener("activate", (event) => {
@@ -64,7 +64,7 @@ self.addEventListener("fetch", function (event) {
         }
       })()
     );
-  } else if (event.request.mode === "no-corss") {
+  } else if (event.request.mode === "no-corsss") {
     //console.log(event.request.url);
     event.respondWith(
       (async () => {
