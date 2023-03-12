@@ -67,7 +67,7 @@ function SegmentExamplePlaceholderInline(prop) {
           <Header icon>
             <Icon>
               <Image
-                src="/assets/images/logosq.png"
+                src="/assets/images/logosq.webp"
                 centered
                 style={{ width: "30vw", maxWidth: "200px" }}
               />
@@ -183,7 +183,14 @@ function SegmentExamplePlaceholderInline(prop) {
             </Segment.Inline>
           </Grid.Column>
           <Grid.Column mobile={16} tablet={6} computer={6}>
-            <Image src="/assets/images/pkr.png" fluid rounded />
+            <Image
+              src="/assets/images/pkr.webp"
+              width="100"
+              height="100"
+              alt="بازی پوکر آنلاین با پول واقعی"
+              fluid
+              rounded
+            />
           </Grid.Column>
         </Grid>
       </Segment>
@@ -225,7 +232,10 @@ function SegmentExamplePlaceholderInline(prop) {
           </Grid.Column>
           <Grid.Column tablet={6} computer={6} only="tablet computer">
             <Image
-              src="https://emperorpoker.online/wp-content/uploads/2020/09/emperor-poker.png"
+              src="/assets/images/cash.webp"
+              width="100"
+              height="100"
+              alt="شارژ حساب و برداشت آسان در گلکسی کازینو"
               fluid
             />
           </Grid.Column>
@@ -258,7 +268,17 @@ function SegmentExamplePlaceholderInline(prop) {
             </div>
           </Grid.Column>
           <Grid.Column mobile={16} tablet={6} computer={6}>
-            <Image src="/assets/images/cas.gif" fluid rounded bordered />
+            <Image
+              src="/assets/images/cas.gif"
+              width="100"
+              height="100"
+              alt="انواع بازی های کازینویی با پول واقعی"
+              fluid
+              rounded
+              bordered
+            />
+            <br />
+            <br />
           </Grid.Column>
         </Grid>
       </Segment>

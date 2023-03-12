@@ -135,7 +135,7 @@ export const MyToastReward = (bonus, getReward, loginToken, siteInfo) => {
     iconHtml:
       "<img  src='/assets/images/" +
       bonus.mymode +
-      ".png' style='width: 40px' />",
+      ".webp' style='width: 40px' />",
   }).then((result) => {
     if (result.isConfirmed) {
       getReward(bonus);
@@ -252,7 +252,7 @@ export const MyToastText = (loginToken, siteInfo, event) => {
     iconHtml:
       "<img  src='/assets/images/icons/" +
       icon +
-      ".png' style='width: 40px' />",
+      ".webp' style='width: 40px' />",
   }).then((result) => {
     if (result.isConfirmed) {
     }

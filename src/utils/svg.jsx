@@ -14,7 +14,7 @@ const LevelIcon = (prop) => {
     return (
       <span onClick={prop.onClick} className="iconarea">
         <img
-          src={"/assets/images/" + _txt + ".png"}
+          src={"/assets/images/" + _txt + ".webp"}
           width={prop.width}
           height={prop.width}
           alt={prop.mode}
@@ -202,7 +202,7 @@ const LevelIcon = (prop) => {
     return (
       <span onClick={prop.onClick} className="iconarea">
         <img
-          src={"/assets/images/icons/rackback.png"}
+          src={"/assets/images/icons/rackback.webp"}
           width={prop.width}
           height={prop.width}
           alt={prop.mode}
@@ -308,7 +308,7 @@ const LevelIcon = (prop) => {
     return (
       <div onClick={prop.onClick} className="iconarea">
         <img
-          src={"/assets/images/icons/gift3.png"}
+          src={"/assets/images/icons/gift3.webp"}
           width={prop.width}
           height={prop.width}
           alt={prop.mode}
@@ -337,7 +337,7 @@ const LevelIcon = (prop) => {
     return (
       <div onClick={prop.onClick} className="iconarea">
         <img
-          src={"/assets/images/icons/" + prop.mode + ".png"}
+          src={"/assets/images/icons/" + prop.mode + ".webp"}
           width={prop.width}
           height={prop.width}
           alt={prop.mode}
@@ -530,7 +530,7 @@ const LevelIcon = (prop) => {
     return (
       <span onClick={prop.onClick} className="iconarea">
         <img
-          src={"/assets/images/stars/lvl" + _txt + ".png"}
+          src={"/assets/images/stars/lvl" + _txt + ".webp"}
           width={prop.width}
           height={prop.width}
           alt={prop.mode}
