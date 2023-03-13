@@ -5,6 +5,7 @@ import LevelIcon from "../../utils/svg";
 
 import LevelBar from "../../utils/LevelBar";
 import LastRewardList from "./LastRewardList";
+import LazyLoad from "react-lazyload";
 const LevelList = (prop) => {
   var totalReward = 0;
 
@@ -21,9 +22,9 @@ const LevelList = (prop) => {
             <List.Item
               key={i}
               id={"lvl" + (i + 1)}
-              className={loginToken?.level == x.level ? "active" : ""}
+              className={loginToken?.level == x.level ? "" : ""}
             >
-              <List.Content floated="right" className="rtl">
+              <List.Content floated="right" className="rtl float-end">
                 <span className="text-gold">{doCurrency(x.reward)} </span>
                 <span className="mysmall">
                   <small className="farsi">تومان پاداش</small>
@@ -70,8 +71,8 @@ const LevelList = (prop) => {
             </List.Item>
           );
         })}
-        <LastRewardList mode="levels" {...prop} />
       </List>
+      <LastRewardList mode="levels" {...prop} />
     </span>
   );
 };

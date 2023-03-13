@@ -5,6 +5,7 @@ import { levelLeagueReward } from "../../const";
 import MenuLoader from "../../utils/menuLoader";
 import { getRewardsService } from "../../services/reward";
 import RewardStat from "./rewardStat";
+import LazyLoad from "react-lazyload";
 const LevelList = (prop) => {
   const [data, setData] = useState([]);
 
@@ -42,12 +43,14 @@ const LevelList = (prop) => {
   } else {
     return (
       <>
-        <ul className="mm-listview menutitle-view">
+        <ul className="mm-listview menutitle-view ">
           <li className="menutitle mm-listitem"></li>
           <li className="menutitle mm-listitem">
             <span className="mm-listitem__text">آخرین جوایز</span>
           </li>
-          <RewardStat lastReward={data} />
+          <LazyLoad height={100} offset={500} once overflow throttle={30}>
+            <RewardStat lastReward={data} />
+          </LazyLoad>
           <li>
             {data.length == 0 && !prop.pending && (
               <>
@@ -70,7 +73,11 @@ const LevelList = (prop) => {
               </>
             )}
 
-            <div style={{ paddingLeft: 15 }}>
+            <div
+              style={{
+                paddingLeft: 15,
+              }}
+            >
               {data.map((x, i) => {
                 totalReward += levelLeagueReward(i);
 

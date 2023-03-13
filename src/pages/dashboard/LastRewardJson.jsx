@@ -4,7 +4,7 @@ import $ from "jquery";
 import Reward from "../../utils/Reward";
 import eventBus from "../../services/eventBus";
 import { useLastReward } from "../../hook/userHook";
-
+import LazyLoad from "react-lazyload";
 const ActiveTable = (prop) => {
   const lastReward = prop.lastReward;
 
@@ -84,13 +84,20 @@ const ActiveTable = (prop) => {
         >
           {_sortData.map(function (bonus, i) {
             return (
-              <div
-                className={bonus?.class + " rewardname"}
-                mode={bonus?.mode.toLowerCase()}
+              <LazyLoad
                 key={i}
+                height={100}
+                offset={100}
+                overflow
+                throttle={30}
               >
-                <Reward item={bonus} color={false} {...prop} />
-              </div>
+                <div
+                  className={bonus?.class + " rewardname animated fadeIn"}
+                  mode={bonus?.mode.toLowerCase()}
+                >
+                  <Reward item={bonus} color={false} {...prop} />
+                </div>
+              </LazyLoad>
             );
           })}
         </div>

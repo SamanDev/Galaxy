@@ -277,6 +277,7 @@ function App(prop) {
           setUserOpen(true);
         });
     }, 50);
+    reportWindowSize();
   }
 
   function getLinkId(str) {
@@ -950,6 +951,7 @@ function App(prop) {
   }, [location.pathname]);
   useEffect(() => {
     bindAddLink();
+    reportWindowSize();
   }, [activeMenu]);
   useEffect(() => {
     // finalMenu = "";
