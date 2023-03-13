@@ -6,7 +6,7 @@ const Balance = (prop) => {
   const siteInfo = prop.siteInfo;
   siteInfo?.levelUps?.sort((a, b) => (a.id > b.id ? 1 : -1));
   var rules = siteInfo?.levelUps;
-  if (loginToken) {
+  if (loginToken?.accessToken) {
     if (loginToken.level == 0) {
       loginToken.level = 1;
     }
@@ -16,6 +16,9 @@ const Balance = (prop) => {
     ).toFixed(2);
     if (lvlPercent > 100) {
       lvlPercent = 100;
+    }
+    if (prop.val == "0") {
+      return null;
     }
     return (
       <>

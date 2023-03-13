@@ -263,7 +263,7 @@ a {
  
 }
 .mm-navbar__breadcrumbs {
-  font-weight: 600;
+  font-weight: 500;
 }
 .mm-navbar__title * {
   font-family: "BYekan" !important;
@@ -441,7 +441,7 @@ body.fullscreen .fullopenpanel{
   margin-top: 5px;
   font-size: 11px;
   color: #fff;
-  font-weight: 900;
+  font-weight: 600;
 }
 .iconarea .iconareanum {
   transform: scale(0.8); position: absolute; z-index: 300000;  height: auto; text-align: center;
@@ -470,7 +470,7 @@ body.fullscreen .fullopenpanel{
   line-height: 18px;
 }
 .banner h1 {
-  font-weight: 900;
+  font-weight: 600;
   font-size: 3vw;
   color: #ffde00;
   margin-bottom: 3vh;
@@ -1066,7 +1066,7 @@ a.mm-listitem__text {
 }
 .mm-navbar__title > span {
   font-size: 18px;
-  font-weight: 500;
+  font-weight: 400;
 }
 .menu-link-wrapper {
   width: 45px;
@@ -1074,7 +1074,7 @@ a.mm-listitem__text {
   cursor: pointer;
   display: block;
   padding: 4px 7px 0 0;
-  font-weight: 900;
+  font-weight: 600;
 }
 .menu-link {
   width: 100%;
@@ -1333,7 +1333,7 @@ svg {
   font-size: 14px;
   font-family: Tahoma;
   text-shadow: 0px 0px 1px rgba(0, 0, 0, 1),0px 0px 2px rgba(0, 0, 0, 1),0px 0px 3px rgba(0, 0, 0, 1),0px 0px 10px rgba(0, 0, 0, 0.8) !important;
-    font-weight: 700;
+    font-weight: 600;
   text-anchor: middle;
 }
 .levelicontext.text1 {
@@ -1453,7 +1453,7 @@ svg text {
 }
 .popupmenu .item .content.rtl {
   line-height: 20px !important;
-  font-weight: 700;
+  font-weight: 600;
 }
 .popupmenu .userblock .item .content {
   line-height: 20px !important;

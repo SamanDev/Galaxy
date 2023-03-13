@@ -14,8 +14,7 @@ import {
 import { Link } from "react-router-dom";
 import { useIsLogin } from "./hook/authHook";
 import { useUser, useSiteInfo } from "./hook/userHook";
-import "semantic-ui-css/semantic.min.css";
-import "bootstrap/dist/css/bootstrap.min.css";
+
 import $ from "jquery";
 import { Route, Routes } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
@@ -252,7 +251,25 @@ function App(prop) {
           reportWindowSize();
         }, 1000);
       }
-    }, 10);
+      $(".lazyarea:visible")
+        .closest(".mm-listitem__text")
+        .css({ padding: "15px 0px" })
+        .closest(".mm-listview")
+        .height($(".mm-panel--opened .mm-listview").height() + "px");
+      $(".lazyarea:visible")
+        .closest(".mm-listview")
+        .height($(".mm-panel--opened").height() + "px")
+        .css({ overflow: "auto", padding: 0 })
+        .closest(".mm-panel--opened")
+        .height($(".mm-panel--opened").height() + "px")
+        .css({ overflow: "hidden" });
+      $(".lazyarea:visible")
+        .closest(".mm-listview")
+        .unbind()
+        .bind("scroll", function () {
+          bindLastReward();
+        });
+    }, 100);
   }
   function bindActiveTable() {}
   function bindLastReward() {
@@ -265,7 +282,7 @@ function App(prop) {
             _m = "giftarea";
           }
           if ($("." + _m, "").length > 0) {
-            openPanel("." + _m, "");
+            // openPanel("." + _m, "");
           }
         });
       $(".rewardname .iconlabel")
@@ -277,7 +294,7 @@ function App(prop) {
           setUserProfile(_u);
           setUserOpen(true);
         });
-    }, 50);
+    }, 100);
   }
 
   function getLinkId(str) {
@@ -769,7 +786,7 @@ function App(prop) {
   };
   const openPanel = (id, toId) => {
     var _id = id;
-    console.log(_id);
+
     if (_id.indexOf("gift") > -1) {
       _id = ".giftarea";
     }
@@ -884,16 +901,20 @@ function App(prop) {
 
       api.bind("openPanel:before", (panel) => {
         setActiveMenu("main");
+
         var _parent = $("#" + panel.id + "").attr("data-mm-parent");
+
         if (_parent) {
           setTimeout(() => {
+            finalMenu = "";
             var _parent = $("#" + panel.id + "").attr("data-mm-parent");
+
             setActiveMenu(
               $("#" + _parent)
                 .find("a:first > span.mymenu")
                 .text()
             );
-          }, 400);
+          }, 100);
         }
       });
 
@@ -953,12 +974,6 @@ function App(prop) {
     bindAddLink();
     reportWindowSize();
   }, [activeMenu]);
-  useEffect(() => {
-    // finalMenu = "";
-    if (window.matchMedia("(display-mode: standalone)").matches) {
-      //alert();
-    }
-  }, [activeMenu]);
 
   useEffect(() => {
     if (!loadingLogin) {
@@ -1017,7 +1032,7 @@ function App(prop) {
       </Dimmer>
     );
   } else {
-    if (siteInfo) {
+    if (siteInfo && finalMenu == "") {
       var menuData = GetMenu(siteInfo);
       finalMenu = menuData.map(function (menu, i) {
         return doMenu(menu, i, false, isUser);

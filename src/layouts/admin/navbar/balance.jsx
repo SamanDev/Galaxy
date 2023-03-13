@@ -111,7 +111,7 @@ const Balance = (prop) => {
           Date.parse(d.startDate) < end &&
           Date.parse(d.expireDate) > end
       );
-      if (_pen.length > -1) {
+      if (_pen.length > 0) {
         if (
           $(".swal2-container").html() == "" ||
           $(".swal2-container").length == 0
@@ -407,7 +407,7 @@ const Balance = (prop) => {
                     floating
                     size="mini"
                     className="farsi-inline"
-                    hidden={gCount == 0 ? true : true}
+                    hidden={gCount == 0 ? true : false}
                     style={{ top: 5, left: "95%" }}
                   >
                     {gCount}

@@ -144,7 +144,7 @@ class Example extends React.Component {
     const ATCWrapper = (args) => (
       <>
         <div
-          style={{ marginTop: -10, position: "absolute" }}
+          style={{ marginTop: -20, position: "absolute" }}
           className="text-center"
         >
           {((_next && a < b) || (_start && startTime < now)) && !_finish ? (

@@ -72,7 +72,7 @@ export const getHelp = (loginToken, siteInfo, event) => {
     return null;
   }
   siteInfo?.galaxyPassSet?.sort((a, b) => (a.id > b.id ? 1 : -1));
-  var gpassrules = siteInfo?.galaxyPassSet[0];
+  var gpassrules = siteInfo?.galaxyPassSet;
   siteInfo?.vipTables?.sort((a, b) => (a.id > b.id ? 1 : -1));
   var viprules = siteInfo?.vipTables[0];
   try {
@@ -105,7 +105,7 @@ export const getHelp = (loginToken, siteInfo, event) => {
         }
       });
     }
-    var passSec = gpassrules?.hoursLimit * 3600 - loginToken.glevelSecond;
+    var passSec = gpassrules[0]?.hoursLimit * 3600 - loginToken.glevelSecond;
     var gLvlLeft = [
       new Date(passSec * 1000).toISOString().substring(11, 13),
       new Date(passSec * 1000).toISOString().substring(14, 16),

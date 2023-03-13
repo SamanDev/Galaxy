@@ -17,7 +17,6 @@ const LevelList = (prop) => {
       if (res.status === 200) {
         setData(res.data.sort((a, b) => (a.date < b.date ? 1 : -1)));
         setLoading(false);
-        prop.bindLastReward();
       }
     } catch (error) {
       console.log(error.message);
@@ -28,71 +27,73 @@ const LevelList = (prop) => {
     handleGetRewards();
   }, []);
   var totalReward = 0;
-  if (loading) {
+  if (loading && data.length == 0) {
     return (
       <>
-        <ul className="mm-listview menutitle-view">
-          <li className="menutitle mm-listitem"></li>
-          <li className="menutitle mm-listitem">
-            <span className="mm-listitem__text">آخرین جوایز</span>
-          </li>
-        </ul>
-        <MenuLoader />
+        <LazyLoad height={500} once throttle={30} overflow>
+          <ul className="mm-listview">
+            <li className="menutitle mm-listitem"></li>
+            <li className="menutitle mm-listitem">
+              <span className="mm-listitem__text">آخرین جوایز</span>
+            </li>
+          </ul>
+          <MenuLoader />
+        </LazyLoad>
       </>
     );
   } else {
     return (
       <>
-        <ul className="mm-listview menutitle-view ">
+        <ul className="mm-listview ">
           <li className="menutitle mm-listitem"></li>
-          <li className="menutitle mm-listitem">
-            <span className="mm-listitem__text">آخرین جوایز</span>
-          </li>
-          <LazyLoad height={100} offset={500} once overflow throttle={30}>
-            <RewardStat lastReward={data} />
+          <LazyLoad height={70} once throttle={30} overflow>
+            <li className="menutitle mm-listitem">
+              <span className="mm-listitem__text">آخرین جوایز</span>
+            </li>
           </LazyLoad>
-          <li>
-            {data.length == 0 && !prop.pending && (
-              <>
-                <List.Item>
-                  <List.Content>
-                    <List.Description className="farsi text-center">
-                      <Icon
-                        circular
-                        color="teal"
-                        name="clipboard outline"
-                        size="big"
-                        inverted
-                      />
-                      <br />
-                      <br />
-                      هیچ رکوردی یافت نشد.
-                    </List.Description>
-                  </List.Content>
-                </List.Item>
-              </>
-            )}
+          <LazyLoad height={250} once throttle={30} overflow>
+            <div className={"animated fadeIn"}>
+              <RewardStat lastReward={data} />
+            </div>
+          </LazyLoad>
+        </ul>
+        <List divided inverted verticalAlign="middle" className="myaccount">
+          {data.length == 0 && !prop.pending && (
+            <>
+              <List.Item>
+                <List.Content>
+                  <List.Description className="farsi text-center">
+                    <Icon
+                      circular
+                      color="teal"
+                      name="clipboard outline"
+                      size="big"
+                      inverted
+                    />
+                    <br />
+                    <br />
+                    هیچ رکوردی یافت نشد.
+                  </List.Description>
+                </List.Content>
+              </List.Item>
+            </>
+          )}
 
-            <div
-              style={{
-                paddingLeft: 15,
-              }}
-            >
-              {data.map((x, i) => {
-                totalReward += levelLeagueReward(i);
+          <div style={{ padding: "0 5px 0 20px" }}>
+            {data.map((x, i) => {
+              var _lvl = 20 - i;
+              var _text = x.username;
 
-                var _lvl = 20 - i;
-                var _text = x.username;
-
-                return (
-                  <div className={"rewardname"} mode={x.mode} key={i}>
+              return (
+                <LazyLoad height={98} once throttle={30} overflow key={i}>
+                  <div className={"rewardname animated fadeIn"} mode={x.mode}>
                     <Reward item={x} {...prop} color={true} />
                   </div>
-                );
-              })}
-            </div>
-          </li>
-        </ul>
+                </LazyLoad>
+              );
+            })}
+          </div>
+        </List>
       </>
     );
   }
