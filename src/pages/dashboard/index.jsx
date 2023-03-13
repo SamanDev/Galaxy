@@ -80,13 +80,13 @@ function SegmentExamplePlaceholderInline(prop) {
               </strong>
             </h1>
 
-            <h3 className="farsi lh-base fs-5 text-center">
+            <h2 className="farsi lh-base fs-5 text-center">
               معتبرترین و بهترین اپلیکیشن
               <br /> پوکر، انفجار، تخته نرد، بلک جک، رولت و انواع اسلات
-            </h3>
-            <strong className="farsi fs-4 ui label red mini pointing">
+            </h2>
+            <span className="farsi fs-4 ui label red mini pointing">
               با پول واقعی در ایران
-            </strong>
+            </span>
           </Segment>
           {refresh > 0 ? (
             <>
@@ -149,7 +149,7 @@ function SegmentExamplePlaceholderInline(prop) {
         <Grid reversed="computer tablet">
           <Grid.Column mobile={16} tablet={10} computer={10}>
             <div className="farsi">
-              <h2 className="farsi">بازی پوکر آنلاین با پول واقعی</h2>
+              <h4 className="farsi">بازی پوکر آنلاین با پول واقعی</h4>
               <p className="lh-base">
                 سلام، به سایت گلکسی کازینو خوش آمدید. در اینجا، شما می توانید
                 بازی های پوکر آنلاین را با بازیکنانی از سراسر جهان تجربه کنید.
@@ -198,9 +198,9 @@ function SegmentExamplePlaceholderInline(prop) {
         <Grid>
           <Grid.Column mobile={16} tablet={10} computer={10}>
             <div className="farsi">
-              <h2 className="farsi">
+              <h5 className="farsi">
                 شارژ حساب و برداشت آسان در گلکسی کازینو{" "}
-              </h2>
+              </h5>
               <p className="lh-base">
                 برای شارژ حساب و کشوت (برداشت) در سایت گلکسی کازینو می توانید از
                 طریق درگاه بانکی اقدام کنید و یا از سایت های ایرانی خرید و فروش
@@ -233,8 +233,8 @@ function SegmentExamplePlaceholderInline(prop) {
           <Grid.Column tablet={6} computer={6} only="tablet computer">
             <Image
               src="/assets/images/cash.webp"
-              width="100"
-              height="100"
+              width="70"
+              height="56"
               alt="شارژ حساب و برداشت آسان در گلکسی کازینو"
               fluid
             />
