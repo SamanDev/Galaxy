@@ -84,7 +84,7 @@ function SegmentExamplePlaceholderInline(prop) {
               معتبرترین و بهترین اپلیکیشن
               <br /> پوکر، انفجار، تخته نرد، بلک جک، رولت و انواع اسلات
             </h2>
-            <span className="farsi fs-4 ui label red mini pointing">
+            <span className="farsi fs-5 ui label red mini pointing">
               با پول واقعی در ایران
             </span>
           </Segment>

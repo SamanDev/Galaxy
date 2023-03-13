@@ -277,7 +277,6 @@ function App(prop) {
           setUserOpen(true);
         });
     }, 50);
-    reportWindowSize();
   }
 
   function getLinkId(str) {
