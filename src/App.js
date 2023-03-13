@@ -282,7 +282,7 @@ function App(prop) {
             _m = "giftarea";
           }
           if ($("." + _m, "").length > 0) {
-            // openPanel("." + _m, "");
+            openPanel("." + _m, "");
           }
         });
       $(".rewardname .iconlabel")
