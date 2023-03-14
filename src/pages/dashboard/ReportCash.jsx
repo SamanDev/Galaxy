@@ -7,7 +7,7 @@ import AmountColor from "../../utils/AmountColor";
 import { getReportService } from "../../services/report";
 import { doCurrency } from "../../const";
 import ConvertCart from "../../utils/convertCart";
-import CartFormat from "../../utils/CartFormat";
+import NoData from "../../utils/noData";
 const sumOf = (array, id) => {
   try {
     return array.reduce((sum, currentValue) => {
@@ -68,18 +68,7 @@ const Report = (prop) => {
           <>
             <List.Item>
               <List.Content>
-                <List.Description className="farsi text-center">
-                  <Icon
-                    circular
-                    color="teal"
-                    name="clipboard outline"
-                    size="big"
-                    inverted
-                  />
-                  <br />
-                  <br />
-                  هیچ رکوردی یافت نشد.
-                </List.Description>
+                <NoData msg="هیچ رکوردی یافت نشد." />
               </List.Content>
             </List.Item>
           </>

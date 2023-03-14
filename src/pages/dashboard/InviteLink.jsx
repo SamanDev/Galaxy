@@ -8,7 +8,7 @@ import {
   Segment,
   Divider,
 } from "semantic-ui-react";
-
+import AnimIcon from "../../utils/inviteIcon";
 import Swal from "sweetalert2";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import MyMsg from "../../utils/MsgDesc";
@@ -37,8 +37,20 @@ const depositArea = (prop) => {
       <Divider inverted section horizontal className="farsi">
         یا
       </Divider>
+      <div style={{ height: 120, position: "relative" }}>
+        <div
+          className="fadeout"
+          style={{ position: "absolute", zIndex: 0, top: -15 }}
+        >
+          <AnimIcon
+            icon="uqpazftn"
+            width="300px"
+            height="200px"
+            trigger="loop"
+          />
+        </div>
+      </div>
       <MyMsg
-        icon="linkify"
         color="red"
         size="mini"
         text={

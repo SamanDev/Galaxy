@@ -1,6 +1,6 @@
 import React from "react";
 import { levelClass, levelClassInside } from "../const";
-
+import AnimIcon from "./inviteIcon";
 const LevelIcon = (prop) => {
   const loginToken = prop.loginToken;
   if (prop.mode == "gpass") {
@@ -455,27 +455,18 @@ const LevelIcon = (prop) => {
         " tada";
     }
     return (
-      <div
-        onClick={prop.onClick}
-        className="iconarea"
-        style={{
-          width: prop.width,
-          height: "auto",
-          textAlign: "left",
-        }}
-      >
-        <img
-          src={"/assets/images/svg/topplayer/cashout.svg"}
-          width={prop.width}
-          height={prop.width}
-          alt={prop.mode}
-          style={{
-            width: prop.width,
-            height: "auto",
-            position: "relative",
-            zIndex: 1,
-          }}
-        />
+      <div onClick={prop.onClick} className="iconarea">
+        <div style={{ position: "relative", top: -20 }}>
+          <AnimIcon
+            icon="yeallgsa"
+            stroke="40"
+            scale="65"
+            colors="primary:#c79816,secondary:#b4b4b4"
+            trigger="loop"
+            width={90}
+            height={90}
+          />
+        </div>
 
         {prop.text != "big" && prop.text != "" && (
           <div className="iconlabel">{prop.text}</div>
@@ -499,16 +490,86 @@ const LevelIcon = (prop) => {
     }
     return (
       <div onClick={prop.onClick} className="iconarea">
-        <img
-          src={"/assets/images/svg/topplayer/deposit.svg"}
-          width={prop.width}
-          height={prop.width}
-          alt={prop.mode}
-          style={{
-            width: prop.width,
-            height: "auto",
-          }}
-        />
+        <div style={{ position: "relative", top: -20 }}>
+          <AnimIcon
+            icon="qhviklyi"
+            stroke="40"
+            scale="65"
+            colors="primary:#b4b4b4,secondary:#c79816"
+            trigger="loop"
+            width={90}
+            height={90}
+          />
+        </div>
+
+        {prop.text != "big" && prop.text != "" && (
+          <div className="iconlabel">{prop.text}</div>
+        )}
+      </div>
+    );
+  }
+  if (prop.mode == "transfer") {
+    var _txt = prop.number ? prop.number : prop.level;
+    var _class = "leagueicon";
+    if (prop.text == "big") {
+      _class = _class + " big";
+    }
+    var _class2 = _class;
+    if (prop.iconamin) {
+      var _class2 =
+        _class +
+        " " +
+        prop.iconamin.replace("charkhesh", "").replace("inline", "") +
+        " tada";
+    }
+    return (
+      <div onClick={prop.onClick} className="iconarea">
+        <div style={{ position: "relative", top: -20 }}>
+          <AnimIcon
+            icon="ssdupzsv"
+            stroke="40"
+            scale="65"
+            colors="primary:#b4b4b4,secondary:#c79816"
+            trigger="loop"
+            width={90}
+            height={90}
+          />
+        </div>
+
+        {prop.text != "big" && prop.text != "" && (
+          <div className="iconlabel">{prop.text}</div>
+        )}
+      </div>
+    );
+  }
+  if (prop.mode == "transaction") {
+    var _txt = prop.number ? prop.number : prop.level;
+    var _class = "leagueicon";
+    if (prop.text == "big") {
+      _class = _class + " big";
+    }
+    var _class2 = _class;
+    if (prop.iconamin) {
+      var _class2 =
+        _class +
+        " " +
+        prop.iconamin.replace("charkhesh", "").replace("inline", "") +
+        " tada";
+    }
+    return (
+      <div onClick={prop.onClick} className="iconarea">
+        <div style={{ position: "relative", top: -20 }}>
+          <AnimIcon
+            icon="rgyftmhc"
+            stroke="40"
+            scale="65"
+            colors="primary:#b4b4b4,secondary:#c79816"
+            trigger="loop"
+            width={90}
+            height={90}
+          />
+        </div>
+
         {prop.text != "big" && prop.text != "" && (
           <div className="iconlabel">{prop.text}</div>
         )}

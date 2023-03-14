@@ -7,6 +7,8 @@ import Ticket from "../../layouts/admin/forms/Cashout/Ticket";
 import $ from "jquery";
 import eventBus from "../../services/eventBus";
 import { useUser } from "../../hook/userHook";
+import AnimIcon from "../../utils/inviteIcon";
+import NoData from "../../utils/noData";
 const Balance = (prop) => {
   const [activeIndex, setActiveIndex] = useState(-1);
   const [refresh, setRefresh] = useState(false);
@@ -33,25 +35,24 @@ const Balance = (prop) => {
         className="myaccount popupmenu mm-listview menutitle-view"
         style={{ padding: "0 15px" }}
       >
-        {data.length == 0 && (
+        {data.length == 0 ? (
           <>
-            <List.Item>
-              <List.Content>
-                <List.Description className="farsi text-center">
-                  <Icon
-                    circular
-                    color="teal"
-                    name="clipboard outline"
-                    size="big"
-                    inverted
-                  />
-                  <br />
-                  <br />
-                  هیچ تیکتی یافت نشد.
-                </List.Description>
-              </List.Content>
-            </List.Item>
+            <NoData msg="هیچ تیکتی یافت نشد." />
           </>
+        ) : (
+          <div
+            className="fadeout"
+            style={{ height: 140, position: "relative" }}
+          >
+            <div style={{ position: "absolute", zIndex: 0, top: -15 }}>
+              <AnimIcon
+                icon="dxjqoygy"
+                width="300px"
+                height="200px"
+                trigger="loop"
+              />
+            </div>
+          </div>
         )}
         {data.length > 0 && (
           <Accordion inverted fluid>

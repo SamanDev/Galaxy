@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 
+import { siteInfoDef } from "../const";
 import { publicGetRules } from "../services/public";
 import { getReportPenService } from "../services/report";
 import eventBus from "../services/eventBus";
@@ -34,7 +35,7 @@ export const useSiteInfo = () => {
   const [siteInfo, setSiteInfo] = useState(
     localStorage.getItem("siteInfo")
       ? JSON.parse(localStorage.getItem("siteInfo"))
-      : null
+      : siteInfoDef
   );
 
   const handleCheckLogin = async () => {

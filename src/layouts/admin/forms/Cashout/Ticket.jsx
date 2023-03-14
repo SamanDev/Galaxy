@@ -10,6 +10,7 @@ import {
   Message,
   Select,
 } from "semantic-ui-react";
+import AnimIcon from "../../../../utils/inviteIcon";
 import Amount from "../../input/Amount";
 import DepositButton from "../../input/DepositButton";
 import FormikControl from "../../../../components/form/FormikControl";
@@ -78,8 +79,8 @@ const depositArea = (prop) => {
               <Button
                 content="x"
                 style={{
-                  top: -3,
-                  right: -3,
+                  top: 0,
+                  right: 0,
                   padding: "5px 10px",
                   position: "absolute",
                 }}
@@ -107,6 +108,51 @@ const depositArea = (prop) => {
         {(formik) => {
           return (
             <Form>
+              {prop.departman ? (
+                <div
+                  className="fadeout"
+                  style={{ height: 100, position: "relative" }}
+                >
+                  <div
+                    style={{
+                      position: "absolute",
+                      zIndex: 0,
+                      top: -15,
+                      width: "100%",
+                      textAlign: "center",
+                    }}
+                  >
+                    <AnimIcon
+                      icon="krmfspeu"
+                      width="200px"
+                      height="150px"
+                      trigger="hover"
+                    />
+                  </div>
+                </div>
+              ) : (
+                <div
+                  className="fadeout"
+                  style={{ height: 150, position: "relative" }}
+                >
+                  <div
+                    style={{
+                      position: "absolute",
+                      zIndex: 0,
+                      top: -15,
+                      width: "100%",
+                      textAlign: "center",
+                    }}
+                  >
+                    <AnimIcon
+                      icon="uukerzzv"
+                      width="250px"
+                      height="200px"
+                      trigger="hover"
+                    />
+                  </div>
+                </div>
+              )}
               {!prop.departman && (
                 <FormikControl
                   formik={formik}

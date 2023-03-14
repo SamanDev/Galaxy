@@ -5,8 +5,9 @@ import FormikControl from "../../../../components/form/FormikControl";
 import { useNavigate } from "react-router-dom";
 import { Form, Formik } from "formik";
 import * as Yup from "yup";
-import { Alert } from "../../../../utils/alerts";
 import { cashierService } from "../../../../services/cashier";
+import { Alert } from "../../../../utils/alerts";
+import AnimIcon from "../../../../utils/inviteIcon";
 
 const initialValues = {
   amount: 100000,
@@ -60,6 +61,28 @@ const depositArea = (prop) => {
       {(formik) => {
         return (
           <Form>
+            <div
+              className="fadeout"
+              style={{ height: 100, position: "relative" }}
+            >
+              <div
+                style={{
+                  position: "absolute",
+                  zIndex: 0,
+                  top: -15,
+                  width: "100%",
+                  textAlign: "center",
+                }}
+              >
+                <AnimIcon
+                  icon="ssdupzsv"
+                  width="200px"
+                  height="150px"
+                  trigger="loop"
+                  colors="primary:#545454,secondary:#916f10"
+                />
+              </div>
+            </div>
             <FormikControl
               formik={formik}
               control="amount"

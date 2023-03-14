@@ -2,11 +2,25 @@ import React, { Component } from "react";
 import { Message, Icon, Divider } from "semantic-ui-react";
 import Register from "../../layouts/admin/auth/Invite";
 import MyMsg from "../../utils/MsgDesc";
+
+import AnimIcon from "../../utils/inviteIcon";
 const AccordionExampleStandard = (prop) => {
   return (
     <span className="myaccount popupmenu">
+      <div style={{ height: 120, position: "relative" }}>
+        <div
+          className="fadeout"
+          style={{ position: "absolute", zIndex: 0, top: -25 }}
+        >
+          <AnimIcon
+            icon="zpxybbhl"
+            width="300px"
+            height="200px"
+            trigger="loop"
+          />
+        </div>
+      </div>
       <MyMsg
-        icon="users"
         color="yellow"
         size="mini"
         text={

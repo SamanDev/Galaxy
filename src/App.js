@@ -24,6 +24,8 @@ import ForgetArea from "./layouts/admin/auth/Forget";
 import DCArea from "./layouts/admin/auth/dc.component";
 import UserArea from "./layouts/admin/auth/user.component";
 import GalaxyIcon from "./utils/svg";
+import { siteMethodDef } from "./const";
+import AnimIcon from "./utils/inviteIcon";
 import ConfettiArea from "./utils/partyclick";
 import { Dimmer, Loader } from "semantic-ui-react";
 import UserWebsocket from "./services/user.websocket";
@@ -34,104 +36,7 @@ import ChildComp from "./Components";
 const moment = require("moment");
 var menu = "no";
 var api;
-var defMethod = [
-  {
-    id: 1,
-    total: 0,
-    bonus: 0,
-    name: "Digipay",
-    mode: "IranShetab",
-    active: true,
-  },
-  {
-    id: 12,
-    total: 0,
-    bonus: 0,
-    name: "Commission",
-    mode: "Commission",
-    active: true,
-  },
-  {
-    id: 3,
-    total: 0,
-    bonus: 0,
-    name: "PerfectMoney",
-    mode: "PerfectMoney",
-    active: true,
-  },
-  {
-    id: 7,
-    total: 0,
-    bonus: 0,
-    name: "Bitcoin",
-    mode: "CoinPayments",
-    active: true,
-  },
-  {
-    id: 9,
-    total: 0,
-    bonus: 0,
-    name: "BankTransfer",
-    mode: "BankTransfer",
-    active: false,
-  },
-  {
-    id: 8,
-    total: 0,
-    bonus: 20,
-    name: "VisaGiftCode",
-    mode: "VisaGiftCode",
-    active: false,
-  },
-  {
-    id: 4,
-    total: 0,
-    bonus: 0,
-    name: "CartToCart",
-    mode: "CartToCart",
-    active: false,
-  },
-  {
-    id: 2,
-    total: 0,
-    bonus: 5,
-    name: "USDT",
-    mode: "CoinPayments",
-    active: true,
-  },
-  {
-    id: 5,
-    total: 0,
-    bonus: 0,
-    name: "Rakeback",
-    mode: "Rakeback",
-    active: true,
-  },
-  {
-    id: 5,
-    total: 0,
-    bonus: 0,
-    name: "Transfer",
-    mode: "Transfer",
-    active: true,
-  },
-  {
-    id: 10,
-    total: 0,
-    bonus: 0,
-    name: "Haft80",
-    mode: "IranShetab",
-    active: true,
-  },
-  {
-    id: 11,
-    total: 0,
-    bonus: 0,
-    name: "Hamrahcart",
-    mode: "IranShetab",
-    active: true,
-  },
-];
+
 const cipher = (salt) => {
   const textToChars = (text) => text.split("").map((c) => c.charCodeAt(0));
   const byteHex = (n) => ("0" + Number(n).toString(16)).substr(-2);
@@ -197,7 +102,7 @@ function App(prop) {
   const [thirdOpen, setThirdOpen] = useState(false);
   const [siteInfo] = useSiteInfo();
 
-  const [activeMenu, setActiveMenu] = useState("main");
+  const [activeMenu, setActiveMenu] = useState("");
   const [activePanel, setActivePanel] = useState(false);
   const [activeMenuOpen, setActiveMenuOpen] = useState(false);
   const [activeMenuOld, setActiveMenuOld] = useState(activeMenu);
@@ -380,15 +285,15 @@ function App(prop) {
   };
 
   function doMenu(menu, y, isPanel, isUser) {
-    //if (panelMenu != "no") return false;
-    //console.log(menu, y, isPanel, isUser);
+    //if (finalMenu != "") return null;
+    //console.log(finalMenu);
 
     if (getAccess(menu.getwaykey)) {
       if (!menu.submenu) {
         if (
           menu.idname != "admin" ||
-          haveAdmin(loginToken?.roles) ||
-          haveModerator(loginToken?.roles)
+          (haveAdmin(loginToken?.roles) && !loginToken?.logout) ||
+          (haveModerator(loginToken?.roles) && !loginToken?.logout)
         ) {
           return (
             <li
@@ -409,14 +314,29 @@ function App(prop) {
                   ) : (
                     <>
                       {menu.icon && (
-                        <i
-                          className={`${menu.icon} mx-3 ${
-                            menu.icon.indexOf("fas ") == -1 &&
-                            menu.icon.indexOf("fab ") == -1
-                              ? " icon"
-                              : ""
-                          }`}
-                        ></i>
+                        <>
+                          {menu.icon.indexOf(".svg") == -1 ? (
+                            <i
+                              className={`${menu.icon} mx-3${
+                                menu.icon.indexOf("fas ") == -1 &&
+                                menu.icon.indexOf("fab ") == -1
+                                  ? " icon"
+                                  : ""
+                              }`}
+                            ></i>
+                          ) : (
+                            <i className=" mx-3">
+                              <AnimIcon
+                                width="40px"
+                                height="50px"
+                                trigger="hover"
+                                scale="35"
+                                stroke="40"
+                                icon={menu.icon.split(".")[0]}
+                              />
+                            </i>
+                          )}
+                        </>
                       )}{" "}
                       <span
                         href="#"
@@ -502,14 +422,29 @@ function App(prop) {
                 </span>
               )}{" "}
               {menu.icon && !menu.icongalaxy && (
-                <i
-                  className={`${menu.icon} mx-3${
-                    menu.icon.indexOf("fas ") == -1 &&
-                    menu.icon.indexOf("fab ") == -1
-                      ? " icon"
-                      : ""
-                  }`}
-                ></i>
+                <>
+                  {menu.icon.indexOf(".svg") == -1 ? (
+                    <i
+                      className={`${menu.icon} mx-3${
+                        menu.icon.indexOf("fas ") == -1 &&
+                        menu.icon.indexOf("fab ") == -1
+                          ? " icon"
+                          : ""
+                      }`}
+                    ></i>
+                  ) : (
+                    <i className=" mx-3">
+                      <AnimIcon
+                        width="40px"
+                        height="50px"
+                        trigger="hover"
+                        scale="35"
+                        stroke="40"
+                        icon={menu.icon.split(".")[0]}
+                      />
+                    </i>
+                  )}
+                </>
               )}{" "}
               <span
                 className={
@@ -523,11 +458,8 @@ function App(prop) {
                   {menu.helper}
                 </small>
               )}
-              {getBonus(menu.getwaykey, loginToken?.cashierGateways) > 0 &&
-                (menu.bonus =
-                  "+" +
-                  getBonus(menu.getwaykey, loginToken?.cashierGateways) +
-                  "%")}
+              {getBonus(menu.getwaykey, loginToken) > 0 &&
+                (menu.bonus = "+" + getBonus(menu.getwaykey, loginToken) + "%")}
               {menu.bonus && menu.bonus != "0" && (
                 <small
                   className="ui red  mini floating label myfloatmenu"
@@ -546,6 +478,13 @@ function App(prop) {
               )}
               {menu.submenu.map(function (submenu, i) {
                 if (!submenu.submenu) {
+                  if (
+                    submenu.mode != "cashout" &&
+                    getBonus(submenu.getwaykey, loginToken) > 0
+                  ) {
+                    submenu.bonus =
+                      "+ " + getBonus(submenu.getwaykey, loginToken) + "%";
+                  }
                   if (getAccess(submenu.getwaykey)) {
                     return (
                       <li key={i + menu.label} className={submenu?.aria}>
@@ -602,19 +541,7 @@ function App(prop) {
                                 >
                                   {submenu.label}
                                 </span>
-                                {getBonus(
-                                  submenu.getwaykey,
-                                  loginToken?.cashierGateways
-                                ) > 0 &&
-                                  submenu?.bonus?.indexOf("-") == -1 &&
-                                  (submenu.bonus =
-                                    "+ " +
-                                    getBonus(
-                                      submenu.getwaykey,
-                                      loginToken?.cashierGateways
-                                    ) +
-                                    "%")}
-                                {submenu.bonus &&
+                                {submenu?.bonus &&
                                 submenu.bonus != "0" &&
                                 !submenu.helper ? (
                                   <small
@@ -727,13 +654,14 @@ function App(prop) {
   }
   const closeMenu = (apis) => {
     try {
-      apis.close();
+      api.close();
     } catch (error) {}
   };
-  const getBonus = (gateway) => {
-    var userMethods = defMethod;
-    if (loginToken) {
-      userMethods = loginToken?.cashierGateways;
+  const getBonus = (gateway, token) => {
+    var userMethods = siteMethodDef;
+
+    if (token?.cashierGateways && !token.logout) {
+      userMethods = token.cashierGateways;
     }
 
     try {
@@ -742,7 +670,7 @@ function App(prop) {
         (element) => element.name == gateway
       );
     } catch (error) {
-      data_filter = [];
+      var data_filter = [];
     }
 
     if (data_filter.length > 0) {
@@ -757,9 +685,9 @@ function App(prop) {
     if (!keyAccess) {
       return true;
     }
-    var userMethods = defMethod;
+    var userMethods = siteMethodDef;
 
-    if (loginToken) {
+    if (loginToken?.accessToken && !loginToken?.logout) {
       userMethods = loginToken?.cashierGateways;
     }
     try {
@@ -829,6 +757,13 @@ function App(prop) {
   };
   const openGame = () => {
     navigate("/games/poker");
+  };
+  const printmenu = () => {
+    var menuData = GetMenu(siteInfo);
+    finalMenu = menuData.map(function (menu, i) {
+      return doMenu(menu, i, false, isUser);
+    });
+    setActiveMenuOld(activeMenu + "1");
   };
 
   useEffect(() => {
@@ -906,9 +841,12 @@ function App(prop) {
 
         if (_parent) {
           setTimeout(() => {
-            finalMenu = "";
             var _parent = $("#" + panel.id + "").attr("data-mm-parent");
-
+            console.log(
+              $("#" + _parent)
+                .find("a:first > span.mymenu")
+                .text()
+            );
             setActiveMenu(
               $("#" + _parent)
                 .find("a:first > span.mymenu")
@@ -977,6 +915,7 @@ function App(prop) {
 
   useEffect(() => {
     if (!loadingLogin) {
+      // finalMenu = "";
       setIsUser(isLogin);
     }
   }, [isLogin]);
@@ -1022,6 +961,11 @@ function App(prop) {
     });
     startServiceWorker();
   }, []);
+  useEffect(() => {
+    console.log(activeMenu);
+
+    printmenu();
+  });
 
   if (loadingLogin && 1 == 2) {
     return (
@@ -1032,13 +976,6 @@ function App(prop) {
       </Dimmer>
     );
   } else {
-    if (siteInfo && finalMenu == "") {
-      var menuData = GetMenu(siteInfo);
-      finalMenu = menuData.map(function (menu, i) {
-        return doMenu(menu, i, false, isUser);
-      });
-    }
-
     return (
       <>
         <nav
