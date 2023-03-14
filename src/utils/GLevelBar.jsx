@@ -6,7 +6,7 @@ const Balance = (prop) => {
   const siteInfo = prop.siteInfo;
   siteInfo?.galaxyPassSet?.sort((a, b) => (a.id > b.id ? 1 : -1));
   var rules = siteInfo?.galaxyPassSet[0];
-  if (loginToken?.accessToken) {
+  if (loginToken?.accessToken && !loginToken?.logout) {
     if (loginToken.glevel == 0) {
       loginToken.glevel = 1;
     }

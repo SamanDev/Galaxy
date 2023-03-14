@@ -171,7 +171,7 @@ const Dashboard = (prop) => {
     setGameOptions(_gameOptions);
   }, []);
   useEffect(() => {
-    if (loginToken?.logout) {
+    if (!loginToken?.accessToken || loginToken?.logout) {
       setCurPage("dashboard");
       prop.setFirstOpen(true);
 

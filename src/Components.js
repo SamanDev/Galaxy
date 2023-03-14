@@ -13,7 +13,7 @@ import TopPlayers from "./pages/dashboard/TopPlayers";
 import KingOf from "./pages/dashboard/KingOf";
 import Tournament from "./pages/dashboard/Tournament";
 const CompGen = (prop) => {
-  if (prop.activeMenuOpen === false) return false;
+  //if (prop.activeMenuOpen === false) return false;
   if (prop?.menu?.component == "levels") {
     return <LevelList {...prop} />;
   } else if (prop?.menu?.component == "gpass") {

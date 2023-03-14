@@ -24,7 +24,7 @@ const Leftcontent = (prop) => {
     return d2.length;
   };
   useEffect(() => {
-    if (loginToken?.username) {
+    if (loginToken?.accessToken && !loginToken?.logout) {
       var _tCount = ticketCount();
       if (_tCount > 0) {
         if ($(".tcuntmenu").length) {

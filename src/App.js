@@ -295,11 +295,17 @@ function App(prop) {
           (haveAdmin(loginToken?.roles) && !loginToken?.logout) ||
           (haveModerator(loginToken?.roles) && !loginToken?.logout)
         ) {
+          var addr = window.location.href.toString().split("/");
+
           return (
             <li
               key={y + menu.label}
               className={
-                menu.link == "/logout" && !isUser ? "hiddenmenu" : null
+                (menu.link == "/logout" &&
+                  (!loginToken?.accessToken || loginToken?.logout)) ||
+                (menu.link == "/" && addr[addr.length - 1] == "")
+                  ? "hiddenmenu"
+                  : "mm-listitem"
               }
             >
               {menu.label && !menu.component && (
@@ -962,8 +968,6 @@ function App(prop) {
     startServiceWorker();
   }, []);
   useEffect(() => {
-    console.log(activeMenu);
-
     printmenu();
   });
 
@@ -978,28 +982,30 @@ function App(prop) {
   } else {
     return (
       <>
-        <nav
-          id="panelright"
-          className={
-            activePanel ? "active mm-menu--theme-dark" : "mm-menu--theme-dark"
-          }
-        >
-          <RightPanel
-            loginToken={loginToken}
-            siteInfo={siteInfo}
-            openPanel={openPanel}
-            setActivePanel={setActivePanel}
-            activePanel={activePanel}
-            animateCSS={animateCSS}
-            bindActiveTable={bindActiveTable}
-            bindLastReward={bindLastReward}
-            handleOpenTable={handleOpenTable}
-          />
-        </nav>
         <div className="App">
           <div className="Main">
             <nav id="menuleft">
               <ul>{finalMenu}</ul>
+            </nav>
+            <nav
+              id="panelright"
+              className={
+                activePanel
+                  ? "active mm-menu--theme-dark"
+                  : "mm-menu--theme-dark"
+              }
+            >
+              <RightPanel
+                loginToken={loginToken}
+                siteInfo={siteInfo}
+                openPanel={openPanel}
+                setActivePanel={setActivePanel}
+                activePanel={activePanel}
+                animateCSS={animateCSS}
+                bindActiveTable={bindActiveTable}
+                bindLastReward={bindLastReward}
+                handleOpenTable={handleOpenTable}
+              />
             </nav>
           </div>
 
@@ -1056,6 +1062,19 @@ function App(prop) {
             onOpen={() => setFirstOpen(true)}
             open={firstOpen}
           >
+            <div
+              className="fadeoutend"
+              style={{ height: 100, position: "relative" }}
+            >
+              <div style={{ position: "absolute", zIndex: 0, top: 10 }}>
+                <AnimIcon
+                  icon="rqqkvjqf"
+                  width="300px"
+                  height="140px"
+                  trigger="loop"
+                />
+              </div>
+            </div>
             <LoginArea
               setFirstOpen={setFirstOpen}
               setSecondOpen={setSecondOpen}
@@ -1079,6 +1098,20 @@ function App(prop) {
             onOpen={() => setThirdOpen(true)}
             open={thirdOpen}
           >
+            {" "}
+            <div
+              className="fadeoutend"
+              style={{ height: 100, position: "relative" }}
+            >
+              <div style={{ position: "absolute", zIndex: 0, top: 10 }}>
+                <AnimIcon
+                  icon="dxjqoygy"
+                  width="300px"
+                  height="140px"
+                  trigger="loop"
+                />
+              </div>
+            </div>
             <ForgetArea
               setFirstOpen={setFirstOpen}
               setSecondOpen={setSecondOpen}
@@ -1101,6 +1134,20 @@ function App(prop) {
             onOpen={() => setSecondOpen(true)}
             open={secondOpen}
           >
+            {" "}
+            <div
+              className="fadeoutend"
+              style={{ height: 100, position: "relative" }}
+            >
+              <div style={{ position: "absolute", zIndex: 0, top: 10 }}>
+                <AnimIcon
+                  icon="iltqorsz"
+                  width="300px"
+                  height="140px"
+                  trigger="loop"
+                />
+              </div>
+            </div>
             <RegisterArea
               setFirstOpen={setFirstOpen}
               setSecondOpen={setSecondOpen}

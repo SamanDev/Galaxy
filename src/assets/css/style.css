@@ -470,11 +470,11 @@ body.fullscreen .fullopenpanel{
   line-height: 18px;
 }
 .banner h1 {
-  font-weight: 600;
+  font-weight: 500;
   font-size: 3vw;
   color: #ffde00;
   margin-bottom: 3vh;
-  text-shadow: 0px 0px 3px rgba(0, 0, 0, 0.2) !important;
+  text-shadow: 1px 1px 1px #ffde00,0px 0px 3px rgba(0, 0, 0, 0.2) !important;
 }
 .banner .text {
   font-weight: 400;
@@ -1282,6 +1282,8 @@ a.mm-listitem__text {
   min-width: 60px;
   right: 10px;
   text-align: center;
+  font-weight: 300;
+  font-size: 8px;
 }
 .animated.inline {
   display: inline-block !important;
@@ -1453,7 +1455,7 @@ svg text {
 }
 .popupmenu .item .content.rtl {
   line-height: 20px !important;
-  font-weight: 600;
+  font-weight: 500;
 }
 .popupmenu .userblock .item .content {
   line-height: 20px !important;

@@ -6,7 +6,7 @@ const Balance = (prop) => {
   const siteInfo = prop.siteInfo;
   siteInfo?.levelUps?.sort((a, b) => (a.id > b.id ? 1 : -1));
   var rules = siteInfo?.levelUps;
-  if (loginToken?.accessToken) {
+  if (loginToken?.accessToken && !loginToken?.logout) {
     if (loginToken.level == 0) {
       loginToken.level = 1;
     }
