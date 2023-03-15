@@ -16,7 +16,7 @@ function CrCode(prop) {
       setCopy(false);
     }, 3000);
   };
-  const [item, setItem] = useState(prop.note);
+  const item = prop.note;
 
   if (item.coinValue) {
     var Coin = item.coin;
@@ -75,9 +75,8 @@ function CrCode(prop) {
         )}
       </>
     );
-
-    return _content;
   }
+  return _content;
 }
 
 export default CrCode;

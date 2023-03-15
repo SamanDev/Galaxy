@@ -1,5 +1,6 @@
 import { el } from "date-fns/locale";
 import { doCurrency, updateBonusLabel } from "../const";
+import AnimIcon from "./inviteIcon";
 import {
   Segment,
   Icon,
@@ -113,6 +114,16 @@ export const getHelp = (loginToken, siteInfo, event) => {
 
     return (
       <>
+        <div style={{ height: 10, position: "relative", width: "100%" }}>
+          <div style={{ position: "absolute", zIndex: 0, top: 0, left: 0 }}>
+            <AnimIcon
+              icon="dxjqoygy"
+              width="60px"
+              height="60px"
+              trigger="loop"
+            />
+          </div>
+        </div>
         <Header
           as="h4"
           inverted

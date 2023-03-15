@@ -25,6 +25,9 @@ const validationSchema = Yup.object({
 });
 const onSubmit = async (values, submitMethods, navigate, prop, setRefresh) => {
   try {
+    //
+    values.dollarPrice = parseInt(values.amount / values.amountDollar);
+    values.amount = values.amountDollar;
     const res = await cashierService(values, "coinPayments", "");
     if (res.status == 200) {
       submitMethods.resetForm();

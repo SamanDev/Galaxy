@@ -2,6 +2,7 @@ import React from "react";
 
 import LevelList from "./pages/dashboard/Levels";
 import GalaxyPass from "./pages/dashboard/GalaxyPass";
+import Games from "./pages/dashboard/Games";
 import Gift from "./pages/dashboard/Gifts";
 import VIP from "./pages/dashboard/VIP";
 import Commission from "./pages/dashboard/Commission";
@@ -18,6 +19,8 @@ const CompGen = (prop) => {
     return <LevelList {...prop} />;
   } else if (prop?.menu?.component == "gpass") {
     return <GalaxyPass {...prop} />;
+  } else if (prop?.menu?.component == "games") {
+    return <Games {...prop} />;
   } else if (prop?.menu?.component == "gifts") {
     return <Gift {...prop} />;
   } else if (prop?.menu?.component == "vip") {

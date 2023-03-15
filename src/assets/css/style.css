@@ -9,6 +9,9 @@
  
 }
 
+#mypage * {
+  -webkit-user-select:none !important
+}
 html,body {
   background: #384146;
 
@@ -495,7 +498,7 @@ body.fullscreen .fullopenpanel{
   z-index: 100;
 }
 .text-gold {
-  color: gold !important;
+  color: #e8b730 !important;
 }
 .bg-gold {
   background: rgba(255, 215, 0,.5) !important;
@@ -999,19 +1002,21 @@ a.mm-listitem__text {
 }
 .mm-menu span.mymenu {
   font-size: 13px;
-  padding-left: 60px;
+  padding-left: 80px;
+  line-height: 45px;
+
 }
 .mm-menu .mm-btn i {
   background: rgba(255, 255, 255, 0.05);
 
-  width: 50px;
+  width: 70px;
   position: absolute;
-  height: 51px;
+  height: 71px;
   text-align: center;
-  line-height: 50px;
+  line-height: 70px;
   top: 0;
   left: -14px;
-  font-size: 15px;
+  font-size: 20px;
 }
 .mm-menu input:focus,
 .mm-menu input:focus-visible,
@@ -1277,13 +1282,13 @@ a.mm-listitem__text {
   right: 5px;
 }
 .ui.floating.label.myfloatmenu {
-  top: 15px;
+  top: 25px;
   left: auto;
   min-width: 60px;
   right: 10px;
   text-align: center;
-  font-weight: 300;
-  font-size: 8px;
+  font-weight: 100;
+  font-size: .64285714rem;
 }
 .animated.inline {
   display: inline-block !important;
@@ -1472,7 +1477,7 @@ svg text {
   margin: 10px 0;
 }
 .ui.floating.label.myfloatmenubonus {
-  top: 15px;
+  top: 25px;
   left: auto;
 
   right: 80px;

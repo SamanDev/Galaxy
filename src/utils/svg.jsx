@@ -459,7 +459,7 @@ const LevelIcon = (prop) => {
         <div style={{ position: "relative", top: -20 }}>
           <AnimIcon
             icon="yeallgsa"
-            stroke="40"
+            stroke="20"
             scale="65"
             colors="primary:#c79816,secondary:#b4b4b4"
             trigger="loop"
@@ -493,7 +493,7 @@ const LevelIcon = (prop) => {
         <div style={{ position: "relative", top: -20 }}>
           <AnimIcon
             icon="qhviklyi"
-            stroke="40"
+            stroke="20"
             scale="65"
             colors="primary:#b4b4b4,secondary:#c79816"
             trigger="loop"
@@ -527,7 +527,7 @@ const LevelIcon = (prop) => {
         <div style={{ position: "relative", top: -20 }}>
           <AnimIcon
             icon="ssdupzsv"
-            stroke="40"
+            stroke="20"
             scale="65"
             colors="primary:#b4b4b4,secondary:#c79816"
             trigger="loop"
@@ -561,7 +561,7 @@ const LevelIcon = (prop) => {
         <div style={{ position: "relative", top: -20 }}>
           <AnimIcon
             icon="rgyftmhc"
-            stroke="40"
+            stroke="20"
             scale="65"
             colors="primary:#b4b4b4,secondary:#c79816"
             trigger="loop"

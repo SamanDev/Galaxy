@@ -75,7 +75,7 @@ const Report = (prop) => {
                   <List.Description>
                     <AmountColor
                       amount={item.amount}
-                      sign={item.endBalance - item.startBalance}
+                      sign={item.endBalance - item.startBalance + 1}
                       className="text-gold"
                     />
                     {!prop.pending && (

@@ -204,10 +204,10 @@ const levelDataInfoRules = () => {
   }
 };
 export const levelDataInfo = levelDataInfoRules();
-export const gameDataMain = "poker,sportbet,crash,backgammon".split(",");
-export const gameDataMainCode = "poker,bet,boom,backgammon".split(",");
+export const gameDataMain = "poker,sportbet,crash,roulette".split(",");
+export const gameDataMainCode = "poker,sportbet,crash,roulette".split(",");
 export const gameData =
-  "blackjack3,blackjacks,roulette,roulette3D,baccarat,slotramses,slotfruits,jacksorbetter,deuceswild,wheeloffortune,slotarabian,highlow,slotsoccer,slotluckychristmas,caribbeanstud,slotspace".split(
+  "poker,sportbet,crash,roulette,blackjack3,roulette3D,blackjacks,baccarat,slotramses,slotfruits,jacksorbetter,deuceswild,wheeloffortune,slotarabian,highlow,slotsoccer,slotluckychristmas,caribbeanstud,slotspace".split(
     ","
   );
 
@@ -339,8 +339,14 @@ export const GetMenu = (siteInfo) => {
       label: "بازی ها",
       title: "بازی ها",
       icon: "rwotyanb.svg",
-
-      submenu: doGame(),
+      submenu: [
+        {
+          component: "games",
+          cashMode: "Invite",
+          size: "mini",
+          labelcolor: "orange",
+        },
+      ],
     },
     {
       label: "صندوق",
@@ -604,7 +610,7 @@ function doGame() {
       label: game,
       idname: "login",
       textclass: "nof",
-      image: gameDataMainCode[i],
+      image: game,
     })
   );
   gameData.map((game, i) =>
@@ -612,7 +618,7 @@ function doGame() {
       label: game,
       idname: "login",
       textclass: "nof",
-      image: gameDataCode[i],
+      image: game,
     })
   );
 

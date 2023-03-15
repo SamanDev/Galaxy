@@ -69,7 +69,7 @@ function SegmentExamplePlaceholderInline(prop) {
               style={{
                 position: "absolute",
                 zIndex: 0,
-                top: -100,
+                top: -130,
                 width: "100%",
                 textAlign: "center",
                 opacity: 0.3,
@@ -80,6 +80,7 @@ function SegmentExamplePlaceholderInline(prop) {
                 width="400px"
                 height="440px"
                 trigger="hover"
+                stroke="10"
               />
             </div>
           </div>

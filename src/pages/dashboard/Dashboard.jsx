@@ -27,6 +27,7 @@ import {
   levelDataInfo,
 } from "../../const";
 import GalaxyIcon from "../../utils/svganim";
+import GameBox from "../../utils/GameBox";
 import ConfettiArea from "../../utils/party";
 import ConfettiClick from "../../utils/partyclick";
 import Noty from "./noti";
@@ -120,6 +121,7 @@ const Banner = (prop) => {
                 <Button
                   className="farsi"
                   color="red"
+                  style={{ background: "rgba(255,0,0,.3)" }}
                   onClick={() => {
                     prop.openPanel(prop.link);
                   }}
@@ -588,23 +590,16 @@ const Dashboard = (prop) => {
                 <Container>
                   <Grid>
                     {gameDataMain.map((game, i) => (
-                      <Grid.Column key={i} mobile={8} tablet={4} computer={4}>
-                        <Image
-                          className="fadeout"
-                          as={Link}
-                          to={"/games/" + game}
-                          id={"open" + game}
-                          alt={"open " + game}
-                          width="255"
-                          height="255"
-                          src={
-                            "/assets/images/games/" +
-                            gameDataMainCode[i] +
-                            "-min.webp"
-                          }
-                          rounded
-                          fluid
-                        />
+                      <Grid.Column
+                        key={game}
+                        mobile={8}
+                        tablet={4}
+                        computer={4}
+                        as={Link}
+                        to={"/games/" + game}
+                        id={"open" + game}
+                      >
+                        <GameBox game={game} />
                       </Grid.Column>
                     ))}
                   </Grid>

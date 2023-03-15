@@ -11,6 +11,7 @@ import {
   dayOfTournament,
   startServiceWorker,
 } from "./const";
+import LazyLoad from "react-lazyload";
 import { Link } from "react-router-dom";
 import { useIsLogin } from "./hook/authHook";
 import { useUser, useSiteInfo } from "./hook/userHook";
@@ -26,6 +27,7 @@ import UserArea from "./layouts/admin/auth/user.component";
 import GalaxyIcon from "./utils/svg";
 import { siteMethodDef } from "./const";
 import AnimIcon from "./utils/inviteIcon";
+import GameBox from "./utils/GameBox";
 import ConfettiArea from "./utils/partyclick";
 import { Dimmer, Loader } from "semantic-ui-react";
 import UserWebsocket from "./services/user.websocket";
@@ -333,11 +335,10 @@ function App(prop) {
                           ) : (
                             <i className=" mx-3">
                               <AnimIcon
-                                width="40px"
-                                height="50px"
-                                trigger="hover"
-                                scale="35"
-                                stroke="40"
+                                width="60px"
+                                height="70px"
+                                scale="45"
+                                stroke="25"
                                 icon={menu.icon.split(".")[0]}
                               />
                             </i>
@@ -441,11 +442,10 @@ function App(prop) {
                   ) : (
                     <i className=" mx-3">
                       <AnimIcon
-                        width="40px"
-                        height="50px"
-                        trigger="hover"
-                        scale="35"
-                        stroke="40"
+                        width="60px"
+                        height="70px"
+                        scale="45"
+                        stroke="25"
                         icon={menu.icon.split(".")[0]}
                       />
                     </i>
@@ -497,18 +497,29 @@ function App(prop) {
                         {submenu.image ? (
                           <>
                             {activeMenu == menu.label && (
-                              <Image
-                                className="fadeout"
-                                as={Link}
-                                to={"/games/" + submenu.label}
-                                onClick={() => closeMenu()}
-                                src={
-                                  "/assets/images/games/" +
-                                  submenu.image +
-                                  ".jpg"
-                                }
-                                fluid
-                              />
+                              <>
+                                <LazyLoad
+                                  offset={300}
+                                  height={98}
+                                  once
+                                  throttle={30}
+                                  className="item"
+                                >
+                                  <Link
+                                    to={"/games/" + submenu.image}
+                                    id={"open" + submenu.image}
+                                    as="a"
+                                    onClick={() => closeMenu()}
+                                    style={{ padding: 0 }}
+                                    className="mm-btn  mm-listitem__btn mm-listitem__text"
+                                  >
+                                    <GameBox
+                                      game={submenu.image}
+                                      height="100px"
+                                    />{" "}
+                                  </Link>
+                                </LazyLoad>
+                              </>
                             )}
                           </>
                         ) : (

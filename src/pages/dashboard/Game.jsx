@@ -150,7 +150,7 @@ const Dashboard = (prop) => {
       gameDataMain.map((game, i) => {
         if (game != mainGame) {
           _gameOptions.push({
-            key: game,
+            key: game + i,
             text: capitalizeTxt(game),
             value: game,
           });

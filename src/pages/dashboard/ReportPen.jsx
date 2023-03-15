@@ -84,7 +84,7 @@ const Report = (prop) => {
                 canShow = false;
               }
               if (item.status == "Pending" && i > 0) {
-                //canShowPending = false;
+                canShowPending = false;
               }
               try {
                 var desc = JSON.parse(item.description);
@@ -106,7 +106,7 @@ const Report = (prop) => {
                       <div className="pad10tb">
                         <AmountColor
                           amount={item.amount}
-                          sign={item.endBalance - item.startBalance}
+                          sign={item.endBalance - item.startBalance + 1}
                           className="text-gold"
                         />
                       </div>
@@ -151,8 +151,8 @@ const Report = (prop) => {
                           </>
                         )}
                       </div>
-                      {(gateway == "Bitcoin" || gateway == "USDT") &&
-                        prop.mode == "Deposit" && (
+                      {(item.gateway == "Bitcoin" || item.gateway == "USDT") &&
+                        item.mode == "Deposit" && (
                           <>
                             <QR note={item} doCurrency={doCurrency} />
                           </>
