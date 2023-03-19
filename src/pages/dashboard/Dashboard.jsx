@@ -206,7 +206,7 @@ const Dashboard = (prop) => {
         orientation: "portrait",
 
         start_url: sUrl,
-        scope: sUrl,
+        scope: dd,
         id: sUrl,
 
         background_color: "#000000",

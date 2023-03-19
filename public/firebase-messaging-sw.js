@@ -49,7 +49,7 @@ self.addEventListener("install", function (event) {
 
 self.addEventListener("activate", (event) => {
   console.log("[ServiceWorker] Activate");
-  event.waitUntil(
+  /* event.waitUntil(
     (async () => {
       // Enable navigation preload if it's supported.
       // See https://developers.google.com/web/updates/2017/02/navigation-preload
@@ -60,12 +60,12 @@ self.addEventListener("activate", (event) => {
   );
 
   // Tell the active service worker to take control of the page immediately.
-  self.clients.claim();
+  self.clients.claim(); */
 });
 
 self.addEventListener("fetch", function (event) {
   // console.log('[Service Worker] Fetch', event.request.url);
-  if (event.request.mode === "navigate") {
+  /* if (event.request.mode === "navigate") {
     event.respondWith(
       (async () => {
         try {
@@ -88,5 +88,5 @@ self.addEventListener("fetch", function (event) {
         }
       })()
     );
-  }
+  } */
 });
