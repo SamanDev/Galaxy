@@ -3,10 +3,10 @@ import { Segment } from "semantic-ui-react";
 import AnimIcon from "./inviteIcon";
 const SegmentExampleInverted = (prop) => {
   var icon = "sroxggda";
-  var classn = "text-gold farsi";
+  var classn = "text-secondary-emphasis opacity-50 farsi";
   var name = prop.game;
   if (prop.game == "more") {
-    name = "لیست بازی ها...";
+    name = "لیست بازی ها";
     icon = "rwotyanb";
     var classn = "text-secondary-emphasis opacity-50 farsi";
   }
@@ -78,7 +78,7 @@ const SegmentExampleInverted = (prop) => {
         <div
           className={classn}
           style={{
-            fontSize: prop.height ? parseInt(prop.height) / 8 + "px" : 20,
+            fontSize: prop.height ? parseInt(prop.height) / 5 + "px" : 20,
             padding: prop.height ? parseInt(prop.height) / 10 + "px" : 20,
           }}
         >

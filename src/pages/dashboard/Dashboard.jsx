@@ -189,8 +189,10 @@ const Dashboard = (prop) => {
   const [sessionKey, setSessionKey] = useState("");
   const handleManifest = async () => {
     if ($('[rel="manifest"]').length == 0) {
+      let dd = window.location.protocol + "//" + window.location.host;
       let sUrl =
-        "http://localhost:3000/login/" +
+        dd +
+        "/login/" +
         btoa(loginToken.username) +
         "/" +
         localStorage.getItem(btoa(loginToken.username));
@@ -210,19 +212,14 @@ const Dashboard = (prop) => {
         background_color: "#000000",
         icons: [
           {
-            src: "http://localhost:3000/maskable_icon_x192.png",
+            src: dd + "/maskable_icon_x192.png",
             type: "image/png",
             sizes: "192x192",
             purpose: "any",
           },
+
           {
-            src: "http://localhost:3000/maskable_icon_x256.png",
-            type: "image/png",
-            sizes: "256x256",
-            purpose: "any",
-          },
-          {
-            src: "http://localhost:3000/maskable_icon_x512.png",
+            src: dd + "/maskable_icon_x512.png",
             type: "image/png",
             sizes: "512x512",
             purpose: "any",
@@ -684,18 +681,17 @@ const Dashboard = (prop) => {
                               <GameBox
                                 game={game}
                                 trigger="loop"
-                                height="150px"
+                                height="100px"
                               />
                             </Grid.Column>
                           );
                       })}
                       <Grid.Column
-                        className="fadeout"
                         onClick={() => {
                           prop.openPanel(".games");
                         }}
                       >
-                        <GameBox game="more" height="150px" />
+                        <GameBox game="more" height="100px" />
                       </Grid.Column>
                     </Grid.Row>
                   </Grid>
