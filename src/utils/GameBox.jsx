@@ -3,13 +3,20 @@ import { Segment } from "semantic-ui-react";
 import AnimIcon from "./inviteIcon";
 const SegmentExampleInverted = (prop) => {
   var icon = "sroxggda";
+  var classn = "text-gold farsi";
   var name = prop.game;
+  if (prop.game == "more") {
+    name = "لیست بازی ها...";
+    icon = "rwotyanb";
+    var classn = "text-secondary-emphasis opacity-50 farsi";
+  }
   if (prop.game == "poker") {
     name = "Online Poker";
+    name = "پوکر آنلاین";
     icon = "sroxggda";
   }
   if (prop.game == "sportbet") {
-    name = "Sport Bet";
+    name = "شرط بندی ورزشی";
     icon = "xlmenhhh";
   }
   if (prop.game == "crash") {
@@ -36,7 +43,7 @@ const SegmentExampleInverted = (prop) => {
     <Segment
       inverted
       raised
-      className="fadeout"
+      className="fadeou5t"
       style={{
         background: "rgba(0,0,0,.5)",
         cursor: "pointer",
@@ -45,7 +52,6 @@ const SegmentExampleInverted = (prop) => {
       }}
     >
       <div
-        className="fadeout"
         style={{
           height: prop.height ? prop.height : 100,
           position: "relative",
@@ -57,18 +63,27 @@ const SegmentExampleInverted = (prop) => {
             position: "absolute",
             zIndex: -1,
             top: -10,
-            left: "10%",
           }}
         >
           <AnimIcon
             icon={icon}
-            width="300px"
-            height="150px"
-            trigger="hover"
+            width={prop.height ? prop.height : 100}
+            height={prop.height ? prop.height : 100}
+            trigger={prop.trigger}
+            delay="5500"
             stroke="10"
           />
         </div>
-        <div className="text-gold fs-4 p-3 text-capitalize">{name}</div>
+
+        <div
+          className={classn}
+          style={{
+            fontSize: prop.height ? parseInt(prop.height) / 8 + "px" : 20,
+            padding: prop.height ? parseInt(prop.height) / 10 + "px" : 20,
+          }}
+        >
+          {name}
+        </div>
       </div>
     </Segment>
   );

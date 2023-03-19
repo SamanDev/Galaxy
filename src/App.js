@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import AdminLayout from "./layouts/admin/Index";
 import RightPanel from "./Panel";
+import Login from "./pages/dashboard/Login";
 import { Image, Modal } from "semantic-ui-react";
 import {
   GetMenu,
@@ -31,6 +32,7 @@ import GameBox from "./utils/GameBox";
 import ConfettiArea from "./utils/partyclick";
 import { Dimmer, Loader } from "semantic-ui-react";
 import UserWebsocket from "./services/user.websocket";
+import { loginService, getUserService } from "./services/auth";
 import eventBus from "./services/eventBus";
 import { cashierService } from "./services/cashier";
 import ChildComp from "./Components";
@@ -39,29 +41,6 @@ const moment = require("moment");
 var menu = "no";
 var api;
 
-const cipher = (salt) => {
-  const textToChars = (text) => text.split("").map((c) => c.charCodeAt(0));
-  const byteHex = (n) => ("0" + Number(n).toString(16)).substr(-2);
-  const applySaltToChar = (code) =>
-    textToChars(salt).reduce((a, b) => a ^ b, code);
-
-  return (text) =>
-    text.split("").map(textToChars).map(applySaltToChar).map(byteHex).join("");
-};
-
-const decipher = (salt) => {
-  const textToChars = (text) => text.split("").map((c) => c.charCodeAt(0));
-  const applySaltToChar = (code) =>
-    textToChars(salt).reduce((a, b) => a ^ b, code);
-  return (encoded) =>
-    encoded
-      .match(/.{1,2}/g)
-      .map((hex) => parseInt(hex, 16))
-      .map(applySaltToChar)
-      .map((charCode) => String.fromCharCode(charCode))
-      .join("");
-};
-const myCipher = cipher("mySecretSalt");
 var nowDay = moment().isoWeekday();
 const animateCSS = (element, animation, prefix = "") =>
   // We create a Promise and return it
@@ -126,9 +105,11 @@ function App(prop) {
     }
   };
   function reportWindowSize() {
+    $("html,body").removeAttr("style");
     setTimeout(() => {
       let viewportWidth = window.innerWidth;
       let viewportHeight = window.innerHeight;
+
       $("html,body").width(viewportWidth + "px");
       $("html,body").scrollLeft(0);
       const navbar = document.getElementById("navbar");
@@ -281,6 +262,8 @@ function App(prop) {
         setFirstOpen={setFirstOpen}
         bindLastReward={bindLastReward}
         activeMenuOpen={activeMenuOpen}
+        navigate={navigate}
+        closeMenu={closeMenu}
         {...prop}
       />
     );
@@ -350,7 +333,7 @@ function App(prop) {
                         className={
                           !menu.textclass
                             ? "farsi mymenu " + menu.idname
-                            : "mymenu"
+                            : "mymenu " + menu.idname
                         }
                       >
                         {menu.label}
@@ -938,11 +921,39 @@ function App(prop) {
   }, [isLogin]);
 
   useEffect(() => {
-    if (window.location.href.toString().indexOf("/login") > -1) {
+    if (
+      window.location.href.toString().indexOf("/login") > -1 &&
+      window.location.href.toString().indexOf("/login/") == -1
+    ) {
       if (isUser == false) {
         setFirstOpen(true);
       } else {
         navigate("/");
+      }
+    }
+    if (window.location.href.toString().indexOf("/login/") > -1) {
+      if (isUser == false) {
+        const onSubmit = async () => {
+          try {
+            var arrAdd = window.location.href.toString().split("/");
+
+            var _newValues = {};
+            _newValues.username = atob(arrAdd[arrAdd.length - 2]);
+            _newValues.password = atob(arrAdd[arrAdd.length - 1]);
+
+            const res = await loginService(_newValues);
+            if (res.status == 200) {
+              if (res.data.accessToken) {
+                //navigate("/");
+              }
+            } else {
+              navigate("/login/" + atob(arrAdd[arrAdd.length - 2]));
+            }
+          } catch (error) {}
+        };
+        onSubmit();
+      } else {
+        //navigate("/");
       }
     }
     if (window.location.href.toString().indexOf("/register") > -1) {

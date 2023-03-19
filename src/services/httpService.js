@@ -73,7 +73,7 @@ axios.interceptors.response.use(
         );
         localStorage.removeItem("galaxyUserkeyToken");
       }
-      window.location.href = "/login";
+      //window.location.href = "/login";
       // eventBus.dispatch("updateUser", null);
       //UserWebsocket.connect();
     }

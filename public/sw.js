@@ -7,16 +7,9 @@ self.addEventListener("install", function (event) {
   event.waitUntil(
     (async () => {
       const cache = await caches.open(CACHE_NAME);
-
+      // Setting {cache: 'reload'} in the new request will ensure that the response
+      // isn't fulfilled from the HTTP cache; i.e., it will be from the network.
       await cache.add(new Request(OFFLINE_URL, { cache: "reload" }));
-      await cache.add(new Request("favicon.png"));
-      // await cache.add(new Request("assets/fonts/yekan/Sans.woff"));
-      // await cache.add(new Request("static/js/bundle.js"));
-      // await cache.add(new Request("assets/js/bootstrap.bundle.min.js"));
-      // await cache.add(new Request("assets/mmenu-js-master/dist/mmenu.js"));
-      // await cache.add(
-      //   new Request("assets/mburger-webcomponent-master/dist/mburger/index.js")
-      // );
     })()
   );
 
@@ -40,6 +33,7 @@ self.addEventListener("activate", (event) => {
 });
 
 self.addEventListener("fetch", function (event) {
+  // console.log('[Service Worker] Fetch', event.request.url);
   if (event.request.mode === "navigate") {
     event.respondWith(
       (async () => {
@@ -60,36 +54,6 @@ self.addEventListener("fetch", function (event) {
           const cache = await caches.open(CACHE_NAME);
           const cachedResponse = await cache.match(OFFLINE_URL);
           return cachedResponse;
-        }
-      })()
-    );
-  } else if (event.request.mode === "no-corss") {
-    //console.log(event.request.url);
-    event.respondWith(
-      (async () => {
-        try {
-          const cache = await caches.open(CACHE_NAME);
-          const cachedResponse = await cache.match(event.request.url);
-          console.log(cachedResponse);
-          if (typeof cachedResponse === "undefined") {
-            const preloadResponse = await event.preloadResponse;
-            if (preloadResponse) {
-              return preloadResponse;
-            }
-
-            const networkResponse = await fetch(event.request);
-            return networkResponse;
-          } else {
-            return cachedResponse;
-          }
-        } catch (error) {
-          const preloadResponse = await event.preloadResponse;
-          if (preloadResponse) {
-            return preloadResponse;
-          }
-
-          const networkResponse = await fetch(event.request);
-          return networkResponse;
         }
       })()
     );

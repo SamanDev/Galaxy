@@ -17,6 +17,8 @@ import {
   Dropdown,
   Dimmer,
   Loader,
+  Segment,
+  Label,
 } from "semantic-ui-react";
 import {
   gameData,
@@ -139,6 +141,7 @@ const Banner = (prop) => {
 
 var _width = document.body.clientWidth;
 var defslide = 1;
+
 const Dashboard = (prop) => {
   String.prototype.toPersianCharacter = function () {
     var string = this;
@@ -171,6 +174,7 @@ const Dashboard = (prop) => {
     });
     return string;
   };
+  const [refresh, setRefresh] = useState(0);
   const navigate = useNavigate();
   const loginToken = prop.loginToken;
   const siteInfo = prop.siteInfo;
@@ -183,10 +187,80 @@ const Dashboard = (prop) => {
   var leaguerules = siteInfo?.dailyLeagueSet[0];
   var levelData = siteInfo?.levelUps;
   const [sessionKey, setSessionKey] = useState("");
-  const handleCheckLogin = async () => {
-    try {
-      const res = await getUserService(sessionKey);
-    } catch (error) {}
+  const handleManifest = async () => {
+    if ($('[rel="manifest"]').length == 0) {
+      let sUrl =
+        "http://localhost:3000/login/" +
+        btoa(loginToken.username) +
+        "/" +
+        localStorage.getItem(btoa(loginToken.username));
+
+      let manifest = {
+        short_name: "Galaxy",
+        name: loginToken.username,
+
+        display: "fullscreen",
+        theme_color: "#000000",
+        orientation: "portrait",
+
+        start_url: sUrl,
+        scope: sUrl,
+        id: sUrl,
+
+        background_color: "#000000",
+        icons: [
+          {
+            src: "http://localhost:3000/maskable_icon_x192.png",
+            type: "image/png",
+            sizes: "192x192",
+            purpose: "any",
+          },
+          {
+            src: "http://localhost:3000/maskable_icon_x256.png",
+            type: "image/png",
+            sizes: "256x256",
+            purpose: "any",
+          },
+          {
+            src: "http://localhost:3000/maskable_icon_x512.png",
+            type: "image/png",
+            sizes: "512x512",
+            purpose: "any",
+          },
+        ],
+        description:
+          "معتبرترین و بهترین اپلیکیشن پوکر،  انفجار، تخته نرد، بلک جک، رولت و انواع اسلات با پول واقعی در ایران",
+      };
+      let content = encodeURIComponent(JSON.stringify(manifest));
+      let url = "data:application/manifest+json," + content;
+      let element = document.createElement("link");
+      element.setAttribute("rel", "manifest");
+      element.setAttribute("href", url);
+      document.querySelector("head").appendChild(element);
+    }
+    const addBtn = document.querySelector(".add-button");
+
+    addBtn.addEventListener("click", async () => {
+      console.log("👍", "butInstall-clicked");
+      const promptEvent = window.deferredPrompt;
+      console.log("👍", promptEvent);
+      if (!promptEvent) {
+        // The deferred prompt isn't available.
+        return;
+      }
+      // Show the install prompt.
+      promptEvent.prompt();
+      // Log the result
+      const result = await promptEvent.userChoice;
+      console.log("👍", "userChoice", result);
+      // Reset the deferred prompt variable, since
+      // prompt() can only be called once.
+      window.deferredPrompt = null;
+    });
+    window.addEventListener("appinstalled", (event) => {
+      setRefresh(0);
+      window.deferredPrompt = null;
+    });
   };
 
   const handleSession = async () => {
@@ -222,7 +296,7 @@ const Dashboard = (prop) => {
   };
   const haveGift = () => {
     var user = loginToken;
-    if (user && !user?.logout) {
+    if (user?.accessToken && !user?.logout) {
       var _bonuses = user?.userGifts?.sort((a, b) =>
         a.startDate < b.startDate ? 1 : -1
       );
@@ -316,6 +390,13 @@ const Dashboard = (prop) => {
       defslide = 0;
     }
     setActiveSlide(defslide);
+    if (
+      loginToken.accessToken &&
+      !loginToken?.logout &&
+      curPage == "dashboard"
+    ) {
+      handleManifest();
+    }
   }, [loginToken]);
 
   return (
@@ -588,20 +669,35 @@ const Dashboard = (prop) => {
 
               <div id="game_section" className="dashboard_section main_section">
                 <Container>
-                  <Grid>
-                    {gameDataMain.map((game, i) => (
+                  <Grid stackable reversed="computer tablet" columns="equal">
+                    <Grid.Row columns={3}>
+                      {gameDataMain.map((game, i) => {
+                        if (i < 2)
+                          return (
+                            <Grid.Column
+                              key={game}
+                              as={Link}
+                              to={"/games/" + game}
+                              id={"open" + game}
+                              only="computer tablet"
+                            >
+                              <GameBox
+                                game={game}
+                                trigger="loop"
+                                height="150px"
+                              />
+                            </Grid.Column>
+                          );
+                      })}
                       <Grid.Column
-                        key={game}
-                        mobile={8}
-                        tablet={4}
-                        computer={4}
-                        as={Link}
-                        to={"/games/" + game}
-                        id={"open" + game}
+                        className="fadeout"
+                        onClick={() => {
+                          prop.openPanel(".games");
+                        }}
                       >
-                        <GameBox game={game} />
+                        <GameBox game="more" height="150px" />
                       </Grid.Column>
-                    ))}
+                    </Grid.Row>
                   </Grid>
                 </Container>
               </div>

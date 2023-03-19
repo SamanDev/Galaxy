@@ -38,6 +38,7 @@ var nowDay = moment().isoWeekday();
 const Dashboard = (prop) => {
   const navigate = useNavigate();
   const loginToken = prop.loginToken;
+
   const siteInfo = prop.siteInfo;
   var _event = getEvent(siteInfo);
 
@@ -126,8 +127,9 @@ const Dashboard = (prop) => {
   useEffect(() => {
     setMainGame(params.gameId);
     setSessionKey("");
-
-    handleSession();
+    if (loginToken?.accessToken && !loginToken?.logout) {
+      handleSession();
+    }
   }, []);
 
   useEffect(() => {
@@ -135,10 +137,12 @@ const Dashboard = (prop) => {
     if (
       orientation.indexOf("landscape") > -1 &&
       viewportHeight < 600 &&
-      !$("body").hasClass("fullscreen")
+      loginToken?.accessToken &&
+      !loginToken?.logout
     ) {
       handleFullscreen();
     }
+    prop.reportWindowSize();
   }, [orientation]);
 
   function capitalizeTxt(txt) {
@@ -169,13 +173,14 @@ const Dashboard = (prop) => {
       });
     }
     setGameOptions(_gameOptions);
+    prop.reportWindowSize();
   }, []);
   useEffect(() => {
     if (!loginToken?.accessToken || loginToken?.logout) {
       setCurPage("dashboard");
       prop.setFirstOpen(true);
 
-      navigate("/");
+      navigate("/login");
     }
   }, [prop.isLogin, loginToken]);
 
@@ -292,7 +297,104 @@ const Dashboard = (prop) => {
 
   return (
     <>
-      {curPage == "game" && (
+      {(!gameLoader || 1 == 1) && (
+        <div className="gameicons step2">
+          <Icon
+            circular
+            inverted
+            color="violet"
+            link
+            onClick={() => {
+              prop.setActivePanel(!prop.activePanel);
+              $(".picn").toggleClass("open");
+            }}
+            style={
+              !isFull
+                ? {
+                    transform: "translateY(-150px)",
+                    transformOrigin: "center",
+                    opacity: 0,
+                  }
+                : {
+                    transform: "translateY(0px)",
+                    transformOrigin: "center",
+                  }
+            }
+          >
+            <i className="fas fa-arrow-left"></i>
+          </Icon>
+
+          <Icon circular inverted link color="grey" onClick={handleFullscreen}>
+            <i
+              className={
+                isFull
+                  ? "fas fa-compress-arrows-alt"
+                  : "fas fa-expand-arrows-alt"
+              }
+            ></i>
+          </Icon>
+          <Icon circular inverted link color="grey" onClick={handleReload}>
+            <i className="fas fa-sync-alt"></i>
+          </Icon>
+
+          <Icon
+            circular
+            inverted
+            link
+            color={activeIndex == 0 ? "orange" : "grey"}
+            onClick={handleRangeChange}
+            style={{
+              fontSize: 25,
+              right: -10,
+            }}
+          >
+            <i
+              className={
+                activeIndex == 0 ? "fas fa-angle-right" : "fas fa-angle-left"
+              }
+            ></i>
+          </Icon>
+
+          <Dropdown
+            value={secondaryGame}
+            options={gameOptions}
+            selectOnNavigation={false}
+            name="false"
+            direction="left"
+            className="selectgame"
+            style={
+              activeIndex == 0
+                ? {
+                    transform: "translateY(-250px) translateX(-50px)",
+                    transformOrigin: "center right",
+                    opacity: 0,
+                  }
+                : {
+                    transform: "translateY(-180px) translateX(-50px)",
+                    transformOrigin: "center right",
+                  }
+            }
+            compact
+            scrolling
+            onChange={handleChange}
+            trigger={
+              <Icon
+                circular
+                inverted
+                link
+                color="orange"
+                style={{
+                  transform: "translateX(28px) translateY(28px) ",
+                  transformOrigin: "center right",
+                }}
+              >
+                <i className="fas fa-angle-double-down"></i>
+              </Icon>
+            }
+          />
+        </div>
+      )}
+      {curPage == "game" && loginToken?.accessToken && !loginToken?.logout && (
         <div className="mainsection dashboard_section main_section panelfull">
           <Tab
             onTabChange={handleTabChange}
@@ -301,111 +403,6 @@ const Dashboard = (prop) => {
             activeIndex={activeIndex}
             menu={{ attached: false }}
           />
-          {(!gameLoader || 1 == 1) && (
-            <div className="gameicons step2">
-              <Icon
-                circular
-                inverted
-                color="violet"
-                link
-                onClick={() => {
-                  prop.setActivePanel(!prop.activePanel);
-                  $(".picn").toggleClass("open");
-                }}
-                style={
-                  !isFull
-                    ? {
-                        transform: "translateY(-150px)",
-                        transformOrigin: "center",
-                        opacity: 0,
-                      }
-                    : {
-                        transform: "translateY(0px)",
-                        transformOrigin: "center",
-                      }
-                }
-              >
-                <i className="fas fa-arrow-left"></i>
-              </Icon>
-
-              <Icon
-                circular
-                inverted
-                link
-                color="grey"
-                onClick={handleFullscreen}
-              >
-                <i
-                  className={
-                    isFull
-                      ? "fas fa-compress-arrows-alt"
-                      : "fas fa-expand-arrows-alt"
-                  }
-                ></i>
-              </Icon>
-              <Icon circular inverted link color="grey" onClick={handleReload}>
-                <i className="fas fa-sync-alt"></i>
-              </Icon>
-
-              <Icon
-                circular
-                inverted
-                link
-                color={activeIndex == 0 ? "orange" : "grey"}
-                onClick={handleRangeChange}
-                style={{
-                  fontSize: 25,
-                  right: -10,
-                }}
-              >
-                <i
-                  className={
-                    activeIndex == 0
-                      ? "fas fa-angle-right"
-                      : "fas fa-angle-left"
-                  }
-                ></i>
-              </Icon>
-
-              <Dropdown
-                value={secondaryGame}
-                options={gameOptions}
-                selectOnNavigation={false}
-                name="false"
-                direction="left"
-                className="selectgame"
-                style={
-                  activeIndex == 0
-                    ? {
-                        transform: "translateY(-250px) translateX(-50px)",
-                        transformOrigin: "center right",
-                        opacity: 0,
-                      }
-                    : {
-                        transform: "translateY(-180px) translateX(-50px)",
-                        transformOrigin: "center right",
-                      }
-                }
-                compact
-                scrolling
-                onChange={handleChange}
-                trigger={
-                  <Icon
-                    circular
-                    inverted
-                    link
-                    color="orange"
-                    style={{
-                      transform: "translateX(28px) translateY(28px) ",
-                      transformOrigin: "center right",
-                    }}
-                  >
-                    <i className="fas fa-angle-double-down"></i>
-                  </Icon>
-                }
-              />
-            </div>
-          )}
         </div>
       )}
     </>

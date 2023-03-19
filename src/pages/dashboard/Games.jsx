@@ -29,16 +29,18 @@ const LevelList = (prop) => {
           {gameData.map((submenu, i) => {
             return (
               <LazyLoad key={i} height={130} once>
-                <Link
-                  to={"/games/" + submenu}
+                <div
                   id={"open" + submenu}
                   as="a"
-                  onClick={() => prop.closeMenu()}
+                  onClick={() => {
+                    prop.closeMenu();
+                    prop.navigate("/games/" + submenu);
+                  }}
                   style={{ padding: 0, paddingBottom: 15, overflow: "hidden" }}
                   className="mm-btn  mm-listitem__btn mm-listitem__text animated fadeIn"
                 >
                   <GameBox game={submenu} height="120px" />
-                </Link>
+                </div>
               </LazyLoad>
             );
           })}
