@@ -116,7 +116,7 @@ function App(prop) {
 
       $("body").width(viewportWidth + "px");
       $("body").scrollLeft(0);
-      $("lord-icon").each(function () {
+      $(".segment lord-icon").each(function () {
         var ww = $(this).closest(".ui").width();
         if (ww > viewportWidth / 1.5) {
           ww = viewportWidth - 50;
