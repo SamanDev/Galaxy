@@ -1,14 +1,6 @@
-import { el } from "date-fns/locale";
-import { doCurrency, updateBonusLabel } from "../const";
+import { doCurrency } from "../const";
 import AnimIcon from "./inviteIcon";
-import {
-  Segment,
-  Icon,
-  Label,
-  Popup,
-  Progress,
-  Header,
-} from "semantic-ui-react";
+import { Header } from "semantic-ui-react";
 const moment = require("moment");
 
 function getRemaining() {

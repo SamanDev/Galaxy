@@ -1,34 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 
 import { Link } from "react-router-dom";
-import { useParams } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
-import { getUserService, getPokerSession } from "../../services/auth";
-import { checkBlock } from "../../services/httpService";
-import PWAPrompt from "react-ios-pwa-prompt";
-import Tour from "../../Tour";
-import {
-  Grid,
-  Image,
-  Button,
-  Container,
-  Tab,
-  Icon,
-  Dropdown,
-  Dimmer,
-  Loader,
-  Segment,
-  Label,
-} from "semantic-ui-react";
-import {
-  gameData,
-  gameDataMain,
-  gameDataMainCode,
-  getEvent,
-  dayOfTournament,
-  levelDataInfo,
-} from "../../const";
-import GalaxyIcon from "../../utils/svganim";
+import { Grid } from "semantic-ui-react";
+import { gameDataMain } from "../../const";
 import GameBox from "../../utils/GameBox";
 
 const GameInbox = (prop) => {

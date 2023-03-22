@@ -1,25 +1,6 @@
 import React, { useEffect, useState } from "react";
-import {
-  Button,
-  Header,
-  Icon,
-  Segment,
-  Image,
-  Label,
-  Grid,
-  Container,
-} from "semantic-ui-react";
-import {
-  gameData,
-  gameDataMain,
-  gameDataMainCode,
-  getEvent,
-  dayOfTournament,
-  levelDataInfo,
-} from "../../const";
-import { Link } from "react-router-dom";
+import { Button, Header, Icon, Segment, Image, Grid } from "semantic-ui-react";
 import $ from "jquery";
-import GameBox from "../../utils/GameBox";
 import AnimIcon from "../../utils/inviteIcon";
 import GameInbox from "./GameInbox";
 function SegmentExamplePlaceholderInline(prop) {

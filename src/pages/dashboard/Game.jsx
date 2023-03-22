@@ -1,35 +1,10 @@
 import React, { useEffect, useState } from "react";
 
-import { Link } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import { getUserService, getPokerSession } from "../../services/auth";
-import { checkBlock } from "../../services/httpService";
-import {
-  Grid,
-  Image,
-  Button,
-  Container,
-  Tab,
-  Icon,
-  Dropdown,
-  Dimmer,
-  Loader,
-} from "semantic-ui-react";
-import {
-  gameData,
-  gameDataMain,
-  gameDataMainCode,
-  getEvent,
-  dayOfTournament,
-  levelDataInfo,
-} from "../../const";
-import GalaxyIcon from "../../utils/svganim";
-import ConfettiArea from "../../utils/party";
-import ConfettiClick from "../../utils/partyclick";
-import Noty from "./noti";
-import Index from "./index";
-import ShowTimeLeft from "../../utils/showTimeLeft";
+import { getPokerSession } from "../../services/auth";
+import { Tab, Icon, Dropdown, Dimmer, Loader } from "semantic-ui-react";
+import { gameData, gameDataMain, getEvent } from "../../const";
 import $ from "jquery";
 const moment = require("moment");
 
