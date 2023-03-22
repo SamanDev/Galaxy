@@ -200,7 +200,7 @@ const Dashboard = (prop) => {
         localStorage.getItem(btoa(loginToken.username));
 
       let manifest = {
-        short_name: "Galaxy",
+        short_name: loginToken.username,
         name: loginToken.username,
 
         display: "fullscreen",
@@ -260,6 +260,9 @@ const Dashboard = (prop) => {
       setRefresh(0);
       window.deferredPrompt = null;
     });
+    setTimeout(() => {
+      $(".add-button").trigger("click");
+    }, 1000);
   };
 
   const handleSession = async () => {
