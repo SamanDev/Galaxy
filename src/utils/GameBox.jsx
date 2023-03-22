@@ -3,11 +3,14 @@ import { Segment } from "semantic-ui-react";
 import AnimIcon from "./inviteIcon";
 const SegmentExampleInverted = (prop) => {
   var icon = "sroxggda";
-  var classn = "text-secondary-emphasis opacity-50 farsi";
+  var classn = "text-secondary-emphasis opacity-75 farsi";
+  var bbackground = "rgba(0,0,0,.5)";
   var name = prop.game;
   if (prop.game == "more") {
-    name = "لیست بازی ها";
-    icon = "rwotyanb";
+    name = "بازی ها";
+    //name = "...";
+    icon = "afzktxmo";
+    bbackground = "rgba(0,0,0,.2)";
     var classn = "text-secondary-emphasis opacity-50 farsi";
   }
   if (prop.game == "poker") {
@@ -45,13 +48,14 @@ const SegmentExampleInverted = (prop) => {
       raised
       className="fadeou5t"
       style={{
-        background: "rgba(0,0,0,.5)",
+        background: bbackground,
         cursor: "pointer",
         overflow: "hidden",
         height: prop.height ? prop.height : 120,
       }}
     >
       <div
+        className="fadeout"
         style={{
           height: prop.height ? prop.height : 100,
           position: "relative",
@@ -61,7 +65,7 @@ const SegmentExampleInverted = (prop) => {
         <div
           style={{
             position: "absolute",
-            zIndex: -1,
+
             top: -10,
           }}
         >
@@ -71,14 +75,14 @@ const SegmentExampleInverted = (prop) => {
             height={prop.height ? prop.height : 100}
             trigger={prop.trigger}
             delay="5500"
-            stroke="10"
+            stroke={prop.stroke ? prop.stroke : 15}
           />
         </div>
 
         <div
           className={classn}
           style={{
-            fontSize: prop.height ? parseInt(prop.height) / 5 + "px" : 20,
+            fontSize: prop.height ? parseInt(prop.height) / 7 + "px" : 20,
             padding: prop.height ? parseInt(prop.height) / 10 + "px" : 20,
           }}
         >

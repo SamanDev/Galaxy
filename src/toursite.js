@@ -209,7 +209,11 @@ function RightPanel() {
     },
     {
       selector: ".step1",
-
+      action: () => {
+        if (!$(".step1").hasClass("open")) {
+          $(".step1click").trigger("click");
+        }
+      },
       content: ({ setCurrentStep, currentStep }) => (
         <>
           <p className="farsi">

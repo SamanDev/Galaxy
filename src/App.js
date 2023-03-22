@@ -91,8 +91,10 @@ function App(prop) {
   var _event = getEvent(siteInfo);
   const location = useLocation();
   const [loginToken] = useUser();
+  window.addEventListener("touchstart", { passive: true });
   const handleOpenTable = async (tableName) => {
     var values = { tableName: tableName };
+
     if (
       loginToken &&
       window.location.href.toString().indexOf("/games/poker") > -1
@@ -101,17 +103,29 @@ function App(prop) {
         const res = await cashierService(values, "openTable");
       } catch (error) {}
     } else {
+      localStorage.setItem("tableName", tableName);
       navigate("/games/poker");
     }
   };
   function reportWindowSize() {
-    $("html,body").removeAttr("style");
+    console.log("size");
+    $("body").removeAttr("style");
     setTimeout(() => {
       let viewportWidth = window.innerWidth;
       let viewportHeight = window.innerHeight;
 
-      $("html,body").width(viewportWidth + "px");
-      $("html,body").scrollLeft(0);
+      $("body").width(viewportWidth + "px");
+      $("body").scrollLeft(0);
+      $("lord-icon").each(function () {
+        var ww = $(this).closest(".ui").width();
+        if (ww > viewportWidth / 1.5) {
+          ww = viewportWidth - 50;
+        } else {
+          ww = ww / 2;
+        }
+
+        $(this).width(ww);
+      });
       const navbar = document.getElementById("navbar");
 
       try {
@@ -1261,6 +1275,7 @@ function App(prop) {
                   setUserProfile={setUserProfile}
                   setUserOpen={setUserOpen}
                   reportWindowSize={reportWindowSize}
+                  handleOpenTable={handleOpenTable}
                 />
               }
             />

@@ -370,7 +370,7 @@ a {
   
   min-width: auto !important;
   min-height: auto !important;
-  transition: all 100ms ease;
+  transition: all 10ms ease;
   
   top: 0;
   left: 0;
@@ -417,6 +417,9 @@ body.fullscreen .fullopenpanel{
 .menutitle-view{
   margin: 0 -20px !important;
 }
+.App{
+  overflow: hidden;
+}
 .banner {
   width: calc(100%);
   height: calc(90vh - 74px);
@@ -424,7 +427,10 @@ body.fullscreen .fullopenpanel{
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 100ms ease;
+  -webkit-transition: .5s ease-in-out;
+  -moz-transition: .5s ease-in-out;
+  -o-transition: .5s ease-in-out;
+  transition: .5s ease-in-out;
   -webkit-font-smoothing: antialiased;
 }
 .iconarea {
@@ -753,7 +759,7 @@ overflow: auto;
   min-width: 250px !important;
   max-width: 340px !important;
   opacity: 0;
-  transition: all .3s ease;
+  transition: all .1s ease;
 }
 #panelright.active{
   opacity: 1;
@@ -1243,7 +1249,7 @@ a.mm-listitem__text {
   text-align: right !important;
 
   right: 0;
-  z-index: 1000;
+  z-index: 10000000;
 }
 .gameicons i.icon {
   display: block;
@@ -1830,7 +1836,7 @@ i.inverted.circular.black {
 }
 
 .navbar.fixed-top {
-  z-index: unset !important;
+  z-index: 2 !important;
   background:rgb(31 36 41) !important;
  height: 65px;
 }
@@ -2117,14 +2123,15 @@ table {
 }
 #dashboard_section {
  position: relative;
+ overflow: hidden;
 
 }
 #dashboard_section:before {
   content: ' ';
   display: block;
-  position: absolute;
+  position: fixed;
   left: 0;
-  top: 0;
+  top: 65px;
   width: 100%;
   height: 100%;
   opacity: 0.6;

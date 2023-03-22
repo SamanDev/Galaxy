@@ -204,6 +204,9 @@ const Balance = (prop) => {
           className="myaccount"
           inverted
           style={{ margin: 0, padding: 10, color: "#fff", height: 50 }}
+          onClick={() => {
+            $("#nav-icon1.open:visible").parent().trigger("click");
+          }}
         >
           <span className="step0">
             <Popup

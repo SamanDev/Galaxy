@@ -50,6 +50,7 @@ function App() {
           opacity: 1,
           padding: 0,
           cursor: "pointer",
+          zIndex: 4,
         }}
         title="تور معرفی سایت"
         onClick={() => startAtmy()}

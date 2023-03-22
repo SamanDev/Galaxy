@@ -10,7 +10,7 @@ function RightPanel(prop) {
   const [lastReward] = useLastReward();
   //if (!prop.activePanel) return null;
   return (
-    <div style={{ overflow: "hidden" }}>
+    <div>
       <ul
         className="mm-listview panelhalf fadeoutend step1-1"
         style={{ overflow: "hidden" }}

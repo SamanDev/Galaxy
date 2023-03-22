@@ -85,6 +85,7 @@ const Dashboard = (prop) => {
   const [gameLoader, setGameLoader] = useState(true);
   const params = useParams();
   const [activeIndex, setActiveIndex] = useState(0);
+  const [activeIndexLoad, setActiveIndexLoad] = useState(false);
   const [activeSlide, setActiveSlide] = useState(defslide);
   const [gameOptions, setGameOptions] = useState([]);
 
@@ -115,13 +116,19 @@ const Dashboard = (prop) => {
     if ($("#pokerframe:visible").length > 0) {
       setSessionKey("");
       handleSession();
+    } else {
+      $(".framegame:visible").attr("src", $(".framegame:visible").attr("src"));
     }
     setGameLoader(true);
-    $(".framegame:visible").attr("src", $(".framegame:visible").attr("src"));
   };
   const removeFrameLoad = (e) => {
     setGameLoader(false);
     prop.reportWindowSize();
+  };
+  const removeFrameLoad2 = (e) => {
+    setGameLoader(false);
+    prop.reportWindowSize();
+    setActiveIndexLoad(true);
   };
   const handleTabChange = (e, { activeIndex }) => setActiveIndex(activeIndex);
   useEffect(() => {
@@ -142,7 +149,7 @@ const Dashboard = (prop) => {
     ) {
       handleFullscreen();
     }
-    prop.reportWindowSize();
+    //prop.reportWindowSize();
   }, [orientation]);
 
   function capitalizeTxt(txt) {
@@ -185,10 +192,7 @@ const Dashboard = (prop) => {
   }, [prop.isLogin, loginToken]);
 
   useEffect(() => {
-    try {
-      $("#gamesec1").scrollLeft($("#gamesec1").width() / 2);
-      $("#gamesec2").scrollLeft($("#gamesec2").width() / 2);
-    } catch (error) {}
+    prop.reportWindowSize();
   }, [gameLoader]);
 
   const panes = [
@@ -208,7 +212,9 @@ const Dashboard = (prop) => {
             {(gameLoader || sessionKey == "") && (
               <div
                 className={
-                  isFull ? "framegame loader fullscreen" : "framegame loader"
+                  isFull
+                    ? "framegame loader fullscreen"
+                    : "framegame loader panelfull"
                 }
               >
                 <Dimmer active>
@@ -223,10 +229,17 @@ const Dashboard = (prop) => {
                 {sessionKey != "" && (
                   <iframe
                     src={
-                      "http://139.99.144.72:2053?LoginName=" +
-                      loginToken?.username +
-                      "&SessionKey=" +
-                      sessionKey
+                      localStorage.getItem("tableName")
+                        ? "http://139.99.144.72:2053?LoginName=" +
+                          loginToken?.username +
+                          "&SessionKey=" +
+                          sessionKey +
+                          "&TableType=R&TableName=" +
+                          localStorage.getItem("tableName")
+                        : "http://139.99.144.72:2053?LoginName=" +
+                          loginToken?.username +
+                          "&SessionKey=" +
+                          sessionKey
                     }
                     id="pokerframe"
                     frameBorder="0"
@@ -248,7 +261,9 @@ const Dashboard = (prop) => {
                     ".html?code=8035A16CF14CF5E487D16E160D4455FAFC8324EE3ABB490258B98007FDB800B3"
                   }
                   className={
-                    isFull ? "framegame  fullscreen panelfull" : "framegame "
+                    isFull
+                      ? "framegame panelfull fullscreen"
+                      : "framegame panelfull"
                   }
                   onLoad={removeFrameLoad}
                 ></iframe>
@@ -262,7 +277,15 @@ const Dashboard = (prop) => {
       menuItem: "Tab 2",
       pane: (
         <Tab.Pane key="tab2" attached={false}>
-          <div id="gamesec2" style={{ overflow: "auto" }}>
+          <div
+            id="gamesec2"
+            className="gamesec"
+            style={
+              isFull
+                ? { overflowX: "auto", overflowY: "hidden" }
+                : { overflow: "auto" }
+            }
+          >
             {gameLoader && (
               <div
                 className={
@@ -276,19 +299,21 @@ const Dashboard = (prop) => {
                 </Dimmer>
               </div>
             )}
-            <iframe
-              src={
-                "https://glxypkr.com:8443/secured/games/" +
-                secondaryGame +
-                ".html?code=8035A16CF14CF5E487D16E160D4455FAFC8324EE3ABB490258B98007FDB800B3"
-              }
-              className={
-                isFull
-                  ? "framegame frame2  fullscreen panelfull"
-                  : "framegame frame2"
-              }
-              onLoad={removeFrameLoad}
-            ></iframe>
+            {(activeIndex > 0 || activeIndexLoad) && (
+              <iframe
+                src={
+                  "https://glxypkr.com:8443/secured/games/" +
+                  secondaryGame +
+                  ".html?code=8035A16CF14CF5E487D16E160D4455FAFC8324EE3ABB490258B98007FDB800B3"
+                }
+                className={
+                  isFull
+                    ? "framegame panelfull fullscreen"
+                    : "framegame panelfull"
+                }
+                onLoad={removeFrameLoad2}
+              ></iframe>
+            )}
           </div>
         </Tab.Pane>
       ),
@@ -297,114 +322,124 @@ const Dashboard = (prop) => {
 
   return (
     <>
-      {(!gameLoader || 1 == 1) && (
-        <div className="gameicons step2">
-          <Icon
-            circular
-            inverted
-            color="violet"
-            link
-            onClick={() => {
-              prop.setActivePanel(!prop.activePanel);
-              $(".picn").toggleClass("open");
-            }}
-            style={
-              !isFull
-                ? {
-                    transform: "translateY(-150px)",
-                    transformOrigin: "center",
-                    opacity: 0,
-                  }
-                : {
-                    transform: "translateY(0px)",
-                    transformOrigin: "center",
-                  }
-            }
-          >
-            <i className="fas fa-arrow-left"></i>
-          </Icon>
-
-          <Icon circular inverted link color="grey" onClick={handleFullscreen}>
-            <i
-              className={
-                isFull
-                  ? "fas fa-compress-arrows-alt"
-                  : "fas fa-expand-arrows-alt"
+      <div id="dashboard_section" className="dashboard_section main_section ">
+        {(!gameLoader || 1 == 1) && (
+          <div className="gameicons step2">
+            <Icon
+              circular
+              inverted
+              color="violet"
+              link
+              onClick={() => {
+                prop.setActivePanel(!prop.activePanel);
+                $(".picn").toggleClass("open");
+              }}
+              style={
+                !isFull
+                  ? {
+                      transform: "translateY(-150px)",
+                      transformOrigin: "center",
+                      opacity: 0,
+                    }
+                  : {
+                      transform: "translateY(0px)",
+                      transformOrigin: "center",
+                    }
               }
-            ></i>
-          </Icon>
-          <Icon circular inverted link color="grey" onClick={handleReload}>
-            <i className="fas fa-sync-alt"></i>
-          </Icon>
+            >
+              <i className="fas fa-arrow-left"></i>
+            </Icon>
 
-          <Icon
-            circular
-            inverted
-            link
-            color={activeIndex == 0 ? "orange" : "grey"}
-            onClick={handleRangeChange}
-            style={{
-              fontSize: 25,
-              right: -10,
-            }}
-          >
-            <i
-              className={
-                activeIndex == 0 ? "fas fa-angle-right" : "fas fa-angle-left"
+            <Icon
+              circular
+              inverted
+              link
+              color="grey"
+              onClick={handleFullscreen}
+            >
+              <i
+                className={
+                  isFull
+                    ? "fas fa-compress-arrows-alt"
+                    : "fas fa-expand-arrows-alt"
+                }
+              ></i>
+            </Icon>
+            <Icon circular inverted link color="grey" onClick={handleReload}>
+              <i className="fas fa-sync-alt"></i>
+            </Icon>
+
+            <Icon
+              circular
+              inverted
+              link
+              color={activeIndex == 0 ? "orange" : "grey"}
+              onClick={handleRangeChange}
+              style={{
+                fontSize: 25,
+                right: -10,
+              }}
+            >
+              <i
+                className={
+                  activeIndex == 0 ? "fas fa-angle-right" : "fas fa-angle-left"
+                }
+              ></i>
+            </Icon>
+
+            <Dropdown
+              value={secondaryGame}
+              options={gameOptions}
+              selectOnNavigation={false}
+              name="false"
+              direction="left"
+              className="selectgame"
+              style={
+                activeIndex == 0
+                  ? {
+                      transform: "translateY(-250px) translateX(-50px)",
+                      transformOrigin: "center right",
+                      opacity: 0,
+                    }
+                  : {
+                      transform: "translateY(-180px) translateX(-50px)",
+                      transformOrigin: "center right",
+                    }
               }
-            ></i>
-          </Icon>
-
-          <Dropdown
-            value={secondaryGame}
-            options={gameOptions}
-            selectOnNavigation={false}
-            name="false"
-            direction="left"
-            className="selectgame"
-            style={
-              activeIndex == 0
-                ? {
-                    transform: "translateY(-250px) translateX(-50px)",
+              compact
+              scrolling
+              onChange={handleChange}
+              trigger={
+                <Icon
+                  circular
+                  inverted
+                  link
+                  color="orange"
+                  style={{
+                    transform: "translateX(28px) translateY(28px) ",
                     transformOrigin: "center right",
-                    opacity: 0,
-                  }
-                : {
-                    transform: "translateY(-180px) translateX(-50px)",
-                    transformOrigin: "center right",
-                  }
-            }
-            compact
-            scrolling
-            onChange={handleChange}
-            trigger={
-              <Icon
-                circular
-                inverted
-                link
-                color="orange"
-                style={{
-                  transform: "translateX(28px) translateY(28px) ",
-                  transformOrigin: "center right",
-                }}
-              >
-                <i className="fas fa-angle-double-down"></i>
-              </Icon>
-            }
-          />
-        </div>
-      )}
-      {curPage == "game" && loginToken?.accessToken && !loginToken?.logout && (
-        <div className="mainsection dashboard_section main_section panelfull">
-          <Tab
-            onTabChange={handleTabChange}
-            panes={panes}
-            renderActiveOnly={false}
-            activeIndex={activeIndex}
-            menu={{ attached: false }}
-          />
-        </div>
-      )}
+                  }}
+                >
+                  <i className="fas fa-angle-double-down"></i>
+                </Icon>
+              }
+            />
+          </div>
+        )}
+        {curPage == "game" &&
+          loginToken?.accessToken &&
+          !loginToken?.logout && (
+            <div className="mainsection">
+              <Tab
+                onTabChange={handleTabChange}
+                panes={panes}
+                renderActiveOnly={false}
+                activeIndex={activeIndex}
+                menu={{ attached: false }}
+              />
+            </div>
+          )}
+      </div>
     </>
   );
 };

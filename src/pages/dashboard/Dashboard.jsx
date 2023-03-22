@@ -33,6 +33,7 @@ import GameBox from "../../utils/GameBox";
 import ConfettiArea from "../../utils/party";
 import ConfettiClick from "../../utils/partyclick";
 import Noty from "./noti";
+import GameInbox from "./GameInbox";
 import Index from "./index";
 import ShowTimeLeft from "../../utils/showTimeLeft";
 import $ from "jquery";
@@ -174,6 +175,7 @@ const Dashboard = (prop) => {
     });
     return string;
   };
+  localStorage.removeItem("tableName");
   const [refresh, setRefresh] = useState(0);
   const navigate = useNavigate();
   const loginToken = prop.loginToken;
@@ -539,14 +541,10 @@ const Dashboard = (prop) => {
                     >
                       <>
                         <Banner
-                          title={<>۱۹۲ میلیون تومان</>}
-                          text={
-                            "پاداش VIP " +
-                            viprules?.bigBlindLimit / 2 +
-                            "K/" +
-                            viprules?.bigBlindLimit +
-                            "K"
+                          title={
+                            getMil(viprules?.totalRewards) + " میلیون تومان"
                           }
+                          text={"پاداش میز VIP"}
                           link=".vip"
                           icon="vip"
                           amin="inline animated fast flipInY"
@@ -666,41 +664,13 @@ const Dashboard = (prop) => {
 
               <div id="game_section" className="dashboard_section main_section">
                 <Container>
-                  <Grid stackable reversed="computer tablet" columns="equal">
-                    <Grid.Row columns={3}>
-                      {gameDataMain.map((game, i) => {
-                        if (i < 2)
-                          return (
-                            <Grid.Column
-                              key={game}
-                              as={Link}
-                              to={"/games/" + game}
-                              id={"open" + game}
-                              only="computer tablet"
-                            >
-                              <GameBox
-                                game={game}
-                                trigger="loop"
-                                height="100px"
-                              />
-                            </Grid.Column>
-                          );
-                      })}
-                      <Grid.Column
-                        onClick={() => {
-                          prop.openPanel(".games");
-                        }}
-                      >
-                        <GameBox game="more" height="100px" />
-                      </Grid.Column>
-                    </Grid.Row>
-                  </Grid>
+                  <GameInbox {...prop} />
                 </Container>
               </div>
             </>
           ) : (
             <>
-              <div id="dashboard_section" className="">
+              <div id="dashboard_section">
                 <Index {...prop} />
               </div>
             </>

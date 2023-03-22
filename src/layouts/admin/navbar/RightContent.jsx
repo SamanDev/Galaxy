@@ -130,6 +130,7 @@ const Rightcontent = (prop) => {
             opacity: 1,
             padding: 0,
             cursor: "pointer",
+            zIndex: 4,
           }}
           onClick={() => {
             prop.setActivePanel(!activePanel);
