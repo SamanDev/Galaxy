@@ -75,7 +75,7 @@ function SegmentExamplePlaceholderInline(prop) {
                     width: "30vw",
                     maxWidth: "200px",
                     marginTop: 80,
-                    transform: "scale(.8)",
+
                     filter:
                       " drop-shadow(1px 1px 30px #ffffff) drop-shadow(1px 1px 2px rgb(0 0 0 / 1)) drop-shadow(1px 1px 3px rgb(0 0 0 / 1)) drop-shadow(1px 1px 10px rgb(0 0 0 / 6))",
                   }}
