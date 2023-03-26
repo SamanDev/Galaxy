@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-import { siteInfoDef } from "../const";
+import { siteInfoDef, isJson } from "../const";
 import { publicGetRules } from "../services/public";
 import { getReportPenService } from "../services/report";
 import eventBus from "../services/eventBus";
@@ -8,7 +8,8 @@ export const useUser = () => {
   var loginKey = localStorage.getItem("galaxyUserkeyToken");
 
   const [loginToken, setLoginToken] = useState(
-    localStorage.getItem(loginKey + "Token")
+    localStorage.getItem(loginKey + "Token") &&
+      isJson(localStorage.getItem(loginKey + "Token"))
       ? JSON.parse(localStorage.getItem(loginKey + "Token"))
       : {}
   );
@@ -33,7 +34,7 @@ export const useUser = () => {
 };
 export const useSiteInfo = () => {
   const [siteInfo, setSiteInfo] = useState(
-    localStorage.getItem("siteInfo")
+    localStorage.getItem("siteInfo") && isJson(localStorage.getItem("siteInfo"))
       ? JSON.parse(localStorage.getItem("siteInfo"))
       : siteInfoDef
   );
@@ -41,8 +42,12 @@ export const useSiteInfo = () => {
   const handleCheckLogin = async () => {
     try {
       const res = await publicGetRules();
-      setSiteInfo(res.data);
-      localStorage.setItem("siteInfo", JSON.stringify(res.data));
+      if (res.status === 200) {
+        if (isJson(res.data)) {
+          setSiteInfo(res.data);
+          localStorage.setItem("siteInfo", JSON.stringify(res.data));
+        }
+      }
     } catch (error) {}
   };
   useEffect(() => {
@@ -56,19 +61,15 @@ export const useSiteInfo = () => {
   return [siteInfo];
 };
 export const useActiveTable = () => {
-  const [activeTable, setActiveTable] = useState(
-    localStorage.getItem("activeTable")
-      ? JSON.parse(localStorage.getItem("activeTable"))
-      : []
-  );
+  const [activeTable, setActiveTable] = useState([]);
   const handleGetActiveTable = async () => {
     try {
       const res = await getReportPenService("getActiveTables");
       if (res.status === 200) {
-        if (activeTable != res.data) {
+        if (activeTable != res.data && isJson(res.data)) {
           setActiveTable(res.data);
           //setActiveTable(tt);
-          localStorage.setItem("activeTable", JSON.stringify(res.data));
+          //localStorage.setItem("activeTable", JSON.stringify(res.data));
         }
       }
     } catch (error) {
@@ -81,26 +82,22 @@ export const useActiveTable = () => {
 
     eventBus.on("updateActiveTables", (dataGet) => {
       setActiveTable(dataGet);
-      localStorage.setItem("activeTable", JSON.stringify(dataGet));
+      // localStorage.setItem("activeTable", JSON.stringify(dataGet));
     });
   }, []);
   return [activeTable];
 };
 
 export const useLastReward = () => {
-  const [lastReward, setLastReward] = useState(
-    localStorage.getItem("lastReward")
-      ? JSON.parse(localStorage.getItem("lastReward"))
-      : []
-  );
+  const [lastReward, setLastReward] = useState([]);
 
   const handleGetLastReward = async () => {
     try {
       const res = await getReportPenService("getLastRewards?page=1&number=500");
 
-      if (res.status === 200) {
+      if (res.status === 200 && isJson(res.data)) {
         var mydataGet = res.data.sort((a, b) => (a.date < b.date ? 1 : -1));
-        localStorage.setItem("lastReward", JSON.stringify(mydataGet));
+        // localStorage.setItem("lastReward", JSON.stringify(mydataGet));
         setLastReward(mydataGet);
       }
     } catch (error) {
@@ -112,20 +109,6 @@ export const useLastReward = () => {
 
   useEffect(() => {
     handleGetLastReward();
-
-    eventBus.on("updateLastReward", (dataGet) => {
-      try {
-        var _lastReward = JSON.parse(localStorage.getItem("lastReward")).sort(
-          (a, b) => (a.date < b.date ? 1 : -1)
-        );
-      } catch (error) {
-        var _lastReward = [];
-      }
-
-      _lastReward = [dataGet].concat(_lastReward);
-      localStorage.setItem("lastReward", JSON.stringify(_lastReward));
-      setLastReward(_lastReward);
-    });
   }, []);
   return [lastReward];
 };

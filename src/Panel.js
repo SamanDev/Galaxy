@@ -54,10 +54,7 @@ function RightPanel(prop) {
         <li className="menutitle mm-listitem">
           <span className="mm-listitem__text">آخرین پاداش ها</span>
         </li>
-        <li
-          style={{ overflow: "auto", height: "100%" }}
-          onScroll={prop.bindLastReward}
-        >
+        <li style={{ overflow: "auto", height: "100%" }} id="lazyareapael">
           <LastReward {...prop} lastReward={lastReward} />
         </li>
       </ul>

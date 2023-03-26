@@ -4,7 +4,8 @@ const iconArea = (prop) => {
   return (
     <>
       <lord-icon
-        src={"https://cdn.lordicon.com/" + prop.icon + ".json"}
+        srsc={"https://cdn.lordicon.com/" + prop.icon + ".json"}
+        src={"/assets/lord/" + prop.icon + ".json"}
         trigger={prop.trigger}
         delay="1500"
         colors={prop.colors ? prop.colors : "primary:#e4e4e4,secondary:#e8b730"}

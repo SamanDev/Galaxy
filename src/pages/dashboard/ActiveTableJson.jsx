@@ -283,9 +283,9 @@ const ActiveTable = (prop) => {
         ) : (
           <>
             {_filterData?.map(function (x, i) {
-              var minstack = 10000000;
+              var minstack = 100000;
               if (loginToken?.balance) {
-                minstack = 1000000;
+                minstack = loginToken?.balance;
               }
               if (
                 x.minstack < minstack ||

@@ -429,8 +429,8 @@ export const GetMenu = (siteInfo) => {
           component: "gpass",
         },
         {
-          label: "VIP Table 25/50K",
-          title: "VIP Table 25/50K",
+          label: "VIP Table",
+          title: "VIP Table",
           idname: "vip",
 
           bonus: "Level " + viprules?.minLevel,

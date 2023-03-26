@@ -28,7 +28,7 @@ const LevelList = (prop) => {
         >
           {gameData.map((submenu, i) => {
             return (
-              <LazyLoad key={i} height={130} once>
+              <LazyLoad key={i} height={130}>
                 <div
                   id={"open" + submenu}
                   as="a"
@@ -44,9 +44,6 @@ const LevelList = (prop) => {
               </LazyLoad>
             );
           })}
-          <span className="hiddenmenu">
-            <LastRewardList mode="levels" {...prop} />
-          </span>
         </List>
       </span>
     </span>

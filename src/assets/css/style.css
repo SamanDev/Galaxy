@@ -17,6 +17,10 @@ html,body {
 
   overflow-x: hidden !important;
 }
+
+#lazyarea .mm-listitem__text{
+  padding: 15px 0px !important;
+}
 .reactour__mask {
  right: 0;
 overflow: hidden !important;

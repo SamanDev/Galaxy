@@ -77,7 +77,7 @@ const Banner = (prop) => {
                   classinside="iconinside2"
                   number={prop.number}
                   amin={"inline animated " + prop.amin}
-                  width="12vw"
+                  width="10vw"
                   iconamin={"inline animated delay-2s " + prop.iconamin}
                 />
               </div>
@@ -235,9 +235,11 @@ const Dashboard = (prop) => {
       setRefresh(0);
       window.deferredPrompt = null;
     });
-    setTimeout(() => {
-      $(".add-button").trigger("click");
-    }, 1000);
+    if (window.deferredPrompt) {
+      setTimeout(() => {
+        $(".add-button").trigger("click");
+      }, 1000);
+    }
   };
 
   const handleSession = async () => {

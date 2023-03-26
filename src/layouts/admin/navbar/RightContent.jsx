@@ -12,14 +12,20 @@ import {
 import Tour from "../../../Tour";
 import { loginService, getUserService } from "../../../services/auth";
 import eventBus from "../../../services/eventBus";
+import { isJson } from "../../../const";
 const Rightcontent = (prop) => {
   const activePanel = prop.activePanel;
   const [loading, setLoading] = useState(false);
 
   const keysArea = () => {
     var loginKey = localStorage.getItem("galaxyUserkeyToken");
-    var loginToken = JSON.parse(localStorage.getItem(loginKey + "Token"));
-    if (!loginToken?.accessToken) return null;
+    try {
+      var loginToken = JSON.parse(localStorage.getItem(loginKey + "Token"));
+    } catch (error) {
+      return null;
+    }
+
+    if (!loginToken?.accessToken || !isJson(loginToken)) return null;
     var _key = [
       {
         key: "1",
@@ -75,31 +81,7 @@ const Rightcontent = (prop) => {
       </div>
     );
   };
-  const handleCheckLogin = async (value) => {
-    setLoading(true);
-    try {
-      const res = await getUserService();
-      if (res.status == 200) {
-        var loginToken = JSON.parse(
-          localStorage.getItem(res.data.username + "Token")
-        );
 
-        eventBus.dispatch("updateUser", loginToken);
-      }
-      setLoading(false);
-    } catch (error) {
-      setLoading(false);
-
-      if (localStorage.getItem("galaxyUserkeyToken")) {
-        localStorage.setItem(
-          "oldgalaxyUserkey",
-          localStorage.getItem("galaxyUserkeyToken")
-        );
-        localStorage.removeItem("galaxyUserkeyToken");
-      }
-      prop.setFirstOpen(true);
-    }
-  };
   const handleChange = (e, { value }) => {
     var _old = prop.loginToken;
     _old.logout = true;

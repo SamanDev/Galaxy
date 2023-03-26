@@ -131,6 +131,14 @@ const LevelList = (prop) => {
             </List.Content>
           </List.Item>
         </List>
+        <LazyLoad height={70} throttle={100}>
+          <ul className="mm-listview">
+            <li className="menutitle mm-listitem"></li>
+            <li className="menutitle mm-listitem">
+              <span className="mm-listitem__text">لیست جوایز لیگ گلکسی</span>
+            </li>
+          </ul>
+        </LazyLoad>
         <List
           divided
           inverted
@@ -138,12 +146,6 @@ const LevelList = (prop) => {
           className="myaccount"
           style={{ padding: "0 20px" }}
         >
-          <ul className="mm-listview menutitle-view">
-            <li className="menutitle mm-listitem"></li>
-            <li className="menutitle mm-listitem">
-              <span className="mm-listitem__text">لیست جوایز لیگ گلکسی</span>
-            </li>
-          </ul>
           {siteInfo.dailyLeagueSet.map((x, i) => {
             totalReward += x.reward;
             var _lvl = i + 1;
@@ -156,13 +158,7 @@ const LevelList = (prop) => {
               _point = data[i].dailyPoint;
             }
             return (
-              <LazyLoad
-                key={i}
-                height={91}
-                throttle={100}
-                once
-                className="item"
-              >
+              <LazyLoad key={i} height={91} className="item">
                 <List.Item
                   key={i}
                   id={"lvl" + (i + 1)}
@@ -218,7 +214,9 @@ const LevelList = (prop) => {
             );
           })}
         </List>
-        <LastRewardList mode="league" {...prop} />
+        <LazyLoad height={300}>
+          <LastRewardList mode="league" {...prop} />
+        </LazyLoad>
       </span>
     </span>
   );

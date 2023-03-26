@@ -6,10 +6,11 @@ import MenuLoader from "../../utils/menuLoader";
 import { getRewardsService } from "../../services/reward";
 import RewardStat from "./rewardStat";
 import LazyLoad from "react-lazyload";
+import NoData from "../../utils/noData";
 const LevelList = (prop) => {
   const [data, setData] = useState([]);
 
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const handleGetRewards = async () => {
     setLoading(true);
     try {
@@ -30,15 +31,13 @@ const LevelList = (prop) => {
   if (loading && data.length == 0) {
     return (
       <>
-        <LazyLoad height={500} once throttle={30} overflow>
-          <ul className="mm-listview">
-            <li className="menutitle mm-listitem"></li>
-            <li className="menutitle mm-listitem">
-              <span className="mm-listitem__text">آخرین جوایز</span>
-            </li>
-          </ul>
-          <MenuLoader />
-        </LazyLoad>
+        <ul className="mm-listview">
+          <li className="menutitle mm-listitem"></li>
+          <li className="menutitle mm-listitem">
+            <span className="mm-listitem__text">آخرین جوایز</span>
+          </li>
+        </ul>
+        <MenuLoader />
       </>
     );
   } else {
@@ -46,34 +45,21 @@ const LevelList = (prop) => {
       <>
         <ul className="mm-listview ">
           <li className="menutitle mm-listitem"></li>
-          <LazyLoad height={70} once throttle={30} overflow>
-            <li className="menutitle mm-listitem">
-              <span className="mm-listitem__text">آخرین جوایز</span>
-            </li>
-          </LazyLoad>
-          <LazyLoad height={250} once throttle={30} overflow>
-            <div className={"animated fadeIn"}>
-              <RewardStat lastReward={data} />
-            </div>
-          </LazyLoad>
+
+          <li className="menutitle mm-listitem">
+            <span className="mm-listitem__text">آخرین جوایز</span>
+          </li>
+
+          <div className={"animated fadeIn"}>
+            <RewardStat lastReward={data} />
+          </div>
         </ul>
         <List divided inverted verticalAlign="middle" className="myaccount">
-          {data.length == 0 && !prop.pending && (
+          {data.length == 0 && (
             <>
               <List.Item>
                 <List.Content>
-                  <List.Description className="farsi text-center">
-                    <Icon
-                      circular
-                      color="teal"
-                      name="clipboard outline"
-                      size="big"
-                      inverted
-                    />
-                    <br />
-                    <br />
-                    هیچ رکوردی یافت نشد.
-                  </List.Description>
+                  <NoData msg="هیچ رکوردی یافت نشد." />
                 </List.Content>
               </List.Item>
             </>
@@ -85,7 +71,7 @@ const LevelList = (prop) => {
               var _text = x.username;
 
               return (
-                <LazyLoad height={98} once throttle={30} overflow key={i}>
+                <LazyLoad height={98} throttle={30} overflow key={i}>
                   <div className={"rewardname animated fadeIn"} mode={x.mode}>
                     <Reward item={x} {...prop} color={true} />
                   </div>

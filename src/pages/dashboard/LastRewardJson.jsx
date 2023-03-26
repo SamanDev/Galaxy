@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { List } from "semantic-ui-react";
+import { List, Placeholder, Segment } from "semantic-ui-react";
 import $ from "jquery";
 import Reward from "../../utils/Reward";
 import eventBus from "../../services/eventBus";
@@ -8,22 +8,12 @@ import LazyLoad from "react-lazyload";
 const ActiveTable = (prop) => {
   const lastReward = prop.lastReward;
 
-  var _sortDataOld = [];
-
-  try {
-    _sortDataOld = JSON.parse(localStorage.getItem("lastRewardSort"));
-  } catch (error) {
-    localStorage.removeItem("lastRewardSort");
-  }
-  if (_sortDataOld == null) {
-    _sortDataOld = [];
-  }
-  const [_sortData, setSortData] = useState(_sortDataOld);
+  const [_sortData, setSortData] = useState([]);
 
   useEffect(() => {
     var myData = lastReward.sort((a, b) => (a.date < b.date ? 1 : -1));
     var _new = myData.filter((d) => !d.class);
-
+    console.log(lastReward);
     var myI = myData.length;
     var newmyI = _new.length;
     if (myI > 0) {
@@ -32,7 +22,7 @@ const ActiveTable = (prop) => {
         myData.map(function (x, i) {
           var myx = x;
 
-          myx.class = "lastlogs";
+          myx.class = "lastlogs animated fadeIn slow";
 
           _sortD.push(myx);
         });
@@ -42,27 +32,37 @@ const ActiveTable = (prop) => {
           if (!x?.class) {
             myx.class =
               "lastlogs id-" + myx.id ? myx.id : i + " hiddenmenu faster";
-
-            setTimeout(() => {
-              prop.animateCSS(".id-" + myx.id ? myx.id : i + "", "fadeInDown");
-              //$("#playreward").trigger("click");
-              prop.bindLastReward();
-            }, 100);
           } else {
-            myx.class = x?.class.replace(/hiddenmenu/g, "");
+            myx.class = x?.class ? x?.class : "fadeInDown";
           }
 
           _sortD.push(myx);
         });
       }
+
       setSortData(_sortD);
     }
   }, [lastReward]);
   useEffect(() => {
-    localStorage.setItem("lastRewardSort", JSON.stringify(_sortData));
-    localStorage.setItem("lastReward", JSON.stringify(_sortData));
+    setTimeout(() => {
+      _sortData
+        .filter((d) => d.class.indexOf("fadeInDown") > -1)
+        .map(function (x, i) {
+          var myx = x;
+
+          myx.class = "lastlogs animated fadeIn slow";
+        });
+    }, 400);
+
     prop.bindLastReward();
   }, [_sortData]);
+  useEffect(() => {
+    eventBus.on("updateLastReward", (dataGet) => {
+      dataGet.class = "lastlogs animated fadeInDown";
+
+      setSortData((previous) => [dataGet].concat(previous));
+    });
+  }, []);
 
   if (!_sortData) return null;
   return (
@@ -77,22 +77,16 @@ const ActiveTable = (prop) => {
         <div
           style={{
             paddingLeft: 17,
-            marginBottom: 50,
+            marginBottom: 150,
             width: "100%",
             overflow: "hidden",
           }}
         >
           {_sortData.map(function (bonus, i) {
             return (
-              <LazyLoad
-                key={i}
-                height={100}
-                offset={100}
-                overflow
-                throttle={30}
-              >
+              <LazyLoad key={i} height={100}>
                 <div
-                  className={bonus?.class + " rewardname animated fadeIn"}
+                  className={bonus?.class + " rewardname"}
                   mode={bonus?.mode.toLowerCase()}
                 >
                   <Reward item={bonus} color={false} {...prop} />

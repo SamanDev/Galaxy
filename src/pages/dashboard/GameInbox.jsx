@@ -12,7 +12,7 @@ const GameInbox = (prop) => {
         <Grid.Row columns={3}>
           <Grid.Column
             mobile={9}
-            tablet={8}
+            tablet={6}
             computer={6}
             as={Link}
             to={"/games/" + gameDataMain[0]}
@@ -26,7 +26,7 @@ const GameInbox = (prop) => {
             />
           </Grid.Column>
           <Grid.Column
-            tablet={8}
+            tablet={6}
             computer={6}
             as={Link}
             to={"/games/" + gameDataMain[1]}
@@ -42,6 +42,7 @@ const GameInbox = (prop) => {
           </Grid.Column>
           <Grid.Column
             computer={4}
+            tablet={4}
             mobile={7}
             onClick={() => {
               prop.openPanel(".games");

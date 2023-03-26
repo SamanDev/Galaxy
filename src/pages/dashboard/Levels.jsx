@@ -26,7 +26,7 @@ const LevelList = (prop) => {
             totalReward += x.reward;
 
             return (
-              <LazyLoad key={i} height={98} once throttle={30} className="item">
+              <LazyLoad key={i} height={98} className="item">
                 <List.Item
                   id={"lvl" + (i + 1)}
                   className={
@@ -84,7 +84,9 @@ const LevelList = (prop) => {
             );
           })}
         </List>
-        <LastRewardList mode="levels" {...prop} />
+        <LazyLoad height={300}>
+          <LastRewardList mode="levels" {...prop} />
+        </LazyLoad>
       </span>
     </span>
   );

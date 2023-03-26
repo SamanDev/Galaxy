@@ -116,7 +116,7 @@ const LevelList = (prop) => {
             </List.Content>
           </List.Item>
         </List>
-        <LazyLoad height={70} throttle={100} once>
+        <LazyLoad height={70}>
           <ul className="mm-listview">
             <li className="menutitle mm-listitem"></li>
             <li className="menutitle mm-listitem">
@@ -135,13 +135,7 @@ const LevelList = (prop) => {
             totalReward += x.reward;
 
             return (
-              <LazyLoad
-                key={i}
-                height={91}
-                throttle={100}
-                once
-                className="item"
-              >
+              <LazyLoad key={i} height={91} className="item">
                 <List.Item
                   className={
                     loginToken?.glevel == i + 1
@@ -195,7 +189,9 @@ const LevelList = (prop) => {
             );
           })}
         </List>
-        <LastRewardList mode="gpass" {...prop} />
+        <LazyLoad height={300}>
+          <LastRewardList mode="gpass" {...prop} />
+        </LazyLoad>
       </span>
     </span>
   );

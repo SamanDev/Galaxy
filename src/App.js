@@ -13,6 +13,7 @@ import {
   startServiceWorker,
 } from "./const";
 import LazyLoad from "react-lazyload";
+import { forceCheck } from "react-lazyload";
 import { Link } from "react-router-dom";
 import { useIsLogin } from "./hook/authHook";
 import { useUser, useSiteInfo } from "./hook/userHook";
@@ -40,7 +41,8 @@ import ChildComp from "./Components";
 const moment = require("moment");
 var menu = "no";
 var api;
-
+var setsize = false;
+var setbindrew = false;
 var nowDay = moment().isoWeekday();
 const animateCSS = (element, animation, prefix = "") =>
   // We create a Promise and return it
@@ -107,9 +109,13 @@ function App(prop) {
       navigate("/games/poker");
     }
   };
+
   function reportWindowSize() {
+    if (setsize) return false;
+    setsize = true;
     console.log("size");
     $("body").removeAttr("style");
+    $("#lazyarea").removeAttr("id");
     setTimeout(() => {
       let viewportWidth = window.innerWidth;
       let viewportHeight = window.innerHeight;
@@ -151,30 +157,37 @@ function App(prop) {
       } catch (error) {
         setTimeout(() => {
           reportWindowSize();
-        }, 1000);
+        }, 500);
       }
-      $(".lazyarea:visible")
-        .closest(".mm-listitem__text")
-        .css({ padding: "15px 0px" })
-        .closest(".mm-listview")
-        .height($(".mm-panel--opened .mm-listview").height() + "px");
+
       $(".lazyarea:visible")
         .closest(".mm-listview")
-        .height($(".mm-panel--opened").height() + "px")
-        .css({ overflow: "auto", padding: 0 })
-        .closest(".mm-panel--opened")
-        .height($(".mm-panel--opened").height() + "px")
-        .css({ overflow: "hidden" });
-      $(".lazyarea:visible")
-        .closest(".mm-listview")
+
+        .attr("id", "lazyarea");
+
+      $("#lazyarea")
+        .parent()
         .unbind()
         .bind("scroll", function () {
           bindLastReward();
+          forceCheck();
         });
+      $("#lazyareapael")
+        .unbind()
+        .bind("scroll", function () {
+          bindLastReward();
+          forceCheck();
+        });
+      setTimeout(() => {
+        setsize = false;
+      }, 1000);
     }, 100);
   }
   function bindActiveTable() {}
   function bindLastReward() {
+    if (setbindrew) return false;
+    setbindrew = true;
+    console.log("bind");
     setTimeout(() => {
       $(".rewardname .iconarea > *")
         .unbind()
@@ -196,6 +209,8 @@ function App(prop) {
           setUserProfile(_u);
           setUserOpen(true);
         });
+
+      setbindrew = false;
     }, 100);
   }
 
@@ -767,7 +782,7 @@ function App(prop) {
           }
         }, 1000);
       }
-    }, 1000);
+    }, 300);
   };
   const openGame = () => {
     navigate("/games/poker");
@@ -793,6 +808,7 @@ function App(prop) {
         );
         localStorage.removeItem("galaxyUserkeyToken");
       }
+      localStorage.setItem("balance", 0);
       UserWebsocket.connect();
 
       navigate("/");
@@ -866,7 +882,7 @@ function App(prop) {
                 .find("a:first > span.mymenu")
                 .text()
             );
-          }, 100);
+          }, 10);
         }
       });
 
@@ -926,6 +942,9 @@ function App(prop) {
     bindAddLink();
     reportWindowSize();
   }, [activeMenu]);
+  useEffect(() => {
+    reportWindowSize();
+  }, [activePanel]);
 
   useEffect(() => {
     if (!loadingLogin) {
@@ -1055,7 +1074,18 @@ function App(prop) {
             onOpen={() => setUserOpen(true)}
             open={userOpen}
             closeIcon
+            dimmer="blurring"
           >
+            <div style={{ height: 100, position: "relative" }}>
+              <div style={{ position: "absolute", zIndex: 0, top: 10 }}>
+                <AnimIcon
+                  icon="dxjqoygy"
+                  width="300px"
+                  height="140px"
+                  trigger="loop"
+                />
+              </div>
+            </div>
             <UserArea
               username={userProfile}
               siteInfo={siteInfo}

@@ -8,163 +8,173 @@ import GalaxyIcon from "../../utils/svganim";
 import ConfettiArea from "../../utils/partymenu";
 import Moment from "react-moment";
 import LevelIcon from "../../utils/svg";
-
+import LazyLoad from "react-lazyload";
 import LastRewardList from "./LastRewardList";
 const LevelList = (prop) => {
   return (
     <span className="myaccount popupmenu">
-      <ConfettiArea recycle={false} numberOfPieces="50" />
-      <List divided inverted verticalAlign="middle" className="myaccount">
-        <List.Item>
-          <List.Content className="rtl text-center">
-            <div>
-              <GalaxyIcon
-                mode="gifts"
-                level="1"
-                text="Galaxy Gifts"
-                classinside="iconinside0"
-                number="1"
-                width="60px"
-                amin="inline animated swing fast"
-                iconamin="swing inline animated"
-              />
-            </div>
-          </List.Content>
-        </List.Item>
+      <span className="lazyarea">
+        <ConfettiArea recycle={false} numberOfPieces="50" />
+        <List
+          divided
+          inverted
+          verticalAlign="middle"
+          className="myaccount"
+          style={{ padding: "0 20px" }}
+        >
+          <List.Item>
+            <List.Content className="rtl text-center">
+              <div>
+                <GalaxyIcon
+                  mode="gifts"
+                  level="1"
+                  text="Galaxy Gifts"
+                  classinside="iconinside0"
+                  number="1"
+                  width="60px"
+                  amin="inline animated swing fast"
+                  iconamin="swing inline animated"
+                />
+              </div>
+            </List.Content>
+          </List.Item>
 
-        <List.Item>
-          <List.Content className="rtl text-center">
-            <GiftsDesc
-              desc={
-                <>
-                  <div style={{ float: "right", margin: "0 10px" }}>
-                    <LevelIcon
-                      mode="gift3"
-                      level="1"
-                      text="Gold Gift"
-                      classinside="iconinside0"
-                      number="1"
-                      width="60px"
-                      amin="inline animated swing fast"
-                      iconamin="swing inline animated"
-                    />
-                  </div>
-                  <div
-                    style={{
-                      height: 80,
-                      textAlign: "center",
-                      lineHeight: "40px",
-                    }}
-                  >
-                    مخصوص بازیکنان
-                    <br /> لول {levelDataInfo[4].minLevel} و بالاتر
-                  </div>
-                </>
-              }
-              subtitle={
-                <>
-                  <br />
-                  از{" "}
-                  <span className="text-gold">
-                    {doCurrency(levelDataInfo[4].minAmount)}
-                  </span>{" "}
-                  تا{" "}
-                  <span className="text-gold">
-                    {doCurrency(levelDataInfo[4].maxAmount)}
-                  </span>
-                </>
-              }
-              title={<>هدیه طلایی</>}
-            />
-            <GiftsDesc
-              desc={
-                <>
-                  <div style={{ float: "right", margin: "0 10px" }}>
-                    <LevelIcon
-                      mode="gift2"
-                      level="1"
-                      text="Purple Gift"
-                      classinside="iconinside0"
-                      number="1"
-                      width="60px"
-                      amin="inline animated swing fast"
-                      iconamin="swing inline animated"
-                    />
-                  </div>
-                  <div
-                    style={{
-                      height: 80,
-                      textAlign: "center",
-                      lineHeight: "40px",
-                    }}
-                  >
-                    مخصوص بازیکنان
-                    <br /> لول {levelDataInfo[5].minLevel} تا{" "}
-                    {levelDataInfo[5].maxLevel}
-                  </div>
-                </>
-              }
-              subtitle={
-                <>
-                  <br />
-                  از{" "}
-                  <span className="text-gold">
-                    {doCurrency(levelDataInfo[5].minAmount)}
-                  </span>{" "}
-                  تا{" "}
-                  <span className="text-gold">
-                    {doCurrency(levelDataInfo[5].maxAmount)}
-                  </span>
-                </>
-              }
-              title={<>هدیه بنفش</>}
-            />
-            <GiftsDesc
-              desc={
-                <>
-                  <div style={{ float: "right", margin: "0 10px" }}>
-                    <LevelIcon
-                      mode="gift1"
-                      level="1"
-                      text="Red Gift"
-                      classinside="iconinside0"
-                      number="1"
-                      width="60px"
-                      amin="inline animated swing fast"
-                      iconamin="swing inline animated"
-                    />
-                  </div>
-                  <div
-                    style={{
-                      height: 80,
-                      textAlign: "center",
-                      lineHeight: "40px",
-                    }}
-                  >
-                    مخصوص بازیکنان
-                    <br /> لول {levelDataInfo[6].maxLevel} و پایین تر
-                  </div>
-                </>
-              }
-              subtitle={
-                <>
-                  <br />
-                  از{" "}
-                  <span className="text-gold">
-                    {doCurrency(levelDataInfo[6].minAmount)}
-                  </span>{" "}
-                  تا{" "}
-                  <span className="text-gold">
-                    {doCurrency(levelDataInfo[6].maxAmount)}
-                  </span>
-                </>
-              }
-              title={<>هدیه قرمز</>}
-            />
-          </List.Content>
-        </List.Item>
-        <LastRewardList mode="gift" {...prop} />
-      </List>
+          <List.Item>
+            <List.Content className="rtl text-center">
+              <GiftsDesc
+                desc={
+                  <>
+                    <div style={{ float: "right", margin: "0 10px" }}>
+                      <LevelIcon
+                        mode="gift3"
+                        level="1"
+                        text="Gold Gift"
+                        classinside="iconinside0"
+                        number="1"
+                        width="60px"
+                        amin="inline animated swing fast"
+                        iconamin="swing inline animated"
+                      />
+                    </div>
+                    <div
+                      style={{
+                        height: 80,
+                        textAlign: "center",
+                        lineHeight: "40px",
+                      }}
+                    >
+                      مخصوص بازیکنان
+                      <br /> لول {levelDataInfo[4].minLevel} و بالاتر
+                    </div>
+                  </>
+                }
+                subtitle={
+                  <>
+                    <br />
+                    از{" "}
+                    <span className="text-gold">
+                      {doCurrency(levelDataInfo[4].minAmount)}
+                    </span>{" "}
+                    تا{" "}
+                    <span className="text-gold">
+                      {doCurrency(levelDataInfo[4].maxAmount)}
+                    </span>
+                  </>
+                }
+                title={<>هدیه طلایی</>}
+              />
+              <GiftsDesc
+                desc={
+                  <>
+                    <div style={{ float: "right", margin: "0 10px" }}>
+                      <LevelIcon
+                        mode="gift2"
+                        level="1"
+                        text="Purple Gift"
+                        classinside="iconinside0"
+                        number="1"
+                        width="60px"
+                        amin="inline animated swing fast"
+                        iconamin="swing inline animated"
+                      />
+                    </div>
+                    <div
+                      style={{
+                        height: 80,
+                        textAlign: "center",
+                        lineHeight: "40px",
+                      }}
+                    >
+                      مخصوص بازیکنان
+                      <br /> لول {levelDataInfo[5].minLevel} تا{" "}
+                      {levelDataInfo[5].maxLevel}
+                    </div>
+                  </>
+                }
+                subtitle={
+                  <>
+                    <br />
+                    از{" "}
+                    <span className="text-gold">
+                      {doCurrency(levelDataInfo[5].minAmount)}
+                    </span>{" "}
+                    تا{" "}
+                    <span className="text-gold">
+                      {doCurrency(levelDataInfo[5].maxAmount)}
+                    </span>
+                  </>
+                }
+                title={<>هدیه بنفش</>}
+              />
+              <GiftsDesc
+                desc={
+                  <>
+                    <div style={{ float: "right", margin: "0 10px" }}>
+                      <LevelIcon
+                        mode="gift1"
+                        level="1"
+                        text="Red Gift"
+                        classinside="iconinside0"
+                        number="1"
+                        width="60px"
+                        amin="inline animated swing fast"
+                        iconamin="swing inline animated"
+                      />
+                    </div>
+                    <div
+                      style={{
+                        height: 80,
+                        textAlign: "center",
+                        lineHeight: "40px",
+                      }}
+                    >
+                      مخصوص بازیکنان
+                      <br /> لول {levelDataInfo[6].maxLevel} و پایین تر
+                    </div>
+                  </>
+                }
+                subtitle={
+                  <>
+                    <br />
+                    از{" "}
+                    <span className="text-gold">
+                      {doCurrency(levelDataInfo[6].minAmount)}
+                    </span>{" "}
+                    تا{" "}
+                    <span className="text-gold">
+                      {doCurrency(levelDataInfo[6].maxAmount)}
+                    </span>
+                  </>
+                }
+                title={<>هدیه قرمز</>}
+              />
+            </List.Content>
+          </List.Item>
+        </List>
+        <LazyLoad height={300}>
+          <LastRewardList mode="gift" {...prop} />
+        </LazyLoad>
+      </span>
     </span>
   );
 };

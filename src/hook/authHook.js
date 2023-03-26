@@ -21,17 +21,37 @@ export const useIsLogin = () => {
   useEffect(() => {
     var loginKey = localStorage.getItem("galaxyUserkeyToken");
 
-    var loginToken = JSON.parse(localStorage.getItem(loginKey + "Token"));
-
-    if (
-      loginToken?.accessToken &&
-      window.location.href.toString().indexOf("/logout") == -1
-    ) {
-      handleCheckLogin();
-    } else {
+    try {
+      var loginToken = JSON.parse(localStorage.getItem(loginKey + "Token"));
+      if (
+        loginToken?.accessToken &&
+        window.location.href.toString().indexOf("/logout") == -1
+      ) {
+        handleCheckLogin();
+      } else {
+        if (!loginToken?.accessToken) {
+          UserWebsocket.connect();
+          localStorage.removeItem(loginKey + "Token");
+          localStorage.setItem("balance", 0);
+          setIsLogin(false);
+          setLoading(false);
+          localStorage.removeItem("galaxyUserkeyToken");
+        } else {
+          UserWebsocket.connect();
+          setIsLogin(false);
+          setLoading(false);
+        }
+        UserWebsocket.connect();
+        setIsLogin(false);
+        setLoading(false);
+      }
+    } catch (error) {
       UserWebsocket.connect();
+      localStorage.removeItem(loginKey + "Token");
+      localStorage.setItem("balance", 0);
       setIsLogin(false);
       setLoading(false);
+      localStorage.removeItem("galaxyUserkeyToken");
     }
   }, []);
 
