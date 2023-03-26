@@ -20,7 +20,7 @@ const GameInbox = (prop) => {
           >
             <GameBox
               game={gameDataMain[0]}
-              trigger="boomerang"
+              trigger="loop"
               height="130px"
               stroke="10"
             />
@@ -48,7 +48,7 @@ const GameInbox = (prop) => {
               prop.openPanel(".games");
             }}
           >
-            <GameBox game="more" trigger="boomerang" height="130px" />
+            <GameBox game="more" height="130px" />
           </Grid.Column>
         </Grid.Row>
       </Grid>

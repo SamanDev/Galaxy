@@ -113,21 +113,22 @@ function App(prop) {
   function reportWindowSize() {
     if (setsize) return false;
     setsize = true;
-    console.log("size");
     $("body").removeAttr("style");
-    $("#lazyarea").removeAttr("id");
     setTimeout(() => {
+      console.log("size");
+
+      $("#lazyarea:not(:visible)").removeAttr("id");
       let viewportWidth = window.innerWidth;
       let viewportHeight = window.innerHeight;
 
       $("body").width(viewportWidth + "px");
       $("body").scrollLeft(0);
       $(".grid lord-icon").each(function () {
-        var ww = $(this).closest(".ui").width();
+        var ww = $(this).closest(".ui").height();
         if (ww > viewportWidth / 1.5) {
-          ww = viewportWidth - 50;
+          ww = viewportWidth - 5;
         } else {
-          ww = ww / 2;
+          ww = ww / 1.3;
         }
 
         $(this).width(ww);
@@ -156,6 +157,7 @@ function App(prop) {
         $(".panelhalf").height(pHalf + "px");
       } catch (error) {
         setTimeout(() => {
+          setsize = false;
           reportWindowSize();
         }, 500);
       }
@@ -170,17 +172,15 @@ function App(prop) {
         .unbind()
         .bind("scroll", function () {
           bindLastReward();
-          forceCheck();
         });
       $("#lazyareapael")
         .unbind()
         .bind("scroll", function () {
           bindLastReward();
-          forceCheck();
+          //forceCheck();
         });
-      setTimeout(() => {
-        setsize = false;
-      }, 1000);
+
+      setsize = false;
     }, 100);
   }
   function bindActiveTable() {}
@@ -189,6 +189,7 @@ function App(prop) {
     setbindrew = true;
     console.log("bind");
     setTimeout(() => {
+      forceCheck();
       $(".rewardname .iconarea > *")
         .unbind()
         .bind("click", function () {
@@ -782,7 +783,7 @@ function App(prop) {
           }
         }, 1000);
       }
-    }, 300);
+    }, 30);
   };
   const openGame = () => {
     navigate("/games/poker");
@@ -882,7 +883,7 @@ function App(prop) {
                 .find("a:first > span.mymenu")
                 .text()
             );
-          }, 10);
+          }, 100);
         }
       });
 

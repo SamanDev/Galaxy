@@ -69,7 +69,6 @@ const depositArea = (prop) => {
       <>
         <Segment
           inverted
-          className="fadeoutend"
           style={{
             paddingBottom: 100,
             boxShadow: "0 40px 50px rgba(81,88,95,.6549019607843137)",

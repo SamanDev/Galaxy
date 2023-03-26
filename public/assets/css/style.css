@@ -9,10 +9,17 @@
  
 }
 
+#mypage * {
+  -webkit-user-select:none !important
+}
 html,body {
   background: #384146;
 
   overflow-x: hidden !important;
+}
+
+#lazyarea .mm-listitem__text{
+  padding: 15px 0px !important;
 }
 .reactour__mask {
  right: 0;
@@ -181,14 +188,14 @@ display: block;
 .swal-modal,
 .swal2-modal {
   background-color: rgb(56, 65, 74) !important;
-  background-image: url(/assets/images/bgs/bg.svg);
+  background-image: url(../images/bgs/bg.svg);
   background-position-x: 50%, 50%;
   background-position-y: 0%, 0%;
   background-size: auto, auto;
 }
 .swal2-popup:not(.swal2-show) {
   background-color: rgb(30, 36, 41) !important;
-  background-image: url(/assets/images/bgs/bg.svg);
+  background-image: url(../images/bgs/bg.svg);
   background-position-x: 50%, 50%;
   background-position-y: 0%, 0%;
   background-size: auto, auto;
@@ -258,7 +265,7 @@ a {
   height: 65px;
   position: relative;
 
-  content: url(/assets/images/logo.png);
+  content: url(../images/logo.png);
   text-align: center;
  
 }
@@ -367,7 +374,7 @@ a {
   
   min-width: auto !important;
   min-height: auto !important;
-  transition: all 100ms ease;
+  transition: all 10ms ease;
   
   top: 0;
   left: 0;
@@ -414,6 +421,9 @@ body.fullscreen .fullopenpanel{
 .menutitle-view{
   margin: 0 -20px !important;
 }
+.App{
+  overflow: hidden;
+}
 .banner {
   width: calc(100%);
   height: calc(90vh - 74px);
@@ -421,7 +431,10 @@ body.fullscreen .fullopenpanel{
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 100ms ease;
+  -webkit-transition: .5s ease-in-out;
+  -moz-transition: .5s ease-in-out;
+  -o-transition: .5s ease-in-out;
+  transition: .5s ease-in-out;
   -webkit-font-smoothing: antialiased;
 }
 .iconarea {
@@ -470,11 +483,11 @@ body.fullscreen .fullopenpanel{
   line-height: 18px;
 }
 .banner h1 {
-  font-weight: 600;
+  font-weight: 500;
   font-size: 3vw;
   color: #ffde00;
   margin-bottom: 3vh;
-  text-shadow: 0px 0px 3px rgba(0, 0, 0, 0.2) !important;
+  text-shadow: 1px 1px 1px #ffde00,0px 0px 3px rgba(0, 0, 0, 0.2) !important;
 }
 .banner .text {
   font-weight: 400;
@@ -495,7 +508,7 @@ body.fullscreen .fullopenpanel{
   z-index: 100;
 }
 .text-gold {
-  color: gold !important;
+  color: #e8b730 !important;
 }
 .bg-gold {
   background: rgba(255, 215, 0,.5) !important;
@@ -750,7 +763,7 @@ overflow: auto;
   min-width: 250px !important;
   max-width: 340px !important;
   opacity: 0;
-  transition: all .3s ease;
+  transition: all .1s ease;
 }
 #panelright.active{
   opacity: 1;
@@ -999,19 +1012,21 @@ a.mm-listitem__text {
 }
 .mm-menu span.mymenu {
   font-size: 13px;
-  padding-left: 60px;
+  padding-left: 80px;
+  line-height: 45px;
+
 }
 .mm-menu .mm-btn i {
   background: rgba(255, 255, 255, 0.05);
 
-  width: 50px;
+  width: 70px;
   position: absolute;
-  height: 51px;
+  height: 71px;
   text-align: center;
-  line-height: 50px;
+  line-height: 70px;
   top: 0;
   left: -14px;
-  font-size: 15px;
+  font-size: 20px;
 }
 .mm-menu input:focus,
 .mm-menu input:focus-visible,
@@ -1238,7 +1253,7 @@ a.mm-listitem__text {
   text-align: right !important;
 
   right: 0;
-  z-index: 1000;
+  z-index: 10000000;
 }
 .gameicons i.icon {
   display: block;
@@ -1277,11 +1292,13 @@ a.mm-listitem__text {
   right: 5px;
 }
 .ui.floating.label.myfloatmenu {
-  top: 15px;
+  top: 25px;
   left: auto;
   min-width: 60px;
   right: 10px;
   text-align: center;
+  font-weight: 100;
+  font-size: .64285714rem;
 }
 .animated.inline {
   display: inline-block !important;
@@ -1401,7 +1418,7 @@ svg text {
   width: 1.18em;
   height: 1em;
 }
-.popupmenu .item {
+.popupmenu .list > .item {
   padding: 16px 0 !important;
 }
 
@@ -1453,7 +1470,7 @@ svg text {
 }
 .popupmenu .item .content.rtl {
   line-height: 20px !important;
-  font-weight: 600;
+  font-weight: 500;
 }
 .popupmenu .userblock .item .content {
   line-height: 20px !important;
@@ -1470,7 +1487,7 @@ svg text {
   margin: 10px 0;
 }
 .ui.floating.label.myfloatmenubonus {
-  top: 15px;
+  top: 25px;
   left: auto;
 
   right: 80px;
@@ -1823,7 +1840,7 @@ i.inverted.circular.black {
 }
 
 .navbar.fixed-top {
-  z-index: unset !important;
+  z-index: 2 !important;
   background:rgb(31 36 41) !important;
  height: 65px;
 }
@@ -2100,7 +2117,7 @@ table {
   transition: all 100ms ease;
   -webkit-font-smoothing: antialiased;
   background-color: rgb(56, 65, 74) !important;
-  background-image: url("/assets/images/bgs/bg.svg");
+  background-image: url("../images/bgs/bg.svg");
   background-position-x: 50%, 50%;
   background-position-y: 0%, 0%;
   background-size: 100%;
@@ -2110,18 +2127,19 @@ table {
 }
 #dashboard_section {
  position: relative;
+ overflow: hidden;
 
 }
 #dashboard_section:before {
   content: ' ';
   display: block;
-  position: absolute;
+  position: fixed;
   left: 0;
-  top: 0;
+  top: 65px;
   width: 100%;
   height: 100%;
   opacity: 0.6;
-  background-image: url("/assets/images/bgs/1-min.webp");
+  background-image: url("../images/bgs/1-min.webp");
   background-size: 70%;
 
   background-repeat: no-repeat;
@@ -2129,7 +2147,7 @@ table {
   
 }
 #dashboard_sectio2sn {
-  background-image: url("/assets/images/bgs/3.png");
+  background-image: url("../images/bgs/3.png");
   background-size: auto, auto;
   background-repeat: no-repeat;
 }

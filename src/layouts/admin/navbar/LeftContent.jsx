@@ -70,13 +70,12 @@ const Leftcontent = (prop) => {
           <span></span>
           <span></span>
           <span></span>
+          {tCount > 0 && (
+            <Label color="red" circular floating size="big"></Label>
+          )}
         </div>
-        {tCount > 0 && (
-          <Label color="red" floating size="big">
-            {tCount}
-          </Label>
-        )}
       </Segment>
+
       {loginToken?.logout || !loginToken?.accessToken ? (
         <>
           <Login {...prop} />

@@ -58,7 +58,7 @@ const printreward = (data, mode) => {
         marginRight: 10,
         position: "relative",
         top: -13,
-        background: "rgba(0,0,0,.2)",
+        background: "rgba(0,0,0,1)",
         overflow: "auto",
         height: 200,
       }}
@@ -66,7 +66,7 @@ const printreward = (data, mode) => {
     >
       {_data.map((x, i) => {
         return (
-          <LazyLoad height={91} key={i} throttle={30}>
+          <LazyLoad height={91} key={i}>
             <div className={"rewardname animated fadeIn"} mode={x.mode} key={i}>
               <Reward item={x} color={true} />
             </div>
@@ -83,13 +83,15 @@ const Balance = (prop) => {
 
     const newIndex = activeIndex === index ? -1 : index;
     setActiveIndex(newIndex);
+  };
+  useEffect(() => {
+    forceCheck();
     $(".lazyareaforce:visible")
       .unbind()
       .bind("scroll", function () {
         forceCheck();
       });
-    forceCheck();
-  };
+  }, [activeIndex]);
   const printtotalrowBox = (index, loginToken, mode, title) => {
     if (
       gettotal(loginToken.userGifts, mode.replace("gifts", "gift"), "count") ==
@@ -219,12 +221,16 @@ const Balance = (prop) => {
         <Segment
           inverted
           padded
-          style={{ background: "rgba(255,255,255,0.05)" }}
+          style={{
+            background: "rgba(0,0,0,.5)",
+            position: "relative",
+            top: -30,
+          }}
         >
           <div
-            className="position-absolute opacity-25"
+            className="position-absolute opacity-50"
             style={{
-              zIndex: -1,
+              zIndex: 0,
               transform: "rotate(-25deg) translateY(-60px) translateX(-60px)",
             }}
           >
@@ -265,7 +271,11 @@ const Balance = (prop) => {
         <Segment
           inverted
           padded
-          style={{ background: "rgba(255,255,255,0.02)" }}
+          style={{
+            background: "transparent",
+            position: "relative",
+            top: -50,
+          }}
         >
           <Grid columns={3} centered divided>
             <Grid.Row>
@@ -382,7 +392,15 @@ const Balance = (prop) => {
           </Grid>
         </Segment>
 
-        <Segment inverted padded style={{ background: "rgba(0,0,0,.3)" }}>
+        <Segment
+          inverted
+          padded
+          style={{
+            background: "rgba(0,0,0,.3)",
+            position: "relative",
+            top: -50,
+          }}
+        >
           <Accordion inverted>
             {printtotalrowBox(1, loginToken, "levels", "پاداش لِوِل ها")}
             {printtotalrowBox(2, loginToken, "gpass", "گلکسی پَس")}

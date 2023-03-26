@@ -34,7 +34,7 @@ export function startServiceWorker() {
 function getAPI() {
   //let host = document.location.host;
   var host = {
-    onlinePath: "http://139.99.144.72:8081",
+    onlinePath: "/",
     offlinePath: "http://127.0.0.1:8000",
   };
   //let host = "loole.gg:443";
@@ -42,7 +42,7 @@ function getAPI() {
 
   if (protocol2 == "https:") {
     host = {
-      onlinePath: "https://api.khodekhalse.com",
+      onlinePath: "/",
       offlinePath: "http://127.0.0.1:8000",
     };
   }
@@ -50,14 +50,14 @@ function getAPI() {
   return host;
 }
 function getPort() {
-  //let host = document.location.host;
-  let host = "139.99.144.72:8081";
+  let host = document.location.host;
+  //let host = "139.99.144.72:8081";
   //let host = "loole.gg:443";
   let protocol2 = document.location.protocol;
   let protocol = "";
   if (protocol2 == "https:") {
     protocol = "wss://";
-    host = "api.khodekhalse.com";
+    //host = "";
   } else {
     protocol = "ws://";
   }
@@ -67,14 +67,14 @@ function getPort() {
   return loc;
 }
 function getPortPablic() {
-  //let host = document.location.host;
+  let host = document.location.host;
   //let host = "51.195.176.97:8081";
-  let host = "139.99.144.72:8081";
+  //let host = "139.99.144.72:8081";
   let protocol2 = document.location.protocol;
   let protocol = "";
   if (protocol2 == "https:") {
     protocol = "wss://";
-    host = "api.khodekhalse.com";
+    // host = "";
   } else {
     protocol = "ws://";
   }
