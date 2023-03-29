@@ -16,6 +16,17 @@ const Index = (prop) => {
           }}
         />
         <span
+          id="reportWindowSize"
+          style={{
+            display: "none",
+          }}
+          onClick={() => {
+            setTimeout(() => {
+              prop.reportWindowSize();
+            }, 50);
+          }}
+        />
+        <span
           id="bindlastreward"
           style={{
             display: "none",

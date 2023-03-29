@@ -1,10 +1,8 @@
 import React from "react";
-import { List, Segment, Statistic, Button } from "semantic-ui-react";
+import { Segment } from "semantic-ui-react";
 import ActiveTable from "./pages/dashboard/ActiveTableJson.jsx";
-import RewardStat from "./pages/dashboard/rewardStat";
 import LastReward from "./pages/dashboard/LastRewardJson";
 import { useLastReward } from "./hook/userHook";
-import BonusArea from "./layouts/admin/bonus/index.jsx";
 import $ from "jquery";
 function RightPanel(prop) {
   const [lastReward] = useLastReward();

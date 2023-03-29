@@ -1,13 +1,8 @@
 import React, { useState } from "react";
 import { Button, Message, Icon } from "semantic-ui-react";
 import $ from "jquery";
-const defCol = "black";
-const selCol = "green";
-const defColBtn = "grey";
-const selColBtn = "orange";
 const depositArea = (prop) => {
   const [depMode, setDepMode] = useState(false);
-  const loginToken = prop.loginToken;
   return (
     <>
       <Message color="orange" compact className="mymessage" size="mini" icon>

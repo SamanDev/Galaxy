@@ -36,7 +36,7 @@ function SegmentExamplePlaceholderInline(prop) {
       setRefresh(0);
       window.deferredPrompt = null;
     });
-    $(".add-button").trigger("click");
+    //$(".add-button").trigger("click");
   }, []);
 
   return (

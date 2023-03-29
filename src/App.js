@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, Suspense } from "react";
 import { useLocation } from "react-router-dom";
-import AdminLayout from "./layouts/admin/Index";
-import RightPanel from "./Panel";
-import Login from "./pages/dashboard/Login";
-import { Image, Modal } from "semantic-ui-react";
+
+//const AdminLayout = React.lazy(() => import("./layouts/admin/Index"));
+const RightPanel = React.lazy(() => import("./Panel"));
+
+import { Modal } from "semantic-ui-react";
 import {
   GetMenu,
   haveAdmin,
@@ -15,17 +16,26 @@ import {
 import LazyLoad from "react-lazyload";
 import { forceCheck } from "react-lazyload";
 import { Link } from "react-router-dom";
-import { useIsLogin } from "./hook/authHook";
 import { useUser, useSiteInfo } from "./hook/userHook";
 
 import $ from "jquery";
 import { Route, Routes } from "react-router-dom";
+import { useIsLogin } from "./hook/authHook";
+import AdminLayout from "./layouts/admin/Index";
 import { useNavigate } from "react-router-dom";
-import LoginArea from "./layouts/admin/auth/Login.jsx";
-import RegisterArea from "./layouts/admin/auth/Register.jsx";
-import ForgetArea from "./layouts/admin/auth/Forget";
+import MenuLoader from "./utils/menuLoader";
+//import LoginArea from "./layouts/admin/auth/Login.jsx";
+const LoginArea = React.lazy(() => import("./layouts/admin/auth/Login.jsx"));
+const RegisterArea = React.lazy(() =>
+  import("./layouts/admin/auth/Register.jsx")
+);
+const ForgetArea = React.lazy(() => import("./layouts/admin/auth/Forget.jsx"));
+const UserArea = React.lazy(() =>
+  import("./layouts/admin/auth/user.component")
+);
+
 import DCArea from "./layouts/admin/auth/dc.component";
-import UserArea from "./layouts/admin/auth/user.component";
+
 import GalaxyIcon from "./utils/svg";
 import { siteMethodDef } from "./const";
 import AnimIcon from "./utils/inviteIcon";
@@ -33,7 +43,7 @@ import GameBox from "./utils/GameBox";
 import ConfettiArea from "./utils/partyclick";
 import { Dimmer, Loader } from "semantic-ui-react";
 import UserWebsocket from "./services/user.websocket";
-import { loginService, getUserService } from "./services/auth";
+import { loginService } from "./services/auth";
 import eventBus from "./services/eventBus";
 import { cashierService } from "./services/cashier";
 import ChildComp from "./Components";
@@ -113,11 +123,10 @@ function App(prop) {
   function reportWindowSize() {
     if (setsize) return false;
     setsize = true;
+
     $("body").removeAttr("style");
     setTimeout(() => {
-      console.log("size");
-
-      $("#lazyarea:not(:visible)").removeAttr("id");
+      $("#lazyarea").removeAttr("id");
       let viewportWidth = window.innerWidth;
       let viewportHeight = window.innerHeight;
 
@@ -161,18 +170,19 @@ function App(prop) {
           reportWindowSize();
         }, 500);
       }
-
-      $(".lazyarea:visible")
-        .closest(".mm-listview")
-
-        .attr("id", "lazyarea");
-
-      $("#lazyarea")
-        .parent()
+      $(".mm-panel--opened:visible")
         .unbind()
         .bind("scroll", function () {
           bindLastReward();
         });
+      if (
+        $(".mm-panel--opened:visible").find(".lazyarea").length > 0 &&
+        $(".mm-panel--opened:visible").find("#lazyarea").length == 0
+      ) {
+        $(".mm-panel--opened:visible")
+          .find(".mm-listview:first")
+          .attr("id", "lazyarea");
+      }
       $("#lazyareapael")
         .unbind()
         .bind("scroll", function () {
@@ -189,7 +199,6 @@ function App(prop) {
     setbindrew = true;
     console.log("bind");
     setTimeout(() => {
-      forceCheck();
       $(".rewardname .iconarea > *")
         .unbind()
         .bind("click", function () {
@@ -210,9 +219,9 @@ function App(prop) {
           setUserProfile(_u);
           setUserOpen(true);
         });
-
+      forceCheck();
       setbindrew = false;
-    }, 100);
+    }, 500);
   }
 
   function getLinkId(str) {
@@ -758,7 +767,9 @@ function App(prop) {
     $(".item.active").removeClass("active");
     api.open();
     const panel = document.querySelector(_id);
+    console.log(_id);
     api.openPanel(panel);
+
     setTimeout(() => {
       var scrollTo = $(_id).find(toId);
       if (scrollTo.length > 0 && toId) {
@@ -867,17 +878,16 @@ function App(prop) {
 
       api.bind("openPanel:before", (panel) => {
         setActiveMenu("main");
-
         var _parent = $("#" + panel.id + "").attr("data-mm-parent");
-
+        console.log(
+          $("#" + _parent)
+            .find("a:first > span.mymenu")
+            .text()
+        );
         if (_parent) {
           setTimeout(() => {
             var _parent = $("#" + panel.id + "").attr("data-mm-parent");
-            console.log(
-              $("#" + _parent)
-                .find("a:first > span.mymenu")
-                .text()
-            );
+
             setActiveMenu(
               $("#" + _parent)
                 .find("a:first > span.mymenu")
@@ -918,6 +928,7 @@ function App(prop) {
           }
         }
       });
+      api.bind("close:after", () => {});
       api.bind("open:after", () => {
         setActivePanel(false);
         $(".picn").removeClass("open");
@@ -1087,13 +1098,15 @@ function App(prop) {
                 />
               </div>
             </div>
-            <UserArea
-              username={userProfile}
-              siteInfo={siteInfo}
-              loginToken={loginToken}
-              size="small"
-              labelcolor="orange"
-            />
+            <Suspense fallback={<MenuLoader />}>
+              <UserArea
+                username={userProfile}
+                siteInfo={siteInfo}
+                loginToken={loginToken}
+                size="small"
+                labelcolor="orange"
+              />
+            </Suspense>
           </Modal>
           <Modal
             basic
@@ -1142,17 +1155,19 @@ function App(prop) {
                 />
               </div>
             </div>
-            <LoginArea
-              setFirstOpen={setFirstOpen}
-              setSecondOpen={setSecondOpen}
-              setThirdOpen={setThirdOpen}
-              isLogin={isUser}
-              loadingLogin={loadingLogin}
-              loginToken={loginToken}
-              setIsUser={setIsUser}
-              size="small"
-              labelcolor="orange"
-            />
+            <Suspense fallback={<MenuLoader />}>
+              <LoginArea
+                setFirstOpen={setFirstOpen}
+                setSecondOpen={setSecondOpen}
+                setThirdOpen={setThirdOpen}
+                isLogin={isUser}
+                loadingLogin={loadingLogin}
+                loginToken={loginToken}
+                setIsUser={setIsUser}
+                size="small"
+                labelcolor="orange"
+              />
+            </Suspense>
           </Modal>
           <Modal
             basic
@@ -1179,16 +1194,18 @@ function App(prop) {
                 />
               </div>
             </div>
-            <ForgetArea
-              setFirstOpen={setFirstOpen}
-              setSecondOpen={setSecondOpen}
-              setThirdOpen={setThirdOpen}
-              isLogin={isUser}
-              loadingLogin={loadingLogin}
-              setIsUser={setIsUser}
-              size="small"
-              labelcolor="blue"
-            />
+            <Suspense fallback={<MenuLoader />}>
+              <ForgetArea
+                setFirstOpen={setFirstOpen}
+                setSecondOpen={setSecondOpen}
+                setThirdOpen={setThirdOpen}
+                isLogin={isUser}
+                loadingLogin={loadingLogin}
+                setIsUser={setIsUser}
+                size="small"
+                labelcolor="blue"
+              />
+            </Suspense>
           </Modal>
           <Modal
             basic
@@ -1215,102 +1232,44 @@ function App(prop) {
                 />
               </div>
             </div>
-            <RegisterArea
-              setFirstOpen={setFirstOpen}
-              setSecondOpen={setSecondOpen}
-              isLogin={isUser}
-              loadingLogin={loadingLogin}
-              setIsUser={setIsUser}
-              size="small"
-              labelcolor="green"
-            />
+            <Suspense fallback={<MenuLoader />}>
+              <RegisterArea
+                setFirstOpen={setFirstOpen}
+                setSecondOpen={setSecondOpen}
+                isLogin={isUser}
+                loadingLogin={loadingLogin}
+                setIsUser={setIsUser}
+                size="small"
+                labelcolor="green"
+              />
+            </Suspense>
           </Modal>
 
-          <Routes>
-            <Route
-              path="/login"
-              element={
-                <AdminLayout
-                  loginToken={loginToken}
-                  siteInfo={siteInfo}
-                  openPanel={openPanel}
-                  setActivePanel={setActivePanel}
-                  activePanel={activePanel}
-                  animateCSS={animateCSS}
-                  bindActiveTable={bindActiveTable}
-                  bindLastReward={bindLastReward}
-                  openPanelRight={openPanelRight}
-                  openGame={openGame}
-                  setFirstOpen={setFirstOpen}
-                  setSecondOpen={setSecondOpen}
-                  setActiveMenu={setActiveMenu}
-                  activeMenu={activeMenu}
-                  isLogin={isUser}
-                  loadingLogin={loadingLogin}
-                  getAccess={getAccess}
-                  setRefresh={setRefresh}
-                  setUserProfile={setUserProfile}
-                  setUserOpen={setUserOpen}
-                />
-              }
-            />
-            <Route
-              path="/register"
-              element={
-                <AdminLayout
-                  loginToken={loginToken}
-                  siteInfo={siteInfo}
-                  openPanel={openPanel}
-                  setActivePanel={setActivePanel}
-                  activePanel={activePanel}
-                  animateCSS={animateCSS}
-                  bindActiveTable={bindActiveTable}
-                  bindLastReward={bindLastReward}
-                  openPanelRight={openPanelRight}
-                  openGame={openGame}
-                  setFirstOpen={setFirstOpen}
-                  setSecondOpen={setSecondOpen}
-                  setActiveMenu={setActiveMenu}
-                  activeMenu={activeMenu}
-                  isLogin={isUser}
-                  loadingLogin={loadingLogin}
-                  getAccess={getAccess}
-                  setRefresh={setRefresh}
-                  setUserProfile={setUserProfile}
-                  setUserOpen={setUserOpen}
-                />
-              }
-            />
-            <Route
-              path="*"
-              element={
-                <AdminLayout
-                  loginToken={loginToken}
-                  siteInfo={siteInfo}
-                  openPanel={openPanel}
-                  activePanel={activePanel}
-                  setActivePanel={setActivePanel}
-                  animateCSS={animateCSS}
-                  bindActiveTable={bindActiveTable}
-                  bindLastReward={bindLastReward}
-                  openPanelRight={openPanelRight}
-                  openGame={openGame}
-                  setFirstOpen={setFirstOpen}
-                  setSecondOpen={setSecondOpen}
-                  setActiveMenu={setActiveMenu}
-                  activeMenu={activeMenu}
-                  isLogin={isUser}
-                  loadingLogin={loadingLogin}
-                  getAccess={getAccess}
-                  setRefresh={setRefresh}
-                  setUserProfile={setUserProfile}
-                  setUserOpen={setUserOpen}
-                  reportWindowSize={reportWindowSize}
-                  handleOpenTable={handleOpenTable}
-                />
-              }
-            />
-          </Routes>
+          <AdminLayout
+            loginToken={loginToken}
+            siteInfo={siteInfo}
+            openPanel={openPanel}
+            activePanel={activePanel}
+            setActivePanel={setActivePanel}
+            animateCSS={animateCSS}
+            bindActiveTable={bindActiveTable}
+            bindLastReward={bindLastReward}
+            openPanelRight={openPanelRight}
+            openGame={openGame}
+            setFirstOpen={setFirstOpen}
+            setSecondOpen={setSecondOpen}
+            setActiveMenu={setActiveMenu}
+            activeMenu={activeMenu}
+            isLogin={isUser}
+            loadingLogin={loadingLogin}
+            getAccess={getAccess}
+            setRefresh={setRefresh}
+            setUserProfile={setUserProfile}
+            setUserOpen={setUserOpen}
+            reportWindowSize={reportWindowSize}
+            handleOpenTable={handleOpenTable}
+          />
+
           <div style={{ position: "absolute", top: -1000000 }}>
             <svg
               version="1.1"

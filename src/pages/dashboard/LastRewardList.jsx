@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { Icon, List } from "semantic-ui-react";
+import { List } from "semantic-ui-react";
 import Reward from "../../utils/Reward";
-import { levelLeagueReward } from "../../const";
 import MenuLoader from "../../utils/menuLoader";
 import { getRewardsService } from "../../services/reward";
 import RewardStat from "./rewardStat";

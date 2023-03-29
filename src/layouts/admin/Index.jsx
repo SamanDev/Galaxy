@@ -1,20 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 
 import Content from "../../pages/Content";
 import Navbar from "./navbar/Index";
 import PWAPrompt from "react-ios-pwa-prompt";
 
-import {
-  Grid,
-  Image,
-  Button,
-  Container,
-  Tab,
-  Icon,
-  Dropdown,
-  Dimmer,
-  Loader,
-} from "semantic-ui-react";
+import { Image } from "semantic-ui-react";
 const Index = (prop) => {
   return (
     <>

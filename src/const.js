@@ -1,10 +1,3 @@
-import React from "react";
-import Accordion from "./pages/dashboard/Support";
-
-import TopPlayers from "./pages/dashboard/TopPlayers";
-import KingOf from "./pages/dashboard/KingOf";
-import Tournament from "./pages/dashboard/Tournament";
-
 export const APIURL = getAPI();
 export const USERSOCKETURL = getPort();
 export const USERSOCKETPUBLICURL = getPortPablic();
@@ -34,7 +27,7 @@ export function startServiceWorker() {
 function getAPI() {
   //let host = document.location.host;
   var host = {
-    onlinePath: "139.99.144.72:8081",
+    onlinePath: "http://139.99.144.72:8081",
     offlinePath: "http://127.0.0.1:8000",
   };
   //let host = "loole.gg:443";
@@ -50,8 +43,8 @@ function getAPI() {
   return host;
 }
 function getPort() {
-  let host = document.location.host;
-  //let host = "139.99.144.72:8081";
+  //let host = document.location.host;
+  let host = "139.99.144.72:8081";
   //let host = "loole.gg:443";
   let protocol2 = document.location.protocol;
   let protocol = "";
@@ -67,9 +60,9 @@ function getPort() {
   return loc;
 }
 function getPortPablic() {
-  let host = document.location.host;
+  //let host = document.location.host;
   //let host = "51.195.176.97:8081";
-  //let host = "139.99.144.72:8081";
+  let host = "139.99.144.72:8081";
   let protocol2 = document.location.protocol;
   let protocol = "";
   if (protocol2 == "https:") {
@@ -502,7 +495,7 @@ export const GetMenu = (siteInfo) => {
           icon: "fab fa-viacoin yellow",
           icongalaxy: "topplayer",
           aria: "giftsarea animated bounceIn delay-02s",
-          component: <TopPlayers />,
+          component: "topplayers",
         },
         {
           label: "پادشاهان تورنومنت",
@@ -512,7 +505,7 @@ export const GetMenu = (siteInfo) => {
           icon: "fab fa-viacoin yellow",
           icongalaxy: "kingof",
           aria: "giftsarea animated bounceIn delay-02s",
-          component: <KingOf />,
+          component: "kingsof",
         },
       ],
     },
@@ -602,29 +595,6 @@ export const GetMenu = (siteInfo) => {
   ];
 };
 export const menuData = GetMenu();
-
-function doGame() {
-  var _games = [];
-
-  gameDataMain.map((game, i) =>
-    _games.push({
-      label: game,
-      idname: "login",
-      textclass: "nof",
-      image: game,
-    })
-  );
-  gameData.map((game, i) =>
-    _games.push({
-      label: game,
-      idname: "login",
-      textclass: "nof",
-      image: game,
-    })
-  );
-
-  return _games;
-}
 
 export function doDeposit() {
   var _games = [];

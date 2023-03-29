@@ -1,23 +1,65 @@
-import React, { useContext } from "react";
+import React, { Suspense, lazy } from "react";
 import { Route, Routes } from "react-router-dom";
-import { AdminContext } from "../context/adminLayoutContext";
-import Login from "./dashboard/Login";
-import Dashboard from "./dashboard/Dashboard";
-import Game from "./dashboard/Game";
-import Admin from "./admin/Index";
+
+const Dashboard = lazy(() => import("./dashboard/Dashboard"));
+const Game = lazy(() => import("./dashboard/Game"));
+const Admin = lazy(() => import("./admin/Index"));
+import MenuLoader from "../utils/menuLoader";
 const Content = (prop) => {
   return (
     <section id="content_section" className={`py-2 px-3 panelfull`}>
       <Routes>
-        <Route path="/" element={<Dashboard {...prop} />} />
-        <Route path="/login/:u/:p" element={<Dashboard {...prop} />} />
+        <Route
+          path="/"
+          element={
+            <Suspense fallback={<MenuLoader />}>
+              <Dashboard {...prop} />
+            </Suspense>
+          }
+        />
+        <Route
+          path="/login/:u/:p"
+          element={
+            <Suspense fallback={<MenuLoader />}>
+              <Dashboard {...prop} />
+            </Suspense>
+          }
+        />
 
-        <Route path="/admin" element={<Admin {...prop} />} />
+        <Route
+          path="/admin"
+          element={
+            <Suspense fallback={<MenuLoader />}>
+              <Admin {...prop} />
+            </Suspense>
+          }
+        />
 
-        <Route path="/admin/:username" element={<Admin {...prop} />} />
-        <Route path="/requests" element={<Admin request={true} {...prop} />} />
+        <Route
+          path="/admin/:username"
+          element={
+            <Suspense fallback={<MenuLoader />}>
+              <Admin {...prop} />
+            </Suspense>
+          }
+        />
+        <Route
+          path="/requests"
+          element={
+            <Suspense fallback={<MenuLoader />}>
+              <Admin request={true} {...prop} />
+            </Suspense>
+          }
+        />
         <Route path="/games">
-          <Route path=":gameId" element={<Game {...prop} />} />
+          <Route
+            path=":gameId"
+            element={
+              <Suspense fallback={<MenuLoader />}>
+                <Game {...prop} />
+              </Suspense>
+            }
+          />
         </Route>
       </Routes>
     </section>

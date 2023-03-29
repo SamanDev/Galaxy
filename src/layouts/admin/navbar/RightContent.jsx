@@ -1,16 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 
 import $ from "jquery";
-import {
-  Label,
-  Header,
-  Loader,
-  Dimmer,
-  Segment,
-  Dropdown,
-} from "semantic-ui-react";
+import { Loader, Dimmer, Segment, Dropdown } from "semantic-ui-react";
 import Tour from "../../../Tour";
-import { loginService, getUserService } from "../../../services/auth";
 import eventBus from "../../../services/eventBus";
 import { isJson } from "../../../const";
 const Rightcontent = (prop) => {

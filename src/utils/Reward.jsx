@@ -1,5 +1,5 @@
 import React from "react";
-import { Grid, Modal, Button, Icon } from "semantic-ui-react";
+import { Grid } from "semantic-ui-react";
 import LevelIcon from "./svg";
 import { doCurrency, levelClassInside, levelDataInfo } from "../const";
 import { convertDateToJalali } from "./convertDate";

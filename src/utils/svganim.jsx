@@ -1,6 +1,5 @@
 import React from "react";
 import { levelClass, levelClassInside } from "../const";
-import AnimIcon from "./inviteIcon";
 const LevelIcon = (prop) => {
   if (prop.mode == "gpass") {
     var _txt = prop.number ? prop.number : prop.level;

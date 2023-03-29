@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { List, Segment, Tab, Icon } from "semantic-ui-react";
+import { Segment, Tab } from "semantic-ui-react";
 import Users from "./Users";
 import Bots from "./user/Bots";
 import { Navigate } from "react-router-dom";
@@ -12,7 +12,7 @@ import Requests from "./Requests";
 import Setting from "./JsonSetting";
 import RisingPitch from "./utils/PlayAlert";
 import { adminGetService } from "../../services/admin";
-import { isJson, haveAdmin, haveModerator, doCurrency } from "../../const";
+import { haveAdmin, haveModerator } from "../../const";
 import { useAdminTicket } from "../../hook/infoHook";
 var panes = [];
 const getGateways = JSON.parse(localStorage.getItem("getGateways"));

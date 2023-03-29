@@ -1,6 +1,5 @@
 import React from "react";
 import { Progress, Icon } from "semantic-ui-react";
-import { levelData, levelDataInfo } from "../const";
 const Balance = (prop) => {
   const loginToken = prop.loginToken;
   const siteInfo = prop.siteInfo;

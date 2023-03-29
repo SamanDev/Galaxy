@@ -1,28 +1,10 @@
 import React, { useState, useEffect } from "react";
-import {
-  Label,
-  Input,
-  Header,
-  Divider,
-  Icon,
-  Button,
-  Segment,
-  Message,
-  List,
-} from "semantic-ui-react";
+import { Button, Segment } from "semantic-ui-react";
 import { Link } from "react-router-dom";
-import Reward from "../../../utils/Reward";
-import {
-  doCurrency,
-  levelLeagueReward,
-  levelLeagueList,
-  haveAdmin,
-  haveModerator,
-} from "../../../const";
+import { haveAdmin, haveModerator } from "../../../const";
 import MenuLoader from "../../../utils/menuLoader";
 import Balance from "./userbalance";
 import { publicUserInfo } from "../../../services/public";
-import { tr } from "date-fns/locale";
 
 const depositArea = (prop) => {
   const [data, setData] = useState([]);

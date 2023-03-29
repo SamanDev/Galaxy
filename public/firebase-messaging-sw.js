@@ -31,11 +31,11 @@ self.addEventListener("activate", (event) => {
 });
 const CACHE_NAME = "offline";
 const OFFLINE_URL = "offline.html";
-
+const host = "http://localhost:3000";
 self.addEventListener("install", function (event) {
   console.log("[ServiceWorker] Install");
 
-  /* event.waitUntil(
+  event.waitUntil(
     (async () => {
       const cache = await caches.open(CACHE_NAME);
       // Setting {cache: 'reload'} in the new request will ensure that the response
@@ -44,12 +44,12 @@ self.addEventListener("install", function (event) {
     })()
   );
 
-  self.skipWaiting(); */
+  self.skipWaiting();
 });
 
 self.addEventListener("activate", (event) => {
   console.log("[ServiceWorker] Activate");
-  /* event.waitUntil(
+  event.waitUntil(
     (async () => {
       // Enable navigation preload if it's supported.
       // See https://developers.google.com/web/updates/2017/02/navigation-preload
@@ -60,12 +60,11 @@ self.addEventListener("activate", (event) => {
   );
 
   // Tell the active service worker to take control of the page immediately.
-  self.clients.claim(); */
+  self.clients.claim();
 });
 
 self.addEventListener("fetch", function (event) {
-  // console.log('[Service Worker] Fetch', event.request.url);
-  /* if (event.request.mode === "navigate") {
+  if (event.request.mode === "navigate") {
     event.respondWith(
       (async () => {
         try {
@@ -88,5 +87,46 @@ self.addEventListener("fetch", function (event) {
         }
       })()
     );
-  } */
+  }
+  if (
+    event.request.mode.indexOf("cors") > -1 &&
+    event.request.url.indexOf("/static/jss/s") == -1 &&
+    (event.request.url.indexOf(".webp") > -1 ||
+      event.request.url.indexOf(".svg") > -1 ||
+      event.request.url.indexOf(".js") > -1 ||
+      event.request.url.indexOf(".css") > -1 ||
+      event.request.url.indexOf(".png") > -1 ||
+      event.request.url.indexOf(".woff") > -1 ||
+      event.request.url.indexOf(".woff2") > -1 ||
+      event.request.url.indexOf(".gif") > -1 ||
+      event.request.url.indexOf(".json") > -1)
+  ) {
+    var _url = event.request.url.replace(host, "");
+
+    event.respondWith(
+      (async () => {
+        try {
+          const cache = await caches.open(CACHE_NAME);
+          const cachedResponse = await cache.match(_url);
+          //console.log(cachedResponse);
+          if (cachedResponse) {
+            return cachedResponse;
+          } else {
+            event.waitUntil(
+              (async () => {
+                const cache = await caches.open(CACHE_NAME);
+
+                await cache.add(new Request(_url, { cache: "reload" }));
+              })()
+            );
+            const networkResponse = await fetch(event.request);
+            return networkResponse;
+          }
+        } catch (error) {
+          //const networkResponse = await fetch(event.request);
+          //return networkResponse;
+        }
+      })()
+    );
+  }
 });

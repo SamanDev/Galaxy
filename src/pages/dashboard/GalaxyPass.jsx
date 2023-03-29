@@ -1,17 +1,12 @@
 import React from "react";
-import { List, Progress } from "semantic-ui-react";
-import {
-  doCurrency,
-  levelPassReward,
-  levelPassList,
-  levelDataInfo,
-} from "../../const";
+import { List } from "semantic-ui-react";
+import { doCurrency } from "../../const";
 import LevelIcon from "../../utils/svg";
 import LazyLoad from "react-lazyload";
 import AddCalendar from "../../utils/AddCalendar";
 import GiftsDesc from "../../utils/GiftsDesc";
 import LastRewardList from "./LastRewardList";
-import GalaxyIcon2 from "../../utils/svg22";
+import GPassIcon from "../../utils/anim/gpass";
 
 import LevelBar from "../../utils/GLevelBar";
 const LevelList = (prop) => {
@@ -34,7 +29,7 @@ const LevelList = (prop) => {
           <List.Item>
             <List.Content className="rtl text-center ">
               <div className="inline animated ">
-                <GalaxyIcon2
+                <GPassIcon
                   mode="gpass"
                   level=""
                   text="GalaxyPass"
@@ -163,7 +158,7 @@ const LevelList = (prop) => {
                     number=""
                     width="38px"
                   />
-                  {loginToken?.accessToken && (
+                  {loginToken?.accessToken && !loginToken?.logout && (
                     <div className="levelbar">
                       {loginToken.glevel == i + 1 ? (
                         <>

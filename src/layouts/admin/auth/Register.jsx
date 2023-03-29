@@ -8,16 +8,6 @@ import MyMsg from "../../../utils/MsgDesc";
 
 import AnimIcon from "../../../utils/inviteIcon";
 import { registerService } from "../../../services/auth";
-function generateRandomInteger(min, max) {
-  return Math.floor(min + Math.random() * (max - min + 1));
-}
-const initialValues = {
-  username: "",
-  email: "",
-  password: "",
-  newPassword: "",
-  refer: "",
-};
 const validationSchema = Yup.object({
   username: Yup.string()
 
@@ -89,15 +79,6 @@ const depositArea = (prop) => {
               }}
             >
               <Header as="h2" inverted className="farsi">
-                <div className="float-start">
-                  <AnimIcon
-                    icon="rcopausw"
-                    width="100px"
-                    height="60px"
-                    scale="70"
-                    trigger="hover"
-                  />
-                </div>
                 ثبت نام در گلکسی
               </Header>
               <Divider hidden />

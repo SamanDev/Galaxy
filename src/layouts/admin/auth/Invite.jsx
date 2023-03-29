@@ -1,11 +1,10 @@
-import React, { useState } from "react";
+import React from "react";
 import { Button, Divider } from "semantic-ui-react";
 import AuthFormikControl from "../../../components/form/FormikControl";
-import { useNavigate } from "react-router-dom";
 import { Form, Formik } from "formik";
 import * as Yup from "yup";
 import { registerService } from "../../../services/auth";
-import { MyConfirm, MyToast, MyDeposit } from "../../../utils/myAlert";
+import { MyToast } from "../../../utils/myAlert";
 
 function generateRandomInteger(min, max) {
   return Math.floor(min + Math.random() * (max - min + 1));

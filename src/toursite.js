@@ -3,19 +3,8 @@ import { TourProvider } from "@reactour/tour";
 import App from "./App";
 import $ from "jquery";
 import { Button } from "semantic-ui-react";
-var totalStep = 4;
 var step0count = 5;
 var step1count = 4;
-const groupBy = (array, key) => {
-  // Return the end result
-  return array.reduce((result, currentValue) => {
-    // If an array already present for key, push it to the array. Else create an array and push the object
-    (result[currentValue[key].split("-")[0]] =
-      result[currentValue[key].split("-")[0]] || []).push(currentValue);
-    // Return the current iteration `result` value, this will be taken as next iteration `result` value and accumulate
-    return result;
-  }, {}); // empty object is the initial value for result object
-};
 function RightPanel() {
   const steps = [
     {
@@ -148,7 +137,7 @@ function RightPanel() {
     {
       selector: ".step0-3",
 
-      content: ({ setCurrentStep, currentStep, selector }) => (
+      content: ({ setCurrentStep, currentStep }) => (
         <>
           <p className="farsi">
             با استفاده از این دکمه ها به خرید و برداشت سریع دسترسی خواهید داشت.

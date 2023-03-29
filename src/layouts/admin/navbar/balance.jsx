@@ -1,34 +1,16 @@
-import React, { useState, useEffect, useRef } from "react";
-import {
-  Segment,
-  Icon,
-  Label,
-  Popup,
-  Progress,
-  Header,
-} from "semantic-ui-react";
+import React, { useState, useEffect } from "react";
+import { Segment, Icon, Label, Popup, Progress } from "semantic-ui-react";
 import DepositArea from "../forms/index";
 
-import {
-  MyToastReward,
-  MyConfirm,
-  MyDeposit,
-  MyToastText,
-} from "../../../utils/myAlert";
+import { MyConfirm, MyDeposit } from "../../../utils/myAlert";
 import { getHelp } from "../../../utils/getHelp";
 import LevelIcon from "../../../utils/svg";
 import CountUp from "../../../utils/CountUp";
-import RisingPitch from "../../../utils/PlayBip";
 import BonusArea from "../bonus/index.jsx";
 import $ from "jquery";
 import { cashierService } from "../../../services/cashier";
 //import BonusArea from "../../../pages/dashboard/ActiveTableJson";
-import {
-  doCurrency,
-  getEvent,
-  levelClassInside,
-  levelDataInfo,
-} from "../../../const";
+import { doCurrency, getEvent, levelClassInside } from "../../../const";
 
 const moment = require("moment");
 const openDeposit = () => {
@@ -198,8 +180,6 @@ const Balance = (prop) => {
   if (loginToken) {
     return (
       <>
-        <RisingPitch />
-
         <Segment
           className="myaccount"
           inverted

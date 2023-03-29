@@ -1,16 +1,10 @@
 import React, { useState } from "react";
 import { Button, Message, Icon } from "semantic-ui-react";
-import $ from "jquery";
 import { resendActivationLink } from "../../../../services/auth";
-import { MyConfirm, MyToast, MyDeposit } from "../../../../utils/myAlert";
+import { MyToast } from "../../../../utils/myAlert";
 import { Alert } from "../../../../utils/alerts";
-const defCol = "black";
-const selCol = "green";
-const defColBtn = "grey";
-const selColBtn = "orange";
 const depositArea = (prop) => {
   const [loading, setLoading] = useState(false);
-  const loginToken = prop.loginToken;
   const onSubmit = async () => {
     setLoading(true);
     try {

@@ -1,15 +1,5 @@
 import { useTour } from "@reactour/tour";
-import {
-  Grid,
-  Image,
-  Button,
-  Container,
-  Tab,
-  Icon,
-  Dropdown,
-  Dimmer,
-  Segment,
-} from "semantic-ui-react";
+import { Icon, Segment } from "semantic-ui-react";
 import $ from "jquery";
 const groupBy = (array, key) => {
   // Return the end result

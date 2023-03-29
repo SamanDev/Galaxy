@@ -2,23 +2,18 @@ import React, { useState, useEffect } from "react";
 import {
   Segment,
   Icon,
-  Label,
   Popup,
   Progress,
   Divider,
   Header,
   Grid,
   List,
-  Image,
-  Statistic,
   Accordion,
 } from "semantic-ui-react";
-import DepositArea from "../forms/index";
 import Reward from "../../../utils/Reward";
 import Moment from "react-moment";
 import LevelIcon from "../../../utils/svg";
 import LazyLoad from "react-lazyload";
-import { convertDateToJalali } from "../../../utils/convertDate";
 import $ from "jquery";
 import { forceCheck } from "react-lazyload";
 //import BonusArea from "../../../pages/dashboard/ActiveTableJson";

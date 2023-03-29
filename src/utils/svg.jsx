@@ -1,5 +1,4 @@
 import React from "react";
-import { levelClass, levelClassInside } from "../const";
 import AnimIcon from "./inviteIcon";
 const LevelIcon = (prop) => {
   const loginToken = prop.loginToken;

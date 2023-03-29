@@ -1,15 +1,8 @@
 import React from "react";
-import { List, Progress } from "semantic-ui-react";
-import { doCurrency, gameDataMain, gameData, levelDataInfo } from "../../const";
-import { Link } from "react-router-dom";
-import LevelIcon from "../../utils/svg";
+import { List } from "semantic-ui-react";
+import { gameData } from "../../const";
 import LazyLoad from "react-lazyload";
-import AddCalendar from "../../utils/AddCalendar";
-import GiftsDesc from "../../utils/GiftsDesc";
-import LastRewardList from "./LastRewardList";
-import GalaxyIcon2 from "../../utils/svg22";
 import GameBox from "../../utils/GameBox";
-import LevelBar from "../../utils/GLevelBar";
 const LevelList = (prop) => {
   var totalReward = 0;
 
