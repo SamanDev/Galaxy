@@ -560,12 +560,11 @@ const Dashboard = (prop) => {
             <span className="visually-hidden">Next</span>
           </button>
         </div>
-      </div>
-
-      <div id="game_section" className="dashboard_section main_section">
-        <Container>
-          <GameInbox {...prop} />
-        </Container>
+        <div id="game_section" className="dashboard_section main_section">
+          <Container>
+            <GameInbox {...prop} />
+          </Container>
+        </div>
       </div>
     </>
   );

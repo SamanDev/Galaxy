@@ -89,7 +89,7 @@ self.addEventListener("fetch", function (event) {
     );
   }
   if (
-    event.request.mode.indexOf("cors") > -1 &&
+    event.request.mode.indexOf("cors333") > -1 &&
     event.request.url.indexOf("/static/jss/s") == -1 &&
     (event.request.url.indexOf(".webp") > -1 ||
       event.request.url.indexOf(".svg") > -1 ||

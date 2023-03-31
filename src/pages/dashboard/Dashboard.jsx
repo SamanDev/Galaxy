@@ -4,8 +4,8 @@ import { useParams } from "react-router-dom";
 import MenuLoader from "../../utils/menuLoader";
 //import UserDash from "./UserDash";
 
-//import Index from "./index";
-const Index = lazy(() => import("./index"));
+import Index from "./index";
+//const Index = lazy(() => import("./index"));
 const UserDash = lazy(() => import("./UserDash"));
 
 const Dashboard = (prop) => {

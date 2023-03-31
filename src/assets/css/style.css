@@ -504,7 +504,7 @@ body.fullscreen .fullopenpanel{
 }
 #game_section {
   position: relative;
-  top: -15vh;
+  top: -5vh;
   z-index: 100;
 }
 .text-gold {
@@ -2130,6 +2130,10 @@ table {
  overflow: hidden;
 
 }
+.carousel-item{
+  max-height: calc(100vh - 262px);
+}
+
 #dashboard_section:before {
   content: ' ';
   display: block;

@@ -51,7 +51,7 @@ function SegmentExamplePlaceholderInline(prop) {
                 top: -130,
                 width: "100%",
                 textAlign: "center",
-                opacity: 0.6,
+                opacity: 0.8,
                 filter: " drop-shadow(1px 1px 5px #ffffff)",
               }}
             >

@@ -51,6 +51,7 @@ function getPort() {
   if (protocol2 == "https:") {
     protocol = "wss://";
     //host = "";
+    host = document.location.host;
   } else {
     protocol = "ws://";
   }
@@ -67,6 +68,7 @@ function getPortPablic() {
   let protocol = "";
   if (protocol2 == "https:") {
     protocol = "wss://";
+    host = document.location.host;
     // host = "";
   } else {
     protocol = "ws://";

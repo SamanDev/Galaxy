@@ -121,7 +121,7 @@ function App(prop) {
   };
 
   function reportWindowSize() {
-    if (setsize) return false;
+    //if (setsize) return false;
     setsize = true;
 
     $("body").removeAttr("style");
