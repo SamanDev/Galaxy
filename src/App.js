@@ -835,6 +835,9 @@ function App(prop) {
       navigate("/");
       //window.location = "/";
     }
+    if (window.location.href.toString().indexOf("/games/sportbet") > -1) {
+      showTtoD();
+    }
   }, [window.location.href]);
   useEffect(() => {
     if (menu == "no") {
@@ -1120,8 +1123,6 @@ function App(prop) {
           <Modal
             basic
             size="tiny"
-            closeOnEscape={false}
-            closeOnDimmerClick={false}
             className="myaccount popupmenu  animated backInDown "
             onClose={() => {
               setTtoDOpen(false);
