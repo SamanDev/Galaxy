@@ -3,11 +3,19 @@ import eventBus from "./eventBus";
 
 var ws;
 var ws2;
+var res = false;
+var timeout = 35000;
+var timerId;
+var usr;
+var tkn;
+var count = 0;
 
 class UserWebsocket {
   connect(token, user) {
     if (token) {
       if (ws == null || ws == ws2) {
+        usr = user;
+        tkn = token;
         ws?.close();
         ws2 = null;
         ws = new WebSocket(USERSOCKETURL + token);
@@ -29,43 +37,36 @@ class UserWebsocket {
     //userService.getEvents();
 
     ws.onopen = function live() {
-      if (ws?.readyState == ws?.OPEN) {
-        if (ws) {
-          eventBus.dispatch("eventsConnect", "");
-          // eventBus.dispatch("LastReward", _bonuses);
-        }
+      if (count > 10) {
+        eventBus.dispatch("eventsDC", "");
       }
-      /*   var timeout = 20000;
-        if (ws?.readyState == ws?.OPEN) {
-          ws?.send("Ping");
-          if (ws) {
-            eventBus.dispatch("eventsConnect", "");
-          }
 
-          setTimeout(function () {
-            if (res) {
-              timerId = setTimeout(live, timeout);
-            } else {
-              try {
-                if (timerId) {
-                  clearTimeout(timerId);
-                }
-              //  res = false;
-                try {
-                  ws = null;
-                  ws.close();
-                } catch (e) {}
-              } catch (e) {}
-            }
-           // res = false;
-          }, 2000);
+      if (!res) {
+        count++;
+        if (timerId) {
+          clearInterval(timerId);
         }
-      };*/
+        timerId = setInterval(live, timeout);
+      }
+      try {
+        if (ws?.readyState == ws?.OPEN) {
+          if (ws) {
+            if (!res) {
+              eventBus.dispatch("eventsConnect", "");
+            }
+            // eventBus.dispatch("LastReward", _bonuses)
+            count = 0;
+            console.log("Socket is connected.");
+            res = false;
+          }
+        }
+      } catch (e) {}
+
       ws.onmessage = function (data) {
         var message = data.data;
         //  new UserWebsocket().serverMessage(data.data);
         function isJson(str) {
-          // alert("str = "+str)
+          // alert("str00 = "+str)
           try {
             JSON.parse(str);
           } catch (e) {
@@ -115,11 +116,13 @@ class UserWebsocket {
         }
       };
       ws.onerror = function (e) {
-        /*  if (timerId) {
-          clearTimeout(timerId);
-        }
-        console.log(e.type);*/
+        setTimeout(function () {
+          clearInterval(timerId);
 
+          ws = null;
+          ws2 = null;
+          res = false;
+        }, 200);
         if (e.type === "error") {
           //localStorage.setItem("user", JSON.stringify(defUser));
           //eventBus.dispatch("eventsDC", "");
@@ -130,12 +133,18 @@ class UserWebsocket {
       };
       ws.onclose = function (e) {
         setTimeout(function () {
+          ws = null;
+          ws2 = null;
+          res = false;
+          console.log("Socket is disconnected.");
+          clearInterval(timerId);
+          timerId = null;
+          ws = new WebSocket(USERSOCKETURL + tkn);
+          live();
           if (ws2 == null && token) {
-            ws?.close();
-            ws = null;
-            eventBus.dispatch("eventsDC", "");
+            // eventBus.dispatch("eventsDC", "");
           }
-        }, 100);
+        }, 500);
         //ws?.close();
         //ws = null;
         //  console.log(ws);

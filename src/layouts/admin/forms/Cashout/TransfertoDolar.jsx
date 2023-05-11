@@ -1,33 +1,27 @@
 import React, { useState } from "react";
 
-import DepositButton from "../../input/DepositButton";
-
-import { Form, Formik } from "formik";
-import { useNavigate } from "react-router-dom";
-import * as Yup from "yup";
+import CashoutButton from "../../input/CashoutButton";
 import FormikControl from "../../../../components/form/FormikControl";
-import { cashierService } from "../../../../services/cashier";
+import { useNavigate } from "react-router-dom";
+import { Form, Formik } from "formik";
+import * as Yup from "yup";
+import { cashierServiceGame } from "../../../../services/cashier";
 import { Alert } from "../../../../utils/alerts";
+import AnimIcon from "../../../../utils/inviteIcon";
 
 const initialValues = {
-  action: "deposit",
-  amount: 0,
-  coin: "BTC",
-  amountDollar: 100,
+  amount: 100000,
 };
 const validationSchema = Yup.object({
-  amount: Yup.number().required("لطفا این فیلد را وارد کنید.").integer(),
-
-  amountDollar: Yup.number()
+  amount: Yup.number()
     .required("لطفا این فیلد را وارد کنید.")
-    .min(3, "لطفا این فیلد را درست وارد کنید.")
+    .min(100000, "لطفا این فیلد را درست وارد کنید.")
     .integer(),
 });
 const onSubmit = async (values, submitMethods, navigate, prop, setRefresh) => {
   try {
-    const res = await cashierService(values, "coinPayments", "");
+    const res = await cashierServiceGame(values, "exChanger", "");
     if (res.status == 200) {
-      submitMethods.resetForm();
       if (res.data?.address) {
         setRefresh(true);
       }
@@ -45,7 +39,6 @@ const onSubmit = async (values, submitMethods, navigate, prop, setRefresh) => {
 const depositArea = (prop) => {
   const [refresh, setRefresh] = useState(false);
   const navigate = useNavigate();
-  console.log(prop);
   return (
     <Formik
       initialValues={initialValues}
@@ -57,6 +50,28 @@ const depositArea = (prop) => {
       {(formik) => {
         return (
           <Form>
+            <div
+              className="fadeout"
+              style={{ height: 100, position: "relative" }}
+            >
+              <div
+                style={{
+                  position: "absolute",
+                  zIndex: 0,
+                  top: -15,
+                  width: "100%",
+                  textAlign: "center",
+                }}
+              >
+                <AnimIcon
+                  icon="ssdupzsv"
+                  width="200px"
+                  height="150px"
+                  trigger="loop"
+                  colors="primary:#545454,secondary:#916f10"
+                />
+              </div>
+            </div>
             <FormikControl
               formik={formik}
               control="amount"
@@ -66,8 +81,9 @@ const depositArea = (prop) => {
               dollar={true}
             />
 
-            <DepositButton
+            <CashoutButton
               {...prop}
+              val="انتقال"
               disabled={formik.isSubmitting}
               loading={formik.isSubmitting}
               refresh={refresh}

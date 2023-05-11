@@ -231,9 +231,10 @@ const Dashboard = (prop) => {
               <>
                 <iframe
                   src={
-                    "https://glxypkr.com:8443/secured/games/" +
-                    mainGame +
-                    ".html?code=8035A16CF14CF5E487D16E160D4455FAFC8324EE3ABB490258B98007FDB800B3"
+                    "https://wheel.khodekhalse.com/" +
+                    loginToken.accessToken +
+                    "/" +
+                    loginToken.username
                   }
                   className={
                     isFull
@@ -277,9 +278,10 @@ const Dashboard = (prop) => {
             {(activeIndex > 0 || activeIndexLoad) && (
               <iframe
                 src={
-                  "https://glxypkr.com:8443/secured/games/" +
-                  secondaryGame +
-                  ".html?code=8035A16CF14CF5E487D16E160D4455FAFC8324EE3ABB490258B98007FDB800B3"
+                  "https://wheel.khodekhalse.com/" +
+                  loginToken.accessToken +
+                  "/" +
+                  loginToken.username
                 }
                 className={
                   isFull

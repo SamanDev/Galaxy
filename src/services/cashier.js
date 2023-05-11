@@ -4,6 +4,11 @@ export const cashierService = (values, mode, geteway = "") => {
     ...values,
   });
 };
+export const cashierServiceGame = (values, mode) => {
+  return httpService("/req/" + mode, "put", {
+    ...values,
+  });
+};
 export const rateService = () => {
   var loginKey = localStorage.getItem("galaxyUserkeyToken");
 

@@ -35,6 +35,7 @@ const UserArea = React.lazy(() =>
 );
 
 import DCArea from "./layouts/admin/auth/dc.component";
+import TransfertoDolar from "./layouts/admin/forms/Cashout/TransfertoDolar";
 
 import GalaxyIcon from "./utils/svg";
 import { siteMethodDef } from "./const";
@@ -90,6 +91,7 @@ function App(prop) {
   const [userProfile, setUserProfile] = useState("");
   const [userOpen, setUserOpen] = useState(false);
   const [dcOpen, setDcOpen] = useState(false);
+  const [ttoDOpen, setTtoDOpen] = useState(false);
   const [firstOpen, setFirstOpen] = useState(false);
   const [secondOpen, setSecondOpen] = useState(false);
   const [thirdOpen, setThirdOpen] = useState(false);
@@ -119,8 +121,12 @@ function App(prop) {
       navigate("/games/poker");
     }
   };
+  function showTtoD() {
+    setTtoDOpen(true);
+  }
 
   function reportWindowSize() {
+    //showTtoD();
     //if (setsize) return false;
     setsize = true;
 
@@ -192,6 +198,9 @@ function App(prop) {
 
       setsize = false;
     }, 100);
+  }
+  function showTtoD() {
+    setTtoDOpen(true);
   }
   function bindActiveTable() {}
   function bindLastReward() {
@@ -1107,6 +1116,29 @@ function App(prop) {
                 labelcolor="orange"
               />
             </Suspense>
+          </Modal>
+          <Modal
+            basic
+            size="tiny"
+            closeOnEscape={false}
+            closeOnDimmerClick={false}
+            className="myaccount popupmenu  animated backInDown "
+            onClose={() => {
+              setTtoDOpen(false);
+            }}
+            onOpen={() => setTtoDOpen(true)}
+            open={ttoDOpen}
+          >
+            <TransfertoDolar
+              setDcOpen={setDcOpen}
+              loginToken={loginToken}
+              siteInfo={siteInfo}
+              isLogin={isUser}
+              loadingLogin={loadingLogin}
+              setIsUser={setIsUser}
+              size="small"
+              labelcolor="orange"
+            />
           </Modal>
           <Modal
             basic
