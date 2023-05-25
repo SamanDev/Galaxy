@@ -8,10 +8,10 @@ var timeout = 35000;
 var timerId;
 var usr;
 var tkn;
-var count = 0;
+
 
 class UserWebsocket {
-  connect(token, user) {
+     connect(token, user) {
     if (token) {
       if (ws == null || ws == ws2) {
         usr = user;
@@ -37,32 +37,32 @@ class UserWebsocket {
     //userService.getEvents();
 
     ws.onopen = function live() {
-      if (count > 10) {
-        eventBus.dispatch("eventsDC", "");
-      }
-
-      if (!res) {
-        count++;
-        if (timerId) {
-          clearInterval(timerId);
-        }
-        timerId = setInterval(live, timeout);
-      }
-      try {
-        if (ws?.readyState == ws?.OPEN) {
-          if (ws) {
-            if (!res) {
-              eventBus.dispatch("eventsConnect", "");
-            }
-            // eventBus.dispatch("LastReward", _bonuses)
-            count = 0;
-            console.log("Socket is connected.");
-            res = false;
+      console.log("Socket is connected.")
+   /*  if(!res){
+     
+      if(timerId){
+      clearInterval(timerId);
+     }
+      timerId = setInterval( live, timeout);
+     }
+     try{
+      if (ws?.readyState == ws?.OPEN) {
+        if (ws) {
+          if(!res){
+          eventBus.dispatch("eventsConnect", "");
           }
+              console.log("Socket is connected.")
+              res = false;
+             
         }
-      } catch (e) {}
-
+      
+      }
+     }catch(e){
+     
+     }*/
+    
       ws.onmessage = function (data) {
+        
         var message = data.data;
         //  new UserWebsocket().serverMessage(data.data);
         function isJson(str) {
@@ -91,14 +91,12 @@ class UserWebsocket {
           }
         } else {
           if (message === "closeConnection") {
-            //localStorage.removeItem("getGateways");
-
-            // localStorage.clear();
-            //window.location.reload();
-
-            ws?.close();
-            ws = null;
-            eventBus.dispatch("eventsDC", "");
+         //   clearInterval(timerId);
+         //   timerId = null;
+         ws?.close();
+         //   ws = null;
+         //   ws2 = null;
+         //   eventBus.dispatch("eventsDC", "");
           } else if (message === "PasswordChanged") {
             eventBus.dispatch(
               "eventsDataPass",
@@ -114,15 +112,18 @@ class UserWebsocket {
             res = true;
           }
         }
+      
       };
       ws.onerror = function (e) {
+      /*  console.log("err: "+e);
         setTimeout(function () {
+        
           clearInterval(timerId);
-
-          ws = null;
-          ws2 = null;
-          res = false;
-        }, 200);
+     
+        ws = null;
+        ws2 = null;
+        res = false;
+      }, 200);*/
         if (e.type === "error") {
           //localStorage.setItem("user", JSON.stringify(defUser));
           //eventBus.dispatch("eventsDC", "");
@@ -132,50 +133,23 @@ class UserWebsocket {
         }
       };
       ws.onclose = function (e) {
-        setTimeout(function () {
-          ws = null;
-          ws2 = null;
-          res = false;
-          console.log("Socket is disconnected.");
-          clearInterval(timerId);
-          timerId = null;
-          ws = new WebSocket(USERSOCKETURL + tkn);
-          live();
-          if (ws2 == null && token) {
-            // eventBus.dispatch("eventsDC", "");
-          }
-        }, 500);
-        //ws?.close();
-        //ws = null;
-        //  console.log(ws);
-        //  console.log(token);
-        // localStorage.setItem("user", JSON.stringify(defUser));
-        //eventBus.dispatch("eventsDC", "");
-        /*  setTimeout(function () {
-          if (ws != null) {
-            eventBus.dispatch("eventsConnect", "");
-          } else {
-            if (ws == null && token) {
-              eventBus.dispatch("eventsDC", "");
-            }
-          }
-        }, 200);*/
+      //  clearInterval(timerId);
+      //  timerId = null;
+        ws = null;
+        ws2 = null;
+        console.log("Websocket is in disconnected state");
+        eventBus.dispatch("eventsDC", "");
       };
     };
   }
 
   disconnect() {
-    if (ws != null) {
-      ws?.close();
-      ws = null;
-      //   ws = null;
-      //eventBus.dispatch("eventsDC", "");
-      console.log("Websocket is in disconnected state");
-      //eventBus.dispatch("eventsDC", "");
-    } else {
-      //ws?.close();
-      eventBus.dispatch("eventsDC", "");
-    }
+  //  clearInterval(timerId);
+  //  timerId = null;
+  //  ws = null;
+  //  ws2 = null;
+  //  eventBus.dispatch("eventsDC", "");
+    ws?.close();
   }
 
   sendData(data) {
