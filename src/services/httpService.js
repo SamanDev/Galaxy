@@ -22,6 +22,7 @@ export function checkBlock(data) {
           data
         );
       } else {
+        UserWebsocket.disconnect();
         window.location = "/logout";
       }
     }
@@ -30,9 +31,11 @@ export function checkBlock(data) {
       localStorage.setItem("galaxyUserkeyToken", data.username);
       localStorage.setItem(data.username + "Token", JSON.stringify(data));
       eventBus.dispatch("updateUser", data);
+      UserWebsocket.disconnect();
       UserWebsocket.connect(data.accessToken + "&user=" + data.username, data);
     } else {
       eventBus.dispatch("updateUser", {});
+      UserWebsocket.disconnect();
       UserWebsocket.connect();
       // window.location = "/";
     }

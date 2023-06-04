@@ -56,14 +56,15 @@ function getPort() {
     protocol = "ws://";
   }
   //protocol = "wss://";
-  let loc = protocol + host + "/users?token=";
+  let loc = protocol + host + "";
 
   return loc;
 }
 function getPortPablic() {
-  //let host = document.location.host;
+  let host = document.location.host;
   //let host = "51.195.176.97:8081";
-  let host = "139.99.144.72:8081";
+  //let host = "139.99.144.72:8081";
+  //let host = "khodekhalse.com";
   let protocol2 = document.location.protocol;
   let protocol = "";
   if (protocol2 == "https:") {
@@ -74,7 +75,7 @@ function getPortPablic() {
     protocol = "ws://";
   }
   //protocol = "wss://";
-  let loc = protocol + host + "/public";
+  let loc = protocol + host + "";
   //console.log("location = "+loc);
   return loc;
 }

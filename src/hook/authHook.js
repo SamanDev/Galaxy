@@ -10,7 +10,12 @@ export const useIsLogin = () => {
     try {
       const res = await getUserService();
       setIsLogin(res.status == 200 ? true : false);
-
+      if (res.status == 200 && res.data.accessToken) {
+        UserWebsocket.connect(
+          res.data.accessToken + "&user=" + res.data.username,
+          res.data
+        );
+      }
       setLoading(false);
     } catch (error) {
       UserWebsocket.connect();
@@ -20,32 +25,44 @@ export const useIsLogin = () => {
   };
   useEffect(() => {
     var loginKey = localStorage.getItem("galaxyUserkeyToken");
-
-    try {
-      var loginToken = JSON.parse(localStorage.getItem(loginKey + "Token"));
-      if (
-        loginToken?.accessToken &&
-        window.location.href.toString().indexOf("/logout") == -1
-      ) {
-        handleCheckLogin();
-      } else {
-        if (!loginToken?.accessToken) {
-          UserWebsocket.connect();
-          localStorage.removeItem(loginKey + "Token");
-          localStorage.setItem("balance", 0);
-          setIsLogin(false);
-          setLoading(false);
-          localStorage.removeItem("galaxyUserkeyToken");
+    if (loginKey) {
+      try {
+        var loginToken = JSON.parse(localStorage.getItem(loginKey + "Token"));
+        if (
+          loginToken?.accessToken &&
+          window.location.href.toString().indexOf("/logout") == -1
+        ) {
+          handleCheckLogin();
         } else {
-          UserWebsocket.connect();
+          if (!loginToken?.accessToken) {
+            UserWebsocket.connect();
+            localStorage.removeItem(loginKey + "Token");
+            localStorage.setItem("balance", 0);
+            setIsLogin(false);
+            setLoading(false);
+            localStorage.removeItem("galaxyUserkeyToken");
+          } else {
+            //UserWebsocket.connect();
+            UserWebsocket.connect(
+              loginToken.accessToken + "&user=" + loginToken.username,
+              loginToken
+            );
+            setIsLogin(false);
+            setLoading(false);
+          }
+
           setIsLogin(false);
           setLoading(false);
         }
+      } catch (error) {
         UserWebsocket.connect();
+        localStorage.removeItem(loginKey + "Token");
+        localStorage.setItem("balance", 0);
         setIsLogin(false);
         setLoading(false);
+        localStorage.removeItem("galaxyUserkeyToken");
       }
-    } catch (error) {
+    } else {
       UserWebsocket.connect();
       localStorage.removeItem(loginKey + "Token");
       localStorage.setItem("balance", 0);

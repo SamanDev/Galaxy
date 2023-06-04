@@ -18,6 +18,14 @@ const Content = (prop) => {
           }
         />
         <Route
+          path="/logout"
+          element={
+            <Suspense fallback={<MenuLoader />}>
+              <Dashboard {...prop} />
+            </Suspense>
+          }
+        />
+        <Route
           path="/login/:u/:p"
           element={
             <Suspense fallback={<MenuLoader />}>
