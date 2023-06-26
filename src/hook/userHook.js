@@ -24,9 +24,11 @@ export const useUser = () => {
   useEffect(() => {
     eventBus.on("updateUser", (dataGet) => {
       setLoginToken(dataGet);
-      var loginKey = localStorage.getItem("galaxyUserkeyToken");
 
-      localStorage.setItem(loginKey + "Token", JSON.stringify(dataGet));
+      var loginKey = localStorage.getItem("galaxyUserkeyToken");
+      if (loginKey) {
+        localStorage.setItem(loginKey + "Token", JSON.stringify(dataGet));
+      }
     });
   }, []);
 

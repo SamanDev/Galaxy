@@ -4,12 +4,19 @@ import CartToCart from "./CartToCart";
 import CartToCartOnline from "./CartToCartOnline";
 import BankTransfer from "./BankTransfer";
 import PerfectMoney from "./PerfectMoney";
+import PerfectMoney2 from "./usd/PerfectMoney";
+
 import USDT from "./USDT";
+import USDT2 from "./usd/USDT";
+
 import BTC from "./BTC";
+import BTC2 from "./usd/BTC";
 
 import AddCartMsg from "./addCartMsg";
 import ActivetMsg from "./activetMsg";
+import { Statistic, Segment } from "semantic-ui-react";
 
+import { doCurrency } from "../../../../const";
 const depositArea = (prop) => {
   const [depMode, setDepMode] = useState(prop.gateway);
   const loginToken = prop.loginToken;
@@ -21,6 +28,23 @@ const depositArea = (prop) => {
         </>
       ) : (
         <>
+          <Segment inverted className="blnc">
+            <Statistic inverted size="tiny">
+              <Statistic.Value>
+                {prop.menu?.usd ? (
+                  <>
+                    <span className="text-gold">$</span>{" "}
+                    {doCurrency(loginToken?.balance2)}
+                  </>
+                ) : (
+                  doCurrency(loginToken?.balance)
+                )}
+              </Statistic.Value>
+              <Statistic.Label className="farsi">
+                موجودی {prop.menu?.usd && "دلاری"} شما
+              </Statistic.Label>
+            </Statistic>
+          </Segment>
           {depMode == "Bank Transfer" && (
             <>
               {loginToken?.bankInfos.length > 0 ? (
@@ -61,10 +85,23 @@ const depositArea = (prop) => {
             </>
           )}
 
-          {depMode == "USDT" && <USDT {...prop} />}
-          {depMode == "BTC" && <BTC {...prop} />}
+          {depMode == "USDT" && (
+            <>{prop.menu?.usd ? <USDT2 {...prop} /> : <USDT {...prop} />}</>
+          )}
+          {depMode == "BTC" && (
+            <>{prop.menu?.usd ? <BTC2 {...prop} /> : <BTC {...prop} />}</>
+          )}
           {depMode == "VisaGiftCode" && <VisaGiftCode {...prop} />}
-          {depMode == "PerfectMoney" && <PerfectMoney {...prop} />}
+
+          {depMode == "PerfectMoney" && (
+            <>
+              {prop.menu?.usd ? (
+                <PerfectMoney2 {...prop} />
+              ) : (
+                <PerfectMoney {...prop} />
+              )}
+            </>
+          )}
         </>
       )}
     </>

@@ -9,15 +9,22 @@ import { getReportService } from "../../../../services/report";
 const Report = (prop) => {
   const loginToken = prop.loginToken;
   const [data, setData] = useState([]);
-
+  var gateway = prop.gateway
+    ? prop.gateway
+        .replace(/ /g, "")
+        .replace("BTC", "Bitcoin")
+        .replace("Toman", "IranShetab")
+    : null;
   const [loading, setLoading] = useState(true);
+  console.log(prop);
   const handleGetReports = async () => {
-    //setLoading(true);
+    setLoading(true);
     try {
       const res = await getReportService(
         loginToken.id,
         prop.mode,
-        prop.gateway
+        gateway,
+        prop.menu?.usd
       );
       if (res.status === 200) {
         var _res = res.data?.sort((a, b) =>
