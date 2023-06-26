@@ -18,11 +18,6 @@ const SegmentExampleInverted = (prop) => {
     name = "پوکر آنلاین";
     icon = "sroxggda";
   }
-  if (prop.game == "wheel") {
-    name = "Online Poker";
-    name = "چرخ شانس";
-    icon = "aadumupd";
-  }
   if (prop.game == "sportbet") {
     name = "شرط بندی ورزشی";
     icon = "xlmenhhh";
@@ -35,7 +30,7 @@ const SegmentExampleInverted = (prop) => {
     name = prop.game.replace("roulette", "roulette ");
     icon = "iexaoqby";
   }
-  if (prop.game.indexOf("wheelof") > -1) {
+  if (prop.game.indexOf("wheel") > -1) {
     name = prop.game;
     icon = "aadumupd";
   }

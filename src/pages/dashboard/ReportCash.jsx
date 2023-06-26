@@ -27,12 +27,6 @@ const sumOf = (array, id) => {
 const Report = (prop) => {
   const loginToken = prop.loginToken;
   const [data, setData] = useState([]);
-  var gateway = prop.gateway
-    ? prop.gateway
-        .replace(/ /g, "")
-        .replace("BTC", "Bitcoin")
-        .replace("Toman", "IranShetab")
-    : null;
 
   const [loading, setLoading] = useState(true);
   const handleGetReports = async () => {
@@ -41,9 +35,10 @@ const Report = (prop) => {
       const res = await getReportService(
         loginToken.id,
         prop.mode,
-        gateway,
-
-        prop.menu?.usd
+        prop.gateway
+          .replace(/ /g, "")
+          .replace("BTC", "Bitcoin")
+          .replace("Toman", "IranShetab")
       );
       if (res.status === 200) {
         setData(res.data);
@@ -57,7 +52,7 @@ const Report = (prop) => {
 
   useEffect(() => {
     handleGetReports();
-  }, [loginToken]);
+  }, []);
   var canShow = true;
   var canShowPending = true;
   if (loading) {

@@ -1,9 +1,9 @@
 import { httpService } from "./httpService";
 
-export const getReportService = (id = null, mode = "", gateway = "", usd) => {
+export const getReportService = (id = null, mode = "", gateway = "") => {
   if (id) {
     return httpService(
-      `/req/getReportsByUser/?id=${id}&mode=${mode}&gateway=${gateway}&usd=${usd}&page=1&number=100`,
+      `/req/getReportsByUser/?id=${id}&mode=${mode}&gateway=${gateway}&page=1&number=100`,
       "get"
     );
   } else {

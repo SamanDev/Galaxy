@@ -11,19 +11,12 @@ import NoData from "../../utils/noData";
 const Report = (prop) => {
   const loginToken = prop.loginToken;
   const [data, setData] = useState([]);
-  var gateway = prop.gateway
-    ? prop.gateway.replace(/ /g, "").replace("BTC", "Bitcoin")
-    : null;
+  var gateway = prop.gateway.replace(/ /g, "").replace("BTC", "Bitcoin");
   const [loading, setLoading] = useState(true);
   const handleGetReports = async () => {
     setLoading(true);
     try {
-      const res = await getReportService(
-        loginToken.id,
-        prop.mode,
-        gateway,
-        prop.menu?.usd
-      );
+      const res = await getReportService(loginToken.id, prop.mode, gateway);
       if (res.status === 200) {
         setData(res.data);
       }
@@ -71,127 +64,66 @@ const Report = (prop) => {
 
             return (
               <List.Item key={i}>
-                {prop.menu?.usd ? (
-                  <List.Content>
-                    <List.Description className="rightfloat">
-                      {convertDateToJalali(item.createDate)}
+                <List.Content>
+                  <List.Description className="rightfloat">
+                    {convertDateToJalali(item.createDate)}
 
-                      <div className="text-end pad10tb">
-                        <Status status={item.status} size="mini" />
+                    <div className="text-end pad10tb">
+                      <Status status={item.status} size="mini" />
+                    </div>
+                  </List.Description>
+                  <List.Description>
+                    <AmountColor
+                      amount={item.amount}
+                      sign={item.endBalance - item.startBalance + 1}
+                      className="text-gold"
+                    />
+                    {!prop.pending && (
+                      <div>
+                        {item.gateway && item.gateway}{" "}
+                        {item.coin && " - " + item.coin}
                       </div>
-                    </List.Description>
-                    <List.Description>
-                      <AmountColor
-                        amount={item.dollarAmount}
-                        sign={item.endBalance - item.startBalance + 1}
-                        className="text-gold"
-                      />
-                      {!prop.pending && (
-                        <div>
-                          {item.gateway && item.gateway}{" "}
-                          {item.coin && " - " + item.coin}
-                        </div>
+                    )}
+
+                    <div className="cashlist">
+                      {(gateway == "Bitcoin" ||
+                        gateway == "USDT" ||
+                        gateway == "PerfectMoney") && (
+                        <>
+                          Amount &nbsp;
+                          <span className="text-gold">
+                            ${doCurrency(desc.dollarAmount)}
+                          </span>
+                          <br />
+                          Rate &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{" "}
+                          <span className="text-gold">
+                            {doCurrency(desc.dollarPrice)}
+                          </span>
+                        </>
                       )}
-
-                      <div className="cashlist">
-                        {(gateway == "Bitcoin" ||
-                          gateway == "USDT" ||
-                          gateway == "PerfectMoney") && (
-                          <>
-                            Amount &nbsp;
-                            <span className="text-gold">
-                              ${doCurrency(desc.dollarAmount)}
-                            </span>
-                          </>
-                        )}
-                        {gateway == "PerfectMoney" && (
-                          <>
-                            <br />
-                          </>
-                        )}
-                        {(gateway == "VisaGiftCode" ||
-                          gateway == "PerfectMoney") && (
-                          <>
-                            Code
-                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{" "}
-                            <span className="text-gold">
-                              h43oi43o43hio4io43hi
-                            </span>
-                          </>
-                        )}
-                        {(gateway == "Bitcoin" || gateway == "USDT") &&
-                          canShowPending && (
-                            <>
-                              <QR note={item} doCurrency={doCurrency} />
-                            </>
-                          )}
-                      </div>
-                    </List.Description>
-                  </List.Content>
-                ) : (
-                  <List.Content>
-                    <List.Description className="rightfloat">
-                      {convertDateToJalali(item.createDate)}
-
-                      <div className="text-end pad10tb">
-                        <Status status={item.status} size="mini" />
-                      </div>
-                    </List.Description>
-                    <List.Description>
-                      <AmountColor
-                        amount={item.amount}
-                        sign={item.endBalance - item.startBalance + 1}
-                        className="text-gold"
-                      />
-                      {!prop.pending && (
-                        <div>
-                          {item.gateway && item.gateway}{" "}
-                          {item.coin && " - " + item.coin}
-                        </div>
+                      {gateway == "PerfectMoney" && (
+                        <>
+                          <br />
+                        </>
                       )}
-
-                      <div className="cashlist">
-                        {(gateway == "Bitcoin" ||
-                          gateway == "USDT" ||
-                          gateway == "PerfectMoney") && (
+                      {(gateway == "VisaGiftCode" ||
+                        gateway == "PerfectMoney") && (
+                        <>
+                          Code &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{" "}
+                          <span className="text-gold">
+                            h43oi43o43hio4io43hi
+                          </span>
+                        </>
+                      )}
+                      {(gateway == "Bitcoin" || gateway == "USDT") &&
+                        canShowPending && (
                           <>
-                            Amount &nbsp;
-                            <span className="text-gold">
-                              ${doCurrency(desc.dollarAmount)}
-                            </span>
-                            <br />
-                            Rate
-                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{" "}
-                            <span className="text-gold">
-                              {doCurrency(desc.dollarPrice)}
-                            </span>
+                            <QR note={item} doCurrency={doCurrency} />
                           </>
                         )}
-                        {gateway == "PerfectMoney" && (
-                          <>
-                            <br />
-                          </>
-                        )}
-                        {(gateway == "VisaGiftCode" ||
-                          gateway == "PerfectMoney") && (
-                          <>
-                            Code
-                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{" "}
-                            <span className="text-gold">
-                              h43oi43o43hio4io43hi
-                            </span>
-                          </>
-                        )}
-                        {(gateway == "Bitcoin" || gateway == "USDT") &&
-                          canShowPending && (
-                            <>
-                              <QR note={item} doCurrency={doCurrency} />
-                            </>
-                          )}
-                      </div>
-                    </List.Description>
-                  </List.Content>
-                )}
+                    </div>
+                  </List.Description>
+                </List.Content>
               </List.Item>
             );
           }

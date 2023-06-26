@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { getPokerSession } from "../../services/auth";
 import { Tab, Icon, Dropdown, Dimmer, Loader } from "semantic-ui-react";
-import { gameData, gameDataMain, getEvent, gamesUrl } from "../../const";
+import { gameData, gameDataMain, getEvent } from "../../const";
 import $ from "jquery";
 const moment = require("moment");
 
@@ -59,9 +59,7 @@ const Dashboard = (prop) => {
 
   const [gameLoader, setGameLoader] = useState(true);
   const params = useParams();
-  const [activeIndex, setActiveIndex] = useState(
-    params.gameId == "poker" ? 0 : 1
-  );
+  const [activeIndex, setActiveIndex] = useState(0);
   const [activeIndexLoad, setActiveIndexLoad] = useState(false);
   const [activeSlide, setActiveSlide] = useState(defslide);
   const [gameOptions, setGameOptions] = useState([]);
@@ -69,9 +67,11 @@ const Dashboard = (prop) => {
   const [secondaryGame, setSecondaryGame] = useState(
     localStorage.getItem("secondaryGame")
       ? localStorage.getItem("secondaryGame")
-      : "wheel"
+      : "crash"
   );
-  const [mainGame, setMainGame] = useState("poker");
+  const [mainGame, setMainGame] = useState(
+    params.gameId ? params.gameId : "poker"
+  );
 
   const handleChange = (e, { name, value }) => {
     setGameLoader(true);
@@ -107,7 +107,7 @@ const Dashboard = (prop) => {
   };
   const handleTabChange = (e, { activeIndex }) => setActiveIndex(activeIndex);
   useEffect(() => {
-    //setMainGame(params.gameId);
+    setMainGame(params.gameId);
     setSessionKey("");
     if (loginToken?.accessToken && !loginToken?.logout) {
       handleSession();
@@ -231,7 +231,7 @@ const Dashboard = (prop) => {
               <>
                 <iframe
                   src={
-                    gamesUrl +
+                    "https://wheel.khodekhalse.com/" +
                     loginToken.accessToken +
                     "/" +
                     loginToken.username
@@ -252,7 +252,7 @@ const Dashboard = (prop) => {
     {
       menuItem: "Tab 2",
       pane: (
-        <Tab.Pane key="tab2" className="active" attached={false}>
+        <Tab.Pane key="tab2" attached={false}>
           <div
             id="gamesec2"
             className="gamesec"
@@ -278,7 +278,10 @@ const Dashboard = (prop) => {
             {(activeIndex > 0 || activeIndexLoad) && (
               <iframe
                 src={
-                  gamesUrl + loginToken.accessToken + "/" + loginToken.username
+                  "https://wheel.khodekhalse.com/" +
+                  loginToken.accessToken +
+                  "/" +
+                  loginToken.username
                 }
                 className={
                   isFull
@@ -392,7 +395,6 @@ const Dashboard = (prop) => {
                   style={{
                     transform: "translateX(28px) translateY(28px) ",
                     transformOrigin: "center right",
-                    display: "none",
                   }}
                 >
                   <i className="fas fa-angle-double-down"></i>
