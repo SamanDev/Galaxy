@@ -260,39 +260,6 @@ export const cashoutData = [
     bonus: "- 2%",
   },
 ];
-export const cashoutDataDollar = [
-  {
-    key: "BTC",
-    getwaykey: "Bitcoin",
-    text: "بیت کوین",
-    value: "BTC",
-    icon: "btc",
-    limit: "$100 - $10K",
-    bonus: "- 2%",
-    usd: true,
-  },
-  {
-    key: "USDT",
-    getwaykey: "USDT",
-    text: "USDT TRC20",
-    value: "USDT",
-    icon: "dollar",
-    limit: "$100 - $10K",
-    bonus: "- 2%",
-    usd: true,
-  },
-
-  {
-    key: "PerfectMoney",
-    getwaykey: "PerfectMoney",
-    text: "پرفکت مانی",
-    value: "PerfectMoney",
-    icon: "dollar",
-    limit: "$100 - $10K",
-    bonus: "- 2%",
-    usd: true,
-  },
-];
 export const depositDataActive = [];
 export const cashoutDataActive = [];
 export const depositData = [
@@ -354,46 +321,6 @@ export const depositData = [
     limit: "Unlimited",
   },
 ];
-export const depositDollarData = [
-  {
-    key: "Online Cart to Cart",
-    getwaykey: "IranShetab",
-    text: "درگاه کارت به کارت",
-    value: "Online Cart to Cart",
-    icon: "cc mastercard",
-    limit: "100K - 3M",
-    usd: true,
-  },
-
-  {
-    key: "BTC",
-    getwaykey: "Bitcoin",
-    text: "بیت کوین",
-    value: "BTC",
-    icon: "btc",
-    limit: "Unlimited",
-    usd: true,
-  },
-  {
-    key: "USDT",
-    getwaykey: "USDT",
-    text: "USDT TRC20",
-    value: "USDT",
-    icon: "dollar",
-    limit: "Unlimited",
-    usd: true,
-  },
-
-  {
-    key: "PerfectMoney",
-    getwaykey: "PerfectMoney",
-    text: "پرفکت مانی",
-    value: "PerfectMoney",
-    icon: "dollar",
-    limit: "Unlimited",
-    usd: true,
-  },
-];
 export const GetMenu = (siteInfo) => {
   if (siteInfo == null) return false;
   siteInfo?.galaxyPassSet?.sort((a, b) => (a.id > b.id ? 1 : -1));
@@ -416,6 +343,20 @@ export const GetMenu = (siteInfo) => {
       idname: "admin",
     },
 
+    {
+      label: "بازی ها",
+      title: "بازی ها",
+      idname: "games",
+      icon: "rwotyanb.svg",
+      submenu: [
+        {
+          component: "games",
+          cashMode: "Invite",
+          size: "mini",
+          labelcolor: "orange",
+        },
+      ],
+    },
     {
       label: "صندوق",
       title: "صندوق",
@@ -451,7 +392,6 @@ export const GetMenu = (siteInfo) => {
           component: "CashoutComponent",
           mode: "transfer",
           size: "mini",
-          usd: false,
           labelcolor: "orange",
         },
         {
@@ -464,60 +404,6 @@ export const GetMenu = (siteInfo) => {
           component: "CashoutComponent",
           cashMode: "Report",
           size: "mini",
-          labelcolor: "orange",
-          usd: false,
-        },
-      ],
-    },
-    {
-      label: "صندوق دلاری",
-      title: "صندوق دلاری",
-      aria: "cashierarea",
-      icon: "qhviklyi.svg",
-      submenu: [
-        {
-          label: "خرید دلاری",
-          title: "خرید دلاری",
-          icon: "fas fa-plus text-danger",
-          idname: "deposit",
-          aria: "giftsarea animated bounceIn delay-02s",
-          icongalaxy: "deposit",
-          submenu: doDepositDollar(),
-        },
-        {
-          label: "برداشت دلاری",
-          title: "برداشت دلاری",
-          aria: "giftsarea animated bounceIn delay-02s",
-          icon: "fas fa-dollar text-gold",
-          idname: "cashout",
-          icongalaxy: "cashout",
-          submenu: doCashoutDollar(),
-        },
-        {
-          label: "انتقال دلاری",
-          title: "انتقال دلاری",
-          idname: "login",
-          getwaykey: "Transfer",
-          icon: "fas fa-exchange-alt",
-          icongalaxy: "transfer",
-          aria: "giftsarea animated bounceIn delay-02s",
-          component: "CashoutComponent",
-          mode: "transfer",
-          size: "mini",
-          usd: true,
-          labelcolor: "orange",
-        },
-        {
-          label: "تراکنش های دلاری",
-          title: "تراکنش های دلاری",
-          icongalaxy: "transaction",
-          aria: "giftsarea animated bounceIn delay-02s",
-          icon: "fas fa-stream",
-          idname: "login report",
-          component: "CashoutComponent",
-          cashMode: "Report",
-          size: "mini",
-          usd: true,
           labelcolor: "orange",
         },
       ],
@@ -741,32 +627,7 @@ export function doDeposit() {
         idname: "login Deposit" + game.value,
         component: "CashoutComponent",
         mode: "deposit",
-        usd: false,
-        size: "mini",
-        labelcolor: "orange",
-        gateway: game.value,
-      });
-    });
-  }
 
-  return _games;
-}
-export function doDepositDollar() {
-  var _games = [];
-
-  {
-    depositDollarData.map((game) => {
-      _games.push({
-        label: game.text + " $",
-        title: game.text,
-        helper: game.limit,
-        getwaykey: game.getwaykey,
-        bonus: "",
-        icon: game.icon,
-        idname: "login Deposit" + game.value,
-        component: "CashoutComponent",
-        mode: "deposit",
-        usd: true,
         size: "mini",
         labelcolor: "orange",
         gateway: game.value,
@@ -792,31 +653,7 @@ function doCashout() {
         idname: "login Cashout" + game.value,
         component: "CashoutComponent",
         mode: "cashout",
-        usd: false,
-        size: "mini",
-        labelcolor: "orange",
-        gateway: game.value,
-      });
-    });
-  }
-  return _games;
-}
-function doCashoutDollar() {
-  var _games = [];
 
-  {
-    cashoutDataDollar.map((game) => {
-      _games.push({
-        label: game.text + " $$",
-        title: game.text,
-        helper: game.limit,
-        getwaykey: game.getwaykey,
-        bonus: game.bonus,
-        icon: game.icon,
-        idname: "login Cashout" + game.value,
-        component: "CashoutComponent",
-        mode: "cashout",
-        usd: true,
         size: "mini",
         labelcolor: "orange",
         gateway: game.value,
@@ -1090,25 +927,6 @@ export const haveModerator = (userTags) => {
 };
 export const getCashAmount = (balance) => {
   var defMod = 100000;
-  if (balance > defMod * 2) {
-    defMod = defMod * 2;
-  }
-  if (balance > defMod * 2.5) {
-    defMod = defMod * 2.5;
-  }
-  if (balance > defMod * 2) {
-    defMod = defMod * 2;
-  }
-  if (balance > defMod * 2) {
-    defMod = defMod * 2;
-  }
-
-  var _balance = parseInt(balance / defMod) * defMod;
-
-  return _balance;
-};
-export const getCashAmountUsd = (balance) => {
-  var defMod = 100;
   if (balance > defMod * 2) {
     defMod = defMod * 2;
   }

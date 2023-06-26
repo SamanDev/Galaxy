@@ -1,18 +1,18 @@
 import React, { useState } from "react";
 
-import CashoutButton from "../../input/CashoutButton";
-import FormikControl from "../../../../components/form/FormikControl";
+import CashoutButton from "../../../input/CashoutButton";
+import FormikControl from "../../../../../components/form/FormikControl";
 import { useNavigate } from "react-router-dom";
 import { Form, Formik } from "formik";
 import * as Yup from "yup";
-import { Alert } from "../../../../utils/alerts";
-import { cashierService } from "../../../../services/cashier";
-import { getCashAmount } from "../../../../const";
+import { Alert } from "../../../../../utils/alerts";
+import { cashierService } from "../../../../../services/cashier";
+import { getCashAmountUsd } from "../../../../../const";
 const initialValues = {
   action: "cashout",
   amount: 0,
   coin: "USDT.TRC20",
-  amountDollar: 100,
+  usd: true,
   userWalletAddress: "",
   username: "",
   password: "",
@@ -37,7 +37,6 @@ const onSubmit = async (values, submitMethods, navigate, prop, setRefresh) => {
 };
 
 const depositArea = (prop) => {
-  console.log();
   const [refresh, setRefresh] = useState(false);
   const navigate = useNavigate();
   const loginToken = prop.loginToken;
@@ -45,14 +44,10 @@ const depositArea = (prop) => {
   const validationSchema = Yup.object({
     amount: Yup.number()
       .required("لطفا این فیلد را وارد کنید.")
-      .min(100000, "لطفا این فیلد را درست وارد کنید.")
-      .max(loginToken.balance, "لطفا این فیلد را درست وارد کنید.")
+      .min(100, "لطفا این فیلد را درست وارد کنید.")
+      .max(loginToken.balance2, "لطفا این فیلد را درست وارد کنید.")
       .integer(),
 
-    amountDollar: Yup.number()
-      .required("لطفا این فیلد را وارد کنید.")
-      .min(100, "لطفا این فیلد را درست وارد کنید.")
-      .integer(),
     userWalletAddress: Yup.string()
       .required("لطفا این فیلد را وارد کنید.")
       .min(10, "لطفا این فیلد را درست وارد کنید."),
@@ -60,16 +55,16 @@ const depositArea = (prop) => {
       .required("کلمه عبور حداقل باشد 8 کاراکتر باشد.")
       .min(8, "کلمه عبور حداقل باشد 8 کاراکتر باشد."),
   });
-  var _bal = getCashAmount(loginToken.balance);
+  var _bal = getCashAmountUsd(loginToken.balance2);
   return (
     <Formik
       initialValues={{
         amount: _bal,
 
         action: "cashout",
-
+        usd: true,
         coin: "USDT.TRC20",
-        amountDollar: _bal / getRate >= 100 ? _bal / getRate : 100,
+        amountDollar: _bal,
         userWalletAddress: "",
         username: "",
         password: "",
@@ -84,11 +79,12 @@ const depositArea = (prop) => {
           <Form>
             <FormikControl
               formik={formik}
-              control="amount"
+              control="amountusd"
               name="amount"
               labelcolor={prop.labelcolor}
               size={prop.size}
-              dollar={true}
+              dollar={false}
+              def={_bal}
             />
             <FormikControl
               formik={formik}

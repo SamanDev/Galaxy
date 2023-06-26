@@ -4,8 +4,9 @@ import Input from "./Input";
 import Select from "./Select";
 import Switch from "./Switch";
 import Textarea from "./Textarea";
-import Amount from "./Amount";
 
+import Amount from "./Amount";
+import AmountUsd from "./AmountUsd";
 const FormikControl = (props) => {
   switch (props.control) {
     case "select":
@@ -14,6 +15,8 @@ const FormikControl = (props) => {
       return <Input {...props} />;
     case "amount":
       return <Amount {...props} />;
+    case "amountusd":
+      return <AmountUsd {...props} />;
     case "textarea":
       return <Textarea {...props} />;
     case "file":

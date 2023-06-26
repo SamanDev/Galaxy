@@ -1,26 +1,37 @@
 import React, { useState } from "react";
 
-import CashoutButton from "../../input/CashoutButton";
-import FormikControl from "../../../../components/form/FormikControl";
+import CashoutButton from "../../../input/CashoutButton";
+import FormikControl from "../../../../../components/form/FormikControl";
 import { useNavigate } from "react-router-dom";
 import { Form, Formik } from "formik";
 import * as Yup from "yup";
-import { Alert } from "../../../../utils/alerts";
-import { cashierService } from "../../../../services/cashier";
-import { getCashAmount } from "../../../../const";
+import { cashierService } from "../../../../../services/cashier";
+import { Alert } from "../../../../../utils/alerts";
+import AnimIcon from "../../../../../utils/inviteIcon";
+
 const initialValues = {
-  action: "cashout",
-  amount: 0,
-  coin: "USDT.TRC20",
-  amountDollar: 100,
-  userWalletAddress: "",
+  amount: 10,
+
+  touser: "",
   username: "",
   password: "",
 };
-
+const validationSchema = Yup.object({
+  amount: Yup.number()
+    .required("لطفا این فیلد را وارد کنید.")
+    .min(10, "لطفا این فیلد را درست وارد کنید.")
+    .integer(),
+  touser: Yup.string()
+    .required("نام کاربری حداقل باشد 3 کاراکتر باشد.")
+    .min(3, "نام کاربری حداقل باشد 3 کاراکتر باشد.")
+    .max(12, "نام کاربری حداکثر باشد 12 کاراکتر باشد."),
+  password: Yup.string()
+    .required("کلمه عبور حداقل باشد 8 کاراکتر باشد.")
+    .min(8, "کلمه عبور حداقل باشد 8 کاراکتر باشد."),
+});
 const onSubmit = async (values, submitMethods, navigate, prop, setRefresh) => {
   try {
-    const res = await cashierService(values, "coinPayments", "");
+    const res = await cashierService(values, "Transfer", "");
     if (res.status == 200) {
       if (res.data?.address) {
         setRefresh(true);
@@ -37,43 +48,12 @@ const onSubmit = async (values, submitMethods, navigate, prop, setRefresh) => {
 };
 
 const depositArea = (prop) => {
-  console.log();
   const [refresh, setRefresh] = useState(false);
   const navigate = useNavigate();
-  const loginToken = prop.loginToken;
-  const getRate = localStorage.getItem("getRate") || 31250;
-  const validationSchema = Yup.object({
-    amount: Yup.number()
-      .required("لطفا این فیلد را وارد کنید.")
-      .min(100000, "لطفا این فیلد را درست وارد کنید.")
-      .max(loginToken.balance, "لطفا این فیلد را درست وارد کنید.")
-      .integer(),
 
-    amountDollar: Yup.number()
-      .required("لطفا این فیلد را وارد کنید.")
-      .min(100, "لطفا این فیلد را درست وارد کنید.")
-      .integer(),
-    userWalletAddress: Yup.string()
-      .required("لطفا این فیلد را وارد کنید.")
-      .min(10, "لطفا این فیلد را درست وارد کنید."),
-    password: Yup.string()
-      .required("کلمه عبور حداقل باشد 8 کاراکتر باشد.")
-      .min(8, "کلمه عبور حداقل باشد 8 کاراکتر باشد."),
-  });
-  var _bal = getCashAmount(loginToken.balance);
   return (
     <Formik
-      initialValues={{
-        amount: _bal,
-
-        action: "cashout",
-
-        coin: "USDT.TRC20",
-        amountDollar: _bal / getRate >= 100 ? _bal / getRate : 100,
-        userWalletAddress: "",
-        username: "",
-        password: "",
-      }}
+      initialValues={initialValues}
       onSubmit={(values, submitMethods) =>
         onSubmit(values, submitMethods, navigate, prop, setRefresh)
       }
@@ -82,23 +62,46 @@ const depositArea = (prop) => {
       {(formik) => {
         return (
           <Form>
+            <div
+              className="fadeout"
+              style={{ height: 100, position: "relative" }}
+            >
+              <div
+                style={{
+                  position: "absolute",
+                  zIndex: 0,
+                  top: -15,
+                  width: "100%",
+                  textAlign: "center",
+                }}
+              >
+                <AnimIcon
+                  icon="ssdupzsv"
+                  width="200px"
+                  height="150px"
+                  trigger="loop"
+                  colors="primary:#545454,secondary:#916f10"
+                />
+              </div>
+            </div>
             <FormikControl
               formik={formik}
-              control="amount"
+              control="amountusd"
               name="amount"
               labelcolor={prop.labelcolor}
               size={prop.size}
-              dollar={true}
+              dollar={false}
+              def={10}
             />
             <FormikControl
               formik={formik}
               control="input"
               type="text"
-              name="userWalletAddress"
-              label="TRC20 Wallet"
-              labelcolor="red"
+              name="touser"
+              labelcolor="black"
               size={prop.size}
-              autoComplete="trc20-wallet"
+              label="انتقال به کاربر"
+              autoComplete="receiver"
             />
             <span style={{ position: "absolute", opacity: 0, zIndex: -1 }}>
               <FormikControl
@@ -109,6 +112,7 @@ const depositArea = (prop) => {
                 labelcolor={prop.labelcolor}
                 size={prop.size}
                 label="مبلغ به دلار"
+                autoComplete="off"
               />
             </span>
             <FormikControl
@@ -117,13 +121,14 @@ const depositArea = (prop) => {
               type="password"
               name="password"
               label=" کلمه عبور"
-              autoComplete="password"
               labelcolor="red"
               size={prop.size}
+              autoComplete="password"
             />
 
             <CashoutButton
               {...prop}
+              val="انتقال"
               disabled={formik.isSubmitting}
               loading={formik.isSubmitting}
               refresh={refresh}
