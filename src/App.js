@@ -830,8 +830,8 @@ function App(prop) {
         localStorage.removeItem("galaxyUserkeyToken");
       }
       localStorage.setItem("balance", 0);
-      UserWebsocket.disconnect();
-      setDcOpen(false);
+      UserWebsocket.connect();
+
       navigate("/");
       //window.location = "/";
     }
@@ -1038,13 +1038,13 @@ function App(prop) {
       if (isLogin) {
         setDcOpen(true);
       } else {
-        //setDcOpen(true);
+        setDcOpen(true);
       }
     });
     eventBus.on("eventsConnect", () => {
       setDcOpen(false);
     });
-    //startServiceWorker();
+    startServiceWorker();
   }, []);
   useEffect(() => {
     printmenu();

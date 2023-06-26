@@ -203,6 +203,7 @@ const Dashboard = (prop) => {
       window.deferredPrompt = null;
     });
     window.addEventListener("appinstalled", () => {
+      setRefresh(0);
       window.deferredPrompt = null;
     });
     if (window.deferredPrompt) {
@@ -268,7 +269,7 @@ const Dashboard = (prop) => {
   const [secondaryGame, setSecondaryGame] = useState(
     localStorage.getItem("secondaryGame")
       ? localStorage.getItem("secondaryGame")
-      : "wheel"
+      : "crash"
   );
   const [mainGame, setMainGame] = useState(
     params.gameId ? params.gameId : "poker"
