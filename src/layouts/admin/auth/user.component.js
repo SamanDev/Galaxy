@@ -57,22 +57,17 @@ const depositArea = (prop) => {
             lineHeight: "130%",
           }}
         >
-          {!loginToken?.logout && (
-            <>
-              {(haveAdmin(loginToken?.roles) ||
-                haveModerator(loginToken?.roles)) && (
-                <Button
-                  as={Link}
-                  to={"/admin/" + data.username}
-                  target="_blank"
-                  color="red"
-                >
-                  Open Profile
-                </Button>
-              )}
-            </>
+          {(haveAdmin(loginToken?.roles) ||
+            haveModerator(loginToken?.roles)) && (
+            <Button
+              as={Link}
+              to={"/admin/" + data.username}
+              target="_blank"
+              color="red"
+            >
+              Open Profile
+            </Button>
           )}
-
           <Balance data={data} {...prop} />
         </Segment>
       </>

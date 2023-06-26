@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Header, Divider, Button, Segment } from "semantic-ui-react";
-import { checkBlock } from "../../../services/httpService";
+
 const depositArea = (prop) => {
   const [depMode, setDepMode] = useState(false);
   const loginToken = prop.loginToken;
@@ -33,9 +33,9 @@ const depositArea = (prop) => {
         disabled={depMode}
         loading={depMode}
         onClick={() => {
-          checkBlock(loginToken);
-          setDepMode(true);
-          //window.location.reload();
+          //checkBlock(loginToken);
+          //setDepMode(true);
+          window.location.reload();
         }}
         className="farsi"
         color="red"

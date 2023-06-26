@@ -1,9 +1,9 @@
 import $ from "jquery";
 import React, { useState } from "react";
 import { Button, Divider, Header, Icon, Label } from "semantic-ui-react";
-import { depositData, depositDollarData, doCurrency } from "../../../../const";
+import { depositData } from "../../../../const";
 import DepositArea from "./depositComponent";
-import { Statistic, Segment } from "semantic-ui-react";
+
 const defCol = "black";
 const selCol = "green";
 const defColBtn = "grey";
@@ -55,73 +55,9 @@ const depositArea = (prop) => {
         <Header as="h4" className="farsi">
           لطفا روش پرداخت را انتخاب کنید
         </Header>
-        <Segment inverted className="blnc" size="mini" color="black">
-          <Statistic inverted size="mini">
-            <Statistic.Value>{doCurrency(loginToken?.balance)}</Statistic.Value>
-            <Statistic.Label className="farsi">موجودی شما</Statistic.Label>
-          </Statistic>
-        </Segment>
         <Divider inverted />
         <Button.Group size="mini" vertical labeled icon fluid>
           {cData.map(function (dep, i) {
-            if (prop.getAccess(dep.getwaykey)) {
-              return (
-                <Button
-                  key={i}
-                  active={depMode.value == dep.value}
-                  onClick={() => {
-                    setDepMode(dep);
-                    $(".deparea").hide();
-                    $("#dep2").show();
-                  }}
-                  color={depMode.value == dep.value ? selColBtn : defColBtn}
-                >
-                  <Icon name={dep.icon} color="black" />
-                  <span className="farsi">{dep.text}</span>
-                  <Label
-                    size="mini"
-                    floating
-                    color={depMode.value == dep.value ? selCol : defCol}
-                    pointing="left"
-                    className="myfloat"
-                  >
-                    {dep.limit}
-                  </Label>
-                  {dep.bonus && (
-                    <Label
-                      size="mini"
-                      color="green"
-                      title={dep.bonus + " بوناس"}
-                      style={{ position: "absolute", top: 5, right: 100 }}
-                    >
-                      {dep.bonus}
-                    </Label>
-                  )}
-                </Button>
-              );
-            } else {
-              return null;
-            }
-          })}
-        </Button.Group>
-        <Divider inverted />
-        <Header as="h4" className="farsi">
-          یا روش پرداخت دلاری را انتخاب کنید
-        </Header>
-        <Segment inverted className="blnc" size="mini">
-          <Statistic inverted size="mini">
-            <Statistic.Value>
-              <span className="text-gold">$</span>{" "}
-              {doCurrency(loginToken?.balance2)}
-            </Statistic.Value>
-            <Statistic.Label className="farsi">
-              موجودی دلاری شما
-            </Statistic.Label>
-          </Statistic>
-        </Segment>
-        <Divider inverted />
-        <Button.Group size="mini" vertical labeled icon fluid>
-          {depositDollarData.map(function (dep, i) {
             if (prop.getAccess(dep.getwaykey)) {
               return (
                 <Button
@@ -184,9 +120,7 @@ const depositArea = (prop) => {
         </div>
 
         <Divider inverted />
-        {depMode.value && (
-          <DepositArea {...prop} menu={depMode} gateway={depMode.value} />
-        )}
+        {depMode.value && <DepositArea {...prop} gateway={depMode.value} />}
       </div>
     </>
   );
