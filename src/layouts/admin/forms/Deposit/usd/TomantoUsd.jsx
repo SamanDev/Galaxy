@@ -23,7 +23,7 @@ import { Alert } from "../../../../../utils/alerts";
 import { doCurrency } from "../../../../../const";
 import MyMsg from "../../../../../utils/MsgDesc";
 import { cashierService } from "../../../../../services/cashier";
-
+import { rateService } from "../../../../../services/cashier";
 var countryOptions = [];
 var amounts = [
   { value: 5 },
@@ -42,6 +42,7 @@ const validationSchema = Yup.object({
     .required("کلمه عبور حداقل باشد 8 کاراکتر باشد.")
     .min(8, "کلمه عبور حداقل باشد 8 کاراکتر باشد."),
 });
+
 const onSubmit = async (values, submitMethods, navigate, prop) => {
   try {
     const res = await cashierService(values, "TomantoUSD");
@@ -67,7 +68,22 @@ const depositArea = (prop) => {
   const navigate = useNavigate();
   const getRate = localStorage.getItem("getRate");
   const loginToken = prop.loginToken;
+  const [rate, setRate] = useState(getRate || 31250);
+  const handleGetRate = async () => {
+    try {
+      const res = await rateService();
+      if (res.status === 200) {
+        localStorage.setItem("getRate", res.data);
+        setRate(res.data);
+      }
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
 
+  useEffect(() => {
+    handleGetRate();
+  }, []);
   if (loginToken) {
     countryOptions = [];
     loginToken?.cashierGateways.map((item, i) => {
