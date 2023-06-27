@@ -356,12 +356,15 @@ export const depositData = [
 ];
 export const depositDollarData = [
   {
-    key: "Online Cart to Cart",
-    getwaykey: "IranShetab",
-    text: "درگاه کارت به کارت",
-    value: "Online Cart to Cart",
+    key: "Cart to Cart",
+    getwaykey: "CartToCart",
+
+    value: "Cart to Cart",
+    text: "تومان به دلار",
+
     icon: "cc mastercard",
     limit: "100K - 3M",
+
     usd: true,
   },
 

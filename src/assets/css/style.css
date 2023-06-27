@@ -2127,6 +2127,14 @@ table {
 .carousel-item {
   max-height: calc(100vh - 262px);
 }
+.icon.usdbtn {
+  line-height: 30px !important;
+  width: 40px !important;
+  font-weight: 900;
+  font-family: "Helvetica Neue";
+  background-color: #630000 !important;
+  font-size: 12px !important;
+}
 .blnc {
   display: flex;
   flex-direction: column;

@@ -5,6 +5,7 @@ import CartToCartOnline from "./CartToCartOnline";
 import BankTransfer from "./BankTransfer";
 import PerfectMoney from "./PerfectMoney";
 import PerfectMoney2 from "./usd/PerfectMoney";
+import TomantoUsd from "./usd/TomantoUsd";
 
 import USDT from "./USDT";
 import USDT2 from "./usd/USDT";
@@ -28,8 +29,8 @@ const depositArea = (prop) => {
         </>
       ) : (
         <>
-          <Segment inverted className="blnc">
-            <Statistic inverted size="tiny">
+          <Segment inverted className="blnc" size="mini">
+            <Statistic inverted size="mini">
               <Statistic.Value>
                 {prop.menu?.usd ? (
                   <>
@@ -75,7 +76,25 @@ const depositArea = (prop) => {
             <>
               {loginToken?.bankInfos.length > 0 ? (
                 <>
-                  <CartToCart {...prop} />
+                  <>
+                    {prop.menu?.usd ? (
+                      <>
+                        <Segment inverted className="blnc" size="mini">
+                          <Statistic inverted size="mini">
+                            <Statistic.Value>
+                              {doCurrency(loginToken?.balance)}
+                            </Statistic.Value>
+                            <Statistic.Label className="farsi">
+                              موجودی شما
+                            </Statistic.Label>
+                          </Statistic>
+                        </Segment>
+                        <TomantoUsd {...prop} />
+                      </>
+                    ) : (
+                      <CartToCart {...prop} />
+                    )}
+                  </>
                 </>
               ) : (
                 <>

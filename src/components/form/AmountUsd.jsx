@@ -33,9 +33,6 @@ const Amount = (prop) => {
           _value = 100000;
         }
       }
-      try {
-        prop.formik.setFieldValue("txID", "");
-      } catch (error) {}
 
       setAmount(_value);
       if (prop.dollar) setAmountDollar(parseFloat(_value / rate).toFixed(2));
@@ -59,117 +56,67 @@ const Amount = (prop) => {
 
   return (
     <>
-      {prop.rate ? (
-        <>
-          <Input size="mini" readOnly fluid labelPosition="left" value={rate}>
-            <Label size="tiny" color="black" pointing="right" className="farsi">
-              نرخ تبدیل
-            </Label>
-            <CurrencyInput
-              name="rate"
-              value={rate}
-              allowDecimals={true}
-              decimalsLimit={2}
-            />
-          </Input>
-        </>
-      ) : (
+      <span className="hiddenmenu">
+        <FormikControl
+          formik={prop.formik}
+          control="input"
+          type="text"
+          name="amount"
+          labelcolor={prop.labelcolor}
+          size={prop.size}
+          label="مبلغ به دلار"
+          className="farsi"
+          disabled={prop.disabled}
+        />
+      </span>
+      {prop.formik.errors[prop.name] && (
+        <Label
+          className="farsi"
+          basic
+          color="red"
+          pointing="below"
+          size={prop.size}
+          disabled={prop.disabled}
+        >
+          {prop.formik.errors[prop.name]}
+        </Label>
+      )}
+      <Input size={prop.size} fluid labelPosition="left">
+        <Label
+          pointing="right"
+          color={prop.formik.errors[prop.name] ? "red" : prop.labelcolor}
+          size={prop.size}
+          className="farsi"
+        >
+          مبلغ به دلار
+        </Label>
+        <CurrencyInput
+          name="amount"
+          value={amount}
+          defaultValue="1000000"
+          allowDecimals={false}
+          maxLength="10"
+          disabled={prop.disabled}
+          onValueChange={(value, name) => setVal(name, value)}
+        />
+      </Input>
+      {prop.dollar && (
         <>
           <span className="hiddenmenu">
             <FormikControl
               formik={prop.formik}
               control="input"
               type="text"
-              name="amount"
+              name="amountDollar"
               labelcolor={prop.labelcolor}
               size={prop.size}
               label="مبلغ به دلار"
-              className="farsi"
               disabled={prop.disabled}
             />
           </span>
-          {prop.formik.errors[prop.name] && (
-            <Label
-              className="farsi"
-              basic
-              color="red"
-              pointing="below"
-              size={prop.size}
-              disabled={prop.disabled}
-            >
-              {prop.formik.errors[prop.name]}
-            </Label>
-          )}
-          <Input size={prop.size} fluid labelPosition="left">
-            <Label
-              pointing="right"
-              color={prop.formik.errors[prop.name] ? "red" : prop.labelcolor}
-              size={prop.size}
-              className="farsi"
-            >
-              مبلغ به دلار
-            </Label>
-            <CurrencyInput
-              name="amount"
-              value={amount}
-              defaultValue="1000000"
-              allowDecimals={false}
-              maxLength="10"
-              disabled={prop.disabled}
-              onValueChange={(value, name) => setVal(name, value)}
-            />
-          </Input>
-          {prop.dollar && (
+
+          {prop.rate && (
             <>
-              <span className="hiddenmenu">
-                <FormikControl
-                  formik={prop.formik}
-                  control="input"
-                  type="text"
-                  name="amountDollar"
-                  labelcolor={prop.labelcolor}
-                  size={prop.size}
-                  label="مبلغ به دلار"
-                  disabled={prop.disabled}
-                />
-              </span>
-              {prop.formik.errors["amountDollar"] &&
-                prop.formik.touched["amountDollar"] && (
-                  <Label
-                    className="farsi"
-                    basic
-                    color="red"
-                    pointing="below"
-                    size={prop.size}
-                    disabled={prop.disabled}
-                  >
-                    {prop.formik.errors["amountDollar"]}
-                  </Label>
-                )}
-              <Input size="mini" fluid labelPosition="left">
-                <Label
-                  pointing="right"
-                  color={
-                    prop.formik.errors["amountDollar"] &&
-                    prop.formik.touched["amountDollar"]
-                      ? "red"
-                      : prop.labelcolor
-                  }
-                  size={prop.size}
-                  className="farsi"
-                >
-                  مبلغ به دلار
-                </Label>
-                <CurrencyInput
-                  value={amountDollar}
-                  allowDecimals={true}
-                  decimalsLimit={2}
-                  name="amountDollar"
-                  maxLength="6"
-                  disabled={prop.disabled}
-                  onValueChange={(value, name) => setVal(name, value)}
-                />
-              </Input>
               <Input
                 size="mini"
                 readOnly
@@ -190,7 +137,6 @@ const Amount = (prop) => {
                   value={rate}
                   allowDecimals={true}
                   decimalsLimit={2}
-                  disabled={prop.disabled}
                 />
               </Input>
             </>

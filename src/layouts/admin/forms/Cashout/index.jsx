@@ -66,63 +66,67 @@ const depositArea = (prop) => {
             }
           })}
         </Button.Group>
-        <Divider inverted />
-        <Header as="h4" className="farsi">
-          یا روش برداشت دلاری را انتخاب کنید
-        </Header>
-        <Segment inverted className="blnc" size="mini">
-          <Statistic inverted size="mini">
-            <Statistic.Value>
-              <span className="text-gold">$</span>{" "}
-              {doCurrency(loginToken?.balance2)}
-            </Statistic.Value>
-            <Statistic.Label className="farsi">
-              موجودی دلاری شما
-            </Statistic.Label>
-          </Statistic>
-        </Segment>
-        <Divider inverted />
-        <Button.Group size="mini" vertical labeled icon fluid>
-          {cashoutDataDollar.map(function (dep, i) {
-            if (prop.getAccess(dep.getwaykey)) {
-              return (
-                <Button
-                  key={i}
-                  active={depMode.value == dep.value}
-                  onClick={() => {
-                    setDepMode(dep);
-                    $(".deparea").hide();
-                    $("#dep2").show();
-                  }}
-                  color={depMode.value == dep.value ? selColBtn : defColBtn}
-                >
-                  <Icon name={dep.icon} color="black" />
-                  <span className="farsi">{dep.text}</span>
-                  <Label
-                    size="mini"
-                    floating
-                    color={depMode.value == dep.value ? selCol : defCol}
-                    pointing="left"
-                    className="myfloat"
-                  >
-                    {dep.limit}
-                  </Label>
-                  {dep.bonus && (
-                    <Label
-                      size="mini"
-                      color="red"
-                      style={{ position: "absolute", top: 5, right: 100 }}
+        {loginToken?.balance2 >= 1 && (
+          <>
+            <Divider inverted />
+            <Header as="h4" className="farsi">
+              یا روش برداشت دلاری را انتخاب کنید
+            </Header>
+            <Segment inverted className="blnc" size="mini">
+              <Statistic inverted size="mini">
+                <Statistic.Value>
+                  <span className="text-gold">$</span>{" "}
+                  {doCurrency(loginToken?.balance2)}
+                </Statistic.Value>
+                <Statistic.Label className="farsi">
+                  موجودی دلاری شما
+                </Statistic.Label>
+              </Statistic>
+            </Segment>
+            <Divider inverted />
+            <Button.Group size="mini" vertical labeled icon fluid>
+              {cashoutDataDollar.map(function (dep, i) {
+                if (prop.getAccess(dep.getwaykey)) {
+                  return (
+                    <Button
+                      key={i}
+                      active={depMode.value == dep.value}
+                      onClick={() => {
+                        setDepMode(dep);
+                        $(".deparea").hide();
+                        $("#dep2").show();
+                      }}
+                      color={depMode.value == dep.value ? selColBtn : defColBtn}
                     >
-                      {dep.bonus}
-                    </Label>
-                  )}
-                </Button>
-              );
-            } else {
-              return null;
-            }
-          })}
-        </Button.Group>
+                      <Icon name={dep.icon} color="black" />
+                      <span className="farsi">{dep.text}</span>
+                      <Label
+                        size="mini"
+                        floating
+                        color={depMode.value == dep.value ? selCol : defCol}
+                        pointing="left"
+                        className="myfloat"
+                      >
+                        {dep.limit}
+                      </Label>
+                      {dep.bonus && (
+                        <Label
+                          size="mini"
+                          color="red"
+                          style={{ position: "absolute", top: 5, right: 100 }}
+                        >
+                          {dep.bonus}
+                        </Label>
+                      )}
+                    </Button>
+                  );
+                } else {
+                  return null;
+                }
+              })}
+            </Button.Group>
+          </>
+        )}
       </div>
       <div
         id="dep2"
