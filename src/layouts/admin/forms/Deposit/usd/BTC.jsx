@@ -45,7 +45,7 @@ const onSubmit = async (values, submitMethods, navigate, prop, setRefresh) => {
 const depositArea = (prop) => {
   const [refresh, setRefresh] = useState(false);
   const navigate = useNavigate();
-  console.log(prop);
+
   return (
     <Formik
       initialValues={initialValues}

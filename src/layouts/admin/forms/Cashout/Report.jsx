@@ -27,9 +27,13 @@ const Report = (prop) => {
         prop.menu?.usd
       );
       if (res.status === 200) {
-        var _res = res.data?.sort((a, b) =>
-          a.updateDate < b.updateDate ? 1 : -1
-        );
+        var _res = res.data
+          .filter((item) =>
+            prop.menu?.usd
+              ? item.endBalance2 != item.startBalance2
+              : item.endBalance != item.startBalance
+          )
+          .sort((a, b) => (a.updateDate < b.updateDate ? 1 : -1));
         setData(_res);
       }
       setLoading(false);
@@ -122,7 +126,8 @@ const Report = (prop) => {
                           className="text-gold"
                         />
                         <div className="pad10tb">
-                          {item.mode} {item.gateway && <>({item.gateway})</>}
+                          {item.mode} {item.gateway && <>({item.gateway})</>}{" "}
+                          {item.amount2 > 0 && <>$({item.amount2})</>}
                         </div>
                       </List.Description>
                     </List.Content>

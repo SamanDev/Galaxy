@@ -206,7 +206,7 @@ function App(prop) {
   function bindLastReward() {
     if (setbindrew) return false;
     setbindrew = true;
-    console.log("bind");
+    //console.log("bind");
     setTimeout(() => {
       $(".rewardname .iconarea > *")
         .unbind()
@@ -776,7 +776,7 @@ function App(prop) {
     $(".item.active").removeClass("active");
     api.open();
     const panel = document.querySelector(_id);
-    console.log(_id);
+    //console.log(_id);
     api.openPanel(panel);
 
     setTimeout(() => {
@@ -891,11 +891,7 @@ function App(prop) {
       api.bind("openPanel:before", (panel) => {
         setActiveMenu("main");
         var _parent = $("#" + panel.id + "").attr("data-mm-parent");
-        console.log(
-          $("#" + _parent)
-            .find("a:first > span.mymenu")
-            .text()
-        );
+
         if (_parent) {
           setTimeout(() => {
             var _parent = $("#" + panel.id + "").attr("data-mm-parent");

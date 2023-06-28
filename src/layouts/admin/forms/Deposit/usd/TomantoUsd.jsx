@@ -22,7 +22,7 @@ import * as Yup from "yup";
 import { Alert } from "../../../../../utils/alerts";
 import { doCurrency } from "../../../../../const";
 import MyMsg from "../../../../../utils/MsgDesc";
-import { cashierService } from "../../../../../services/cashier";
+import { cashierServiceGame } from "../../../../../services/cashier";
 import { rateService } from "../../../../../services/cashier";
 var countryOptions = [];
 var amounts = [
@@ -46,13 +46,10 @@ const validationSchema = Yup.object({
 const onSubmit = async (values, submitMethods, getRate, prop) => {
   try {
     var newValues = values;
-    newValues.amount = newValues.amount * getRate;
-    const res = await cashierService(values, "exChanger");
+    newValues.amountDollar = values.amount;
+    newValues.amount = values.amount * getRate;
+    const res = await cashierServiceGame(newValues, "exChanger");
     if (res.status == 200) {
-      localAmount(values, prop);
-      if (res.data?.message) {
-        Alert("متاسفم...!", res.data.message, "error");
-      }
     } else {
       Alert("متاسفم...!", res.data.message, "error");
     }
@@ -105,7 +102,7 @@ const depositArea = (prop) => {
           password: "",
         }}
         onSubmit={(values, submitMethods) =>
-          onSubmit(values, submitMethods, getRate, prop)
+          onSubmit(values, submitMethods, rate, prop)
         }
         validationSchema={validationSchema}
       >

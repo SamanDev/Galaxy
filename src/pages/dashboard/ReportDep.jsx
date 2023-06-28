@@ -25,7 +25,13 @@ const Report = (prop) => {
         prop.menu?.usd
       );
       if (res.status === 200) {
-        setData(res.data);
+        var _res = res.data.filter((item) =>
+          prop.menu?.usd
+            ? item.endBalance2 != item.startBalance2
+            : item.endBalance != item.startBalance
+        );
+
+        setData(_res);
       }
     } catch (error) {
       console.log(error.message);
