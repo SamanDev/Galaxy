@@ -27,7 +27,7 @@ export function startServiceWorker() {
 export const gamesUrl =
   process.env.NODE_ENV === "production"
     ? "https://wheel.khodekhalse.com/"
-    : "http://localhost:3000/";
+    : "https://wheel.khodekhalse.com/";
 function getAPI() {
   //let host = document.location.host;
   var host = {
@@ -356,15 +356,15 @@ export const depositData = [
 ];
 export const depositDollarData = [
   {
-    key: "Cart to Cart",
-    getwaykey: "CartToCart",
+    key: "Transfer",
+    getwaykey: "Transfer",
 
-    value: "Cart to Cart",
+    value: "Transfer",
     text: "تومان به دلار",
 
     icon: "cc mastercard",
     limit: "100K - 3M",
-
+    gateway: "exChange",
     usd: true,
   },
 

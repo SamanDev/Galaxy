@@ -43,9 +43,11 @@ const validationSchema = Yup.object({
     .min(8, "کلمه عبور حداقل باشد 8 کاراکتر باشد."),
 });
 
-const onSubmit = async (values, submitMethods, navigate, prop) => {
+const onSubmit = async (values, submitMethods, getRate, prop) => {
   try {
-    const res = await cashierService(values, "TomantoUSD");
+    var newValues = values;
+    newValues.amount = newValues.amount * getRate;
+    const res = await cashierService(values, "exChanger");
     if (res.status == 200) {
       localAmount(values, prop);
       if (res.data?.message) {
@@ -103,7 +105,7 @@ const depositArea = (prop) => {
           password: "",
         }}
         onSubmit={(values, submitMethods) =>
-          onSubmit(values, submitMethods, navigate, prop)
+          onSubmit(values, submitMethods, getRate, prop)
         }
         validationSchema={validationSchema}
       >
@@ -167,8 +169,7 @@ const depositArea = (prop) => {
                 {...prop}
                 val="تبدیل"
                 type="submit"
-                disabled={formik.isSubmitting || formik.values.pin == ""}
-                hidden={formik.values.txID == "" || !formik.isValid}
+                disabled={formik.isSubmitting}
                 loading={formik.isSubmitting}
               />
             </Form>

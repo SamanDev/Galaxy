@@ -83,9 +83,9 @@ const depositArea = (prop) => {
           {prop.mode === "transfer" && (
             <>
               {prop.menu?.usd ? (
-                <Transfer2 {...prop} blnBlock={blnBlock} />
+                <Transfer2 {...prop} gateway="transfer" blnBlock={blnBlock} />
               ) : (
-                <Transfer {...prop} blnBlock={blnBlock} />
+                <Transfer {...prop} gateway="transfer" blnBlock={blnBlock} />
               )}
             </>
           )}

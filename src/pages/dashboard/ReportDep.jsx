@@ -13,7 +13,7 @@ const Report = (prop) => {
   const [data, setData] = useState([]);
   var gateway = prop.gateway
     ? prop.gateway.replace(/ /g, "").replace("BTC", "Bitcoin")
-    : null;
+    : "";
   const [loading, setLoading] = useState(true);
   const handleGetReports = async () => {
     setLoading(true);
@@ -82,8 +82,8 @@ const Report = (prop) => {
                     </List.Description>
                     <List.Description>
                       <AmountColor
-                        amount={item.dollarAmount}
-                        sign={item.endBalance - item.startBalance + 1}
+                        amount={item.amount2}
+                        sign={item.endBalance2 - item.startBalance2 + 1}
                         className="text-gold"
                       />
                       {!prop.pending && (

@@ -14,9 +14,9 @@ const Report = (prop) => {
         .replace(/ /g, "")
         .replace("BTC", "Bitcoin")
         .replace("Toman", "IranShetab")
-    : null;
+    : "";
   const [loading, setLoading] = useState(true);
-  console.log(prop);
+
   const handleGetReports = async () => {
     setLoading(true);
     try {
@@ -72,32 +72,61 @@ const Report = (prop) => {
             if (item.startBalance != item.endBalance || 1 == 1) {
               return (
                 <List.Item key={i}>
-                  <List.Content>
-                    <List.Description className="rightfloat">
-                      {convertDateToJalali(item.createDate)}
-                      <div className="text-end pad10tb">
-                        <Status status={item.status} size="mini" />
-                      </div>
-                    </List.Description>
-                    <List.Description>
-                      <AmountColor amount={item.startBalance} />
-                      <br />
-                      <AmountColor
-                        amount={item.amount}
-                        sign={item.endBalance - item.startBalance}
-                      />
-                      <br />
-                      --------------------
-                      <br />
-                      <AmountColor
-                        amount={item.endBalance}
-                        className="text-gold"
-                      />
-                      <div className="pad10tb">
-                        {item.mode} {item.gateway && <>({item.gateway})</>}
-                      </div>
-                    </List.Description>
-                  </List.Content>
+                  {prop.menu?.usd ? (
+                    <List.Content>
+                      <List.Description className="rightfloat">
+                        {convertDateToJalali(item.createDate)}
+                        <div className="text-end pad10tb">
+                          <Status status={item.status} size="mini" />
+                        </div>
+                      </List.Description>
+                      <List.Description>
+                        <AmountColor amount={item.startBalance2} />
+                        <br />
+                        <AmountColor
+                          amount={item.amount2}
+                          sign={item.endBalance2 - item.startBalance2}
+                        />
+                        <br />
+                        --------------------
+                        <br />
+                        <AmountColor
+                          amount={item.endBalance2}
+                          className="text-gold"
+                        />
+                        <div className="pad10tb">
+                          {item.mode} {item.gateway && <>({item.gateway})</>}
+                        </div>
+                      </List.Description>
+                    </List.Content>
+                  ) : (
+                    <List.Content>
+                      <List.Description className="rightfloat">
+                        {convertDateToJalali(item.createDate)}
+                        <div className="text-end pad10tb">
+                          <Status status={item.status} size="mini" />
+                        </div>
+                      </List.Description>
+                      <List.Description>
+                        <AmountColor amount={item.startBalance} />
+                        <br />
+                        <AmountColor
+                          amount={item.amount}
+                          sign={item.endBalance - item.startBalance}
+                        />
+                        <br />
+                        --------------------
+                        <br />
+                        <AmountColor
+                          amount={item.endBalance}
+                          className="text-gold"
+                        />
+                        <div className="pad10tb">
+                          {item.mode} {item.gateway && <>({item.gateway})</>}
+                        </div>
+                      </List.Description>
+                    </List.Content>
+                  )}
                 </List.Item>
               );
             }

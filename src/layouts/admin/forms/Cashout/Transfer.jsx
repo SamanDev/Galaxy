@@ -12,7 +12,7 @@ import AnimIcon from "../../../../utils/inviteIcon";
 const initialValues = {
   amount: 100000,
 
-  touser: "",
+  transferUser: "",
   username: "",
   password: "",
 };
@@ -21,7 +21,7 @@ const validationSchema = Yup.object({
     .required("لطفا این فیلد را وارد کنید.")
     .min(100000, "لطفا این فیلد را درست وارد کنید.")
     .integer(),
-  touser: Yup.string()
+  transferUser: Yup.string()
     .required("نام کاربری حداقل باشد 3 کاراکتر باشد.")
     .min(3, "نام کاربری حداقل باشد 3 کاراکتر باشد.")
     .max(12, "نام کاربری حداکثر باشد 12 کاراکتر باشد."),
@@ -31,7 +31,7 @@ const validationSchema = Yup.object({
 });
 const onSubmit = async (values, submitMethods, navigate, prop, setRefresh) => {
   try {
-    const res = await cashierService(values, "Transfer", "");
+    const res = await cashierService(values, "transferChip", "");
     if (res.status == 200) {
       if (res.data?.address) {
         setRefresh(true);
@@ -94,7 +94,7 @@ const depositArea = (prop) => {
               formik={formik}
               control="input"
               type="text"
-              name="touser"
+              name="transferUser"
               labelcolor="black"
               size={prop.size}
               label="انتقال به کاربر"

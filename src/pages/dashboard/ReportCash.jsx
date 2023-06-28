@@ -32,7 +32,7 @@ const Report = (prop) => {
         .replace(/ /g, "")
         .replace("BTC", "Bitcoin")
         .replace("Toman", "IranShetab")
-    : null;
+    : "";
 
   const [loading, setLoading] = useState(true);
   const handleGetReports = async () => {
@@ -88,109 +88,245 @@ const Report = (prop) => {
             }
             return (
               <List.Item key={i}>
-                <List.Content>
-                  <List.Description className="float-end lh-lg">
-                    {convertDateToJalali(item.createDate)}
+                {prop.menu?.usd ? (
+                  <List.Content>
+                    <List.Description className="float-end lh-lg">
+                      {convertDateToJalali(item.createDate)}
 
-                    <div className="text-end lh-lg">
-                      <Status status={item.status} size="mini" />
-                    </div>
-                  </List.Description>
-                  <List.Description className="lh-base">
-                    <AmountColor
-                      amount={item.amount}
-                      sign={item.endBalance - item.startBalance}
-                      className="text-gold"
-                    />
-                    {!prop.pending && (
-                      <div>
-                        {item.gateway && item.gateway}{" "}
-                        {item.coin && " - " + item.coin}
+                      <div className="text-end lh-lg">
+                        <Status status={item.status} size="mini" />
                       </div>
-                    )}
+                    </List.Description>
+                    <List.Description className="lh-base">
+                      <AmountColor
+                        amount={item.amount2}
+                        sign={item.endBalance2 - item.startBalance2}
+                        className="text-gold"
+                      />
+                      {!prop.pending && (
+                        <div>
+                          {item.gateway && item.gateway}{" "}
+                          {item.gateway == "Transfer" && (
+                            <div>
+                              {item.description
+                                .replace("Remove transfer chip from:", "")
+                                .replace(":", "")}
+                            </div>
+                          )}
+                          {item.coin && " - " + item.coin}
+                        </div>
+                      )}
 
-                    <div className="cashlist">
-                      {(prop.gateway == "Bitcoin" ||
-                        prop.gateway == "USDT" ||
-                        prop.gateway == "PerfectMoney") && (
-                        <>
-                          Amount &nbsp;
-                          <span className="text-gold">${doCurrency(120)}</span>
-                          <br />
-                          Rate &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{" "}
-                          <span className="text-gold">{doCurrency(32520)}</span>
-                        </>
-                      )}
-                      {prop.mode == "PerfectMoney" && (
-                        <>
-                          <br />
-                        </>
-                      )}
-                      {(prop.mode == "VisaGiftCode" ||
-                        prop.mode == "PerfectMoney") && (
-                        <>
-                          Code &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{" "}
-                          <span className="text-gold">
-                            h43oi43o43hio4io43hi
-                          </span>
-                        </>
-                      )}
-                    </div>
-                  </List.Description>
-                  {item.cashoutDescriptionSet &&
-                    item.gateway == "IranShetab" && (
-                      <Segment inverted size="mini">
-                        {item.cashoutDescriptionSet
-                          .sort((a, b) => (a.id > b.id ? 1 : -1))
-                          .map((f, i) => (
-                            <div key={i.toString()}>
-                              <span className="rightfloat">
-                                {convertDateToJalali(
-                                  f.cashoutDescriptionFromSet[0].date
-                                )}
-                              </span>
-                              <span className="text-gold">
-                                {doCurrency(
-                                  f.cashoutDescriptionFromSet[0].amount
-                                )}
-                              </span>
-                              <br />
-                              <div className="farsi text-secondary rightfloat">
-                                واریز به <br />
-                                مجموع:{" "}
-                                <span className="text-gold">
-                                  {doCurrency(
-                                    sumOf(item.cashoutDescriptionSet, f.id)
+                      <div className="cashlist">
+                        {(prop.gateway == "Bitcoin" ||
+                          prop.gateway == "USDT" ||
+                          prop.gateway == "PerfectMoney") && (
+                          <>
+                            Amount &nbsp;
+                            <span className="text-gold">
+                              ${doCurrency(120)}
+                            </span>
+                            <br />
+                            Rate
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{" "}
+                            <span className="text-gold">
+                              {doCurrency(32520)}
+                            </span>
+                          </>
+                        )}
+                        {prop.mode == "PerfectMoney" && (
+                          <>
+                            <br />
+                          </>
+                        )}
+                        {(prop.mode == "VisaGiftCode" ||
+                          prop.mode == "PerfectMoney") && (
+                          <>
+                            Code
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{" "}
+                            <span className="text-gold">
+                              h43oi43o43hio4io43hi
+                            </span>
+                          </>
+                        )}
+                      </div>
+                    </List.Description>
+                    {item.cashoutDescriptionSet &&
+                      item.gateway == "IranShetab" && (
+                        <Segment inverted size="mini">
+                          {item.cashoutDescriptionSet
+                            .sort((a, b) => (a.id > b.id ? 1 : -1))
+                            .map((f, i) => (
+                              <div key={i.toString()}>
+                                <span className="rightfloat">
+                                  {convertDateToJalali(
+                                    f.cashoutDescriptionFromSet[0].date
                                   )}
                                 </span>
+                                <span className="text-gold">
+                                  {doCurrency(
+                                    f.cashoutDescriptionFromSet[0].amount
+                                  )}
+                                </span>
+                                <br />
+                                <div className="farsi text-secondary rightfloat">
+                                  واریز به <br />
+                                  مجموع:{" "}
+                                  <span className="text-gold">
+                                    {doCurrency(
+                                      sumOf(item.cashoutDescriptionSet, f.id)
+                                    )}
+                                  </span>
+                                </div>
+                                <span className="farsi">
+                                  {f.cashoutDescriptionToSet[0].bankName}
+                                </span>
+                                <br />
+                                <ConvertCart
+                                  cartNo={
+                                    f.cashoutDescriptionToSet[0].cardNumber
+                                  }
+                                  isLock={true}
+                                />
+                                <br />
+                                <div className="farsi text-secondary float-end">
+                                  از
+                                </div>{" "}
+                                <br />
+                                <ConvertCart
+                                  cartNo={
+                                    f.cashoutDescriptionFromSet[0].cardNumber
+                                  }
+                                  isLock={true}
+                                />
+                                {item.cashoutDescriptionSet.length > i + 1 && (
+                                  <Divider />
+                                )}
                               </div>
-                              <span className="farsi">
-                                {f.cashoutDescriptionToSet[0].bankName}
-                              </span>
-                              <br />
-                              <ConvertCart
-                                cartNo={f.cashoutDescriptionToSet[0].cardNumber}
-                                isLock={true}
-                              />
-                              <br />
-                              <div className="farsi text-secondary float-end">
-                                از
-                              </div>{" "}
-                              <br />
-                              <ConvertCart
-                                cartNo={
-                                  f.cashoutDescriptionFromSet[0].cardNumber
-                                }
-                                isLock={true}
-                              />
-                              {item.cashoutDescriptionSet.length > i + 1 && (
-                                <Divider />
-                              )}
+                            ))}
+                        </Segment>
+                      )}
+                  </List.Content>
+                ) : (
+                  <List.Content>
+                    <List.Description className="float-end lh-lg">
+                      {convertDateToJalali(item.createDate)}
+
+                      <div className="text-end lh-lg">
+                        <Status status={item.status} size="mini" />
+                      </div>
+                    </List.Description>
+                    <List.Description className="lh-base">
+                      <AmountColor
+                        amount={item.amount}
+                        sign={item.endBalance - item.startBalance}
+                        className="text-gold"
+                      />
+                      {!prop.pending && (
+                        <div>
+                          {item.gateway && item.gateway}{" "}
+                          {item.gateway == "Transfer" && (
+                            <div>
+                              {item.description
+                                .replace("Remove transfer chip from:", "")
+                                .replace(":", "")}
                             </div>
-                          ))}
-                      </Segment>
-                    )}
-                </List.Content>
+                          )}
+                          {item.coin && " - " + item.coin}
+                        </div>
+                      )}
+
+                      <div className="cashlist">
+                        {(prop.gateway == "Bitcoin" ||
+                          prop.gateway == "USDT" ||
+                          prop.gateway == "PerfectMoney") && (
+                          <>
+                            Amount &nbsp;
+                            <span className="text-gold">
+                              ${doCurrency(120)}
+                            </span>
+                            <br />
+                            Rate
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{" "}
+                            <span className="text-gold">
+                              {doCurrency(32520)}
+                            </span>
+                          </>
+                        )}
+                        {prop.mode == "PerfectMoney" && (
+                          <>
+                            <br />
+                          </>
+                        )}
+                        {(prop.mode == "VisaGiftCode" ||
+                          prop.mode == "PerfectMoney") && (
+                          <>
+                            Code
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{" "}
+                            <span className="text-gold">
+                              h43oi43o43hio4io43hi
+                            </span>
+                          </>
+                        )}
+                      </div>
+                    </List.Description>
+                    {item.cashoutDescriptionSet &&
+                      item.gateway == "IranShetab" && (
+                        <Segment inverted size="mini">
+                          {item.cashoutDescriptionSet
+                            .sort((a, b) => (a.id > b.id ? 1 : -1))
+                            .map((f, i) => (
+                              <div key={i.toString()}>
+                                <span className="rightfloat">
+                                  {convertDateToJalali(
+                                    f.cashoutDescriptionFromSet[0].date
+                                  )}
+                                </span>
+                                <span className="text-gold">
+                                  {doCurrency(
+                                    f.cashoutDescriptionFromSet[0].amount
+                                  )}
+                                </span>
+                                <br />
+                                <div className="farsi text-secondary rightfloat">
+                                  واریز به <br />
+                                  مجموع:{" "}
+                                  <span className="text-gold">
+                                    {doCurrency(
+                                      sumOf(item.cashoutDescriptionSet, f.id)
+                                    )}
+                                  </span>
+                                </div>
+                                <span className="farsi">
+                                  {f.cashoutDescriptionToSet[0].bankName}
+                                </span>
+                                <br />
+                                <ConvertCart
+                                  cartNo={
+                                    f.cashoutDescriptionToSet[0].cardNumber
+                                  }
+                                  isLock={true}
+                                />
+                                <br />
+                                <div className="farsi text-secondary float-end">
+                                  از
+                                </div>{" "}
+                                <br />
+                                <ConvertCart
+                                  cartNo={
+                                    f.cashoutDescriptionFromSet[0].cardNumber
+                                  }
+                                  isLock={true}
+                                />
+                                {item.cashoutDescriptionSet.length > i + 1 && (
+                                  <Divider />
+                                )}
+                              </div>
+                            ))}
+                        </Segment>
+                      )}
+                  </List.Content>
+                )}{" "}
               </List.Item>
             );
           }

@@ -31,7 +31,7 @@ const Report = (prop) => {
 
   var gateway = prop.gateway
     ? prop.gateway.replace(/ /g, "").replace("BTC", "Bitcoin")
-    : null;
+    : "";
   const [loading, setLoading] = useState(true);
   const handleGetReports = async (mode) => {
     setLoading(true);

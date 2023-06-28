@@ -72,6 +72,27 @@ const depositArea = (prop) => {
               )}
             </>
           )}
+          {depMode === "Transfer" && (
+            <>
+              {prop.menu?.usd ? (
+                <>
+                  <Segment inverted className="blnc" size="mini">
+                    <Statistic inverted size="mini">
+                      <Statistic.Value>
+                        {doCurrency(loginToken?.balance)}
+                      </Statistic.Value>
+                      <Statistic.Label className="farsi">
+                        موجودی شما
+                      </Statistic.Label>
+                    </Statistic>
+                  </Segment>
+                  <TomantoUsd {...prop} gateway="exChange" mode="transfer" />
+                </>
+              ) : (
+                <CartToCart {...prop} />
+              )}
+            </>
+          )}
           {depMode == "Cart to Cart" && (
             <>
               {loginToken?.bankInfos.length > 0 ? (
