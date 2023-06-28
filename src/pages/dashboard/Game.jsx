@@ -4,7 +4,13 @@ import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { getPokerSession } from "../../services/auth";
 import { Tab, Icon, Dropdown, Dimmer, Loader } from "semantic-ui-react";
-import { gameData, gameDataMain, getEvent, gamesUrl } from "../../const";
+import {
+  gameData,
+  gameDataMain,
+  getEvent,
+  gamesUrl,
+  pokerUrl,
+} from "../../const";
 import $ from "jquery";
 const moment = require("moment");
 
@@ -205,7 +211,8 @@ const Dashboard = (prop) => {
                   <iframe
                     src={
                       localStorage.getItem("tableName")
-                        ? "http://139.99.144.72:2053?LoginName=" +
+                        ? pokerUrl +
+                          "?LoginName=" +
                           loginToken?.username +
                           "&SessionKey=" +
                           sessionKey +
