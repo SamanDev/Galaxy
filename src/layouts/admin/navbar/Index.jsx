@@ -56,6 +56,15 @@ const Index = (prop) => {
           }}
         />
         <span
+          id="opendepositusd"
+          style={{
+            display: "none",
+          }}
+          onClick={() => {
+            prop.openPanel(".openusdbank", "");
+          }}
+        />
+        <span
           id="openinvite"
           style={{
             display: "none",

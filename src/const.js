@@ -27,7 +27,7 @@ export function startServiceWorker() {
 export const gamesUrl =
   process.env.NODE_ENV === "production"
     ? "https://wheel.khodekhalse.com/"
-    : "https://wheel.khodekhalse.com/";
+    : "http://localhost:3001/";
 export const pokerUrl =
   process.env.NODE_ENV === "production"
     ? "https://pkr.khodekhalse.com"
@@ -487,7 +487,7 @@ export const GetMenu = (siteInfo) => {
           title: "خرید دلاری",
           icon: "fas fa-plus text-danger",
 
-          idname: "login deposit depositusd",
+          idname: "login deposit openusdbank",
           aria: "giftsarea animated bounceIn delay-02s",
           icongalaxy: "depositusd",
           submenu: doDepositDollar(),

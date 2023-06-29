@@ -122,6 +122,10 @@ const Balance = (prop) => {
     prop.setUserOpen(true);
   };
   useEffect(() => {
+    window.addEventListener("message", function (event) {
+      $("#opendepositusd").trigger("click");
+      console.log("Message received from the child: " + event.data); // Message received from child
+    });
     if (_event == "GPass" && !loginToken.takeGPass) {
       setStateMode(1);
     }

@@ -75,6 +75,30 @@ export const MyToast = (title, icon) => {
         ),
   });
 };
+export const MyToastDone = (title, icon) => {
+  const Toast = Swal.mixin({
+    toast: true,
+    background: "#000",
+    showConfirmButton: false,
+    timer: 3000,
+    timerProgressBar: true,
+    customClass: {
+      htmlContainer: "position-absolute p-2 lh-base",
+      timerProgressBar: "bg-success",
+      actions: "",
+      confirmButton: "ui button mini red",
+    },
+    didOpen: (toast) => {
+      toast.addEventListener("mouseenter", Swal.stopTimer);
+      toast.addEventListener("mouseleave", Swal.resumeTimer);
+    },
+  });
+
+  Toast.fire({
+    icon,
+    title,
+  });
+};
 export const MyToastActive = (title, handleOpenTable) => {
   const Toast = Swal.mixin({
     toast: true,

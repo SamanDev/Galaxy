@@ -244,6 +244,7 @@ const Dashboard = (prop) => {
                     "/" +
                     loginToken.username
                   }
+                  name="gameframe"
                   className={
                     isFull
                       ? "framegame panelfull fullscreen"
@@ -288,6 +289,7 @@ const Dashboard = (prop) => {
                 src={
                   gamesUrl + loginToken.accessToken + "/" + loginToken.username
                 }
+                name="gameframe"
                 className={
                   isFull
                     ? "framegame panelfull fullscreen"

@@ -20,6 +20,7 @@ import { useNavigate } from "react-router-dom";
 import { FastField, Form, Formik } from "formik";
 import * as Yup from "yup";
 import { Alert } from "../../../../../utils/alerts";
+import { MyToastDone } from "../../../../../utils/myAlert";
 import { doCurrency } from "../../../../../const";
 import MyMsg from "../../../../../utils/MsgDesc";
 import { cashierServiceGame } from "../../../../../services/cashier";
@@ -50,6 +51,7 @@ const onSubmit = async (values, submitMethods, getRate, prop) => {
     newValues.amount = values.amount * getRate;
     const res = await cashierServiceGame(newValues, "exChanger");
     if (res.status == 200) {
+      MyToastDone("انجام شد", "success");
     } else {
       Alert("متاسفم...!", res.data.message, "error");
     }
@@ -116,6 +118,7 @@ const depositArea = (prop) => {
                       icon
                       labelPosition="left"
                       type="button"
+                      key={amo.value}
                       active={formik.values.amount == amo.value ? true : false}
                       color={formik.values.amount == amo.value ? "red" : "grey"}
                       onClick={() => {
