@@ -16,19 +16,7 @@ const initialValues = {
   username: "",
   password: "",
 };
-const validationSchema = Yup.object({
-  amount: Yup.number()
-    .required("لطفا این فیلد را وارد کنید.")
-    .min(10, "لطفا این فیلد را درست وارد کنید.")
-    .integer(),
-  touser: Yup.string()
-    .required("نام کاربری حداقل باشد 3 کاراکتر باشد.")
-    .min(3, "نام کاربری حداقل باشد 3 کاراکتر باشد.")
-    .max(12, "نام کاربری حداکثر باشد 12 کاراکتر باشد."),
-  password: Yup.string()
-    .required("کلمه عبور حداقل باشد 8 کاراکتر باشد.")
-    .min(8, "کلمه عبور حداقل باشد 8 کاراکتر باشد."),
-});
+
 const onSubmit = async (values, submitMethods, navigate, prop, setRefresh) => {
   try {
     const res = await cashierService(values, "Transfer", "");
@@ -50,7 +38,21 @@ const onSubmit = async (values, submitMethods, navigate, prop, setRefresh) => {
 const depositArea = (prop) => {
   const [refresh, setRefresh] = useState(false);
   const navigate = useNavigate();
-
+  const loginToken = prop.loginToken;
+  const validationSchema = Yup.object({
+    amount: Yup.number()
+      .required("لطفا این فیلد را وارد کنید.")
+      .min(10, "لطفا این فیلد را درست وارد کنید.")
+      .max(loginToken.balance2, "لطفا این فیلد را درست وارد کنید.")
+      .integer(),
+    transferUser: Yup.string()
+      .required("نام کاربری حداقل باشد 3 کاراکتر باشد.")
+      .min(3, "نام کاربری حداقل باشد 3 کاراکتر باشد.")
+      .max(12, "نام کاربری حداکثر باشد 12 کاراکتر باشد."),
+    password: Yup.string()
+      .required("کلمه عبور حداقل باشد 8 کاراکتر باشد.")
+      .min(8, "کلمه عبور حداقل باشد 8 کاراکتر باشد."),
+  });
   return (
     <Formik
       initialValues={initialValues}

@@ -507,6 +507,40 @@ const LevelIcon = (prop) => {
       </div>
     );
   }
+  if (prop.mode == "depositusd") {
+    var _txt = prop.number ? prop.number : prop.level;
+    var _class = "leagueicon";
+    if (prop.text == "big") {
+      _class = _class + " big";
+    }
+    var _class2 = _class;
+    if (prop.iconamin) {
+      var _class2 =
+        _class +
+        " " +
+        prop.iconamin.replace("charkhesh", "").replace("inline", "") +
+        " tada";
+    }
+    return (
+      <div onClick={prop.onClick} className="iconarea">
+        <div style={{ position: "relative", top: -20 }}>
+          <AnimIcon
+            icon="huwchbks"
+            stroke="20"
+            scale="65"
+            colors="primary:#b4b4b4,secondary:#c79816"
+            trigger="loop"
+            width={90}
+            height={90}
+          />
+        </div>
+
+        {prop.text != "big" && prop.text != "" && (
+          <div className="iconlabel">{prop.text}</div>
+        )}
+      </div>
+    );
+  }
   if (prop.mode == "transfer") {
     var _txt = prop.number ? prop.number : prop.level;
     var _class = "leagueicon";

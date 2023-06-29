@@ -367,7 +367,7 @@ export const depositDollarData = [
     text: "تومان به دلار",
 
     icon: "cc mastercard",
-    limit: "100K - 3M",
+    limit: "$5 - $100",
     gateway: "exChange",
     usd: true,
   },
@@ -480,15 +480,16 @@ export const GetMenu = (siteInfo) => {
       label: "صندوق دلاری",
       title: "صندوق دلاری",
       aria: "cashierarea",
-      icon: "qhviklyi.svg",
+      icon: "huwchbks.svg",
       submenu: [
         {
           label: "خرید دلاری",
           title: "خرید دلاری",
           icon: "fas fa-plus text-danger",
-          idname: "deposit",
+
+          idname: "login deposit depositusd",
           aria: "giftsarea animated bounceIn delay-02s",
-          icongalaxy: "deposit",
+          icongalaxy: "depositusd",
           submenu: doDepositDollar(),
         },
         {

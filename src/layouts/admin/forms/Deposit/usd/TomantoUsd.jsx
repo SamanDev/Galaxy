@@ -121,6 +121,9 @@ const depositArea = (prop) => {
                       onClick={() => {
                         formik.setFieldValue("amount", amo.value);
                       }}
+                      disabled={
+                        loginToken.balance < amo.value * rate ? true : false
+                      }
                     >
                       <Icon className="usdbtn">${amo.value}</Icon> <> </>
                       {doCurrency(amo.value * getRate)}
@@ -166,7 +169,7 @@ const depositArea = (prop) => {
                 {...prop}
                 val="تبدیل"
                 type="submit"
-                disabled={formik.isSubmitting}
+                disabled={formik.isSubmitting || formik.values.amount == 0}
                 loading={formik.isSubmitting}
               />
             </Form>

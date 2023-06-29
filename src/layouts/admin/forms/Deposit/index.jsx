@@ -48,6 +48,33 @@ const depositArea = (prop) => {
       }
     });
   }
+  var cDataUsd = [];
+  {
+    depositDollarData.map(function (dep, i) {
+      if (getBonus(dep.getwaykey) > 0) {
+        cDataUsd.push({
+          key: dep.key,
+          getwaykey: dep.getwaykey,
+          text: dep.text,
+          value: dep.value,
+          icon: dep.icon,
+          usd: true,
+          limit: dep.limit,
+          bonus: "+ " + getBonus(dep.getwaykey) + "%",
+        });
+      } else {
+        cDataUsd.push({
+          key: dep.key,
+          getwaykey: dep.getwaykey,
+          text: dep.text,
+          value: dep.value,
+          usd: true,
+          icon: dep.icon,
+          limit: dep.limit,
+        });
+      }
+    });
+  }
 
   return (
     <>
@@ -121,7 +148,7 @@ const depositArea = (prop) => {
         </Segment>
         <Divider inverted />
         <Button.Group size="mini" vertical labeled icon fluid>
-          {depositDollarData.map(function (dep, i) {
+          {cDataUsd.map(function (dep, i) {
             if (prop.getAccess(dep.getwaykey)) {
               return (
                 <Button

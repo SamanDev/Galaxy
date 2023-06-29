@@ -218,7 +218,8 @@ const Dashboard = (prop) => {
                           sessionKey +
                           "&TableType=R&TableName=" +
                           localStorage.getItem("tableName")
-                        : "http://139.99.144.72:2053?LoginName=" +
+                        : pokerUrl +
+                          "?LoginName=" +
                           loginToken?.username +
                           "&SessionKey=" +
                           sessionKey
