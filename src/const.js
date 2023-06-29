@@ -43,7 +43,7 @@ function getAPI() {
 
   if (protocol2 == "https:") {
     host = {
-      onlinePath: "",
+      onlinePath: "https://api.khodekhalse.com",
       offlinePath: "http://127.0.0.1:8000",
     };
   }
