@@ -19,26 +19,10 @@ function Admin(prop) {
   useEffect(() => {
     panes = [
       {
-        menuItem: "Deposits",
+        menuItem: "Last Actions",
         render: () => (
           <Tab.Pane>
-            <Deposit {...prop} />
-          </Tab.Pane>
-        ),
-      },
-      {
-        menuItem: "Cashouts",
-        render: () => (
-          <Tab.Pane>
-            <Cashout {...prop} />
-          </Tab.Pane>
-        ),
-      },
-      {
-        menuItem: "Carts",
-        render: () => (
-          <Tab.Pane>
-            <Carts {...prop} />
+            <Reports {...prop} />
           </Tab.Pane>
         ),
       },
@@ -55,14 +39,24 @@ function Admin(prop) {
           </Tab.Pane>
         ),
       },
+
       {
-        menuItem: "Last Actions",
+        menuItem: "Cashouts",
         render: () => (
           <Tab.Pane>
-            <Reports {...prop} />
+            <Cashout {...prop} />
           </Tab.Pane>
         ),
       },
+      {
+        menuItem: "Carts",
+        render: () => (
+          <Tab.Pane>
+            <Carts {...prop} />
+          </Tab.Pane>
+        ),
+      },
+
       {
         menuItem: "Stats",
         render: () => (

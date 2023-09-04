@@ -1043,9 +1043,8 @@ function App(prop) {
     //startServiceWorker();
   }, []);
   useEffect(() => {
-    console.log(activeMenu);
     printmenu();
-  }, [activeMenu, activeMenuOpen, window.location.href]);
+  }, [activeMenu, activeMenuOpen, window.location.href, loginToken]);
 
   if (loadingLogin && 1 == 2) {
     return (
