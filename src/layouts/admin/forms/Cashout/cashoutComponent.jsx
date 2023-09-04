@@ -41,23 +41,28 @@ const depositArea = (prop) => {
         </>
       ) : (
         <>
-          <Segment inverted className="blnc">
-            <Statistic inverted size="tiny">
-              <Statistic.Value>
-                {prop.menu?.usd ? (
-                  <>
-                    <span className="text-gold">$</span>{" "}
-                    {doCurrency(loginToken?.balance2)}
-                  </>
-                ) : (
-                  doCurrency(loginToken?.balance)
-                )}
-              </Statistic.Value>
-              <Statistic.Label className="farsi">
-                موجودی {prop.menu?.usd && "دلاری"} شما
-              </Statistic.Label>
-            </Statistic>
-          </Segment>
+          {prop.cashMode !== "addCart" &&
+            prop.cashMode !== "Invite" &&
+            prop.cashMode !== "Ticket" &&
+            prop.cashMode !== "ChangePass" && (
+              <Segment inverted className="blnc">
+                <Statistic inverted size="tiny">
+                  <Statistic.Value>
+                    {prop.menu?.usd ? (
+                      <>
+                        <span className="text-gold">$</span>{" "}
+                        {doCurrency(loginToken?.balance2)}
+                      </>
+                    ) : (
+                      doCurrency(loginToken?.balance)
+                    )}
+                  </Statistic.Value>
+                  <Statistic.Label className="farsi">
+                    موجودی {prop.menu?.usd && "دلاری"} شما
+                  </Statistic.Label>
+                </Statistic>
+              </Segment>
+            )}
           {prop.cashMode === "Report" && (
             <Report size="mini" labelcolor="orange" list={true} {...prop} />
           )}

@@ -123,7 +123,10 @@ const Balance = (prop) => {
   };
   useEffect(() => {
     window.addEventListener("message", function (event) {
-      $("#opendepositusd").trigger("click");
+      if (event.data == "openusdbank") {
+        $("#opendepositusd").trigger("click");
+      }
+
       console.log("Message received from the child: " + event.data); // Message received from child
     });
     if (_event == "GPass" && !loginToken.takeGPass) {

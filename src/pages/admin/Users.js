@@ -138,10 +138,11 @@ const setGiftAmount = (level) => {
   g = Math.round(g / 1000) * 1000;
   return g;
 };
+
 function Admin(prop) {
   const [data, setData] = useState([]);
   const loginToken = prop.loginToken;
-  const [totalRows, setTotalRows] = useState(0);
+  const [totalRows, setTotalRows] = useState(1000);
   const [perPage, setPerPage] = useState(10);
   const [dataSortedID, setDataSortedID] = useState(1);
   const params = useParams();
@@ -162,100 +163,6 @@ function Admin(prop) {
   const handleChangeLogin = (e, { value }) => {
     setDataLoginDay(value);
   };
-
-  const fetchUsers = async (page) => {
-    var _name = prop.search;
-    var _val = prop.searchValue;
-    var _contain = true;
-    if (dataSearch) {
-      _name = "level";
-      _val = dataSearch.toString();
-      if (_val.indexOf("up") == -1) {
-        _contain = false;
-      }
-      _val = _val.replace("up", "");
-      if (_val == "chip") {
-        _name = "chip";
-        _val = "";
-        _contain = false;
-        setDataSortedID(5);
-      }
-    }
-    if (_name == "") {
-      _name = "username";
-    }
-    if (filterText) {
-      _name = "username";
-      _val = filterText;
-      _contain = true;
-    }
-
-    setLoading(true);
-    try {
-      const res = await adminGetService(
-        `getUsersByAdmin?name=${_name}&value=${_val}&page=${page}&number=500&login=${dataLoginDay}&contain=${_contain}`
-      );
-      if (res.status === 200) {
-        setData(res.data.users);
-        setTotalRows(res.count);
-        setFilterOk(false);
-      }
-    } catch (error) {
-      console.log(error.message);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handlePerRowsChange = async (newPerPage, page) => {
-    setPerPage(newPerPage);
-  };
-  var filteredItems = data.filter((item) => item.username);
-
-  if (dataLoginDay) {
-    var startDate = addDays(new Date(), dataLoginDay);
-
-    filteredItems = data.filter((item) => {
-      var _Date = new Date(item.lastLogin);
-      return _Date <= startDate;
-    });
-  }
-
-  useEffect(() => {
-    fetchUsers(1); // fetch page 1 of users
-  }, [dataSearch]);
-
-  useEffect(() => {
-    if (filterOk) fetchUsers(1); // fetch page 1 of users
-  }, [filterOk]);
-
-  const [firstOpen, setFirstOpen] = React.useState(false);
-  const contextActions = React.useMemo(() => {
-    return <Button onClick={() => setFirstOpen(true)}>Gift</Button>;
-  }, [data]);
-  const handleChange = ({ selectedRows }) => {
-    // You can set state or dispatch with something like Redux so we can use the retrieved data
-    console.log("Selected Rows: ", selectedRows);
-    var newSelect = [];
-    {
-      selectedRows.map((user, i) => {
-        var newUser = {};
-        newUser.username = user.username;
-        newUser.level = user.level;
-        newUser.amount = setGiftAmount(user.level);
-
-        newSelect.push(newUser);
-      });
-    }
-    setSelected(newSelect);
-  };
-
-  useEffect(() => {
-    prop.handleGetGeteways();
-    if (params.username) {
-      prop.addTabData(params.username, prop.getwaysList);
-    }
-  }, []);
   const columnsDownLine = [
     {
       name: "id",
@@ -267,6 +174,12 @@ function Admin(prop) {
       name: "level",
       selector: (row) => row.level,
       format: (row) => <>{row.level}</>,
+      sortable: true,
+    },
+    {
+      name: "Glevel",
+      selector: (row) => row.glevel,
+      format: (row) => <>{row.glevel}</>,
       sortable: true,
     },
     {
@@ -290,6 +203,30 @@ function Admin(prop) {
       name: "balance",
       selector: (row) => row.balance,
       format: (row) => <>{doCurrency(row.balance)}</>,
+      sortable: true,
+    },
+    {
+      name: "balance2",
+      selector: (row) => row.balance2,
+      format: (row) => <>{doCurrency(row.balance2)}</>,
+      sortable: true,
+    },
+    {
+      name: "point",
+      selector: (row) => row.dailyPoint,
+      format: (row) => <>{row.dailyPoint}</>,
+      sortable: true,
+    },
+    {
+      name: "vip",
+      selector: (row) => row.vipPlaySecond,
+      format: (row) => <>{row.vipPlaySecond}</>,
+      sortable: true,
+    },
+    {
+      name: "gpass",
+      selector: (row) => row.glevelSecond,
+      format: (row) => <>{row.glevelSecond}</>,
       sortable: true,
     },
     {
@@ -383,6 +320,12 @@ function Admin(prop) {
       sortable: true,
     },
     {
+      name: "balance2",
+      selector: (row) => row.balance2,
+      format: (row) => <>{doCurrency(row.balance2)}</>,
+      sortable: true,
+    },
+    {
       name: "point",
       selector: (row) => row.dailyPoint,
       format: (row) => <>{row.dailyPoint}</>,
@@ -412,22 +355,106 @@ function Admin(prop) {
       ),
       sortable: true,
     },
-    {
-      name: "Active",
-      selector: (row) => row.userActivate,
-      format: (row) => (
-        <CheckboxToggle
-          check={row.userActivate}
-          user={row}
-          userkey="userActivate"
-          onChange={updateUserObj}
-          disabled={haveAdmin(loginToken.roles) ? false : true}
-        />
-      ),
-      sortable: true,
-    },
   ];
-  if (haveAdmin(loginToken.roles)) {
+  const fetchUsers = async (page) => {
+    var _name = prop.search;
+    var _val = prop.searchValue;
+    var _contain = true;
+    if (dataSearch) {
+      _name = "level";
+      _val = dataSearch.toString();
+      if (_val.indexOf("up") == -1) {
+        _contain = false;
+      }
+      _val = _val.replace("up", "");
+      if (_val == "chip") {
+        _name = "chip";
+        _val = "";
+        _contain = false;
+        setDataSortedID(5);
+      }
+    }
+    if (_name == "") {
+      _name = "username";
+    }
+    if (filterText) {
+      _name = "username";
+      _val = filterText;
+      _contain = true;
+    }
+
+    setLoading(true);
+    try {
+      const res = await adminGetService(
+        `getUsersByAdmin?name=${_name}&value=${_val}&page=${page}&number=${perPage}&login=${dataLoginDay}&contain=${_contain}`
+      );
+      if (res.status === 200) {
+        setData(res.data.users);
+        setTotalRows(res.data.count);
+        // setFilterOk(false);
+      }
+    } catch (error) {
+      console.log(error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handlePerRowsChange = async (newPerPage, page) => {
+    setPerPage(newPerPage);
+    setFilterOk(true);
+  };
+  const handlePageChange = (page) => {
+    fetchUsers(page);
+  };
+  var filteredItems = data.filter((item) => item.username);
+
+  if (dataLoginDay) {
+    var startDate = addDays(new Date(), dataLoginDay);
+
+    filteredItems = data.filter((item) => {
+      var _Date = new Date(item.lastLogin);
+      return _Date <= startDate;
+    });
+  }
+
+  useEffect(() => {
+    fetchUsers(1); // fetch page 1 of users
+  }, [dataSearch]);
+
+  useEffect(() => {
+    if (filterOk) fetchUsers(1); // fetch page 1 of users
+  }, [filterOk]);
+
+  const [firstOpen, setFirstOpen] = React.useState(false);
+  const contextActions = React.useMemo(() => {
+    return <Button onClick={() => setFirstOpen(true)}>Gift</Button>;
+  }, [data]);
+  const handleChange = ({ selectedRows }) => {
+    // You can set state or dispatch with something like Redux so we can use the retrieved data
+    console.log("Selected Rows: ", selectedRows);
+    var newSelect = [];
+    {
+      selectedRows.map((user, i) => {
+        var newUser = {};
+        newUser.username = user.username;
+        newUser.level = user.level;
+        newUser.amount = setGiftAmount(user.level);
+
+        newSelect.push(newUser);
+      });
+    }
+    setSelected(newSelect);
+  };
+
+  useEffect(() => {
+    prop.handleGetGeteways();
+    if (params.username) {
+      prop.addTabData(params.username, prop.getwaysList);
+    }
+  }, []);
+
+  if (haveAdmin(loginToken.roles) && 1 == 2) {
     columns.push(
       {
         name: "userBlock",
@@ -529,7 +556,19 @@ function Admin(prop) {
       </>
     );
   }, [filterText, resetPaginationToggle, data, selectedList]);
-  if (loading) {
+  const CustomLoader = () => (
+    <>
+      <Segment
+        basic
+        style={{ height: "calc(100vh - 150px)", overflow: "auto" }}
+      >
+        <Dimmer active inverted>
+          <Loader size="large">Loading</Loader>
+        </Dimmer>
+      </Segment>
+    </>
+  );
+  if (loading && 1 == 2) {
     return (
       <>
         <Segment
@@ -562,6 +601,8 @@ function Admin(prop) {
               data={filteredItems}
               progressPending={loading}
               paginationPerPage={perPage}
+              paginationServer
+              onChangePage={handlePageChange}
               onChangeRowsPerPage={handlePerRowsChange}
               defaultSortFieldId={dataSortedID}
               defaultSortAsc={false}
@@ -572,6 +613,7 @@ function Admin(prop) {
               pagination
               paginationResetDefaultPage={resetPaginationToggle} // optionally, a hook to reset pagination to page 1
               persistTableHead
+              paginationTotalRows={totalRows}
               contextActions={contextActions}
               paginationRowsPerPageOptions={[10, 25, 50, 100]}
               onSelectedRowsChange={handleChange}
@@ -585,20 +627,24 @@ function Admin(prop) {
               data={filteredItems}
               progressPending={loading}
               onChangeRowsPerPage={handlePerRowsChange}
+              onChangePage={handlePageChange}
               paginationPerPage={perPage}
+              expandOnRowClicked={true}
               defaultSortFieldId={dataSortedID}
               defaultSortAsc={false}
-              expandOnRowClicked={true}
               expandableRowsHideExpander={true}
               conditionalRowStyles={conditionalRowStyles}
               noDataComponent={noDataComponent}
               pagination
               paginationResetDefaultPage={resetPaginationToggle} // optionally, a hook to reset pagination to page 1
               persistTableHead
+              paginationServer
+              progressComponent={<CustomLoader />}
               contextActions={contextActions}
-              selectableRows
-              paginationRowsPerPageOptions={[10, 25, 50, 100]}
+              paginationRowsPerPageOptions={[10, 25, 50, 100, 500, 1000, 5000]}
+              paginationTotalRows={totalRows}
               onSelectedRowsChange={handleChange}
+              selectableRows
             />
           </>
         )}

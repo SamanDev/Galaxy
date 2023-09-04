@@ -27,6 +27,7 @@ const InputF = ({
   autoComplete,
   autoFocus,
   maxLength,
+  disabled,
 }) => {
   String.prototype.replaceAll = function (search, replacement) {
     var target = this;
@@ -130,6 +131,7 @@ const InputF = ({
           className={className}
           inputMode={inputmode}
           readOnly={readOnly}
+          disabled={disabled}
           autoComplete={autoComplete}
           maxLength={maxLength}
         />

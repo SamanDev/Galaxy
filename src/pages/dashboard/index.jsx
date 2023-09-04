@@ -4,41 +4,6 @@ import $ from "jquery";
 import AnimIcon from "../../utils/inviteIcon";
 import GameInbox from "./GameInbox";
 function SegmentExamplePlaceholderInline(prop) {
-  const [refresh, setRefresh] = useState(0);
-  useEffect(() => {
-    const addBtn = document.querySelector(".add-button");
-
-    window.addEventListener("beforeinstallprompt", (e) => {
-      // Prevent Chrome 67 and earlier from automatically showing the prompt
-      e.preventDefault();
-      // Stash the event so it can be triggered later.
-      window.deferredPrompt = e;
-      // Update UI to notify the user they can add to home screen
-      setRefresh(1);
-    });
-    addBtn.addEventListener("click", async () => {
-      console.log("👍", "butInstall-clicked");
-      const promptEvent = window.deferredPrompt;
-      if (!promptEvent) {
-        // The deferred prompt isn't available.
-        return;
-      }
-      // Show the install prompt.
-      promptEvent.prompt();
-      // Log the result
-      const result = await promptEvent.userChoice;
-      console.log("👍", "userChoice", result);
-      // Reset the deferred prompt variable, since
-      // prompt() can only be called once.
-      window.deferredPrompt = null;
-    });
-    window.addEventListener("appinstalled", (event) => {
-      setRefresh(0);
-      window.deferredPrompt = null;
-    });
-    //$(".add-button").trigger("click");
-  }, []);
-
   return (
     <>
       <div className="container-md">

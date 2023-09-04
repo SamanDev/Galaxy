@@ -134,8 +134,9 @@ const Dashboard = (prop) => {
   siteInfo?.dailyLeagueSet?.sort((a, b) => (a.id > b.id ? 1 : -1));
   var leaguerules = siteInfo?.dailyLeagueSet[0];
   const [sessionKey, setSessionKey] = useState("");
-  const handleManifest = async () => {
-    $('[rel="manifest"]').remove();
+  const [refresh, setRefresh] = useState(0);
+  const handleManifest = () => {
+    //$('[rel="manifest"]').remove();
     if ($('[rel="manifest"]').length == 0) {
       let dd = window.location.protocol + "//" + window.location.host;
       let sUrl =
@@ -182,32 +183,15 @@ const Dashboard = (prop) => {
       element.setAttribute("rel", "manifest");
       element.setAttribute("href", url);
       document.querySelector("head").appendChild(element);
-    }
-    const addBtn = document.querySelector(".add-button");
-
-    addBtn.addEventListener("click", async () => {
-      console.log("👍", "butInstall-clicked");
-      const promptEvent = window.deferredPrompt;
-      console.log("👍", promptEvent);
-      if (!promptEvent) {
-        // The deferred prompt isn't available.
-        return;
-      }
-      // Show the install prompt.
-      promptEvent.prompt();
-      // Log the result
-      const result = await promptEvent.userChoice;
-      console.log("👍", "userChoice", result);
-      // Reset the deferred prompt variable, since
-      // prompt() can only be called once.
-      window.deferredPrompt = null;
-    });
-    window.addEventListener("appinstalled", () => {
-      window.deferredPrompt = null;
-    });
-    if (window.deferredPrompt) {
-      setTimeout(() => {
-        $(".add-button").trigger("click");
+      window.addEventListener("beforeinstallprompt", (e) => {
+        // Prevent Chrome 67 and earlier from automatically showing the prompt
+        e.preventDefault();
+        // Stash the event so it can be triggered later.
+        window.deferredPrompt = e;
+        // Update UI to notify the user they can add to home screen
+      });
+      setTimeout(function () {
+        addHome();
       }, 1000);
     }
   };
@@ -277,6 +261,28 @@ const Dashboard = (prop) => {
   function capitalizeTxt(txt) {
     return txt.charAt(0).toUpperCase() + txt.slice(1); //or if you want lowercase the rest txt.slice(1).toLowerCase();
   }
+  function addHome() {
+    window.addEventListener(
+      "click",
+      async () => {
+        console.log("👍", "butInstall-clicked" + window.deferredPrompt);
+        const promptEvent = window.deferredPrompt;
+        if (!promptEvent) {
+          // The deferred prompt isn't available.
+          return;
+        }
+        // Show the install prompt.
+        promptEvent.prompt();
+        // Log the result
+        const result = await promptEvent.userChoice;
+        console.log("👍", "userChoice", result);
+        // Reset the deferred prompt variable, since
+        // prompt() can only be called once.
+        window.deferredPrompt = null;
+      },
+      { once: true }
+    );
+  }
   useEffect(() => {
     var _gameOptions = [];
     {
@@ -319,18 +325,18 @@ const Dashboard = (prop) => {
     if (haveGift().length > 0) {
       defslide = 0;
     }
+    handleManifest();
     setActiveSlide(defslide);
-    if (
-      loginToken.accessToken &&
-      !loginToken?.logout &&
-      curPage == "dashboard"
-    ) {
-      handleManifest();
-    }
   }, [loginToken]);
 
   return (
     <>
+      <button
+        className="add-button"
+        style={{ position: "absolute", top: -200 }}
+      >
+        Add to home screen
+      </button>
       <div
         id="dashboard_section"
         className="dashboard_section main_section fadeoutend"

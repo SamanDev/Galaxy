@@ -109,10 +109,10 @@ function App(prop) {
   const handleOpenTable = async (tableName) => {
     var values = { tableName: tableName };
 
-    if (
-      loginToken &&
-      window.location.href.toString().indexOf("/games/poker") > -1
-    ) {
+    if (loginToken && $("#pokerframe").length > 0) {
+      if ($("#pokerframe:visible").length == 0) {
+        $("#changegame").trigger("click");
+      }
       try {
         const res = await cashierService(values, "openTable");
       } catch (error) {}
@@ -766,7 +766,7 @@ function App(prop) {
     if (_id.indexOf("gift") > -1) {
       _id = ".giftarea";
     }
-
+    console.log(_id);
     if ($(_id).length == 0) return false;
 
     $(".popup").hide();
@@ -776,7 +776,7 @@ function App(prop) {
     $(".item.active").removeClass("active");
     api.open();
     const panel = document.querySelector(_id);
-    //console.log(_id);
+
     api.openPanel(panel);
 
     setTimeout(() => {
@@ -796,12 +796,12 @@ function App(prop) {
                     scrollDiv.scrollTop() -
                     scrollTo.height(),
                 },
-                1000
+                500
               );
             } catch (error) {}
           } else {
           }
-        }, 1000);
+        }, 500);
       }
     }, 30);
   };
@@ -813,7 +813,7 @@ function App(prop) {
     finalMenu = menuData.map(function (menu, i) {
       return doMenu(menu, i, false, isUser);
     });
-    setActiveMenuOld(activeMenu + "1");
+    setActiveMenuOld(activeMenu + activeMenuOld);
   };
 
   useEffect(() => {
@@ -1043,8 +1043,9 @@ function App(prop) {
     //startServiceWorker();
   }, []);
   useEffect(() => {
+    console.log(activeMenu);
     printmenu();
-  });
+  }, [activeMenu, activeMenuOpen, window.location.href]);
 
   if (loadingLogin && 1 == 2) {
     return (
@@ -1116,27 +1117,7 @@ function App(prop) {
               />
             </Suspense>
           </Modal>
-          <Modal
-            basic
-            size="tiny"
-            className="myaccount popupmenu  animated backInDown "
-            onClose={() => {
-              setTtoDOpen(false);
-            }}
-            onOpen={() => setTtoDOpen(true)}
-            open={ttoDOpen}
-          >
-            <TransfertoDolar
-              setDcOpen={setDcOpen}
-              loginToken={loginToken}
-              siteInfo={siteInfo}
-              isLogin={isUser}
-              loadingLogin={loadingLogin}
-              setIsUser={setIsUser}
-              size="small"
-              labelcolor="orange"
-            />
-          </Modal>
+
           <Modal
             basic
             size="tiny"

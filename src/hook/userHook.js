@@ -4,6 +4,13 @@ import { siteInfoDef, isJson } from "../const";
 import { publicGetRules } from "../services/public";
 import { getReportPenService } from "../services/report";
 import eventBus from "../services/eventBus";
+import $ from "jquery";
+function sendMessage(message) {
+  try {
+    const iframe = document.querySelector("iframe[name=gameframe]");
+    iframe.contentWindow.postMessage(message, "*");
+  } catch (error) {}
+}
 export const useUser = () => {
   var loginKey = localStorage.getItem("galaxyUserkeyToken");
 
@@ -13,6 +20,7 @@ export const useUser = () => {
       ? JSON.parse(localStorage.getItem(loginKey + "Token"))
       : {}
   );
+  const [loginTokenUpdate, setLoginTokenUpdate] = useState(loginToken);
   var _old = loginToken;
   if (
     _old.logout &&
@@ -23,14 +31,27 @@ export const useUser = () => {
   }
   useEffect(() => {
     eventBus.on("updateUser", (dataGet) => {
+      //if ($(".mm-menu--opened:visible").length == 0) {
       setLoginToken(dataGet);
-
+      // }
+      setLoginTokenUpdate(dataGet);
       var loginKey = localStorage.getItem("galaxyUserkeyToken");
       if (loginKey) {
         localStorage.setItem(loginKey + "Token", JSON.stringify(dataGet));
       }
     });
   }, []);
+  useEffect(() => {
+    var newu = {
+      username: loginTokenUpdate.username,
+      balance: loginTokenUpdate.balance,
+      balance2: loginTokenUpdate.balance2,
+      image: loginTokenUpdate.level,
+    };
+    try {
+      sendMessage(newu);
+    } catch (error) {}
+  }, [loginTokenUpdate]);
 
   return [loginToken];
 };

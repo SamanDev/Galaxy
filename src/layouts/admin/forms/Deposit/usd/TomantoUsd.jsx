@@ -86,21 +86,11 @@ const depositArea = (prop) => {
     handleGetRate();
   }, []);
   if (loginToken) {
-    countryOptions = [];
-    loginToken?.cashierGateways.map((item, i) => {
-      if (item.mode == "IranShetab" && item.active) {
-        countryOptions.push({
-          key: i.toString(),
-          value: item.name,
-          text: item.name,
-        });
-      }
-    });
-
     return (
       <Formik
         initialValues={{
           amount: 0,
+          username: loginToken.username,
           password: "",
         }}
         onSubmit={(values, submitMethods) =>
@@ -154,6 +144,7 @@ const depositArea = (prop) => {
                   size={prop.size}
                   label="مبلغ به دلار"
                   autoComplete="off"
+                  disabled={formik.values.amount == 0}
                 />
               </span>
               <FormikControl
@@ -165,6 +156,7 @@ const depositArea = (prop) => {
                 labelcolor="red"
                 size={prop.size}
                 autoComplete="password"
+                disabled={formik.values.amount == 0}
               />
               <Divider inverted />
 

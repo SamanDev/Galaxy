@@ -11,15 +11,17 @@ import AnimIcon from "../../../../../utils/inviteIcon";
 
 const initialValues = {
   amount: 10,
-
-  touser: "",
+  usd: true,
+  transferUser: "",
   username: "",
   password: "",
 };
 
 const onSubmit = async (values, submitMethods, navigate, prop, setRefresh) => {
   try {
-    const res = await cashierService(values, "Transfer", "");
+    var _values = values;
+    _values.amountDollar = values.amount;
+    const res = await cashierService(_values, "transferChip", "");
     if (res.status == 200) {
       if (res.data?.address) {
         setRefresh(true);
@@ -99,7 +101,7 @@ const depositArea = (prop) => {
               formik={formik}
               control="input"
               type="text"
-              name="touser"
+              name="transferUser"
               labelcolor="black"
               size={prop.size}
               label="انتقال به کاربر"

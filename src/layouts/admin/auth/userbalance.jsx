@@ -45,7 +45,7 @@ const gettotal = (data, mode, target) => {
 const printreward = (data, mode) => {
   var _data = data
     .filter((d) => d.mode.toLowerCase() === mode)
-    .sort((a, b) => (a.id < b.id ? 1 : -1));
+    .sort((a, b) => (a.date < b.date ? 1 : -1));
   return (
     <div
       style={{

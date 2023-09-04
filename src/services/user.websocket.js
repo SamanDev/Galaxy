@@ -9,10 +9,7 @@ var timerId;
 var usr;
 var tkn;
 var count = 0;
-function sendMessage(message) {
-  const iframe = document.querySelector("iframe[name=gameframe]");
-  iframe.contentWindow.postMessage(message, "*");
-}
+
 class UserWebsocket {
   connect(token, user) {
     var _t = token && !user?.logout ? "/users?token=" + token : "/public";
@@ -48,14 +45,6 @@ class UserWebsocket {
         //alert((msg.Command))
         if (msg.Command === "updateUser") {
           eventBus.dispatch("updateUser", msg.data);
-          var newu = {
-            username: msg.data.username,
-            balance: msg.data.balance,
-            balance2: msg.data.balance2,
-            image: msg.data.level,
-          };
-
-          sendMessage(newu);
         } else if (msg.Command === "ActiveTables") {
           eventBus.dispatch("updateActiveTables", msg.data);
         } else if (msg.Command === "pushLastRewards") {

@@ -175,7 +175,9 @@ const Dashboard = (prop) => {
   useEffect(() => {
     prop.reportWindowSize();
   }, [gameLoader]);
-
+  useEffect(() => {
+    params.gameId == "poker" ? setActiveIndex(0) : setActiveIndex(1);
+  }, [params.gameId]);
   const panes = [
     {
       menuItem: "Tab 1",
@@ -359,6 +361,7 @@ const Dashboard = (prop) => {
               link
               color={activeIndex == 0 ? "orange" : "grey"}
               onClick={handleRangeChange}
+              id="changegame"
               style={{
                 fontSize: 25,
                 right: -10,

@@ -13,7 +13,7 @@ const ActiveTable = (prop) => {
   useEffect(() => {
     var myData = lastReward.sort((a, b) => (a.date < b.date ? 1 : -1));
     var _new = myData.filter((d) => !d.class);
-    console.log(lastReward);
+    //console.log(lastReward);
     var myI = myData.length;
     var newmyI = _new.length;
     if (myI > 0) {

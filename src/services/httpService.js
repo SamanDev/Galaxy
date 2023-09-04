@@ -50,6 +50,11 @@ axios.interceptors.response.use(
       } else {
         //MyToast(res.data, "error");
       }
+      if (res.data.message) {
+        // MyToast("نام کاربری یا کلمه عبور اشتباه است.", "error");
+        MyToast(res.data.message, "error");
+        // Alert(error.response.status, error.response.data.message, "error");
+      }
     }
     if (res.status != 200 && res.status != 201) {
       if (typeof res.data == "object") {
@@ -80,11 +85,17 @@ axios.interceptors.response.use(
       // eventBus.dispatch("updateUser", null);
       //UserWebsocket.connect();
     }
-    if (error.response.status != 401) {
+    if (error.response.status != 401 && error.response.status != 400) {
       MyToast("متاسفانه مشکلی از سمت سرور رخ داده", "error");
-      MyToast(error.response.data.message, "error");
+      //   MyToast(error.response.data.message, "error");
       // Alert(error.response.status, error.response.data.message, "error");
     }
+    if (error.response.status == 400) {
+      MyToast("نام کاربری یا کلمه عبور اشتباه است.", "error");
+      // MyToast(error.response.data.message, "error");
+      // Alert(error.response.status, error.response.data.message, "error");
+    }
+
     if (error.response.status == 0) {
       MyToast("متاسفانه مشکلی از سمت سرور رخ داده", "error");
       // Alert(error.response.status, error.response.data.message, "error");

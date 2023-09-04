@@ -30,13 +30,15 @@ const conditionalRowStyles = [
   },
   // You can also pass a callback to style for additional customization
   {
-    when: (row) => row.endBalance > row.startBalance,
+    when: (row) =>
+      row.endBalance > row.startBalance || row.endBalance2 > row.startBalance2,
     style: {
       backgroundColor: "rgba(0,255,0,.1)",
     },
   },
   {
-    when: (row) => row.endBalance < row.startBalance,
+    when: (row) =>
+      row.endBalance < row.startBalance || row.endBalance2 < row.startBalance2,
     style: {
       backgroundColor: "rgba(255,0,0,.1)",
     },
@@ -203,21 +205,45 @@ function Admin(prop) {
     },
     {
       name: "Start",
-      selector: (row) => row.startBalance,
-      format: (row) => <>{doCurrency(row.startBalance)}</>,
+      selector: (row) => (row.amount2 ? row.startBalance2 : row.startBalance),
+      format: (row) => (
+        <>
+          {row.amount2 ? (
+            <>{doCurrency(row.startBalance2)} $</>
+          ) : (
+            doCurrency(row.startBalance)
+          )}
+        </>
+      ),
       sortable: true,
       width: "100px",
     },
     {
       name: "Amount",
       selector: (row) =>
-        row.endBalance >= row.startBalance ? row.amount : row.amount * -1,
+        row.amount2
+          ? row.endBalance2 >= row.startBalance2
+            ? row.amount2
+            : row.amount2 * -1
+          : row.endBalance >= row.startBalance
+          ? row.amount
+          : row.amount * -1,
       format: (row) => (
         <>
-          <AmountColor
-            amount={row.amount}
-            sign={row.endBalance - row.startBalance}
-          />
+          {row.amount2 ? (
+            <>
+              <AmountColor
+                amount={row.amount2}
+                sign={row.endBalance2 - row.startBalance2}
+              />{" "}
+              $
+            </>
+          ) : (
+            <AmountColor
+              amount={row.amount}
+              sign={row.endBalance - row.startBalance}
+            />
+          )}
         </>
       ),
       sortable: true,
@@ -225,8 +251,17 @@ function Admin(prop) {
     },
     {
       name: "End",
-      selector: (row) => row.endBalance,
-      format: (row) => <>{doCurrency(row.endBalance)}</>,
+      selector: (row) => (row.amount2 ? row.endBalance2 : row.endBalance),
+
+      format: (row) => (
+        <>
+          {row.amount2 ? (
+            <>{doCurrency(row.endBalance2)} $</>
+          ) : (
+            doCurrency(row.endBalance)
+          )}
+        </>
+      ),
       sortable: true,
       width: "100px",
     },

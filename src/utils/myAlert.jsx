@@ -46,7 +46,7 @@ export const MyToast = (title, icon) => {
     toast: true,
     background: "#000",
     showConfirmButton: false,
-    timer: 10000,
+    timer: 3000,
     timerProgressBar: true,
     customClass: {
       htmlContainer: "position-absolute p-2 lh-base",
