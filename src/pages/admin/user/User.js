@@ -4,6 +4,7 @@ import { Tab } from "semantic-ui-react";
 import { adminGetService } from "../../../services/admin";
 import TableAdmin from "../utils/table";
 import Report from "../report/List";
+import Not from "./Not";
 import Reward from "./Reward";
 import Tickets from "../support/List";
 import Users from "../Users";
@@ -248,6 +249,7 @@ function Admin(prop) {
       menuItem: user.username,
       render: () => (
         <Tab.Pane as="span">
+          <Not user={user} />
           <TableAdmin
             data={newdataInfoData}
             getwaysList={getGateways}

@@ -3,7 +3,7 @@ import React, { useState, Suspense, lazy } from "react";
 import { useParams } from "react-router-dom";
 import MenuLoader from "../../utils/menuLoader";
 //import UserDash from "./UserDash";
-
+import PushNot from "../../pushNot.component";
 import Index from "./index";
 //const Index = lazy(() => import("./index"));
 const UserDash = lazy(() => import("./UserDash"));
@@ -64,6 +64,7 @@ const Dashboard = (prop) => {
         {loginToken?.accessToken && !loginToken?.logout ? (
           <>
             <Suspense fallback={<MenuLoader />}>
+              <PushNot {...prop} />
               <UserDash {...prop} />
             </Suspense>
           </>

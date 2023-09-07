@@ -14,6 +14,7 @@
     "mburger-webcomponent": "^3.1.1",
     "mmenu-js": "^9.3.0",
     "react": "^18.2.0",
+    "firebase": "^9.7.0",
     "react-add-to-calendar-hoc": "^1.0.10",
     "react-bootstrap": "^2.3.1",
     "react-confetti": "^6.1.0",
