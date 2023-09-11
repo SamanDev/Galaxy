@@ -82,28 +82,7 @@ const animateCSS = (element, animation, prefix = "") =>
 
 localStorage.removeItem("getGateways");
 var finalMenu = "";
-const AppOrtion = (agel) => {
-  var scale = window.outerWidth / 1100;
-  if (agel == 90 && scale < 1) {
-    document
-      .querySelector('meta[name="viewport"]')
-      .setAttribute(
-        "content",
-        "width=device-width, initial-scale=" +
-          scale +
-          ",maximum-scale=" +
-          scale +
-          ""
-      );
-  } else {
-    document
-      .querySelector('meta[name="viewport"]')
-      .setAttribute(
-        "content",
-        "width=device-width,initial-scale=1,maximum-scale=1"
-      );
-  }
-};
+
 function App(prop) {
   const [refresh, setRefresh] = useState();
   const [loadingLogin, isLogin] = useIsLogin();
@@ -126,7 +105,28 @@ function App(prop) {
   var _event = getEvent(siteInfo);
   const location = useLocation();
   const [loginToken] = useUser();
-
+  const AppOrtion = (agel) => {
+    var scale = window.outerWidth / 1100;
+    if (agel == 90 && scale < 1) {
+      document
+        .querySelector('meta[name="viewport"]')
+        .setAttribute(
+          "content",
+          "width=device-width, initial-scale=" +
+            scale +
+            ",maximum-scale=" +
+            scale +
+            ""
+        );
+    } else {
+      document
+        .querySelector('meta[name="viewport"]')
+        .setAttribute(
+          "content",
+          "width=device-width,initial-scale=1,maximum-scale=1"
+        );
+    }
+  };
   const handleOpenTable = async (tableName) => {
     var values = { tableName: tableName };
 
