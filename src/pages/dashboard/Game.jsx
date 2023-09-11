@@ -48,7 +48,8 @@ const Dashboard = (prop) => {
       clearTimeout(window.resizeLag);
       window.resizeLag = setTimeout(() => {
         delete window.resizeLag;
-        setScreenOrientation(screen?.orientation?.type);
+        // setScreenOrientation(screen?.orientation?.type);
+        setScreenOrientation(isLandscape() ? "landscape" : "portrait");
         //setOrientation(isLandscape() ? "landscape" : "portrait");
       }, 100);
     };
