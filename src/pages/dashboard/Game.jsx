@@ -14,8 +14,6 @@ import {
 import $ from "jquery";
 const moment = require("moment");
 
-var nowDay = moment().isoWeekday();
-
 const Dashboard = (prop) => {
   const navigate = useNavigate();
   const loginToken = prop.loginToken;
