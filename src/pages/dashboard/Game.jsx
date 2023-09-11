@@ -50,7 +50,7 @@ const Dashboard = (prop) => {
         delete window.resizeLag;
         // setScreenOrientation(screen?.orientation?.type);
         setScreenOrientation(isLandscape() ? "landscape" : "portrait");
-        //setOrientation(isLandscape() ? "landscape" : "portrait");
+        setOrientation(isLandscape() ? "landscape" : "portrait");
       }, 100);
     };
 
@@ -124,26 +124,29 @@ const Dashboard = (prop) => {
 
   useEffect(() => {
     let viewportHeight = window.innerHeight;
-    if (
-      screenOrientation.indexOf("landscape") > -1 &&
-      viewportHeight < 600 &&
-      loginToken?.accessToken &&
-      !loginToken?.logout
-    ) {
-      setTimeout(() => {
-        handleFullscreen();
-      }, 500);
+    if (screenOrientation) {
+      if (
+        screenOrientation.indexOf("landscape") > -1 &&
+        viewportHeight < 600 &&
+        loginToken?.accessToken &&
+        !loginToken?.logout
+      ) {
+        setTimeout(() => {
+          handleFullscreen();
+        }, 500);
+      }
+      if (
+        screenOrientation.indexOf("landscape") == -1 &&
+        isFull &&
+        loginToken?.accessToken &&
+        !loginToken?.logout
+      ) {
+        setTimeout(() => {
+          handleFullscreen();
+        }, 500);
+      }
     }
-    if (
-      screenOrientation.indexOf("landscape") == -1 &&
-      isFull &&
-      loginToken?.accessToken &&
-      !loginToken?.logout
-    ) {
-      setTimeout(() => {
-        handleFullscreen();
-      }, 500);
-    }
+
     //prop.reportWindowSize();
   }, [screenOrientation]);
 
