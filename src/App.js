@@ -82,7 +82,28 @@ const animateCSS = (element, animation, prefix = "") =>
 
 localStorage.removeItem("getGateways");
 var finalMenu = "";
-
+const AppOrtion = (agel) => {
+  var scale = window.outerWidth / 1100;
+  if (agel == 90 && scale < 1) {
+    document
+      .querySelector('meta[name="viewport"]')
+      .setAttribute(
+        "content",
+        "width=device-width, initial-scale=" +
+          scale +
+          ",maximum-scale=" +
+          scale +
+          ""
+      );
+  } else {
+    document
+      .querySelector('meta[name="viewport"]')
+      .setAttribute(
+        "content",
+        "width=device-width,initial-scale=1,maximum-scale=1"
+      );
+  }
+};
 function App(prop) {
   const [refresh, setRefresh] = useState();
   const [loadingLogin, isLogin] = useIsLogin();
@@ -1038,6 +1059,15 @@ function App(prop) {
     //finalMenu = "";
   }, [isUser]);
   useEffect(() => {
+    window.addEventListener("message", function (event) {
+      if (event.data == "AppOrtion") {
+        var agel = window.outerWidth > window.outerHeight ? 90 : 0;
+        AppOrtion(agel);
+      }
+
+      //console.log("Message received from the child: " + event.data); // Message received from child
+    });
+
     $('[rel="stylesheet"]').removeAttr("disabled");
     eventBus.on("eventsDC", () => {
       if (isLogin) {

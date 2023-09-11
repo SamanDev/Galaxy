@@ -2125,7 +2125,7 @@ table {
   overflow: hidden;
 }
 .carousel-item {
-  max-height: calc(100vh - 262px);
+  max-height: calc(100vh - 182px);
 }
 .icon.usdbtn {
   line-height: 30px !important;
