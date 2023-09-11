@@ -20,7 +20,16 @@ export const forgetPasswordService = (values) => {
     ...values,
   });
 };
-
+export const notification = (values) => {
+  return httpService("/req/notification", "post", {
+    ...values,
+  });
+};
+export const sendPushToken = (token) => {
+  return httpService("/req/sendPushToken", "post", {
+    token,
+  });
+};
 export const logoutService = () => {
   return httpService("/auth/logout", "get");
 };

@@ -1,13 +1,13 @@
-import React, { useState, Suspense, lazy } from "react";
+import React, { useState, Suspense, lazy, useEffect } from "react";
 
 import { useParams } from "react-router-dom";
 import MenuLoader from "../../utils/menuLoader";
 //import UserDash from "./UserDash";
-
+import PushNot from "../../pushNot.component";
 import Index from "./index";
 //const Index = lazy(() => import("./index"));
 const UserDash = lazy(() => import("./UserDash"));
-
+import $ from "jquery";
 const Dashboard = (prop) => {
   String.prototype.toPersianCharacter = function () {
     var string = this;
@@ -55,15 +55,27 @@ const Dashboard = (prop) => {
   const [screenOrientation, setScreenOrientation] = useState(
     screen?.orientation?.type
   );
-
+  const handleFullscreen = (e) => {
+    $(".framegame,body").removeClass("fullscreen");
+    document
+      .querySelector('meta[name="viewport"]')
+      .setAttribute(
+        "content",
+        "width=device-width,initial-scale=1,maximum-scale=1"
+      );
+    prop.reportWindowSize();
+  };
   const params = useParams();
-
+  useEffect(() => {
+    handleFullscreen();
+  }, []);
   return (
     <>
       <div id="dashboard" className="mainsection">
         {loginToken?.accessToken && !loginToken?.logout ? (
           <>
             <Suspense fallback={<MenuLoader />}>
+              <PushNot {...prop} />
               <UserDash {...prop} />
             </Suspense>
           </>

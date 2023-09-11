@@ -18,3 +18,11 @@ export const adminPutServiceList = (values, mode) => {
 export const getReportServiceAdmin = (mode) => {
   return httpService(`/req/${mode}`, "get");
 };
+export const notification = (username, message, title, image) => {
+  return httpService("/admin/notification", "post", {
+    username,
+    message,
+    title,
+    image,
+  });
+};

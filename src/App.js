@@ -82,7 +82,28 @@ const animateCSS = (element, animation, prefix = "") =>
 
 localStorage.removeItem("getGateways");
 var finalMenu = "";
-
+const AppOrtion = (agel) => {
+  var scale = window.outerWidth / 1100;
+  if (agel == 90 && scale < 1) {
+    document
+      .querySelector('meta[name="viewport"]')
+      .setAttribute(
+        "content",
+        "width=device-width, initial-scale=" +
+          scale +
+          ",maximum-scale=" +
+          scale +
+          ""
+      );
+  } else {
+    document
+      .querySelector('meta[name="viewport"]')
+      .setAttribute(
+        "content",
+        "width=device-width,initial-scale=1,maximum-scale=1"
+      );
+  }
+};
 function App(prop) {
   const [refresh, setRefresh] = useState();
   const [loadingLogin, isLogin] = useIsLogin();
@@ -105,7 +126,7 @@ function App(prop) {
   var _event = getEvent(siteInfo);
   const location = useLocation();
   const [loginToken] = useUser();
-  window.addEventListener("touchstart", { passive: true });
+
   const handleOpenTable = async (tableName) => {
     var values = { tableName: tableName };
 
@@ -996,13 +1017,22 @@ function App(prop) {
 
             const res = await loginService(_newValues);
             if (res.status == 200) {
-              if (res.data.accessToken) {
-                //navigate("/");
+              try {
+                if (res.data.accessToken) {
+                  navigate("/");
+                } else {
+                  navigate("/logout");
+                }
+              } catch (error) {
+                navigate("/logout");
               }
             } else {
-              navigate("/login/" + atob(arrAdd[arrAdd.length - 2]));
+              // navigate("/login/" + atob(arrAdd[arrAdd.length - 2]));
+              navigate("/logout");
             }
-          } catch (error) {}
+          } catch (error) {
+            navigate("/logout");
+          }
         };
         onSubmit();
       } else {
@@ -1029,6 +1059,15 @@ function App(prop) {
     //finalMenu = "";
   }, [isUser]);
   useEffect(() => {
+    window.addEventListener("message", function (event) {
+      if (event.data == "AppOrtion") {
+        var agel = window.outerWidth > window.outerHeight ? 90 : 0;
+        AppOrtion(agel);
+      }
+
+      //console.log("Message received from the child: " + event.data); // Message received from child
+    });
+
     $('[rel="stylesheet"]').removeAttr("disabled");
     eventBus.on("eventsDC", () => {
       if (isLogin) {
@@ -1043,9 +1082,8 @@ function App(prop) {
     //startServiceWorker();
   }, []);
   useEffect(() => {
-    console.log(activeMenu);
     printmenu();
-  }, [activeMenu, activeMenuOpen, window.location.href]);
+  }, [activeMenu, activeMenuOpen, window.location.href, loginToken]);
 
   if (loadingLogin && 1 == 2) {
     return (

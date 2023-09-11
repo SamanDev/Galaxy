@@ -127,7 +127,7 @@ const Balance = (prop) => {
         $("#opendepositusd").trigger("click");
       }
 
-      console.log("Message received from the child: " + event.data); // Message received from child
+      //console.log("Message received from the child: " + event.data); // Message received from child
     });
     if (_event == "GPass" && !loginToken.takeGPass) {
       setStateMode(1);
