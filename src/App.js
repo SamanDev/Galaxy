@@ -126,6 +126,7 @@ function App(prop) {
           "width=device-width,initial-scale=1,maximum-scale=1"
         );
     }
+    reportWindowSize();
   };
   const handleOpenTable = async (tableName) => {
     var values = { tableName: tableName };
