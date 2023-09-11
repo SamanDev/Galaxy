@@ -105,7 +105,7 @@ function App(prop) {
   var _event = getEvent(siteInfo);
   const location = useLocation();
   const [loginToken] = useUser();
-  window.addEventListener("touchstart", { passive: true });
+
   const handleOpenTable = async (tableName) => {
     var values = { tableName: tableName };
 
@@ -996,13 +996,22 @@ function App(prop) {
 
             const res = await loginService(_newValues);
             if (res.status == 200) {
-              if (res.data.accessToken) {
-                //navigate("/");
+              try {
+                if (res.data.accessToken) {
+                  navigate("/");
+                } else {
+                  navigate("/logout");
+                }
+              } catch (error) {
+                navigate("/logout");
               }
             } else {
-              navigate("/login/" + atob(arrAdd[arrAdd.length - 2]));
+              // navigate("/login/" + atob(arrAdd[arrAdd.length - 2]));
+              navigate("/logout");
             }
-          } catch (error) {}
+          } catch (error) {
+            navigate("/logout");
+          }
         };
         onSubmit();
       } else {

@@ -48,8 +48,9 @@ const Dashboard = (prop) => {
       clearTimeout(window.resizeLag);
       window.resizeLag = setTimeout(() => {
         delete window.resizeLag;
-        setOrientation(isLandscape() ? "landscape" : "portrait");
-      }, 200);
+        setScreenOrientation(screen?.orientation?.type);
+        //setOrientation(isLandscape() ? "landscape" : "portrait");
+      }, 100);
     };
 
   useEffect(
@@ -123,15 +124,27 @@ const Dashboard = (prop) => {
   useEffect(() => {
     let viewportHeight = window.innerHeight;
     if (
-      orientation.indexOf("landscape") > -1 &&
+      screenOrientation.indexOf("landscape") > -1 &&
       viewportHeight < 600 &&
       loginToken?.accessToken &&
       !loginToken?.logout
     ) {
-      handleFullscreen();
+      setTimeout(() => {
+        handleFullscreen();
+      }, 500);
+    }
+    if (
+      screenOrientation.indexOf("landscape") == -1 &&
+      isFull &&
+      loginToken?.accessToken &&
+      !loginToken?.logout
+    ) {
+      setTimeout(() => {
+        handleFullscreen();
+      }, 500);
     }
     //prop.reportWindowSize();
-  }, [orientation]);
+  }, [screenOrientation]);
 
   function capitalizeTxt(txt) {
     return txt.charAt(0).toUpperCase() + txt.slice(1); //or if you want lowercase the rest txt.slice(1).toLowerCase();
