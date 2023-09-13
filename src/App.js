@@ -11,7 +11,6 @@ import {
   haveModerator,
   getEvent,
   dayOfTournament,
-  startServiceWorker,
 } from "./const";
 import LazyLoad from "react-lazyload";
 import { forceCheck } from "react-lazyload";
@@ -19,7 +18,6 @@ import { Link } from "react-router-dom";
 import { useUser, useSiteInfo } from "./hook/userHook";
 
 import $ from "jquery";
-import { Route, Routes } from "react-router-dom";
 import { useIsLogin } from "./hook/authHook";
 import AdminLayout from "./layouts/admin/Index";
 import { useNavigate } from "react-router-dom";
@@ -35,7 +33,6 @@ const UserArea = React.lazy(() =>
 );
 
 import DCArea from "./layouts/admin/auth/dc.component";
-import TransfertoDolar from "./layouts/admin/forms/Cashout/TransfertoDolar";
 
 import GalaxyIcon from "./utils/svg";
 import { siteMethodDef } from "./const";
@@ -129,14 +126,11 @@ function App(prop) {
     reportWindowSize();
   };
   const handleOpenTable = async (tableName) => {
-    var values = { tableName: tableName };
-
     if (loginToken && $("#pokerframe").length > 0) {
       if ($("#pokerframe:visible").length == 0) {
         $("#changegame").trigger("click");
       }
       try {
-        const res = await cashierService(values, "openTable");
       } catch (error) {}
     } else {
       localStorage.setItem("tableName", tableName);
@@ -722,7 +716,7 @@ function App(prop) {
       }
     }
   }
-  const closeMenu = (apis) => {
+  const closeMenu = () => {
     try {
       api.close();
     } catch (error) {}
@@ -1080,7 +1074,6 @@ function App(prop) {
     eventBus.on("eventsConnect", () => {
       setDcOpen(false);
     });
-    //startServiceWorker();
   }, []);
   useEffect(() => {
     printmenu();

@@ -1,12 +1,10 @@
 import React from "react";
-import { Icon, List, Button } from "semantic-ui-react";
+import { List } from "semantic-ui-react";
 import { doCurrency, levelDataInfo } from "../../const";
-import $ from "jquery";
 import GiftsDesc from "../../utils/GiftsDesc";
-import AddCalendar from "../../utils/AddCalendar";
 import GalaxyIcon from "../../utils/svganim";
 import ConfettiArea from "../../utils/partymenu";
-import Moment from "react-moment";
+import BonusArea from "../../layouts/admin/bonus/index.jsx";
 import LevelIcon from "../../utils/svg";
 import LazyLoad from "react-lazyload";
 import LastRewardList from "./LastRewardList";
@@ -15,6 +13,7 @@ const LevelList = (prop) => {
     <span className="myaccount popupmenu">
       <span className="lazyarea">
         <ConfettiArea recycle={false} numberOfPieces="50" />
+
         <List
           divided
           inverted
@@ -171,6 +170,17 @@ const LevelList = (prop) => {
             </List.Content>
           </List.Item>
         </List>
+        <LazyLoad height={300}>
+          <ul className="mm-listview">
+            <li className="menutitle mm-listitem"></li>
+            <li className="menutitle mm-listitem">
+              <span className="mm-listitem__text"> جوایز من</span>
+            </li>
+          </ul>
+          <div style={{ padding: "0 15px" }}>
+            <BonusArea {...prop} />
+          </div>
+        </LazyLoad>
         <LazyLoad height={300}>
           <LastRewardList mode="gift" {...prop} />
         </LazyLoad>

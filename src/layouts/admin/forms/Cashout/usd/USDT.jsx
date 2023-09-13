@@ -8,15 +8,6 @@ import * as Yup from "yup";
 import { Alert } from "../../../../../utils/alerts";
 import { cashierService } from "../../../../../services/cashier";
 import { getCashAmountUsd } from "../../../../../const";
-const initialValues = {
-  action: "cashout",
-  amount: 0,
-  coin: "USDT.TRC20",
-  usd: true,
-  userWalletAddress: "",
-  username: "",
-  password: "",
-};
 
 const onSubmit = async (values, submitMethods, navigate, prop, setRefresh) => {
   try {
@@ -40,12 +31,11 @@ const depositArea = (prop) => {
   const [refresh, setRefresh] = useState(false);
   const navigate = useNavigate();
   const loginToken = prop.loginToken;
-  const getRate = localStorage.getItem("getRate") || 31250;
   const validationSchema = Yup.object({
     amount: Yup.number()
       .required("لطفا این فیلد را وارد کنید.")
-      .min(100, "لطفا این فیلد را درست وارد کنید.")
-      .max(loginToken.balance2, "لطفا این فیلد را درست وارد کنید.")
+      .min(100, "حداقل مبلغ 100 دلار می باشد.")
+      .max(loginToken.balance2, "موجودی ناکافی است.")
       .integer(),
 
     userWalletAddress: Yup.string()

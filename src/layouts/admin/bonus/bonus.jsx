@@ -212,7 +212,6 @@ const BonusArea = (prop) => {
         {bonus.status == "Done" && (
           <>
             <Button
-              animated="fade"
               size="mini"
               color="green"
               compact
@@ -220,12 +219,7 @@ const BonusArea = (prop) => {
               floated="right"
               style={{ opacity: 1, width: 140, marginRight: 10 }}
             >
-              <Button.Content visible>
-                <Icon name="check" /> {doCurrency(bonus.amount)}
-              </Button.Content>
-              <Button.Content hidden className="farsi-inline">
-                <Icon name="check" /> دریافت شده
-              </Button.Content>
+              <Icon name="check" /> {doCurrency(bonus.amount)}
             </Button>
           </>
         )}

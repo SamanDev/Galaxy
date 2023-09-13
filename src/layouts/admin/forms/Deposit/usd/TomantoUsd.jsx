@@ -1,31 +1,15 @@
 import React, { useState, useEffect } from "react";
-import {
-  Label,
-  Input,
-  Header,
-  Divider,
-  Icon,
-  Button,
-  Segment,
-  Message,
-} from "semantic-ui-react";
-import Select from "../../../input/Select";
+import { Divider, Icon, Button } from "semantic-ui-react";
 import DepositButton from "../../../input/DepositButton";
-import Carts from "../../../../../components/form/Carts";
-import { CopyToClipboard } from "react-copy-to-clipboard";
-import $ from "jquery";
 import FormikControl from "../../../../../components/form/FormikControl";
-import AmountSelect from "../../../../../components/form/AmountSelect";
-import { useNavigate } from "react-router-dom";
-import { FastField, Form, Formik } from "formik";
+import { Form, Formik } from "formik";
 import * as Yup from "yup";
 import { Alert } from "../../../../../utils/alerts";
 import { MyToastDone } from "../../../../../utils/myAlert";
 import { doCurrency } from "../../../../../const";
-import MyMsg from "../../../../../utils/MsgDesc";
 import { cashierServiceGame } from "../../../../../services/cashier";
 import { rateService } from "../../../../../services/cashier";
-var countryOptions = [];
+import MenuLoader from "../../../../../utils/menuLoader";
 var amounts = [
   { value: 5 },
   { value: 10 },
@@ -44,7 +28,7 @@ const validationSchema = Yup.object({
     .min(8, "کلمه عبور حداقل باشد 8 کاراکتر باشد."),
 });
 
-const onSubmit = async (values, submitMethods, getRate, prop) => {
+const onSubmit = async (values, submitMethods, getRate) => {
   try {
     var newValues = values;
     newValues.amountDollar = values.amount;
@@ -66,10 +50,9 @@ const onSubmit = async (values, submitMethods, getRate, prop) => {
 const depositArea = (prop) => {
   const [depMode, setDepMode] = useState(false);
   const [btnLoading, setBtnLoading] = useState(false);
-  const navigate = useNavigate();
   const getRate = localStorage.getItem("getRate");
   const loginToken = prop.loginToken;
-  const [rate, setRate] = useState(getRate || 31250);
+  const [rate, setRate] = useState(getRate || 0);
   const handleGetRate = async () => {
     try {
       const res = await rateService();
@@ -85,6 +68,9 @@ const depositArea = (prop) => {
   useEffect(() => {
     handleGetRate();
   }, []);
+  if (rate == 0) {
+    return <MenuLoader />;
+  }
   if (loginToken) {
     return (
       <Formik

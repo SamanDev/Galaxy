@@ -4,22 +4,12 @@ import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { getPokerSession } from "../../services/auth";
 import { Tab, Icon, Dropdown, Dimmer, Loader } from "semantic-ui-react";
-import {
-  gameData,
-  gameDataMain,
-  getEvent,
-  gamesUrl,
-  pokerUrl,
-} from "../../const";
+import { gameData, gameDataMain, gamesUrl, pokerUrl } from "../../const";
 import $ from "jquery";
-const moment = require("moment");
 
 const Dashboard = (prop) => {
   const navigate = useNavigate();
   const loginToken = prop.loginToken;
-
-  const siteInfo = prop.siteInfo;
-  var _event = getEvent(siteInfo);
 
   const [sessionKey, setSessionKey] = useState("");
 
@@ -79,21 +69,21 @@ const Dashboard = (prop) => {
   );
   const [mainGame, setMainGame] = useState("poker");
 
-  const handleChange = (e, { name, value }) => {
+  const handleChange = (e, { value }) => {
     setGameLoader(true);
     setSecondaryGame(value);
     setActiveIndex(1);
     localStorage.setItem("secondaryGame", value);
   };
 
-  const handleRangeChange = (e) => setActiveIndex(activeIndex == 0 ? 1 : 0);
-  const handleFullscreen = (e) => {
+  const handleRangeChange = () => setActiveIndex(activeIndex == 0 ? 1 : 0);
+  const handleFullscreen = () => {
     $(".framegame,body").toggleClass("fullscreen");
     setIsFull(!isFull);
     prop.reportWindowSize();
   };
 
-  const handleReload = (e) => {
+  const handleReload = () => {
     if ($("#pokerframe:visible").length > 0) {
       setSessionKey("");
       handleSession();
@@ -102,11 +92,11 @@ const Dashboard = (prop) => {
     }
     setGameLoader(true);
   };
-  const removeFrameLoad = (e) => {
+  const removeFrameLoad = () => {
     setGameLoader(false);
     prop.reportWindowSize();
   };
-  const removeFrameLoad2 = (e) => {
+  const removeFrameLoad2 = () => {
     setGameLoader(false);
     prop.reportWindowSize();
     setActiveIndexLoad(true);
@@ -165,7 +155,7 @@ const Dashboard = (prop) => {
       });
     }
     {
-      gameData.map((game, i) => {
+      gameData.map((game) => {
         if (game != mainGame) {
           _gameOptions.push({
             key: game,

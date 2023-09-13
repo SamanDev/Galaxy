@@ -1,17 +1,7 @@
 import React, { useEffect, useState } from "react";
-import {
-  Icon,
-  Label,
-  Comment,
-  List,
-  Image,
-  Button,
-  Divider,
-  Segment,
-} from "semantic-ui-react";
+import { Icon, List } from "semantic-ui-react";
 import Reward from "../../utils/Reward";
-import { doCurrency, levelLeagueReward, levelLeagueList } from "../../const";
-import LevelIcon from "../../utils/svg";
+import { levelLeagueReward } from "../../const";
 import MenuLoader from "../../utils/menuLoader";
 import { getRewardsService } from "../../services/reward";
 const LevelList = (prop) => {
@@ -81,12 +71,10 @@ const LevelList = (prop) => {
             <div style={{ paddingLeft: 15 }}>
               {data.map((x, i) => {
                 totalReward += levelLeagueReward(i);
-                var _lvl = 20 - i;
-                var _text = x.username;
 
                 return (
                   <div className={"rewardname"} mode={x.mode} key={i}>
-                    <Reward item={x} color={true} />
+                    <Reward item={x} {...prop} color={true} />
                   </div>
                 );
               })}

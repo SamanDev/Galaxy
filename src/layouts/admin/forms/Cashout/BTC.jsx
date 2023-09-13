@@ -7,16 +7,7 @@ import { Form, Formik } from "formik";
 import * as Yup from "yup";
 import { Alert } from "../../../../utils/alerts";
 import { cashierService } from "../../../../services/cashier";
-import { getCashAmount } from "../../../../const";
-const initialValues = {
-  action: "cashout",
-  amount: 0,
-  coin: "BTC",
-  amountDollar: 100,
-  userWalletAddress: "",
-  username: "",
-  password: "",
-};
+import { doCurrency } from "../../../../const";
 
 const onSubmit = async (values, submitMethods, navigate, prop, setRefresh) => {
   try {
@@ -44,14 +35,18 @@ const depositArea = (prop) => {
   const validationSchema = Yup.object({
     amount: Yup.number()
       .required("لطفا این فیلد را وارد کنید.")
-      .min(100000, "لطفا این فیلد را درست وارد کنید.")
-      .max(loginToken.balance, "لطفا این فیلد را درست وارد کنید.")
+      .min(
+        getRate * 100,
+        "حداقل مبلغ " + doCurrency(getRate * 100) + " تومان می باشد."
+      )
+      .max(loginToken.balance, "موجودی ناکافی است.")
+
       .integer(),
 
     amountDollar: Yup.number()
       .required("لطفا این فیلد را وارد کنید.")
-      .min(100, "لطفا این فیلد را درست وارد کنید.")
-      .integer(),
+      .min(100, "حداقل مبلغ 100 دلار می باشد."),
+
     userWalletAddress: Yup.string()
       .required("لطفا این فیلد را وارد کنید.")
       .min(10, "لطفا این فیلد را درست وارد کنید."),
@@ -59,7 +54,7 @@ const depositArea = (prop) => {
       .required("کلمه عبور حداقل باشد 8 کاراکتر باشد.")
       .min(8, "کلمه عبور حداقل باشد 8 کاراکتر باشد."),
   });
-  var _bal = getCashAmount(loginToken.balance);
+  var _bal = loginToken.balance;
   return (
     <Formik
       initialValues={{
@@ -68,7 +63,7 @@ const depositArea = (prop) => {
         action: "cashout",
 
         coin: "BTC",
-        amountDollar: _bal / getRate >= 100 ? _bal / getRate : 100,
+        amountDollar: _bal / getRate,
         userWalletAddress: "",
         username: "",
         password: "",

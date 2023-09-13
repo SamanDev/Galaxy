@@ -1,38 +1,13 @@
 import React, { useState } from "react";
-import {
-  Label,
-  Input,
-  Header,
-  Divider,
-  Icon,
-  Button,
-  Segment,
-  Message,
-} from "semantic-ui-react";
 
-import DepositButton from "../../input/DepositButton";
-import Password from "../../input/Password";
 import CashoutButton from "../../input/CashoutButton";
 import FormikControl from "../../../../components/form/FormikControl";
 import { useNavigate } from "react-router-dom";
-import { FastField, Form, Formik } from "formik";
+import { Form, Formik } from "formik";
 import * as Yup from "yup";
 import { Alert } from "../../../../utils/alerts";
 import { cashierService } from "../../../../services/cashier";
-import { getCashAmount } from "../../../../const";
-const initialValues = {
-  amount: 0,
-
-  amountDollar: 100,
-};
-const validationSchema = Yup.object({
-  amount: Yup.number().required("لطفا این فیلد را وارد کنید.").integer(),
-
-  amountDollar: Yup.number()
-    .required("لطفا این فیلد را وارد کنید.")
-    .min(100, "لطفا این فیلد را درست وارد کنید.")
-    .integer(),
-});
+import { doCurrency } from "../../../../const";
 const onSubmit = async (values, submitMethods, navigate, prop, setRefresh) => {
   try {
     const res = await cashierService(values, "createCashoutPM", "");
@@ -59,22 +34,24 @@ const depositArea = (prop) => {
   const validationSchema = Yup.object({
     amount: Yup.number()
       .required("لطفا این فیلد را وارد کنید.")
-      .min(100000, "لطفا این فیلد را درست وارد کنید.")
-      .max(loginToken.balance, "لطفا این فیلد را درست وارد کنید.")
+      .min(
+        getRate * 100,
+        "حداقل مبلغ " + doCurrency(getRate * 100) + " تومان می باشد."
+      )
+      .max(loginToken.balance, "موجودی ناکافی است.")
       .integer(),
 
     amountDollar: Yup.number()
       .required("لطفا این فیلد را وارد کنید.")
-      .min(100, "لطفا این فیلد را درست وارد کنید.")
-      .integer(),
+      .min(100, "حداقل مبلغ 100 دلار می باشد."),
   });
-  var _bal = getCashAmount(loginToken.balance);
+  var _bal = loginToken.balance;
   return (
     <Formik
       initialValues={{
         amount: _bal,
 
-        amountDollar: _bal / getRate >= 100 ? _bal / getRate : 100,
+        amountDollar: _bal / getRate,
       }}
       onSubmit={(values, submitMethods) =>
         onSubmit(values, submitMethods, navigate, prop, setRefresh)

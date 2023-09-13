@@ -82,26 +82,21 @@ function Active(prop) {
   }, [token]);
   useEffect(() => {
     try {
-      Notification.requestPermission().then(function (result) {
-        if (result === "default" && token == "err") {
-          setToken(null);
-          return;
-        }
-
-        handleResend();
-      });
     } catch (e) {
       setToken("err");
     }
   }, []);
-  if (token == null) {
+  if (token == "err") {
     return (
       <>
-        <Message negative onClick={handleResend} style={{ cursor: "pointer" }}>
+        <Message
+          negative
+          onClick={handleResend}
+          id="pushactive"
+          style={{ cursor: "pointer", display: "none" }}
+        >
           <Message.Header>Turn On Notification and Get Reward</Message.Header>
         </Message>
-
-        <Divider hidden />
       </>
     );
   } else {
