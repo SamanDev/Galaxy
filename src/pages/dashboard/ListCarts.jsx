@@ -2,7 +2,7 @@ import React from "react";
 import { List, Icon, Header } from "semantic-ui-react";
 import Status from "../../utils/Status";
 import AmountColor from "../../utils/AmountColor";
-
+import NoData from "../../utils/noData";
 import { convertDateToJalali } from "../../utils/convertDate";
 import ConvertCart from "../../utils/convertCart";
 const ListExampleInverted = (prop) => {
@@ -23,18 +23,7 @@ const ListExampleInverted = (prop) => {
           <>
             <List.Item>
               <List.Content>
-                <List.Description className="farsi text-center">
-                  <Icon
-                    circular
-                    color="teal"
-                    name="clipboard outline"
-                    size="big"
-                    inverted
-                  />
-                  <br />
-                  <br />
-                  هیچ رکوردی یافت نشد.
-                </List.Description>
+                <NoData msg="هیچ رکوردی یافت نشد." />
               </List.Content>
             </List.Item>
           </>

@@ -98,7 +98,7 @@ const Dashboard = (prop) => {
   };
   const removeFrameLoad2 = () => {
     setGameLoader(false);
-    prop.reportWindowSize();
+
     setActiveIndexLoad(true);
   };
   const handleTabChange = (e, { activeIndex }) => setActiveIndex(activeIndex);

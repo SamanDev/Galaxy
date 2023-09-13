@@ -101,7 +101,7 @@ const depositArea = (prop) => {
                 name="username"
                 labelcolor={prop.labelcolor}
                 size={prop.size}
-                label="مبلغ به دلار"
+                autoComplete="username"
               />
             </span>
             <FormikControl

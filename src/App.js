@@ -1054,6 +1054,7 @@ function App(prop) {
     //finalMenu = "";
   }, [isUser]);
   useEffect(() => {
+    console.log("Message received from the child: "); // Message received from child
     window.addEventListener("message", function (event) {
       if (event.data == "AppOrtion") {
         var agel = window.outerWidth > window.outerHeight ? 90 : 0;

@@ -5,7 +5,7 @@ import MenuLoader from "../../../../utils/menuLoader";
 import { convertDateToJalali } from "../../../../utils/convertDate";
 import AmountColor from "../../../../utils/AmountColor";
 import { getReportService } from "../../../../services/report";
-
+import NoData from "../../../../utils/noData";
 const Report = (prop) => {
   const loginToken = prop.loginToken;
   const [data, setData] = useState([]);
@@ -56,18 +56,7 @@ const Report = (prop) => {
             <>
               <List.Item>
                 <List.Content>
-                  <List.Description className="farsi text-center">
-                    <Icon
-                      circular
-                      color="teal"
-                      name="clipboard outline"
-                      size="big"
-                      inverted
-                    />
-                    <br />
-                    <br />
-                    هیچ رکوردی یافت نشد.
-                  </List.Description>
+                  <NoData msg="هیچ رکوردی یافت نشد." />
                 </List.Content>
               </List.Item>
             </>

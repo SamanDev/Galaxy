@@ -65,7 +65,7 @@ const depositArea = (prop) => {
         coin: "BTC",
         amountDollar: _bal / getRate,
         userWalletAddress: "",
-        username: "",
+        username: loginToken.username,
         password: "",
       }}
       onSubmit={(values, submitMethods) =>
@@ -103,8 +103,7 @@ const depositArea = (prop) => {
                 name="username"
                 labelcolor={prop.labelcolor}
                 size={prop.size}
-                label="مبلغ به دلار"
-                autoComplete="off"
+                autoComplete="username"
               />
             </span>
             <FormikControl

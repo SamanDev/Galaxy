@@ -1,20 +1,7 @@
 import React, { useState, useEffect } from "react";
-
 import CurrencyInput from "react-currency-input-field";
-import { FastField } from "formik";
-
 import FormikControl from "./FormikControl";
-import {
-  Label,
-  Input,
-  Header,
-  Divider,
-  Icon,
-  Button,
-  Segment,
-  Message,
-  Form,
-} from "semantic-ui-react";
+import { Label, Input } from "semantic-ui-react";
 import { rateService } from "../../services/cashier";
 
 const Amount = (prop) => {

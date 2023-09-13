@@ -53,19 +53,19 @@ const depositArea = (prop) => {
   const getRate = localStorage.getItem("getRate");
   const loginToken = prop.loginToken;
   const [rate, setRate] = useState(getRate || 0);
-  const handleGetRate = async () => {
-    try {
-      const res = await rateService();
-      if (res.status === 200) {
-        localStorage.setItem("getRate", res.data);
-        setRate(res.data);
-      }
-    } catch (error) {
-      console.log(error.message);
-    }
-  };
 
   useEffect(() => {
+    const handleGetRate = async () => {
+      try {
+        const res = await rateService();
+        if (res.status === 200) {
+          localStorage.setItem("getRate", res.data);
+          setRate(res.data);
+        }
+      } catch (error) {
+        console.log(error.message);
+      }
+    };
     handleGetRate();
   }, []);
   if (rate == 0) {
@@ -128,9 +128,6 @@ const depositArea = (prop) => {
                   name="username"
                   labelcolor={prop.labelcolor}
                   size={prop.size}
-                  label="مبلغ به دلار"
-                  autoComplete="off"
-                  disabled={formik.values.amount == 0}
                 />
               </span>
               <FormikControl

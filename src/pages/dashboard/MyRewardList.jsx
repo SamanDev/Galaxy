@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Icon, List } from "semantic-ui-react";
 import Reward from "../../utils/Reward";
+import NoData from "../../utils/noData";
 import { levelLeagueReward } from "../../const";
 import MenuLoader from "../../utils/menuLoader";
 import { getRewardsService } from "../../services/reward";
@@ -52,18 +53,7 @@ const LevelList = (prop) => {
               <>
                 <List.Item>
                   <List.Content>
-                    <List.Description className="farsi text-center">
-                      <Icon
-                        circular
-                        color="teal"
-                        name="clipboard outline"
-                        size="big"
-                        inverted
-                      />
-                      <br />
-                      <br />
-                      هیچ رکوردی یافت نشد.
-                    </List.Description>
+                    <NoData msg="هیچ رکوردی یافت نشد." />
                   </List.Content>
                 </List.Item>
               </>

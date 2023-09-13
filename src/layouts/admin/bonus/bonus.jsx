@@ -176,15 +176,7 @@ const BonusArea = (prop) => {
             start.isBefore(end) &&
             end.isBefore(expire) && (
               <>
-                <Moment
-                  fromNow
-                  onChange={(val) => {
-                    prop.ChangeGift();
-                  }}
-                >
-                  {bonus.expireDate}
-                </Moment>{" "}
-                تا انقضا
+                <Moment fromNow>{bonus.expireDate}</Moment> تا انقضا
               </>
             )}
           {((bonus.status == "Pending" &&
@@ -197,15 +189,7 @@ const BonusArea = (prop) => {
           )}
           {bonus.status == "Pending" && !start.isBefore(end) && (
             <>
-              <Moment
-                fromNow
-                onChange={(val) => {
-                  prop.ChangeGift();
-                }}
-              >
-                {bonus.startDate}
-              </Moment>{" "}
-              تا فعالسازی
+              <Moment fromNow>{bonus.startDate}</Moment> تا فعالسازی
             </>
           )}
         </small>
@@ -237,7 +221,6 @@ const BonusArea = (prop) => {
                 disabled={loading}
                 onClick={() => {
                   handleConfirm(bonus, loginToken);
-                  prop.ChangeGift();
                 }}
               >
                 {doCurrency(bonus.amount)}
@@ -258,12 +241,7 @@ const BonusArea = (prop) => {
               floated="right"
               style={{ opacity: 1, width: 140, marginRight: 10 }}
             >
-              <Button.Content visible>
-                <Icon name="times" /> {doCurrency(bonus.amount)}
-              </Button.Content>
-              <Button.Content hidden className="farsi-inline">
-                <Icon name="times" /> منقضی شده
-              </Button.Content>
+              <Icon name="times" /> {doCurrency(bonus.amount)}
             </Button>
           </>
         )}
@@ -277,12 +255,7 @@ const BonusArea = (prop) => {
               floated="right"
               style={{ opacity: 1, width: 140, marginRight: 10 }}
             >
-              <Button.Content visible>
-                <Icon name="clock" /> {doCurrency(bonus.amount)}
-              </Button.Content>
-              <Button.Content hidden className="farsi-inline">
-                <Moment fromNow>{bonus.startDate}</Moment>
-              </Button.Content>
+              <Icon name="clock" /> {doCurrency(bonus.amount)}
             </Button>
           </>
         )}
