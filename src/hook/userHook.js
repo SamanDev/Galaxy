@@ -114,23 +114,24 @@ export const useActiveTable = () => {
 export const useLastReward = () => {
   const [lastReward, setLastReward] = useState([]);
 
-  const handleGetLastReward = async () => {
-    try {
-      const res = await getReportPenService("getLastRewards?page=1&number=500");
-
-      if (res.status === 200 && isJson(res.data)) {
-        var mydataGet = res.data.sort((a, b) => (a.date < b.date ? 1 : -1));
-        // localStorage.setItem("lastReward", JSON.stringify(mydataGet));
-        setLastReward(mydataGet);
-      }
-    } catch (error) {
-      //console.log(error.message);
-      // setLastReward(_bonuses);
-      //localStorage.setItem("lastReward", JSON.stringify(_bonuses));
-    }
-  };
-
   useEffect(() => {
+    const handleGetLastReward = async () => {
+      try {
+        const res = await getReportPenService(
+          "getLastRewards?page=1&number=100"
+        );
+
+        if (res.status === 200 && isJson(res.data)) {
+          var mydataGet = res.data.sort((a, b) => (a.date < b.date ? 1 : -1));
+          // localStorage.setItem("lastReward", JSON.stringify(mydataGet));
+          setLastReward(mydataGet);
+        }
+      } catch (error) {
+        //console.log(error.message);
+        // setLastReward(_bonuses);
+        //localStorage.setItem("lastReward", JSON.stringify(_bonuses));
+      }
+    };
     handleGetLastReward();
   }, []);
   return [lastReward];
