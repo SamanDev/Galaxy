@@ -17,7 +17,7 @@ const Dashboard = (prop) => {
     try {
       const resPoker = await getPokerSession();
       if (resPoker.status === 200) {
-        setSessionKey(resPoker.data.SessionKey);
+        if (resPoker.data.SessionKey) setSessionKey(resPoker.data.SessionKey);
       }
     } catch (error) {}
   };

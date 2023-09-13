@@ -67,11 +67,11 @@ axios.interceptors.response.use(
 
       Alert("مشکل...!", res.data.message, "warning");
     }
+
     return res;
   },
   (error) => {
-    console.log(error.response.status);
-    if (error.response.status == 401) {
+    if (error.response.status == 401 || error.response.status == 400) {
       //MyToast("متاسفانه مشکلی از سمت سرور رخ داده", "error");
       //window.location = "/logout";
       if (localStorage.getItem("galaxyUserkeyToken")) {
@@ -81,6 +81,7 @@ axios.interceptors.response.use(
         );
         localStorage.removeItem("galaxyUserkeyToken");
       }
+
       //window.location.href = "/login";
       // eventBus.dispatch("updateUser", null);
       //UserWebsocket.connect();
@@ -90,7 +91,7 @@ axios.interceptors.response.use(
       //   MyToast(error.response.data.message, "error");
       // Alert(error.response.status, error.response.data.message, "error");
     }
-    if (error.response.status == 400) {
+    if (error.response.status == 400 || error.response.status == 401) {
       MyToast("نام کاربری یا کلمه عبور اشتباه است.", "error");
       // MyToast(error.response.data.message, "error");
       // Alert(error.response.status, error.response.data.message, "error");
