@@ -43,7 +43,7 @@ const CommentExampleMinimal = (prop) => {
                 className={
                   written != "You"
                     ? "farsi msgtext text-wrap"
-                    : "farsi text-wrap"
+                    : "farsi  text-wrap"
                 }
               >
                 {comment}

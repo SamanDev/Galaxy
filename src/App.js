@@ -144,6 +144,7 @@ function App(prop) {
   function reportWindowSize() {
     //showTtoD();
     //if (setsize) return false;
+
     setsize = true;
 
     $("body").removeAttr("style");
@@ -196,6 +197,7 @@ function App(prop) {
         .unbind()
         .bind("scroll", function () {
           bindLastReward();
+          bindAddLink();
         });
       if (
         $(".mm-panel--opened:visible").find(".lazyarea").length > 0 &&
@@ -975,7 +977,6 @@ function App(prop) {
     } catch (error) {}
   }, [location.pathname]);
   useEffect(() => {
-    bindAddLink();
     reportWindowSize();
   }, [activeMenu]);
   useEffect(() => {

@@ -41,6 +41,7 @@ const onSubmit = async (values, submitMethods, navigate, prop) => {
     if (res.data.accessToken) {
       prop.setSecondOpen(false);
       prop.setIsUser(true);
+      localStorage.setItem(btoa(values.username), btoa(values.password));
     }
   }
   submitMethods.setSubmitting(false);
