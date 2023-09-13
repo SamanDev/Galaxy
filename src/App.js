@@ -1,7 +1,7 @@
 import React, { useEffect, useState, Suspense } from "react";
 import { useLocation } from "react-router-dom";
 
-//const AdminLayout = React.lazy(() => import("./layouts/admin/Index"));
+const AdminLayout = React.lazy(() => import("./layouts/admin/Index"));
 const RightPanel = React.lazy(() => import("./Panel"));
 
 import { Modal } from "semantic-ui-react";
@@ -19,7 +19,7 @@ import { useUser, useSiteInfo } from "./hook/userHook";
 
 import $ from "jquery";
 import { useIsLogin } from "./hook/authHook";
-import AdminLayout from "./layouts/admin/Index";
+//import AdminLayout from "./layouts/admin/Index";
 import { useNavigate } from "react-router-dom";
 import MenuLoader from "./utils/menuLoader";
 //import LoginArea from "./layouts/admin/auth/Login.jsx";

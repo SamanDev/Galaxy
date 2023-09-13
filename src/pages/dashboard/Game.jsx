@@ -173,7 +173,7 @@ const Dashboard = (prop) => {
       setCurPage("dashboard");
       prop.setFirstOpen(true);
 
-      navigate("/login");
+      //navigate("/login");
     }
   }, [prop.isLogin, loginToken]);
 
