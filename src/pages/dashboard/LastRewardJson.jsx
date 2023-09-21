@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { List, Placeholder, Segment } from "semantic-ui-react";
-import $ from "jquery";
+import { List } from "semantic-ui-react";
 import Reward from "../../utils/Reward";
 import eventBus from "../../services/eventBus";
-import { useLastReward } from "../../hook/userHook";
+
 import LazyLoad from "react-lazyload";
 const ActiveTable = (prop) => {
   const lastReward = prop.lastReward;
@@ -52,7 +51,7 @@ const ActiveTable = (prop) => {
 
           myx.class = "lastlogs animated fadeIn slow";
         });
-    }, 400);
+    }, 200);
 
     prop.bindLastReward();
   }, [_sortData]);
@@ -63,6 +62,9 @@ const ActiveTable = (prop) => {
       setSortData((previous) => [dataGet].concat(previous));
     });
   }, []);
+  useEffect(() => {
+    localStorage.setItem("lastReward", JSON.stringify(_sortData));
+  }, [_sortData]);
 
   if (!_sortData) return null;
   return (

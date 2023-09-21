@@ -10,12 +10,7 @@ export const useIsLogin = () => {
     try {
       const res = await getUserService();
       setIsLogin(res.status == 200 ? true : false);
-      if (res.status == 200 && res.data.accessToken) {
-        UserWebsocket.connect(
-          res.data.accessToken + "&user=" + res.data.username,
-          res.data
-        );
-      }
+
       setLoading(false);
     } catch (error) {
       UserWebsocket.connect();
@@ -30,8 +25,13 @@ export const useIsLogin = () => {
         var loginToken = JSON.parse(localStorage.getItem(loginKey + "Token"));
         if (
           loginToken?.accessToken &&
+          !loginToken?.logout &&
           window.location.href.toString().indexOf("/logout") == -1
         ) {
+          UserWebsocket.connect(
+            loginToken.accessToken + "&user=" + loginToken.username,
+            loginToken
+          );
           handleCheckLogin();
         } else {
           if (!loginToken?.accessToken) {
@@ -42,11 +42,8 @@ export const useIsLogin = () => {
             setLoading(false);
             localStorage.removeItem("galaxyUserkeyToken");
           } else {
-            //UserWebsocket.connect();
-            UserWebsocket.connect(
-              loginToken.accessToken + "&user=" + loginToken.username,
-              loginToken
-            );
+            UserWebsocket.connect();
+
             setIsLogin(false);
             setLoading(false);
           }

@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Grid } from "semantic-ui-react";
 import LevelIcon from "../../utils/svg";
-import { useLastReward } from "../../hook/userHook";
-import { doCurrency, levelClassInside } from "../../const";
+import { doCurrency, levelClassInside, isJson } from "../../const";
 const groupBy = (array, key) => {
   // Return the end result
   return array.reduce((result, currentValue) => {
@@ -22,7 +21,13 @@ const sumOf = (array) => {
 };
 
 const RewardStat = (prop) => {
-  const lastReward = prop.lastReward;
+  const [lastRewarded, setLastReward] = useState(
+    localStorage.getItem("lastReward") &&
+      isJson(localStorage.getItem("lastReward"))
+      ? JSON.parse(localStorage.getItem("lastReward"))
+      : []
+  );
+  const lastReward = prop.lastReward ? prop.lastReward : lastRewarded;
   const [statData, setstatData] = useState();
   const [totalRows, setTotalRows] = useState(sumOf(lastReward));
 

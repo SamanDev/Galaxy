@@ -6,75 +6,40 @@ import { adminGetService } from "../services/admin";
 import { addDays } from "date-fns";
 const moment = require("moment");
 export const useSiteInfo = () => {
-  const [siteInfo, setSiteInfo] = useState([]);
+  const [siteInfo, setSiteInfo] = useState(
+    localStorage.getItem("siteInfo")
+      ? JSON.parse(localStorage.getItem("siteInfo"))
+      : []
+  );
   const [loading, setLoading] = useState(true);
   const handleCheckLogin = async () => {
     try {
       const res = await publicGetRules();
-      setSiteInfo(res.data);
-      localStorage.setItem("siteInfo", JSON.stringify(res.data));
+      var _data = res.data;
+      _data.updateday = new Date();
+      setSiteInfo(_data);
+      localStorage.setItem("siteInfo", JSON.stringify(_data));
       //setLoading(false);
     } catch (error) {
       setLoading(false);
     }
   };
   useEffect(() => {
-    handleCheckLogin();
+    if (!siteInfo) {
+      handleCheckLogin();
+    } else {
+      var form_date = new Date(siteInfo?.updateday);
+      var today = new Date();
+      let difference =
+        form_date > today ? form_date - today : today - form_date;
+      let diff_days = Math.floor(difference / (1000 * 3600 * 24));
+      if (diff_days > 5) handleCheckLogin();
+    }
   }, []);
 
   return [loading, siteInfo];
 };
 
-export const useActiveTable = () => {
-  const [activeTable, setActiveTable] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const handleGetActiveTable = async () => {
-    try {
-      const res = await getReportPenService("getActiveTables");
-      if (res.status === 200) {
-        //setActiveTable(res.data);
-        //setActiveTable(tt);
-        localStorage.setItem("activeTable", JSON.stringify(res.data));
-      }
-    } catch (error) {
-      //console.log(error.message);
-    }
-  };
-
-  useEffect(() => {
-    handleGetActiveTable();
-  }, []);
-
-  return [loading, activeTable];
-};
-
-export const useLastReward = () => {
-  const [lastReward, setLastReward] = useState([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const handleGetLastReward = async () => {
-      try {
-        const res = await getReportPenService(
-          "getLastRewards?&page=1&number=100"
-        );
-
-        if (res.status === 200) {
-          var mydataGet = res.data.sort((a, b) => (a.id < b.id ? 1 : -1));
-          localStorage.setItem("lastReward", JSON.stringify(mydataGet));
-          //setLastReward(res.data);
-          //setLastReward(_bonuses);
-        }
-      } catch (error) {
-        //console.log(error.message);
-        // setLastReward(_bonuses);
-        //localStorage.setItem("lastReward", JSON.stringify(_bonuses));
-      }
-    };
-    handleGetLastReward();
-  }, []);
-  return [loading, lastReward];
-};
 export const useAdminTicket = () => {
   const [tickets, setTickets] = useState(0);
   const [loading, setLoading] = useState(true);

@@ -6,6 +6,13 @@ import { convertDateToJalali } from "../../../../utils/convertDate";
 import AmountColor from "../../../../utils/AmountColor";
 import { getReportService } from "../../../../services/report";
 import NoData from "../../../../utils/noData";
+function sendMessage(message) {
+  console.log(message);
+  try {
+    const iframe = document.querySelector("iframe[name=gameframe]");
+    iframe.contentWindow.postMessage(message, "*");
+  } catch (error) {}
+}
 const Report = (prop) => {
   const loginToken = prop.loginToken;
   const [data, setData] = useState([]);
@@ -69,7 +76,14 @@ const Report = (prop) => {
                     <List.Content>
                       <List.Description className="rightfloat">
                         {convertDateToJalali(item.createDate)}
-                        <div className="text-end pad10tb">
+                        <div
+                          className="text-end pad10tb"
+                          onClick={() =>
+                            sendMessage({
+                              _id: item.description.split("id:")[1],
+                            })
+                          }
+                        >
                           <Status status={item.status} size="mini" />
                         </div>
                       </List.Description>

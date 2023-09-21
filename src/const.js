@@ -30,12 +30,12 @@ export const gamesUrl =
     : "https://www.wheelofpersia.com/";
 export const pokerUrl =
   process.env.NODE_ENV === "production"
-    ? "https://pkr.khodekhalse.com"
-    : "http://139.99.144.72:2053";
+    ? "https://pkr.khodekhalse.com:2053"
+    : "http://pkr.khodekhalse.com:2053";
 function getAPI() {
   //let host = document.location.host;
   var host = {
-    onlinePath: "http://139.99.144.72:8081",
+    onlinePath: "https://api.khodekhalse.com",
     offlinePath: "http://127.0.0.1:8000",
   };
   //let host = "loole.gg:443";

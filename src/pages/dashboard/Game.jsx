@@ -170,10 +170,12 @@ const Dashboard = (prop) => {
   }, []);
   useEffect(() => {
     if (!loginToken?.accessToken || loginToken?.logout) {
-      setCurPage("dashboard");
+      // setCurPage("dashboard");
       prop.setFirstOpen(true);
 
-      //navigate("/login");
+      navigate("/login");
+    } else {
+      //snavigate("/");
     }
   }, [prop.isLogin, loginToken]);
 

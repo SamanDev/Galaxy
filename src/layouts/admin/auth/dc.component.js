@@ -35,7 +35,7 @@ const depositArea = (prop) => {
         onClick={() => {
           checkBlock(loginToken);
           setDepMode(true);
-          //window.location.reload();
+          window.location.reload();
         }}
         className="farsi"
         color="red"

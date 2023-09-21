@@ -36,6 +36,7 @@ const onSubmit = async (values, submitMethods, navigate, prop) => {
         if (res.data.userBlock) {
           Alert("متاسفم...!", "اکانت شما مسدود می باشد.", "error");
         } else {
+          localStorage.removeItem("oldgalaxyUserkey");
           prop.setIsUser(true);
           prop.setFirstOpen(false);
           localStorage.setItem(

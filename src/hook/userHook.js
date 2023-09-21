@@ -31,16 +31,12 @@ export const useUser = () => {
   }
   useEffect(() => {
     eventBus.on("updateUser", (dataGet) => {
-      //if ($(".mm-menu--opened:visible").length == 0) {
       setLoginToken(dataGet);
-      // }
+
       setLoginTokenUpdate(dataGet);
-      var loginKey = localStorage.getItem("galaxyUserkeyToken");
-      if (loginKey) {
-        localStorage.setItem(loginKey + "Token", JSON.stringify(dataGet));
-      }
     });
   }, []);
+
   useEffect(() => {
     var newu = {
       username: loginTokenUpdate.username,
@@ -52,7 +48,12 @@ export const useUser = () => {
       sendMessage(newu);
     } catch (error) {}
   }, [loginTokenUpdate]);
-
+  useEffect(() => {
+    var loginKey = localStorage.getItem("galaxyUserkeyToken");
+    if (loginKey) {
+      localStorage.setItem(loginKey + "Token", JSON.stringify(loginToken));
+    }
+  }, [loginToken]);
   return [loginToken];
 };
 export const useSiteInfo = () => {
@@ -67,32 +68,51 @@ export const useSiteInfo = () => {
       const res = await publicGetRules();
       if (res.status === 200) {
         if (isJson(res.data)) {
-          setSiteInfo(res.data);
-          localStorage.setItem("siteInfo", JSON.stringify(res.data));
+          var _data = res.data;
+
+          setSiteInfo(_data);
         }
       }
     } catch (error) {}
   };
   useEffect(() => {
-    handleCheckLogin();
+    if (!siteInfo?.updateday) {
+      handleCheckLogin();
+    } else {
+      var form_date = new Date(siteInfo?.updateday);
+      var today = new Date();
+      let difference =
+        form_date > today ? form_date - today : today - form_date;
+      let diff_days = Math.floor(difference / (1000 * 3600 * 24));
+      if (diff_days > 5) handleCheckLogin();
+    }
     eventBus.on("updateSiteInfo", (dataGet) => {
       setSiteInfo(dataGet);
-      localStorage.setItem("siteInfo", JSON.stringify(dataGet));
     });
   }, []);
+  useEffect(() => {
+    var _data = siteInfo;
+    _data.updateday = new Date();
 
+    localStorage.setItem("siteInfo", JSON.stringify(_data));
+  }, [siteInfo]);
   return [siteInfo];
 };
 export const useActiveTable = () => {
-  const [activeTable, setActiveTable] = useState([]);
+  const [activeTable, setActiveTable] = useState(
+    localStorage.getItem("activeTable") &&
+      isJson(localStorage.getItem("activeTable"))
+      ? JSON.parse(localStorage.getItem("activeTable"))
+      : []
+  );
   const handleGetActiveTable = async () => {
     try {
       const res = await getReportPenService("getActiveTables");
       if (res.status === 200) {
         if (activeTable != res.data && isJson(res.data)) {
-          setActiveTable(res.data);
-          //setActiveTable(tt);
-          //localStorage.setItem("activeTable", JSON.stringify(res.data));
+          var _data = res.data;
+
+          setActiveTable(_data);
         }
       }
     } catch (error) {
@@ -101,38 +121,68 @@ export const useActiveTable = () => {
   };
 
   useEffect(() => {
-    handleGetActiveTable();
+    if (!activeTable?.updateday) {
+      handleGetActiveTable();
+    } else {
+      var form_date = new Date(activeTable?.updateday);
+      var today = new Date();
+      let difference =
+        form_date > today ? form_date - today : today - form_date;
+      let diff_days = Math.floor(difference / 1000);
+
+      if (diff_days > 180) handleGetActiveTable();
+    }
 
     eventBus.on("updateActiveTables", (dataGet) => {
       setActiveTable(dataGet);
-      // localStorage.setItem("activeTable", JSON.stringify(dataGet));
     });
   }, []);
+  useEffect(() => {
+    var _data = activeTable;
+    _data.updateday = new Date();
+
+    localStorage.setItem("activeTable", JSON.stringify(_data));
+  }, [activeTable]);
   return [activeTable];
 };
 
 export const useLastReward = () => {
-  const [lastReward, setLastReward] = useState([]);
+  const [lastReward, setLastReward] = useState(
+    localStorage.getItem("lastReward") &&
+      isJson(localStorage.getItem("lastReward"))
+      ? JSON.parse(localStorage.getItem("lastReward"))
+      : []
+  );
+  const handleGetLastReward = async () => {
+    try {
+      const res = await getReportPenService("getLastRewards?page=1&number=100");
 
-  useEffect(() => {
-    const handleGetLastReward = async () => {
-      try {
-        const res = await getReportPenService(
-          "getLastRewards?page=1&number=100"
-        );
+      if (res.status === 200 && isJson(res.data)) {
+        var _data = res.data.sort((a, b) => (a.date < b.date ? 1 : -1));
 
-        if (res.status === 200 && isJson(res.data)) {
-          var mydataGet = res.data.sort((a, b) => (a.date < b.date ? 1 : -1));
-          // localStorage.setItem("lastReward", JSON.stringify(mydataGet));
-          setLastReward(mydataGet);
-        }
-      } catch (error) {
-        //console.log(error.message);
-        // setLastReward(_bonuses);
-        //localStorage.setItem("lastReward", JSON.stringify(_bonuses));
+        setLastReward(_data);
+
+        localStorage.setItem("lastReward", JSON.stringify(_data));
       }
-    };
-    handleGetLastReward();
+    } catch (error) {
+      //console.log(error.message);
+      // setLastReward(_bonuses);
+      //localStorage.setItem("lastReward", JSON.stringify(_bonuses));
+    }
+  };
+  useEffect(() => {
+    if (!lastReward[0]?.date) {
+      handleGetLastReward();
+    } else {
+      var form_date = new Date(lastReward[0]?.date);
+      var today = new Date();
+      let difference =
+        form_date > today ? form_date - today : today - form_date;
+      let diff_days = Math.floor(difference / (1000 * 3600));
+
+      if (diff_days > 1) handleGetLastReward();
+    }
   }, []);
+
   return [lastReward];
 };

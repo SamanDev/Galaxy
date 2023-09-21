@@ -838,9 +838,13 @@ function App(prop) {
     if (window.location.href.toString().indexOf("/logout") > -1) {
       var _old = loginToken;
       _old.logout = true;
+
       eventBus.dispatch("updateUser", _old);
       setIsUser(false);
       if (localStorage.getItem("galaxyUserkeyToken")) {
+        localStorage.removeItem(
+          localStorage.getItem("galaxyUserkeyToken") + "Token"
+        );
         localStorage.setItem(
           "oldgalaxyUserkey",
           localStorage.getItem("galaxyUserkeyToken")
@@ -849,9 +853,12 @@ function App(prop) {
       }
       localStorage.setItem("balance", 0);
       UserWebsocket.disconnect();
+      UserWebsocket.connect();
       setDcOpen(false);
       navigate("/");
       //window.location = "/";
+    } else {
+      //abortController.abort();
     }
     if (window.location.href.toString().indexOf("/games/sportbet") > -1) {
       showTtoD();
@@ -1066,8 +1073,9 @@ function App(prop) {
     });
 
     $('[rel="stylesheet"]').removeAttr("disabled");
+
     eventBus.on("eventsDC", () => {
-      if (isLogin) {
+      if (loginToken) {
         setDcOpen(true);
       } else {
         //setDcOpen(true);

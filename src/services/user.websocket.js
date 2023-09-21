@@ -1,13 +1,13 @@
 import { USERSOCKETURL, USERSOCKETPUBLICURL } from "../const";
 import eventBus from "./eventBus";
 
-var ws;
+var ws = null;
 var ws2;
 var res = false;
 var timeout = 35000;
 var timerId;
 var usr;
-var tkn;
+var tkn = false;
 var count = 0;
 
 class UserWebsocket {
@@ -19,11 +19,17 @@ class UserWebsocket {
 
       ws.onopen = function live() {
         eventBus.dispatch("eventsConnect", "");
+        if (token) {
+          tkn = true;
+        } else {
+          tkn = false;
+        }
 
         console.log("Socket is connected.");
       };
     } else {
       token = null;
+      tkn = false;
     }
     ws.onmessage = function (data) {
       var message = data.data;
@@ -54,10 +60,11 @@ class UserWebsocket {
         }
       } else {
         if (message === "closeConnection") {
-          eventBus.dispatch("eventsDC", "");
-
           ws?.close();
           ws = null;
+          if (tkn) {
+            eventBus.dispatch("eventsDC", "");
+          }
         } else if (message === "PasswordChanged") {
           eventBus.dispatch(
             "eventsDataPass",
@@ -88,8 +95,9 @@ class UserWebsocket {
   disconnect() {
     ws?.close();
     ws = null;
-
-    eventBus.dispatch("eventsDC", "");
+    if (tkn) {
+      eventBus.dispatch("eventsDC", "");
+    }
   }
 }
 

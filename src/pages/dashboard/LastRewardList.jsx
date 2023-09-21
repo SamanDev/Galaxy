@@ -13,9 +13,14 @@ const LevelList = (prop) => {
   const handleGetRewards = async () => {
     setLoading(true);
     try {
-      const res = await getRewardsService("", prop.mode, "");
+      const res = await getRewardsService(
+        "",
+        prop.mode,
+        "",
+        prop.mode == "levels" ? 10000 : 500
+      );
       if (res.status === 200) {
-        setData(res.data.sort((a, b) => (a.date < b.date ? 1 : -1)));
+        //setData(res.data.sort((a, b) => (a.date < b.date ? 1 : -1)));
         setLoading(false);
       }
     } catch (error) {
