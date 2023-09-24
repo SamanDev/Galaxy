@@ -138,7 +138,7 @@ function SegmentExamplePlaceholderInline(prop) {
             background: "rgba(0,0,0,.2)",
 
             overflow: "hidden",
-            padding: 55,
+            padding: "55px 0",
           }}
         >
           <SiteStat {...prop} />
@@ -207,54 +207,26 @@ function SegmentExamplePlaceholderInline(prop) {
             lineHeight: "30px",
           }}
         >
-          Copyright &copy; 2002.
+          &copy; 2014
           <Button.Group floated="right" size="mini" inverted>
             <Button
-              color="teal"
-              className="farsi"
-              size="mini"
+              color="white"
+              basic
+              inverted
               as="a"
-              href={"https://t.me/" + siteInfo?.telegramSupport}
-              target="_blank"
-            >
-              <Icon
-                name="telegram"
-                size="large"
-                style={{ margin: "0 -0.42857143em 0 0.21428571em" }}
-              />{" "}
-              پشتیبانی تلگرام
-            </Button>
-
-            <Button
-              color="blue"
-              className="farsi"
-              size="mini"
-              as="a"
+              icon="telegram"
               href={"https://t.me/" + siteInfo?.telegramChanel}
               target="_blank"
-            >
-              <Icon
-                name="telegram"
-                size="large"
-                style={{ margin: "0 -0.42857143em 0 0.21428571em" }}
-              />{" "}
-              کانال تلگرام
-            </Button>
+            />
             <Button
-              color="purple"
-              className="farsi"
-              size="mini"
+              color="white"
+              basic
+              inverted
+              icon="instagram"
               as="a"
               href={"https://instagram.com/" + siteInfo?.instagram}
               target="_blank"
-            >
-              <Icon
-                name="instagram"
-                size="large"
-                style={{ margin: "0 -0.42857143em 0 0.21428571em" }}
-              />{" "}
-              اینستاگرام
-            </Button>
+            />
           </Button.Group>
         </Segment>
       </div>

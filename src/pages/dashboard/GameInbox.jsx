@@ -8,7 +8,12 @@ import GameBox from "../../utils/GameBox";
 const GameInbox = (prop) => {
   return (
     <>
-      <Grid centered reversed="computer tablet mobile" columns="equal">
+      <Grid
+        centered
+        reversed="computer tablet mobile"
+        columns="equal"
+        style={{ zIndex: 10, position: "relative" }}
+      >
         <Grid.Row columns={2}>
           <Grid.Column
             mobile={8}

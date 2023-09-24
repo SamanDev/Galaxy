@@ -30,8 +30,8 @@ export const gamesUrl =
     : "https://www.wheelofpersia.com/";
 export const pokerUrl =
   process.env.NODE_ENV === "production"
-    ? "https://pkr.khodekhalse.com:2053"
-    : "http://pkr.khodekhalse.com:2053";
+    ? "https://pkrmaven.site:2053"
+    : "https://pkrmaven.site:2053";
 function getAPI() {
   //let host = document.location.host;
   var host = {
@@ -1155,7 +1155,7 @@ export const siteMethodDef = [
   {
     id: 1,
     total: 0,
-    bonus: 10,
+    bonus: 0,
     name: "Digipay",
     mode: "IranShetab",
     active: true,
@@ -1171,7 +1171,7 @@ export const siteMethodDef = [
   {
     id: 3,
     total: 0,
-    bonus: 10,
+    bonus: 0,
     name: "PerfectMoney",
     mode: "PerfectMoney",
     active: true,
@@ -1179,7 +1179,7 @@ export const siteMethodDef = [
   {
     id: 4,
     total: 0,
-    bonus: 10,
+    bonus: 0,
     name: "Bitcoin",
     mode: "CoinPayments",
     active: true,
@@ -1195,7 +1195,7 @@ export const siteMethodDef = [
   {
     id: 6,
     total: 0,
-    bonus: 10,
+    bonus: 0,
     name: "VisaGiftCode",
     mode: "VisaGiftCode",
     active: false,
@@ -1211,7 +1211,7 @@ export const siteMethodDef = [
   {
     id: 8,
     total: 0,
-    bonus: 10,
+    bonus: 0,
     name: "USDT",
     mode: "CoinPayments",
     active: true,
@@ -1238,7 +1238,7 @@ export const siteInfoDef = {
   depositLimit: 1000,
   cashoutLimit: 50000,
   startTimeRakeBack: 20,
-  referUrl: "http://localhost:3000/",
+  referUrl: "https://referglxy.com",
   telegramChanel: "/",
   telegramSupport: "/",
   instagram: "/",
