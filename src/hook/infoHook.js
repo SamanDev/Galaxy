@@ -1,7 +1,5 @@
-import axios from "axios";
 import { useEffect, useState } from "react";
 import { publicGetRules } from "../services/public";
-import { getReportPenService } from "../services/report";
 import { adminGetService } from "../services/admin";
 import { addDays } from "date-fns";
 const moment = require("moment");

@@ -1,5 +1,4 @@
-import React, { Component } from "react";
-import { Message, Icon, Divider } from "semantic-ui-react";
+import React from "react";
 import Register from "../../layouts/admin/auth/Invite";
 import MyMsg from "../../utils/MsgDesc";
 

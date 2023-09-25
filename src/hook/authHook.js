@@ -1,4 +1,3 @@
-import axios from "axios";
 import { useEffect, useState } from "react";
 import { getUserService } from "../services/auth";
 import UserWebsocket from "../services/user.websocket";

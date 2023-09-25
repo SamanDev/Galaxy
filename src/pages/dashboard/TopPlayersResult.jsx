@@ -1,14 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {
-  Icon,
-  Label,
-  Comment,
-  List,
-  Image,
-  Button,
-  Divider,
-  Segment,
-} from "semantic-ui-react";
+import { List } from "semantic-ui-react";
 
 import { doCurrency, levelLeagueReward, levelLeagueList } from "../../const";
 import LevelIcon from "../../utils/svg";

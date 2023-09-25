@@ -4,7 +4,6 @@ import { Segment, Button, Dimmer, Icon, Modal, Grid } from "semantic-ui-react";
 import { convertDateToJalali } from "../../../utils/convertDate";
 import ActionBtn from "../../../utils/actionBtn";
 import AmountColor from "../../../utils/AmountColor";
-import ConvertCart from "../../../utils/convertCart";
 import CartFormat from "../../../utils/CartFormat";
 import { isJson, doCurrency } from "../../../const";
 import { addDays } from "date-fns";

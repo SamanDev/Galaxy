@@ -1,12 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { List } from "semantic-ui-react";
-import {
-  doCurrency,
-  levelLeagueReward,
-  levelLeagueList,
-  levelDataInfo,
-  getEvent,
-} from "../../const";
+import { doCurrency, getEvent } from "../../const";
 import LazyLoad from "react-lazyload";
 import LevelIcon from "../../utils/svg";
 import GiftsDesc from "../../utils/GiftsDesc";

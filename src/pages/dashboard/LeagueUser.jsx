@@ -1,22 +1,7 @@
 import React from "react";
-import {
-  Icon,
-  Label,
-  Comment,
-  List,
-  Image,
-  Button,
-  Divider,
-} from "semantic-ui-react";
-import {
-  doCurrency,
-  levelList,
-  levelReward,
-  levelRewardPercent,
-  levelPercent,
-} from "../../const";
+import { List } from "semantic-ui-react";
+import { doCurrency } from "../../const";
 import LevelIcon from "../../utils/LevelIcon";
-import LevelBar from "../../utils/LevelBar";
 const LevelList = (prop) => {
   const loginToken = prop.loginToken;
 

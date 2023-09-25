@@ -1,35 +1,27 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useState } from "react";
 import DataTable from "react-data-table-component";
 import {
   Input,
   Segment,
   Button,
-  Card,
-  Table,
   Dimmer,
   Loader,
   Icon,
   Modal,
-  Form,
-  Select,
   Grid,
 } from "semantic-ui-react";
 import Moment from "react-moment";
 import { useParams } from "react-router-dom";
 import { addDays } from "date-fns";
-import CurrencyInput from "react-currency-input-field";
 const moment = require("moment");
 import { adminGetService, adminPutService } from "../../services/admin";
 import { Alert } from "../../utils/alerts";
-
-import { Col } from "react-bootstrap";
 
 import CheckboxToggle from "./utils/toggle";
 import AddGift from "./AddGift";
 import Filter from "./Filter";
 
 import {
-  isJson,
   haveAdmin,
   haveModerator,
   doCurrency,

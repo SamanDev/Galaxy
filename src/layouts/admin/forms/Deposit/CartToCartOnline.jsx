@@ -1,27 +1,15 @@
-import React, { useState, useEffect } from "react";
-import {
-  Label,
-  Input,
-  Header,
-  Divider,
-  Icon,
-  Button,
-  Segment,
-  Message,
-} from "semantic-ui-react";
-import Select from "../../input/Select";
+import React, { useState } from "react";
+import { Divider, Button } from "semantic-ui-react";
 import DepositButton from "../../input/DepositButton";
 import Carts from "../../../../components/form/Carts";
-import { CopyToClipboard } from "react-copy-to-clipboard";
 import $ from "jquery";
 import FormikControl from "../../../../components/form/FormikControl";
 import AmountSelect from "../../../../components/form/AmountSelect";
 import { useNavigate } from "react-router-dom";
-import { FastField, Form, Formik } from "formik";
+import { Form, Formik } from "formik";
 import * as Yup from "yup";
 import { Alert } from "../../../../utils/alerts";
 
-import MyMsg from "../../../../utils/MsgDesc";
 import { cashierService } from "../../../../services/cashier";
 
 var countryOptions = [];

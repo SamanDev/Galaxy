@@ -107,8 +107,7 @@ input.farsi {
   z-index: 1000 !important;
   min-width: 250px !important;
 }
-.mm-panel:not(.mm-panel--opened) * {
-}
+
 .giftsarea.mm-listitem {
   display: inline-flex !important;
 
@@ -922,6 +921,7 @@ i.star.big {
   margin-left: 15px !important;
 }
 .truncate {
+  max-height: 140px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Icon, List } from "semantic-ui-react";
+import { List } from "semantic-ui-react";
 import Reward from "../../utils/Reward";
 import NoData from "../../utils/noData";
 import { levelLeagueReward } from "../../const";

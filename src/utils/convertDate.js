@@ -1,5 +1,4 @@
 import jMoment from "jalali-moment";
-import Moment from "react-moment";
 const moment = require("moment");
 export const convertDateToJalali = (date) => {
   return (

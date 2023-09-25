@@ -1,12 +1,8 @@
-import React, { useState } from "react";
-
-import TableAdmin from "./utils/tableform";
+import React from "react";
 
 import { adminPutServiceList } from "../../services/admin";
-import { isJson, haveAdmin, haveModerator } from "../../const";
 import { Alert } from "../../utils/alerts";
 import { JsonEditor } from "react-jsondata-editor";
-import { json } from "react-router-dom";
 
 const getGateways = JSON.parse(localStorage.getItem("getGateways"));
 function sordData(siteInfo) {

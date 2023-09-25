@@ -7,7 +7,6 @@ import FormikControl from "../../../../components/form/FormikControl";
 import { useNavigate } from "react-router-dom";
 import { Form, Formik } from "formik";
 import * as Yup from "yup";
-import { Alert } from "../../../../utils/alerts";
 import CopyBtn from "../../../../utils/copyInputBtn";
 import MyMsg from "../../../../utils/MsgDesc";
 import { doCurrency } from "../../../../const";

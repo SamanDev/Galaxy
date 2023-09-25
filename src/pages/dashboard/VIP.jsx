@@ -1,6 +1,6 @@
 import React from "react";
 import { List } from "semantic-ui-react";
-import { doCurrency, levelDataInfo } from "../../const";
+import { doCurrency } from "../../const";
 import AddCalendar from "../../utils/AddCalendar";
 import GalaxyIcon from "../../utils/svganim";
 import GiftsDesc from "../../utils/GiftsDesc";

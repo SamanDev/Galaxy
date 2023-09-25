@@ -1,11 +1,7 @@
 import React, { useState } from "react";
-import { Header, Modal, Segment, Divider } from "semantic-ui-react";
+import { Segment, Divider } from "semantic-ui-react";
 import CopyText from "./copy";
-import { CopyToClipboard } from "react-copy-to-clipboard";
 
-import FormikControl from "../components/form/FormikControl";
-import { FastField, Form, Formik } from "formik";
-import MyMsg from "./MsgDesc";
 var _content = "";
 function CrCode(prop) {
   const [copy, setCopy] = useState(false);

@@ -1,7 +1,7 @@
 import React from "react";
 import { Table } from "semantic-ui-react";
 import CheckboxToggle from "./toggle";
-import { isJson, haveAdmin, haveModerator, doCurrency } from "../../../const";
+import { doCurrency } from "../../../const";
 import CartFormat from "../../../utils/CartFormat";
 var moment = require("moment");
 const headerRow = ["Name", "Value"];

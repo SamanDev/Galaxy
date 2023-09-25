@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { List, Segment, Tab, Icon } from "semantic-ui-react";
-import Users from "./AdminUsers";
+import { Segment, Tab } from "semantic-ui-react";
 import Bots from "./AdminBots";
 import { Navigate } from "react-router-dom";
 import User from "./AdminUser";
 import Report from "./AdminDepositList";
 import GetwaysList from "./components/GetwaysList.component";
-import { isJson, haveAdmin, haveModerator, doCurrency } from "../../const";
+import { haveAdmin, haveModerator } from "../../const";
 var panes = [];
 function Admin(prop) {
   const loginToken = prop.loginToken;

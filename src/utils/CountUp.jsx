@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import CountUp, { useCountUp } from "react-countup";
+import React, { useEffect } from "react";
+import CountUp from "react-countup";
 
 const CompleteHook = (prop) => {
   const oldbalance = localStorage.getItem("balance")

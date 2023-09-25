@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { Accordion, Icon, Divider, List, Segment } from "semantic-ui-react";
+import { Accordion, Icon, Divider, Segment } from "semantic-ui-react";
 import Comment from "./Comment";
 import AccessMsg from "../../utils/accessMsg";
 import { convertDateToJalali } from "../../utils/convertDate";
 import Ticket from "../../layouts/admin/forms/Cashout/Ticket";
 import $ from "jquery";
-import eventBus from "../../services/eventBus";
-import { useUser } from "../../hook/userHook";
 import AnimIcon from "../../utils/inviteIcon";
 import NoData from "../../utils/noData";
 const Balance = (prop) => {
@@ -61,7 +59,7 @@ const Balance = (prop) => {
                 key={i}
                 inverted
                 basic
-                className={activeIndex === i ? "" : "fadeout opacity-75"}
+                className={activeIndex === i ? "" : "fadeout"}
               >
                 <Accordion.Title
                   active={activeIndex === i}
@@ -93,7 +91,7 @@ const Balance = (prop) => {
                 </Accordion.Content>
 
                 {activeIndex != i && (
-                  <>
+                  <div className={activeIndex === i ? "" : " opacity-75"}>
                     <Ticket
                       departman={ticket.department}
                       id={ticket.id}
@@ -111,7 +109,7 @@ const Balance = (prop) => {
                         {...prop}
                       />
                     </span>
-                  </>
+                  </div>
                 )}
               </Segment>
             ))}

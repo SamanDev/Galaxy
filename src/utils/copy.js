@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Popup, Label, Segment } from "semantic-ui-react";
+import { Popup, Label } from "semantic-ui-react";
 import Swal from "sweetalert2";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 const Toast = Swal.mixin({

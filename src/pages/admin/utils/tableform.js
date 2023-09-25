@@ -2,7 +2,6 @@ import React from "react";
 import { Table, Input } from "semantic-ui-react";
 import CheckboxToggle from "./toggle";
 import CurrencyInput from "react-currency-input-field";
-import { isJson, haveAdmin, haveModerator, doCurrency } from "../../../const";
 import CartFormat from "../../../utils/CartFormat";
 var moment = require("moment");
 const headerRow = ["Name", "Value"];

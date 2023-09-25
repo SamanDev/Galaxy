@@ -53,7 +53,6 @@ class Example extends React.Component {
     // this.clicklink();
   }
   clicklink = () => {
-    console.log($(".calbtn").length);
     $(".calbtn").trigger("click");
   };
   render() {
@@ -206,9 +205,6 @@ class Example extends React.Component {
               to={endDatetimeOld}
               filter={toEnd}
               style={{ marginTop: 20 }}
-              onChange={(val) => {
-                console.log(val);
-              }}
             >
               {now}
             </Moment>

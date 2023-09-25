@@ -1,12 +1,5 @@
-import React, { useState } from "react";
-import {
-  Message,
-  Label,
-  Input,
-  Button,
-  Icon,
-  Segment,
-} from "semantic-ui-react";
+import React from "react";
+import { Message, Icon } from "semantic-ui-react";
 
 const myMessage = (prop) => {
   return (

@@ -1,5 +1,5 @@
 import React from "react";
-import { List, Icon, Header } from "semantic-ui-react";
+import { List } from "semantic-ui-react";
 import Status from "../../utils/Status";
 import AmountColor from "../../utils/AmountColor";
 import NoData from "../../utils/noData";

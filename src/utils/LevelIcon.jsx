@@ -1,13 +1,5 @@
 import React from "react";
-import {
-  Icon,
-  Label,
-  Comment,
-  List,
-  Image,
-  Button,
-  Divider,
-} from "semantic-ui-react";
+import { Icon, Image } from "semantic-ui-react";
 import { levelClass, levelPassClass } from "../const";
 const LevelIcon = (prop) => {
   var _txt = prop.number ? prop.number : prop.level;

@@ -1,12 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Icon, Button, List } from "semantic-ui-react";
 import LevelIcon from "../../../utils/svg";
 import { doCurrency, levelDataInfo, levelClassInside } from "../../../const";
-import { MyConfirm, MyToast, MyDeposit } from "../../../utils/myAlert";
+import { MyConfirm, MyDeposit } from "../../../utils/myAlert";
 import Status from "../../../utils/Status";
 import { cashierService } from "../../../services/cashier";
 import Moment from "react-moment";
-import bonus from "../../../pages/dashboard/ReportPen";
 import $ from "jquery";
 const moment = require("moment");
 

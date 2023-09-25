@@ -1,5 +1,5 @@
 import React from "react";
-import { Icon, List, Button } from "semantic-ui-react";
+import { List } from "semantic-ui-react";
 import AccessMsg from "../../utils/accessMsg";
 import MyRewardList from "./MyRewardList";
 const LevelList = (prop) => {

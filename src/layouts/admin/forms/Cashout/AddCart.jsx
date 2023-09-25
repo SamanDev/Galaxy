@@ -1,5 +1,5 @@
 import { Form, Formik, useField, useFormikContext } from "formik";
-import React, { useState } from "react";
+import React from "react";
 import { useNavigate } from "react-router-dom";
 import { Button, Divider, Icon, Message } from "semantic-ui-react";
 import * as Yup from "yup";
@@ -8,7 +8,6 @@ import { Alert } from "../../../../utils/alerts";
 
 import List from "../../../../pages/dashboard/ListCarts";
 import { cashierService } from "../../../../services/cashier";
-import { useUser } from "../../../../hook/userHook";
 const SelectB =
   "بانک ملّی ایران,بانک اقتصاد نوین,بانک قرض‌الحسنه مهر ایران,بانک سپه,بانک پارسیان,بانک قرض‌الحسنه رسالت,بانک صنعت و معدن,بانک کارآفرین,بانک کشاورزی,بانک سامان,بانک مسکن,بانک سینا,بانک توسعه صادرات ایران,بانک خاور میانه,بانک توسعه تعاون,بانک شهر,پست بانک ایران,بانک دی,بانک صادرات,بانک ملت,بانک تجارت,بانک رفاه,بانک حکمت ایرانیان,بانک گردشگری,بانک ایران زمین,بانک قوامین,بانک انصار,بانک سرمایه,بانک پاسارگاد,بانک مشترک ایران-ونزوئلا".split(
     ","

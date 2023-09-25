@@ -1,9 +1,8 @@
 import React from "react";
-import { List, Divider } from "semantic-ui-react";
+import { List } from "semantic-ui-react";
 import Status from "../../utils/Status";
 import { convertDateToJalali } from "../../utils/convertDate";
 import AmountColor from "../../utils/AmountColor";
-import Accordion from "../../pages/dashboard/Accordion";
 import { doCurrency } from "../../const";
 var _list = [
   {

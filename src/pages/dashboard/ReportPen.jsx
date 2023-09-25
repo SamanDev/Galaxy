@@ -4,9 +4,9 @@ import MenuLoader from "../../utils/menuLoader";
 import { convertDateToJalali } from "../../utils/convertDate";
 import AmountColor from "../../utils/AmountColor";
 import QR from "../../utils/qr";
-import { getReportService, getReportPenService } from "../../services/report";
+import { getReportPenService } from "../../services/report";
 import { doCurrency } from "../../const";
-import { List, Icon, Grid, Divider, Segment } from "semantic-ui-react";
+import { List, Divider, Segment } from "semantic-ui-react";
 
 import ConvertCart from "../../utils/convertCart";
 const sumOf = (array, id) => {

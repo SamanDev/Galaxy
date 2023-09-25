@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { List, Icon, Grid, Divider, Segment } from "semantic-ui-react";
+import { List, Divider, Segment } from "semantic-ui-react";
 import Status from "../../utils/Status";
 import MenuLoader from "../../utils/menuLoader";
 import { convertDateToJalali } from "../../utils/convertDate";

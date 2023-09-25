@@ -1,6 +1,6 @@
 import React from "react";
-import { Icon, Image } from "semantic-ui-react";
-import { levelClass, levelPassClass } from "../const";
+import { Image } from "semantic-ui-react";
+import { levelPassClass } from "../const";
 const LevelIcon = (prop) => {
   if (prop.mode == "gpass") {
     var _txt = prop.number ? prop.number : prop.level;

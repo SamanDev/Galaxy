@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { List, Segment, Statistic, Button } from "semantic-ui-react";
+import { List, Statistic, Button } from "semantic-ui-react";
 import { activeColorList, getEvent } from "../../const";
-import { MyConfirm, MyToastActive, MyDeposit } from "../../utils/myAlert";
+import { MyToastActive } from "../../utils/myAlert";
 import { useActiveTable } from "../../hook/userHook";
 import $ from "jquery";
 const groupBy = (array, key) => {

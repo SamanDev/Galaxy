@@ -1,28 +1,13 @@
 import React, { useState } from "react";
-import {
-  Label,
-  Input,
-  Header,
-  Divider,
-  Icon,
-  Button,
-  Segment,
-  Message,
-  Select,
-} from "semantic-ui-react";
+import { Button } from "semantic-ui-react";
 import AnimIcon from "../../../../utils/inviteIcon";
-import Amount from "../../input/Amount";
-import DepositButton from "../../input/DepositButton";
 import FormikControl from "../../../../components/form/FormikControl";
 import { useNavigate } from "react-router-dom";
-import { FastField, Form, Formik } from "formik";
+import { Form, Formik } from "formik";
 import * as Yup from "yup";
 import { Alert } from "../../../../utils/alerts";
 import $ from "jquery";
-import CashoutButton from "../../input/CashoutButton";
-import List from "../../../../pages/dashboard/ListCarts";
 import { cashierService } from "../../../../services/cashier";
-
 const supportDepartments = "خرید چیپ,برداشت,پشتیبانی فنی".split(",");
 
 const countryOptions = [];
@@ -33,6 +18,11 @@ supportDepartments.map(function (bank, i) {
 const validationSchema = Yup.object({
   message: Yup.string().required("لطفا این فیلد را وارد کنید."),
 });
+const confirmDel = (id) => {
+  $("#con" + id).hide();
+  $("#del" + id).show();
+};
+
 const onSubmit = async (values, submitMethods, navigate, prop) => {
   try {
     const res = await cashierService(values, "submitTicket", "");
@@ -79,15 +69,37 @@ const depositArea = (prop) => {
               <Button
                 content="x"
                 style={{
-                  top: 0,
+                  top: 2,
                   right: 0,
+                  padding: "5px 10px 9px",
+                  position: "absolute",
+                  lineHeight: "5px",
+                  fontSize: "10px",
+                }}
+                onClick={() => confirmDel(prop.userid)}
+                type="button"
+                color="red"
+                size="mini"
+                id={"con" + prop.userid}
+                disabled={formik.isSubmitting}
+                loading={formik.isSubmitting}
+              />
+              <Button
+                content="حذف کن"
+                style={{
+                  top: 2,
+                  right: 30,
                   padding: "5px 10px",
                   position: "absolute",
+                  lineHeight: "8px",
+                  fontSize: "10px",
+                  display: "none",
                 }}
                 className="farsi"
                 type="submit"
-                color="red"
-                size="mini"
+                color="orange"
+                size="tiny"
+                id={"del" + prop.userid}
                 disabled={formik.isSubmitting}
                 loading={formik.isSubmitting}
               />

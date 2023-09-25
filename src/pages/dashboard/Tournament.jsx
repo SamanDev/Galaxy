@@ -6,7 +6,6 @@ import GiftsDesc from "../../utils/GiftsDesc";
 import AddCalendar from "../../utils/AddCalendarWeekly";
 import GalaxyIcon from "../../utils/svganim";
 import LastRewardList from "./LastRewardList";
-import Moment from "react-moment";
 import LazyLoad from "react-lazyload";
 const moment = require("moment");
 const LevelList = (prop) => {

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Button, Header, Icon, Segment, Image, Grid } from "semantic-ui-react";
 import $ from "jquery";
 import AnimIcon from "../../utils/inviteIcon";

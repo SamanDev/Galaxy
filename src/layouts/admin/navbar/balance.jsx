@@ -376,7 +376,7 @@ const Balance = (prop) => {
                 $("#opengifts").addClass("open");
               }}
               defaultOpen={gCount > 0 ? true : false}
-              disabled={gCount == -1 ? true : false}
+              disabled={gCount == 0 ? true : false}
               trigger={
                 <Icon
                   circular

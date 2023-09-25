@@ -1,20 +1,9 @@
 import React, { useState, useEffect } from "react";
 
 import CurrencyInput from "react-currency-input-field";
-import { FastField } from "formik";
 
 import FormikControl from "./FormikControl";
-import {
-  Label,
-  Input,
-  Header,
-  Divider,
-  Icon,
-  Button,
-  Segment,
-  Message,
-  Form,
-} from "semantic-ui-react";
+import { Label, Input } from "semantic-ui-react";
 const Amount = (prop) => {
   const [amount, setAmount] = useState(prop.def || 100000);
   const [amountDollar, setAmountDollar] = useState(100);

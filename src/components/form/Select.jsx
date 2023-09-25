@@ -1,17 +1,6 @@
 import { FastField } from "formik";
-import React, { useState, useEffect } from "react";
-import {
-  Label,
-  Input,
-  Header,
-  Divider,
-  Icon,
-  Button,
-  Segment,
-  Message,
-  Form,
-  Select,
-} from "semantic-ui-react";
+import React from "react";
+import { Label, Form, Select } from "semantic-ui-react";
 const InputF = ({
   formik,
   type,

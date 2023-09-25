@@ -233,7 +233,7 @@ export const MyToastText = (loginToken, siteInfo, event) => {
       new Date(passSec * 1000).toISOString().substring(11, 13),
       new Date(passSec * 1000).toISOString().substring(14, 16),
     ];
-    console.log(gLvlLeft);
+
     const rem = getRemaining();
     var _left = typeHour(rem) + " مانده تا پایان روز " + nowDay + " گلکسی پس.";
     if (loginToken.glevel < nowDay) {

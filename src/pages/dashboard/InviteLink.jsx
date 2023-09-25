@@ -1,24 +1,9 @@
 import React, { useState } from "react";
-import {
-  Message,
-  Label,
-  Input,
-  Button,
-  Icon,
-  Segment,
-  Divider,
-} from "semantic-ui-react";
+import { Label, Input, Button, Icon, Divider } from "semantic-ui-react";
 import AnimIcon from "../../utils/inviteIcon";
 import Swal from "sweetalert2";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import MyMsg from "../../utils/MsgDesc";
-const Toast = Swal.mixin({
-  toast: false,
-  position: "center",
-  showConfirmButton: false,
-  timer: 1000,
-  timerProgressBar: false,
-});
 
 const depositArea = (prop) => {
   const [copy, setCopy] = useState(false);

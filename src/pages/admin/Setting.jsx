@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import TableAdmin from "./utils/tableform";
 
 import { adminPutServiceList } from "../../services/admin";
-import { isJson, haveAdmin, haveModerator } from "../../const";
+import { isJson } from "../../const";
 import { Alert } from "../../utils/alerts";
 const getGateways = JSON.parse(localStorage.getItem("getGateways"));
 function getPathOfKey(object, keys, getwaysList) {

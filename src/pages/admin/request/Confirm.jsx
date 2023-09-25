@@ -1,19 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { Divider, Button, Input, Label, Form, Select } from "semantic-ui-react";
 
-import Amount from "../../../components/form/Amount";
 import Carts from "../../../components/form/AdminCarts";
 import FormikControl from "../../../components/form/FormikControl";
-import { useNavigate } from "react-router-dom";
 import { Formik } from "formik";
 import * as Yup from "yup";
 import CopyBtn from "../../../utils/copyInputBtn";
-import MyMsg from "../../../utils/MsgDesc";
-import { doCurrency } from "../../../const";
-import ConvertCart from "../../../utils/convertCart";
 import { adminGetService, adminPostService } from "../../../services/admin";
-import $ from "jquery";
-import { cashierService } from "../../../services/cashier";
 
 const onSubmit = async (values, submitMethods, prop) => {
   submitMethods.setSubmitting(true);

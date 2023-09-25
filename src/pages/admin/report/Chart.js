@@ -1,25 +1,8 @@
 import React, { useEffect, useState } from "react";
-import DataTable from "react-data-table-component";
-import {
-  Segment,
-  Button,
-  Dimmer,
-  Divider,
-  Icon,
-  Modal,
-  Label,
-  Grid,
-} from "semantic-ui-react";
-import { convertDateToJalali } from "../../../utils/convertDate";
-import { doCurrency } from "../../../const";
+import { Segment } from "semantic-ui-react";
 import { addDays } from "date-fns";
-import AmountColor from "../../../utils/AmountColor";
 import $ from "jquery";
-import { adminGetService } from "../../../services/admin";
 
-import DateReng from "../utils/dateReng";
-import FilterMode from "./Filter";
-import FilterModeGateway from "./FilterGateway";
 import Chart from "chart.js/auto";
 
 const moment = require("moment");

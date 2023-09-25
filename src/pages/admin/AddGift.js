@@ -1,21 +1,16 @@
-import React, { useEffect, useState, useContext } from "react";
-import DataTable from "react-data-table-component";
+import React, { useState } from "react";
 import {
   Input,
   Segment,
   Button,
-  Card,
-  Table,
   Dimmer,
   Loader,
-  Icon,
   Modal,
   Form,
   Select,
 } from "semantic-ui-react";
 import { Alert } from "../../utils/alerts";
-import Moment from "react-moment";
-import { doCurrency, levelDataInfo } from "../../const";
+import { levelDataInfo } from "../../const";
 import CurrencyInput from "react-currency-input-field";
 import { adminPostService } from "../../services/admin";
 const moment = require("moment");
