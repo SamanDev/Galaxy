@@ -28,7 +28,7 @@ function delayForDemo(promise) {
   }).then(() => promise);
 }
 const CompGen = (prop) => {
-  if (prop.activeMenuOpen === false) return false;
+  //if (prop.activeMenuOpen === false) return false;
   if (prop?.menu?.component == "levels") {
     return (
       <Suspense fallback={<MenuLoader />}>

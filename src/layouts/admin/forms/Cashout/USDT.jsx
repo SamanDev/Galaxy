@@ -31,7 +31,9 @@ const depositArea = (prop) => {
   const [refresh, setRefresh] = useState(false);
   const navigate = useNavigate();
   const loginToken = prop.loginToken;
-  const getRate = localStorage.getItem("getRate") || 31250;
+  const [getRate, setGetRate] = useState(
+    localStorage.getItem("getRate") || 50000
+  );
   const validationSchema = Yup.object({
     amount: Yup.number()
       .required("لطفا این فیلد را وارد کنید.")
@@ -82,6 +84,7 @@ const depositArea = (prop) => {
               labelcolor={prop.labelcolor}
               size={prop.size}
               dollar={true}
+              setGetRate={setGetRate}
             />
             <FormikControl
               formik={formik}

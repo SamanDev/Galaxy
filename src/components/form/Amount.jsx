@@ -8,7 +8,7 @@ const Amount = (prop) => {
   const getRate = localStorage.getItem("getRate");
   const [amount, setAmount] = useState(prop.def || 100000);
   const [amountDollar, setAmountDollar] = useState(100);
-  const [rate, setRate] = useState(getRate || 31250);
+  const [rate, setRate] = useState(getRate || 50000);
   const handleGetRate = async () => {
     try {
       const res = await rateService();
@@ -22,12 +22,16 @@ const Amount = (prop) => {
   };
 
   useEffect(() => {
+    prop.setGetRate(rate);
     if (prop.dollar || prop.rate) handleGetRate();
   }, []);
 
   useEffect(() => {
     setVal("amount", prop.formik.values.amount);
   }, [prop.formik.values.amount, rate]);
+  useEffect(() => {
+    prop.setGetRate(rate);
+  }, [rate]);
   useEffect(() => {
     if (prop.dollar) setVal("amountDollar", prop.formik.values.amountDollar);
   }, [prop.formik.values.amountDollar, rate]);

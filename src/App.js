@@ -962,7 +962,7 @@ function App(prop) {
           }
         }
       });
-      api.bind("close:after", () => {});
+
       api.bind("open:after", () => {
         setActivePanel(false);
         $(".picn").removeClass("open");
@@ -970,7 +970,7 @@ function App(prop) {
         $("#nav-icon2").addClass("open");
       });
       api.bind("close:after", () => {
-        setActiveMenuOpen(false);
+        // setActiveMenuOpen(false);
         $("#nav-icon2").removeClass("open");
       });
     }

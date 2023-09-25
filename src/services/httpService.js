@@ -16,9 +16,21 @@ export function checkBlock(res) {
   if (loginToken) {
     if (loginToken.username == data.username) {
       if (!data.userBlock) {
-        localStorage.setItem(data.username + "Token", JSON.stringify(data));
+        var _data = Object.keys(data)
+          .filter((key) => !key.includes("lastLogin"))
+          .reduce((cur, key) => {
+            return Object.assign(cur, { [key]: obj[key] });
+          }, {});
 
-        eventBus.dispatch("updateUser", data);
+        var _loginToken = Object.keys(loginToken)
+          .filter((key) => !key.includes("lastLogin"))
+          .reduce((cur, key) => {
+            return Object.assign(cur, { [key]: obj[key] });
+          }, {});
+        if (_loginToken != _data) {
+          localStorage.setItem(data.username + "Token", JSON.stringify(data));
+          eventBus.dispatch("updateUser", data);
+        }
 
         UserWebsocket.connect(
           data.accessToken + "&user=" + data.username,
