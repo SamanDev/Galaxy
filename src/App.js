@@ -130,9 +130,8 @@ function App(prop) {
         $("#changegame").trigger("click");
       }
       try {
-        try {
-          const res = await cashierService(values, "openTable");
-        } catch (error) {}
+        var values = { tableName: tableName };
+        const res = await cashierService(values, "openTable");
       } catch (error) {}
     } else {
       localStorage.setItem("tableName", tableName);
