@@ -3,7 +3,7 @@ import { useLocation } from "react-router-dom";
 
 const AdminLayout = React.lazy(() => import("./layouts/admin/Index"));
 const RightPanel = React.lazy(() => import("./Panel"));
-
+import { cashierService } from "./services/cashier";
 import { Modal } from "semantic-ui-react";
 import {
   GetMenu,
@@ -130,6 +130,9 @@ function App(prop) {
         $("#changegame").trigger("click");
       }
       try {
+        try {
+          const res = await cashierService(values, "openTable");
+        } catch (error) {}
       } catch (error) {}
     } else {
       localStorage.setItem("tableName", tableName);
