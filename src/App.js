@@ -43,7 +43,6 @@ import { Dimmer, Loader } from "semantic-ui-react";
 import UserWebsocket from "./services/user.websocket";
 import { loginService } from "./services/auth";
 import eventBus from "./services/eventBus";
-import { cashierService } from "./services/cashier";
 import ChildComp from "./Components";
 
 const moment = require("moment");

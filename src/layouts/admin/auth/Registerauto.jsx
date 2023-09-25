@@ -1,23 +1,6 @@
-import React, { useState } from "react";
-import {
-  Label,
-  Input,
-  Header,
-  Divider,
-  Icon,
-  Button,
-  Segment,
-  Message,
-} from "semantic-ui-react";
-import Amount from "../input/Amount";
-import DepositButton from "../input/DepositButton";
-import AuthFormikControl from "../../../components/authForm/AuthFormikControl";
-import { useNavigate } from "react-router-dom";
-import { FastField, Form, Formik } from "formik";
+import React from "react";
 import * as Yup from "yup";
-import { Alert } from "../../../utils/alerts";
 import Users from "../../../json.json";
-import MyMsg from "../../../utils/MsgDesc";
 import { registerService } from "../../../services/auth";
 const reffer = localStorage.getItem("refer");
 

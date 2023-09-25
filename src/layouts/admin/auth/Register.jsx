@@ -6,7 +6,6 @@ import { Form, Formik } from "formik";
 import * as Yup from "yup";
 import MyMsg from "../../../utils/MsgDesc";
 
-import AnimIcon from "../../../utils/inviteIcon";
 import { registerService } from "../../../services/auth";
 const validationSchema = Yup.object({
   username: Yup.string()
