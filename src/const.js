@@ -83,10 +83,11 @@ function getPortPablic() {
   let protocol = "";
   if (protocol2 == "https:") {
     protocol = "wss://";
-    host = document.location.host;
+    host = "khodekhalse.com";
     // host = "";
   } else {
     protocol = "ws://";
+    host = "khodekhalse.com";
   }
   //protocol = "wss://";
   let loc = protocol + host + "";
