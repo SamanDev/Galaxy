@@ -30,8 +30,8 @@ export const gamesUrl =
     : "https://www.wheelofpersia.com/";
 export const pokerUrl =
   process.env.NODE_ENV === "production"
-    ? "https://pkrmaven.site:2053"
-    : "https://pkrmaven.site:2053";
+    ? "https://pkrmaven.site"
+    : "http://pkrmaven.site";
 function getAPI() {
   //let host = document.location.host;
   var host = {
@@ -54,9 +54,7 @@ function getPort() {
   //let host = document.location.host;
 
   let host =
-    process.env.NODE_ENV === "production"
-      ? document.location.host
-      : "139.99.144.72:8081";
+    process.env.NODE_ENV === "production" ? document.location.host : "";
   let protocol2 = document.location.protocol;
   let protocol = "";
   if (protocol2 == "https:") {
@@ -72,13 +70,9 @@ function getPort() {
   return loc;
 }
 function getPortPablic() {
-  //let host = "51.195.176.97:8081";
-  //let host = "139.99.144.72:8081";
   //let host = "khodekhalse.com";
   let host =
-    process.env.NODE_ENV === "production"
-      ? document.location.host
-      : "139.99.144.72:8081";
+    process.env.NODE_ENV === "production" ? document.location.host : "";
   let protocol2 = document.location.protocol;
   let protocol = "";
   if (protocol2 == "https:") {
