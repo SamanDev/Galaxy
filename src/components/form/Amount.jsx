@@ -22,7 +22,9 @@ const Amount = (prop) => {
   };
 
   useEffect(() => {
-    prop.setGetRate(rate);
+    try {
+      prop.setGetRate(rate);
+    } catch (error) {}
     if (prop.dollar || prop.rate) handleGetRate();
   }, []);
 
@@ -30,7 +32,9 @@ const Amount = (prop) => {
     setVal("amount", prop.formik.values.amount);
   }, [prop.formik.values.amount, rate]);
   useEffect(() => {
-    prop.setGetRate(rate);
+    try {
+      prop.setGetRate(rate);
+    } catch (error) {}
   }, [rate]);
   useEffect(() => {
     if (prop.dollar) setVal("amountDollar", prop.formik.values.amountDollar);
