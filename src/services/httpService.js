@@ -28,7 +28,7 @@ export function checkBlock(res) {
             return Object.assign(cur, { [key]: obj[key] });
           }, {});
         localStorage.setItem(data.username + "Token", JSON.stringify(data));
-        if (_loginToken != _data) {
+        if (_loginToken != _data || 1 == 1) {
           eventBus.dispatch("updateUser", data);
         }
 
