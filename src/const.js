@@ -30,8 +30,8 @@ export const gamesUrl =
     : "https://www.wheelofpersia.com/";
 export const pokerUrl =
   process.env.NODE_ENV === "production"
-    ? "https://trpkr.com"
-    : "http://trpkr.com";
+    ? "https://trpkr.com:2053"
+    : "https://trpkr.com:2053";
 function getAPI() {
   //let host = document.location.host;
   var host = {
