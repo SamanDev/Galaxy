@@ -33,10 +33,10 @@ export const useUser = () => {
     window.addEventListener("message", function (event) {
       if (event.data == "userget") {
         var newu = {
-          username: loginTokenUpdate.username,
-          balance: loginTokenUpdate.balance,
-          balance2: loginTokenUpdate.balance2,
-          image: loginTokenUpdate.level,
+          username: loginToken.username,
+          balance: loginToken.balance,
+          balance2: loginToken.balance2,
+          image: loginToken.level,
         };
         try {
           sendMessage(newu);
