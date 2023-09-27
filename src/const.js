@@ -831,7 +831,13 @@ function doCashoutDollar() {
 }
 
 export const doCurrency = (value) => {
-  return value?.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
+  var val = value?.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
+  if (value >= 100000 || value <= -100000) {
+    val =
+      (value / 1000)?.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,") +
+      "k";
+  }
+  return val;
 };
 export const dayOfTournament = 5;
 export const levelList =

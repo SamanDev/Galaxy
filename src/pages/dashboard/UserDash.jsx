@@ -58,12 +58,17 @@ const Dashboard = (prop) => {
       element.setAttribute("href", url);
       document.querySelector("head").appendChild(element);
       window.addEventListener("beforeinstallprompt", (e) => {
+        $("#pushactive").trigger("click");
         // Prevent Chrome 67 and earlier from automatically showing the prompt
         e.preventDefault();
         // Stash the event so it can be triggered later.
         window.deferredPrompt = e;
         // Update UI to notify the user they can add to home screen
       });
+      window.addEventListener("focus", () => {
+        $("#pushactive").trigger("click");
+      });
+
       setTimeout(function () {
         addHome();
       }, 1000);
@@ -85,7 +90,7 @@ const Dashboard = (prop) => {
         // Log the result
         const result = await promptEvent.userChoice;
         console.log("👍", "userChoice", result);
-        $("#pushactive").trigger("click");
+
         // Reset the deferred prompt variable, since
         // prompt() can only be called once.
         window.deferredPrompt = null;

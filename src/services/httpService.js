@@ -8,7 +8,7 @@ export const apiPath = APIURL.onlinePath;
 
 export function checkBlock(res) {
   var data = res.data ? res.data : res;
-  var ref = res?.request ? res.request.responseURL : "";
+
   var loginKey = localStorage.getItem("galaxyUserkeyToken");
 
   var loginToken = JSON.parse(localStorage.getItem(loginKey + "Token"));
@@ -16,21 +16,9 @@ export function checkBlock(res) {
   if (loginToken) {
     if (loginToken.username == data.username) {
       if (!data.userBlock) {
-        var _data = Object.keys(data)
-          .filter((key) => !key.includes("lastLogin"))
-          .reduce((cur, key) => {
-            return Object.assign(cur, { [key]: obj[key] });
-          }, {});
-
-        var _loginToken = Object.keys(loginToken)
-          .filter((key) => !key.includes("lastLogin"))
-          .reduce((cur, key) => {
-            return Object.assign(cur, { [key]: obj[key] });
-          }, {});
         localStorage.setItem(data.username + "Token", JSON.stringify(data));
-        if (_loginToken != _data || 1 == 1) {
-          eventBus.dispatch("updateUser", data);
-        }
+
+        eventBus.dispatch("updateUser", data);
 
         UserWebsocket.connect(
           data.accessToken + "&user=" + data.username,

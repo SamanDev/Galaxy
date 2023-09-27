@@ -3,8 +3,9 @@ import { Segment, Tab } from "semantic-ui-react";
 import Users from "./Users";
 import Bots from "./user/Bots";
 import { Navigate } from "react-router-dom";
-import User from "./user/User";
 
+import Income from "./income/Income";
+import User from "./user/User";
 import GetwaysList from "./setting/GetwaysList";
 import SiteCartsList from "./setting/SiteCartsList";
 
@@ -63,6 +64,24 @@ function Admin(prop) {
         pane: (
           <Tab.Pane key="Users">
             <Users
+              addTabData={addTabData}
+              addMainTabData={addMainTabData}
+              handleGetGeteways={handleGetGeteways}
+              addGatewayTabData={addGatewayTabData}
+              removeTabData={removeTabData}
+              getwaysList={getwaysData}
+              search="username"
+              searchValue=""
+              {...prop}
+            />
+          </Tab.Pane>
+        ),
+      },
+      {
+        menuItem: "Income",
+        pane: (
+          <Tab.Pane key="Income">
+            <Income
               addTabData={addTabData}
               addMainTabData={addMainTabData}
               handleGetGeteways={handleGetGeteways}

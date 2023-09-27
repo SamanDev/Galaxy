@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 
 import { sendPushToken } from "./services/auth.js";
-import { Message, Divider } from "semantic-ui-react";
+import { Message, Divider, Button } from "semantic-ui-react";
 
 import { getMessaging, getToken, onMessage } from "firebase/messaging";
 import Swal from "sweetalert2";
@@ -49,6 +49,7 @@ function Active(prop) {
             token = currentToken;
 
             setToken(currentToken);
+            localStorage.setItem("notificationAllow", true);
           } else {
             // Show permission request UI
             console.log(
@@ -94,6 +95,8 @@ function Active(prop) {
           onClick={handleResend}
           id="pushactive"
           style={{ cursor: "pointer", display: "none" }}
+          disabled={localStorage.getItem("notificationAllow") ? true : false}
+          as={Button}
         >
           <Message.Header>Turn On Notification and Get Reward</Message.Header>
         </Message>

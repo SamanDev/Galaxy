@@ -17,7 +17,21 @@ body {
 
   overflow-x: hidden !important;
 }
+.dplock {
+  display: block;
+  min-width: 170px;
+  width: 100%;
+}
 
+.ttotal .segment:not(.raised) {
+  margin-top: 10px !important;
+  min-width: 100%;
+}
+.ttotal .segment.raised {
+  min-height: 150px;
+  margin-bottom: 10px;
+  min-width: 100%;
+}
 #lazyarea .mm-listitem__text {
   padding: 15px 0px !important;
 }

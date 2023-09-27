@@ -16,7 +16,6 @@ const Report = (prop) => {
     prop.setEndDate(selectedRows.endDate);
     prop.setFilterOk(true);
     setState([selectedRows]);
-    console.log(selectedRows);
   };
   return (
     <DateRangePicker

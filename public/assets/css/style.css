@@ -1207,6 +1207,10 @@ a.mm-listitem__text {
 .myaccount.popupmenu {
   display: block;
 }
+.dplock {
+  display: block;
+  width: 140px;
+}
 .myaccount.popupmenu.ui.list {
   margin-left: 0;
   display: block;
