@@ -27,7 +27,7 @@ export function startServiceWorker() {
 export const gamesUrl =
   process.env.NODE_ENV === "production"
     ? "https://www.wheelofpersia.com/"
-    : "https://www.wheelofpersia.com/";
+    : "http://localhost:3001/";
 export const pokerUrl =
   process.env.NODE_ENV === "production"
     ? "https://trpkr.com:2053"

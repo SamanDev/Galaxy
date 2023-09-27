@@ -30,6 +30,21 @@ export const useUser = () => {
     setLoginToken(_old);
   }
   useEffect(() => {
+    window.addEventListener("message", function (event) {
+      if (event.data == "userget") {
+        var newu = {
+          username: loginTokenUpdate.username,
+          balance: loginTokenUpdate.balance,
+          balance2: loginTokenUpdate.balance2,
+          image: loginTokenUpdate.level,
+        };
+        try {
+          sendMessage(newu);
+        } catch (error) {}
+      }
+
+      //console.log("Message received from the child: " + event.data); // Message received from child
+    });
     eventBus.on("updateUser", (dataGet) => {
       setLoginToken(dataGet);
 
