@@ -308,7 +308,7 @@ const ActiveTable = (prop) => {
                         $(".swal2-container").html() == "" ||
                         $(".swal2-container").length == 0
                       ) {
-                        MyToastActive(x, prop.handleOpenTable);
+                        //MyToastActive(x, prop.handleOpenTable);
                       }
                       $("#nav-icon1.open:visible").parent().trigger("click");
                     }}
