@@ -222,7 +222,7 @@ function Admin(prop) {
     var newdataInfo = [
       getPathOfKey2(
         user,
-        ",username,level,balance,email,mobile,fullName,refer,firstLogin,lastLogin,bankInfos,cashierGateways,userBlock,userActivate,"
+        ",username,level,balance,balance2,email,mobile,fullName,refer,firstLogin,lastLogin,bankInfos,cashierGateways,userBlock,userActivate,"
       ),
     ];
   }
@@ -230,7 +230,7 @@ function Admin(prop) {
     var newdataInfo = [
       getPathOfKey2(
         user,
-        ",username,level,balance,fullName,refer,firstLogin,lastLogin,bankInfos,cashierGateways,"
+        ",username,level,balance,balance2,fullName,refer,firstLogin,lastLogin,bankInfos,cashierGateways,"
       ),
     ];
   }

@@ -9,7 +9,7 @@ import Reports from "./report/List";
 import Stats from "./report/Stat";
 var panes = [];
 function Admin(prop) {
-  const [activeIndex, setActiveIndex] = useState(0);
+  const [activeIndex, setActiveIndex] = useState(3);
   const loginToken = prop.loginToken;
   const [loading, setLoading] = useState(false);
   const [user, setUser] = useState({});
@@ -73,6 +73,7 @@ function Admin(prop) {
     <Tab
       panes={tabData}
       activeIndex={activeIndex}
+      renderActiveOnly={true}
       onTabChange={handleTabChange}
     />
   );

@@ -79,9 +79,17 @@ function Admin(prop) {
   const [dataSortedDir, setDataSortedDir] = useState("desc");
   const [dataSearch, setDataSearch] = useState("");
   if (prop?.user?.username) {
-    var defmde = ["cashout", "deposit", "transfer", "bonus", "poker", "casino"];
+    var defmde = [
+      "cashout",
+      "deposit",
+      "transfer",
+      "bonus",
+      "poker",
+      "casino",
+      "totalincome",
+    ];
   } else {
-    var defmde = ["cashout", "deposit", "transfer", "bonus"];
+    var defmde = ["cashout", "deposit", "transfer", "bonus", "totalincome"];
   }
 
   const [dataMode, setDataMode] = useState(defmde);
@@ -111,20 +119,21 @@ function Admin(prop) {
     </div>
   );
   const fetchUsers = async (page) => {
+    if (loading) return;
     setLoading(true);
     var _s = moment(startDate).format("YYYY-MM-DD");
     var _e = moment(endDate).format("YYYY-MM-DD");
-
-    if (prop?.user?.username) {
-      var res = await adminGetService(
-        `getReports?mode=${dataMode}&page=${page}&number=500&username=${prop.user.username}&start=${_s}&end=${_e}&gateway=${dataSearch}`
-      );
-    } else {
-      var res = await adminGetService(
-        `getReports?mode=${dataMode}&page=${page}&number=500&start=${_s}&end=${_e}&gateway=${dataSearch}`
-      );
-    }
     try {
+      if (prop?.user?.username) {
+        var res = await adminGetService(
+          `getReports?mode=${dataMode}&page=${page}&number=${perPage}&username=${prop.user.username}&start=${_s}&end=${_e}&gateway=${dataSearch}`
+        );
+      } else {
+        var res = await adminGetService(
+          `getReports?mode=${dataMode}&page=${page}&number=${perPage}&start=${_s}&end=${_e}&gateway=${dataSearch}`
+        );
+      }
+
       if (res.status === 200) {
         setData(res.data);
 
@@ -132,6 +141,7 @@ function Admin(prop) {
       }
     } catch (error) {
       console.log(error.message);
+      setLoading(false);
     } finally {
       setLoading(false);
     }
@@ -140,6 +150,11 @@ function Admin(prop) {
   const handlePageChange = (page) => {
     fetchUsers(page);
   };
+  const handlePerRowsChange = async (newPerPage, page) => {
+    setPerPage(newPerPage);
+    setFilterOk(true);
+  };
+
   const handleSort = (column, sortDirection) => {
     console.log(sortDirection);
     setDataSortedID(column.id);
@@ -154,14 +169,14 @@ function Admin(prop) {
     {
       _data.map((x, i) => {
         var _am = x.endBalance >= x.startBalance ? x.amount : x.amount * -1;
+        if (_am == 0) {
+          _am = x.endBalance2 >= x.startBalance2 ? x.amount2 : x.amount2;
+        }
         _totalReward = _totalReward + _am;
       });
     }
     if (target == "total") return _totalReward;
     if (target == "count") return _data.length;
-  };
-  const handlePerRowsChange = async (newPerPage, page) => {
-    setPerPage(newPerPage);
   };
 
   useEffect(() => {
@@ -401,7 +416,6 @@ function Admin(prop) {
           pagination
           paginationResetDefaultPage={resetPaginationToggle} // optionally, a hook to reset pagination to page 1
           persistTableHead
-          paginationRowsPerPageOptions={[10, 25, 50, 100, 500]}
           expandableRows
           expandableRowsComponent={ExpandedComponent}
           paginationComponentOptions={{
@@ -411,6 +425,10 @@ function Admin(prop) {
             selectAllRowsItem: false,
             selectAllRowsItemText: "All",
           }}
+          onChangePage={handlePageChange}
+          paginationServer
+          paginationRowsPerPageOptions={[10, 25, 50, 100, 500, 1000, 5000]}
+          paginationTotalRows={totalRows}
         />
       </div>
     </>

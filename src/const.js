@@ -832,10 +832,12 @@ function doCashoutDollar() {
 
 export const doCurrency = (value) => {
   var val = value?.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
-  if (value >= 100000 || value <= -100000) {
+  if (value >= 1000000000 || value <= -10000000000) {
     val =
-      (value / 1000)?.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,") +
-      "k";
+      (value / 1000)
+        .toFixed()
+        ?.toString()
+        .replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,") + "k";
   }
   return val;
 };

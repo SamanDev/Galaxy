@@ -43,23 +43,6 @@ function Admin(prop) {
   useEffect(() => {
     panes = [
       {
-        menuItem: "Requests",
-        pane: (
-          <Tab.Pane key="Requests">
-            <Requests
-              addTabData={addTabData}
-              addMainTabData={addMainTabData}
-              setGetwaysData={setGetwaysData}
-              addGatewayTabData={addGatewayTabData}
-              removeTabData={removeTabData}
-              tickets={tickets}
-              loadingtickets={loadingtickets}
-              {...prop}
-            />
-          </Tab.Pane>
-        ),
-      },
-      {
         menuItem: "Users",
         pane: (
           <Tab.Pane key="Users">
@@ -72,6 +55,23 @@ function Admin(prop) {
               getwaysList={getwaysData}
               search="username"
               searchValue=""
+              {...prop}
+            />
+          </Tab.Pane>
+        ),
+      },
+      {
+        menuItem: "Requests",
+        pane: (
+          <Tab.Pane key="Requests">
+            <Requests
+              addTabData={addTabData}
+              addMainTabData={addMainTabData}
+              setGetwaysData={setGetwaysData}
+              addGatewayTabData={addGatewayTabData}
+              removeTabData={removeTabData}
+              tickets={tickets}
+              loadingtickets={loadingtickets}
               {...prop}
             />
           </Tab.Pane>

@@ -83,7 +83,7 @@ function listadmin(list) {
   return list
     .sort((a, b) => (a.pokerPercent < b.pokerPercent ? 1 : -1))
     .map((link, i) => (
-      <Grid.Column>
+      <Grid.Column key={i}>
         <Segment inverted color="black" size="tiny" attached="top">
           {link.user}
         </Segment>

@@ -132,6 +132,7 @@ export const httpService = (url, method, data = null) => {
     url: apiPath + "/api" + url,
     method,
     data,
+
     timeout: 30000,
 
     headers: {

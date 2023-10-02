@@ -131,7 +131,7 @@ function Admin(prop) {
 
     try {
       const res = await adminGetService(
-        `getReports?mode=cashout&page=${page}&number=500&start=${_s}&end=${_e}`
+        `getReports?mode=cashout&page=${page}&number=${perPage}&start=${_s}&end=${_e}`
       );
       if (res.status === 200) {
         setData(res.data);
@@ -226,7 +226,7 @@ function Admin(prop) {
     if (!firstDone && firstStatus == "reload") fetchUsers(1); // fetch page 1 of users
   }, [firstDone]);
   useEffect(() => {
-    fetchCart();
+    //fetchCart();
   }, []);
   const updateStatus = (row, status) => {
     setFirstDone(true);
@@ -482,7 +482,6 @@ function Admin(prop) {
           pagination
           paginationResetDefaultPage={resetPaginationToggle} // optionally, a hook to reset pagination to page 1
           persistTableHead
-          paginationRowsPerPageOptions={[10, 25, 50, 100, 500]}
           paginationComponentOptions={{
             rowsPerPageText: footerTxt,
             rangeSeparatorText: "of",
@@ -490,6 +489,10 @@ function Admin(prop) {
             selectAllRowsItem: false,
             selectAllRowsItemText: "All",
           }}
+          onChangePage={handlePageChange}
+          paginationServer
+          paginationRowsPerPageOptions={[10, 25, 50, 100, 500, 1000, 5000]}
+          paginationTotalRows={totalRows}
         />
       </div>
     </>
