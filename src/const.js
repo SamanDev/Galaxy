@@ -62,7 +62,7 @@ function getPort() {
     //host = "";
     host = document.location.host;
   } else {
-    protocol = "ws://";
+    protocol = "wss://";
   }
   //protocol = "wss://";
   let loc = protocol + host + "";
@@ -80,7 +80,7 @@ function getPortPablic() {
     host = "khodekhalse.com";
     // host = "";
   } else {
-    protocol = "ws://";
+    protocol = "wss://";
     host = "khodekhalse.com";
   }
   //protocol = "wss://";

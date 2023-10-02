@@ -356,7 +356,7 @@ function App(prop) {
                 (menu.link == "/logout" &&
                   (!loginToken?.accessToken || loginToken?.logout)) ||
                 (menu.link == "/" && addr[addr.length - 1] == "")
-                  ? "hiddenmenu"
+                  ? "hiddenmen2u"
                   : "mm-listitem"
               }
             >
