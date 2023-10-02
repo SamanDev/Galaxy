@@ -62,6 +62,7 @@ function Active(prop) {
         .catch((err) => {
           console.log("An error occurred while retrieving token. ", err);
           setToken("err");
+          localStorage.setItem("notificationAllow", true);
           // ...
         });
       onMessage(getMessaging(), (message) => {

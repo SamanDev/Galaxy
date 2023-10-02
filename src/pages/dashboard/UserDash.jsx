@@ -90,7 +90,7 @@ const Dashboard = (prop) => {
         // Log the result
         const result = await promptEvent.userChoice;
         console.log("👍", "userChoice", result);
-
+        localStorage.removeItem("notificationAllow");
         // Reset the deferred prompt variable, since
         // prompt() can only be called once.
         window.deferredPrompt = null;
