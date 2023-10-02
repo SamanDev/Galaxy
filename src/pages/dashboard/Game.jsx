@@ -67,7 +67,7 @@ const Dashboard = (prop) => {
       ? localStorage.getItem("secondaryGame")
       : "wheel"
   );
-  const [mainGame, setMainGame] = useState("poker");
+  const [mainGame, setMainGame] = useState(params.gameId);
 
   const handleChange = (e, { value }) => {
     setGameLoader(true);
@@ -104,11 +104,25 @@ const Dashboard = (prop) => {
   const handleTabChange = (e, { activeIndex }) => setActiveIndex(activeIndex);
   useEffect(() => {
     //setMainGame(params.gameId);
-    setSessionKey("");
-    if (loginToken?.accessToken && !loginToken?.logout) {
-      handleSession();
+    //setSessionKey("");
+    if (loginToken?.accessToken && !loginToken?.logout && mainGame == "poker") {
+      // handleSession();
     }
   }, []);
+  useEffect(() => {
+    if (sessionKey == "") {
+      setMainGame("poker");
+
+      // setSessionKey("");
+      if (
+        loginToken?.accessToken &&
+        !loginToken?.logout &&
+        mainGame == "poker"
+      ) {
+        handleSession();
+      }
+    }
+  }, [activeIndex]);
 
   useEffect(() => {
     let viewportHeight = window.innerHeight;
@@ -165,13 +179,13 @@ const Dashboard = (prop) => {
         }
       });
     }
-    setGameOptions(_gameOptions);
+    //setGameOptions(_gameOptions);
     prop.reportWindowSize();
   }, []);
   useEffect(() => {
     if (!loginToken?.accessToken || loginToken?.logout) {
       // setCurPage("dashboard");
-      prop.setFirstOpen(true);
+      //s prop.setFirstOpen(true);
 
       navigate("/login");
     } else {
@@ -316,7 +330,7 @@ const Dashboard = (prop) => {
   return (
     <>
       <div id="dashboard_section" className="dashboard_section main_section ">
-        {(!gameLoader || 1 == 1) && (
+        {!gameLoader && (
           <div className="gameicons step2">
             <Icon
               circular
