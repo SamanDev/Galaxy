@@ -15,12 +15,14 @@ const initialValues = {
   transferUser: "",
   username: "",
   password: "",
+  amountDollar: 100,
 };
 
 const onSubmit = async (values, submitMethods, navigate, prop, setRefresh) => {
   try {
     var _values = values;
-    _values.amountDollar = values.amount;
+    _values.dollarAmount = values.amount;
+
     const res = await cashierService(_values, "transferChip", "");
     if (res.status == 200) {
       if (res.data?.address) {

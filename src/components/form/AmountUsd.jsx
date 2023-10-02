@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 import CurrencyInput from "react-currency-input-field";
 
@@ -9,7 +9,7 @@ const Amount = (prop) => {
   const getRate = localStorage.getItem("getRate");
   const [amount, setAmount] = useState(prop.def || 100);
   const [amountDollar, setAmountDollar] = useState(100);
-  const [rate, setRate] = useState(getRate || 31250);
+  const [rate, setRate] = useState(getRate || 50000);
 
   const setVal = (name, value) => {
     var _value = value;
@@ -35,13 +35,15 @@ const Amount = (prop) => {
       if (_value == null || _value == "") {
         _value = 100;
       }
-      setAmount(_value * rate);
-      setAmountDollar(parseFloat(_value).toFixed(2));
-      prop.formik.setFieldValue("amount", _value * rate);
-      prop.formik.setFieldValue("amountDollar", _value);
+      setAmount(_value);
+      // setAmountDollar(parseFloat(_value).toFixed(2));
+      //prop.formik.setFieldValue("amount", _value * rate);
+      // prop.formik.setFieldValue("amountDollar", _value);
     }
   };
-
+  useEffect(() => {
+    setVal("amountDollar", prop.formik.values.amountDollar);
+  }, [prop.formik.values.amountDollar, rate]);
   return (
     <>
       <span className="hiddenmenu">

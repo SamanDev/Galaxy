@@ -116,6 +116,7 @@ const Report = (prop) => {
                             <div>
                               {item.description
                                 .replace("Remove transfer chip from:", "")
+                                .replace("Remove usd transfer chip from:", "")
                                 .replace(":", "")}
                             </div>
                           )}

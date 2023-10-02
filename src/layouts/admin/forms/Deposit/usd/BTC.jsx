@@ -11,9 +11,10 @@ import { Alert } from "../../../../../utils/alerts";
 
 const initialValues = {
   action: "deposit",
-  amount: 0,
+  amount: 100,
   coin: "BTC",
   amountDollar: 100,
+  usd: true,
 };
 const validationSchema = Yup.object({
   amount: Yup.number().required("لطفا این فیلد را وارد کنید.").integer(),
@@ -24,6 +25,7 @@ const validationSchema = Yup.object({
     .integer(),
 });
 const onSubmit = async (values, submitMethods, navigate, prop, setRefresh) => {
+  values.amountDollar = values.amount;
   try {
     const res = await cashierService(values, "coinPayments", "");
     if (res.status == 200) {

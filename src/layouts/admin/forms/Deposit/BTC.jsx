@@ -14,6 +14,7 @@ const initialValues = {
   amount: 0,
   coin: "BTC",
   amountDollar: 100,
+  usd: false,
 };
 const validationSchema = Yup.object({
   amount: Yup.number().required("لطفا این فیلد را وارد کنید.").integer(),

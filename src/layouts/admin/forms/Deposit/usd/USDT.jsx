@@ -11,17 +11,22 @@ import { cashierService } from "../../../../../services/cashier";
 
 const initialValues = {
   action: "deposit",
-  amount: 0,
+  amount: 100,
   coin: "USDT.TRC20",
   usd: true,
   amountDollar: 100,
 };
 const validationSchema = Yup.object({
   amount: Yup.number().required("لطفا این فیلد را وارد کنید.").integer(),
+
+  amountDollar: Yup.number()
+    .required("لطفا این فیلد را وارد کنید.")
+    .min(3, "لطفا این فیلد را درست وارد کنید.")
+    .integer(),
 });
 const onSubmit = async (values, submitMethods, navigate, prop, setRefresh) => {
-  values.dollarPrice = parseInt(values.amount / values.amountDollar);
-  values.amount = values.amountDollar;
+  //values.dollarPrice = parseInt(values.amount / values.amountDollar);
+  values.amountDollar = values.amount;
   try {
     const res = await cashierService(values, "coinPayments", "");
     if (res.status == 200) {
