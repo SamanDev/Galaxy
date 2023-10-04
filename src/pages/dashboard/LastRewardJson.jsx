@@ -71,7 +71,7 @@ const ActiveTable = (prop) => {
     <>
       {_sortData.length == 0 ? (
         <List divided inverted verticalAlign="middle" className="activetable">
-          <List.Item className="text-center nodata" as="h2">
+          <List.Item className="text-center nodata">
             No reward avaliable now
           </List.Item>
         </List>

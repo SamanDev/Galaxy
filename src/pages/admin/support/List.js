@@ -119,7 +119,7 @@ function Admin(prop) {
         localStorage.setItem("sampleMessage", JSON.stringify(res.data));
       }
     } catch (error) {
-      console.log(error.message);
+      //console.log(error.message);
     } finally {
     }
   };
@@ -192,7 +192,7 @@ function Admin(prop) {
         setFilterOk(false);
       }
     } catch (error) {
-      console.log(error.message);
+      //console.log(error.message);
     } finally {
       setLoading(false);
     }

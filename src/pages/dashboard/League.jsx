@@ -29,7 +29,7 @@ const LevelList = (prop) => {
         prop.bindLastReward();
       }
     } catch (error) {
-      console.log(error.message);
+      //console.log(error.message);
     }
   };
 

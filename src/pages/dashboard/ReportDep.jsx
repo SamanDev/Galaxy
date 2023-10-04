@@ -34,7 +34,7 @@ const Report = (prop) => {
         setData(_res);
       }
     } catch (error) {
-      console.log(error.message);
+      //console.log(error.message);
     } finally {
       setLoading(false);
     }

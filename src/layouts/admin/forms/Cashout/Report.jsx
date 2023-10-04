@@ -45,7 +45,7 @@ const Report = (prop) => {
       }
       setLoading(false);
     } catch (error) {
-      console.log(error.message);
+      //console.log(error.message);
     }
   };
 

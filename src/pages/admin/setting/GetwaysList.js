@@ -103,7 +103,7 @@ function Admin(prop) {
           setDataTransaction(sorted);
         }
       } catch (error) {
-        console.log(error.message);
+        //console.log(error.message);
       } finally {
         setLoading(false);
       }

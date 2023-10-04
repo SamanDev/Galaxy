@@ -63,7 +63,7 @@ const depositArea = (prop) => {
           setRate(res.data);
         }
       } catch (error) {
-        console.log(error.message);
+        //console.log(error.message);
       }
     };
     handleGetRate();

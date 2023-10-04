@@ -10,7 +10,7 @@ const Content = (prop) => {
     <section id="content_section" className={`py-2 px-3 panelfull`}>
       <Routes>
         <Route
-          path="/"
+          path="*"
           element={
             <Suspense fallback={<MenuLoader />}>
               <Dashboard {...prop} />

@@ -167,7 +167,7 @@ function Admin(prop) {
         setFilterOk(false);
       }
     } catch (error) {
-      console.log(error.message);
+      //console.log(error.message);
     } finally {
       setLoading(false);
     }
@@ -225,7 +225,7 @@ function Admin(prop) {
           setGetwaysData(sorted);
         }
       } catch (error) {
-        console.log(error.message);
+        //console.log(error.message);
       } finally {
         setLoading(false);
       }

@@ -785,7 +785,7 @@ function App(prop) {
     if (_id.indexOf("gift") > -1) {
       _id = ".giftarea";
     }
-    console.log(_id);
+
     if ($(_id).length == 0) return false;
 
     $(".popup").hide();
@@ -1064,7 +1064,6 @@ function App(prop) {
     //finalMenu = "";
   }, [isUser]);
   useEffect(() => {
-    console.log("Message received from the child: "); // Message received from child
     window.addEventListener("message", function (event) {
       if (event.data == "AppOrtion") {
         var agel = window.outerWidth > window.outerHeight ? 90 : 0;

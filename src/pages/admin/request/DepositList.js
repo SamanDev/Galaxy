@@ -201,7 +201,7 @@ function Admin(prop) {
         setFilterOk(false);
       }
     } catch (error) {
-      console.log(error.message);
+      //console.log(error.message);
     } finally {
       setLoading(false);
     }

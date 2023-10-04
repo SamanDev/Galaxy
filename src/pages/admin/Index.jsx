@@ -36,7 +36,7 @@ function Admin(prop) {
           setGetwaysData(sorted);
         }
       } catch (error) {
-        console.log(error.message);
+        //console.log(error.message);
       }
     }
   };

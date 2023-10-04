@@ -185,7 +185,7 @@ const Dashboard = (prop) => {
   useEffect(() => {
     if (!loginToken?.accessToken || loginToken?.logout) {
       // setCurPage("dashboard");
-      //s prop.setFirstOpen(true);
+      prop.setFirstOpen(true);
 
       navigate("/login");
     } else {

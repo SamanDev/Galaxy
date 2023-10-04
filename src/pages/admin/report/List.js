@@ -140,7 +140,7 @@ function Admin(prop) {
         setFilterOk(false);
       }
     } catch (error) {
-      console.log(error.message);
+      //console.log(error.message);
       setLoading(false);
     } finally {
       setLoading(false);

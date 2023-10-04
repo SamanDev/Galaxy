@@ -317,7 +317,7 @@ function Admin(prop) {
         //setTotalRows(res.data.count);
       }
     } catch (error) {
-      console.log(error.message);
+      //console.log(error.message);
     } finally {
       setLoading(false);
     }

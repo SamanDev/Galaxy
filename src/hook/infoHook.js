@@ -63,7 +63,7 @@ export const useAdminTicket = () => {
         );
       }
     } catch (error) {
-      //console.log(error.message);
+      ////console.log(error.message);
       // setLastReward(_bonuses);
       //localStorage.setItem("lastReward", JSON.stringify(_bonuses));
     }

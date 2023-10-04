@@ -86,7 +86,7 @@ function SegmentExamplePlaceholderInline(prop) {
           <Grid reversed="computer tablet">
             <Grid.Column mobile={16} tablet={10} computer={10}>
               <div className="farsi">
-                <h3 className="farsi">بازی پوکر آنلاین با پول واقعی</h3>
+                <h2 className="farsi">بازی پوکر آنلاین با پول واقعی</h2>
                 <p className="lh-base">
                   سلام، به سایت گلکسی کازینو خوش آمدید. در اینجا، شما می توانید
                   بازی های پوکر آنلاین را با بازیکنانی از سراسر جهان تجربه کنید.
@@ -147,9 +147,9 @@ function SegmentExamplePlaceholderInline(prop) {
           <Grid>
             <Grid.Column mobile={16} tablet={10} computer={10}>
               <div className="farsi">
-                <h4 className="farsi">
+                <h3 className="farsi">
                   شارژ حساب و برداشت آسان در گلکسی کازینو{" "}
-                </h4>
+                </h3>
                 <p className="lh-base">
                   برای شارژ حساب و کشوت (برداشت) در سایت گلکسی کازینو می توانید
                   از طریق درگاه بانکی اقدام کنید و یا از سایت های ایرانی خرید و
@@ -214,6 +214,7 @@ function SegmentExamplePlaceholderInline(prop) {
               inverted
               as="a"
               icon="telegram"
+              aria-label="telegram"
               href={"https://t.me/" + siteInfo?.telegramChanel}
               target="_blank"
             />
@@ -221,6 +222,7 @@ function SegmentExamplePlaceholderInline(prop) {
               basic
               inverted
               icon="instagram"
+              aria-label="instagram"
               as="a"
               href={"https://instagram.com/" + siteInfo?.instagram}
               target="_blank"

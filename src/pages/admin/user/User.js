@@ -168,7 +168,7 @@ function Admin(prop) {
       }
     } catch (error) {
       prop.removeTabData(prop.username + "profile");
-      console.log(error.message);
+      //console.log(error.message);
     } finally {
       setLoading(false);
     }

@@ -20,7 +20,7 @@ const depositArea = (prop) => {
         setLoading(false);
       }
     } catch (error) {
-      console.log(error.message);
+      //console.log(error.message);
     } finally {
     }
   };
