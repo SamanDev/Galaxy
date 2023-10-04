@@ -13,8 +13,23 @@ const Dashboard = (prop) => {
 
   const handleManifest = () => {
     console.log("👍", "handleManifest");
-    $('[rel="manifest"]').remove();
+    //$('[rel="manifest"]').remove();
     if ($('[rel="manifest"]').length == 0) {
+      window.addEventListener("beforeinstallprompt", (e) => {
+        //$("#pushactive").trigger("click");
+        // Prevent Chrome 67 and earlier from automatically showing the prompt
+        //e.preventDefault();
+        // Stash the event so it can be triggered later.
+        window.deferredPrompt = e;
+        // Update UI to notify the user they can add to home screen
+      });
+      window.addEventListener(
+        "focus",
+        () => {
+          $("#pushactive").trigger("click");
+        },
+        { once: true }
+      );
       let dd = window.location.protocol + "//" + window.location.host;
       let sUrl =
         dd +
@@ -59,21 +74,6 @@ const Dashboard = (prop) => {
       element.setAttribute("rel", "manifest");
       element.setAttribute("href", url);
       document.querySelector("head").appendChild(element);
-      window.addEventListener("beforeinstallprompt", (e) => {
-        //$("#pushactive").trigger("click");
-        // Prevent Chrome 67 and earlier from automatically showing the prompt
-        e.preventDefault();
-        // Stash the event so it can be triggered later.
-        window.deferredPrompt = e;
-        // Update UI to notify the user they can add to home screen
-      });
-      window.addEventListener(
-        "focus",
-        () => {
-          $("#pushactive").trigger("click");
-        },
-        { once: true }
-      );
 
       setTimeout(function () {
         addHome();

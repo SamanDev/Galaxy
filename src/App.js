@@ -78,7 +78,7 @@ const animateCSS = (element, animation, prefix = "") =>
 
 localStorage.removeItem("getGateways");
 var finalMenu = "";
-//startServiceWorker();
+
 function App(prop) {
   const [refresh, setRefresh] = useState();
   const [loadingLogin, isLogin] = useIsLogin();
@@ -977,6 +977,7 @@ function App(prop) {
     window.onresize = reportWindowSize;
 
     reportWindowSize();
+    startServiceWorker();
   }, []);
   useEffect(() => {
     reportWindowSize();
