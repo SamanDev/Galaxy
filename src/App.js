@@ -977,7 +977,6 @@ function App(prop) {
     window.onresize = reportWindowSize;
 
     reportWindowSize();
-    startServiceWorker();
   }, []);
   useEffect(() => {
     reportWindowSize();
@@ -996,6 +995,7 @@ function App(prop) {
     if (!loadingLogin) {
       // finalMenu = "";
       setIsUser(isLogin);
+      startServiceWorker();
     }
   }, [isLogin]);
 

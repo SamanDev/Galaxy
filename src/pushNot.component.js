@@ -100,7 +100,7 @@ function Active(prop) {
           title: message.notification.title,
           text: message.notification.body,
         });
-        //showNotification(message.notification);
+        showNotification(message.notification);
       });
 
       onMessage(getMessaging(), (message) => {
@@ -109,7 +109,7 @@ function Active(prop) {
           title: message.notification.title,
           text: message.notification.body,
         });
-        showNotification(message.notification);
+        //showNotification(message.notification);
         console.log(
           "New foreground notification from Firebase Messaging!",
           message.notification
