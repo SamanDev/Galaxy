@@ -84,8 +84,12 @@ const Reward = (prop) => {
         </Grid.Column>
         <Grid.Column width={10} textAlign="right" style={{ paddingRight: 20 }}>
           <div className="farsi">
-            <span className="text-gold">{doCurrency(prop.item.amount)}</span>{" "}
-            تومان
+            <span className="text-gold">
+              {doCurrency(
+                prop.item.amount ? prop.item.amount : prop.item.amount2
+              )}
+            </span>{" "}
+            {prop.item.amount ? "تومان" : "دلار"}
           </div>
           <small className="farsi rewardtext">{_txt}</small>
           {convertDateToJalali(prop.item.date)}

@@ -210,7 +210,6 @@ function SegmentExamplePlaceholderInline(prop) {
           &copy; 2014
           <Button.Group floated="right" size="mini" inverted>
             <Button
-              color="white"
               basic
               inverted
               as="a"
@@ -219,7 +218,6 @@ function SegmentExamplePlaceholderInline(prop) {
               target="_blank"
             />
             <Button
-              color="white"
               basic
               inverted
               icon="instagram"

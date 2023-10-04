@@ -10,14 +10,43 @@ import { initializeApp } from "firebase/app";
 const Toast = Swal.mixin({
   toast: true,
   position: "top-end",
+
+  padding: "1.2em",
+
+  customClass: {
+    htmlContainer: "farsi",
+    timerProgressBar: "bg-gold",
+  },
+  background: "#000",
   showConfirmButton: false,
   timer: 20000,
   timerProgressBar: true,
+
   didOpen: (toast) => {
     toast.addEventListener("mouseenter", Swal.stopTimer);
     toast.addEventListener("mouseleave", Swal.resumeTimer);
   },
 });
+function showNotification(not) {
+  var options = {
+    body: not.body,
+    icon: not.icon,
+    dir: "rtl",
+  };
+
+  var notification = new Notification(not.title, options);
+  notification.onclick = (event) => {
+    event.preventDefault(); // prevent the browser from focusing the Notification's tab
+    //window.open("http://www.mozilla.org", "_blank");
+    // document.getElementById("root").focus();
+    //notification.close();
+  };
+  notification.addEventListener("show", (event) => {
+    console.log(event);
+  });
+
+  return notification;
+}
 function Active(prop) {
   const [token, setToken] = useState("err");
 
@@ -65,12 +94,18 @@ function Active(prop) {
           localStorage.setItem("notificationAllow", true);
           // ...
         });
+
+      onBackgroundMessage(getMessaging(), (message) => {
+        showNotification(message.notification);
+      });
+
       onMessage(getMessaging(), (message) => {
         Toast.fire({
-          icon: "success",
-          title: message.notification.body,
+          icon: "info",
+          title: message.notification.title,
+          text: message.notification.body,
         });
-
+        showNotification(message.notification);
         console.log(
           "New foreground notification from Firebase Messaging!",
           message.notification
