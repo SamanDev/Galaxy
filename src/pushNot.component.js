@@ -95,17 +95,13 @@ function Active(prop) {
           // ...
         });
 
-      onBackgroundMessage(getMessaging(), (message) => {
-        showNotification(message.notification);
-      });
-
       onMessage(getMessaging(), (message) => {
         Toast.fire({
           icon: "info",
           title: message.notification.title,
           text: message.notification.body,
         });
-        showNotification(message.notification);
+        // showNotification(message.notification);
         console.log(
           "New foreground notification from Firebase Messaging!",
           message.notification

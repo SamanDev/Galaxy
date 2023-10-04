@@ -19,19 +19,21 @@ function Admin(prop) {
       return false;
     }
     setCashLoad(true);
-    notification(cashUser, notMessage, "test", "").then((response) => {
-      if (response) {
-        Swal.fire({
-          title: "Success",
-          text: "Saved",
-          icon: "success",
-          showCancelButton: false,
-          confirmButtonText: `Ok`,
-        }).then(() => {
-          setCashLoad(false);
-        });
+    notification(cashUser, cashUser + " عزیز", notMessage, "").then(
+      (response) => {
+        if (response) {
+          Swal.fire({
+            title: "Success",
+            text: "Saved",
+            icon: "success",
+            showCancelButton: false,
+            confirmButtonText: `Ok`,
+          }).then(() => {
+            setCashLoad(false);
+          });
+        }
       }
-    });
+    );
   };
   return (
     <>
