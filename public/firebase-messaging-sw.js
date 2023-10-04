@@ -10,20 +10,8 @@ var firebaseConfig = {
   appId: "1:231752062766:web:ccbea905f9e9826d060cbf",
   measurementId: "G-FMV4J1CL20",
 };
-try {
-  const init = firebase.initializeApp(firebaseConfig);
 
-  // Retrieve firebase messaging
-  const messaging = firebase.messaging(init);
+const init = firebase.initializeApp(firebaseConfig);
 
-  messaging.onBackgroundMessage(function (payload) {
-    console.log("Received background message ", payload);
-
-    const notificationTitle = payload.notification.title;
-    const notificationOptions = {
-      body: payload.notification.body,
-    };
-
-    self.registration.showNotification(notificationTitle, notificationOptions);
-  });
-} catch (error) {}
+// Retrieve firebase messaging
+const messaging = firebase.messaging(init);

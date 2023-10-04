@@ -33,7 +33,7 @@ function showNotification(not) {
     icon: not.icon,
     dir: "rtl",
   };
-
+  console.log("showNotification background message ", payload);
   var notification = new Notification(not.title, options);
   notification.onclick = (event) => {
     event.preventDefault(); // prevent the browser from focusing the Notification's tab
@@ -90,9 +90,18 @@ function Active(prop) {
         .catch((err) => {
           console.log("An error occurred while retrieving token. ", err);
           setToken("err");
-          //localStorage.setItem("notificationAllow", true);
+          localStorage.setItem("notificationAllow", true);
           // ...
         });
+
+      onBackgroundMessage(getMessaging(), (message) => {
+        Toast.fire({
+          icon: "info",
+          title: message.notification.title,
+          text: message.notification.body,
+        });
+        //showNotification(message.notification);
+      });
 
       onMessage(getMessaging(), (message) => {
         Toast.fire({

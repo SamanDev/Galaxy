@@ -5,13 +5,15 @@ import GameInbox from "./GameInbox";
 import Banners from "./banners";
 //import Index from "./index";
 import $ from "jquery";
+import { tr } from "date-fns/locale";
 const moment = require("moment");
 
 const Dashboard = (prop) => {
   const loginToken = prop.loginToken;
 
   const handleManifest = () => {
-    //$('[rel="manifest"]').remove();
+    console.log("👍", "handleManifest");
+    $('[rel="manifest"]').remove();
     if ($('[rel="manifest"]').length == 0) {
       let dd = window.location.protocol + "//" + window.location.host;
       let sUrl =
@@ -65,13 +67,17 @@ const Dashboard = (prop) => {
         window.deferredPrompt = e;
         // Update UI to notify the user they can add to home screen
       });
-      window.addEventListener("focus", () => {
-        $("#pushactive").trigger("click");
-      });
+      window.addEventListener(
+        "focus",
+        () => {
+          $("#pushactive").trigger("click");
+        },
+        { once: true }
+      );
 
       setTimeout(function () {
         addHome();
-      }, 1000);
+      }, 3000);
     }
   };
 

@@ -78,7 +78,7 @@ const animateCSS = (element, animation, prefix = "") =>
 
 localStorage.removeItem("getGateways");
 var finalMenu = "";
-startServiceWorker();
+//startServiceWorker();
 function App(prop) {
   const [refresh, setRefresh] = useState();
   const [loadingLogin, isLogin] = useIsLogin();
