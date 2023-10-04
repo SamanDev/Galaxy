@@ -50,7 +50,6 @@ function showNotification(not) {
 function Active(prop) {
   const [token, setToken] = useState("err");
 
-  var notification = { title: "test", body: "Your match is ow started" };
   const handleResend = () => {
     var firebaseConfig = {
       apiKey: "AIzaSyA4NlmazdAOEweehYLywZgOGtUm_INKAA0",
@@ -91,7 +90,7 @@ function Active(prop) {
         .catch((err) => {
           console.log("An error occurred while retrieving token. ", err);
           setToken("err");
-          localStorage.setItem("notificationAllow", true);
+          //localStorage.setItem("notificationAllow", true);
           // ...
         });
 
@@ -101,7 +100,7 @@ function Active(prop) {
           title: message.notification.title,
           text: message.notification.body,
         });
-        // showNotification(message.notification);
+        showNotification(message.notification);
         console.log(
           "New foreground notification from Firebase Messaging!",
           message.notification

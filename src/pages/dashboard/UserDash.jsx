@@ -58,7 +58,7 @@ const Dashboard = (prop) => {
       element.setAttribute("href", url);
       document.querySelector("head").appendChild(element);
       window.addEventListener("beforeinstallprompt", (e) => {
-        $("#pushactive").trigger("click");
+        //$("#pushactive").trigger("click");
         // Prevent Chrome 67 and earlier from automatically showing the prompt
         e.preventDefault();
         // Stash the event so it can be triggered later.
@@ -101,16 +101,10 @@ const Dashboard = (prop) => {
 
   useEffect(() => {
     handleManifest();
-  }, [loginToken]);
+  }, [loginToken?.accessToken]);
 
   return (
     <>
-      <button
-        className="add-button"
-        style={{ position: "absolute", top: -200 }}
-      >
-        Add to home screen
-      </button>
       <div
         id="dashboard_section"
         className="dashboard_section main_section fadeoutend"

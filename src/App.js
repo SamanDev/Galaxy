@@ -16,7 +16,7 @@ import LazyLoad from "react-lazyload";
 import { forceCheck } from "react-lazyload";
 import { Link } from "react-router-dom";
 import { useUser, useSiteInfo } from "./hook/userHook";
-
+import { startServiceWorker } from "./const";
 import $ from "jquery";
 import { useIsLogin } from "./hook/authHook";
 //import AdminLayout from "./layouts/admin/Index";
@@ -78,7 +78,7 @@ const animateCSS = (element, animation, prefix = "") =>
 
 localStorage.removeItem("getGateways");
 var finalMenu = "";
-
+startServiceWorker();
 function App(prop) {
   const [refresh, setRefresh] = useState();
   const [loadingLogin, isLogin] = useIsLogin();
