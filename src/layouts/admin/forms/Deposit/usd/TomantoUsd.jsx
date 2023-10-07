@@ -18,7 +18,7 @@ var amounts = [
   { value: 100 },
 ];
 const validationSchema = Yup.object({
-  amount: Yup.number()
+  amountDollar: Yup.number()
     .required("لطفا این فیلد را وارد کنید.")
     .min(5, "لطفا این فیلد را درست وارد کنید.")
     .max(100, "لطفا این فیلد را درست وارد کنید.")
@@ -31,10 +31,10 @@ const validationSchema = Yup.object({
 const onSubmit = async (values, submitMethods, getRate) => {
   try {
     var newValues = values;
-    newValues.amountDollar = values.amount;
-    newValues.amount = values.amount * getRate;
+
+    newValues.amount = values.amountDollar * getRate;
     const res = await cashierServiceGame(newValues, "exChanger");
-    if (res.status == 200) {
+    if (res.status == 200 && !res.data?.message) {
       MyToastDone("انجام شد", "success");
     } else {
       Alert("متاسفم...!", res.data.message, "error");
@@ -75,7 +75,7 @@ const depositArea = (prop) => {
     return (
       <Formik
         initialValues={{
-          amount: 0,
+          amountDollar: loginToken.balance > 10 * rate ? 10 : 0,
           username: loginToken.username,
           password: "",
         }}
@@ -95,10 +95,14 @@ const depositArea = (prop) => {
                       labelPosition="left"
                       type="button"
                       key={amo.value}
-                      active={formik.values.amount == amo.value ? true : false}
-                      color={formik.values.amount == amo.value ? "red" : "grey"}
+                      active={
+                        formik.values.amountDollar == amo.value ? true : false
+                      }
+                      color={
+                        formik.values.amountDollar == amo.value ? "red" : "grey"
+                      }
                       onClick={() => {
-                        formik.setFieldValue("amount", amo.value);
+                        formik.setFieldValue("amountDollar", amo.value);
                       }}
                       disabled={
                         loginToken.balance < amo.value * rate ? true : false
@@ -115,7 +119,7 @@ const depositArea = (prop) => {
                 <FormikControl
                   formik={formik}
                   control="amountusd"
-                  name="amount"
+                  name="amountDollar"
                   labelcolor={prop.labelcolor}
                   size={prop.size}
                   rate={true}
@@ -139,7 +143,7 @@ const depositArea = (prop) => {
                 labelcolor="red"
                 size={prop.size}
                 autoComplete="password"
-                disabled={formik.values.amount == 0}
+                disabled={formik.values.amountDollar == 0}
               />
               <Divider inverted />
 
@@ -147,7 +151,9 @@ const depositArea = (prop) => {
                 {...prop}
                 val="تبدیل"
                 type="submit"
-                disabled={formik.isSubmitting || formik.values.amount == 0}
+                disabled={
+                  formik.isSubmitting || formik.values.amountDollar == 0
+                }
                 loading={formik.isSubmitting}
               />
             </Form>

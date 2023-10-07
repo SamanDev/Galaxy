@@ -14,7 +14,7 @@ const depositArea = (prop) => {
   return (
     <>
       <div id="dep1" className="deparea" style={{ margin: "5px 0" }}>
-        <Header as="h4" className="farsi">
+        <Header as="h6" className="farsi">
           لطفا روش برداشت را انتخاب کنید
         </Header>
 
@@ -69,7 +69,7 @@ const depositArea = (prop) => {
         {loginToken?.balance2 >= 1 && (
           <>
             <Divider inverted />
-            <Header as="h4" className="farsi">
+            <Header as="h6" className="farsi">
               یا روش برداشت دلاری را انتخاب کنید
             </Header>
             <Segment inverted className="blnc" size="mini">

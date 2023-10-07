@@ -140,7 +140,9 @@ function Admin(prop) {
   const params = useParams();
   const [dataSearch, setDataSearch] = useState("");
   const [dataLoginDay, setDataLoginDay] = useState("");
-
+  const getRate = localStorage.getItem("getRate")
+    ? localStorage.getItem("getRate")
+    : 50000;
   const [selectedList, setSelected] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -432,6 +434,9 @@ function Admin(prop) {
         newUser.username = user.username;
         newUser.level = user.level;
         newUser.amount = setGiftAmount(user.level);
+        newUser.amount2 = parseFloat(
+          setGiftAmount(user.level) / getRate
+        ).toFixed(2);
 
         newSelect.push(newUser);
       });

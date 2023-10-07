@@ -28,8 +28,9 @@ class UserWebsocket {
         console.log("Socket is connected.");
       };
     } else {
-      token = null;
-      tkn = false;
+      //console.log(tkn);
+      //token = null;
+      //tkn = false;
     }
     ws.onmessage = function (data) {
       var message = data.data;
@@ -83,6 +84,11 @@ class UserWebsocket {
     };
     ws.onerror = function (e) {
       if (e.type === "error") {
+        ws?.close();
+        ws = null;
+        if (tkn) {
+          eventBus.dispatch("eventsDC", "");
+        }
         //localStorage.setItem("user", JSON.stringify(defUser));
         //eventBus.dispatch("eventsDC", "");
         // localStorage.clear();

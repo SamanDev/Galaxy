@@ -8,6 +8,7 @@ import {
   Modal,
   Form,
   Select,
+  Radio,
 } from "semantic-ui-react";
 import { Alert } from "../../utils/alerts";
 import { levelDataInfo } from "../../const";
@@ -26,23 +27,32 @@ var __bnus = [
 function generateRandomInteger(min, max) {
   return Math.floor(min + Math.random() * (max - min + 1));
 }
-const setGiftAmount = (level) => {
+const setGiftAmount = (level, min, max) => {
+  var g = generateRandomInteger(min, max);
+
   if (level >= levelDataInfo[4].minLevel) {
-    var g = generateRandomInteger(
-      levelDataInfo[4].minAmount,
-      levelDataInfo[4].maxAmount
-    );
+    if (g < levelDataInfo[4].minAmount || g > levelDataInfo[4].maxAmount) {
+      var g = generateRandomInteger(
+        levelDataInfo[4].minAmount,
+        levelDataInfo[4].maxAmount
+      );
+    }
   } else if (level >= levelDataInfo[5].minLevel) {
-    var g = generateRandomInteger(
-      levelDataInfo[5].minAmount,
-      levelDataInfo[5].maxAmount
-    );
+    if (g < levelDataInfo[5].minAmount || g > levelDataInfo[5].maxAmount) {
+      var g = generateRandomInteger(
+        levelDataInfo[5].minAmount,
+        levelDataInfo[5].maxAmount
+      );
+    }
   } else {
-    var g = generateRandomInteger(
-      levelDataInfo[6].minAmount,
-      levelDataInfo[6].minAmount * (level + 1)
-    );
+    if (g < levelDataInfo[6].minAmount || g > levelDataInfo[6].maxAmount) {
+      var g = generateRandomInteger(
+        levelDataInfo[6].minAmount,
+        levelDataInfo[6].minAmount * (level + 1)
+      );
+    }
   }
+
   g = Math.round(g / 1000) * 1000;
   return g;
 };
@@ -61,6 +71,7 @@ function Admin(prop) {
       { id: "plusText", val: { key: "hours", value: "hours", text: "Hours" } },
 
       { id: "expired", val: expdate },
+      { id: "usd", val: false },
       { id: "min", val: 100000 },
       { id: "max", val: 3000000 },
       { id: "mode", val: __bnus[0].value },
@@ -74,8 +85,9 @@ function Admin(prop) {
     data.players.map((player, i) => {
       var newData = {
         username: player.username,
-        amount: player.amount,
         startDate: data.startDate,
+        amount: data.usd ? 0 : player.amount,
+        amount2: data.usd ? player.amount2 : 0,
         expireDate: data.expireDate,
         mode: data.mode,
 
@@ -170,8 +182,9 @@ function Admin(prop) {
             setUsers({
               startDate: moment(findStateId(myState, "start")).valueOf(),
               expireDate: moment(findStateId(myState, "expired")).valueOf(),
-              mode: findStateId(myState, "mode"),
 
+              mode: findStateId(myState, "mode"),
+              usd: findStateId(myState, "usd"),
               status: "Pending",
               label: findStateId(myState, "label"),
               text: findStateId(myState, "text"),
@@ -185,6 +198,15 @@ function Admin(prop) {
 
       <Modal.Content>
         <Form>
+          <Form.Field width={4}>
+            <Radio
+              toggle
+              checked={findStateId(myState, "usd")}
+              onChange={(e, { value }) =>
+                onUpdateItem("usd", !findStateId(myState, "usd"))
+              }
+            />
+          </Form.Field>
           <Form.Group inline>
             <Form.Field width={4}>
               <label>Start</label>
@@ -230,7 +252,7 @@ function Admin(prop) {
               <Input type="text" value={findStateId(myState, "expired")} />
             </Form.Field>
           </Form.Group>
-          <Form.Group inline>
+          <Form.Group inline className="hiddenmenu">
             <Form.Field width={8}>
               <label>Minimum</label>
               <Input type="text">
@@ -269,13 +291,13 @@ function Admin(prop) {
           return (
             <Form key={i}>
               <Form.Group inline>
-                <Form.Field width={3}>
+                <Form.Field width={4}>
                   <label>
                     {user.username} ({user.level})
                   </label>
                 </Form.Field>
-                <Form.Field width={4}>
-                  <Input type="text">
+                <Form.Field width={6}>
+                  <Input type="text" disabled={findStateId(myState, "usd")}>
                     <CurrencyInput
                       name="minuses"
                       allowDecimals={false}
@@ -288,12 +310,17 @@ function Admin(prop) {
                     />
                   </Input>
                 </Form.Field>
-                <Form.Field width={4}>
-                  <Input type="text">
+                <Form.Field width={6}>
+                  <Input type="text" disabled={!findStateId(myState, "usd")}>
                     <CurrencyInput
-                      value={setGiftAmount(user.level)}
-                      name="max"
+                      name="minuses"
                       allowDecimals={false}
+                      defaultValue={user.amount2}
+                      onValueChange={(value, name) => {
+                        if (parseInt(value) != 0) {
+                          user.amount2 = parseInt(value);
+                        }
+                      }}
                     />
                   </Input>
                 </Form.Field>

@@ -18,6 +18,9 @@ const BonusArea = (prop) => {
   const loginToken = prop.loginToken;
   const siteInfo = prop.siteInfo;
   const bonus = prop.bonus;
+  const getRate = localStorage.getItem("getRate")
+    ? localStorage.getItem("getRate")
+    : 50000;
   siteInfo?.galaxyPassSet?.sort((a, b) => (a.id > b.id ? 1 : -1));
   var gpassrules = siteInfo?.galaxyPassSet[0];
   siteInfo?.vipTables?.sort((a, b) => (a.id > b.id ? 1 : -1));
@@ -76,8 +79,9 @@ const BonusArea = (prop) => {
   var start = moment(bonus.startDate);
   var expire = moment(bonus.expireDate);
   var end = moment();
-
   var _mode = bonus.mode.toLowerCase();
+  var _amount = bonus.amount ? bonus.amount : bonus.amount2;
+  var _cur = bonus.amount ? "تومان" : "دلار";
   var _status = bonus.status;
   var _txt = bonus.label;
   try {
@@ -117,9 +121,15 @@ const BonusArea = (prop) => {
   }
 
   if (_mode == "gift") {
-    if (bonus.amount >= levelDataInfo[4].minAmount) {
+    if (
+      _amount >= levelDataInfo[4].minAmount ||
+      (_amount >= levelDataInfo[4].minAmount / getRate && bonus.amount2)
+    ) {
       _mode = "gift3";
-    } else if (bonus.amount >= levelDataInfo[5].minAmount) {
+    } else if (
+      _amount >= levelDataInfo[5].minAmount ||
+      (_amount >= levelDataInfo[5].minAmount / getRate && bonus.amount2)
+    ) {
       _mode = "gift2";
     } else {
       _mode = "gift1";
@@ -200,9 +210,10 @@ const BonusArea = (prop) => {
               compact
               disabled
               floated="right"
+              className="rtl"
               style={{ opacity: 1, width: 140, marginRight: 10 }}
             >
-              <Icon name="check" /> {doCurrency(bonus.amount)}
+              {doCurrency(_amount)} <small className="farsi">{_cur}</small>
             </Button>
           </>
         )}
@@ -214,6 +225,7 @@ const BonusArea = (prop) => {
                 size="mini"
                 color="orange"
                 floated="right"
+                className="rtl"
                 style={{ opacity: 1, width: 140, marginRight: 10 }}
                 compact
                 loading={loading}
@@ -222,7 +234,7 @@ const BonusArea = (prop) => {
                   handleConfirm(bonus, loginToken);
                 }}
               >
-                {doCurrency(bonus.amount)}
+                {doCurrency(_amount)} <small className="farsi">{_cur}</small>
               </Button>
             </>
           )}
@@ -234,13 +246,14 @@ const BonusArea = (prop) => {
             <Button
               animated="fade"
               size="mini"
+              className="rtl"
               color="red"
               compact
               disabled
               floated="right"
               style={{ opacity: 1, width: 140, marginRight: 10 }}
             >
-              <Icon name="times" /> {doCurrency(bonus.amount)}
+              {doCurrency(_amount)} <small className="farsi">{_cur}</small>
             </Button>
           </>
         )}
@@ -254,7 +267,7 @@ const BonusArea = (prop) => {
               floated="right"
               style={{ opacity: 1, width: 140, marginRight: 10 }}
             >
-              <Icon name="clock" /> {doCurrency(bonus.amount)}
+              <Icon name="clock" /> {doCurrency(_amount)}
             </Button>
           </>
         )}

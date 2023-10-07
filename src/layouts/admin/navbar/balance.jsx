@@ -1,5 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { Segment, Icon, Label, Popup, Progress } from "semantic-ui-react";
+import {
+  Segment,
+  Icon,
+  Label,
+  Popup,
+  Progress,
+  Reveal,
+} from "semantic-ui-react";
 import DepositArea from "../forms/index";
 
 import { MyConfirm, MyDeposit } from "../../../utils/myAlert";
@@ -304,7 +311,15 @@ const Balance = (prop) => {
                 $("#opendepicon").trigger("click");
               }}
             >
-              <CountUp balance={loginToken.balance} />
+              <Reveal animated="small fade" className="show" instant>
+                <Reveal.Content visible style={{ background: "black" }}>
+                  <CountUp balance={loginToken.balance} />
+                </Reveal.Content>
+                <Reveal.Content hidden>
+                  <span className="text-gold">$</span>
+                  {loginToken.balance2}
+                </Reveal.Content>
+              </Reveal>
             </Label>
             <div className="step0-3" style={{ display: "inline-block" }}>
               <Popup

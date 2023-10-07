@@ -79,7 +79,7 @@ const depositArea = (prop) => {
   return (
     <>
       <div id="dep1" className="deparea" style={{ margin: "5px 0" }}>
-        <Header as="h4" className="farsi">
+        <Header as="h6" className="farsi">
           لطفا روش پرداخت را انتخاب کنید
         </Header>
         <Segment inverted className="blnc" size="mini" color="black">
@@ -132,7 +132,7 @@ const depositArea = (prop) => {
           })}
         </Button.Group>
         <Divider inverted />
-        <Header as="h4" className="farsi">
+        <Header as="h6" className="farsi">
           یا روش پرداخت دلاری را انتخاب کنید
         </Header>
         <Segment inverted className="blnc" size="mini">
