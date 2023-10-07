@@ -13,6 +13,6 @@ export const getReportService = (id = null, mode = "", gateway = "", usd) => {
     );
   }
 };
-export const getReportPenService = (mode) => {
-  return httpService("/req/" + mode, "get");
+export const getReportPenService = (mode, usd) => {
+  return httpService(`/req/${mode}&usd=${usd}`, "get");
 };

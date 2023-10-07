@@ -40,13 +40,15 @@ const Report = (prop) => {
         var res = await getReportPenService(
           `getReportsByUser/?id=${loginToken.id}&status=Pending&page=1&number=${
             prop.count ? prop.count : 3
-          }`
+          }`,
+          prop.menu?.usd ? prop.menu?.usd : false
         );
       } else {
         var res = await getReportPenService(
           `getReportsByUser/?id=${loginToken.id}&mode=${
             prop.mode
-          }&gateway=${gateway}&page=1&number=${prop.count ? prop.count : 3}`
+          }&gateway=${gateway}&page=1&number=${prop.count ? prop.count : 3}`,
+          prop.menu?.usd ? prop.menu?.usd : false
         );
       }
 

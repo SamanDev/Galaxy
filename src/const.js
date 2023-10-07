@@ -238,6 +238,7 @@ export const cashoutData = [
     icon: "btc",
     limit: "$100 - $10K",
     bonus: "- 2%",
+    usd: false,
   },
   {
     key: "USDT",
@@ -247,6 +248,7 @@ export const cashoutData = [
     icon: "dollar",
     limit: "$100 - $10K",
     bonus: "- 2%",
+    usd: false,
   },
 
   {
@@ -257,6 +259,7 @@ export const cashoutData = [
     icon: "dollar",
     limit: "$100 - $10K",
     bonus: "- 2%",
+    usd: false,
   },
 ];
 export const cashoutDataDollar = [
@@ -326,6 +329,7 @@ export const depositData = [
     value: "BTC",
     icon: "btc",
     limit: "Unlimited",
+    usd: false,
   },
   {
     key: "USDT",
@@ -334,6 +338,7 @@ export const depositData = [
     value: "USDT",
     icon: "dollar",
     limit: "Unlimited",
+    usd: false,
   },
 
   {
@@ -351,6 +356,7 @@ export const depositData = [
     value: "PerfectMoney",
     icon: "dollar",
     limit: "Unlimited",
+    usd: false,
   },
 ];
 export const depositDollarData = [

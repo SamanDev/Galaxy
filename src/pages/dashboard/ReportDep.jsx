@@ -126,7 +126,8 @@ const Report = (prop) => {
                           </>
                         )}
                         {(gateway == "Bitcoin" || gateway == "USDT") &&
-                          canShowPending && (
+                          canShowPending &&
+                          item.status == "Pending" && (
                             <>
                               <QR note={item} doCurrency={doCurrency} />
                             </>
