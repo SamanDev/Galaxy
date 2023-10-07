@@ -122,7 +122,7 @@ export const useActiveTable = () => {
   );
   const handleGetActiveTable = async () => {
     try {
-      const res = await getReportPenService("getActiveTables");
+      const res = await getReportPenService("getActiveTables?mode=true", false);
       if (res.status === 200) {
         if (activeTable != res.data && isJson(res.data)) {
           var _data = res.data;
@@ -170,7 +170,10 @@ export const useLastReward = () => {
   );
   const handleGetLastReward = async () => {
     try {
-      const res = await getReportPenService("getLastRewards?page=1&number=100");
+      const res = await getReportPenService(
+        "getLastRewards?page=1&number=100",
+        false
+      );
 
       if (res.status === 200 && isJson(res.data)) {
         var _data = res.data.sort((a, b) => (a.date < b.date ? 1 : -1));

@@ -20,7 +20,7 @@ const LevelList = (prop) => {
   const handleGetRewards = async () => {
     setLoading(true);
     try {
-      const res = await getReportPenService("getDailyLeague");
+      const res = await getReportPenService("getDailyLeague?mode=true", false);
       if (res.status === 200) {
         setData(
           res.data.sort((a, b) => (a.dailyPoint < b.dailyPoint ? 1 : -1))

@@ -114,7 +114,7 @@ function Admin(prop) {
   // data provides access to your row data
   const getSampleMsg = async () => {
     try {
-      var res = await getReportPenService("getMessageSample");
+      var res = await getReportPenService("getMessageSample?mode=true", false);
       if (res.status === 200) {
         localStorage.setItem("sampleMessage", JSON.stringify(res.data));
       }
