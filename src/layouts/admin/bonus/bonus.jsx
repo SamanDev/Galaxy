@@ -265,9 +265,10 @@ const BonusArea = (prop) => {
               color="grey"
               compact
               floated="right"
+              className="farsi"
               style={{ opacity: 1, width: 140, marginRight: 10 }}
             >
-              <Icon name="clock" /> {doCurrency(_amount)}
+              {doCurrency(_amount)} <small className="farsi">{_cur}</small>
             </Button>
           </>
         )}
