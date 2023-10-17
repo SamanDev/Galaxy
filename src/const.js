@@ -36,7 +36,7 @@ function getAPI() {
   //let host = document.location.host;
   var host = {
     onlinePath: "https://api.khodekhalse.com",
-    offlinePath: "http://127.0.0.1:8000",
+    offlinePath: "https://api.khodekhalse.com",
   };
   //let host = "loole.gg:443";
   let protocol2 = document.location.protocol;
@@ -44,7 +44,7 @@ function getAPI() {
   if (protocol2 == "https:") {
     host = {
       onlinePath: "https://api.khodekhalse.com",
-      offlinePath: "http://127.0.0.1:8000",
+      offlinePath: "https://api.khodekhalse.com",
     };
   }
 
