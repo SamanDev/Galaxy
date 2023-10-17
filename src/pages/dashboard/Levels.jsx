@@ -42,6 +42,9 @@ const LevelList = (prop) => {
                     </span>
                     <div className="mysmall">
                       <span className="text-gold">{x.commission}% </span>
+                      <small className="farsi">ریک بک</small>
+                      <br />
+                      <span className="text-gold">{x.commission}% </span>
                       <small className="farsi">کمیسیون</small>
                       <div>
                         {doCurrency(totalReward)}{" "}
