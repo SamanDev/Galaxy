@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import VisaGiftCode from "./VisaGiftCode";
 import CartToCart from "./CartToCart";
 import CartToCartOnline from "./CartToCartnew";
+
 import BankTransfer from "./BankTransfer";
 import PerfectMoney from "./PerfectMoney";
 import PerfectMoney2 from "./usd/PerfectMoney";

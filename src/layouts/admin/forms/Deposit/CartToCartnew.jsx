@@ -125,8 +125,9 @@ const onSubmit = async (values, submitMethods, navigate, prop) => {
   try {
     const res = await cashierService(values, "cardService");
     if (res.status == 200) {
-      window.location.href = res.data.replace(/ /g, "");
       localAmount(values, prop);
+      window.location.href = res.data.replace(/ /g, "");
+
       if (res.data?.message) {
         Alert("متاسفم...!", res.data.message, "error");
       }
