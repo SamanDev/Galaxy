@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import VisaGiftCode from "./VisaGiftCode";
-import CartToCart from "./CartToCart";
+import CartToCart from "./CartToCartnew";
 import CartToCartOnline from "./CartToCartnew";
 
 import BankTransfer from "./BankTransfer";
