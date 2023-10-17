@@ -9,6 +9,7 @@ import LevelIcon from "../../utils/svg";
 import LazyLoad from "react-lazyload";
 import LastRewardList from "./LastRewardList";
 const LevelList = (prop) => {
+  const loginToken = prop.loginToken;
   return (
     <span className="myaccount popupmenu">
       <span className="lazyarea">
@@ -170,17 +171,20 @@ const LevelList = (prop) => {
             </List.Content>
           </List.Item>
         </List>
-        <LazyLoad height={300}>
-          <ul className="mm-listview">
-            <li className="menutitle mm-listitem"></li>
-            <li className="menutitle mm-listitem">
-              <span className="mm-listitem__text"> جوایز من</span>
-            </li>
-          </ul>
-          <div style={{ padding: "0 15px" }}>
-            <BonusArea {...prop} />
-          </div>
-        </LazyLoad>
+        {loginToken?.accessToken && (
+          <LazyLoad height={300}>
+            <ul className="mm-listview">
+              <li className="menutitle mm-listitem"></li>
+              <li className="menutitle mm-listitem">
+                <span className="mm-listitem__text"> جوایز من</span>
+              </li>
+            </ul>
+            <div style={{ padding: "0 15px" }}>
+              <BonusArea {...prop} />
+            </div>
+          </LazyLoad>
+        )}
+
         <LazyLoad height={300}>
           <LastRewardList mode="gift" {...prop} />
         </LazyLoad>

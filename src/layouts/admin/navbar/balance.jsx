@@ -94,9 +94,11 @@ const Balance = (prop) => {
       var end = Date.now();
 
       var _pen = _bonuses.filter(
-        (d) => d.status == "Pending" && d.received == false
-        //Date.parse(d.startDate) < end &&
-        //Date.parse(d.expireDate) > end
+        (d) =>
+          d.status == "Pending" &&
+          d.received == false &&
+          //Date.parse(d.startDate) < end &&
+          Date.parse(d.expireDate) > end
       );
       if (_pen.length > 0) {
         if (
