@@ -79,7 +79,7 @@ const Dashboard = (prop) => {
   const handleRangeChange = () => setActiveIndex(activeIndex == 0 ? 1 : 0);
   const handleFullscreen = () => {
     $(".framegame,body").toggleClass("fullscreen");
-    setIsFull(!isFull);
+    setIsFull((Prev) => !Prev);
     prop.reportWindowSize();
   };
 
@@ -94,7 +94,7 @@ const Dashboard = (prop) => {
   };
   const removeFrameLoad = () => {
     setGameLoader(false);
-    prop.reportWindowSize();
+    //prop.reportWindowSize();
   };
   const removeFrameLoad2 = () => {
     setGameLoader(false);
@@ -105,6 +105,7 @@ const Dashboard = (prop) => {
   useEffect(() => {
     //setMainGame(params.gameId);
     //setSessionKey("");
+
     if (loginToken?.accessToken && !loginToken?.logout && mainGame == "poker") {
       // handleSession();
     }
@@ -129,6 +130,7 @@ const Dashboard = (prop) => {
     if (screenOrientation) {
       if (
         screenOrientation.indexOf("landscape") > -1 &&
+        screenOrientation.indexOf("landscape-") == -1 &&
         viewportHeight < 600 &&
         loginToken?.accessToken &&
         !loginToken?.logout
@@ -213,7 +215,7 @@ const Dashboard = (prop) => {
                 : { overflow: "auto" }
             }
           >
-            {(gameLoader || sessionKey == "") && (
+            {(gameLoader || sessionKey == "") && mainGame == "poker" && (
               <div
                 className={
                   isFull
@@ -294,7 +296,7 @@ const Dashboard = (prop) => {
                 : { overflow: "auto" }
             }
           >
-            {gameLoader && (
+            {gameLoader && mainGame == "wheel" && (
               <div
                 className={
                   isFull ? "framegame loader fullscreen" : "framegame loader"
@@ -330,7 +332,7 @@ const Dashboard = (prop) => {
   return (
     <>
       <div id="dashboard_section" className="dashboard_section main_section ">
-        {!gameLoader && (
+        {(!gameLoader || 1 == 1) && (
           <div className="gameicons step2">
             <Icon
               circular

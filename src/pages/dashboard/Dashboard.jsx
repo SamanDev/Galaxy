@@ -63,7 +63,7 @@ const Dashboard = (prop) => {
         "content",
         "width=device-width,initial-scale=1,maximum-scale=1"
       );
-    prop.reportWindowSize();
+    //prop.reportWindowSize();
   };
   const params = useParams();
   useEffect(() => {
