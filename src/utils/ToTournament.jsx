@@ -46,19 +46,14 @@ class Example extends React.Component {
   constructor(props) {
     super(props);
   }
-  componentDidMount() {
-    this.clicklink();
-  }
-  clicklink = (args) => {
-    $(".calbtn").trigger("click");
-  };
+
   render() {
     var now = moment().format("YYYYMMDDTHHmmssZ");
     now = moment(now)
       .utc()
       .utcOffset(zones)
       .format("YYYYMMDDTHHmmss" + zones);
-    const dayINeed = dayOfTournament; // for Thursday
+    const dayINeed = this.props.dayOfTournament; // for Thursday
     const today = moment().isoWeekday();
 
     // if we haven't yet passed the day of the week that I need:
@@ -127,11 +122,11 @@ class Example extends React.Component {
           <>
             {" "}
             no:
-            {moment(now).format("MM DD  HH:mm")}
+            {moment(now).format("MM DD  HH:mmZ")}
             <br />
-            st: {moment(startTime).format("MM DD  HH:mm")}
+            st: {moment(startTime).format("MM DD  HH:mmZ")}
             <br />
-            en: {moment(endTime).format("MM DD  HH:mm")}
+            en: {moment(endTime).format("MM DD  HH:mmZ")}
             <br />
           </>
         )}
@@ -172,18 +167,6 @@ class Example extends React.Component {
                 <Moment fromNow>{startTime}</Moment> تا{" "}
               </div>
               <div className="h4">شروع ثبت نام</div>
-            </Button>
-            <Button
-              onClick={args.onClick}
-              color="red"
-              icon
-              labelPosition="left"
-              fluid
-              className="farsi-inline calbtn hiddenm2enu"
-              style={{ margin: "10px 0" }}
-            >
-              <Icon size="large" name="calendar plus outline" />
-              به تقویم من اضافه کن
             </Button>
           </>
         )}

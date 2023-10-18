@@ -16,7 +16,7 @@ import League from "./pages/dashboard/League";
 import Support from "./pages/dashboard/Support";
 //import CashoutComponent from "./layouts/admin/forms/FormComponent.jsx";
 import MyGift from "./pages/dashboard/MyGifts";
-import Tournament from "./pages/dashboard/Tournament";
+import TournamentComponent from "./pages/dashboard/TournamentCom";
 import $ from "jquery";
 function delayForDemo(promise) {
   $("#lazyarea").removeAttr("id");
@@ -66,7 +66,19 @@ const CompGen = (prop) => {
   } else if (prop?.menu?.component == "mygifts") {
     return <MyGift {...prop} />;
   } else if (prop?.menu?.component == "tournament") {
-    return <Tournament {...prop} />;
+    return (
+      <Suspense fallback={<MenuLoader />}>
+        <TournamentComponent
+          {...prop}
+          cashMode={prop?.menu?.cashMode}
+          mode={prop?.menu?.mode}
+          gateway={prop?.menu?.gateway}
+          getwaykey={prop?.menu?.getwaykey}
+          labelcolor={prop?.menu?.labelcolor}
+          size={prop?.menu?.size}
+        />
+      </Suspense>
+    );
   } else if (prop?.menu?.component == "CashoutComponent") {
     return (
       <Suspense fallback={<MenuLoader />}>

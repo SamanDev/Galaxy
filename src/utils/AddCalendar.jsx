@@ -35,7 +35,7 @@ var nowzne1 = "03220000";
 var nowzne2 = "09220000";
 
 if (nowzne > nowzne1 && nowzne < nowzne2) {
-  zones = "+04:30";
+  // zones = "+04:30";
 }
 
 function getchatTime(date) {

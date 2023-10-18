@@ -312,7 +312,10 @@ const Balance = (prop) => {
               }}
             >
               <Reveal animated="small fade" className="show" instant>
-                <Reveal.Content visible style={{ background: "black" }}>
+                <Reveal.Content
+                  visible
+                  style={{ background: "#1b1c1d", minWidth: "100px" }}
+                >
                   <CountUp balance={loginToken.balance} />
                 </Reveal.Content>
                 <Reveal.Content hidden>

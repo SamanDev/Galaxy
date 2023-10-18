@@ -166,7 +166,7 @@ const LevelList = (prop) => {
           </List.Item>
         </List>
         <LazyLoad height={300}>
-          <LastRewardList mode={"tournament"} {...prop} />
+          <LastRewardList mode={"tournament"} />
         </LazyLoad>
       </span>
     </span>

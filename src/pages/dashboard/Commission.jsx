@@ -10,6 +10,7 @@ import LastRewardList from "./LastRewardList";
 import LazyLoad from "react-lazyload";
 const LevelList = (prop) => {
   const loginToken = prop.loginToken;
+  const siteInfo = prop.siteInfo;
   function getBonus(gateway) {
     try {
       var data_filter = loginToken.cashierGateways.filter(
@@ -170,10 +171,14 @@ const LevelList = (prop) => {
                       desc={
                         <>
                           کمیسیون معرفی دوستان هر شب{" "}
-                          <span className="farsi text-gold">ساعت 22</span> برای
-                          هر بازیکن فعال شده و تا{" "}
-                          <span className="farsi text-gold">24 ساعت</span> قابل
-                          دریافت می باشد.
+                          <span className="farsi text-gold">
+                            ساعت {siteInfo?.startTimeCommission}
+                          </span>{" "}
+                          برای هر بازیکن فعال شده و تا{" "}
+                          <span className="farsi text-gold">
+                            {siteInfo?.durationTimeCommission} ساعت
+                          </span>{" "}
+                          قابل دریافت می باشد.
                         </>
                       }
                       desc2={
@@ -203,8 +208,14 @@ const LevelList = (prop) => {
                           </>
                         )
                       }
-                      desc4="توجه داشته باشید درصورت عدم دریافت تا ساعت 22 شب بعد (24 ساعت)، کمیسیون شما منقضی شده و قابل دریافت نمی باشد."
-                      title="از 10% تا 50%"
+                      desc4={
+                        "توجه داشته باشید درصورت عدم دریافت تا ساعت " +
+                        siteInfo?.startTimeCommission +
+                        " شب بعد (" +
+                        siteInfo?.durationTimeCommission +
+                        " ساعت)، کمیسیون شما منقضی شده و قابل دریافت نمی باشد."
+                      }
+                      title="از 10% تا 35%"
                       subtitle="کمیسیون معرفی دوستان"
                     />
                     <Button
@@ -239,10 +250,14 @@ const LevelList = (prop) => {
                       desc={
                         <>
                           ریک بک پوکر هر شب{" "}
-                          <span className="farsi text-gold">ساعت 22</span> برای
-                          هر بازیکن فعال شده و تا{" "}
-                          <span className="farsi text-gold">24 ساعت</span> قابل
-                          دریافت می باشد.
+                          <span className="farsi text-gold">
+                            ساعت {siteInfo?.startTimeRakeBack}
+                          </span>{" "}
+                          برای هر بازیکن فعال شده و تا{" "}
+                          <span className="farsi text-gold">
+                            {siteInfo?.durationTimeCommission} ساعت
+                          </span>{" "}
+                          قابل دریافت می باشد.
                         </>
                       }
                       desc2={
@@ -260,8 +275,14 @@ const LevelList = (prop) => {
                           </>
                         )
                       }
-                      desc3="توجه داشته باشید درصورت عدم دریافت تا ساعت 22 شب بعد (24 ساعت)، ریک بک شما منقضی شده و قابل دریافت نمی باشد."
-                      amount="10%"
+                      desc3={
+                        "توجه داشته باشید درصورت عدم دریافت تا ساعت " +
+                        siteInfo?.startTimeRakeBack +
+                        " شب بعد (" +
+                        siteInfo?.durationTimeCommission +
+                        " ساعت)، کمیسیون شما منقضی شده و قابل دریافت نمی باشد."
+                      }
+                      title="از 10% تا 35%"
                       subtitle="ریک بک پوکر"
                     />
                   </>
