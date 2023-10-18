@@ -11,22 +11,30 @@ const CashoutComponent = lazy(() =>
 const Gift = lazy(() => delayForDemo(import("./pages/dashboard/Gifts")));
 
 const VIP = lazy(() => delayForDemo(import("./pages/dashboard/VIP")));
+//import Commission from "./pages/dashboard/Commission";
 const Support = lazy(() => delayForDemo(import("./pages/dashboard/Support")));
-import Commission from "./pages/dashboard/Commission";
-import League from "./pages/dashboard/League";
+const Commission = lazy(() =>
+  delayForDemo(import("./pages/dashboard/Commission"))
+);
+//import League from "./pages/dashboard/League";
 //import Support from "./pages/dashboard/Support";
+const League = lazy(() => delayForDemo(import("./pages/dashboard/League")));
+const MyGift = lazy(() => delayForDemo(import("./pages/dashboard/MyGifts")));
+const TournamentComponent = lazy(() =>
+  delayForDemo(import("./pages/dashboard/TournamentCom"))
+);
 //import CashoutComponent from "./layouts/admin/forms/FormComponent.jsx";
-import MyGift from "./pages/dashboard/MyGifts";
-import TournamentComponent from "./pages/dashboard/TournamentCom";
+//import MyGift from "./pages/dashboard/MyGifts";
+//import TournamentComponent from "./pages/dashboard/TournamentCom";
 import $ from "jquery";
 function delayForDemo(promise) {
   $("#lazyarea").removeAttr("id");
   return new Promise((resolve) => {
     resolve();
-    setTimeout(() => {
-      $("#reportWindowSize").trigger("click");
-    }, 100);
-  }).then(() => promise);
+  }).then(() => {
+    $("#reportWindowSize").trigger("click");
+    return promise;
+  });
 }
 const CompGen = (prop) => {
   //if (prop.activeMenuOpen === false) return false;
@@ -61,7 +69,11 @@ const CompGen = (prop) => {
       </Suspense>
     );
   } else if (prop?.menu?.component == "league") {
-    return <League {...prop} />;
+    return (
+      <Suspense fallback={<MenuLoader />}>
+        <League {...prop} />
+      </Suspense>
+    );
   } else if (prop?.menu?.component == "support") {
     return (
       <Suspense fallback={<MenuLoader />}>
@@ -69,7 +81,11 @@ const CompGen = (prop) => {
       </Suspense>
     );
   } else if (prop?.menu?.component == "mygifts") {
-    return <MyGift {...prop} />;
+    return (
+      <Suspense fallback={<MenuLoader />}>
+        <MyGift {...prop} />
+      </Suspense>
+    );
   } else if (prop?.menu?.component == "tournament") {
     return (
       <Suspense fallback={<MenuLoader />}>
