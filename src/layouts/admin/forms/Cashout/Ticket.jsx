@@ -8,6 +8,7 @@ import * as Yup from "yup";
 import { Alert } from "../../../../utils/alerts";
 import $ from "jquery";
 import { cashierService } from "../../../../services/cashier";
+import Social from "../../../../utils/social";
 const supportDepartments = "خرید چیپ,برداشت,پشتیبانی فنی".split(",");
 
 const countryOptions = [];
@@ -199,6 +200,7 @@ const depositArea = (prop) => {
                 disabled={formik.isSubmitting}
                 loading={formik.isSubmitting}
               />
+              {!prop.departman && <Social />}
             </Form>
           );
         }}

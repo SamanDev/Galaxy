@@ -21,9 +21,7 @@ const Index = (prop) => {
             display: "none",
           }}
           onClick={() => {
-            setTimeout(() => {
-              prop.reportWindowSize();
-            }, 50);
+            prop.reportWindowSize();
           }}
         />
         <span

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Accordion, Icon, Divider, Segment } from "semantic-ui-react";
+import { Accordion, Icon, Divider, Segment, Button } from "semantic-ui-react";
 import Comment from "./Comment";
 import AccessMsg from "../../utils/accessMsg";
 import { convertDateToJalali } from "../../utils/convertDate";
@@ -10,7 +10,7 @@ import NoData from "../../utils/noData";
 const Balance = (prop) => {
   const [activeIndex, setActiveIndex] = useState(-1);
   const [refresh, setRefresh] = useState(false);
-
+  const siteInfo = prop?.siteInfo;
   const handleClick = (e, titleProps) => {
     const { index } = titleProps;
 

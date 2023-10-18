@@ -9,11 +9,12 @@ const CashoutComponent = lazy(() =>
   delayForDemo(import("./layouts/admin/forms/FormComponent.jsx"))
 );
 const Gift = lazy(() => delayForDemo(import("./pages/dashboard/Gifts")));
-const VIP = lazy(() => delayForDemo(import("./pages/dashboard/VIP")));
 
+const VIP = lazy(() => delayForDemo(import("./pages/dashboard/VIP")));
+const Support = lazy(() => delayForDemo(import("./pages/dashboard/Support")));
 import Commission from "./pages/dashboard/Commission";
 import League from "./pages/dashboard/League";
-import Support from "./pages/dashboard/Support";
+//import Support from "./pages/dashboard/Support";
 //import CashoutComponent from "./layouts/admin/forms/FormComponent.jsx";
 import MyGift from "./pages/dashboard/MyGifts";
 import TournamentComponent from "./pages/dashboard/TournamentCom";
@@ -21,10 +22,10 @@ import $ from "jquery";
 function delayForDemo(promise) {
   $("#lazyarea").removeAttr("id");
   return new Promise((resolve) => {
+    resolve();
     setTimeout(() => {
-      resolve();
       $("#reportWindowSize").trigger("click");
-    }, 300);
+    }, 100);
   }).then(() => promise);
 }
 const CompGen = (prop) => {
@@ -62,7 +63,11 @@ const CompGen = (prop) => {
   } else if (prop?.menu?.component == "league") {
     return <League {...prop} />;
   } else if (prop?.menu?.component == "support") {
-    return <Support {...prop} />;
+    return (
+      <Suspense fallback={<MenuLoader />}>
+        <Support {...prop} />
+      </Suspense>
+    );
   } else if (prop?.menu?.component == "mygifts") {
     return <MyGift {...prop} />;
   } else if (prop?.menu?.component == "tournament") {

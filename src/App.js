@@ -70,7 +70,7 @@ const animateCSS = (element, animation, prefix = "") =>
         node.addEventListener("animationend", handleAnimationEnd, {
           once: true,
         });
-      }, 500);
+      }, 200);
 
       // When the animation ends, we clean the classes and resolve the Promise
     }
@@ -928,7 +928,7 @@ function App(prop) {
                 .find("a:first > span.mymenu")
                 .text()
             );
-          }, 100);
+          }, 50);
         }
       });
 
@@ -1090,7 +1090,7 @@ function App(prop) {
 
   useEffect(() => {
     printmenu();
-  }, [activeMenu, activeMenuOpen, history, loginToken]);
+  }, [activeMenu, history, loginToken?.logout, loginToken?.accessToken]);
 
   if (loadingLogin && 1 == 2) {
     return (
