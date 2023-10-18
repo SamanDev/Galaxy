@@ -214,7 +214,7 @@ export const gameDataMain = "poker,wheel".split(",");
 //export const gameDataMainCode = "poker,sportbet,crash,roulette".split(",");
 export const gameDataMainCode = "poker,wheel".split(",");
 export const gameData =
-  "poker,wheel,crash,roulette,blackjack3,roulette3D,blackjacks,baccarat,slotramses,slotfruits,jacksorbetter,deuceswild,wheeloffortune,slotarabian,highlow,slotsoccer,slotluckychristmas,caribbeanstud,slotspace".split(
+  "poker,wheel,roulette,blackjack3,roulette3D,blackjacks,baccarat,slotramses,slotfruits,jacksorbetter,deuceswild,wheeloffortune,slotarabian,highlow,slotsoccer,slotluckychristmas,caribbeanstud,slotspace".split(
     ","
   );
 
