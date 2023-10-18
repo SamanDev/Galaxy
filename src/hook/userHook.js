@@ -98,7 +98,7 @@ export const useSiteInfo = () => {
       var today = new Date();
       let difference =
         form_date > today ? form_date - today : today - form_date;
-      let diff_days = Math.floor(difference / (1000 * 3600 * 24));
+      let diff_days = Math.floor(difference / (1000 * 3600));
       if (diff_days > 5) handleCheckLogin();
     }
     eventBus.on("updateSiteInfo", (dataGet) => {
