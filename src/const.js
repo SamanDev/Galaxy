@@ -416,6 +416,7 @@ export const GetMenu = (siteInfo) => {
       label: "صفحه اصلی",
       icon: "nxaaasqe.svg",
       link: "/",
+      idname: "home",
     },
     {
       label: "Admin",

@@ -100,6 +100,7 @@ function App(prop) {
   const navigate = useNavigate();
   var _event = getEvent(siteInfo);
   const location = useLocation();
+  const history = window.location.pathname.split("/").pop();
   const [loginToken] = useUser();
   const AppOrtion = (agel) => {
     var scale = window.outerWidth / 1100;
@@ -356,7 +357,7 @@ function App(prop) {
                 (menu.link == "/logout" &&
                   (!loginToken?.accessToken || loginToken?.logout)) ||
                 (menu.link == "/" && addr[addr.length - 1] == "")
-                  ? "hiddenmen2u"
+                  ? "hiddenmenu"
                   : "mm-listitem"
               }
             >
@@ -859,7 +860,7 @@ function App(prop) {
       navigate("/");
       //window.location = "/";
     } else {
-      //abortController.abort();
+      reportWindowSize();
     }
     if (window.location.href.toString().indexOf("/games/sportbet") > -1) {
       showTtoD();
@@ -970,7 +971,7 @@ function App(prop) {
         $("#nav-icon2").addClass("open");
       });
       api.bind("close:after", () => {
-        // setActiveMenuOpen(false);
+        setActiveMenuOpen(false);
         $("#nav-icon2").removeClass("open");
       });
     }
@@ -1086,9 +1087,10 @@ function App(prop) {
       setDcOpen(false);
     });
   }, []);
+
   useEffect(() => {
     printmenu();
-  }, [activeMenu, activeMenuOpen, window.location.href, loginToken]);
+  }, [activeMenu, activeMenuOpen, history, loginToken]);
 
   if (loadingLogin && 1 == 2) {
     return (
