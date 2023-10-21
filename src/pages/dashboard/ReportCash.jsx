@@ -8,6 +8,7 @@ import { getReportService } from "../../services/report";
 import { doCurrency } from "../../const";
 import ConvertCart from "../../utils/convertCart";
 import NoData from "../../utils/noData";
+import CshList from "./getcashlist";
 const sumOf = (array, id) => {
   try {
     return array.reduce((sum, currentValue) => {
@@ -159,6 +160,7 @@ const Report = (prop) => {
                       </div>
                     </List.Description>
                     {item.cashoutDescriptionSet &&
+                      item.cashoutDescriptionSet.length > 0 &&
                       item.gateway == "IranShetab" && (
                         <Segment inverted size="mini">
                           {item.cashoutDescriptionSet
@@ -277,7 +279,11 @@ const Report = (prop) => {
                         )}
                       </div>
                     </List.Description>
+                    {item.status === "Done" && item.gateway == "IranShetab" && (
+                      <CshList id={item.id} />
+                    )}
                     {item.cashoutDescriptionSet &&
+                      item.cashoutDescriptionSet.length > 0 &&
                       item.gateway == "IranShetab" && (
                         <Segment inverted size="mini">
                           {item.cashoutDescriptionSet

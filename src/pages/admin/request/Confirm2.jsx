@@ -6,31 +6,16 @@ import FormikControl from "../../../components/form/FormikControl";
 import { Formik } from "formik";
 import * as Yup from "yup";
 import CopyBtn from "../../../utils/copyInputBtn";
-import CashMode from "./cashMode";
 import { adminGetService, adminPostService } from "../../../services/admin";
 
 const onSubmit = async (values, submitMethods, prop) => {
   submitMethods.setSubmitting(true);
-  if (values.mode == "CartToCart") {
-    var newValues = {
-      orderId: values.id,
-      cardNumber: values.toobj.cardNumber,
-      shebaNumber: "IR" + values.toobj.shebaNumber,
-    };
-    console.log(newValues);
-    const res = await adminPostService(newValues, "cardService/cashout", "");
-    if (res.status == 200) {
-      submitMethods.resetForm();
-      prop.setFirstDone(false);
-      prop.setFirstStatus("reload");
-    }
-  } else {
-    const res = await adminPostService(values, "editPendingRequest", "");
-    if (res.status == 200) {
-      submitMethods.resetForm();
-      prop.setFirstDone(false);
-      prop.setFirstStatus("reload");
-    }
+
+  const res = await adminPostService(values, "editPendingRequest", "");
+  if (res.status == 200) {
+    submitMethods.resetForm();
+    prop.setFirstDone(false);
+    prop.setFirstStatus("reload");
   }
 
   submitMethods.setSubmitting(false);
@@ -110,8 +95,6 @@ const depositArea = (prop) => {
           frombank: "",
           tobank: "",
           ticket: "",
-          mode:
-            prop.item.pendingAmount < 10000000 ? "CartToCart" : "VisaGiftCode",
         }}
         onSubmit={(values, submitMethods) =>
           onSubmit(values, submitMethods, prop)
@@ -128,6 +111,18 @@ const depositArea = (prop) => {
               <div className="onarea online1">
                 {prop.status == "Done" ? (
                   <>
+                    <Carts
+                      formik={formik}
+                      name="frombank"
+                      label="واریز از"
+                      labelcolor={prop.labelcolor}
+                      size={prop.size}
+                      namemix
+                      updateCartInfo={updateCartInfo}
+                      gateway={prop.gateway}
+                      loginToken={{}}
+                      {...prop}
+                    />
                     <Carts
                       formik={formik}
                       name="tobank"
@@ -147,17 +142,103 @@ const depositArea = (prop) => {
                       name="amount"
                       labelcolor={prop.labelcolor}
                       size={prop.size}
-                      readOnly
                     />
-                    <FormikControl
-                      formik={formik}
-                      control="input"
-                      name="mode"
-                      labelcolor={prop.labelcolor}
-                      size={prop.size}
-                    />
-                    <CashMode formik={formik} />
 
+                    <Divider />
+                    <CopyBtn text={formik.values.toobj?.cardNumber} />
+                    <Form as="div">
+                      <Form.Input
+                        size={prop.size}
+                        fluid
+                        labelPosition="left"
+                        defaultValue=""
+                      >
+                        <Label size="tiny" pointing="right" className="farsi">
+                          شماره کارت
+                        </Label>
+                        <Input
+                          control="input"
+                          value={formik.values.toobj?.cardNumber}
+                          readOnly
+                        ></Input>
+                      </Form.Input>
+                    </Form>
+                    <CopyBtn text={formik.values.toobj?.shebaNumber} />
+                    <Form as="div">
+                      <Form.Input
+                        size={prop.size}
+                        fluid
+                        labelPosition="left"
+                        defaultValue=""
+                      >
+                        <Label size="tiny" pointing="right" className="farsi">
+                          شماره شبا
+                        </Label>
+                        <Input
+                          control="input"
+                          value={formik.values.toobj?.shebaNumber}
+                          readOnly
+                        ></Input>
+                      </Form.Input>
+                    </Form>
+                    <CopyBtn text={formik.values.toobj?.accountNumber} />
+                    <Form as="div">
+                      <Form.Input
+                        size={prop.size}
+                        fluid
+                        labelPosition="left"
+                        defaultValue=""
+                      >
+                        <Label size="tiny" pointing="right" className="farsi">
+                          شماره حساب
+                        </Label>
+                        <Input
+                          control="input"
+                          className="farsi"
+                          value={formik.values.toobj?.accountNumber}
+                          readOnly
+                        ></Input>
+                      </Form.Input>
+                    </Form>
+                    <CopyBtn text={formik.values.toobj?.holderName} />
+                    <Form as="div">
+                      <Form.Input
+                        size={prop.size}
+                        fluid
+                        labelPosition="left"
+                        defaultValue=""
+                      >
+                        <Label size="tiny" pointing="right" className="farsi">
+                          نام
+                        </Label>
+                        <Input
+                          control="input"
+                          className="farsi"
+                          value={formik.values.toobj?.holderName}
+                          readOnly
+                        ></Input>
+                      </Form.Input>
+                    </Form>
+                    <Divider />
+                    <CopyBtn text={"بابت بدهی " + prop.item.id} />
+                    <Form as="div">
+                      <Form.Input
+                        size={prop.size}
+                        fluid
+                        labelPosition="left"
+                        defaultValue=""
+                      >
+                        <Label size="tiny" pointing="right" className="farsi">
+                          توضیحات
+                        </Label>
+                        <Input
+                          control="input"
+                          className="farsi"
+                          value={"بابت بدهی " + prop.item.id}
+                          readOnly
+                        ></Input>
+                      </Form.Input>
+                    </Form>
                     <Divider />
                     <Button
                       content={"انجام شد"}
@@ -171,6 +252,7 @@ const depositArea = (prop) => {
                       }}
                       disabled={
                         formik.isSubmitting ||
+                        formik.values.bankId == "" ||
                         formik.values.amount > prop.item.pendingAmount ||
                         formik.values.userBankId == ""
                           ? true

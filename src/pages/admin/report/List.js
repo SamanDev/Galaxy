@@ -43,6 +43,12 @@ const conditionalRowStyles = [
       backgroundColor: "rgba(255,0,0,.1)",
     },
   },
+  {
+    when: (row) => row.status == "Canceled",
+    style: {
+      backgroundColor: "rgba(255,0,0,.4)",
+    },
+  },
 ];
 const noDataComponent = (
   <div
