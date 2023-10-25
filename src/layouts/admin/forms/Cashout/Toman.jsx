@@ -43,7 +43,7 @@ const depositArea = (prop) => {
   const validationSchema = Yup.object({
     amount: Yup.number()
       .required("لطفا این فیلد را وارد کنید.")
-      .min(100000, "لطفا این فیلد را درست وارد کنید.")
+      .min(1000, "لطفا این فیلد را درست وارد کنید.")
       .max(loginToken.balance, "لطفا این فیلد را درست وارد کنید.")
       .integer(),
   });
