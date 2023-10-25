@@ -280,7 +280,7 @@ const Report = (prop) => {
                       </div>
                     </List.Description>
                     {item.status === "Done" && item.gateway == "IranShetab" && (
-                      <CshList id={item.id} />
+                      <CshList id={item.id} item={item.cashoutDescriptionSet} />
                     )}
                     {item.cashoutDescriptionSet &&
                       item.cashoutDescriptionSet.length > 0 &&

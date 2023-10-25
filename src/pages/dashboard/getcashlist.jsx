@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { Divider } from "semantic-ui-react";
-
+import { Divider, Segment, Progress } from "semantic-ui-react";
+import ConvertCart from "../../utils/convertCart";
 import { cashierService } from "../../services/cashier";
+import { doCurrency } from "../../const";
+const moment = require("moment");
 
+var _tot = 0;
 const depositArea = (prop) => {
   const [user, setUser] = useState(false);
   const handleGetReports = async () => {
@@ -13,60 +16,61 @@ const depositArea = (prop) => {
       };
       const res = await cashierService(newValues, "cardService/cashout", "");
       if (res.status === 200) {
-        if (res.data.users.length > 0) {
-          setUser(
-            res.data.users.filter(
-              (item) => item.username == prop.item.username
-            )[0]
-          );
-        }
+        setUser(res.data);
       }
     } catch (error) {}
   };
 
   useEffect(() => {
-    handleGetReports();
+    if (prop.item && prop.item?.destinationCardNumber) {
+      setUser(prop.item);
+    } else {
+      handleGetReports();
+    }
   }, []);
   if (!user) {
-    return <>loadings</>;
+    return <>...</>;
   } else {
     return (
       <Segment inverted size="mini">
-        {item.cashoutDescriptionSet
+        <div className="farsi text-secondary rightfloat">
+          واریز به <br />
+          <span className="text-gold">
+            <ConvertCart cartNo={user.destinationCardNumber} isLock={true} />
+          </span>
+        </div>
+        <div className="text-gold fs-3 p-3">
+          {(user.paidAmount * 100) / user.totalWithdrawalAmount}%
+        </div>
+
+        {user.checkoutList.length > 0 && <Divider />}
+        {user.checkoutList
           .sort((a, b) => (a.id > b.id ? 1 : -1))
-          .map((f, i) => (
-            <div key={i.toString()}>
-              <span className="rightfloat">
-                {convertDateToJalali(f.cashoutDescriptionFromSet[0].date)}
-              </span>
-              <span className="text-gold">
-                {doCurrency(f.cashoutDescriptionFromSet[0].amount)}
-              </span>
-              <br />
-              <div className="farsi text-secondary rightfloat">
-                واریز به <br />
-                مجموع:{" "}
-                <span className="text-gold">
-                  {doCurrency(sumOf(item.cashoutDescriptionSet, f.id))}
+          .map((f, i) => {
+            _tot = _tot + f.Amount;
+            return (
+              <div key={i.toString()}>
+                <span className="text-gold  float-start">
+                  {doCurrency(f.Amount)}
                 </span>
+                <span className="rightfloat">
+                  <div className="date">
+                    {moment(f.DateTime).format("YYYY/MM/DD")}{" "}
+                    <span className="time">
+                      {moment(f.DateTime).format("HH:mm")}
+                    </span>
+                  </div>
+                </span>
+                <br />
+                <div className="farsi text-secondary rightfloat">
+                  مجموع: <span className="text-gold">{doCurrency(_tot)}</span>
+                </div>
+
+                <ConvertCart cartNo={f.SourceCardNumber} isLock={true} />
+                {user.checkoutList.length > i + 1 && <Divider />}
               </div>
-              <span className="farsi">
-                {f.cashoutDescriptionToSet[0].bankName}
-              </span>
-              <br />
-              <ConvertCart
-                cartNo={f.cashoutDescriptionToSet[0].cardNumber}
-                isLock={true}
-              />
-              <br />
-              <div className="farsi text-secondary float-end">از</div> <br />
-              <ConvertCart
-                cartNo={f.cashoutDescriptionFromSet[0].cardNumber}
-                isLock={true}
-              />
-              {item.cashoutDescriptionSet.length > i + 1 && <Divider />}
-            </div>
-          ))}
+            );
+          })}
       </Segment>
     );
   }

@@ -21,7 +21,7 @@ const onSubmit = async (values, submitMethods, navigate, prop, setRefresh) => {
     if (res.status == 200) {
       if (res.data?.accessToken) {
         setRefresh(true);
-        //Alert("Done", "انجام شد.", "success");
+        Alert("Done", "انجام شد.", "success");
       }
     } else {
       Alert("متاسفم...!", res.data, "error");

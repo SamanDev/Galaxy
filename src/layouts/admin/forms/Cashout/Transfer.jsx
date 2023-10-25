@@ -21,8 +21,9 @@ const onSubmit = async (values, submitMethods, navigate, prop, setRefresh) => {
   try {
     const res = await cashierService(values, "transferChip", "");
     if (res.status == 200) {
-      if (res.data?.address) {
+      if (res.data?.accessToken) {
         setRefresh(true);
+        //Alert("Done", "انجام شد.", "success");
       }
     } else {
       Alert("متاسفم...!", res.data.message, "error");
