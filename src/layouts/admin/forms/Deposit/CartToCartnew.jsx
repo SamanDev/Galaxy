@@ -14,6 +14,9 @@ import { cashierService } from "../../../../services/cashier";
 
 var countryOptions = [];
 var amounts = [
+  { value: 1000 },
+  { value: 5000 },
+  { value: 10000 },
   { value: 100000 },
   { value: 150000 },
   { value: 200000 },
@@ -40,7 +43,7 @@ var amounts = [
 const validationSchema = Yup.object({
   amount: Yup.number()
     .required("لطفا این فیلد را وارد کنید.")
-    .min(100000, "لطفا این فیلد را درست وارد کنید.")
+    .min(1000, "لطفا این فیلد را درست وارد کنید.")
     .max(10000000, "لطفا این فیلد را درست وارد کنید.")
     .integer(),
 });
