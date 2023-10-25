@@ -114,8 +114,12 @@ function Admin(prop) {
         `getAllUserBankInfo?page=${page}&number=500&start=${_s}&end=${_e}`
       );
       if (res.status === 200) {
-        setData(res.data);
-
+        if (res.data?.content) {
+          setData(res.data.content);
+        } else {
+          setData(res.data);
+        }
+        console.log(res.data);
         setFilterOk(false);
       }
     } catch (error) {
