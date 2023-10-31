@@ -193,7 +193,10 @@ const BonusArea = (prop) => {
             !end.isBefore(expire)) ||
             bonus.status == "Expired") && (
             <>
-              انقضا در <Moment fromNow>{bonus.expireDate}</Moment>
+              انقضا در{" "}
+              <Moment fromNow local="fa">
+                {bonus.expireDate}
+              </Moment>
             </>
           )}
           {bonus.status == "Pending" && !start.isBefore(end) && (
