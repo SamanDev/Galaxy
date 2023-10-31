@@ -156,10 +156,10 @@ const Report = (prop) => {
                             </>
                           )}
                       </List.Description>
-                      {item.cashoutDescriptionSet &&
+                      {item.cashoutDescription &&
                         item.gateway == "IranShetab" && (
                           <Segment inverted size="mini">
-                            {item.cashoutDescriptionSet
+                            {item.cashoutDescription
                               .sort((a, b) => (a.id > b.id ? 1 : -1))
                               .map((f, i) => (
                                 <div key={i.toString()}>
@@ -179,7 +179,7 @@ const Report = (prop) => {
                                     مجموع:{" "}
                                     <span className="text-gold">
                                       {doCurrency(
-                                        sumOf(item.cashoutDescriptionSet, f.id)
+                                        sumOf(item.cashoutDescription, f.id)
                                       )}
                                     </span>
                                   </div>
@@ -204,8 +204,9 @@ const Report = (prop) => {
                                     }
                                     isLock={true}
                                   />
-                                  {item.cashoutDescriptionSet.length >
-                                    i + 1 && <Divider />}
+                                  {item.cashoutDescription.length > i + 1 && (
+                                    <Divider />
+                                  )}
                                 </div>
                               ))}
                           </Segment>
@@ -277,10 +278,10 @@ const Report = (prop) => {
                             </>
                           )}
                       </List.Description>
-                      {item.cashoutDescriptionSet &&
+                      {item.cashoutDescription &&
                         item.gateway == "IranShetab" && (
                           <Segment inverted size="mini">
-                            {item.cashoutDescriptionSet
+                            {item.cashoutDescription
                               .sort((a, b) => (a.id > b.id ? 1 : -1))
                               .map((f, i) => (
                                 <div key={i.toString()}>
@@ -300,7 +301,7 @@ const Report = (prop) => {
                                     مجموع:{" "}
                                     <span className="text-gold">
                                       {doCurrency(
-                                        sumOf(item.cashoutDescriptionSet, f.id)
+                                        sumOf(item.cashoutDescription, f.id)
                                       )}
                                     </span>
                                   </div>
@@ -325,8 +326,9 @@ const Report = (prop) => {
                                     }
                                     isLock={true}
                                   />
-                                  {item.cashoutDescriptionSet.length >
-                                    i + 1 && <Divider />}
+                                  {item.cashoutDescription.length > i + 1 && (
+                                    <Divider />
+                                  )}
                                 </div>
                               ))}
                           </Segment>

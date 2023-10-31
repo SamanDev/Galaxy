@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Divider, Segment, Progress } from "semantic-ui-react";
-import ConvertCart from "../../utils/convertCart";
-import { cashierService } from "../../services/cashier";
-import { doCurrency } from "../../const";
+import ConvertCart from "../../../utils/convertCart";
+import { adminGetService } from "../../../services/admin";
+import { doCurrency } from "../../../const";
 const moment = require("moment");
 
 var _tot = 0;
@@ -14,7 +14,7 @@ const depositArea = (prop) => {
         orderId: prop.id,
         mode: "cashoutdetails",
       };
-      const res = await cashierService(newValues, "cardService/cashout", "");
+      const res = await adminGetService(newValues, "cardService/cashout", "");
       if (res.status === 200) {
         setUser(res.data);
       }

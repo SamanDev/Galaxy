@@ -20,6 +20,7 @@ import { doCurrency, isJson } from "../../../const";
 import DateReng from "../utils/dateReng";
 import FilterMode from "./Filter";
 import Confirm from "./Confirm";
+import CshList from "./getcashlistadmin";
 
 const conditionalRowStyles = [
   {
@@ -287,89 +288,25 @@ function Admin(prop) {
     },
     {
       name: "PendingAmount",
-      selector: (row) => row.pendingAmount,
+      selector: (row) => row.cashoutDescription,
       format: (row) => (
         <span className=" fw-bold">
-          <AmountColor amount={row.pendingAmount} />
+          <AmountColor amount={row.cashoutDescription.remainedAmount} />
         </span>
       ),
       sortable: true,
     },
-    {
+    /*   {
       name: "Data",
-      selector: (row) => row.cashoutDescriptionSet,
+      selector: (row) => row.cashoutDescription,
       format: (row) => (
         <>
-          <div
-            id={"carouselExampleInterval" + row.id}
-            className="carousel slide text-center"
-            style={{ width: "500px" }}
-          >
-            <div className="carousel-inner">
-              {row.cashoutDescriptionSet.map((f, i) => (
-                <div
-                  key={i.toString()}
-                  className={i == 0 ? "carousel-item active" : "carousel-item "}
-                >
-                  <Grid columns={2} relaxed="very">
-                    <Grid.Column>
-                      <CartFormat
-                        row={f.cashoutDescriptionFromSet[0]}
-                        amount={true}
-                        className="text-center"
-                      />
-                    </Grid.Column>
-                    <Grid.Column>
-                      <CartFormat
-                        row={f.cashoutDescriptionToSet[0]}
-                        className="text-center"
-                      />
-                    </Grid.Column>
-                  </Grid>
-                  <Divider vertical>
-                    &rarr;
-                    {row.cashoutDescriptionSet.length}
-                  </Divider>
-                </div>
-              ))}
-            </div>
-            {row.cashoutDescriptionSet.length > 1 && (
-              <>
-                <button
-                  className="carousel-control-prev"
-                  type="button"
-                  data-bs-target={"#carouselExampleInterval" + row.id}
-                  data-bs-slide="prev"
-                >
-                  <Icon
-                    className="carousel-control-prev-icon text-danger-emphasis"
-                    aria-hidden="true"
-                    name="arrow left"
-                  />
-
-                  <span className="visually-hidden">Previous</span>
-                </button>
-                <button
-                  className="carousel-control-next"
-                  type="button"
-                  data-bs-target={"#carouselExampleInterval" + row.id}
-                  data-bs-slide="next"
-                >
-                  <Icon
-                    className="carousel-control-prev-icon text-danger-emphasis"
-                    aria-hidden="true"
-                    name="arrow right"
-                  />
-                  <span className="visually-hidden">Next</span>
-                </button>
-              </>
-            )}
-          </div>
+          <CshList id={row.id} item={row.cashoutDescription} />
         </>
       ),
       sortable: true,
       width: "600px",
-    },
+    }, */
 
     {
       name: "Date",
