@@ -38,6 +38,7 @@ function SegmentExamplePlaceholderInline(prop) {
               <Image
                 src="/assets/images/logo.webp"
                 centered
+                alt="گلکسی کازینو"
                 style={{
                   width: "30vw",
                   maxWidth: "200px",
