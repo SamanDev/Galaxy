@@ -93,9 +93,6 @@ const BonusArea = (prop) => {
     var _lvl = "1";
   }
 
-  if (_mode == "bonus") {
-    bonus.banaction = 24;
-  }
   if (_mode == "gpass" && loginToken.level < gpassrules.minLevel) {
     bonus.banaction = gpassrules.hoursUnderLevel;
     bonus.balancereq = gpassrules.minAmount;

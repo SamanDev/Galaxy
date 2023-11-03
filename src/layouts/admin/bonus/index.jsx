@@ -11,7 +11,7 @@ const BonusArea = (prop) => {
     _bonuses = loginToken?.userGifts?.sort(function (a, b) {
       return a.id < b.id;
     });
-  });
+  }, [loginToken?.userGifts]);
   return (
     <div style={{ margin: "5px 0 5px 0" }} className="bonuslist fadeoutend">
       {_bonuses.length > 0 && (
