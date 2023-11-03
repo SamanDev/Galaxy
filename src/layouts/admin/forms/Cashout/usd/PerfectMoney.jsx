@@ -30,10 +30,14 @@ const depositArea = (prop) => {
   const [refresh, setRefresh] = useState(false);
   const navigate = useNavigate();
   const loginToken = prop.loginToken;
+  const siteInfo = prop.siteInfo;
   const validationSchema = Yup.object({
     amount: Yup.number()
       .required("لطفا این فیلد را وارد کنید.")
-      .min(100, "حداقل مبلغ 100 دلار می باشد.")
+      .min(
+        siteInfo.cashoutLimitDollar,
+        "حداقل مبلغ " + siteInfo.cashoutLimitDollar + " دلار می باشد."
+      )
       .max(loginToken.balance2, "موجودی ناکافی است.")
       .integer(),
   });

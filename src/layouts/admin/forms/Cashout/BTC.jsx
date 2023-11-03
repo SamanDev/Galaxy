@@ -31,6 +31,7 @@ const depositArea = (prop) => {
   const [refresh, setRefresh] = useState(false);
   const navigate = useNavigate();
   const loginToken = prop.loginToken;
+  const siteInfo = prop.siteInfo;
   const [getRate, setGetRate] = useState(
     localStorage.getItem("getRate") || 50000
   );
@@ -38,8 +39,10 @@ const depositArea = (prop) => {
     amount: Yup.number()
       .required("لطفا این فیلد را وارد کنید.")
       .min(
-        getRate * 100,
-        "حداقل مبلغ " + doCurrency(getRate * 100) + " تومان می باشد."
+        getRate * siteInfo.cashoutLimitDollar,
+        "حداقل مبلغ " +
+          doCurrency(getRate * siteInfo.cashoutLimitDollar) +
+          " تومان می باشد."
       )
       .max(loginToken.balance, "موجودی ناکافی است.")
 
@@ -47,7 +50,10 @@ const depositArea = (prop) => {
 
     amountDollar: Yup.number()
       .required("لطفا این فیلد را وارد کنید.")
-      .min(100, "حداقل مبلغ 100 دلار می باشد."),
+      .min(
+        siteInfo.cashoutLimitDollar,
+        "حداقل مبلغ " + siteInfo.cashoutLimitDollar + " دلار می باشد."
+      ),
 
     userWalletAddress: Yup.string()
       .required("لطفا این فیلد را وارد کنید.")
