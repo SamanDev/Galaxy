@@ -24,9 +24,22 @@ try {
     const notificationOptions = {
       body: payload.notification.body,
 
+      icon: payload.notification.icon,
       dir: "rtl",
+      actions: [{ action: "archive", title: "Archive" }],
     };
 
     self.registration.showNotification(notificationTitle, notificationOptions);
   });
 } catch (error) {}
+self.addEventListener(
+  "notificationclick",
+  function (event) {
+    if (event.action === "archive") {
+      event.notification.close();
+    } else {
+      clients.openWindow("/");
+    }
+  },
+  false
+);

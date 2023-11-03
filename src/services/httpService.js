@@ -1,6 +1,6 @@
 import axios from "axios";
 import { Alert } from "../utils/alerts";
-import { MyConfirm, MyToast, MyDeposit } from "../utils/myAlert";
+import { MyConfirm, MyToast, MyDeposit, MyToastDone } from "../utils/myAlert";
 import { APIURL } from "../const";
 import UserWebsocket from "./user.websocket";
 import eventBus from "./eventBus";
@@ -51,12 +51,9 @@ axios.interceptors.response.use(
       if (res.data?.accessToken) {
         checkBlock(res);
       } else {
-        //MyToast(res.data, "error");
-      }
-      if (res.data.message) {
-        // MyToast("نام کاربری یا کلمه عبور اشتباه است.", "error");
-        MyToast(res.data.message, "error");
-        // Alert(error.response.status, error.response.data.message, "error");
+        if (res.data?.message && res.data?.result == "ok") {
+          MyToastDone(res.data.message, "success");
+        }
       }
     }
     if (res.status != 200 && res.status != 201) {

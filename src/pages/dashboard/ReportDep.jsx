@@ -182,10 +182,8 @@ const Report = (prop) => {
                         {(gateway == "VisaGiftCode" ||
                           gateway == "PerfectMoney") && (
                           <>
-                            Code
-                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{" "}
                             <span className="text-gold">
-                              h43oi43o43hio4io43hi
+                              {item.description}
                             </span>
                           </>
                         )}

@@ -79,7 +79,11 @@ const depositArea = (prop) => {
               autoComplete="off"
             />
 
-            <DepositButton {...prop} />
+            <DepositButton
+              {...prop}
+              disabled={formik.isSubmitting}
+              loading={formik.isSubmitting}
+            />
           </Form>
         );
       }}

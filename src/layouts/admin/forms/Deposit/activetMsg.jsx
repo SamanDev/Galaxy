@@ -11,9 +11,6 @@ const depositArea = (prop) => {
       const res = await resendActivationLink();
       if (res.status == 200) {
         setLoading(false);
-        MyToast("ارسال شد");
-      } else {
-        Alert("متاسفم...!", res.data.message, "error");
       }
     } catch (error) {
       Alert("متاسفم...!", "متاسفانه مشکلی از سمت سرور رخ داده", "error");

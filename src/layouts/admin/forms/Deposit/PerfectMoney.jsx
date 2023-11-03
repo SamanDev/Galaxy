@@ -86,7 +86,11 @@ const depositArea = (prop) => {
               rate={true}
             />
 
-            <DepositButton {...prop} />
+            <DepositButton
+              {...prop}
+              disabled={formik.isSubmitting}
+              loading={formik.isSubmitting}
+            />
           </Form>
         );
       }}

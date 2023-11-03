@@ -14,9 +14,6 @@ import { cashierService } from "../../../../services/cashier";
 
 var countryOptions = [];
 var amounts = [
-  { value: 1000 },
-  { value: 5000 },
-  { value: 10000 },
   { value: 100000 },
   { value: 150000 },
   { value: 200000 },
@@ -40,13 +37,7 @@ var amounts = [
   { value: 2750000 },
   { value: 3000000 },
 ];
-const validationSchema = Yup.object({
-  amount: Yup.number()
-    .required("لطفا این فیلد را وارد کنید.")
-    .min(1000, "لطفا این فیلد را درست وارد کنید.")
-    .max(10000000, "لطفا این فیلد را درست وارد کنید.")
-    .integer(),
-});
+
 const localAmount = (values, prop) => {
   var getAmount = JSON.parse(localStorage.getItem(prop.gateway));
   if (!getAmount) {
@@ -196,21 +187,10 @@ const depositArea = (prop) => {
         onSubmit={(values, submitMethods) =>
           onSubmit(values, submitMethods, navigate, prop)
         }
-        validationSchema={validationSchema}
       >
         {(formik) => {
           return (
             <Form>
-              <Carts
-                formik={formik}
-                name="cardNumber"
-                label="واریز از"
-                labelcolor={prop.labelcolor}
-                size={prop.size}
-                namemix
-                updateCartInfo={updateCartInfo}
-                {...prop}
-              />
               <AmountSelect
                 formik={formik}
                 name="amount"
@@ -222,16 +202,6 @@ const depositArea = (prop) => {
                 {...prop}
               />
 
-              <FormikControl
-                formik={formik}
-                control="input"
-                name="mobile"
-                label=" شماره همراه"
-                labelcolor="red"
-                size={prop.size}
-                inputmode="numeric"
-                readOnly
-              />
               <Divider inverted />
               <Button
                 className="farsi"

@@ -1090,7 +1090,18 @@ function App(prop) {
 
   useEffect(() => {
     printmenu();
-  }, [activeMenu, history, loginToken?.logout, loginToken?.accessToken]);
+  }, [
+    activeMenu,
+    history,
+    loginToken?.logout,
+    loginToken?.accessToken,
+    loginToken?.userActivate,
+    loginToken?.userBlock,
+    loginToken?.blockDateOut,
+    loginToken?.bankInfos,
+    loginToken?.cashierGateways,
+    loginToken?.userTickets,
+  ]);
 
   if (loadingLogin && 1 == 2) {
     return (

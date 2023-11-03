@@ -6,14 +6,8 @@ import { useNavigate } from "react-router-dom";
 import { Form, Formik } from "formik";
 import * as Yup from "yup";
 import { Alert } from "../../../../utils/alerts";
-import { getCashAmount } from "../../../../const";
+import { getCashAmount, doCurrency } from "../../../../const";
 import { cashierService } from "../../../../services/cashier";
-
-const initialValues = {
-  amount: 100000,
-
-  amountDollar: 0,
-};
 
 const onSubmit = async (values, submitMethods, navigate, prop, setRefresh) => {
   try {
@@ -43,10 +37,11 @@ const depositArea = (prop) => {
   const validationSchema = Yup.object({
     amount: Yup.number()
       .required("لطفا این فیلد را وارد کنید.")
-      .min(1000, "لطفا این فیلد را درست وارد کنید.")
-      .max(loginToken.balance, "لطفا این فیلد را درست وارد کنید.")
+      .min(100000, "حداقل مبلغ " + doCurrency(100000) + " تومان می باشد.")
+      .max(loginToken.balance, "موجودی ناکافی است.")
       .integer(),
   });
+
   return (
     <Formik
       initialValues={{

@@ -7,6 +7,7 @@ import { getMessaging, getToken, onMessage } from "firebase/messaging";
 import Swal from "sweetalert2";
 
 import { initializeApp } from "firebase/app";
+
 const Toast = Swal.mixin({
   toast: true,
   position: "top-end",
@@ -27,25 +28,60 @@ const Toast = Swal.mixin({
     toast.addEventListener("mouseleave", Swal.resumeTimer);
   },
 });
+function requestPermission() {
+  if (!("Notification" in window)) {
+    alert("Notification API not supported!");
+    return;
+  }
+
+  Notification.requestPermission(function (result) {
+    document.getElementById("status").innerText = result;
+  });
+}
+function persistentNotification(not) {
+  if (!("Notification" in window) || !("ServiceWorkerRegistration" in window)) {
+    alert("Persistent Notification API not supported!");
+    return;
+  }
+  var options = {
+    body: not.body,
+    icon: not.icon,
+    dir: "rtl",
+  };
+  try {
+    navigator.serviceWorker
+      .getRegistration()
+      .then((reg) => reg.showNotification(not.title, options))
+      .catch((err) => alert("Service Worker registration error: " + err));
+  } catch (err) {
+    alert("Notification API error: " + err);
+  }
+}
+function nonPersistentNotification(not) {
+  var options = {
+    body: not.body,
+    icon: not.icon,
+    dir: "rtl",
+  };
+  if (!("Notification" in window)) {
+    alert("Notification API not supported!");
+    return;
+  }
+
+  try {
+    var notification = new Notification(not.title, options);
+  } catch (err) {
+    alert("Notification API error: " + err);
+  }
+}
 function showNotification(not) {
   var options = {
     body: not.body,
     icon: not.icon,
     dir: "rtl",
   };
-  console.log("showNotification background message ", payload);
-  var notification = new Notification(not.title, options);
-  notification.onclick = (event) => {
-    event.preventDefault(); // prevent the browser from focusing the Notification's tab
-    //window.open("http://www.mozilla.org", "_blank");
-    // document.getElementById("root").focus();
-    //notification.close();
-  };
-  notification.addEventListener("show", (event) => {
-    console.log(event);
-  });
 
-  return notification;
+  var notification = new Notification(not.title, options);
 }
 function Active(prop) {
   const [token, setToken] = useState("err");
@@ -93,28 +129,6 @@ function Active(prop) {
           localStorage.setItem("notificationAllow", true);
           // ...
         });
-
-      onBackgroundMessage(getMessaging(), (message) => {
-        Toast.fire({
-          icon: "info",
-          title: message.notification.title,
-          text: message.notification.body,
-        });
-        showNotification(message.notification);
-      });
-
-      onMessage(getMessaging(), (message) => {
-        Toast.fire({
-          icon: "info",
-          title: message.notification.title,
-          text: message.notification.body,
-        });
-        //showNotification(message.notification);
-        console.log(
-          "New foreground notification from Firebase Messaging!",
-          message.notification
-        );
-      });
     } catch (error) {}
   };
 
@@ -127,7 +141,7 @@ function Active(prop) {
       setToken("err");
     }
   }, []);
-  if (token == "err") {
+  if (token == "err" || 1 == 1) {
     return (
       <>
         <Message
@@ -135,7 +149,6 @@ function Active(prop) {
           onClick={handleResend}
           id="pushactive"
           style={{ cursor: "pointer", display: "none" }}
-          disabled={localStorage.getItem("notificationAllow") ? true : false}
           as={Button}
         >
           <Message.Header>Turn On Notification and Get Reward</Message.Header>

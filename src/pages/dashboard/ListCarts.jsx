@@ -47,8 +47,8 @@ const ListExampleInverted = (prop) => {
                   <small className="fw-bold">
                     <ConvertCart cartNo={item.cardNumber} />
                   </small>
-                  <br />
-                  <small>{item.accountNumber}</small>
+                  {/*  <br />
+                  <small>{item.accountNumber}</small> */}
                   <br />
                   <small>IR{item.shebaNumber}</small>
                   <br />

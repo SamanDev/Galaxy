@@ -98,10 +98,17 @@ const depositArea = (prop) => {
                   active={depMode.value == dep.value}
                   onClick={() => {
                     setDepMode(dep);
+                    localStorage.setItem("defdep", dep.text);
                     $(".deparea").hide();
                     $("#dep2").show();
                   }}
-                  color={depMode.value == dep.value ? selColBtn : defColBtn}
+                  color={
+                    depMode.value == dep.value
+                      ? selColBtn
+                      : localStorage.getItem("defdep") == dep.text
+                      ? "red"
+                      : defColBtn
+                  }
                 >
                   <Icon name={dep.icon} color="black" />
                   <span className="farsi">{dep.text}</span>
@@ -156,10 +163,17 @@ const depositArea = (prop) => {
                   active={depMode.value == dep.value}
                   onClick={() => {
                     setDepMode(dep);
+                    localStorage.setItem("defdep", dep.text);
                     $(".deparea").hide();
                     $("#dep2").show();
                   }}
-                  color={depMode.value == dep.value ? selColBtn : defColBtn}
+                  color={
+                    depMode.value == dep.value
+                      ? selColBtn
+                      : localStorage.getItem("defdep") == dep.text
+                      ? "red"
+                      : defColBtn
+                  }
                 >
                   <Icon name={dep.icon} color="black" />
                   <span className="farsi">{dep.text}</span>

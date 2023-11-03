@@ -5,18 +5,23 @@ import { Button, Divider, Icon, Message } from "semantic-ui-react";
 import * as Yup from "yup";
 import FormikControl from "../../../../components/form/FormikControl";
 import { Alert } from "../../../../utils/alerts";
-
+import { MyToastDone } from "../../../../utils/myAlert";
 import List from "../../../../pages/dashboard/ListCarts";
 import { cashierService } from "../../../../services/cashier";
 const SelectB =
   "بانک ملّی ایران,بانک اقتصاد نوین,بانک قرض‌الحسنه مهر ایران,بانک سپه,بانک پارسیان,بانک قرض‌الحسنه رسالت,بانک صنعت و معدن,بانک کارآفرین,بانک کشاورزی,بانک سامان,بانک مسکن,بانک سینا,بانک توسعه صادرات ایران,بانک خاور میانه,بانک توسعه تعاون,بانک شهر,پست بانک ایران,بانک دی,بانک صادرات,بانک ملت,بانک تجارت,بانک رفاه,بانک حکمت ایرانیان,بانک گردشگری,بانک ایران زمین,بانک قوامین,بانک انصار,بانک سرمایه,بانک پاسارگاد,بانک مشترک ایران-ونزوئلا".split(
     ","
   );
-const accs = "IR - شماره شبا,شماره حساب".split(",");
+const accs = "IR - شماره شبا".split(",");
+const accsName = "shebaNumber".split(",");
+const accsMax = "24,50".split(",");
+const accsNameHolder = "Sheba Number,Account Number".split(",");
+const carts = "شماره کارت".split(",");
+/* const accs = "IR - شماره شبا,شماره حساب".split(",");
 const accsName = "shebaNumber,accountNumber".split(",");
 const accsMax = "24,50".split(",");
 const accsNameHolder = "Sheba Number,Account Number".split(",");
-const carts = "شماره کارت,cvv2 کارت".split(",");
+const carts = "شماره کارت,cvv2 کارت".split(","); */
 
 const cartsName = "cardNumber,cvv".split(",");
 const cartsMax = "16,4".split(",");
@@ -55,14 +60,14 @@ const validationSchema = Yup.object({
     .required("لطفا این فیلد را وارد کنید.")
     .min(24, "لطفا این فیلد را درست وارد کنید.")
     .max(24, "لطفا این فیلد را درست وارد کنید."),
-  accountNumber: Yup.string()
+  /* accountNumber: Yup.string()
     .required("لطفا این فیلد را وارد کنید.")
-    .min(8, "لطفا این فیلد را درست وارد کنید."),
+    .min(8, "لطفا این فیلد را درست وارد کنید."), */
   cardNumber: Yup.string()
     .required("لطفا این فیلد را وارد کنید.")
     .min(16, "لطفا این فیلد را درست وارد کنید.")
     .max(16, "لطفا این فیلد را درست وارد کنید."),
-  cvv: Yup.string()
+  /* cvv: Yup.string()
     .required("لطفا این فیلد را وارد کنید.")
     .min(3, "لطفا این فیلد را درست وارد کنید.")
     .max(4, "لطفا این فیلد را درست وارد کنید."),
@@ -73,7 +78,7 @@ const validationSchema = Yup.object({
   yearno: Yup.number()
     .required("لطفا این فیلد را وارد کنید.")
     .min(1401, "حداقل این فیلد 1401 است.")
-    .max(1430, "حداکثر این فیلد 1430 است."),
+    .max(1430, "حداکثر این فیلد 1430 است."), */
 });
 const onSubmit = async (values, submitMethods, navigate, prop) => {
   try {
@@ -81,7 +86,8 @@ const onSubmit = async (values, submitMethods, navigate, prop) => {
     if (res.status == 200) {
       if (res.data) {
         if (res.data?.accessToken) {
-          Alert("انجام شد.", "", "success");
+          MyToastDone("انجام شد.", "success");
+          //Alert("انجام شد.", "", "success");
           if (prop.setRefresh) {
             prop.setRefresh(true);
           }
@@ -225,7 +231,7 @@ const depositArea = (prop) => {
             />
 
             <Divider inverted />
-            <Message
+            {/* <Message
               color="yellow"
               compact
               className="mymessage"
@@ -243,7 +249,7 @@ const depositArea = (prop) => {
               <Message.Content className="farsi">
                 این اظلاعات برای برداشت نقدی شما استفاده می شود
               </Message.Content>
-            </Message>
+            </Message> */}
             {accs.map((item, i) => (
               <FormikControl
                 formik={formik}
@@ -255,12 +261,12 @@ const depositArea = (prop) => {
                 autoComplete={accsName[i]}
                 placeholder={accsNameHolder[i]}
                 label={item}
-                labelcolor="yellow"
+                labelcolor="orange"
                 size={prop.size}
                 inputmode="numeric"
               />
             ))}
-            <Divider inverted />
+            {/*  <Divider inverted />
             <Message
               color="yellow"
               compact
@@ -279,7 +285,7 @@ const depositArea = (prop) => {
               <Message.Content className="farsi">
                 این اظلاعات برای سهولت در واریز شما استفاده می شود
               </Message.Content>
-            </Message>
+            </Message> */}
             {carts.map((item, i) => (
               <FormikControl
                 formik={formik}
@@ -296,7 +302,7 @@ const depositArea = (prop) => {
                 inputmode="numeric"
               />
             ))}
-            <FormikControl
+            {/* <FormikControl
               formik={formik}
               control="select"
               name="yearno"
@@ -313,7 +319,7 @@ const depositArea = (prop) => {
               labelcolor="orange"
               size={prop.size}
               options={monthOptions}
-            />
+            /> */}
 
             <Button
               content={"ثبت"}
@@ -324,6 +330,19 @@ const depositArea = (prop) => {
               color="olive"
               disabled={formik.isSubmitting}
               loading={formik.isSubmitting}
+            />
+            <Button
+              content={"ثبتw"}
+              fluid
+              style={{ margin: "10px 0" }}
+              className="farsi"
+              type="button"
+              color="olive"
+              disabled={formik.isSubmitting}
+              loading={formik.isSubmitting}
+              onClick={() => {
+                prop.setRefresh(false);
+              }}
             />
 
             <List title="کارت های بانکی" mode="cart" {...prop} />
