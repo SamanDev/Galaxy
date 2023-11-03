@@ -99,7 +99,7 @@ export const useSiteInfo = () => {
       let difference =
         form_date > today ? form_date - today : today - form_date;
       let diff_days = Math.floor(difference / (1000 * 3600));
-      if (diff_days > 5) handleCheckLogin();
+      if (diff_days > 5 || 1 == 1) handleCheckLogin();
     }
     eventBus.on("updateSiteInfo", (dataGet) => {
       setSiteInfo(dataGet);
@@ -145,7 +145,7 @@ export const useActiveTable = () => {
         form_date > today ? form_date - today : today - form_date;
       let diff_days = Math.floor(difference / 1000);
 
-      if (diff_days > 180) handleGetActiveTable();
+      if (diff_days > 180 || 1 == 1) handleGetActiveTable();
     }
 
     eventBus.on("updateActiveTables", (dataGet) => {
@@ -198,7 +198,7 @@ export const useLastReward = () => {
         form_date > today ? form_date - today : today - form_date;
       let diff_days = Math.floor(difference / (1000 * 3600));
 
-      if (diff_days > 1) handleGetLastReward();
+      if (diff_days > 1 || 1 == 1) handleGetLastReward();
     }
   }, []);
 
