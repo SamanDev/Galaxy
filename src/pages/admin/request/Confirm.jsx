@@ -1,5 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { Divider, Button, Input, Label, Form, Select } from "semantic-ui-react";
+import {
+  Divider,
+  Button,
+  Input,
+  Label,
+  Form,
+  Select,
+  Segment,
+} from "semantic-ui-react";
 
 import Carts from "../../../components/form/AdminCarts";
 import FormikControl from "../../../components/form/FormikControl";
@@ -7,7 +15,12 @@ import { Formik } from "formik";
 import * as Yup from "yup";
 import CopyBtn from "../../../utils/copyInputBtn";
 import CashMode from "./cashMode";
-import { adminGetService, adminPostService } from "../../../services/admin";
+import {
+  adminGetService,
+  adminPostService,
+  adminPutService,
+} from "../../../services/admin";
+import { doCurrency } from "../../../const";
 
 const onSubmit = async (values, submitMethods, prop) => {
   submitMethods.setSubmitting(true);
@@ -17,8 +30,19 @@ const onSubmit = async (values, submitMethods, prop) => {
       cardNumber: values.toobj.cardNumber,
       shebaNumber: "IR" + values.toobj.shebaNumber,
     };
-    console.log(newValues);
+
     const res = await adminPostService(newValues, "cardService/cashout", "");
+    if (res.status == 200) {
+      submitMethods.resetForm();
+      prop.setFirstDone(false);
+      prop.setFirstStatus("reload");
+    }
+  } else if (values.mode == "PerfectMoney") {
+    var newValues = {
+      orderId: values.id,
+    };
+
+    const res = await adminPutService(newValues, "perfectMoney/done", "");
     if (res.status == 200) {
       submitMethods.resetForm();
       prop.setFirstDone(false);
@@ -96,130 +120,260 @@ const depositArea = (prop) => {
   if (!user) {
     return <>loadings</>;
   } else {
-    return (
-      <Formik
-        initialValues={{
-          action: prop.status,
-          id: prop.item.id,
-          amount: prop.item.pendingAmount,
-          geteway: prop.gateway.replace(/ /g, ""),
-          bankId: "",
-          userBankId: "",
-          fromobj: "",
-          toobj: "",
-          frombank: "",
-          tobank: "",
-          ticket: "",
-          mode:
-            prop.item.pendingAmount < 10000000 ? "CartToCart" : "VisaGiftCode",
-        }}
-        onSubmit={(values, submitMethods) =>
-          onSubmit(values, submitMethods, prop)
-        }
-        validationSchema={validationSchema}
-      >
-        {(formik) => {
-          const handleChange = (e, { name, value }) => {
-            formik.setFieldValue("ticket", value);
-            // $('[name="message"]:visible').val(defval);
-          };
-          return (
-            <Form>
-              <div className="onarea online1">
-                {prop.status == "Done" ? (
-                  <>
-                    <Carts
-                      formik={formik}
-                      name="tobank"
-                      label="واریز به"
-                      labelcolor={prop.labelcolor}
-                      size={prop.size}
-                      namemix
-                      updateCartInfo={updateCartInfoTo}
-                      gateway={prop.gateway}
-                      loginToken={user}
-                      carts={""}
-                    />
+    if (prop.item.gateway == "PerfectMoney") {
+      try {
+        var desc = JSON.parse(prop.item.description);
+      } catch (error) {}
+      return (
+        <Formik
+          initialValues={{
+            action: prop.status,
+            id: prop.item.id,
+            amount: prop.item.amount,
+            geteway: prop.gateway.replace(/ /g, ""),
+            bankId: "",
+            userBankId: "",
+            fromobj: "",
+            toobj: "",
+            frombank: "",
+            tobank: "",
+            ticket: "",
+            mode: prop.item.gateway,
+          }}
+          onSubmit={(values, submitMethods) =>
+            onSubmit(values, submitMethods, prop)
+          }
+          validationSchema={validationSchema}
+        >
+          {(formik) => {
+            const handleChange = (e, { name, value }) => {
+              formik.setFieldValue("ticket", value);
+              // $('[name="message"]:visible').val(defval);
+            };
+            return (
+              <Form>
+                <div className="onarea online1">
+                  {prop.status == "Done" ? (
+                    <>
+                      <FormikControl
+                        formik={formik}
+                        control="amount"
+                        name="amount"
+                        labelcolor={prop.labelcolor}
+                        size={prop.size}
+                        readOnly
+                      />
+                      <Segment secondary>
+                        Amount &nbsp;
+                        <span className="text-golds">
+                          ${doCurrency(desc.dollarAmount)}
+                        </span>{" "}
+                        - Fee &nbsp;
+                        <span className="text-golds">
+                          ${doCurrency(desc.fee)}
+                        </span>
+                        - Rate &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{" "}
+                        <span className="text-gold3">
+                          {doCurrency(desc.dollarPrice)}
+                        </span>{" "}
+                        - Final Amount &nbsp;
+                        <span className="text-gol33d">
+                          $
+                          {doCurrency(
+                            desc.VOUCHER_AMOUNT
+                              ? desc.VOUCHER_AMOUNT
+                              : parseFloat(desc.amount).toFixed(2)
+                          )}
+                        </span>
+                      </Segment>
+                      <FormikControl
+                        formik={formik}
+                        control="input"
+                        name="mode"
+                        labelcolor={prop.labelcolor}
+                        size={prop.size}
+                      />
+                      <Divider />
+                      <Button
+                        content={"انجام شد"}
+                        fluid
+                        style={{ marginTop: 10 }}
+                        className="farsi"
+                        color="teal"
+                        type="button"
+                        onClick={() => {
+                          onSubmit(formik.values, formik, prop);
+                        }}
+                        disabled={formik.isSubmitting}
+                        loading={formik.isSubmitting}
+                      />
+                    </>
+                  ) : (
+                    <>
+                      <FormikControl
+                        formik={formik}
+                        control="amount"
+                        name="amount"
+                        labelcolor={prop.labelcolor}
+                        size={prop.size}
+                      />
 
-                    <FormikControl
-                      formik={formik}
-                      control="amount"
-                      name="amount"
-                      labelcolor={prop.labelcolor}
-                      size={prop.size}
-                      readOnly
-                    />
-                    <FormikControl
-                      formik={formik}
-                      control="input"
-                      name="mode"
-                      labelcolor={prop.labelcolor}
-                      size={prop.size}
-                    />
-                    <CashMode formik={formik} />
+                      <Divider />
+                      <Select
+                        placeholder="علت"
+                        className="farsi"
+                        fluid
+                        options={carOptions}
+                        onChange={handleChange}
+                      />
 
-                    <Divider />
-                    <Button
-                      content={"انجام شد"}
-                      fluid
-                      style={{ marginTop: 10 }}
-                      className="farsi"
-                      color="teal"
-                      type="button"
-                      onClick={() => {
-                        onSubmit(formik.values, formik, prop);
-                      }}
-                      disabled={
-                        formik.isSubmitting ||
-                        formik.values.amount > prop.item.pendingAmount ||
-                        formik.values.userBankId == ""
-                          ? true
-                          : false
-                      }
-                      loading={formik.isSubmitting}
-                    />
-                  </>
-                ) : (
-                  <>
-                    <FormikControl
-                      formik={formik}
-                      control="amount"
-                      name="amount"
-                      labelcolor={prop.labelcolor}
-                      size={prop.size}
-                    />
+                      <Divider />
+                      <Button
+                        content={"Cancele This Cashout"}
+                        fluid
+                        style={{ marginTop: 10 }}
+                        className="farsi"
+                        color="red"
+                        type="button"
+                        onClick={() => {
+                          onSubmit(formik.values, formik, prop);
+                        }}
+                        disabled={formik.isSubmitting ? true : false}
+                        loading={formik.isSubmitting}
+                      />
+                    </>
+                  )}
+                </div>
+              </Form>
+            );
+          }}
+        </Formik>
+      );
+    } else {
+      return (
+        <Formik
+          initialValues={{
+            action: prop.status,
+            id: prop.item.id,
+            amount: prop.item.amount,
+            geteway: prop.gateway.replace(/ /g, ""),
+            bankId: "",
+            userBankId: "",
+            fromobj: "",
+            toobj: "",
+            frombank: "",
+            tobank: "",
+            ticket: "",
+            mode: prop.item.amount < 10000000 ? "CartToCart" : "VisaGiftCode",
+          }}
+          onSubmit={(values, submitMethods) =>
+            onSubmit(values, submitMethods, prop)
+          }
+          validationSchema={validationSchema}
+        >
+          {(formik) => {
+            const handleChange = (e, { name, value }) => {
+              formik.setFieldValue("ticket", value);
+              // $('[name="message"]:visible').val(defval);
+            };
+            return (
+              <Form>
+                <div className="onarea online1">
+                  {prop.status == "Done" ? (
+                    <>
+                      <Carts
+                        formik={formik}
+                        name="tobank"
+                        label="واریز به"
+                        labelcolor={prop.labelcolor}
+                        size={prop.size}
+                        namemix
+                        updateCartInfo={updateCartInfoTo}
+                        gateway={prop.gateway}
+                        loginToken={user}
+                        carts={""}
+                      />
 
-                    <Divider />
-                    <Select
-                      placeholder="علت"
-                      className="farsi"
-                      fluid
-                      options={carOptions}
-                      onChange={handleChange}
-                    />
+                      <FormikControl
+                        formik={formik}
+                        control="amount"
+                        name="amount"
+                        labelcolor={prop.labelcolor}
+                        size={prop.size}
+                        readOnly
+                      />
+                      <FormikControl
+                        formik={formik}
+                        control="input"
+                        name="mode"
+                        labelcolor={prop.labelcolor}
+                        size={prop.size}
+                      />
+                      <CashMode formik={formik} />
 
-                    <Divider />
-                    <Button
-                      content={"Cancele This Cashout"}
-                      fluid
-                      style={{ marginTop: 10 }}
-                      className="farsi"
-                      color="red"
-                      type="button"
-                      onClick={() => {
-                        onSubmit(formik.values, formik, prop);
-                      }}
-                      disabled={formik.isSubmitting ? true : false}
-                      loading={formik.isSubmitting}
-                    />
-                  </>
-                )}
-              </div>
-            </Form>
-          );
-        }}
-      </Formik>
-    );
+                      <Divider />
+                      <Button
+                        content={"انجام شد"}
+                        fluid
+                        style={{ marginTop: 10 }}
+                        className="farsi"
+                        color="teal"
+                        type="button"
+                        onClick={() => {
+                          onSubmit(formik.values, formik, prop);
+                        }}
+                        disabled={
+                          formik.isSubmitting ||
+                          formik.values.amount > prop.item.pendingAmount ||
+                          formik.values.userBankId == ""
+                            ? true
+                            : false
+                        }
+                        loading={formik.isSubmitting}
+                      />
+                    </>
+                  ) : (
+                    <>
+                      <FormikControl
+                        formik={formik}
+                        control="amount"
+                        name="amount"
+                        labelcolor={prop.labelcolor}
+                        size={prop.size}
+                      />
+
+                      <Divider />
+                      <Select
+                        placeholder="علت"
+                        className="farsi"
+                        fluid
+                        options={carOptions}
+                        onChange={handleChange}
+                      />
+
+                      <Divider />
+                      <Button
+                        content={"Cancele This Cashout"}
+                        fluid
+                        style={{ marginTop: 10 }}
+                        className="farsi"
+                        color="red"
+                        type="button"
+                        onClick={() => {
+                          onSubmit(formik.values, formik, prop);
+                        }}
+                        disabled={formik.isSubmitting ? true : false}
+                        loading={formik.isSubmitting}
+                      />
+                    </>
+                  )}
+                </div>
+              </Form>
+            );
+          }}
+        </Formik>
+      );
+    }
   }
 };
 

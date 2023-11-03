@@ -26,3 +26,6 @@ export const notification = (username, message, title, image) => {
     image,
   });
 };
+export const publicGetRules = () => {
+  return httpService("/admin/getRewardsRules", "get");
+};

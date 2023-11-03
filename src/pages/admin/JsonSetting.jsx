@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 
 import { adminPutServiceList } from "../../services/admin";
 import { Alert } from "../../utils/alerts";
+import { isJson } from "../../const";
 import { JsonEditor } from "react-jsondata-editor";
-
+import { publicGetRules } from "../../services/admin";
 const getGateways = JSON.parse(localStorage.getItem("getGateways"));
 function sordData(siteInfo) {
   var _siteInfo = siteInfo;
@@ -22,6 +23,27 @@ function sordData(siteInfo) {
   _siteInfo.depositBonus = _siteInfo.depositBonus;
   return _siteInfo;
 }
+const useSiteInfo = (info) => {
+  const [siteInfo, setSiteInfo] = useState(info);
+
+  const handleCheckLogin = async () => {
+    try {
+      const res = await publicGetRules();
+      if (res.status === 200) {
+        if (isJson(res.data)) {
+          var _data = res.data;
+
+          setSiteInfo(_data);
+        }
+      }
+    } catch (error) {}
+  };
+  useEffect(() => {
+    handleCheckLogin();
+  }, []);
+
+  return [siteInfo];
+};
 function Admin(prop) {
   String.prototype.replaceAll = function (search, replacement) {
     var target = this;
@@ -60,8 +82,11 @@ function Admin(prop) {
     return string;
   };
 
-  const siteInfo = prop.siteInfo;
+  const [siteInfo] = useSiteInfo();
 
+  if (!siteInfo?.galaxyPassSet) {
+    return null;
+  }
   let input = '{"Settings":' + JSON.stringify(sordData(siteInfo)) + "}";
 
   const saveObj = async (info) => {

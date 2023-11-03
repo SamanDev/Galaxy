@@ -5,8 +5,9 @@ import { getEvent, dayOfTournament } from "../../const";
 import GalaxyIcon from "../../utils/svganim";
 import ConfettiArea from "../../utils/party";
 import ConfettiClick from "../../utils/partyclick";
-//import Index from "./index";
+
 import ShowTimeLeft from "../../utils/showTimeLeft";
+
 const moment = require("moment");
 
 const mainnconfig = {
@@ -192,7 +193,7 @@ const Dashboard = (prop) => {
     }
 
     setActiveSlide(defslide);
-  }, [loginToken]);
+  }, [loginToken?.userGifts]);
 
   return (
     <>

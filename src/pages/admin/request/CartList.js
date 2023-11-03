@@ -89,7 +89,6 @@ function Admin(prop) {
     </div>
   );
   const updateUserObj = async (e, data) => {
-    console.log(data);
     var _key = data.userkey;
     var curU = JSON.parse(JSON.stringify(data.user));
     var values = { id: curU.id, active: data.checked };
@@ -119,7 +118,7 @@ function Admin(prop) {
         } else {
           setData(res.data);
         }
-        console.log(res.data);
+
         setFilterOk(false);
       }
     } catch (error) {

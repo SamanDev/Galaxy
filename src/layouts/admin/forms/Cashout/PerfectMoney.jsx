@@ -22,7 +22,7 @@ const onSubmit = async (values, submitMethods, navigate, prop, setRefresh) => {
   } catch (error) {
     submitMethods.setSubmitting(false);
 
-    Alert("متاسفم...!", "متاسفانه مشکلی از سمت سرور رخ داده", "error");
+    //Alert("متاسفم...!", "متاسفانه مشکلی از سمت سرور رخ داده", "error");
   }
 };
 

@@ -226,19 +226,11 @@ const Dashboard = (prop) => {
   const panes33 = [
     {
       menuItem: "poker",
-      pane: (
-        <Tab.Pane key="tab1" as="span">
-          <Image src="/assets/images/poker.png" fluid />
-        </Tab.Pane>
-      ),
+      pane: <Tab.Pane key="tab1" as="span"></Tab.Pane>,
     },
     {
       menuItem: "2",
-      pane: (
-        <Tab.Pane key="tab2" as="span">
-          <Image src="/assets/images/blackjack.png" fluid />
-        </Tab.Pane>
-      ),
+      pane: <Tab.Pane key="tab2" as="span"></Tab.Pane>,
     },
   ];
   useEffect(() => {
@@ -509,20 +501,12 @@ const Dashboard = (prop) => {
             <Container>
               <Grid>
                 {gameDataMain.map((game, i) => (
-                  <Grid.Column key={i} mobile={8} tablet={4} computer={4}>
-                    <Image
-                      className="fadeout"
-                      as={Link}
-                      to={"/games/" + game}
-                      src={
-                        "https://galaxy10g.site/images/g/dfa/" +
-                        gameDataMainCode[i] +
-                        ".png"
-                      }
-                      rounded
-                      fluid
-                    />
-                  </Grid.Column>
+                  <Grid.Column
+                    key={i}
+                    mobile={8}
+                    tablet={4}
+                    computer={4}
+                  ></Grid.Column>
                 ))}
               </Grid>
             </Container>

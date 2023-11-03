@@ -21,18 +21,10 @@ const validationSchema = Yup.object({
     .required("لطفا این فیلد را وارد کنید.")
     .min(8, "لطفا این فیلد را درست وارد کنید."),
 });
-const onSubmit = async (values, submitMethods, navigate, prop) => {
+const onSubmit = async (values, submitMethods, navigate, prop, setRefresh) => {
   try {
     const res = await cashierService(values, "createDepositPM", "");
-    if (res.status == 200) {
-      if (res.data == "Ok") {
-        Alert("Done", res.data, "success");
-      } else {
-        Alert("متاسفم...!", res.data, "error");
-      }
-    } else {
-      Alert("متاسفم...!", res.data.message, "error");
-    }
+    setRefresh(true);
     submitMethods.setSubmitting(false);
   } catch (error) {
     submitMethods.setSubmitting(false);
@@ -43,12 +35,13 @@ const onSubmit = async (values, submitMethods, navigate, prop) => {
 
 const depositArea = (prop) => {
   const [depMode, setDepMode] = useState(false);
+  const [refresh, setRefresh] = useState(false);
   const navigate = useNavigate();
   return (
     <Formik
       initialValues={initialValues}
       onSubmit={(values, submitMethods) =>
-        onSubmit(values, submitMethods, navigate, prop)
+        onSubmit(values, submitMethods, navigate, prop, setRefresh)
       }
       validationSchema={validationSchema}
     >

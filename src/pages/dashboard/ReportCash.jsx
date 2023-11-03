@@ -93,6 +93,9 @@ const Report = (prop) => {
             if (item.status == "Pending" && i > 0) {
               canShowPending = false;
             }
+            try {
+              var desc = JSON.parse(item.description);
+            } catch (error) {}
             return (
               <List.Item key={i}>
                 {prop.menu?.usd ? (
@@ -194,15 +197,30 @@ const Report = (prop) => {
                           prop.gateway == "USDT" ||
                           prop.gateway == "PerfectMoney") && (
                           <>
-                            Amount &nbsp;
+                            <small>
+                              Amount &nbsp;
+                              <span className="text-golds">
+                                ${doCurrency(desc.dollarAmount)}
+                              </span>{" "}
+                              - Fee &nbsp;
+                              <span className="text-golds">
+                                ${doCurrency(desc.fee)}
+                              </span>
+                              <br />
+                              Rate
+                              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{" "}
+                              <span className="text-gold">
+                                {doCurrency(desc.dollarPrice)}
+                              </span>{" "}
+                            </small>
+                            <br /> Final Amount &nbsp;
                             <span className="text-gold">
-                              ${doCurrency(120)}
-                            </span>
-                            <br />
-                            Rate
-                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{" "}
-                            <span className="text-gold">
-                              {doCurrency(32520)}
+                              $
+                              {doCurrency(
+                                desc.VOUCHER_AMOUNT
+                                  ? desc.VOUCHER_AMOUNT
+                                  : parseFloat(desc.amount).toFixed(2)
+                              )}
                             </span>
                           </>
                         )}

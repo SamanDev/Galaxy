@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 import TableAdmin from "./utils/tableform";
 
-import { adminPutServiceList } from "../../services/admin";
+import { adminPutServiceList, publicGetRules } from "../../services/admin";
 import { isJson } from "../../const";
 import { Alert } from "../../utils/alerts";
 const getGateways = JSON.parse(localStorage.getItem("getGateways"));
@@ -179,12 +179,33 @@ function Admin(prop) {
     });
     return string;
   };
+  const useSiteInfo = () => {
+    const [siteInfo, setSiteInfo] = useState();
+
+    const handleCheckLogin = async () => {
+      try {
+        const res = await publicGetRules();
+        if (res.status === 200) {
+          if (isJson(res.data)) {
+            var _data = res.data;
+
+            setSiteInfo(_data);
+          }
+        }
+      } catch (error) {}
+    };
+    useEffect(() => {
+      handleCheckLogin();
+    }, []);
+
+    return [siteInfo];
+  };
   const [activeIndex, setActiveIndex] = useState(0);
   const loginToken = prop.loginToken;
-  const siteInfo = prop.siteInfo;
 
+  const [siteInfo] = useSiteInfo();
   const [loading, setLoading] = useState(true);
-
+  console.log(siteInfo);
   const [info, setInfo] = useState(siteInfo);
   const updateUserObj = async (name, value, user, x) => {
     var data = info;

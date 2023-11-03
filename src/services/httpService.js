@@ -111,12 +111,8 @@ axios.interceptors.response.use(
         MyToast("نام کاربری یا کلمه عبور اشتباه است.", "error");
       }
     }
+    MyToast(error.response.data.message, "error");
 
-    if (error.response.status == 0) {
-      // MyToast("متاسفانه مشکلی از سمت سرور رخ داده", "error");
-      // Alert(error.response.status, error.response.data.message, "error");
-    }
-    //console.log(abortController.signal);
     return Promise.reject(error);
   }
 );

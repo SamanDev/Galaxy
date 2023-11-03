@@ -32,7 +32,7 @@ function SegmentExamplePlaceholderInline(prop) {
             />
           </div>
         </div>
-        <div className="text-center">
+        <div className="text-center" style={{ overflow: "hidden" }}>
           <Header icon>
             <Icon>
               <Image

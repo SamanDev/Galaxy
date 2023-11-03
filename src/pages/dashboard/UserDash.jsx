@@ -115,7 +115,7 @@ const Dashboard = (prop) => {
         id="dashboard_section"
         className="dashboard_section main_section fadeoutend"
       >
-        <Banners {...prop} />
+        <Banners loginToken={prop.loginToken} siteInfo={prop.siteInfo} />
         <div id="game_section" className="dashboard_section main_section">
           <Container>
             <GameInbox {...prop} />

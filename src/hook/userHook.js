@@ -29,6 +29,14 @@ export const useUser = () => {
     _old.logout = false;
     setLoginToken(_old);
   }
+  function sordData(siteInfo) {
+    var _siteInfo = siteInfo;
+    _siteInfo.userGifts = _siteInfo.userGifts.sort((a, b) =>
+      a.id < b.id ? 1 : -1
+    );
+
+    return _siteInfo;
+  }
   useEffect(() => {
     window.addEventListener("message", function (event) {
       if (event.data == "userget") {
@@ -46,9 +54,9 @@ export const useUser = () => {
       //console.log("Message received from the child: " + event.data); // Message received from child
     });
     eventBus.on("updateUser", (dataGet) => {
-      setLoginToken(dataGet);
+      setLoginToken(sordData(dataGet));
 
-      setLoginTokenUpdate(dataGet);
+      setLoginTokenUpdate(sordData(dataGet));
     });
   }, []);
 
@@ -66,7 +74,10 @@ export const useUser = () => {
   useEffect(() => {
     var loginKey = localStorage.getItem("galaxyUserkeyToken");
     if (loginKey) {
-      localStorage.setItem(loginKey + "Token", JSON.stringify(loginToken));
+      localStorage.setItem(
+        loginKey + "Token",
+        JSON.stringify(sordData(loginToken))
+      );
     }
   }, [loginToken]);
   return [loginToken];

@@ -76,7 +76,7 @@ const Dashboard = (prop) => {
           <>
             <Suspense fallback={<MenuLoader />}>
               <PushNot {...prop} />
-              <UserDash {...prop} />
+              <UserDash loginToken={prop.loginToken} siteInfo={prop.siteInfo} />
             </Suspense>
           </>
         ) : (

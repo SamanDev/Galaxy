@@ -52,6 +52,7 @@ const Report = (prop) => {
       return null;
     }
   } else {
+    var firstpen = false;
     return (
       <List divided inverted size="small" className="mylist">
         {data.length == 0 && !prop.pending && (
@@ -68,9 +69,13 @@ const Report = (prop) => {
             if (prop.pending) {
               canShow = false;
             }
-            if (item.status == "Pending" && i > 0) {
+            if (firstpen) {
               canShowPending = false;
             }
+            if (item.status == "Pending") {
+              firstpen = true;
+            }
+
             try {
               var desc = JSON.parse(item.description);
             } catch (error) {}
@@ -188,7 +193,8 @@ const Report = (prop) => {
                           </>
                         )}
                         {(gateway == "Bitcoin" || gateway == "USDT") &&
-                          canShowPending && (
+                          canShowPending &&
+                          item.status == "Pending" && (
                             <>
                               <QR note={item} doCurrency={doCurrency} />
                             </>

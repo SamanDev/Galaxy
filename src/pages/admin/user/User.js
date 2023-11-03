@@ -181,7 +181,6 @@ function Admin(prop) {
   const handleTabChange = (e, { activeIndex }) => setActiveIndex(activeIndex);
 
   const updateUserObj = async (e, data) => {
-    console.log(data);
     var _key = data.userkey;
     var _childid = data.childid;
     if (_childid && _key.indexOf("-") == -1) {
