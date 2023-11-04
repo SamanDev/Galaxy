@@ -120,16 +120,7 @@ const Report = (prop) => {
                             <br />
                           </>
                         )}
-                        {(gateway == "VisaGiftCode" ||
-                          gateway == "PerfectMoney") && (
-                          <>
-                            Code
-                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{" "}
-                            <span className="text-gold">
-                              h43oi43o43hio4io43hi
-                            </span>
-                          </>
-                        )}
+
                         {(gateway == "Bitcoin" || gateway == "USDT") &&
                           canShowPending &&
                           item.status == "Pending" && (
@@ -188,7 +179,7 @@ const Report = (prop) => {
                           gateway == "PerfectMoney") && (
                           <>
                             <span className="text-gold">
-                              {item.description}
+                              {desc ? desc.VOUCHER_NUMBER : item.description}
                             </span>
                           </>
                         )}

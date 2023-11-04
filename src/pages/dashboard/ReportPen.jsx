@@ -137,16 +137,6 @@ const Report = (prop) => {
                               <br />
                             </>
                           )}
-                          {(gateway == "VisaGiftCode" ||
-                            gateway == "PerfectMoney") && (
-                            <>
-                              Code
-                              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{" "}
-                              <span className="text-gold">
-                                h43oi43o43hio4io43hi
-                              </span>
-                            </>
-                          )}
                         </div>
                         {(item.gateway == "Bitcoin" ||
                           item.gateway == "USDT") &&
@@ -257,16 +247,6 @@ const Report = (prop) => {
                           {gateway == "PerfectMoney" && (
                             <>
                               <br />
-                            </>
-                          )}
-                          {(gateway == "VisaGiftCode" ||
-                            gateway == "PerfectMoney") && (
-                            <>
-                              Code
-                              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{" "}
-                              <span className="text-gold">
-                                h43oi43o43hio4io43hi
-                              </span>
                             </>
                           )}
                         </div>
