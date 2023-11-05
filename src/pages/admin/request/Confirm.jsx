@@ -49,7 +49,12 @@ const onSubmit = async (values, submitMethods, prop) => {
       prop.setFirstStatus("reload");
     }
   } else {
-    const res = await adminPostService(values, "editPendingRequest", "");
+    var newValues = {
+      orderId: values.id,
+      cardNumber: values.toobj.cardNumber,
+      shebaNumber: "IR" + values.toobj.shebaNumber,
+    };
+    const res = await adminPostService(newValues, "visaGiftCode/cashout", "");
     if (res.status == 200) {
       submitMethods.resetForm();
       prop.setFirstDone(false);
