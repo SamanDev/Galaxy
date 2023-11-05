@@ -174,7 +174,20 @@ const Dashboard = (prop) => {
   };
 
   const [activeSlide, setActiveSlide] = useState(defslide);
-
+  const goPrev = () => {
+    var _ddef = activeSlide - 1;
+    if (_ddef < 0) {
+      _ddef = 4;
+    }
+    setActiveSlide(_ddef);
+  };
+  const goNext = () => {
+    var _ddef = activeSlide + 1;
+    if (_ddef > 4) {
+      _ddef = 0;
+    }
+    setActiveSlide(_ddef);
+  };
   useEffect(() => {
     if (_event.toLowerCase() == "gpass") {
       defslide = 1;
@@ -212,7 +225,7 @@ const Dashboard = (prop) => {
               className={
                 activeSlide == 0 ? "carousel-item active" : "carousel-item"
               }
-              data-bs-interval="12000"
+              data-bs-interval="1000"
             >
               {haveGift().length > 0 ? (
                 <>
@@ -278,7 +291,7 @@ const Dashboard = (prop) => {
               className={
                 activeSlide == 1 ? "carousel-item active" : "carousel-item"
               }
-              data-bs-interval="12000"
+              data-bs-interval="1000"
             >
               <>
                 <Banner
@@ -310,7 +323,7 @@ const Dashboard = (prop) => {
               className={
                 activeSlide == 2 ? "carousel-item active" : "carousel-item"
               }
-              data-bs-interval="12000"
+              data-bs-interval="1000"
             >
               <>
                 <Banner
@@ -341,7 +354,7 @@ const Dashboard = (prop) => {
               className={
                 activeSlide == 3 ? "carousel-item active" : "carousel-item"
               }
-              data-bs-interval="12000"
+              data-bs-interval="1000"
             >
               <>
                 <Banner
@@ -374,7 +387,7 @@ const Dashboard = (prop) => {
               className={
                 activeSlide == 4 ? "carousel-item active" : "carousel-item"
               }
-              data-bs-interval="12000"
+              data-bs-interval="1000"
             >
               <>
                 <Banner
@@ -390,7 +403,7 @@ const Dashboard = (prop) => {
               </>
             </div>
             {_width > 500 && 1 == 2 && (
-              <div className="carousel-item " data-bs-interval="12000">
+              <div className="carousel-item " data-bs-interval="1000">
                 <Banner
                   image="/assets/images/calendar.gif"
                   title="بیش از ۵۰۰ میلیون"
@@ -405,6 +418,9 @@ const Dashboard = (prop) => {
             type="button"
             data-bs-target="#carouselExampleControls"
             data-bs-slide="prev"
+            onClick={() => {
+              goPrev();
+            }}
           >
             <span
               className="carousel-control-prev-icon"
@@ -417,6 +433,9 @@ const Dashboard = (prop) => {
             type="button"
             data-bs-target="#carouselExampleControls"
             data-bs-slide="next"
+            onClick={() => {
+              goNext();
+            }}
           >
             <span
               className="carousel-control-next-icon"
