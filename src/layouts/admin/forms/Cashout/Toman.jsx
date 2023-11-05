@@ -13,12 +13,8 @@ const onSubmit = async (values, submitMethods, navigate, prop, setRefresh) => {
   try {
     const res = await cashierService(values, "bankTransfer", "");
     if (res.status == 200) {
-      if (res.data?.accessToken) {
-        setRefresh(true);
-        Alert("Done", "انجام شد.", "success");
-      }
-    } else {
-      Alert("متاسفم...!", res.data, "error");
+      setRefresh(true);
+      Alert("Done", "انجام شد.", "success");
     }
 
     submitMethods.setSubmitting(false);

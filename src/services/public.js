@@ -9,3 +9,6 @@ export const publicUserInfo = (user) => {
 export const publicGetRules = () => {
   return httpService("/req/getRewardsRules", "get");
 };
+export const userGetRules = () => {
+  return httpService("/req/getRewardsRulesUser", "get");
+};

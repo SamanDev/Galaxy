@@ -127,21 +127,13 @@ const Report = (prop) => {
                           {item.coin && " - " + item.coin}
                         </div>
                       )}
-
                       <div className="cashlist">
                         {(prop.gateway == "Bitcoin" ||
                           prop.gateway == "USDT" ||
                           prop.gateway == "PerfectMoney") && (
                           <>
-                            Amount &nbsp;
                             <span className="text-gold">
-                              ${doCurrency(120)}
-                            </span>
-                            <br />
-                            Rate
-                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{" "}
-                            <span className="text-gold">
-                              {doCurrency(32520)}
+                              {doCurrency(desc.walletAddress)}
                             </span>
                           </>
                         )}

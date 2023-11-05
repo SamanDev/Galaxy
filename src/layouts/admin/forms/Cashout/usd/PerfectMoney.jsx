@@ -9,20 +9,19 @@ import { Alert } from "../../../../../utils/alerts";
 import { cashierService } from "../../../../../services/cashier";
 import { getCashAmountUsd } from "../../../../../const";
 const onSubmit = async (values, submitMethods, navigate, prop, setRefresh) => {
+  var _val = values;
+  _val.amountDollar = _val.amount;
   try {
-    const res = await cashierService(values, "createCashoutPM", "");
+    const res = await cashierService(_val, "createCashoutPM", "");
     if (res.status == 200) {
-      if (res.data?.address) {
-        setRefresh(true);
-      }
-    } else {
-      Alert("متاسفم...!", res.data.message, "error");
+      Alert("Done", "انجام شد.", "success");
+      setRefresh(true);
     }
     submitMethods.setSubmitting(false);
   } catch (error) {
     submitMethods.setSubmitting(false);
 
-    Alert("متاسفم...!", "متاسفانه مشکلی از سمت سرور رخ داده", "error");
+    //Alert("متاسفم...!", "متاسفانه مشکلی از سمت سرور رخ داده", "error");
   }
 };
 

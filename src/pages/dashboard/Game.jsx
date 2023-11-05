@@ -4,12 +4,13 @@ import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { getPokerSession } from "../../services/auth";
 import { Tab, Icon, Dropdown, Dimmer, Loader } from "semantic-ui-react";
-import { gameData, gameDataMain, gamesUrl, pokerUrl } from "../../const";
+import { gameData, gameDataMain } from "../../const";
 import $ from "jquery";
 
 const Dashboard = (prop) => {
   const navigate = useNavigate();
   const loginToken = prop.loginToken;
+  const siteInfo = prop.siteInfo;
 
   const [sessionKey, setSessionKey] = useState("");
 
@@ -215,35 +216,36 @@ const Dashboard = (prop) => {
                 : { overflow: "auto" }
             }
           >
-            {(gameLoader || sessionKey == "") && mainGame == "poker" && (
-              <div
-                className={
-                  isFull
-                    ? "framegame loader fullscreen"
-                    : "framegame loader panelfull"
-                }
-              >
-                <Dimmer active>
-                  <Loader className="farsi-inline" size="large">
-                    لطفا صبر کنید...
-                  </Loader>
-                </Dimmer>
-              </div>
-            )}
+            {(gameLoader || sessionKey == "" || !siteInfo?.pokerUrl) &&
+              mainGame == "poker" && (
+                <div
+                  className={
+                    isFull
+                      ? "framegame loader fullscreen"
+                      : "framegame loader panelfull"
+                  }
+                >
+                  <Dimmer active>
+                    <Loader className="farsi-inline" size="large">
+                      لطفا صبر کنید...
+                    </Loader>
+                  </Dimmer>
+                </div>
+              )}
             {mainGame == "poker" ? (
               <>
                 {sessionKey != "" && (
                   <iframe
                     src={
                       localStorage.getItem("tableName")
-                        ? pokerUrl +
+                        ? siteInfo.pokerUrl +
                           "?LoginName=" +
                           loginToken?.username +
                           "&SessionKey=" +
                           sessionKey +
                           "&TableType=R&TableName=" +
                           localStorage.getItem("tableName")
-                        : pokerUrl +
+                        : siteInfo.pokerUrl +
                           "?LoginName=" +
                           loginToken?.username +
                           "&SessionKey=" +
@@ -264,7 +266,7 @@ const Dashboard = (prop) => {
               <>
                 <iframe
                   src={
-                    gamesUrl +
+                    siteInfo.gamesUrl +
                     loginToken.accessToken +
                     "/" +
                     loginToken.username
@@ -296,7 +298,7 @@ const Dashboard = (prop) => {
                 : { overflow: "auto" }
             }
           >
-            {gameLoader && mainGame == "wheel" && (
+            {(gameLoader || !siteInfo?.gamesUrl) && mainGame == "wheel" && (
               <div
                 className={
                   isFull ? "framegame loader fullscreen" : "framegame loader"
@@ -312,7 +314,10 @@ const Dashboard = (prop) => {
             {(activeIndex > 0 || activeIndexLoad) && (
               <iframe
                 src={
-                  gamesUrl + loginToken.accessToken + "/" + loginToken.username
+                  siteInfo.gamesUrl +
+                  loginToken.accessToken +
+                  "/" +
+                  loginToken.username
                 }
                 name="gameframe"
                 className={

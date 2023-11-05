@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
 import { siteInfoDef, isJson } from "../const";
-import { publicGetRules } from "../services/public";
+import { publicGetRules, userGetRules } from "../services/public";
 import { getReportPenService } from "../services/report";
 import eventBus from "../services/eventBus";
 import $ from "jquery";
@@ -88,7 +88,14 @@ export const useSiteInfo = () => {
       ? JSON.parse(localStorage.getItem("siteInfo"))
       : siteInfoDef
   );
+  var loginKey = localStorage.getItem("galaxyUserkeyToken");
 
+  const [loginToken, setLoginToken] = useState(
+    localStorage.getItem(loginKey + "Token") &&
+      isJson(localStorage.getItem(loginKey + "Token"))
+      ? JSON.parse(localStorage.getItem(loginKey + "Token"))
+      : {}
+  );
   const handleCheckLogin = async () => {
     try {
       const res = await publicGetRules();
@@ -101,19 +108,40 @@ export const useSiteInfo = () => {
       }
     } catch (error) {}
   };
+  const handleCheckLoginUser = async () => {
+    try {
+      const res = await userGetRules();
+      if (res.status === 200) {
+        if (isJson(res.data)) {
+          var _data = res.data;
+
+          setSiteInfo(_data);
+        }
+      }
+    } catch (error) {}
+  };
   useEffect(() => {
-    if (!siteInfo?.updateday) {
+    if (!siteInfo?.pokerUrl || loginToken.accessToken) {
+      handleCheckLoginUser();
+    } else {
       handleCheckLogin();
+    }
+    if (!siteInfo?.updateday) {
     } else {
       var form_date = new Date(siteInfo?.updateday);
       var today = new Date();
       let difference =
         form_date > today ? form_date - today : today - form_date;
       let diff_days = Math.floor(difference / (1000 * 3600));
-      if (diff_days > 5 || 1 == 1) handleCheckLogin();
+      // if (diff_days > 5 || 1 == 1) handleCheckLogin();
     }
     eventBus.on("updateSiteInfo", (dataGet) => {
       setSiteInfo(dataGet);
+    });
+    eventBus.on("updateUser", (dataGet) => {
+      if (!siteInfo?.pokerUrl && dataGet.accessToken) {
+        handleCheckLoginUser();
+      }
     });
   }, []);
   useEffect(() => {

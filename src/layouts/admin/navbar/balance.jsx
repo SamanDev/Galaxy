@@ -324,7 +324,14 @@ const Balance = (prop) => {
                 </Reveal.Content>
               </Reveal>
             </Label>
-            <div className="step0-3" style={{ display: "inline-block" }}>
+            <div
+              className="step0-3"
+              style={{
+                display: "inline-block",
+                position: "relative",
+                zIndex: 10,
+              }}
+            >
               <Popup
                 on="click"
                 className="myaccount"

@@ -348,7 +348,7 @@ export const depositDollarData = [
     getwaykey: "Transfer",
 
     value: "Transfer",
-    text: "تومان به دلار",
+    text: "تومان به ",
 
     icon: "cc mastercard",
     limit: "$5 - $100",
@@ -783,8 +783,8 @@ export function doDepositDollar() {
   {
     depositDollarData.map((game) => {
       _games.push({
-        label: game.text + " $",
-        title: game.text,
+        label: game.text + " دلار",
+        title: game.text + " دلار",
         helper: game.limit,
         getwaykey: game.getwaykey,
         bonus: "",
@@ -833,8 +833,8 @@ function doCashoutDollar() {
   {
     cashoutDataDollar.map((game) => {
       _games.push({
-        label: game.text + " $$",
-        title: game.text,
+        label: game.text + " دلاری",
+        title: game.text + " دلاری",
         helper: game.limit,
         getwaykey: game.getwaykey,
         bonus: game.bonus,
