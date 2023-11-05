@@ -1098,11 +1098,23 @@ export const getEvent = (siteInfo) => {
     return "League";
   }
 };
+export const haveRoot = (userTags) => {
+  var isAdmin = false;
+  if (userTags) {
+    userTags.map(function (tag) {
+      if (tag.name == "ROLE_ROOT") {
+        isAdmin = true;
+      }
+    });
+  }
+
+  return isAdmin;
+};
 export const haveAdmin = (userTags) => {
   var isAdmin = false;
   if (userTags) {
     userTags.map(function (tag) {
-      if (tag.name == "ROLE_ADMIN") {
+      if (tag.name == "ROLE_ADMIN" || tag.name == "ROLE_ROOT") {
         isAdmin = true;
       }
     });
@@ -1114,7 +1126,28 @@ export const haveModerator = (userTags) => {
   var isAdmin = false;
   if (userTags) {
     userTags.map(function (tag) {
-      if (tag.name == "ROLE_MODERATOR") {
+      if (
+        tag.name == "ROLE_MODERATOR" ||
+        tag.name == "ROLE_ADMIN" ||
+        tag.name == "ROLE_ROOT"
+      ) {
+        isAdmin = true;
+      }
+    });
+  }
+
+  return isAdmin;
+};
+export const haveOperator = (userTags) => {
+  var isAdmin = false;
+  if (userTags) {
+    userTags.map(function (tag) {
+      if (
+        tag.name == "ROLE_OPERATOR" ||
+        tag.name == "ROLE_MODERATOR" ||
+        tag.name == "ROLE_ADMIN" ||
+        tag.name == "ROLE_ROOT"
+      ) {
         isAdmin = true;
       }
     });

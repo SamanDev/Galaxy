@@ -13,7 +13,7 @@ import Requests from "./Requests";
 import Setting from "./JsonSetting";
 import RisingPitch from "./utils/PlayAlert";
 import { adminGetService } from "../../services/admin";
-import { haveAdmin, haveModerator } from "../../const";
+import { haveAdmin, haveModerator, haveRoot } from "../../const";
 import { useAdminTicket } from "../../hook/infoHook";
 var panes = [];
 const getGateways = JSON.parse(localStorage.getItem("getGateways"));
@@ -77,7 +77,9 @@ function Admin(prop) {
           </Tab.Pane>
         ),
       },
-      {
+    ];
+    if (haveModerator(loginToken.roles)) {
+      panes.push({
         menuItem: "Income",
         pane: (
           <Tab.Pane key="Income">
@@ -94,9 +96,9 @@ function Admin(prop) {
             />
           </Tab.Pane>
         ),
-      },
-    ];
-    if (haveAdmin(loginToken.roles) || 1 == 1) {
+      });
+    }
+    if (haveRoot(loginToken.roles)) {
       panes.push({
         menuItem: "Settings",
         pane: (
