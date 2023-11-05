@@ -32,7 +32,10 @@ function delayForDemo(promise) {
   return new Promise((resolve) => {
     resolve();
   }).then(() => {
-    $("#reportWindowSize").trigger("click");
+    setTimeout(() => {
+      $("#reportWindowSize").trigger("click");
+    }, 100);
+
     return promise;
   });
 }
