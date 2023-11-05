@@ -121,7 +121,7 @@ export const useSiteInfo = () => {
     } catch (error) {}
   };
   useEffect(() => {
-    if (!siteInfo?.pokerUrl || loginToken.accessToken) {
+    if (!siteInfo?.pokerUrl || (loginToken.accessToken && !loginToken.logout)) {
       handleCheckLoginUser();
     } else {
       handleCheckLogin();
@@ -139,7 +139,7 @@ export const useSiteInfo = () => {
       setSiteInfo(dataGet);
     });
     eventBus.on("updateUser", (dataGet) => {
-      if (!siteInfo?.pokerUrl && dataGet.accessToken) {
+      if (!siteInfo?.pokerUrl && dataGet.accessToken && !loginToken.logout) {
         handleCheckLoginUser();
       }
     });
