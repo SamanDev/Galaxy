@@ -62,7 +62,7 @@ const depositArea = (prop) => {
           )}
           {depMode == "Online Cart to Cart" && (
             <>
-              {loginToken?.bankInfos.length > 0 ? (
+              {loginToken?.bankInfos.length > -10 ? (
                 <>
                   <CartToCartOnline {...prop} />
                 </>
@@ -96,33 +96,25 @@ const depositArea = (prop) => {
           )}
           {depMode == "Cart to Cart" && (
             <>
-              {loginToken?.bankInfos.length > 0 ? (
-                <>
+              <>
+                {prop.menu?.usd ? (
                   <>
-                    {prop.menu?.usd ? (
-                      <>
-                        <Segment inverted className="blnc" size="mini">
-                          <Statistic inverted size="mini">
-                            <Statistic.Value>
-                              {doCurrency(loginToken?.balance)}
-                            </Statistic.Value>
-                            <Statistic.Label className="farsi">
-                              موجودی شما
-                            </Statistic.Label>
-                          </Statistic>
-                        </Segment>
-                        <TomantoUsd {...prop} />
-                      </>
-                    ) : (
-                      <CartToCart {...prop} />
-                    )}
+                    <Segment inverted className="blnc" size="mini">
+                      <Statistic inverted size="mini">
+                        <Statistic.Value>
+                          {doCurrency(loginToken?.balance)}
+                        </Statistic.Value>
+                        <Statistic.Label className="farsi">
+                          موجودی شما
+                        </Statistic.Label>
+                      </Statistic>
+                    </Segment>
+                    <TomantoUsd {...prop} />
                   </>
-                </>
-              ) : (
-                <>
-                  <AddCartMsg {...prop} />
-                </>
-              )}
+                ) : (
+                  <CartToCart {...prop} />
+                )}
+              </>
             </>
           )}
 
