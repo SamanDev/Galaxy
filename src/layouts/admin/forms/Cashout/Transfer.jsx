@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { Form, Formik } from "formik";
 import * as Yup from "yup";
 import { cashierService } from "../../../../services/cashier";
+import { getCashAmount, doCurrency } from "../../../../const";
 import { Alert } from "../../../../utils/alerts";
 import AnimIcon from "../../../../utils/inviteIcon";
 
@@ -43,9 +44,10 @@ const depositArea = (prop) => {
   const validationSchema = Yup.object({
     amount: Yup.number()
       .required("لطفا این فیلد را وارد کنید.")
-      .min(100000, "لطفا این فیلد را درست وارد کنید.")
-      .max(loginToken.balance, "لطفا این فیلد را درست وارد کنید.")
+      .min(100000, "حداقل مبلغ " + doCurrency(100000) + " تومان می باشد.")
+      .max(loginToken.balance, "موجودی ناکافی است.")
       .integer(),
+
     transferUser: Yup.string()
       .required("نام کاربری حداقل باشد 3 کاراکتر باشد.")
       .min(3, "نام کاربری حداقل باشد 3 کاراکتر باشد.")

@@ -24,6 +24,7 @@ import Filter from "./Filter";
 import {
   haveAdmin,
   haveModerator,
+  haveRoot,
   doCurrency,
   levelDataInfo,
 } from "../../const";
@@ -515,12 +516,12 @@ function Admin(prop) {
         >
           <Grid.Row>
             <Grid.Column>
-              <Button onClick={() => prop.addGatewayTabData("Gateways")}>
-                Gateways
-              </Button>
-              <Button onClick={() => prop.addGatewayTabData("SiteCarts")}>
-                Site Carts
-              </Button>
+              {haveAdmin(loginToken.roles) && (
+                <Button onClick={() => prop.addGatewayTabData("Gateways")}>
+                  Gateways
+                </Button>
+              )}
+
               <Button onClick={() => prop.addMainTabData("Runner")}>
                 Runners
               </Button>
@@ -532,7 +533,7 @@ function Admin(prop) {
               )}
             </Grid.Column>
 
-            <Grid.Column>
+            <Grid.Column style={{ textAlign: "right" }}>
               <Filter onFilter={handleChangeSearch} value={dataSearch} />
               <Filter
                 onFilter={handleChangeLogin}
