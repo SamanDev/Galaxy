@@ -77,7 +77,7 @@ const Dashboard = (prop) => {
 
       setTimeout(function () {
         addHome();
-      }, 3000);
+      }, 10000);
     }
   };
 
@@ -115,7 +115,11 @@ const Dashboard = (prop) => {
         id="dashboard_section"
         className="dashboard_section main_section fadeoutend"
       >
-        <Banners loginToken={prop.loginToken} siteInfo={prop.siteInfo} />
+        <Banners
+          loginToken={prop.loginToken}
+          siteInfo={prop.siteInfo}
+          openPanel={prop.openPanel}
+        />
         <div id="game_section" className="dashboard_section main_section">
           <Container>
             <GameInbox {...prop} />

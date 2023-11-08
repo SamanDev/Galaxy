@@ -350,7 +350,7 @@ a {
 }
 .framegame {
   width: calc(100vw) !important;
-
+  min-width: 600px;
   min-height: 400px;
   height: calc(100vh);
   position: relative;
@@ -384,7 +384,7 @@ a {
 .framegame.fullscreen {
   width: calc(100vw) !important;
 
-  min-width: auto !important;
+  min-width: 600px !important;
   min-height: auto !important;
   transition: all 10ms ease;
 
@@ -409,6 +409,7 @@ body.fullscreen #content_section {
 }
 body.fullscreen .navbar.fixed-top {
   display: none;
+  height: 0 !important;
 }
 body.fullscreen #panelright {
   top: 0;
@@ -1851,6 +1852,7 @@ i.inverted.circular.black {
   z-index: 2 !important;
   background: rgb(31 36 41) !important;
   height: 65px;
+  display: block;
 }
 
 .disabled {

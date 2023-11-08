@@ -7,7 +7,10 @@
   font-weight: normal;
   font-style: normal;
 }
-
+html {
+  overflow: hidden;
+  overscroll-behavior: none;
+}
 #mypage nav {
   -webkit-user-select: none !important;
 }
@@ -399,6 +402,7 @@ body.fullscreen #content_section {
 }
 body.fullscreen .navbar.fixed-top {
   display: none;
+  height: 0 !important;
 }
 body.fullscreen #panelright {
   top: 0;
@@ -419,6 +423,7 @@ body.fullscreen .fullopenpanel {
 }
 .App {
   overflow: hidden;
+  transition: 2s all ease-in-out;
 }
 .banner {
   width: calc(100%);

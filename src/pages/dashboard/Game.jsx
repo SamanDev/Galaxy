@@ -49,7 +49,7 @@ const Dashboard = (prop) => {
       window.addEventListener("resize", onWindowResize),
       () => window.removeEventListener("resize", onWindowResize)
     ),
-    []
+    [orientation]
   );
 
   var defslide = 1;
@@ -136,9 +136,7 @@ const Dashboard = (prop) => {
         loginToken?.accessToken &&
         !loginToken?.logout
       ) {
-        setTimeout(() => {
-          handleFullscreen();
-        }, 500);
+        handleFullscreen();
       }
       if (
         screenOrientation.indexOf("landscape") == -1 &&
@@ -146,13 +144,9 @@ const Dashboard = (prop) => {
         loginToken?.accessToken &&
         !loginToken?.logout
       ) {
-        setTimeout(() => {
-          handleFullscreen();
-        }, 500);
+        handleFullscreen();
       }
     }
-
-    //prop.reportWindowSize();
   }, [screenOrientation]);
 
   function capitalizeTxt(txt) {
@@ -213,7 +207,7 @@ const Dashboard = (prop) => {
             style={
               isFull
                 ? { overflowX: "auto", overflowY: "hidden" }
-                : { overflow: "auto" }
+                : { overflowX: "auto", overflowY: "hidden" }
             }
           >
             {(gameLoader || sessionKey == "" || !siteInfo?.pokerUrl) &&
@@ -252,7 +246,6 @@ const Dashboard = (prop) => {
                           sessionKey
                     }
                     id="pokerframe"
-                    frameBorder="0"
                     className={
                       isFull
                         ? "framegame panelfull fullscreen"
@@ -288,14 +281,14 @@ const Dashboard = (prop) => {
     {
       menuItem: "Tab 2",
       pane: (
-        <Tab.Pane key="tab2" className="active" attached={false}>
+        <Tab.Pane key="tab2" attached={false}>
           <div
             id="gamesec2"
             className="gamesec"
             style={
               isFull
                 ? { overflowX: "auto", overflowY: "hidden" }
-                : { overflow: "auto" }
+                : { overflowX: "auto", overflowY: "hidden" }
             }
           >
             {(gameLoader || !siteInfo?.gamesUrl) && mainGame == "wheel" && (
@@ -392,6 +385,7 @@ const Dashboard = (prop) => {
               id="changegame"
               style={{
                 fontSize: 25,
+                zIndex: 2,
                 right: -10,
               }}
             >

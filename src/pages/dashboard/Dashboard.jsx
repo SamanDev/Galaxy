@@ -1,6 +1,5 @@
-import React, { useState, Suspense, lazy, useEffect } from "react";
+import React, { Suspense, lazy, useEffect } from "react";
 
-import { useParams } from "react-router-dom";
 import MenuLoader from "../../utils/menuLoader";
 //import UserDash from "./UserDash";
 import PushNot from "../../pushNot.component";
@@ -49,12 +48,6 @@ const Dashboard = (prop) => {
   siteInfo?.vipTables?.sort((a, b) => (a.id > b.id ? 1 : -1));
   siteInfo?.dailyLeagueSet?.sort((a, b) => (a.id > b.id ? 1 : -1));
 
-  const [curPage, setCurPage] = useState("dashboard");
-  const [isFull, setIsFull] = useState(false);
-
-  const [screenOrientation, setScreenOrientation] = useState(
-    screen?.orientation?.type
-  );
   const handleFullscreen = (e) => {
     $(".framegame,body").removeClass("fullscreen");
     document
@@ -63,9 +56,9 @@ const Dashboard = (prop) => {
         "content",
         "width=device-width,initial-scale=1,maximum-scale=1"
       );
-    //prop.reportWindowSize();
+    // prop.reportWindowSize();
   };
-  const params = useParams();
+
   useEffect(() => {
     handleFullscreen();
   }, []);
@@ -76,7 +69,11 @@ const Dashboard = (prop) => {
           <>
             <Suspense fallback={<MenuLoader />}>
               <PushNot {...prop} />
-              <UserDash loginToken={prop.loginToken} siteInfo={prop.siteInfo} />
+              <UserDash
+                loginToken={prop.loginToken}
+                siteInfo={prop.siteInfo}
+                openPanel={prop.openPanel}
+              />
             </Suspense>
           </>
         ) : (

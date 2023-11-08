@@ -78,7 +78,7 @@ const animateCSS = (element, animation, prefix = "") =>
 
 localStorage.removeItem("getGateways");
 var finalMenu = "";
-
+var btime;
 function App(prop) {
   const [refresh, setRefresh] = useState();
   const [loadingLogin, isLogin] = useIsLogin();
@@ -103,6 +103,7 @@ function App(prop) {
   const history = window.location.pathname.split("/").pop();
   const [loginToken] = useUser();
   const AppOrtion = (agel) => {
+    //return false;
     var scale = window.outerWidth / 1100;
     if (agel == 90 && scale < 1) {
       document
@@ -113,14 +114,14 @@ function App(prop) {
             scale +
             ",maximum-scale=" +
             scale +
-            ""
+            ", user-scalable=no"
         );
     } else {
       document
         .querySelector('meta[name="viewport"]')
         .setAttribute(
           "content",
-          "width=device-width,initial-scale=1,maximum-scale=1"
+          "width=device-width,initial-scale=1,maximum-scale=1, user-scalable=no"
         );
     }
     reportWindowSize();
@@ -150,7 +151,10 @@ function App(prop) {
     setsize = true;
 
     $("body").removeAttr("style");
-    setTimeout(() => {
+
+    clearTimeout(btime);
+
+    btime = setTimeout(() => {
       $("#lazyarea").removeAttr("id");
       let viewportWidth = window.innerWidth;
       let viewportHeight = window.innerHeight;
@@ -168,33 +172,27 @@ function App(prop) {
         $(this).width(ww);
       });
       const navbar = document.getElementById("navbar");
-
-      try {
-        let pHeight = viewportHeight - navbar.offsetHeight;
-        $("#content_section,#panelright").css({
-          top: navbar.offsetHeight + "px",
-        });
-        if ($("body").hasClass("fullscreen")) {
-          pHeight = viewportHeight;
-          $("#content_section,#panelright").css({ top: 0 + "px" });
-        }
-        $(".gameicons").css({
-          top: (viewportHeight - $(".gameicons").height()) / 2 + "px",
-        });
-
-        $("#root").height(viewportHeight + "px");
-        let pHalf = pHeight / 2;
-        if (pHalf < 250) {
-          pHalf = 250;
-        }
-        $(".panelfull,.gamesec,#panelright").height(pHeight + "px");
-        $(".panelhalf").height(pHalf + "px");
-      } catch (error) {
-        setTimeout(() => {
-          setsize = false;
-          reportWindowSize();
-        }, 500);
+      let pHeight = viewportHeight - navbar.offsetHeight;
+      $("#content_section,#panelright").css({
+        top: navbar.offsetHeight + "px",
+      });
+      if ($("body").hasClass("fullscreen")) {
+        pHeight = viewportHeight;
+        $("#content_section,#panelright").css({ top: 0 + "px" });
+        $("body").scrollTop(0).scrollLeft(0);
       }
+      $(".gameicons").css({
+        top: (viewportHeight - $(".gameicons").height()) / 2 + "px",
+      });
+
+      $("#root").height(viewportHeight + "px");
+      let pHalf = pHeight / 2;
+      if (pHalf < 250) {
+        pHalf = 250;
+      }
+      $(".gamesec,#panelright").height(pHeight + "px");
+      $(".panelhalf").height(pHalf + "px");
+
       $(".mm-panel--opened:visible")
         .unbind()
         .bind("scroll", function () {
@@ -215,9 +213,10 @@ function App(prop) {
           bindLastReward();
           //forceCheck();
         });
-
+    }, 50);
+    setTimeout(() => {
       setsize = false;
-    }, 100);
+    }, 1000);
   }
   function showTtoD() {
     setTtoDOpen(true);
@@ -1086,6 +1085,9 @@ function App(prop) {
     eventBus.on("eventsConnect", () => {
       setDcOpen(false);
     });
+    document.addEventListener("gesturestart", function (e) {
+      e.preventDefault();
+    });
   }, []);
 
   useEffect(() => {
@@ -1336,7 +1338,7 @@ function App(prop) {
             handleOpenTable={handleOpenTable}
           />
 
-          <div style={{ position: "absolute", top: -1000000 }}>
+          <div style={{ position: "absolute", top: -10000 }}>
             <svg
               version="1.1"
               xmlns="http://www.w3.org/2000/svg"
