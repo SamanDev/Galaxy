@@ -50,13 +50,8 @@ const Dashboard = (prop) => {
 
   const handleFullscreen = (e) => {
     $(".framegame,body").removeClass("fullscreen");
-    document
-      .querySelector('meta[name="viewport"]')
-      .setAttribute(
-        "content",
-        "width=device-width,initial-scale=1,maximum-scale=1"
-      );
-    // prop.reportWindowSize();
+
+    prop.reportWindowSize();
   };
 
   useEffect(() => {

@@ -49,7 +49,7 @@ const Dashboard = (prop) => {
       window.addEventListener("resize", onWindowResize),
       () => window.removeEventListener("resize", onWindowResize)
     ),
-    [orientation]
+    []
   );
 
   var defslide = 1;
@@ -77,7 +77,13 @@ const Dashboard = (prop) => {
     localStorage.setItem("secondaryGame", value);
   };
 
-  const handleRangeChange = () => setActiveIndex(activeIndex == 0 ? 1 : 0);
+  const handleRangeChange = () => {
+    if (!activeIndexLoad) {
+      setGameLoader(true);
+    }
+
+    setActiveIndex(activeIndex == 0 ? 1 : 0);
+  };
   const handleFullscreen = () => {
     $(".framegame,body").toggleClass("fullscreen");
     setIsFull((Prev) => !Prev);
@@ -132,7 +138,7 @@ const Dashboard = (prop) => {
       if (
         screenOrientation.indexOf("landscape") > -1 &&
         screenOrientation.indexOf("landscape-") == -1 &&
-        viewportHeight < 600 &&
+        viewportHeight < 1101 &&
         loginToken?.accessToken &&
         !loginToken?.logout
       ) {
@@ -291,7 +297,7 @@ const Dashboard = (prop) => {
                 : { overflowX: "auto", overflowY: "hidden" }
             }
           >
-            {(gameLoader || !siteInfo?.gamesUrl) && mainGame == "wheel" && (
+            {(gameLoader || !siteInfo?.gamesUrl) && (
               <div
                 className={
                   isFull ? "framegame loader fullscreen" : "framegame loader"

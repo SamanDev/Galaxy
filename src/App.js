@@ -114,17 +114,24 @@ function App(prop) {
             scale +
             ",maximum-scale=" +
             scale +
-            ", user-scalable=no"
+            ""
         );
     } else {
+      scale = window.outerWidth / 550;
       document
         .querySelector('meta[name="viewport"]')
         .setAttribute(
           "content",
-          "width=device-width,initial-scale=1,maximum-scale=1, user-scalable=no"
+          "width=device-width, initial-scale=" +
+            scale +
+            ",maximum-scale=" +
+            scale +
+            ""
         );
     }
-    reportWindowSize();
+    setTimeout(() => {
+      reportWindowSize();
+    }, 100);
   };
   const handleOpenTable = async (tableName) => {
     if (loginToken && $("#pokerframe").length > 0) {
@@ -146,13 +153,15 @@ function App(prop) {
 
   function reportWindowSize() {
     //showTtoD();
-    //if (setsize) return false;
+    if (setsize) {
+      //return false;
+    }
 
     setsize = true;
 
     $("body").removeAttr("style");
 
-    clearTimeout(btime);
+    //clearTimeout(btime);
 
     btime = setTimeout(() => {
       $("#lazyarea").removeAttr("id");
@@ -974,9 +983,12 @@ function App(prop) {
         $("#nav-icon2").removeClass("open");
       });
     }
-    window.onresize = reportWindowSize;
-
-    reportWindowSize();
+    window.onresize = () => {
+      var agel = window.outerWidth > window.outerHeight ? 90 : 0;
+      AppOrtion(agel);
+    };
+    var agel = window.outerWidth > window.outerHeight ? 90 : 0;
+    AppOrtion(agel);
   }, []);
   useEffect(() => {
     reportWindowSize();
@@ -1066,8 +1078,8 @@ function App(prop) {
   useEffect(() => {
     window.addEventListener("message", function (event) {
       if (event.data == "AppOrtion") {
-        var agel = window.outerWidth > window.outerHeight ? 90 : 0;
-        AppOrtion(agel);
+        //var agel = window.outerWidth > window.outerHeight ? 90 : 0;
+        //AppOrtion(agel);
       }
 
       //console.log("Message received from the child: " + event.data); // Message received from child
@@ -1085,6 +1097,7 @@ function App(prop) {
     eventBus.on("eventsConnect", () => {
       setDcOpen(false);
     });
+
     document.addEventListener("gesturestart", function (e) {
       e.preventDefault();
     });
@@ -1336,6 +1349,7 @@ function App(prop) {
             setUserOpen={setUserOpen}
             reportWindowSize={reportWindowSize}
             handleOpenTable={handleOpenTable}
+            AppOrtion={AppOrtion}
           />
 
           <div style={{ position: "absolute", top: -10000 }}>
