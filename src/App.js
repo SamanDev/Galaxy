@@ -117,7 +117,7 @@ function App(prop) {
             ""
         );
     } else {
-      scale = window.outerWidth / 550;
+      scale = window.outerWidth / 500;
       document
         .querySelector('meta[name="viewport"]')
         .setAttribute(
@@ -199,7 +199,7 @@ function App(prop) {
       if (pHalf < 250) {
         pHalf = 250;
       }
-      $(".gamesec,#panelright").height(pHeight + "px");
+      $(".panelfull,.gamesec,#panelright").height(pHeight + "px");
       $(".panelhalf").height(pHalf + "px");
 
       $(".mm-panel--opened:visible")
