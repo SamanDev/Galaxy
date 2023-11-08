@@ -8,9 +8,6 @@
   font-style: normal;
 }
 
-#mypage * {
-  -webkit-user-select: none !important;
-}
 html,
 body {
   background: #384146;

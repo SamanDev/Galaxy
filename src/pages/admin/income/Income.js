@@ -199,7 +199,7 @@ function Admin(prop) {
   const [startDate, setStartDate] = useState(addDays(new Date(), -1));
   const [endDate, setEndDate] = useState(addDays(new Date(), -1));
   const [selectedList, setSelected] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   const [filterText, setFilterText] = React.useState("");
   const [filterOk, setFilterOk] = React.useState(false);
@@ -333,11 +333,11 @@ function Admin(prop) {
   var filteredItems = data;
 
   useEffect(() => {
-    fetchUsers(1); // fetch page 1 of users
+    // fetchUsers(1); // fetch page 1 of users
   }, [dataSearch]);
 
   useEffect(() => {
-    if (!firstOpen && filterOk) fetchUsers(1); // fetch page 1 of users
+    //if (!firstOpen && filterOk) fetchUsers(1); // fetch page 1 of users
   }, [filterOk, firstOpen]);
   useEffect(() => {
     if (firstOpen) setLive(false); // fetch page 1 of users
@@ -379,6 +379,13 @@ function Admin(prop) {
 
               <Button onClick={() => prop.addMainTabData("Runner")}>
                 Bankroll
+              </Button>
+              <Button
+                className="float-end"
+                color="red"
+                onClick={() => fetchUsers(1)}
+              >
+                Search
               </Button>
             </Grid.Column>
 

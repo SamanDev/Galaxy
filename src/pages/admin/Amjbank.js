@@ -16,7 +16,7 @@ import { addDays } from "date-fns";
 const moment = require("moment");
 import { adminGetService, adminPutService } from "../../services/admin";
 import { Alert } from "../../utils/alerts";
-
+import AmountColor from "../../utils/AmountColor";
 import CheckboxToggle from "./utils/toggle";
 import AddGift from "./AddGift";
 import Filter from "./Filter";
@@ -94,10 +94,10 @@ const FilterComponent = ({
 const updateUserObj = async (e, data) => {
   var _key = data.userkey;
   var curU = JSON.parse(JSON.stringify(data.user));
-  var values = { id: curU.id, key: _key, value: data.checked };
+  var values = { id: curU.id, value: data.checked };
 
   try {
-    const res = await adminPutService(values, "updateUserByAdmin");
+    const res = await adminPutService(values, "editVgcReport");
     if (res.status == 200) {
       if (res.data?.address) {
       }
@@ -136,8 +136,9 @@ function Admin(prop) {
   const [data, setData] = useState([]);
   const loginToken = prop.loginToken;
   const [totalRows, setTotalRows] = useState(1000);
-  const [perPage, setPerPage] = useState(10);
   const [dataSortedID, setDataSortedID] = useState(1);
+  const [perPage, setPerPage] = useState(10);
+  const [bank, setBank] = useState();
   const params = useParams();
   const [dataSearch, setDataSearch] = useState("");
   const [dataLoginDay, setDataLoginDay] = useState("");
@@ -158,194 +159,102 @@ function Admin(prop) {
   const handleChangeLogin = (e, { value }) => {
     setDataLoginDay(value);
   };
-  const columnsDownLine = [
-    {
-      name: "id",
-      selector: (row) => row.id,
-      sortable: true,
-      grow: 0.5,
-    },
-    {
-      name: "level",
-      selector: (row) => row.level,
-      format: (row) => <>{row.level}</>,
-      sortable: true,
-    },
-    {
-      name: "Glevel",
-      selector: (row) => row.glevel,
-      format: (row) => <>{row.glevel}</>,
-      sortable: true,
-    },
-    {
-      name: "username",
-      selector: (row) => row.username,
-      format: (row) => (
-        <>
-          <span
-            className="msglink fw-bold"
-            onClick={() => prop.addTabData(row.username, prop.getwaysList)}
-          >
-            {row.username}
-          </span>
-        </>
-      ),
-      sortable: true,
-      grow: 2,
-    },
+  const prinDesc = (desc) => {
+    const _desc = desc.split(",");
+    var res = "";
+    _desc.forEach((element) => {
+      if (element.indexOf(" orderId") > -1) {
+        res = res + element.split("=")[1] + " | ";
+      }
+      if (element.indexOf("cardNumber") > -1) {
+        res = res + element.split("=")[1] + " | ";
+      }
+      if (element.indexOf("shebaNumber") > -1) {
+        res = res + element.split("=")[1];
+      }
+    });
+    return res.replace(/'/g, "");
+  };
 
-    {
-      name: "balance",
-      selector: (row) => row.balance,
-      format: (row) => <>{doCurrency(row.balance)}</>,
-      sortable: true,
-    },
-    {
-      name: "balance2",
-      selector: (row) => row.balance2,
-      format: (row) => <>{doCurrency(row.balance2)}</>,
-      sortable: true,
-    },
-    {
-      name: "point",
-      selector: (row) => row.dailyPoint,
-      format: (row) => <>{row.dailyPoint}</>,
-      sortable: true,
-    },
-    {
-      name: "vip",
-      selector: (row) => row.vipPlaySecond,
-      format: (row) => <>{row.vipPlaySecond}</>,
-      sortable: true,
-    },
-    {
-      name: "gpass",
-      selector: (row) => row.glevelSecond,
-      format: (row) => <>{row.glevelSecond}</>,
-      sortable: true,
-    },
-    {
-      name: "lastLogin",
-      selector: (row) => row.lastLogin,
-      format: (row) => (
-        <>
-          <Moment fromNow ago>
-            {row.lastLogin}
-          </Moment>
-        </>
-      ),
-      sortable: true,
-    },
-
-    {
-      name: "userBlock",
-      selector: (row) => row.userBlock,
-      format: (row) => (
-        <>
-          <CheckboxToggle
-            check={row.userBlock}
-            user={row}
-            userkey="userBlock"
-            onChange={updateUserObj}
-          />
-        </>
-      ),
-      sortable: true,
-    },
-  ];
   var columns = [
     {
       name: "id",
       selector: (row) => row.id,
       sortable: true,
-      grow: 0.5,
-    },
-    {
-      name: "level",
-      selector: (row) => row.level,
-      format: (row) => <>{row.level}</>,
-      sortable: true,
-    },
-    {
-      name: "Glevel",
-      selector: (row) => row.glevel,
-      format: (row) => <>{row.glevel}</>,
-      sortable: true,
-    },
-    {
-      name: "username",
-      selector: (row) => row.username,
-      format: (row) => (
-        <>
-          <span
-            className="msglink fw-bold"
-            onClick={() => prop.addTabData(row.username, prop.getwaysList)}
-          >
-            {row.username}
-          </span>
-        </>
-      ),
-      sortable: true,
-      grow: 2,
+      width: "50px",
     },
 
     {
-      name: "refer",
-      selector: (row) => (row.refer ? row.refer : ""),
+      name: "Desc",
+      selector: (row) => row.description,
       format: (row) => (
         <>
-          {row.refer && (
-            <span
-              className="msglink fw-bold "
-              onClick={() => prop.addTabData(row.refer, prop.getwaysList)}
-            >
-              {row.refer}
-            </span>
+          {row.description.indexOf("AmjadCard") > -1 ? (
+            <>{prinDesc(row.description)}</>
+          ) : (
+            <>{row.description}</>
           )}
         </>
       ),
       sortable: true,
-      grow: 2,
+      width: "600px",
+    },
+    {
+      name: "Start",
+      selector: (row) => row.startBalance,
+      format: (row) => <>{doCurrency(row.startBalance)}</>,
+      sortable: true,
+      width: "100px",
+    },
+    {
+      name: "Amount",
+      selector: (row) => row.amount,
+      format: (row) => (
+        <>
+          <AmountColor
+            amount={row.amount}
+            sign={row.endBalance - row.startBalance}
+          />
+        </>
+      ),
+      sortable: true,
+      width: "100px",
+    },
+    {
+      name: "End",
+      selector: (row) => row.endBalance,
+
+      format: (row) => <>{doCurrency(row.endBalance)}</>,
+      sortable: true,
+      width: "100px",
     },
 
     {
-      name: "balance",
-      selector: (row) => row.balance,
-      format: (row) => <>{doCurrency(row.balance)}</>,
+      name: "Status",
+      selector: (row) => row.status,
+      format: (row) => (
+        <>
+          <CheckboxToggle
+            check={row.status == "Pending" && row.amount < 0 ? false : true}
+            disabled={row.amount < 0 ? false : true}
+            user={row}
+            userkey="id"
+            onChange={updateUserObj}
+          />
+        </>
+      ),
       sortable: true,
+      width: "180px",
     },
     {
-      name: "balance2",
-      selector: (row) => row.balance2,
-      format: (row) => <>{doCurrency(row.balance2)}</>,
-      sortable: true,
-    },
-    {
-      name: "point",
-      selector: (row) => row.dailyPoint,
-      format: (row) => <>{row.dailyPoint}</>,
-      sortable: true,
-    },
-    {
-      name: "vip",
-      selector: (row) => row.vipPlaySecond,
-      format: (row) => <>{row.vipPlaySecond}</>,
-      sortable: true,
-    },
-    {
-      name: "gpass",
-      selector: (row) => row.glevelSecond,
-      format: (row) => <>{row.glevelSecond}</>,
-      sortable: true,
-    },
-    {
-      name: "lastLogin",
-      selector: (row) => row.lastLogin,
+      name: "date",
+      selector: (row) => row.date,
       format: (row) => (
         <>
           <Moment fromNow ago>
-            {row.lastLogin}
-          </Moment>
+            {row.date}
+          </Moment>{" "}
+          | {row.date}
         </>
       ),
       sortable: true,
@@ -380,12 +289,24 @@ function Admin(prop) {
 
     setLoading(true);
     try {
+      const res = await adminGetService(`getVgcBank`);
+      if (res.status === 200) {
+        setBank(res.data);
+        //setTotalRows(res.data.numberOfElements);
+        // setFilterOk(false);
+      }
+    } catch (error) {
+      //console.log(error.message);
+    } finally {
+      setLoading(false);
+    }
+    try {
       const res = await adminGetService(
-        `getUsersByAdmin?name=${_name}&value=${_val}&page=${page}&number=${perPage}&login=${dataLoginDay}&contain=${_contain}`
+        `getVgcReport?name=${_name}&value=${_val}&page=${page}&number=${perPage}&login=${dataLoginDay}&contain=${_contain}`
       );
       if (res.status === 200) {
-        setData(res.data.users);
-        setTotalRows(res.data.count);
+        setData(res.data.content);
+        setTotalRows(res.data.numberOfElements);
         // setFilterOk(false);
       }
     } catch (error) {
@@ -402,23 +323,14 @@ function Admin(prop) {
   const handlePageChange = (page) => {
     fetchUsers(page);
   };
-  var filteredItems = data.filter((item) => item.username);
-
-  if (dataLoginDay) {
-    var startDate = addDays(new Date(), dataLoginDay);
-
-    filteredItems = data.filter((item) => {
-      var _Date = new Date(item.lastLogin);
-      return _Date <= startDate;
-    });
-  }
+  var filteredItems = data;
 
   useEffect(() => {
     //fetchUsers(1); // fetch page 1 of users
   }, [dataSearch]);
 
   useEffect(() => {
-    // if (filterOk) fetchUsers(1); // fetch page 1 of users
+    //if (filterOk) fetchUsers(1); // fetch page 1 of users
   }, [filterOk]);
 
   const [firstOpen, setFirstOpen] = React.useState(false);
@@ -452,52 +364,6 @@ function Admin(prop) {
     }
   }, []);
 
-  if (haveAdmin(loginToken.roles) && 1 == 2) {
-    columns.push(
-      {
-        name: "userBlock",
-        selector: (row) => row.userBlock,
-        format: (row) => (
-          <>
-            <CheckboxToggle
-              check={row.userBlock}
-              user={row}
-              userkey="userBlock"
-              onChange={updateUserObj}
-            />
-          </>
-        ),
-        sortable: true,
-      },
-      {
-        name: "Admin",
-        selector: (row) => row.roles,
-        format: (row) => (
-          <CheckboxToggle
-            check={haveAdmin(row.roles)}
-            user={row}
-            userkey="Roles"
-            onChange={updateUserObj}
-          />
-        ),
-        sortable: true,
-      },
-      {
-        name: "Moderator",
-        selector: (row) => row.roles,
-        format: (row) => (
-          <CheckboxToggle
-            check={haveModerator(row.roles)}
-            user={row}
-            userkey="Roles"
-            onChange={updateUserObj}
-          />
-        ),
-        sortable: true,
-      }
-    );
-  }
-
   const subHeaderComponentMemo = React.useMemo(() => {
     const handleClear = () => {
       if (filterText) {
@@ -516,21 +382,8 @@ function Admin(prop) {
         >
           <Grid.Row>
             <Grid.Column>
-              {haveAdmin(loginToken.roles) && (
-                <Button onClick={() => prop.addGatewayTabData("Gateways")}>
-                  Gateways
-                </Button>
-              )}
-
-              <Button onClick={() => prop.addMainTabData("Runner")}>
-                Runners
-              </Button>
-              <Button onClick={() => prop.addMainTabData("Bots")}>Bots</Button>
-              {selectedList.length > 0 && (
-                <Button color="red" onClick={() => setFirstOpen(true)}>
-                  Gift {selectedList.length}
-                </Button>
-              )}
+              Bank: {doCurrency(bank?.amount)} | Today:{" "}
+              {doCurrency(bank?.liveAmount)}
               <Button
                 className="float-end"
                 color="red"
@@ -541,20 +394,7 @@ function Admin(prop) {
             </Grid.Column>
 
             <Grid.Column style={{ textAlign: "right" }}>
-              <Filter onFilter={handleChangeSearch} value={dataSearch} />
-              <Filter
-                onFilter={handleChangeLogin}
-                value={dataLoginDay}
-                mymode="login"
-              />
-              <FilterComponent
-                onFilter={(e) => setFilterText(e.target.value)}
-                onClear={handleClear}
-                filterText={filterText}
-                onFilterOk={() => {
-                  setFilterOk(true);
-                }}
-              />
+              Total: {doCurrency(bank?.amount + bank?.liveAmount)}
             </Grid.Column>
           </Grid.Row>
         </Grid>

@@ -186,7 +186,7 @@ function Admin(prop) {
   };
 
   useEffect(() => {
-    fetchUsers(1); // fetch page 1 of users
+    //fetchUsers(1); // fetch page 1 of users
   }, [dataSorted, dataSortedDir, dataMode, dataSearch]);
 
   useEffect(() => {
@@ -358,6 +358,13 @@ function Admin(prop) {
                 onClick={() => setFirstOpen(true)}
               >
                 {_s} / {_e}
+              </Button>
+              <Button
+                className="float-end"
+                color="red"
+                onClick={() => fetchUsers(1)}
+              >
+                Search
               </Button>
               {dataSearch != "" ? (
                 <Label

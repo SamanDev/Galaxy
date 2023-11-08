@@ -176,7 +176,7 @@ const depositArea = (prop) => {
                   }
                 >
                   <Icon name={dep.icon} color="black" />
-                  <span className="farsi">{dep.text}</span>
+                  <span className="farsi">{dep.text} دلار</span>
                   <Label
                     size="mini"
                     floating

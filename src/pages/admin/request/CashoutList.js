@@ -90,7 +90,7 @@ function Admin(prop) {
 
   const [startDate, setStartDate] = useState(addDays(new Date(), -14));
   const [endDate, setEndDate] = useState(addDays(new Date(), 1));
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   const [filterText, setFilterText] = React.useState("");
   const [filterOk, setFilterOk] = React.useState(false);
@@ -122,6 +122,22 @@ function Admin(prop) {
     } catch (error) {
       //console.log(error.message);
     }
+  };
+  const prinDesc = (desc) => {
+    const _desc = desc.split(",");
+    var res = "";
+    _desc.forEach((element) => {
+      if (element.indexOf(" orderId") > -1) {
+        res = res + element.split("=")[1] + " | ";
+      }
+      if (element.indexOf("cardNumber") > -1) {
+        res = res + element.split("=")[1] + " | ";
+      }
+      if (element.indexOf("shebaNumber") > -1) {
+        res = res + element.split("=")[1];
+      }
+    });
+    return res.replace(/'/g, "");
   };
   const fetchUsers = async (page, load) => {
     if (load) {
@@ -217,14 +233,14 @@ function Admin(prop) {
   };
 
   useEffect(() => {
-    fetchUsers(1, true); // fetch page 1 of users
+    //fetchUsers(1, true); // fetch page 1 of users
   }, [dataSorted, dataSortedDir]);
 
   useEffect(() => {
-    if (!firstOpen && filterOk) fetchUsers(1, true); // fetch page 1 of users
+    //if (!firstOpen && filterOk) fetchUsers(1, true); // fetch page 1 of users
   }, [filterOk, firstOpen]);
   useEffect(() => {
-    if (!firstDone && firstStatus == "reload") fetchUsers(1); // fetch page 1 of users
+    //if (!firstDone && firstStatus == "reload") fetchUsers(1); // fetch page 1 of users
   }, [firstDone]);
   useEffect(() => {
     //fetchCart();
@@ -296,6 +312,21 @@ function Admin(prop) {
       ),
       sortable: true,
     },
+    {
+      name: "Desc",
+      selector: (row) => row.description,
+      format: (row) => (
+        <>
+          {row.description.indexOf("AmjadCard") > -1 ? (
+            <>{prinDesc(row.description)}</>
+          ) : (
+            <>{row.description}</>
+          )}
+        </>
+      ),
+      sortable: true,
+      width: "600px",
+    },
     /*   {
       name: "Data",
       selector: (row) => row.cashoutDescription,
@@ -346,6 +377,9 @@ function Admin(prop) {
                 onClick={() => setFirstOpen(true)}
               >
                 {_s} / {_e}
+              </Button>
+              <Button color="red" onClick={() => fetchUsers(1)}>
+                Search
               </Button>
             </Grid.Column>
             <Grid.Column>

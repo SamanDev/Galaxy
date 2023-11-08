@@ -212,11 +212,11 @@ function Admin(prop) {
   };
 
   useEffect(() => {
-    fetchUsers(1); // fetch page 1 of users
+    //fetchUsers(1); // fetch page 1 of users
   }, [dataSorted, dataSortedDir, dataMode]);
 
   useEffect(() => {
-    if (!firstOpen && filterOk) fetchUsers(1); // fetch page 1 of users
+    //if (!firstOpen && filterOk) fetchUsers(1); // fetch page 1 of users
   }, [filterOk, firstOpen]);
 
   const columns = [
@@ -306,6 +306,13 @@ function Admin(prop) {
               </Button>
             </Grid.Column>
             <Grid.Column>
+              <Button
+                className="float-end"
+                color="red"
+                onClick={() => fetchUsers(1)}
+              >
+                Search
+              </Button>
               <FilterMode
                 onFilter={(e, { value }) => {
                   setDataMode(value.toString());

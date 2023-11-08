@@ -8,7 +8,7 @@
   font-style: normal;
 }
 
-#mypage * {
+#mypage nav {
   -webkit-user-select: none !important;
 }
 html,
