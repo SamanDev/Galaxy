@@ -131,7 +131,7 @@ function App(prop) {
     }
     setTimeout(() => {
       reportWindowSize();
-    }, 100);
+    }, 10);
   };
   const handleOpenTable = async (tableName) => {
     if (loginToken && $("#pokerframe").length > 0) {
@@ -154,7 +154,7 @@ function App(prop) {
   function reportWindowSize() {
     //showTtoD();
     if (setsize) {
-      //return false;
+      return false;
     }
 
     setsize = true;
