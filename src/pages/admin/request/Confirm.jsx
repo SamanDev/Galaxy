@@ -134,7 +134,7 @@ const depositArea = (prop) => {
           initialValues={{
             action: prop.status,
             id: prop.item.id,
-            amount: prop.item.amount,
+            amount: prop.item.amount ? prop.item.amount : prop.item.amount2,
             geteway: prop.gateway.replace(/ /g, ""),
             bankId: "",
             userBankId: "",
@@ -168,29 +168,36 @@ const depositArea = (prop) => {
                         size={prop.size}
                         readOnly
                       />
-                      <Segment secondary>
-                        Amount &nbsp;
-                        <span className="text-golds">
-                          ${doCurrency(desc.dollarAmount)}
-                        </span>{" "}
-                        - Fee &nbsp;
-                        <span className="text-golds">
-                          ${doCurrency(desc.fee)}
-                        </span>
-                        - Rate &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{" "}
-                        <span className="text-gold3">
-                          {doCurrency(desc.dollarPrice)}
-                        </span>{" "}
-                        - Final Amount &nbsp;
-                        <span className="text-gol33d">
-                          $
-                          {doCurrency(
-                            desc.VOUCHER_AMOUNT
-                              ? desc.VOUCHER_AMOUNT
-                              : parseFloat(desc.amount).toFixed(2)
-                          )}
-                        </span>
-                      </Segment>
+                      {prop.item.amount && (
+                        <>
+                          {" "}
+                          <Segment secondary>
+                            Amount &nbsp;
+                            <span className="text-golds">
+                              ${doCurrency(desc?.dollarAmount)}
+                            </span>{" "}
+                            - Fee &nbsp;
+                            <span className="text-golds">
+                              ${doCurrency(desc?.fee)}
+                            </span>
+                            - Rate
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{" "}
+                            <span className="text-gold3">
+                              {doCurrency(desc?.dollarPrice)}
+                            </span>{" "}
+                            - Final Amount &nbsp;
+                            <span className="text-gol33d">
+                              $
+                              {doCurrency(
+                                desc?.VOUCHER_AMOUNT
+                                  ? desc?.VOUCHER_AMOUNT
+                                  : parseFloat(desc?.amount).toFixed(2)
+                              )}
+                            </span>
+                          </Segment>
+                        </>
+                      )}
+
                       <FormikControl
                         formik={formik}
                         control="input"

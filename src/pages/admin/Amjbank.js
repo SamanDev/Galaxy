@@ -204,7 +204,7 @@ function Admin(prop) {
       selector: (row) => row.startBalance,
       format: (row) => <>{doCurrency(row.startBalance)}</>,
       sortable: true,
-      width: "100px",
+      width: "130px",
     },
     {
       name: "Amount",
@@ -218,7 +218,7 @@ function Admin(prop) {
         </>
       ),
       sortable: true,
-      width: "100px",
+      width: "200px",
     },
     {
       name: "End",
@@ -226,7 +226,7 @@ function Admin(prop) {
 
       format: (row) => <>{doCurrency(row.endBalance)}</>,
       sortable: true,
-      width: "100px",
+      width: "130px",
     },
 
     {
