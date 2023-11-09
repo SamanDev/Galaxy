@@ -331,19 +331,6 @@ const depositArea = (prop) => {
               disabled={formik.isSubmitting}
               loading={formik.isSubmitting}
             />
-            <Button
-              content={"ثبتw"}
-              fluid
-              style={{ margin: "10px 0" }}
-              className="farsi"
-              type="button"
-              color="olive"
-              disabled={formik.isSubmitting}
-              loading={formik.isSubmitting}
-              onClick={() => {
-                prop.setRefresh(false);
-              }}
-            />
 
             <List title="کارت های بانکی" mode="cart" {...prop} />
           </Form>

@@ -1097,10 +1097,6 @@ function App(prop) {
     eventBus.on("eventsConnect", () => {
       setDcOpen(false);
     });
-
-    document.addEventListener("gesturestart", function (e) {
-      e.preventDefault();
-    });
   }, []);
 
   useEffect(() => {

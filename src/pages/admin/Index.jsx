@@ -62,9 +62,9 @@ function Admin(prop) {
         ),
       },
       {
-        menuItem: "AmjBank",
+        menuItem: "VGC Bank",
         pane: (
-          <Tab.Pane key="AmjBank">
+          <Tab.Pane key="VGCBank">
             <Amj
               addTabData={addTabData}
               addMainTabData={addMainTabData}
