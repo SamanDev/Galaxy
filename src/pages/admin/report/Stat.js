@@ -16,7 +16,7 @@ import { addDays } from "date-fns";
 import AmountColor from "../../../utils/AmountColor";
 import $ from "jquery";
 import { adminGetService } from "../../../services/admin";
-
+import Moment from "react-moment";
 import DateReng from "../utils/dateReng";
 import FilterMode from "./Filter";
 import FilterModeGateway from "./FilterGateway";
@@ -444,7 +444,12 @@ function Admin(prop) {
       name: "Date",
       selector: (row) => row.createDate,
       format: (row) => (
-        <div className="blacktext">{convertDateToJalali(row.createDate)}</div>
+        <>
+          {moment(row.createDate)
+            .zone("-08:00")
+            .local(true)
+            .format("YYYY-MM-DD - HH:mm")}
+        </>
       ),
       sortable: true,
     },

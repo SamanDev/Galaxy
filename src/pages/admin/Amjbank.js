@@ -251,7 +251,12 @@ function Admin(prop) {
       selector: (row) => row.date,
       format: (row) => (
         <>
-          <Moment local="fa">{row.date}</Moment>
+          <>
+            {moment(row.date)
+              .zone("-08:00")
+              .local(true)
+              .format("YYYY-MM-DD - HH:mm")}
+          </>
         </>
       ),
       sortable: true,

@@ -35,8 +35,8 @@ function Admin(prop) {
     var _data = data.filter(
       (d) =>
         parseInt(moment(d.createDate).date()) === parseInt(i) &&
-        d.mode.toLowerCase() == mode.toLowerCase()
-      // && d.status.toLowerCase() == status.toLowerCase()
+        d.mode.toLowerCase() == mode.toLowerCase() &&
+        d.status.toLowerCase() == status.toLowerCase()
     );
     if (gateway) {
       _data = _data.filter(

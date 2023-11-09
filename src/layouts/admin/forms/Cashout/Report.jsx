@@ -6,6 +6,7 @@ import { convertDateToJalali } from "../../../../utils/convertDate";
 import AmountColor from "../../../../utils/AmountColor";
 import { getReportService } from "../../../../services/report";
 import NoData from "../../../../utils/noData";
+const moment = require("moment");
 function sendMessage(message) {
   console.log(message);
   try {
@@ -76,6 +77,7 @@ const Report = (prop) => {
                     <List.Content>
                       <List.Description className="rightfloat">
                         {convertDateToJalali(item.createDate)}
+
                         <div
                           className="text-end pad10tb"
                           onClick={() =>
