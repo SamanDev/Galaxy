@@ -14,7 +14,7 @@ import Requests from "./Requests";
 import Setting from "./JsonSetting";
 import RisingPitch from "./utils/PlayAlert";
 import { adminGetService } from "../../services/admin";
-import { haveAdmin, haveModerator, haveRoot } from "../../const";
+import { haveAdmin, haveModerator, haveOperator, haveRoot } from "../../const";
 import { useAdminTicket } from "../../hook/infoHook";
 var panes = [];
 const getGateways = JSON.parse(localStorage.getItem("getGateways"));
@@ -249,7 +249,7 @@ function Admin(prop) {
     panes = result;
     setActiveIndex(-1);
   };
-  if (!haveAdmin(loginToken?.roles) && !haveModerator(loginToken?.roles)) {
+  if (!haveAdmin(loginToken?.roles) && !haveOperator(loginToken?.roles)) {
     return <Navigate to="/" />;
   }
 

@@ -11,6 +11,7 @@ import {
   haveModerator,
   getEvent,
   dayOfTournament,
+  haveOperator,
 } from "./const";
 import LazyLoad from "react-lazyload";
 import { forceCheck } from "react-lazyload";
@@ -356,6 +357,7 @@ function App(prop) {
         if (
           menu.idname != "admin" ||
           (haveAdmin(loginToken?.roles) && !loginToken?.logout) ||
+          (haveOperator(loginToken?.roles) && !loginToken?.logout) ||
           (haveModerator(loginToken?.roles) && !loginToken?.logout)
         ) {
           var addr = window.location.href.toString().split("/");

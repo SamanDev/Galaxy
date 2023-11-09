@@ -372,6 +372,7 @@ function Admin(prop) {
               <Button
                 onClick={() => {
                   setLive(true);
+                  fetchUsers(1);
                 }}
               >
                 Live
