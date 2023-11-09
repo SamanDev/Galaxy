@@ -108,7 +108,7 @@ function Admin(prop) {
   const [filterText, setFilterText] = React.useState("");
   const [filterOk, setFilterOk] = React.useState(false);
   const filteredItems = data
-    .sort((a, b) => (a.id < b.id ? 1 : -1))
+    .sort((a, b) => (a.createDate < b.createDate ? 1 : -1))
     .filter((item) => item.id);
   const [firstOpen, setFirstOpen] = React.useState(false);
   const [resetPaginationToggle, setResetPaginationToggle] =
@@ -197,7 +197,7 @@ function Admin(prop) {
       name: "id",
       selector: (row) => row.id,
       format: (row) => <>{parseInt(row.id)}</>,
-      sortable: true,
+
       width: "80px",
     },
     {
@@ -419,9 +419,7 @@ function Admin(prop) {
           data={filteredItems}
           progressPending={loading}
           onChangeRowsPerPage={handlePerRowsChange}
-          defaultSortFieldId={dataSortedID}
           paginationPerPage={perPage}
-          defaultSortAsc={false}
           expandOnRowClicked={true}
           expandableRowsHideExpander={true}
           conditionalRowStyles={conditionalRowStyles}

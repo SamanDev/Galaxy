@@ -32,7 +32,7 @@ const conditionalRowStyles = [
   },
   // You can also pass a callback to style for additional customization
   {
-    when: (row) => row.endBalance > row.startBalance,
+    when: (row) => row.endBalance > row.startBalance && row.status == "Done",
     style: {
       backgroundColor: "rgba(0,255,0,.1)",
     },
@@ -85,27 +85,26 @@ const sumOf = (array) => {
       currentValue.endBalance >= currentValue.startBalance
         ? currentValue.amount
         : currentValue.amount;
+    if (_am < 0) {
+      _am = _am * -1;
+    }
     return sum + _am;
   }, 0);
 };
 const getChartColor = (name) => {
+  console.log(name);
   var text = "blue";
   var _name = name.replace("Bonus ", "");
   switch (_name) {
     case "Cashout":
       text = "rgba(255, 0, 0, 1)";
       break;
-    case "Cashout IranShetab":
-      text = "rgba(255, 0, 0, 0.1)";
-      break;
-    case "Cashout USDT":
-      text = "rgba(255, 0, 0, 0.2)";
-      break;
+
     case "Deposit":
       text = "rgba(120, 255, 0, 1)";
       break;
-    case "Deposit IranShetab":
-      text = "rgba(13, 140, 0, 0.1)";
+    case "Transfer":
+      text = "rgba(0, 0, 255, 1)";
       break;
     case "Bonus":
       text = "rgba(255, 170, 0, 1)";
@@ -126,6 +125,15 @@ const getChartColor = (name) => {
     default:
       text = "green";
       break;
+  }
+  if (name.indexOf("Transfer ") > -1) {
+    text = "rgba(0,0,255,0.3)";
+  }
+  if (name.indexOf("Deposit ") > -1) {
+    text = "rgba(0,255,0,0.3)";
+  }
+  if (name.indexOf("Cashout ") > -1) {
+    text = "rgba(255,0,0,0.3)";
   }
   return text;
 };
@@ -155,7 +163,7 @@ function Admin(prop) {
   const [filterOk, setFilterOk] = React.useState(false);
   const filteredItems = data
     .sort((a, b) => (a.id < b.id ? 1 : -1))
-    .filter((item) => item.id);
+    .filter((item) => item.status != "Canceled");
   const [firstOpen, setFirstOpen] = React.useState(false);
   const [resetPaginationToggle, setResetPaginationToggle] =
     React.useState(false);
@@ -253,7 +261,8 @@ function Admin(prop) {
             parseInt(moment(d.createDate).date()) ===
               parseInt(moment(i).date()) &&
             parseInt(moment(d.createDate).month()) ===
-              parseInt(moment(i).month())
+              parseInt(moment(i).month()) &&
+            d.status == "Done"
         );
         newdata.push(sumOf(ffdata));
       }
@@ -274,13 +283,15 @@ function Admin(prop) {
       var _ggateway = groupBy(_gmode[property], "gateway");
 
       var oop = 0;
-      if (dataMode.toString().indexOf(",") == -1) {
+      if (dataMode.toString().indexOf(",") == -1 || 1 == 1) {
         for (const rec in _ggateway) {
           oop = oop + 50;
           tdata.push({
             type: "bar",
             label: rec,
             data: getdays(_ggateway[rec]),
+            borderColor: getChartColor(property + " " + rec),
+            backgroundColor: getChartColor(property + " " + rec),
           });
           //console.log(rec + ": " + sumOf(_ggateway[rec]));
         }
@@ -354,21 +365,45 @@ function Admin(prop) {
     },
     {
       name: "Start",
-      selector: (row) => row.startBalance,
-      format: (row) => <>{doCurrency(row.startBalance)}</>,
+      selector: (row) => (row.amount2 ? row.startBalance2 : row.startBalance),
+      format: (row) => (
+        <>
+          {row.amount2 ? (
+            <>{doCurrency(row.startBalance2)} $</>
+          ) : (
+            doCurrency(row.startBalance)
+          )}
+        </>
+      ),
       sortable: true,
       width: "100px",
     },
     {
       name: "Amount",
       selector: (row) =>
-        row.endBalance >= row.startBalance ? row.amount : row.amount * -1,
+        row.amount2
+          ? row.endBalance2 >= row.startBalance2
+            ? row.amount2
+            : row.amount2 * -1
+          : row.endBalance >= row.startBalance
+          ? row.amount
+          : row.amount * -1,
       format: (row) => (
         <>
-          <AmountColor
-            amount={row.amount}
-            sign={row.endBalance - row.startBalance}
-          />
+          {row.amount2 ? (
+            <>
+              <AmountColor
+                amount={row.amount2}
+                sign={row.endBalance2 - row.startBalance2}
+              />{" "}
+              $
+            </>
+          ) : (
+            <AmountColor
+              amount={row.amount}
+              sign={row.endBalance - row.startBalance}
+            />
+          )}
         </>
       ),
       sortable: true,
@@ -376,8 +411,17 @@ function Admin(prop) {
     },
     {
       name: "End",
-      selector: (row) => row.endBalance,
-      format: (row) => <>{doCurrency(row.endBalance)}</>,
+      selector: (row) => (row.amount2 ? row.endBalance2 : row.endBalance),
+
+      format: (row) => (
+        <>
+          {row.amount2 ? (
+            <>{doCurrency(row.endBalance2)} $</>
+          ) : (
+            doCurrency(row.endBalance)
+          )}
+        </>
+      ),
       sortable: true,
       width: "100px",
     },

@@ -251,10 +251,7 @@ function Admin(prop) {
       selector: (row) => row.date,
       format: (row) => (
         <>
-          <Moment fromNow ago>
-            {row.date}
-          </Moment>{" "}
-          | {row.date}
+          <Moment local="fa">{row.date}</Moment>
         </>
       ),
       sortable: true,
