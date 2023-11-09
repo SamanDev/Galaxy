@@ -228,7 +228,7 @@ function App(prop) {
     }, 50);
     setTimeout(() => {
       setsize = false;
-    }, 1000);
+    }, 100);
   }
   function showTtoD() {
     setTtoDOpen(true);
