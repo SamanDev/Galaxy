@@ -104,6 +104,7 @@ function App(prop) {
   const [loginToken] = useUser();
   const AppOrtion = (agel) => {
     //return false;
+    //alert(agel);
     var scale = window.outerWidth / 1100;
     if (agel == 90 && scale < 1) {
       document
@@ -117,7 +118,8 @@ function App(prop) {
             ""
         );
     } else {
-      scale = window.outerWidth / 500;
+      scale = window.outerWidth / 450;
+      scale = 1;
       document
         .querySelector('meta[name="viewport"]')
         .setAttribute(
@@ -131,7 +133,7 @@ function App(prop) {
     }
     setTimeout(() => {
       reportWindowSize();
-    }, 10);
+    }, 100);
   };
   const handleOpenTable = async (tableName) => {
     if (loginToken && $("#pokerframe").length > 0) {
@@ -984,8 +986,10 @@ function App(prop) {
       });
     }
     window.onresize = () => {
-      var agel = window.outerWidth > window.outerHeight ? 90 : 0;
-      AppOrtion(agel);
+      setTimeout(() => {
+        var agel = window.outerWidth > window.outerHeight ? 90 : 0;
+        AppOrtion(agel);
+      }, 10);
     };
     var agel = window.outerWidth > window.outerHeight ? 90 : 0;
     AppOrtion(agel);

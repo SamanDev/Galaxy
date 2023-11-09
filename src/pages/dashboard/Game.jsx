@@ -321,8 +321,8 @@ const Dashboard = (prop) => {
                 name="gameframe"
                 className={
                   isFull
-                    ? "framegame panelfull fullscreen"
-                    : "framegame panelfull"
+                    ? "framegame panelfull fullscreen casframe"
+                    : "framegame panelfull casframe"
                 }
                 onLoad={removeFrameLoad2}
               ></iframe>
