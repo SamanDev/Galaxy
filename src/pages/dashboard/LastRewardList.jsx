@@ -17,7 +17,7 @@ const LevelList = (prop) => {
         "",
         prop.mode,
         "",
-        prop.mode == "levels" ? 10000 : 500
+        prop.mode == "levels" ? 500 : 500
       );
       if (res.status === 200) {
         setData(res.data.sort((a, b) => (a.date < b.date ? 1 : -1)));

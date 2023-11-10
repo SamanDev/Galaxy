@@ -49,11 +49,10 @@ const ActiveTable = (prop) => {
         .map(function (x, i) {
           var myx = x;
 
-          myx.class = "lastlogs animated fadeIn slow";
+          myx.class = "lastlogs animated fadeIn";
         });
-    }, 200);
-
-    prop.bindLastReward();
+      prop.bindLastReward();
+    }, 20);
   }, [_sortData]);
   useEffect(() => {
     eventBus.on("updateLastReward", (dataGet) => {

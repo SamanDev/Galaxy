@@ -219,12 +219,6 @@ function App(prop) {
           .find(".mm-listview:first")
           .attr("id", "lazyarea");
       }
-      $("#lazyareapael")
-        .unbind()
-        .bind("scroll", function () {
-          bindLastReward();
-          //forceCheck();
-        });
     }, 50);
     setTimeout(() => {
       setsize = false;
@@ -261,7 +255,7 @@ function App(prop) {
         });
       forceCheck();
       setbindrew = false;
-    }, 500);
+    }, 10);
   }
 
   function getLinkId(str) {
@@ -433,7 +427,7 @@ function App(prop) {
                           </span>
                         </li>
                       )}
-                      {activeMenu == menu.label && (
+                      {activeMenu == menu.label && activeMenuOpen && (
                         <li>
                           <span>
                             <CompGen menu={menu} />
@@ -453,7 +447,7 @@ function App(prop) {
                                 </span>
                               </li>
                               <li>
-                                {activeMenu == menu.label && (
+                                {activeMenu == menu.label && activeMenuOpen && (
                                   <>
                                     <CompGen menu={menu} />
                                   </>
@@ -559,7 +553,7 @@ function App(prop) {
                       <li key={i + menu.label} className={submenu?.aria}>
                         {submenu.image ? (
                           <>
-                            {activeMenu == menu.label && (
+                            {activeMenu == menu.label && activeMenuOpen && (
                               <>
                                 <LazyLoad
                                   offset={300}
@@ -692,11 +686,12 @@ function App(prop) {
                                     <span>{submenu.title}</span>
                                   </li>
                                 )}
-                                {activeMenu == submenu.label && (
-                                  <li>
-                                    <span>{<CompGen menu={submenu} />}</span>
-                                  </li>
-                                )}
+                                {activeMenu == submenu.label &&
+                                  activeMenuOpen && (
+                                    <li>
+                                      <span>{<CompGen menu={submenu} />}</span>
+                                    </li>
+                                  )}
                               </ul>
                             ) : (
                               <span>
@@ -710,7 +705,7 @@ function App(prop) {
                                     </ul>
                                   </>
                                 )}
-                                {activeMenu == menu.label && (
+                                {activeMenu == menu.label && activeMenuOpen && (
                                   <CompGen menu={submenu} />
                                 )}
                               </span>
@@ -995,6 +990,10 @@ function App(prop) {
     };
     var agel = window.outerWidth > window.outerHeight ? 90 : 0;
     AppOrtion(agel);
+    $("#lazyareapael").bind("scroll", function () {
+      bindLastReward();
+      //forceCheck();
+    });
   }, []);
   useEffect(() => {
     reportWindowSize();
@@ -1110,6 +1109,7 @@ function App(prop) {
   }, [
     activeMenu,
     history,
+    activeMenuOpen,
     loginToken?.logout,
     loginToken?.accessToken,
     loginToken?.userActivate,
