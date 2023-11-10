@@ -46,7 +46,7 @@ const BonusArea = (prop) => {
     var _br = "\n";
 
     if (bonus.status == "Pending") {
-      if (!start.isBefore(end)) {
+      if (!start.isBefore(end) && 1 == 2) {
       } else {
         if (bonus.banaction) {
           var _msg = `<small class="opacity-50 animated heartBeat delay-2s" style="display:block;margin-top:10px">توجه داشته باشید اگر لِوِل شما کمتر از <span class="text-gold">${bonus.levelreq} </span> باشد، با دریافت هر پاداش، برداشت و انتقال شما به مدت <span class="text-gold">${bonus.banaction} ساعت</span> بسته خواهد شد.</small>`;
@@ -265,7 +265,7 @@ const BonusArea = (prop) => {
         )}
         {bonus.status == "Pending" && !start.isBefore(end) && (
           <>
-            <Button
+            {/* <Button
               animated="fade"
               size="mini"
               color="grey"
@@ -273,6 +273,21 @@ const BonusArea = (prop) => {
               floated="right"
               className="farsi"
               style={{ opacity: 1, width: 140, marginRight: 10 }}
+            >
+              {doCurrency(_amount)} <small className="farsi">{_cur}</small>
+            </Button> */}
+            <Button
+              size="mini"
+              color="orange"
+              floated="right"
+              className="rtl"
+              style={{ opacity: 1, width: 140, marginRight: 10 }}
+              compact
+              loading={loading}
+              disabled={loading}
+              onClick={() => {
+                handleConfirm(bonus, loginToken);
+              }}
             >
               {doCurrency(_amount)} <small className="farsi">{_cur}</small>
             </Button>
