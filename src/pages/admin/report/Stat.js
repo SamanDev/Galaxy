@@ -106,22 +106,13 @@ const getChartColor = (name) => {
     case "Bonus":
       text = "rgba(255, 170, 0, 1)";
       break;
-    case "gift":
-      text = "rgba(255, 170, 0, 0.1)";
-      break;
-    case "GPass":
-      text = "rgba(255, 170, 0, 0.2)";
-      break;
-    case "Levels":
-      text = "rgba(255, 170, 0, 0.3)";
-      break;
-    case "commission":
-      text = "rgba(255, 170, 0, 0.4)";
-      break;
 
     default:
       text = "green";
       break;
+  }
+  if (name.indexOf("Bonus ") > -1) {
+    text = "rgba(255, 170, 0,0.3)";
   }
   if (name.indexOf("Transfer ") > -1) {
     text = "rgba(0,0,255,0.3)";
@@ -152,7 +143,7 @@ function Admin(prop) {
   const [dataMode, setDataMode] = useState(defmde);
   const [getwaysList, setGetwaysData] = useState();
 
-  const [startDate, setStartDate] = useState(addDays(new Date(), -24));
+  const [startDate, setStartDate] = useState(addDays(new Date(), -6));
   const [endDate, setEndDate] = useState(addDays(new Date(), 1));
   const [loading, setLoading] = useState(false);
 
