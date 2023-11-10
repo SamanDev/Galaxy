@@ -143,7 +143,7 @@ function Admin(prop) {
       findStateId(myState, "plusText").value
     );
 
-    var endFormat = moment(end).local(true).format("YYYY-MM-DD HH:mm:00");
+    var endFormat = moment(end).format("YYYY-MM-DD HH:mm:00");
     onUpdateItem("expired", endFormat);
 
     // 1

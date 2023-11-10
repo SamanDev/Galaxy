@@ -305,12 +305,7 @@ function Admin(prop) {
       name: "Date",
       selector: (row) => row.createDate,
       format: (row) => (
-        <>
-          {moment(row.createDate)
-            .zone("-08:00")
-            .local(true)
-            .format("YYYY-MM-DD - HH:mm")}
-        </>
+        <>{moment(row.createDate).format("YYYY-MM-DD - HH:mm")}</>
       ),
       sortable: true,
     },
