@@ -384,7 +384,14 @@ function Admin(prop) {
               <Button
                 className="float-end"
                 color="red"
-                onClick={() => fetchUsers(1)}
+                onClick={() => {
+                  if (filterOk) {
+                    setFilterOk(false);
+                  } else {
+                    setFilterOk(true);
+                  }
+                  fetchUsers(1);
+                }}
               >
                 Search
               </Button>

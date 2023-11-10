@@ -182,8 +182,8 @@ const BonusArea = (prop) => {
             start.isBefore(end) &&
             end.isBefore(expire) && (
               <>
-                <Moment fromNow local="fa">
-                  {moment(bonus.expireDate)}
+                <Moment fromNow locale="fa">
+                  {bonus.expireDate}
                 </Moment>{" "}
                 تا انقضا
               </>
@@ -193,12 +193,15 @@ const BonusArea = (prop) => {
             !end.isBefore(expire)) ||
             bonus.status == "Expired") && (
             <>
-              انقضا در <Moment local="fa">{moment(bonus.expireDate)}</Moment>
+              انقضا در{" "}
+              <Moment fromNow locale="fa">
+                {bonus.expireDate}
+              </Moment>
             </>
           )}
           {bonus.status == "Pending" && !start.isBefore(end) && (
             <>
-              <Moment fromNow local="fa">
+              <Moment fromNow locale="fa">
                 {bonus.startDate}
               </Moment>{" "}
               تا فعالسازی

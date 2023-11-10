@@ -157,7 +157,7 @@ function App(prop) {
   function reportWindowSize() {
     //showTtoD();
     if (setsize) {
-      return false;
+      //return false;
     }
 
     setsize = true;
