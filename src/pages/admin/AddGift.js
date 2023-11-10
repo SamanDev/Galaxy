@@ -62,7 +62,7 @@ var nowdate = new Date();
 var expdate = new Date();
 nowdate = moment(nowdate).format("YYYY-MM-DD HH:00:00");
 mindate = moment(mindate).format("YYYY-MM-DD HH:00:00");
-expdate = moment(expdate).add(6, "hours").format("YYYY-MM-DD HH:mm:00");
+expdate = moment(nowdate).add(6, "hours").format("YYYY-MM-DD HH:mm:00");
 function Admin(prop) {
   const [myState, setMyState] = useState({
     list: [
@@ -143,7 +143,7 @@ function Admin(prop) {
       findStateId(myState, "plusText").value
     );
 
-    var endFormat = moment(end).format("YYYY-MM-DD HH:mm:00");
+    var endFormat = moment(end).local(true).format("YYYY-MM-DD HH:mm:00");
     onUpdateItem("expired", endFormat);
 
     // 1
