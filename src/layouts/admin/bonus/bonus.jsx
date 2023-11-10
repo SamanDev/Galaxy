@@ -41,7 +41,7 @@ const BonusArea = (prop) => {
   };
 
   const handleConfirm = (bonus) => {
-    var start = moment(bonus.date).zone("-08:00").local(true);
+    var start = moment(bonus.date);
     var end = moment();
     var _br = "\n";
 
@@ -76,8 +76,8 @@ const BonusArea = (prop) => {
       }
     }
   };
-  var start = moment(bonus.startDate).zone("-08:00").local(true);
-  var expire = moment(bonus.expireDate).zone("-08:00").local(true);
+  var start = moment(bonus.startDate);
+  var expire = moment(bonus.expireDate);
   var end = moment();
   var _mode = bonus.mode.toLowerCase();
   var _amount = bonus.amount ? bonus.amount : bonus.amount2;
@@ -183,7 +183,7 @@ const BonusArea = (prop) => {
             end.isBefore(expire) && (
               <>
                 <Moment fromNow local="fa">
-                  {moment(bonus.expireDate).zone("-08:00").local(true)}
+                  {moment(bonus.expireDate)}
                 </Moment>{" "}
                 تا انقضا
               </>
@@ -193,10 +193,7 @@ const BonusArea = (prop) => {
             !end.isBefore(expire)) ||
             bonus.status == "Expired") && (
             <>
-              انقضا در{" "}
-              <Moment local="fa">
-                {moment(bonus.expireDate).zone("-08:00").local(true)}
-              </Moment>
+              انقضا در <Moment local="fa">{moment(bonus.expireDate)}</Moment>
             </>
           )}
           {bonus.status == "Pending" && !start.isBefore(end) && (
