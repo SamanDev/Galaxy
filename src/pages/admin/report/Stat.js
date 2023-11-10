@@ -4,19 +4,16 @@ import {
   Segment,
   Button,
   Dimmer,
-  Divider,
   Icon,
   Modal,
   Label,
   Grid,
 } from "semantic-ui-react";
-import { convertDateToJalali } from "../../../utils/convertDate";
-import { doCurrency, activeColorList2 } from "../../../const";
+import { doCurrency } from "../../../const";
 import { addDays } from "date-fns";
 import AmountColor from "../../../utils/AmountColor";
 import $ from "jquery";
 import { adminGetService } from "../../../services/admin";
-import Moment from "react-moment";
 import DateReng from "../utils/dateReng";
 import FilterMode from "./Filter";
 import FilterModeGateway from "./FilterGateway";

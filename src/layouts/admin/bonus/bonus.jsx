@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Icon, Button, List } from "semantic-ui-react";
+import { Button, List } from "semantic-ui-react";
 import LevelIcon from "../../../utils/svg";
 import { doCurrency, levelDataInfo, levelClassInside } from "../../../const";
 import { MyConfirm, MyDeposit } from "../../../utils/myAlert";

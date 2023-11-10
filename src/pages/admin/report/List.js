@@ -4,17 +4,14 @@ import {
   Segment,
   Button,
   Dimmer,
-  Divider,
   Icon,
   Modal,
   Label,
   Grid,
 } from "semantic-ui-react";
-import { convertDateToJalali } from "../../../utils/convertDate";
 import { doCurrency } from "../../../const";
 import { addDays } from "date-fns";
 import AmountColor from "../../../utils/AmountColor";
-import Moment from "react-moment";
 import { adminGetService } from "../../../services/admin";
 
 import DateReng from "../utils/dateReng";

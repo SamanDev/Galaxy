@@ -8,8 +8,6 @@ import {
   Icon,
   Modal,
   Grid,
-  Popup,
-  Header,
 } from "semantic-ui-react";
 import { useParams } from "react-router-dom";
 import { addDays } from "date-fns";

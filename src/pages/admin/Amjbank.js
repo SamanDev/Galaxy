@@ -10,24 +10,15 @@ import {
   Modal,
   Grid,
 } from "semantic-ui-react";
-import Moment from "react-moment";
 import { useParams } from "react-router-dom";
-import { addDays } from "date-fns";
 const moment = require("moment");
 import { adminGetService, adminPutService } from "../../services/admin";
 import { Alert } from "../../utils/alerts";
 import AmountColor from "../../utils/AmountColor";
 import CheckboxToggle from "./utils/toggle";
 import AddGift from "./AddGift";
-import Filter from "./Filter";
 
-import {
-  haveAdmin,
-  haveModerator,
-  haveRoot,
-  doCurrency,
-  levelDataInfo,
-} from "../../const";
+import { doCurrency, levelDataInfo } from "../../const";
 
 const conditionalRowStyles = [
   {

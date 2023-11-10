@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 
 import { Tab, Menu, Label } from "semantic-ui-react";
-import Deposit from "./request/DepositList";
 import Cashout from "./request/CashoutList";
 import Carts from "./request/CartList";
 import Tickets from "./support/List";
@@ -26,6 +25,7 @@ function Admin(prop) {
           </Tab.Pane>
         ),
       },
+
       {
         menuItem: (
           <Menu.Item key="Tickets">
