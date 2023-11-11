@@ -7,7 +7,7 @@ const Admin = lazy(() => import("./admin/Index"));
 import MenuLoader from "../utils/menuLoader";
 const Content = (prop) => {
   return (
-    <section id="content_section" className={`py-2 px-3 panelfull`}>
+    <section id="content_section" className={`py-2 px-3`}>
       <Routes>
         <Route
           path="*"

@@ -85,7 +85,7 @@ const Dashboard = (prop) => {
     setActiveIndex(activeIndex == 0 ? 1 : 0);
   };
   const handleFullscreen = () => {
-    $(".framegame,body").toggleClass("fullscreen");
+    $("body").toggleClass("fullscreen");
     setIsFull((Prev) => !Prev);
     prop.reportWindowSize();
   };
@@ -150,7 +150,7 @@ const Dashboard = (prop) => {
         loginToken?.accessToken &&
         !loginToken?.logout
       ) {
-        handleFullscreen();
+        //handleFullscreen();
       }
     }
   }, [screenOrientation]);
@@ -252,32 +252,26 @@ const Dashboard = (prop) => {
                           sessionKey
                     }
                     id="pokerframe"
-                    className={
-                      isFull
-                        ? "framegame panelfull fullscreen"
-                        : "framegame panelfull"
-                    }
+                    className={"framegame"}
                     onLoad={removeFrameLoad}
                   ></iframe>
                 )}
               </>
             ) : (
               <>
-                <iframe
-                  src={
-                    siteInfo.gamesUrl +
-                    loginToken.accessToken +
-                    "/" +
-                    loginToken.username
-                  }
-                  name="gameframe"
-                  className={
-                    isFull
-                      ? "framegame panelfull fullscreen"
-                      : "framegame panelfull"
-                  }
-                  onLoad={removeFrameLoad}
-                ></iframe>
+                {activeIndex == 0 && (
+                  <iframe
+                    src={
+                      siteInfo.gamesUrl +
+                      loginToken.accessToken +
+                      "/" +
+                      loginToken.username
+                    }
+                    name="gameframe"
+                    className={"framegame"}
+                    onLoad={removeFrameLoad}
+                  ></iframe>
+                )}
               </>
             )}
           </div>
@@ -287,7 +281,7 @@ const Dashboard = (prop) => {
     {
       menuItem: "Tab 2",
       pane: (
-        <Tab.Pane key="tab2" attached={false}>
+        <Tab.Pane key="tab2" className="active" attached={false}>
           <div
             id="gamesec2"
             className="gamesec"
@@ -297,7 +291,7 @@ const Dashboard = (prop) => {
                 : { overflowX: "auto", overflowY: "hidden" }
             }
           >
-            {(gameLoader || !siteInfo?.gamesUrl) && (
+            {(gameLoader || !siteInfo?.gamesUrl) && mainGame == "poker" && (
               <div
                 className={
                   isFull ? "framegame loader fullscreen" : "framegame loader"
@@ -314,16 +308,13 @@ const Dashboard = (prop) => {
               <iframe
                 src={
                   siteInfo.gamesUrl +
+                  //"http://localhost:3001/" +
                   loginToken.accessToken +
                   "/" +
                   loginToken.username
                 }
                 name="gameframe"
-                className={
-                  isFull
-                    ? "framegame panelfull fullscreen casframe"
-                    : "framegame panelfull casframe"
-                }
+                className={"framegame casframe"}
                 onLoad={removeFrameLoad2}
               ></iframe>
             )}

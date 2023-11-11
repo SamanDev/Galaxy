@@ -341,6 +341,9 @@ a {
 .menutitle.mm-listitem:after {
   right: 0 !important;
 }
+#root {
+  min-height: calc(100vh);
+}
 .framegame {
   width: calc(100vw) !important;
 
@@ -379,7 +382,6 @@ a {
 
   min-width: auto !important;
   min-height: auto !important;
-  transition: all 10ms ease;
 
   top: 0;
   left: 0;

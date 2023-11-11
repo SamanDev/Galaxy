@@ -52,30 +52,6 @@ var api;
 var setsize = false;
 var setbindrew = false;
 var nowDay = moment().isoWeekday();
-const animateCSS = (element, animation, prefix = "") =>
-  // We create a Promise and return it
-  new Promise((resolve) => {
-    const animationName = `${prefix}${animation}`;
-    const node = document.querySelector(element);
-
-    if (node) {
-      node.classList.remove(`${prefix}animated`, "hiddenmenu");
-      node.classList.add(`${prefix}animated`, animationName);
-      function handleAnimationEnd(event) {
-        event.stopPropagation();
-        //node.classList.remove(`${prefix}newel`, animationName);
-        //node.classList.add(`${prefix}animated`, "hiddenmenu");
-        resolve("Animation ended");
-      }
-      setTimeout(() => {
-        node.addEventListener("animationend", handleAnimationEnd, {
-          once: true,
-        });
-      }, 200);
-
-      // When the animation ends, we clean the classes and resolve the Promise
-    }
-  });
 
 localStorage.removeItem("getGateways");
 var finalMenu = "";
@@ -106,7 +82,7 @@ function App(prop) {
   const AppOrtion = (agel) => {
     //return false;
     //alert(agel);
-    var scale = window.outerWidth / 1100;
+    var scale = window.outerWidth / 1000;
     if (agel == 90 && scale < 1) {
       document
         .querySelector('meta[name="viewport"]')
@@ -156,8 +132,9 @@ function App(prop) {
 
   function reportWindowSize() {
     //showTtoD();
+
     if (setsize) {
-      //return false;
+      return false;
     }
 
     setsize = true;
@@ -171,38 +148,34 @@ function App(prop) {
       let viewportWidth = window.innerWidth;
       let viewportHeight = window.innerHeight;
 
-      $("body").width(viewportWidth + "px");
-      $("body").scrollLeft(0);
-      $(".grid lord-icon").each(function () {
-        var ww = $(this).closest(".ui").height();
-        if (ww > viewportWidth / 1.5) {
-          ww = viewportWidth - 5;
-        } else {
-          ww = ww / 1.3;
-        }
+      if ($(".grid lord-icon").length) {
+        $(".grid lord-icon").each(function () {
+          var ww = $(this).closest(".ui").height();
+          if (ww > viewportWidth / 1.5) {
+            ww = viewportWidth - 5;
+          } else {
+            ww = ww / 1.3;
+          }
 
-        $(this).width(ww);
-      });
+          $(this).width(ww);
+        });
+      }
+
       const navbar = document.getElementById("navbar");
       let pHeight = viewportHeight - navbar.offsetHeight;
-      $("#content_section,#panelright").css({
-        top: navbar.offsetHeight + "px",
-      });
+
       if ($("body").hasClass("fullscreen")) {
         pHeight = viewportHeight;
-        $("#content_section,#panelright").css({ top: 0 + "px" });
-        $("body").scrollTop(0).scrollLeft(0);
       }
       $(".gameicons").css({
         top: (viewportHeight - $(".gameicons").height()) / 2 + "px",
       });
 
-      $("#root").height(viewportHeight + "px");
       let pHalf = pHeight / 2;
       if (pHalf < 250) {
         pHalf = 250;
       }
-      $(".panelfull,.gamesec,#panelright").height(pHeight + "px");
+      $(".panelfull").height(pHeight + "px");
       $(".panelhalf").height(pHalf + "px");
 
       $(".mm-panel--opened:visible")
@@ -222,12 +195,12 @@ function App(prop) {
     }, 50);
     setTimeout(() => {
       setsize = false;
-    }, 60);
+    }, 20);
   }
   function showTtoD() {
     setTtoDOpen(true);
   }
-  function bindActiveTable() {}
+
   function bindLastReward() {
     if (setbindrew) return false;
     setbindrew = true;
@@ -331,7 +304,6 @@ function App(prop) {
         loginToken={loginToken}
         siteInfo={siteInfo}
         openPanel={openPanel}
-        openGame={openGame}
         setFirstOpen={setFirstOpen}
         bindLastReward={bindLastReward}
         activeMenuOpen={activeMenuOpen}
@@ -784,9 +756,6 @@ function App(prop) {
     return canAdd;
   };
 
-  const openPanelRight = () => {
-    $(".popup").hide();
-  };
   const openPanel = (id, toId) => {
     var _id = id;
 
@@ -832,9 +801,7 @@ function App(prop) {
       }
     }, 30);
   };
-  const openGame = () => {
-    navigate("/games/poker");
-  };
+
   const printmenu = () => {
     var menuData = GetMenu(siteInfo);
     finalMenu = menuData.map(function (menu, i) {
@@ -1150,8 +1117,6 @@ function App(prop) {
                 openPanel={openPanel}
                 setActivePanel={setActivePanel}
                 activePanel={activePanel}
-                animateCSS={animateCSS}
-                bindActiveTable={bindActiveTable}
                 bindLastReward={bindLastReward}
                 handleOpenTable={handleOpenTable}
               />
@@ -1190,143 +1155,148 @@ function App(prop) {
               />
             </Suspense>
           </Modal>
-
-          <Modal
-            basic
-            size="tiny"
-            closeOnEscape={false}
-            closeOnDimmerClick={false}
-            className="myaccount popupmenu  animated backInDown "
-            onClose={() => {
-              setDcOpen(false);
-            }}
-            onOpen={() => setDcOpen(true)}
-            open={dcOpen}
-          >
-            <DCArea
-              setDcOpen={setDcOpen}
-              loginToken={loginToken}
-              siteInfo={siteInfo}
-              isLogin={isUser}
-              loadingLogin={loadingLogin}
-              setIsUser={setIsUser}
-              size="small"
-              labelcolor="orange"
-            />
-          </Modal>
-          <Modal
-            basic
-            size="tiny"
-            className="myaccount popupmenu  animated backInDown "
-            onClose={() => {
-              setFirstOpen(false);
-              navigate("/");
-            }}
-            onOpen={() => setFirstOpen(true)}
-            open={firstOpen}
-          >
-            <div
-              className="fadeoutend"
-              style={{ height: 100, position: "relative" }}
-            >
-              <div style={{ position: "absolute", zIndex: 0, top: 10 }}>
-                <AnimIcon
-                  icon="rqqkvjqf"
-                  width="300px"
-                  height="140px"
-                  trigger="loop"
+          {loginToken?.accessToken && !loginToken?.logout ? (
+            <></>
+          ) : (
+            <>
+              <Modal
+                basic
+                size="tiny"
+                closeOnEscape={false}
+                closeOnDimmerClick={false}
+                className="myaccount popupmenu  animated backInDown "
+                onClose={() => {
+                  setDcOpen(false);
+                }}
+                onOpen={() => setDcOpen(true)}
+                open={dcOpen}
+              >
+                <DCArea
+                  setDcOpen={setDcOpen}
+                  loginToken={loginToken}
+                  siteInfo={siteInfo}
+                  isLogin={isUser}
+                  loadingLogin={loadingLogin}
+                  setIsUser={setIsUser}
+                  size="small"
+                  labelcolor="orange"
                 />
-              </div>
-            </div>
-            <Suspense fallback={<MenuLoader />}>
-              <LoginArea
-                setFirstOpen={setFirstOpen}
-                setSecondOpen={setSecondOpen}
-                setThirdOpen={setThirdOpen}
-                isLogin={isUser}
-                loadingLogin={loadingLogin}
-                loginToken={loginToken}
-                setIsUser={setIsUser}
-                size="small"
-                labelcolor="orange"
-              />
-            </Suspense>
-          </Modal>
-          <Modal
-            basic
-            size="tiny"
-            className="myaccount popupmenu  animated backInDown "
-            onClose={() => {
-              setThirdOpen(false);
-              setFirstOpen(true);
-            }}
-            onOpen={() => setThirdOpen(true)}
-            open={thirdOpen}
-          >
-            {" "}
-            <div
-              className="fadeoutend"
-              style={{ height: 100, position: "relative" }}
-            >
-              <div style={{ position: "absolute", zIndex: 0, top: 10 }}>
-                <AnimIcon
-                  icon="dxjqoygy"
-                  width="300px"
-                  height="140px"
-                  trigger="loop"
-                />
-              </div>
-            </div>
-            <Suspense fallback={<MenuLoader />}>
-              <ForgetArea
-                setFirstOpen={setFirstOpen}
-                setSecondOpen={setSecondOpen}
-                setThirdOpen={setThirdOpen}
-                isLogin={isUser}
-                loadingLogin={loadingLogin}
-                setIsUser={setIsUser}
-                size="small"
-                labelcolor="blue"
-              />
-            </Suspense>
-          </Modal>
-          <Modal
-            basic
-            size="tiny"
-            className="myaccount popupmenu  animated backInDown "
-            onClose={() => {
-              setSecondOpen(false);
-              navigate("/");
-            }}
-            onOpen={() => setSecondOpen(true)}
-            open={secondOpen}
-          >
-            {" "}
-            <div
-              className="fadeoutend"
-              style={{ height: 100, position: "relative" }}
-            >
-              <div style={{ position: "absolute", zIndex: 0, top: 10 }}>
-                <AnimIcon
-                  icon="iltqorsz"
-                  width="300px"
-                  height="140px"
-                  trigger="loop"
-                />
-              </div>
-            </div>
-            <Suspense fallback={<MenuLoader />}>
-              <RegisterArea
-                setFirstOpen={setFirstOpen}
-                setSecondOpen={setSecondOpen}
-                isLogin={isUser}
-                loadingLogin={loadingLogin}
-                setIsUser={setIsUser}
-                size="small"
-                labelcolor="green"
-              />
-            </Suspense>
-          </Modal>
+              </Modal>
+              <Modal
+                basic
+                size="tiny"
+                className="myaccount popupmenu  animated backInDown "
+                onClose={() => {
+                  setFirstOpen(false);
+                  navigate("/");
+                }}
+                onOpen={() => setFirstOpen(true)}
+                open={firstOpen}
+              >
+                <div
+                  className="fadeoutend"
+                  style={{ height: 100, position: "relative" }}
+                >
+                  <div style={{ position: "absolute", zIndex: 0, top: 10 }}>
+                    <AnimIcon
+                      icon="rqqkvjqf"
+                      width="300px"
+                      height="140px"
+                      trigger="loop"
+                    />
+                  </div>
+                </div>
+                <Suspense fallback={<MenuLoader />}>
+                  <LoginArea
+                    setFirstOpen={setFirstOpen}
+                    setSecondOpen={setSecondOpen}
+                    setThirdOpen={setThirdOpen}
+                    isLogin={isUser}
+                    loadingLogin={loadingLogin}
+                    loginToken={loginToken}
+                    setIsUser={setIsUser}
+                    size="small"
+                    labelcolor="orange"
+                  />
+                </Suspense>
+              </Modal>
+              <Modal
+                basic
+                size="tiny"
+                className="myaccount popupmenu  animated backInDown "
+                onClose={() => {
+                  setThirdOpen(false);
+                  setFirstOpen(true);
+                }}
+                onOpen={() => setThirdOpen(true)}
+                open={thirdOpen}
+              >
+                {" "}
+                <div
+                  className="fadeoutend"
+                  style={{ height: 100, position: "relative" }}
+                >
+                  <div style={{ position: "absolute", zIndex: 0, top: 10 }}>
+                    <AnimIcon
+                      icon="dxjqoygy"
+                      width="300px"
+                      height="140px"
+                      trigger="loop"
+                    />
+                  </div>
+                </div>
+                <Suspense fallback={<MenuLoader />}>
+                  <ForgetArea
+                    setFirstOpen={setFirstOpen}
+                    setSecondOpen={setSecondOpen}
+                    setThirdOpen={setThirdOpen}
+                    isLogin={isUser}
+                    loadingLogin={loadingLogin}
+                    setIsUser={setIsUser}
+                    size="small"
+                    labelcolor="blue"
+                  />
+                </Suspense>
+              </Modal>
+              <Modal
+                basic
+                size="tiny"
+                className="myaccount popupmenu  animated backInDown "
+                onClose={() => {
+                  setSecondOpen(false);
+                  navigate("/");
+                }}
+                onOpen={() => setSecondOpen(true)}
+                open={secondOpen}
+              >
+                {" "}
+                <div
+                  className="fadeoutend"
+                  style={{ height: 100, position: "relative" }}
+                >
+                  <div style={{ position: "absolute", zIndex: 0, top: 10 }}>
+                    <AnimIcon
+                      icon="iltqorsz"
+                      width="300px"
+                      height="140px"
+                      trigger="loop"
+                    />
+                  </div>
+                </div>
+                <Suspense fallback={<MenuLoader />}>
+                  <RegisterArea
+                    setFirstOpen={setFirstOpen}
+                    setSecondOpen={setSecondOpen}
+                    isLogin={isUser}
+                    loadingLogin={loadingLogin}
+                    setIsUser={setIsUser}
+                    size="small"
+                    labelcolor="green"
+                  />
+                </Suspense>
+              </Modal>
+            </>
+          )}
 
           <AdminLayout
             loginToken={loginToken}
@@ -1334,15 +1304,9 @@ function App(prop) {
             openPanel={openPanel}
             activePanel={activePanel}
             setActivePanel={setActivePanel}
-            animateCSS={animateCSS}
-            bindActiveTable={bindActiveTable}
             bindLastReward={bindLastReward}
-            openPanelRight={openPanelRight}
-            openGame={openGame}
             setFirstOpen={setFirstOpen}
             setSecondOpen={setSecondOpen}
-            setActiveMenu={setActiveMenu}
-            activeMenu={activeMenu}
             isLogin={isUser}
             loadingLogin={loadingLogin}
             getAccess={getAccess}
@@ -1351,7 +1315,6 @@ function App(prop) {
             setUserOpen={setUserOpen}
             reportWindowSize={reportWindowSize}
             handleOpenTable={handleOpenTable}
-            AppOrtion={AppOrtion}
           />
 
           <div style={{ position: "absolute", top: -10000 }}>

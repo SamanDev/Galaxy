@@ -348,15 +348,26 @@ a {
 .menutitle.mm-listitem:after {
   right: 0 !important;
 }
+#root {
+  min-height: calc(100vh);
+}
+.mainsection {
+  height: calc(100vh) !important;
+  overflow: hidden;
+}
+.mainsection {
+  height: calc(100vh - 65px) !important;
+  overflow: hidden;
+}
 .framegame {
   width: calc(100vw) !important;
   min-width: 600px;
   min-height: 400px;
-  height: calc(100vh);
+  height: calc(100vh - 65px);
   position: relative;
   border: none;
   overflow: auto;
-  transition: all 100ms ease;
+
   -webkit-font-smoothing: antialiased;
   background: rgba(0, 0, 0, 0.9);
 }
@@ -383,13 +394,15 @@ a {
   overflow: hidden;
   position: fixed;
 }
-
+body.fullscreen .mainsection {
+  height: calc(100vh) !important;
+}
+body.fullscreen .framegame,
 .framegame.fullscreen {
   width: calc(100vw) !important;
 
   min-width: 600px !important;
-  min-height: auto !important;
-  transition: all 10ms ease;
+  min-height: calc(100vh) !important;
 
   top: 0;
   left: 0;
@@ -414,7 +427,8 @@ body.fullscreen .navbar.fixed-top {
   display: none;
   height: 0 !important;
 }
-body.fullscreen #panelright {
+body.fullscreen #panelright,
+body.fullscreen .right_content {
   top: 0;
 }
 .fullopenpanel {
@@ -2335,12 +2349,19 @@ table {
 .ui.toggle.checkbox label:before {
   background: rgba(0, 0, 0, 0.4);
 }
+@media (max-width: 1001px) {
+  .framegame.casframe {
+    border: 4px solid #d2d2d2;
+  }
+}
 @media (max-width: 768px) {
   .top_navbar .right_content {
     background-color: #6c757d !important;
     width: 100px;
   }
-
+  .framegame.casframe {
+    border: 2px solid #d2d2d2;
+  }
   .ui.black.label.balanceLable.amount {
     min-width: 50px !important;
     width: calc(100vw - 300px);
