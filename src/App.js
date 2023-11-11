@@ -160,23 +160,24 @@ function App(prop) {
           $(this).width(ww);
         });
       }
+      try {
+        const navbar = document.getElementById("navbar");
+        let pHeight = viewportHeight - navbar.offsetHeight;
 
-      const navbar = document.getElementById("navbar");
-      let pHeight = viewportHeight - navbar.offsetHeight;
+        if ($("body").hasClass("fullscreen")) {
+          pHeight = viewportHeight;
+        }
+        $(".gameicons").css({
+          top: (viewportHeight - $(".gameicons").height()) / 2 + "px",
+        });
 
-      if ($("body").hasClass("fullscreen")) {
-        pHeight = viewportHeight;
-      }
-      $(".gameicons").css({
-        top: (viewportHeight - $(".gameicons").height()) / 2 + "px",
-      });
-
-      let pHalf = pHeight / 2;
-      if (pHalf < 250) {
-        pHalf = 250;
-      }
-      $(".panelfull").height(pHeight + "px");
-      $(".panelhalf").height(pHalf + "px");
+        let pHalf = pHeight / 2;
+        if (pHalf < 250) {
+          pHalf = 250;
+        }
+        $(".panelfull").height(pHeight + "px");
+        $(".panelhalf").height(pHalf + "px");
+      } catch (error) {}
 
       $(".mm-panel--opened:visible")
         .unbind()

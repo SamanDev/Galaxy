@@ -41,7 +41,8 @@ const BonusArea = (prop) => {
   };
 
   const handleConfirm = (bonus) => {
-    var start = moment(bonus.date);
+    var start = moment(bonus.startDate.replace("-08:00", ""));
+    var expire = moment(bonus.expireDate.replace("-08:00", ""));
     var end = moment();
     var _br = "\n";
 
@@ -76,8 +77,8 @@ const BonusArea = (prop) => {
       }
     }
   };
-  var start = moment(bonus.startDate);
-  var expire = moment(bonus.expireDate);
+  var start = moment(bonus.startDate.replace("-08:00", ""));
+  var expire = moment(bonus.expireDate.replace("-08:00", ""));
   var end = moment();
   var _mode = bonus.mode.toLowerCase();
   var _amount = bonus.amount ? bonus.amount : bonus.amount2;
@@ -183,7 +184,7 @@ const BonusArea = (prop) => {
             end.isBefore(expire) && (
               <>
                 <Moment fromNow locale="fa">
-                  {bonus.expireDate}
+                  {expire}
                 </Moment>{" "}
                 تا انقضا
               </>
@@ -195,14 +196,14 @@ const BonusArea = (prop) => {
             <>
               انقضا در{" "}
               <Moment fromNow locale="fa">
-                {bonus.expireDate}
+                {expire}
               </Moment>
             </>
           )}
           {bonus.status == "Pending" && !start.isBefore(end) && (
             <>
               <Moment fromNow locale="fa">
-                {bonus.startDate}
+                {start}
               </Moment>{" "}
               تا فعالسازی
             </>
@@ -265,7 +266,7 @@ const BonusArea = (prop) => {
         )}
         {bonus.status == "Pending" && !start.isBefore(end) && (
           <>
-            {/* <Button
+            <Button
               animated="fade"
               size="mini"
               color="grey"
@@ -273,21 +274,6 @@ const BonusArea = (prop) => {
               floated="right"
               className="farsi"
               style={{ opacity: 1, width: 140, marginRight: 10 }}
-            >
-              {doCurrency(_amount)} <small className="farsi">{_cur}</small>
-            </Button> */}
-            <Button
-              size="mini"
-              color="orange"
-              floated="right"
-              className="rtl"
-              style={{ opacity: 1, width: 140, marginRight: 10 }}
-              compact
-              loading={loading}
-              disabled={loading}
-              onClick={() => {
-                handleConfirm(bonus, loginToken);
-              }}
             >
               {doCurrency(_amount)} <small className="farsi">{_cur}</small>
             </Button>

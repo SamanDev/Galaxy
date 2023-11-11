@@ -5,7 +5,7 @@ import GameInbox from "./GameInbox";
 import Banners from "./banners";
 //import Index from "./index";
 import $ from "jquery";
-import { tr } from "date-fns/locale";
+
 const moment = require("moment");
 
 const Dashboard = (prop) => {
