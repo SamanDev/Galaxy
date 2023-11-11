@@ -59,7 +59,7 @@ const Dashboard = (prop) => {
   }, []);
   return (
     <>
-      <div id="dashboard" className="mainsection">
+      <div id="dashboard" className="">
         {loginToken?.accessToken && !loginToken?.logout ? (
           <>
             <Suspense fallback={<MenuLoader />}>
