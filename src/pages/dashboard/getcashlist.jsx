@@ -5,8 +5,8 @@ import { cashierService } from "../../services/cashier";
 import { doCurrency } from "../../const";
 const moment = require("moment");
 
-var _tot = 0;
 const depositArea = (prop) => {
+  var _tot = 0;
   const [user, setUser] = useState(false);
   const handleGetReports = async () => {
     try {
@@ -40,7 +40,10 @@ const depositArea = (prop) => {
       <Segment inverted size="mini">
         <div className="farsi text-secondary rightfloat">
           واریز به <br />
-          <span className="text-gold">
+          <span
+            className="text-gold"
+            style={{ direction: "ltr", display: "inline-block" }}
+          >
             <ConvertCart cartNo={user.destinationCardNumber} isLock={true} />
           </span>
         </div>

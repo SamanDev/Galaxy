@@ -29,3 +29,8 @@ export const notification = (username, message, title, image) => {
 export const publicGetRules = () => {
   return httpService("/admin/getRewardsRules", "get");
 };
+export const cashierService = (values, mode, geteway = "") => {
+  return httpService("/admin/" + mode + geteway, "post", {
+    ...values,
+  });
+};

@@ -233,9 +233,11 @@ const Report = (prop) => {
                         )}
                       </div>
                     </List.Description>
-                    {item.status === "Done" && item.gateway == "IranShetab" && (
-                      <CshList id={item.id} item={item.cashoutDescription} />
-                    )}
+                    {item.status === "Done" &&
+                      item.gateway == "IranShetab" &&
+                      item.description.indexOf("V-G-C") == -1 && (
+                        <CshList id={item.id} item={item.cashoutDescription} />
+                      )}
                   </List.Content>
                 )}{" "}
               </List.Item>

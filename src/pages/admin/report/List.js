@@ -13,7 +13,7 @@ import { doCurrency } from "../../../const";
 import { addDays } from "date-fns";
 import AmountColor from "../../../utils/AmountColor";
 import { adminGetService } from "../../../services/admin";
-
+import { convertDateToJalali } from "../../../utils/convertDate";
 import DateReng from "../utils/dateReng";
 import FilterMode from "./Filter";
 import FilterModeGateway from "./FilterGateway";
@@ -302,7 +302,7 @@ function Admin(prop) {
       name: "Date",
       selector: (row) => row.createDate,
       format: (row) => (
-        <>{moment(row.createDate).format("YYYY-MM-DD - HH:mm")}</>
+        <div className="blacktext">{convertDateToJalali(row.createDate)}</div>
       ),
       sortable: true,
     },

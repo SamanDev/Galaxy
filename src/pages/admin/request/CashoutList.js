@@ -140,9 +140,8 @@ function Admin(prop) {
     return res.replace(/'/g, "");
   };
   const fetchUsers = async (page, load) => {
-    if (load) {
-      setLoading(true);
-    }
+    setLoading(true);
+
     var _s = moment(startDate).format("YYYY-MM-DD");
     var _e = moment(endDate).format("YYYY-MM-DD");
 
@@ -320,24 +319,20 @@ function Admin(prop) {
           {row.description.indexOf("AmjadCard") > -1 ? (
             <>{prinDesc(row.description)}</>
           ) : (
-            <>{row.description}</>
+            <>
+              {row.description} -{" "}
+              {row.status === "Done" &&
+                row.gateway == "IranShetab" &&
+                row.description.indexOf("V-G-C") == -1 && (
+                  <CshList id={row.id} item={row.cashoutDescription} />
+                )}
+            </>
           )}
         </>
       ),
       sortable: true,
       width: "600px",
     },
-    /*   {
-      name: "Data",
-      selector: (row) => row.cashoutDescription,
-      format: (row) => (
-        <>
-          <CshList id={row.id} item={row.cashoutDescription} />
-        </>
-      ),
-      sortable: true,
-      width: "600px",
-    }, */
 
     {
       name: "Date",
@@ -346,6 +341,7 @@ function Admin(prop) {
         <div className="blacktext">{convertDateToJalali(row.createDate)}</div>
       ),
       sortable: true,
+      width: "200px",
     },
     {
       name: "Action",

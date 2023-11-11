@@ -60,7 +60,7 @@ function Admin(prop) {
 
   const [totalRows, setTotalRows] = useState(0);
   const [perPage, setPerPage] = useState(10);
-  const [dataSortedID, setDataSortedID] = useState(1);
+  const [dataSortedID, setDataSortedID] = useState(10);
   const [dataSorted, setDataSorted] = useState("id");
   const [dataSortedDir, setDataSortedDir] = useState("desc");
   const [dataSearch, setDataSearch] = useState("");
@@ -146,13 +146,18 @@ function Admin(prop) {
       sortable: true,
       width: "80px",
     },
-
     {
       name: "Amount",
       selector: (row) => row.amount,
       format: (row) => (
         <>
-          <AmountColor amount={row.amount} />
+          {row.amount2 ? (
+            <>
+              <AmountColor amount={row.amount2} sign={1} /> $
+            </>
+          ) : (
+            <AmountColor amount={row.amount} sign={1} />
+          )}
         </>
       ),
       sortable: true,
@@ -191,7 +196,7 @@ function Admin(prop) {
       format: (row) => (
         <>
           <Moment fromNow ago>
-            {row.startDate}
+            {row.startDate.replace("-08:00", "")}
           </Moment>
         </>
       ),
@@ -203,7 +208,7 @@ function Admin(prop) {
       format: (row) => (
         <>
           <Moment fromNow ago>
-            {row.expireDate}
+            {row.expireDate.replace("-08:00", "")}
           </Moment>
         </>
       ),
@@ -211,9 +216,9 @@ function Admin(prop) {
     },
     {
       name: "Date",
-      selector: (row) => row.data,
+      selector: (row) => row.date,
       format: (row) => (
-        <div className="blacktext">{convertDateToJalali(row.data)}</div>
+        <div className="blacktext">{convertDateToJalali(row.date)}</div>
       ),
       sortable: true,
     },

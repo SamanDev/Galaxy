@@ -17,7 +17,7 @@ import { Alert } from "../../utils/alerts";
 import AmountColor from "../../utils/AmountColor";
 import CheckboxToggle from "./utils/toggle";
 import AddGift from "./AddGift";
-
+import { convertDateToJalali } from "../../utils/convertDate";
 import { doCurrency, levelDataInfo } from "../../const";
 
 const conditionalRowStyles = [
@@ -242,7 +242,7 @@ function Admin(prop) {
       selector: (row) => row.date,
       format: (row) => (
         <>
-          <>{moment(row.date).format("YYYY-MM-DD - HH:mm")}</>
+          <div className="blacktext">{convertDateToJalali(row.date)}</div>
         </>
       ),
       sortable: true,

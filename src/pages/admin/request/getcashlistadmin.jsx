@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { Divider, Segment, Progress } from "semantic-ui-react";
+import { Divider, Segment, Progress, Button } from "semantic-ui-react";
 import ConvertCart from "../../../utils/convertCart";
-import { adminGetService } from "../../../services/admin";
+import { cashierService } from "../../../services/admin";
 import { doCurrency } from "../../../const";
 const moment = require("moment");
 
-var _tot = 0;
 const depositArea = (prop) => {
+  var _tot = 0;
   const [user, setUser] = useState(false);
   const handleGetReports = async () => {
     try {
@@ -14,7 +14,7 @@ const depositArea = (prop) => {
         orderId: prop.id,
         mode: "cashoutdetails",
       };
-      const res = await adminGetService(newValues, "cardService/cashout", "");
+      const res = await cashierService(newValues, "cardService/cashout", "");
       if (res.status === 200) {
         setUser(res.data);
       }
@@ -29,18 +29,25 @@ const depositArea = (prop) => {
     ) {
       setUser(prop.item);
     } else {
-      handleGetReports();
+      //handleGetReports();
     }
   }, []);
   if (!user) {
-    return <>...</>;
+    return (
+      <>
+        <Button onClick={handleGetReports}>Get</Button>
+      </>
+    );
   } else {
     var ste = user.checkoutList ? user.checkoutList : user.checkoutListSet;
     return (
-      <Segment inverted size="mini">
+      <Segment inverted size="mini" style={{ minWidth: 300 }}>
         <div className="farsi text-secondary rightfloat">
           واریز به <br />
-          <span className="text-gold">
+          <span
+            className="text-gold"
+            style={{ direction: "ltr", display: "inline-block" }}
+          >
             <ConvertCart cartNo={user.destinationCardNumber} isLock={true} />
           </span>
         </div>
