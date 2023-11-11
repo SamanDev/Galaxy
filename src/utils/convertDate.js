@@ -1,6 +1,7 @@
 import jMoment from "jalali-moment";
 const moment = require("moment");
-export const convertDateToJalali = (date) => {
+export const convertDateToJalali = (d) => {
+  var date = d.replace("-08:00", "");
   return (
     <div className="date" title={jMoment(date).format("jYYYY/jMM/jDD")}>
       {moment(date).format("YYYY/MM/DD")}{" "}
