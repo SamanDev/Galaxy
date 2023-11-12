@@ -15,26 +15,22 @@ import { cashierService } from "../../../../services/cashier";
 var countryOptions = [];
 var amounts = [
   { value: 100000 },
-  { value: 150000 },
   { value: 200000 },
-  { value: 250000 },
   { value: 300000 },
-  { value: 350000 },
   { value: 400000 },
-  { value: 450000 },
   { value: 500000 },
   { value: 600000 },
   { value: 700000 },
   { value: 800000 },
   { value: 900000 },
   { value: 1000000 },
-  { value: 1250000 },
+  { value: 1200000 },
   { value: 1500000 },
-  { value: 1750000 },
+  { value: 1700000 },
   { value: 2000000 },
-  { value: 2250000 },
+  { value: 2200000 },
   { value: 2500000 },
-  { value: 2750000 },
+  { value: 2700000 },
   { value: 3000000 },
 ];
 
@@ -92,7 +88,7 @@ const onSendCodeVerify = async (formik, prop, setBtnLoading) => {
 };
 const onSendPass = async (formik, prop, setBtnLoading) => {
   setBtnLoading(true);
-  localAmount(formik.values, prop);
+  //localAmount(formik.values, prop);
   try {
     const res = await cashierService(
       formik.values,
@@ -119,7 +115,7 @@ const onSubmit = async (values, submitMethods, navigate, prop) => {
   try {
     const res = await cashierService(values, "cardService");
     if (res.status == 200) {
-      localAmount(values, prop);
+      //localAmount(values, prop);
       window.location.href = res.data.replace(/ /g, "");
 
       if (res.data?.message) {
