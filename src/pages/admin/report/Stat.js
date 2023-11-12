@@ -18,7 +18,7 @@ import DateReng from "../utils/dateReng";
 import FilterMode from "./Filter";
 import FilterModeGateway from "./FilterGateway";
 import Chart from "chart.js/auto";
-
+import { convertDateToJalali } from "../../../utils/convertDate";
 const moment = require("moment");
 const conditionalRowStyles = [
   {
@@ -130,7 +130,7 @@ function Admin(prop) {
   const loginToken = prop.loginToken;
   const [totalRows, setTotalRows] = useState([]);
   const [perPage, setPerPage] = useState(10);
-  const [dataSortedID, setDataSortedID] = useState(1);
+  const [dataSortedID, setDataSortedID] = useState(9);
   const [dataSorted, setDataSorted] = useState("id");
   const [dataSortedDir, setDataSortedDir] = useState("desc");
   const [dataSearch, setDataSearch] = useState("");
@@ -170,14 +170,16 @@ function Admin(prop) {
     setLoading(true);
     var _s = moment(startDate).format("YYYY-MM-DD");
     var _e = moment(endDate).format("YYYY-MM-DD");
-
+    if (_s == _e) {
+      _e = moment(_s).add("day", 1).format("YYYY-MM-DD");
+    }
     if (prop?.user?.username) {
       var res = await adminGetService(
-        `getReports?mode=${dataMode}&page=${page}&number=500&username=${prop.user.username}&start=${_s}&end=${_e}&gateway=${dataSearch}`
+        `getReports?mode=${dataMode}&page=${page}&number=5000&username=${prop.user.username}&start=${_s}&end=${_e}&gateway=${dataSearch}`
       );
     } else {
       var res = await adminGetService(
-        `getReports?mode=${dataMode}&page=${page}&number=500&start=${_s}&end=${_e}&gateway=${dataSearch}`
+        `getReports?mode=${dataMode}&page=${page}&number=5000&start=${_s}&end=${_e}&gateway=${dataSearch}`
       );
     }
     try {
@@ -246,9 +248,9 @@ function Admin(prop) {
         var i = moment(_s).add(index, "days").format("YYYY-MM-DD");
         var ffdata = _data.filter(
           (d) =>
-            parseInt(moment(d.createDate).date()) ===
+            parseInt(moment(d.createDate.replace("-08:00", "")).date()) ===
               parseInt(moment(i).date()) &&
-            parseInt(moment(d.createDate).month()) ===
+            parseInt(moment(d.createDate.replace("-08:00", "")).month()) ===
               parseInt(moment(i).month()) &&
             d.status == "Done"
         );
@@ -432,7 +434,7 @@ function Admin(prop) {
       name: "Date",
       selector: (row) => row.createDate,
       format: (row) => (
-        <>{moment(row.createDate).format("YYYY-MM-DD - HH:mm")}</>
+        <div className="blacktext">{convertDateToJalali(row.createDate)}</div>
       ),
       sortable: true,
     },
@@ -556,7 +558,7 @@ function Admin(prop) {
             onChangeRowsPerPage={handlePerRowsChange}
             defaultSortFieldId={dataSortedID}
             paginationPerPage={perPage}
-            defaultSortAsc={true}
+            defaultSortAsc={false}
             expandOnRowClicked={true}
             expandableRowsHideExpander={true}
             conditionalRowStyles={conditionalRowStyles}
