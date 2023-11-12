@@ -11,6 +11,8 @@ import { getCashAmountUsd } from "../../../../../const";
 const onSubmit = async (values, submitMethods, navigate, prop, setRefresh) => {
   var _val = values;
   _val.amountDollar = _val.amount;
+
+  _val.dollarAmount = _val.amount;
   try {
     const res = await cashierService(_val, "createCashoutPM", "");
     if (res.status == 200) {

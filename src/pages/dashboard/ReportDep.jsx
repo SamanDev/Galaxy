@@ -115,9 +115,13 @@ const Report = (prop) => {
                             </span>
                           </>
                         )}
-                        {gateway == "PerfectMoney" && (
+                        <br />
+                        {(gateway == "VisaGiftCode" ||
+                          gateway == "PerfectMoney") && (
                           <>
-                            <br />
+                            <span className="text-gold">
+                              {desc ? desc.VOUCHER_NUMBER : item.description}
+                            </span>
                           </>
                         )}
 
@@ -170,11 +174,7 @@ const Report = (prop) => {
                             </span>
                           </>
                         )}
-                        {gateway == "PerfectMoney" && (
-                          <>
-                            <br />
-                          </>
-                        )}
+
                         {(gateway == "VisaGiftCode" ||
                           gateway == "PerfectMoney") && (
                           <>

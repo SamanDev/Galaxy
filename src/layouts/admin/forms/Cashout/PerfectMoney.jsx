@@ -12,9 +12,8 @@ const onSubmit = async (values, submitMethods, navigate, prop, setRefresh) => {
   try {
     const res = await cashierService(values, "createCashoutPM", "");
     if (res.status == 200) {
-      if (res.data?.address) {
-        setRefresh(true);
-      }
+      setRefresh(true);
+      Alert("Done", "انجام شد.", "success");
     } else {
       Alert("متاسفم...!", res.data.message, "error");
     }

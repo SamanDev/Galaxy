@@ -13,11 +13,8 @@ const onSubmit = async (values, submitMethods, navigate, prop, setRefresh) => {
   try {
     const res = await cashierService(values, "coinPayments", "");
     if (res.status == 200) {
-      if (res.data?.address) {
-        setRefresh(true);
-      }
-    } else {
-      Alert("متاسفم...!", res.data.message, "error");
+      Alert("Done", "انجام شد.", "success");
+      setRefresh(true);
     }
     submitMethods.setSubmitting(false);
   } catch (error) {

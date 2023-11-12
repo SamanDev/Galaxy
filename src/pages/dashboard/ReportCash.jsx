@@ -95,7 +95,9 @@ const Report = (prop) => {
             }
             try {
               var desc = JSON.parse(item.description);
-            } catch (error) {}
+            } catch (error) {
+              var desc = {};
+            }
             return (
               <List.Item key={i}>
                 {prop.menu?.usd ? (
@@ -128,27 +130,36 @@ const Report = (prop) => {
                         </div>
                       )}
                       <div className="cashlist">
+                        <div className="cashlist">
+                          {(prop.gateway == "Bitcoin" ||
+                            prop.gateway == "USDT" ||
+                            prop.gateway == "PerfectMoney") && (
+                            <>
+                              <small>
+                                Amount &nbsp;
+                                <span className="text-golds">
+                                  ${doCurrency(desc.dollarAmount)}
+                                </span>{" "}
+                                - Fee &nbsp;
+                                <span className="text-golds">${desc.fee}</span>
+                              </small>
+                              <br /> Final Amount &nbsp;
+                              <span className="text-gold">
+                                $
+                                {doCurrency(
+                                  desc.VOUCHER_AMOUNT
+                                    ? desc.VOUCHER_AMOUNT
+                                    : parseFloat(desc.amount).toFixed(2)
+                                )}
+                              </span>
+                            </>
+                          )}
+                        </div>
                         {(prop.gateway == "Bitcoin" ||
-                          prop.gateway == "USDT" ||
-                          prop.gateway == "PerfectMoney") && (
+                          prop.gateway == "USDT") && (
                           <>
                             <span className="text-gold">
-                              {doCurrency(desc.walletAddress)}
-                            </span>
-                          </>
-                        )}
-                        {prop.mode == "PerfectMoney" && (
-                          <>
-                            <br />
-                          </>
-                        )}
-                        {(prop.mode == "VisaGiftCode" ||
-                          prop.mode == "PerfectMoney") && (
-                          <>
-                            Code
-                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{" "}
-                            <span className="text-gold">
-                              h43oi43o43hio4io43hi
+                              {desc.walletAddress}
                             </span>
                           </>
                         )}
@@ -195,9 +206,7 @@ const Report = (prop) => {
                                 ${doCurrency(desc.dollarAmount)}
                               </span>{" "}
                               - Fee &nbsp;
-                              <span className="text-golds">
-                                ${doCurrency(desc.fee)}
-                              </span>
+                              <span className="text-golds">${desc.fee}</span>
                               <br />
                               Rate
                               &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{" "}
@@ -213,21 +222,6 @@ const Report = (prop) => {
                                   ? desc.VOUCHER_AMOUNT
                                   : parseFloat(desc.amount).toFixed(2)
                               )}
-                            </span>
-                          </>
-                        )}
-                        {prop.mode == "PerfectMoney" && (
-                          <>
-                            <br />
-                          </>
-                        )}
-                        {(prop.mode == "VisaGiftCode" ||
-                          prop.mode == "PerfectMoney") && (
-                          <>
-                            Code
-                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{" "}
-                            <span className="text-gold">
-                              h43oi43o43hio4io43hi
                             </span>
                           </>
                         )}
