@@ -16,3 +16,6 @@ export const getReportService = (id = null, mode = "", gateway = "", usd) => {
 export const getReportPenService = (mode, usd) => {
   return httpService(`/req/${mode}&usd=${usd}`, "get");
 };
+export const getRefferService = () => {
+  return httpService(`/req/getDownLine`, "get");
+};

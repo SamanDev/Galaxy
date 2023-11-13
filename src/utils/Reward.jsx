@@ -3,7 +3,7 @@ import { Grid } from "semantic-ui-react";
 import LevelIcon from "./svg";
 import { doCurrency, levelClassInside, levelDataInfo } from "../const";
 import { convertDateToJalali } from "./convertDate";
-
+import CshList from "./commitiondetail";
 const Reward = (prop) => {
   const loginToken = prop.loginToken;
   var _mode = prop.item.mode.toLowerCase();
@@ -99,6 +99,7 @@ const Reward = (prop) => {
           {convertDateToJalali(prop.item.date)}
         </Grid.Column>
       </Grid.Row>
+      {prop.item?.detail && 1 == 2 && <CshList item={prop.item.detail} />}
     </Grid>
   );
 };
