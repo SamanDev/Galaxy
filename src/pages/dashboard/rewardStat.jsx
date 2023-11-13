@@ -30,7 +30,21 @@ const RewardStat = (prop) => {
   const lastReward = prop.lastReward ? prop.lastReward : lastRewarded;
   const [statData, setstatData] = useState();
   const [totalRows, setTotalRows] = useState(sumOf(lastReward));
-
+  const [activeSlide, setActiveSlide] = useState(0);
+  const goPrev = () => {
+    var _ddef = activeSlide - 1;
+    if (_ddef < 0) {
+      _ddef = statData.length - 1;
+    }
+    setActiveSlide(_ddef);
+  };
+  const goNext = () => {
+    var _ddef = activeSlide + 1;
+    if (_ddef > statData.length - 1) {
+      _ddef = 0;
+    }
+    setActiveSlide(_ddef);
+  };
   useEffect(() => {
     var stat = [];
     if (lastReward.length > 0) {
@@ -53,6 +67,7 @@ const RewardStat = (prop) => {
             .replace("commission", "کمیسیون معرفی دوستان")
             .replace("rakeback", "ریک بک پوکر")
             .replace("gifts", "هدایای گلکسی")
+            .replace("bonus", "بوناس خرید")
             .replace("tournament", "تورنومنت ها"),
           mode: property.toLocaleLowerCase().replace("gift", "gift3"),
           sum: psum,
@@ -67,7 +82,7 @@ const RewardStat = (prop) => {
 
   return (
     <>
-      {statData?.length > 1 && (
+      {statData?.length > 1 && prop.title != "no" && (
         <li className="menutitle mm-listitem">
           <span className="mm-listitem__text lh-lg">
             مجموع پاداش های این هفته
@@ -75,106 +90,225 @@ const RewardStat = (prop) => {
           </span>
         </li>
       )}
-      <li>
-        <div
-          style={{
-            paddingLeft: 15,
-          }}
-        >
-          <div id="carouselExample" className="carousel slide">
-            <div className="carousel-inner">
-              {statData?.map(function (bonus, i) {
-                var _lvl = 1;
+      {prop.title == "no" ? (
+        <>
+          <div
+            style={{
+              paddingLeft: 15,
+            }}
+          >
+            <div id="carouselExample" className="carousel slide carousel-fade">
+              <div className="carousel-inner">
+                {statData?.map(function (bonus, i) {
+                  var _lvl = 1;
 
-                return (
-                  <div
-                    key={i}
-                    className={
-                      i == 0 ? "carousel-item active" : "carousel-item"
-                    }
-                  >
-                    <Grid
-                      verticalAlign="middle"
-                      divided="vertically"
-                      inverted
-                      padded="vertically"
-                      className="rewardname"
-                      mode={bonus.mode}
+                  return (
+                    <div
+                      key={i}
+                      className={
+                        activeSlide == i
+                          ? "carousel-item active"
+                          : "carousel-item"
+                      }
                     >
-                      <Grid.Row style={{ height: 250 }} textAlign="center">
-                        <Grid.Column textAlign="center">
-                          <div
-                            className="fadeout"
-                            style={{
-                              transform: "rotate(20deg)",
-                              opacity: 1,
-                              marginBottom: 20,
-                            }}
-                          >
-                            <LevelIcon
-                              level={_lvl}
-                              text={"big"}
-                              mode={bonus.mode}
-                              classinside={levelClassInside(_lvl)}
-                              number=""
-                              width={bonus.mode == "gifts" ? "100px" : "80px"}
-                            />
-                          </div>
-                          <div className="farsi rewardtext fw-bold text-center text-gold">
-                            {bonus.title}
-                          </div>
-                          <small
-                            className="farsi text-center"
-                            style={{ display: "block" }}
-                          >
-                            <span className="text-gold">
-                              {doCurrency(bonus.sum)} تومان
-                            </span>{" "}
-                            پاداش
-                            <br /> پرداخت شده به {doCurrency(
-                              bonus.players
-                            )}{" "}
-                            بازیکن
-                            <br /> در {doCurrency(bonus.count)} رکورد
-                          </small>
-                        </Grid.Column>
-                      </Grid.Row>
-                    </Grid>
-                  </div>
-                );
-              })}
+                      <Grid
+                        verticalAlign="middle"
+                        divided="vertically"
+                        inverted
+                        padded="vertically"
+                        className="rewardname"
+                        mode={bonus.mode}
+                      >
+                        <Grid.Row style={{ height: 250 }} textAlign="center">
+                          <Grid.Column textAlign="center">
+                            <div
+                              className="fadeout"
+                              style={{
+                                transform: "rotate(20deg)",
+                                opacity: 1,
+                                marginBottom: 20,
+                              }}
+                            >
+                              <LevelIcon
+                                level={_lvl}
+                                text={"big"}
+                                mode={bonus.mode}
+                                classinside={levelClassInside(_lvl)}
+                                number=""
+                                width={bonus.mode == "gifts" ? "100px" : "80px"}
+                              />
+                            </div>
+                            <div className="farsi rewardtext fw-bold text-center text-gold">
+                              {bonus.title}
+                            </div>
+                            <small
+                              className="farsi text-center"
+                              style={{ display: "block" }}
+                            >
+                              <span className="text-gold">
+                                {doCurrency(bonus.sum)} تومان
+                              </span>{" "}
+                              پاداش
+                              <br /> پرداخت شده به {doCurrency(
+                                bonus.players
+                              )}{" "}
+                              بازیکن
+                              <br /> در {doCurrency(bonus.count)} رکورد
+                            </small>
+                          </Grid.Column>
+                        </Grid.Row>
+                      </Grid>
+                    </div>
+                  );
+                })}
+              </div>
+              {statData?.length > 1 && (
+                <>
+                  <button
+                    className="carousel-control-prev"
+                    type="button"
+                    data-bs-target="#carouselExample"
+                    data-bs-slide="prev"
+                    onClick={() => {
+                      goPrev();
+                    }}
+                  >
+                    <span
+                      className="carousel-control-prev-icon"
+                      aria-hidden="true"
+                    ></span>
+                    <span className="visually-hidden">Previous</span>
+                  </button>
+                  <button
+                    className="carousel-control-next"
+                    type="button"
+                    data-bs-target="#carouselExample"
+                    data-bs-slide="next"
+                    onClick={() => {
+                      goNext();
+                    }}
+                  >
+                    <span
+                      className="carousel-control-next-icon"
+                      aria-hidden="true"
+                    ></span>
+                    <span className="visually-hidden">Next</span>
+                  </button>
+                </>
+              )}
             </div>
-            {statData?.length > 1 && (
-              <>
-                <button
-                  className="carousel-control-prev"
-                  type="button"
-                  data-bs-target="#carouselExample"
-                  data-bs-slide="prev"
-                >
-                  <span
-                    className="carousel-control-prev-icon"
-                    aria-hidden="true"
-                  ></span>
-                  <span className="visually-hidden">Previous</span>
-                </button>
-                <button
-                  className="carousel-control-next"
-                  type="button"
-                  data-bs-target="#carouselExample"
-                  data-bs-slide="next"
-                >
-                  <span
-                    className="carousel-control-next-icon"
-                    aria-hidden="true"
-                  ></span>
-                  <span className="visually-hidden">Next</span>
-                </button>
-              </>
-            )}
           </div>
-        </div>
-      </li>
+        </>
+      ) : (
+        <li>
+          <div
+            style={{
+              paddingLeft: 15,
+            }}
+          >
+            <div id="carouselExample" className="carousel slide carousel-fade">
+              <div className="carousel-inner">
+                {statData?.map(function (bonus, i) {
+                  var _lvl = 1;
+
+                  return (
+                    <div
+                      key={i}
+                      className={
+                        activeSlide == i
+                          ? "carousel-item active"
+                          : "carousel-item"
+                      }
+                    >
+                      <Grid
+                        verticalAlign="middle"
+                        divided="vertically"
+                        inverted
+                        padded="vertically"
+                        className="rewardname"
+                        mode={bonus.mode}
+                      >
+                        <Grid.Row style={{ height: 250 }} textAlign="center">
+                          <Grid.Column textAlign="center">
+                            <div
+                              className="fadeout"
+                              style={{
+                                transform: "rotate(20deg)",
+                                opacity: 1,
+                                marginBottom: 20,
+                              }}
+                            >
+                              <LevelIcon
+                                level={_lvl}
+                                text={"big"}
+                                mode={bonus.mode}
+                                classinside={levelClassInside(_lvl)}
+                                number=""
+                                width={bonus.mode == "gifts" ? "100px" : "80px"}
+                              />
+                            </div>
+                            <div className="farsi rewardtext fw-bold text-center text-gold">
+                              {bonus.title}
+                            </div>
+                            <small
+                              className="farsi text-center"
+                              style={{ display: "block" }}
+                            >
+                              <span className="text-gold">
+                                {doCurrency(bonus.sum)} تومان
+                              </span>{" "}
+                              پاداش
+                              <br /> پرداخت شده به {doCurrency(
+                                bonus.players
+                              )}{" "}
+                              بازیکن
+                              <br /> در {doCurrency(bonus.count)} رکورد
+                            </small>
+                          </Grid.Column>
+                        </Grid.Row>
+                      </Grid>
+                    </div>
+                  );
+                })}
+              </div>
+              {statData?.length > 1 && (
+                <>
+                  <button
+                    className="carousel-control-prev"
+                    type="button"
+                    data-bs-target="#carouselExample"
+                    data-bs-slide="prev"
+                    onClick={() => {
+                      goPrev();
+                    }}
+                  >
+                    <span
+                      className="carousel-control-prev-icon"
+                      aria-hidden="true"
+                    ></span>
+                    <span className="visually-hidden">Previous</span>
+                  </button>
+                  <button
+                    className="carousel-control-next"
+                    type="button"
+                    data-bs-target="#carouselExample"
+                    data-bs-slide="next"
+                    onClick={() => {
+                      goNext();
+                    }}
+                  >
+                    <span
+                      className="carousel-control-next-icon"
+                      aria-hidden="true"
+                    ></span>
+                    <span className="visually-hidden">Next</span>
+                  </button>
+                </>
+              )}
+            </div>
+          </div>
+        </li>
+      )}
     </>
   );
 };

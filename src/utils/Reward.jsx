@@ -50,6 +50,10 @@ const Reward = (prop) => {
   if (_mode == "gift1") {
     _txt = "هدیه قرمز";
   }
+  if (_mode == "bonus") {
+    _txt = "بوناس خرید";
+  }
+
   if (_mode == "levels") {
     try {
       _lvl = _lvl - 1;

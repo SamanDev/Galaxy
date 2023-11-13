@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { List } from "semantic-ui-react";
 import Reward from "../../utils/Reward";
 import eventBus from "../../services/eventBus";
-
+import RewardStat from "./rewardStat";
 import LazyLoad from "react-lazyload";
 const ActiveTable = (prop) => {
   const lastReward = prop.lastReward;
@@ -83,6 +83,10 @@ const ActiveTable = (prop) => {
             overflow: "hidden",
           }}
         >
+          <div className={"animated fadeIn"}>
+            <RewardStat lastReward={_sortData} title="no" />
+          </div>
+
           {_sortData.map(function (bonus, i) {
             return (
               <LazyLoad key={i} height={100}>

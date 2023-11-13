@@ -45,7 +45,7 @@ const ActiveTable = (prop) => {
   var leaguerules = siteInfo?.dailyLeagueSet[0];
   const [activeTable] = useActiveTable();
 
-  const [fil, setFil] = useState("OM");
+  const [fil, setFil] = useState("");
   const [_sortData, setSortData] = useState(_sortDataOld);
   const [_filterData, setFilterData] = useState([]);
   const GenTable = (x) => {
@@ -207,6 +207,7 @@ const ActiveTable = (prop) => {
       setFilterData(_sortD);
     }
   }, [_sortData, fil]);
+
   useEffect(() => {
     _filterData?.map(function (x, i) {
       var aarName = x.name.split(" ");
@@ -268,13 +269,48 @@ const ActiveTable = (prop) => {
             Omaha
           </Button>
         </Button.Group>
+        {/* <Button.Group widths="3" size="mini">
+          <Button
+            onClick={() => {
+              setFil("");
+            }}
+            active={fil == "" ? true : false}
+            color={fil == "" ? "red" : "grey"}
+            basic
+            inverted
+          >
+            All
+          </Button>
+          <Button
+            onClick={() => {
+              setFil("HO");
+            }}
+            active={fil == "HO" ? true : false}
+            color={fil == "HO" ? "yellow" : "grey"}
+            inverted
+            basic
+          >
+            Holdem
+          </Button>
+          <Button
+            active={fil == "OM" ? true : false}
+            color={fil == "OM" ? "yellow" : "grey"}
+            inverted
+            basic
+            onClick={() => {
+              setFil("OM");
+            }}
+          >
+            Omaha
+          </Button>
+        </Button.Group> */}
       </div>
       <List
         divided
         inverted
         relaxed
         verticalAlign="middle"
-        className="activetable"
+        className="activetable step1-1"
       >
         {_filterData.length == 0 ? (
           <List.Item className="text-center">

@@ -176,7 +176,6 @@ function App(prop) {
           pHalf = 250;
         }
         $(".panelfull").height(pHeight + "px");
-        $(".panelhalf").height(pHalf + "px");
       } catch (error) {}
 
       $(".mm-panel--opened:visible")
@@ -185,6 +184,7 @@ function App(prop) {
           bindLastReward();
           bindAddLink();
         });
+
       if (
         $(".mm-panel--opened:visible").find(".lazyarea").length > 0 &&
         $(".mm-panel--opened:visible").find("#lazyarea").length == 0
@@ -958,10 +958,12 @@ function App(prop) {
     };
     var agel = window.outerWidth > window.outerHeight ? 90 : 0;
     AppOrtion(agel);
-    $("#lazyareapael").bind("scroll", function () {
-      bindLastReward();
-      //forceCheck();
-    });
+    $("#lazyareapael")
+      .unbind("scroll")
+      .bind("scroll", function () {
+        bindLastReward();
+        //forceCheck();
+      });
   }, []);
   useEffect(() => {
     reportWindowSize();
@@ -1108,7 +1110,7 @@ function App(prop) {
               id="panelright"
               className={
                 activePanel
-                  ? "active mm-menu--theme-dark"
+                  ? "active mm-menu--theme-dark fadeoutend"
                   : "mm-menu--theme-dark"
               }
             >
@@ -1120,44 +1122,46 @@ function App(prop) {
                 activePanel={activePanel}
                 bindLastReward={bindLastReward}
                 handleOpenTable={handleOpenTable}
+                reportWindowSize={reportWindowSize}
               />
             </nav>
           </div>
 
-          <Modal
-            basic
-            size="tiny"
-            className="myaccount   animated backInDown "
-            onClose={() => {
-              setUserOpen(false);
-            }}
-            onOpen={() => setUserOpen(true)}
-            open={userOpen}
-            closeIcon
-            dimmer="blurring"
-          >
-            <div style={{ height: 100, position: "relative" }}>
-              <div style={{ position: "absolute", zIndex: 0, top: 10 }}>
-                <AnimIcon
-                  icon="dxjqoygy"
-                  width="300px"
-                  height="140px"
-                  trigger="loop"
-                />
-              </div>
-            </div>
-            <Suspense fallback={<MenuLoader />}>
-              <UserArea
-                username={userProfile}
-                siteInfo={siteInfo}
-                loginToken={loginToken}
-                size="small"
-                labelcolor="orange"
-              />
-            </Suspense>
-          </Modal>
           {loginToken?.accessToken && !loginToken?.logout ? (
-            <></>
+            <>
+              <Modal
+                basic
+                size="tiny"
+                className="myaccount   animated backInDown "
+                onClose={() => {
+                  setUserOpen(false);
+                }}
+                onOpen={() => setUserOpen(true)}
+                open={userOpen}
+                closeIcon
+                dimmer="blurring"
+              >
+                <div style={{ height: 100, position: "relative" }}>
+                  <div style={{ position: "absolute", zIndex: 0, top: 10 }}>
+                    <AnimIcon
+                      icon="dxjqoygy"
+                      width="300px"
+                      height="140px"
+                      trigger="loop"
+                    />
+                  </div>
+                </div>
+                <Suspense fallback={<MenuLoader />}>
+                  <UserArea
+                    username={userProfile}
+                    siteInfo={siteInfo}
+                    loginToken={loginToken}
+                    size="small"
+                    labelcolor="orange"
+                  />
+                </Suspense>
+              </Modal>
+            </>
           ) : (
             <>
               <Modal

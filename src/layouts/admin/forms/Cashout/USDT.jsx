@@ -64,7 +64,7 @@ const depositArea = (prop) => {
         amount: _bal,
 
         action: "cashout",
-
+        usd: false,
         coin: "USDT.TRC20",
         amountDollar: _bal / getRate,
         userWalletAddress: "",

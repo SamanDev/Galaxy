@@ -416,6 +416,11 @@ const Balance = (prop) => {
                       : "animated heartBeat slow step0-4"
                   }
                   link
+                  onClick={() => {
+                    if (gCount == 0) {
+                      prop.openPanel(".giftarea");
+                    }
+                  }}
                 >
                   <Label
                     color="red"

@@ -34,8 +34,7 @@ function Admin(prop) {
   const gettotal = (data, status, target, mode, i, gateway) => {
     var _data = data.filter(
       (d) =>
-        parseInt(moment(d.createDate.replace("-08:00", "")).date()) ===
-          parseInt(i) &&
+        parseInt(moment(d.createDate).date()) === parseInt(i) &&
         d.mode.toLowerCase() == mode.toLowerCase() &&
         d.status.toLowerCase() == status.toLowerCase()
     );

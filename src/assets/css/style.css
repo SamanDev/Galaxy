@@ -19,7 +19,18 @@ body {
   min-width: 170px;
   width: 100%;
 }
-
+.w-50 {
+  width: 40% !important;
+  text-align: center !important;
+  display: inline-block !important;
+  font-size: 13px !important;
+  padding: 20px 0 !important;
+  position: static !important;
+}
+.nomargin .menu,
+.nomargin .tab {
+  margin: 0 !important;
+}
 .ttotal .segment:not(.raised) {
   margin-top: 10px !important;
   min-width: 100%;
@@ -784,7 +795,7 @@ div.date .time {
   padding: 0;
   margin: 0;
   position: absolute;
-  top: 60px;
+  top: 2px;
   right: 0;
   bottom: 0;
   left: auto;

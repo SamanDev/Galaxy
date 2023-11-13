@@ -29,7 +29,10 @@ const conditionalRowStyles = [
   },
   // You can also pass a callback to style for additional customization
   {
-    when: (row) => row.endBalance > row.startBalance && row.status == "Done",
+    when: (row) =>
+      (row.endBalance > row.startBalance ||
+        row.endBalance2 > row.startBalance2) &&
+      row.status == "Done",
     style: {
       backgroundColor: "rgba(0,255,0,.1)",
     },
@@ -78,10 +81,15 @@ const groupBy = (array, key) => {
 };
 const sumOf = (array) => {
   return array.reduce((sum, currentValue) => {
+    try {
+      var desc = JSON.parse(currentValue.description);
+    } catch (error) {
+      var desc = { dollarPrice: 50000 };
+    }
     var _am =
-      currentValue.endBalance >= currentValue.startBalance
+      currentValue.endBalance != currentValue.startBalance
         ? currentValue.amount
-        : currentValue.amount;
+        : currentValue.amount2 * desc.dollarPrice;
     if (_am < 0) {
       _am = _am * -1;
     }
@@ -89,7 +97,6 @@ const sumOf = (array) => {
   }, 0);
 };
 const getChartColor = (name) => {
-  console.log(name);
   var text = "blue";
   var _name = name.replace("Bonus ", "");
   switch (_name) {
@@ -206,12 +213,26 @@ function Admin(prop) {
   };
   const gettotal = (data, status, target) => {
     var _data = data.filter(
-      (d) => d.status.toLowerCase() === status.toLowerCase()
+      (d) => d.status.toLowerCase() === status.toLowerCase() && d.amount2 == 0
     );
     var _totalReward = 0;
     {
       _data.map((x, i) => {
         var _am = x.endBalance >= x.startBalance ? x.amount : x.amount * -1;
+        _totalReward = _totalReward + _am;
+      });
+    }
+    if (target == "total") return _totalReward;
+    if (target == "count") return _data.length;
+  };
+  const gettotal2 = (data, status, target) => {
+    var _data = data.filter(
+      (d) => d.status.toLowerCase() === status.toLowerCase() && d.amount == 0
+    );
+    var _totalReward = 0;
+    {
+      _data.map((x, i) => {
+        var _am = x.endBalance2 >= x.startBalance2 ? x.amount2 : x.amount2 * -1;
         _totalReward = _totalReward + _am;
       });
     }
@@ -234,6 +255,9 @@ function Admin(prop) {
 
     var _s = moment(startDate);
     var _e = moment(endDate);
+    if (_s == _e) {
+      _e = moment(_s).add("day", 1).format("YYYY-MM-DD");
+    }
     var _d = _e.diff(_s, "days");
     for (let index = 0; index < _d; index++) {
       var _day = moment(_s).add(index, "days").format("MM-DD");
@@ -254,6 +278,7 @@ function Admin(prop) {
               parseInt(moment(i).month()) &&
             d.status == "Done"
         );
+        console.log(ffdata);
         newdata.push(sumOf(ffdata));
       }
       return newdata;
@@ -440,6 +465,24 @@ function Admin(prop) {
     },
   ];
   var footerTxt = "";
+  if (doCurrency(gettotal2(filteredItems, "Done", "count")) > 0) {
+    footerTxt =
+      footerTxt +
+      "Done (" +
+      doCurrency(gettotal2(filteredItems, "Done", "count")) +
+      "): " +
+      doCurrency(gettotal2(filteredItems, "Done", "total")) +
+      "$  َ  َ  َ |  َ  َ  َ  ";
+  }
+  if (doCurrency(gettotal2(filteredItems, "Pending", "count")) > 0) {
+    footerTxt =
+      footerTxt +
+      " Pending (" +
+      doCurrency(gettotal2(filteredItems, "Pending", "count")) +
+      "): " +
+      doCurrency(gettotal2(filteredItems, "Pending", "total")) +
+      "$  َ  َ  َ |  َ  َ  َ  ";
+  }
   if (doCurrency(gettotal(filteredItems, "Done", "count")) > 0) {
     footerTxt =
       footerTxt +

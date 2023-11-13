@@ -601,6 +601,13 @@ function Admin(prop) {
       <div style={{ height: "calc(100vh - 150px)", overflow: "auto" }}>
         {prop.search == "refer" && prop.searchValue != "bots" ? (
           <>
+            <Button
+              className="float-end"
+              color="red"
+              onClick={() => fetchUsers(1)}
+            >
+              Search
+            </Button>
             <DataTable
               columns={columnsDownLine}
               data={filteredItems}

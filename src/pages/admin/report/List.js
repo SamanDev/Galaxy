@@ -19,12 +19,6 @@ import FilterMode from "./Filter";
 import FilterModeGateway from "./FilterGateway";
 const moment = require("moment");
 const conditionalRowStyles = [
-  {
-    when: (row) => row.status == "Pending",
-    style: {
-      backgroundColor: "rgba(0,0,255,.1)",
-    },
-  },
   // You can also pass a callback to style for additional customization
   {
     when: (row) =>
@@ -44,6 +38,12 @@ const conditionalRowStyles = [
     when: (row) => row.status == "Canceled",
     style: {
       backgroundColor: "rgba(255,0,0,.4)",
+    },
+  },
+  {
+    when: (row) => row.status == "Pending",
+    style: {
+      backgroundColor: "rgba(0,0,255,.1)",
     },
   },
 ];
