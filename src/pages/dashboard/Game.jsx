@@ -336,7 +336,6 @@ const Dashboard = (prop) => {
               link
               onClick={() => {
                 prop.setActivePanel(!prop.activePanel);
-                $(".picn").toggleClass("open");
               }}
               style={
                 !isFull

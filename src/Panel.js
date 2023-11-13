@@ -44,7 +44,7 @@ function RightPanel(prop) {
               basic
               style={{
                 color: "#fff",
-                position: "absolute",
+                position: "fixed",
                 top: "25px",
 
                 transform: "translateY(-50%)",
@@ -57,7 +57,6 @@ function RightPanel(prop) {
               onClick={(e) => {
                 e.stopPropagation();
                 prop.setActivePanel(!prop.activePanel);
-                $(".picn").toggleClass("open");
               }}
             >
               <div id="nav-icon1" className="picn">

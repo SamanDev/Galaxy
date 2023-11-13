@@ -941,13 +941,11 @@ function App(prop) {
 
       api.bind("open:after", () => {
         setActivePanel(false);
-        $(".picn").removeClass("open");
+
         setActiveMenuOpen(true);
-        $("#nav-icon2").addClass("open");
       });
       api.bind("close:after", () => {
         setActiveMenuOpen(false);
-        $("#nav-icon2").removeClass("open");
       });
     }
     window.onresize = () => {
@@ -976,6 +974,11 @@ function App(prop) {
   }, [activeMenu]);
   useEffect(() => {
     reportWindowSize();
+    if (activePanel) {
+      $(".picn").addClass("open");
+    } else {
+      $(".picn").removeClass("open");
+    }
   }, [activePanel]);
 
   useEffect(() => {

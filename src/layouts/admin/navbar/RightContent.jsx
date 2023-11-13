@@ -108,7 +108,6 @@ const Rightcontent = (prop) => {
           }}
           onClick={() => {
             prop.setActivePanel(!activePanel);
-            $(".picn").toggleClass("open");
           }}
         >
           <div id="nav-icon1" className="picn step1">
