@@ -138,7 +138,7 @@ const Dashboard = (prop) => {
       if (
         screenOrientation.indexOf("landscape") > -1 &&
         screenOrientation.indexOf("landscape-") == -1 &&
-        viewportHeight < 1101 &&
+        window.innerWidth < 1101 &&
         loginToken?.accessToken &&
         !loginToken?.logout
       ) {
@@ -326,7 +326,7 @@ const Dashboard = (prop) => {
 
   return (
     <>
-      <div id="dashboard_section" className="dashboard_section main_section ">
+      <div className="dashboard_section main_section ">
         {(!gameLoader || 1 == 1) && (
           <div className="gameicons step2">
             <Icon

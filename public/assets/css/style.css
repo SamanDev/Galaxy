@@ -344,6 +344,7 @@ a {
 #root {
   min-height: calc(100vh);
 }
+
 .framegame {
   width: calc(100vw) !important;
 

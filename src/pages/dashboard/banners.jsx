@@ -210,10 +210,7 @@ const Dashboard = (prop) => {
 
   return (
     <>
-      <div
-        id="dashboard_section"
-        className="dashboard_section main_section fadeoutend"
-      >
+      <div className=" main_section fadeoutend">
         <div
           id="carouselExampleControls"
           className="carousel slide carousel-fade"

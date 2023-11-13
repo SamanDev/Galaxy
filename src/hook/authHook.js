@@ -15,6 +15,7 @@ export const useIsLogin = () => {
       UserWebsocket.connect();
       setIsLogin(false);
       setLoading(false);
+      window.location.href = "/logout";
     }
   };
   useEffect(() => {

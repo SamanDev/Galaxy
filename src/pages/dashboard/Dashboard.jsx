@@ -73,7 +73,7 @@ const Dashboard = (prop) => {
           </>
         ) : (
           <>
-            <div id="dashboard_section">
+            <div>
               <Suspense fallback={<MenuLoader />}>
                 <Index {...prop} />
               </Suspense>

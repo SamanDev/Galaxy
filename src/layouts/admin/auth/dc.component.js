@@ -32,10 +32,11 @@ const depositArea = (prop) => {
         style={{ margin: "10px 0" }}
         disabled={depMode}
         loading={depMode}
+        id="reconn"
         onClick={() => {
           checkBlock(loginToken);
           setDepMode(true);
-          window.location.reload();
+          //window.location.reload();
         }}
         className="farsi"
         color="red"

@@ -26,6 +26,7 @@ const Dashboard = (prop) => {
       window.addEventListener(
         "focus",
         () => {
+          $("#reconn").trigger("click");
           $("#pushactive").trigger("click");
         },
         { once: true }
@@ -111,10 +112,7 @@ const Dashboard = (prop) => {
 
   return (
     <>
-      <div
-        id="dashboard_section"
-        className="dashboard_section main_section fadeoutend"
-      >
+      <div className="dashboard_section main_section fadeoutend">
         <Banners
           loginToken={prop.loginToken}
           siteInfo={prop.siteInfo}

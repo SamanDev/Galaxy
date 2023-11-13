@@ -6,6 +6,7 @@ import GalaxyIcon from "../../utils/svganim";
 import GiftsDesc from "../../utils/GiftsDesc";
 
 import LastRewardList from "./LastRewardList";
+import BonusArea from "../../layouts/admin/bonus/index.jsx";
 
 import LazyLoad from "react-lazyload";
 const LevelList = (prop) => {

@@ -16,7 +16,11 @@ class UserWebsocket {
 
     if (ws == null) {
       ws = new WebSocket(USERSOCKETPUBLICURL + _t);
-
+      if (token) {
+        tkn = true;
+      } else {
+        tkn = false;
+      }
       ws.onopen = function live() {
         eventBus.dispatch("eventsConnect", "");
         if (token) {

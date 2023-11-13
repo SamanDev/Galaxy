@@ -179,12 +179,17 @@ function App(prop) {
       } catch (error) {}
 
       $(".mm-panel--opened:visible")
-        .unbind()
+        .unbind("scroll")
         .bind("scroll", function () {
           bindLastReward();
           bindAddLink();
         });
-
+      $("#lazyareapael")
+        .unbind("scroll")
+        .bind("scroll", function () {
+          bindLastReward();
+          //forceCheck();
+        });
       if (
         $(".mm-panel--opened:visible").find(".lazyarea").length > 0 &&
         $(".mm-panel--opened:visible").find("#lazyarea").length == 0
@@ -193,7 +198,7 @@ function App(prop) {
           .find(".mm-listview:first")
           .attr("id", "lazyarea");
       }
-    }, 50);
+    }, 100);
     setTimeout(() => {
       setsize = false;
     }, 20);
@@ -229,7 +234,7 @@ function App(prop) {
         });
       forceCheck();
       setbindrew = false;
-    }, 10);
+    }, 30);
   }
 
   function getLinkId(str) {
@@ -956,12 +961,6 @@ function App(prop) {
     };
     var agel = window.outerWidth > window.outerHeight ? 90 : 0;
     AppOrtion(agel);
-    $("#lazyareapael")
-      .unbind("scroll")
-      .bind("scroll", function () {
-        bindLastReward();
-        //forceCheck();
-      });
   }, []);
   useEffect(() => {
     reportWindowSize();
@@ -1075,6 +1074,11 @@ function App(prop) {
     eventBus.on("eventsConnect", () => {
       setDcOpen(false);
     });
+    document.querySelector("video").defaultPlaybackRate = 1.0;
+    document.querySelector("video").play();
+
+    /* now play three times as fast just for the heck of it */
+    document.querySelector("video").playbackRate = 0.6;
   }, []);
 
   useEffect(() => {
@@ -1164,9 +1168,6 @@ function App(prop) {
                   />
                 </Suspense>
               </Modal>
-            </>
-          ) : (
-            <>
               <Modal
                 basic
                 size="tiny"
@@ -1190,6 +1191,9 @@ function App(prop) {
                   labelcolor="orange"
                 />
               </Modal>
+            </>
+          ) : (
+            <>
               <Modal
                 basic
                 size="tiny"
