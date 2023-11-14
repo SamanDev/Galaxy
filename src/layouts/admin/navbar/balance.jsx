@@ -97,8 +97,8 @@ const Balance = (prop) => {
         (d) =>
           d.status == "Pending" &&
           d.received == false &&
-          //Date.parse(d.startDate) < end &&
-          Date.parse(d.expireDate) > end
+          //Date.parse(d.startDate.replace("-08:00", "")) < end &&
+          Date.parse(d.expireDate.replace("-08:00", "")) > end
       );
       if (_pen.length > 0) {
         if (
