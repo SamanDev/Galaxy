@@ -11,7 +11,6 @@ const openDeposit = () => {
 };
 
 const BonusArea = (prop) => {
-  console.log(prop);
   const loginToken = prop.user;
   const siteInfo = prop.siteInfo;
 

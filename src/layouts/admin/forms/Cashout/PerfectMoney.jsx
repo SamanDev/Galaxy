@@ -30,7 +30,7 @@ const depositArea = (prop) => {
   const [getRate, setGetRate] = useState(
     localStorage.getItem("getRate") || 50000
   );
-  console.log(prop);
+
   const navigate = useNavigate();
 
   const loginToken = prop.loginToken;

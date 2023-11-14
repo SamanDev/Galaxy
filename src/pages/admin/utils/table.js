@@ -16,7 +16,9 @@ function capitalizeTxt(txt, obj) {
     return txt.charAt(0).toUpperCase() + txt.slice(1); //or if you want lowercase the rest txt.slice(1).toLowerCase();
   }
 }
-
+function isNumeric(n) {
+  return !isNaN(parseFloat(n)) && isFinite(n);
+}
 function isDate(
   name,
   myDate,
@@ -33,7 +35,7 @@ function isDate(
         {myDate}
       </>
     );
-  } else if (name === "balance") {
+  } else if (name === "balance" || isNumeric(myDate)) {
     var res = doCurrency(myDate);
   } else if (name === "bankInfos") {
     var res = myDate;

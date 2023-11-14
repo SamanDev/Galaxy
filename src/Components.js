@@ -28,7 +28,6 @@ const TournamentComponent = lazy(() =>
 //import TournamentComponent from "./pages/dashboard/TournamentCom";
 import $ from "jquery";
 function delayForDemo(promise) {
-  $("#lazyarea").removeAttr("id");
   return new Promise((resolve) => {
     resolve();
   }).then(() => {

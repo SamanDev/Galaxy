@@ -221,7 +221,7 @@ function Admin(prop) {
     var newdataInfo = [
       getPathOfKey2(
         user,
-        ",username,level,balance,balance2,email,mobile,fullName,refer,firstLogin,lastLogin,bankInfos,cashierGateways,userBlock,userActivate,multiAccount,"
+        ",username,level,balance,balance2,email,mobile,fullName,refer,firstLogin,lastLogin,bankInfos,cashierGateways,userBlock,userActivate,multiAccount,totalDeposit,totalDeposit2,totalCashout,totalCashout2,totalCommission,totalCommission2,vipPlaySecond,totalPoint,levelPoint,dailyPoint,glevel,glevelSecond,"
       ),
     ];
   }
@@ -229,7 +229,7 @@ function Admin(prop) {
     var newdataInfo = [
       getPathOfKey2(
         user,
-        ",username,level,balance,balance2,fullName,refer,firstLogin,lastLogin,bankInfos,cashierGateways,"
+        ",username,level,balance,balance2,fullName,refer,firstLogin,lastLogin,bankInfos,cashierGateways,multiAccount,totalDeposit,totalDeposit2,totalCashout,totalCashout2,totalCommission,totalCommission2,vipPlaySecond,totalPoint,levelPoint,dailyPoint,glevel,glevelSecond,"
       ),
     ];
   }

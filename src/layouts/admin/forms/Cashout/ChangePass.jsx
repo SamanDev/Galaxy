@@ -30,7 +30,6 @@ const onSubmit = async (values, submitMethods, prop) => {
 };
 
 const depositArea = (prop) => {
-  console.log(prop);
   const loginToken = prop.loginToken;
   try {
     var _email = loginToken.email;

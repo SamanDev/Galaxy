@@ -8,7 +8,6 @@ import { getReportService } from "../../../../services/report";
 import NoData from "../../../../utils/noData";
 const moment = require("moment");
 function sendMessage(message) {
-  console.log(message);
   try {
     const iframe = document.querySelector("iframe[name=gameframe]");
     iframe.contentWindow.postMessage(message, "*");

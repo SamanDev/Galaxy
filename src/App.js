@@ -144,7 +144,6 @@ function App(prop) {
     //clearTimeout(btime);
 
     btime = setTimeout(() => {
-      $("#lazyarea").removeAttr("id");
       let viewportWidth = window.innerWidth;
       let viewportHeight = window.innerHeight;
 
@@ -190,10 +189,7 @@ function App(prop) {
           bindLastReward();
           //forceCheck();
         });
-      if (
-        $(".mm-panel--opened:visible").find(".lazyarea").length > 0 &&
-        $(".mm-panel--opened:visible").find("#lazyarea").length == 0
-      ) {
+      if ($(".mm-panel--opened:visible").find(".lazyarea").length > 0) {
         $(".mm-panel--opened:visible")
           .find(".mm-listview:first")
           .attr("id", "lazyarea");
