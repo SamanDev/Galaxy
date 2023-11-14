@@ -51,6 +51,10 @@ body {
   filter: grayscale(80%);
   opacity: 0.5;
 }
+video::-webkit-media-controls-panel {
+  display: none !important;
+  opacity: 1 !important;
+}
 .nomargin .menu,
 .nomargin .tab {
   margin: 0 !important;

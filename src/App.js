@@ -1074,7 +1074,7 @@ function App(prop) {
     document.querySelector("video").play();
 
     /* now play three times as fast just for the heck of it */
-    document.querySelector("video").playbackRate = 0.6;
+    //document.querySelector("video").playbackRate = 0.6;
   }, []);
 
   useEffect(() => {
