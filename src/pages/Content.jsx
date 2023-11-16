@@ -8,11 +8,6 @@ import MenuLoader from "../utils/menuLoader";
 const Content = (prop) => {
   return (
     <section id="content_section" className={`py-2 px-3`}>
-      <div className="fullscreen-bg">
-        <video loop muted autoPlay className="fullscreen-bg__video">
-          <source src="/assets/images/bg3.mp4" type="video/mp4" />
-        </video>
-      </div>
       <Routes>
         <Route
           path="*"
@@ -75,6 +70,11 @@ const Content = (prop) => {
           />
         </Route>
       </Routes>
+      <div className="fullscreen-bg">
+        <video loop muted autoPlay className="fullscreen-bg__video">
+          <source src="/assets/images/bg3.mp4" type="video/mp4" />
+        </video>
+      </div>
     </section>
   );
 };

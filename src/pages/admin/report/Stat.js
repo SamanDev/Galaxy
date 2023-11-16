@@ -16,6 +16,7 @@ import $ from "jquery";
 import { adminGetService } from "../../../services/admin";
 import DateReng from "../utils/dateReng";
 import FilterMode from "./Filter";
+import List from "./List";
 import FilterModeGateway from "./FilterGateway";
 import Chart from "chart.js/auto";
 import { convertDateToJalali } from "../../../utils/convertDate";
@@ -562,66 +563,27 @@ function Admin(prop) {
         </Grid>
       </>
     );
-  }, [filterText, resetPaginationToggle, data, dataSearch]);
+  }, [
+    filterText,
+    resetPaginationToggle,
+    data,
+    dataSearch,
+    dataMode,
+    startDate,
+    endDate,
+  ]);
 
   return (
     <>
-      <Modal
-        onClose={() => setFirstOpen(false)}
-        onOpen={() => setFirstOpen(true)}
-        open={firstOpen}
-        style={{ height: "auto" }}
-      >
-        <DateReng
-          startDate={startDate}
-          endDate={endDate}
-          setStartDate={setStartDate}
-          setEndDate={setEndDate}
-          setFilterOk={setFilterOk}
-        />
-      </Modal>
+      <List setData={setData} />
 
       <div
-        className="reportTable"
-        style={{ height: "calc(100vh - 150px)", overflow: "auto" }}
-      >
-        {subHeaderComponentMemo}
-        <Segment style={{ height: "calc(100vh - 250px)", overflow: "auto" }}>
-          <div
-            style={{
-              width: "calc(70vw)",
-              margin: "auto",
-            }}
-            id="chart"
-          ></div>
-          <DataTable
-            columns={columns}
-            data={filteredItems}
-            progressPending={loading}
-            onChangeRowsPerPage={handlePerRowsChange}
-            defaultSortFieldId={dataSortedID}
-            paginationPerPage={perPage}
-            defaultSortAsc={false}
-            expandOnRowClicked={true}
-            expandableRowsHideExpander={true}
-            conditionalRowStyles={conditionalRowStyles}
-            noDataComponent={noDataComponent}
-            pagination
-            paginationResetDefaultPage={resetPaginationToggle} // optionally, a hook to reset pagination to page 1
-            persistTableHead
-            paginationRowsPerPageOptions={[10, 25, 50, 100, 500]}
-            expandableRows
-            expandableRowsComponent={ExpandedComponent}
-            paginationComponentOptions={{
-              rowsPerPageText: footerTxt,
-              rangeSeparatorText: "of",
-              noRowsPerPage: false,
-              selectAllRowsItem: false,
-              selectAllRowsItemText: "All",
-            }}
-          />
-        </Segment>
-      </div>
+        style={{
+          width: "calc(70vw)",
+          margin: "auto",
+        }}
+        id="chart"
+      ></div>
     </>
   );
 }

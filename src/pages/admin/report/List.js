@@ -77,36 +77,27 @@ function Admin(prop) {
   const loginToken = prop.loginToken;
   const [totalRows, setTotalRows] = useState(0);
   const [perPage, setPerPage] = useState(10);
-  const [dataSortedID, setDataSortedID] = useState(1);
+  const [dataSortedID, setDataSortedID] = useState(9);
   const [dataSorted, setDataSorted] = useState("id");
   const [dataSortedDir, setDataSortedDir] = useState("desc");
   const [dataSearch, setDataSearch] = useState("");
   if (prop?.user?.username) {
-    var defmde = [
-      "cashout",
-      "deposit",
-      "transfer",
-      "bonus",
-      "poker",
-      "casino",
-      "totalincome",
-    ];
+    var defmde = ["cashout", "deposit", "transfer", "bonus", "poker", "casino"];
   } else {
-    var defmde = ["cashout", "deposit", "transfer", "bonus", "totalincome"];
+    var defmde = ["cashout", "deposit", "transfer"];
   }
 
   const [dataMode, setDataMode] = useState(defmde);
   const [getwaysList, setGetwaysData] = useState([]);
 
-  const [startDate, setStartDate] = useState(addDays(new Date(), -14));
-  const [endDate, setEndDate] = useState(addDays(new Date(), 1));
+  const [startDate, setStartDate] = useState(addDays(new Date(), -1));
+  const [endDate, setEndDate] = useState(addDays(new Date(), +1));
   const [loading, setLoading] = useState(false);
+  const [footerTxt, setFooterTxt] = useState("");
 
   const [filterText, setFilterText] = React.useState("");
   const [filterOk, setFilterOk] = React.useState(false);
-  const filteredItems = data
-    .sort((a, b) => (a.createDate < b.createDate ? 1 : -1))
-    .filter((item) => item.id);
+  const filteredItems = data;
   const [firstOpen, setFirstOpen] = React.useState(false);
   const [resetPaginationToggle, setResetPaginationToggle] =
     React.useState(false);
@@ -129,16 +120,19 @@ function Admin(prop) {
     try {
       if (prop?.user?.username) {
         var res = await adminGetService(
-          `getReports?mode=${dataMode}&page=${page}&number=${perPage}&username=${prop.user.username}&start=${_s}&end=${_e}&gateway=${dataSearch}`
+          `getReports?mode=${dataMode}&page=${page}&number=5000&username=${prop.user.username}&start=${_s}&end=${_e}&gateway=${dataSearch}`
         );
       } else {
         var res = await adminGetService(
-          `getReports?mode=${dataMode}&page=${page}&number=${perPage}&start=${_s}&end=${_e}&gateway=${dataSearch}`
+          `getReports?mode=${dataMode}&page=${page}&number=5000&start=${_s}&end=${_e}&gateway=${dataSearch}`
         );
       }
 
       if (res.status === 200) {
         setData(res.data);
+        try {
+          prop.setData(res.data);
+        } catch (error) {}
 
         setFilterOk(false);
       }
@@ -166,15 +160,27 @@ function Admin(prop) {
   };
   const gettotal = (data, status, target) => {
     var _data = data.filter(
-      (d) => d.status.toLowerCase() === status.toLowerCase()
+      (d) => d.status.toLowerCase() === status.toLowerCase() && d.amount != 0
     );
     var _totalReward = 0;
     {
       _data.map((x, i) => {
-        var _am = x.endBalance >= x.startBalance ? x.amount : x.amount * -1;
-        if (_am == 0) {
-          _am = x.endBalance2 >= x.startBalance2 ? x.amount2 : x.amount2;
-        }
+        var _am = x.amount;
+
+        _totalReward = _totalReward + _am;
+      });
+    }
+    if (target == "total") return _totalReward;
+    if (target == "count") return _data.length;
+  };
+  const gettotal2 = (data, status, target) => {
+    var _data = data.filter(
+      (d) => d.status.toLowerCase() === status.toLowerCase() && d.amount2 != 0
+    );
+    var _totalReward = 0;
+    {
+      _data.map((x, i) => {
+        var _am = x.amount2;
         _totalReward = _totalReward + _am;
       });
     }
@@ -183,12 +189,259 @@ function Admin(prop) {
   };
 
   useEffect(() => {
-    //fetchUsers(1); // fetch page 1 of users
-  }, [dataSorted, dataSortedDir, dataMode, dataSearch]);
+    var ftxt = "";
 
-  useEffect(() => {
-    if (!firstOpen && filterOk) fetchUsers(1); // fetch page 1 of users
-  }, [filterOk, firstOpen]);
+    try {
+      if (filteredItems.length) {
+        {
+          dataMode.map((link, i) => {
+            ftxt = ftxt + " . [";
+            ftxt = ftxt + link.toUpperCase() + " [ ";
+            if (
+              doCurrency(
+                gettotal2(
+                  filteredItems.filter((f) => f.mode.toLowerCase() == link),
+                  "Done",
+                  "count"
+                )
+              ) > 0
+            ) {
+              ftxt =
+                ftxt +
+                "Done (" +
+                doCurrency(
+                  gettotal2(
+                    filteredItems.filter((f) => f.mode.toLowerCase() == link),
+                    "Done",
+                    "count"
+                  )
+                ) +
+                "): " +
+                doCurrency(
+                  gettotal2(
+                    filteredItems.filter((f) => f.mode.toLowerCase() == link),
+                    "Done",
+                    "total"
+                  )
+                ) +
+                "$  َ  َ  َ |  َ  َ  َ  ";
+            }
+            if (
+              doCurrency(
+                gettotal2(
+                  filteredItems.filter((f) => f.mode.toLowerCase() == link),
+                  "Pending",
+                  "count"
+                )
+              ) > 0
+            ) {
+              ftxt =
+                ftxt +
+                " Pending (" +
+                doCurrency(
+                  gettotal2(
+                    filteredItems.filter((f) => f.mode.toLowerCase() == link),
+                    "Pending",
+                    "count"
+                  )
+                ) +
+                "): " +
+                doCurrency(
+                  gettotal2(
+                    filteredItems.filter((f) => f.mode.toLowerCase() == link),
+                    "Pending",
+                    "total"
+                  )
+                ) +
+                "$  َ  َ  َ |  َ  َ  َ  ";
+            }
+            if (
+              doCurrency(
+                gettotal(
+                  filteredItems.filter((f) => f.mode.toLowerCase() == link),
+                  "Done",
+                  "count"
+                )
+              ) > 0
+            ) {
+              ftxt =
+                ftxt +
+                "Done (" +
+                doCurrency(
+                  gettotal(
+                    filteredItems.filter((f) => f.mode.toLowerCase() == link),
+                    "Done",
+                    "count"
+                  )
+                ) +
+                "): " +
+                doCurrency(
+                  gettotal(
+                    filteredItems.filter((f) => f.mode.toLowerCase() == link),
+                    "Done",
+                    "total"
+                  )
+                ) +
+                "  َ  َ  َ |  َ  َ  َ  ";
+            }
+            if (
+              doCurrency(
+                gettotal(
+                  filteredItems.filter((f) => f.mode.toLowerCase() == link),
+                  "Pending",
+                  "count"
+                )
+              ) > 0
+            ) {
+              ftxt =
+                ftxt +
+                " Pending (" +
+                doCurrency(
+                  gettotal(
+                    filteredItems.filter((f) => f.mode.toLowerCase() == link),
+                    "Pending",
+                    "count"
+                  )
+                ) +
+                "): " +
+                doCurrency(
+                  gettotal(
+                    filteredItems.filter((f) => f.mode.toLowerCase() == link),
+                    "Pending",
+                    "total"
+                  )
+                ) +
+                "  َ  َ  َ |  َ  َ  َ  ";
+            }
+            ftxt = ftxt + "] ] .";
+          });
+        }
+      }
+    } catch (error) {
+      var link = dataMode;
+      ftxt = ftxt + link.toUpperCase() + " [ ";
+      if (
+        doCurrency(
+          gettotal2(
+            filteredItems.filter((f) => f.mode.toLowerCase() == link),
+            "Done",
+            "count"
+          )
+        ) > 0
+      ) {
+        ftxt =
+          ftxt +
+          "Done (" +
+          doCurrency(
+            gettotal2(
+              filteredItems.filter((f) => f.mode.toLowerCase() == link),
+              "Done",
+              "count"
+            )
+          ) +
+          "): " +
+          doCurrency(
+            gettotal2(
+              filteredItems.filter((f) => f.mode.toLowerCase() == link),
+              "Done",
+              "total"
+            )
+          ) +
+          "$  َ  َ  َ |  َ  َ  َ  ";
+      }
+      if (
+        doCurrency(
+          gettotal2(
+            filteredItems.filter((f) => f.mode.toLowerCase() == link),
+            "Pending",
+            "count"
+          )
+        ) > 0
+      ) {
+        ftxt =
+          ftxt +
+          " Pending (" +
+          doCurrency(
+            gettotal2(
+              filteredItems.filter((f) => f.mode.toLowerCase() == link),
+              "Pending",
+              "count"
+            )
+          ) +
+          "): " +
+          doCurrency(
+            gettotal2(
+              filteredItems.filter((f) => f.mode.toLowerCase() == link),
+              "Pending",
+              "total"
+            )
+          ) +
+          "$  َ  َ  َ |  َ  َ  َ  ";
+      }
+      if (
+        doCurrency(
+          gettotal(
+            filteredItems.filter((f) => f.mode.toLowerCase() == link),
+            "Done",
+            "count"
+          )
+        ) > 0
+      ) {
+        ftxt =
+          ftxt +
+          "Done (" +
+          doCurrency(
+            gettotal(
+              filteredItems.filter((f) => f.mode.toLowerCase() == link),
+              "Done",
+              "count"
+            )
+          ) +
+          "): " +
+          doCurrency(
+            gettotal(
+              filteredItems.filter((f) => f.mode.toLowerCase() == link),
+              "Done",
+              "total"
+            )
+          ) +
+          "  َ  َ  َ |  َ  َ  َ  ";
+      }
+      if (
+        doCurrency(
+          gettotal(
+            filteredItems.filter((f) => f.mode.toLowerCase() == link),
+            "Pending",
+            "count"
+          )
+        ) > 0
+      ) {
+        ftxt =
+          ftxt +
+          " Pending (" +
+          doCurrency(
+            gettotal(
+              filteredItems.filter((f) => f.mode.toLowerCase() == link),
+              "Pending",
+              "count"
+            )
+          ) +
+          "): " +
+          doCurrency(
+            gettotal(
+              filteredItems.filter((f) => f.mode.toLowerCase() == link),
+              "Pending",
+              "total"
+            )
+          ) +
+          "  َ  َ  َ |  َ  َ  َ  ";
+      }
+      ftxt = ftxt + "]";
+    }
+
+    setFooterTxt(ftxt);
+  }, [filteredItems, data]);
+
   const columns = [
     {
       name: "id",
@@ -307,26 +560,7 @@ function Admin(prop) {
       sortable: true,
     },
   ];
-  var footerTxt = "";
-  if (doCurrency(gettotal(filteredItems, "Done", "count")) > 0) {
-    footerTxt =
-      footerTxt +
-      "Done (" +
-      doCurrency(gettotal(filteredItems, "Done", "count")) +
-      "): " +
-      doCurrency(gettotal(filteredItems, "Done", "total")) +
-      "  َ  َ  َ |  َ  َ  َ  ";
-  }
-  if (doCurrency(gettotal(filteredItems, "Pending", "count")) > 0) {
-    footerTxt =
-      footerTxt +
-      " Pending (" +
-      doCurrency(gettotal(filteredItems, "Pending", "count")) +
-      "): " +
-      doCurrency(gettotal(filteredItems, "Pending", "total")) +
-      "  َ  َ  َ |  َ  َ  َ  ";
-  }
-  footerTxt = footerTxt + "Rows per page:";
+
   const subHeaderComponentMemo = React.useMemo(() => {
     var _s = moment(startDate).format("YY-MM-DD");
     var _e = moment(endDate).format("YY-MM-DD");
@@ -387,7 +621,15 @@ function Admin(prop) {
         </Grid>
       </>
     );
-  }, [filterText, resetPaginationToggle, data, dataSearch]);
+  }, [
+    filterText,
+    resetPaginationToggle,
+    data,
+    dataSearch,
+    dataMode,
+    startDate,
+    endDate,
+  ]);
 
   return (
     <>
@@ -415,8 +657,10 @@ function Admin(prop) {
           columns={columns}
           data={filteredItems}
           progressPending={loading}
-          onChangeRowsPerPage={handlePerRowsChange}
+          defaultSortFieldId={dataSortedID}
+          //onChangeRowsPerPage={handlePerRowsChange}
           paginationPerPage={perPage}
+          defaultSortAsc={false}
           expandOnRowClicked={true}
           expandableRowsHideExpander={true}
           conditionalRowStyles={conditionalRowStyles}
@@ -427,17 +671,17 @@ function Admin(prop) {
           expandableRows
           expandableRowsComponent={ExpandedComponent}
           paginationComponentOptions={{
-            rowsPerPageText: footerTxt,
             rangeSeparatorText: "of",
             noRowsPerPage: false,
             selectAllRowsItem: false,
             selectAllRowsItemText: "All",
           }}
-          onChangePage={handlePageChange}
-          paginationServer
+          //onChangePage={handlePageChange}
+          //paginationServer
           paginationRowsPerPageOptions={[10, 25, 50, 100, 500, 1000, 5000]}
           paginationTotalRows={totalRows}
         />
+        <div>{footerTxt}</div>
       </div>
     </>
   );

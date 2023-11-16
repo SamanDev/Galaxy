@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { Segment, Tab } from "semantic-ui-react";
 import Users from "./Users";
-import Bots from "./user/Bots";
 import { Navigate } from "react-router-dom";
 
+import Bankroll from "./income/Bankroll";
+import Bots from "./user/Bots";
 import Income from "./income/Income";
 import GetwaysList from "./setting/GetwaysList";
 import SiteCartsList from "./setting/SiteCartsList";
@@ -104,7 +105,7 @@ function Admin(prop) {
           <Tab.Pane key="Income">
             <Income
               addTabData={addTabData}
-              addMainTabData={addMainTabData}
+              addMainTabData={addBankrollTabData}
               handleGetGeteways={handleGetGeteways}
               addGatewayTabData={addGatewayTabData}
               removeTabData={removeTabData}
@@ -194,6 +195,39 @@ function Admin(prop) {
           style={{ height: "calc(100vh - 150px)", overflow: "auto" }}
         >
           <Bots
+            addTabData={addTabData}
+            setGetwaysData={setGetwaysData}
+            removeTabData={removeTabData}
+            search="refer"
+            searchValue={mode}
+          />
+        </Tab.Pane>
+      ),
+    });
+
+    panes = newPanes2;
+    setTabData(newPanes2);
+    setActiveIndex(newPanes2.length - 1);
+  };
+  const addBankrollTabData = (mode) => {
+    var newPanes1 = panes;
+    const result1 = newPanes1.filter(checkAdult1);
+
+    function checkAdult1(item) {
+      return item.pane.key != mode;
+    }
+
+    var newPanes2 = result1;
+
+    newPanes2.push({
+      menuItem: mode,
+      pane: (
+        <Tab.Pane
+          key={mode}
+          className="ui inverted segment"
+          style={{ height: "calc(100vh - 150px)", overflow: "auto" }}
+        >
+          <Bankroll
             addTabData={addTabData}
             setGetwaysData={setGetwaysData}
             removeTabData={removeTabData}

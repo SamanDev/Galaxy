@@ -150,7 +150,7 @@ const Dashboard = (prop) => {
         loginToken?.accessToken &&
         !loginToken?.logout
       ) {
-        //handleFullscreen();
+        handleFullscreen();
       }
     }
   }, [screenOrientation]);
@@ -268,7 +268,7 @@ const Dashboard = (prop) => {
                       loginToken.username
                     }
                     name="gameframe"
-                    className={"framegame"}
+                    className={"framegame casframe"}
                     onLoad={removeFrameLoad}
                   ></iframe>
                 )}

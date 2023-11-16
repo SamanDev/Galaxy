@@ -16,10 +16,11 @@ import {
 import LazyLoad from "react-lazyload";
 import { forceCheck } from "react-lazyload";
 import { Link } from "react-router-dom";
-import { useUser, useSiteInfo } from "./hook/userHook";
 import { startServiceWorker } from "./const";
 import $ from "jquery";
 import { useIsLogin } from "./hook/authHook";
+import { useUser, useSiteInfo } from "./hook/userHook";
+
 //import AdminLayout from "./layouts/admin/Index";
 import { useNavigate } from "react-router-dom";
 import MenuLoader from "./utils/menuLoader";
@@ -96,7 +97,7 @@ function App(prop) {
         );
     } else {
       scale = window.outerWidth / 450;
-      scale = 1;
+      //scale = 1;
       document
         .querySelector('meta[name="viewport"]')
         .setAttribute(

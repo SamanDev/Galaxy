@@ -376,7 +376,7 @@ function Admin(prop) {
                 Live
               </Button>
 
-              <Button onClick={() => prop.addMainTabData("Runner")}>
+              <Button onClick={() => prop.addMainTabData("Bankroll")}>
                 Bankroll
               </Button>
               <Button

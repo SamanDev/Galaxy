@@ -51,6 +51,16 @@ body {
   filter: grayscale(80%);
   opacity: 0.5;
 }
+.bankroll .statistic > .value {
+  width: 200px;
+  text-align: left !important;
+  height: 30px;
+}
+.bankroll .statistic > .label {
+  width: 200px;
+  text-align: left !important;
+  height: 30px;
+}
 video::-webkit-media-controls-panel {
   display: none !important;
   opacity: 1 !important;
@@ -410,9 +420,7 @@ a {
   -webkit-font-smoothing: antialiased;
   background: rgba(0, 0, 0, 0.9);
 }
-.framegame.casframe {
-  min-width: 450px !important;
-}
+
 .framegame.frame2 {
   background: rgba(255, 255, 255, 0.09);
 }
@@ -449,6 +457,10 @@ body.fullscreen .framegame,
   bottom: 0;
   -webkit-font-smoothing: antialiased;
   background: rgba(0, 0, 0, 0.9);
+}
+.framegame.casframe,
+body.fullscreen .framegame.casframe {
+  min-width: 450px !important;
 }
 .framegame.loader.fullscreen {
   position: fixed;
