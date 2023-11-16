@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
 
 import { Tab, Menu, Label } from "semantic-ui-react";
-import Cashout from "./request/CashoutList";
 import Carts from "./request/CartList";
 import Tickets from "./support/List";
 import Reports from "./report/List";
+import Cashout from "./request/CashoutList";
+import Costs from "./request/Costs";
 import Stats from "./report/Stat";
 var panes = [];
 function Admin(prop) {
@@ -57,6 +58,14 @@ function Admin(prop) {
         ),
       },
 
+      {
+        menuItem: "Costs",
+        render: () => (
+          <Tab.Pane>
+            <Costs {...prop} />
+          </Tab.Pane>
+        ),
+      },
       {
         menuItem: "Stats",
         render: () => (
