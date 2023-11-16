@@ -279,7 +279,7 @@ function Admin(prop) {
               parseInt(moment(i).month()) &&
             d.status == "Done"
         );
-        console.log(ffdata);
+        //console.log(ffdata);
         newdata.push(sumOf(ffdata));
       }
       return newdata;

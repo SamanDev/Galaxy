@@ -81,7 +81,7 @@ function Admin(prop) {
 
   const [totalRows, setTotalRows] = useState(0);
   const [perPage, setPerPage] = useState(10);
-  const [dataSortedID, setDataSortedID] = useState(1);
+  const [dataSortedID, setDataSortedID] = useState(8);
   const [dataSorted, setDataSorted] = useState("id");
   const [dataSortedDir, setDataSortedDir] = useState("desc");
   const [dataSearch, setDataSearch] = useState("");
@@ -147,7 +147,7 @@ function Admin(prop) {
 
     try {
       const res = await adminGetService(
-        `getReports?mode=cashout&page=${page}&number=${perPage}&start=${_s}&end=${_e}`
+        `getReports?mode=cashout&page=${page}&number=500&start=${_s}&end=${_e}`
       );
       if (res.status === 200) {
         setData(res.data);
@@ -390,7 +390,7 @@ function Admin(prop) {
         </Grid>
       </>
     );
-  }, [filterText, resetPaginationToggle, data]);
+  }, [filterText, resetPaginationToggle, data, startDate, endDate]);
 
   return (
     <>
@@ -440,7 +440,7 @@ function Admin(prop) {
           columns={columns}
           data={filteredItems}
           progressPending={loading}
-          onChangeRowsPerPage={handlePerRowsChange}
+          //onChangeRowsPerPage={handlePerRowsChange}
           defaultSortFieldId={dataSortedID}
           paginationPerPage={perPage}
           defaultSortAsc={false}
@@ -456,8 +456,8 @@ function Admin(prop) {
             selectAllRowsItem: false,
             selectAllRowsItemText: "All",
           }}
-          onChangePage={handlePageChange}
-          paginationServer
+          //onChangePage={handlePageChange}
+          //paginationServer
           paginationRowsPerPageOptions={[10, 25, 50, 100, 500, 1000, 5000]}
           paginationTotalRows={totalRows}
         />

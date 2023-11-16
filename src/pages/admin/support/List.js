@@ -324,7 +324,7 @@ function Admin(prop) {
         </Grid>
       </>
     );
-  }, [filterText, resetPaginationToggle, data]);
+  }, [filterText, resetPaginationToggle, data, startDate, endDate]);
   return (
     <>
       <Modal

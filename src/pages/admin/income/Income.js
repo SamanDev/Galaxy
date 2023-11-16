@@ -301,8 +301,8 @@ function Admin(prop) {
     setLoading(true);
     try {
       var res;
-      if (live) {
-        res = await adminGetService(`getIncome?page=${page}&number=${perPage}`);
+      if (page == 0) {
+        res = await adminGetService(`getIncome?page=1&number=${perPage}`);
       } else {
         res = await adminGetService(
           `getIncome?page=${page}&number=${perPage}&startDate=${_s}&endDate=${_e}`
@@ -370,7 +370,7 @@ function Admin(prop) {
               <Button
                 onClick={() => {
                   setLive(true);
-                  fetchUsers(1);
+                  fetchUsers(0);
                 }}
               >
                 Live
@@ -408,7 +408,15 @@ function Admin(prop) {
         </Grid>
       </>
     );
-  }, [filterText, resetPaginationToggle, data, selectedList]);
+  }, [
+    filterText,
+    resetPaginationToggle,
+    data,
+    selectedList,
+    live,
+    startDate,
+    endDate,
+  ]);
   const CustomLoader = () => (
     <>
       <Segment
