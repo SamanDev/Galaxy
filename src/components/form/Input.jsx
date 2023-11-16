@@ -116,7 +116,13 @@ const InputF = ({
           {formik.errors[name]}
         </Label>
       )}
-      <Form.Input size={size} fluid labelPosition="left" defaultValue="">
+      <Form.Input
+        disabled={disabled}
+        size={size}
+        fluid
+        labelPosition="left"
+        defaultValue=""
+      >
         <Label
           size="tiny"
           pointing="right"

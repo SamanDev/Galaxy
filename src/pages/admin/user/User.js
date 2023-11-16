@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Dimmer, Loader, Icon } from "semantic-ui-react";
-import { Tab } from "semantic-ui-react";
+import { Tab, Modal, Button } from "semantic-ui-react";
 import { adminGetService } from "../../../services/admin";
 import TableAdmin from "../utils/table";
 import Report from "../report/List";
@@ -11,6 +11,7 @@ import Users from "../Users";
 import { Alert } from "../../../utils/alerts";
 import { adminPutService } from "../../../services/admin";
 import { isJson, haveAdmin, haveModerator } from "../../../const";
+import AddCashier from "../AddCashier";
 const getGateways = JSON.parse(localStorage.getItem("getGateways"));
 function getPathOfKey(object, keys, getwaysList) {
   var newO = JSON.parse(JSON.stringify(object));
@@ -147,6 +148,7 @@ function getPathOfKey2(object, keys, getwaysList) {
 
 function Admin(prop) {
   const [activeIndex, setActiveIndex] = useState(0);
+  const [cashierOpen, setCashierOpen] = React.useState(false);
   const loginToken = prop.loginToken;
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState({});
@@ -336,6 +338,22 @@ function Admin(prop) {
           {user.username}
         </span>
       </h4>
+      <Modal
+        onClose={() => setCashierOpen(false)}
+        onOpen={() => setCashierOpen(true)}
+        open={cashierOpen}
+        size="large"
+        style={{ height: "auto" }}
+      >
+        <AddCashier username={user.username} setCashierOpen={setCashierOpen} />
+      </Modal>
+      <Button
+        color="blue"
+        className="float-end"
+        onClick={() => setCashierOpen(true)}
+      >
+        Cashier
+      </Button>
       <Tab
         panes={panes}
         activeIndex={activeIndex}

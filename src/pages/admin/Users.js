@@ -19,6 +19,7 @@ import { Alert } from "../../utils/alerts";
 
 import CheckboxToggle from "./utils/toggle";
 import AddGift from "./AddGift";
+import AddCashier from "./AddCashier";
 import Filter from "./Filter";
 
 import {
@@ -448,6 +449,7 @@ function Admin(prop) {
   }, [filterOk]);
 
   const [firstOpen, setFirstOpen] = React.useState(false);
+  const [cashierOpen, setCashierOpen] = React.useState(false);
   const contextActions = React.useMemo(() => {
     return <Button onClick={() => setFirstOpen(true)}>Gift</Button>;
   }, [data]);
@@ -544,9 +546,18 @@ function Admin(prop) {
           <Grid.Row>
             <Grid.Column>
               {haveAdmin(loginToken.roles) && (
-                <Button onClick={() => prop.addGatewayTabData("Gateways")}>
-                  Gateways
-                </Button>
+                <>
+                  <Button onClick={() => prop.addGatewayTabData("Gateways")}>
+                    Gateways
+                  </Button>
+                  <Button
+                    color="blue"
+                    className="float-end"
+                    onClick={() => setCashierOpen(true)}
+                  >
+                    Cashier
+                  </Button>
+                </>
               )}
 
               <Button onClick={() => prop.addMainTabData("Runner")}>
@@ -625,6 +636,18 @@ function Admin(prop) {
   }
   return (
     <>
+      <Modal
+        onClose={() => setCashierOpen(false)}
+        onOpen={() => setCashierOpen(true)}
+        open={cashierOpen}
+        size="large"
+        style={{ height: "auto" }}
+      >
+        <AddCashier
+          selectedList={selectedList}
+          setCashierOpen={setCashierOpen}
+        />
+      </Modal>
       <Modal
         onClose={() => setFirstOpen(false)}
         onOpen={() => setFirstOpen(true)}
