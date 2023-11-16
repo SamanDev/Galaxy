@@ -54,6 +54,7 @@ const noDataComponent = (
       position: "relative",
       marginTop: 20,
       width: "100%",
+      zIndex: 0,
     }}
   >
     <Dimmer active inverted>
@@ -81,6 +82,9 @@ function Admin(prop) {
   const [dataSorted, setDataSorted] = useState("id");
   const [dataSortedDir, setDataSortedDir] = useState("desc");
   const [dataSearch, setDataSearch] = useState("");
+  const [userSearch, setUserSearch] = useState(
+    prop?.user?.username ? prop.user.username : ""
+  );
   if (prop?.user?.username) {
     var defmde = ["cashout", "deposit", "transfer", "bonus", "poker", "casino"];
   } else {
@@ -124,7 +128,7 @@ function Admin(prop) {
         );
       } else {
         var res = await adminGetService(
-          `getReports?mode=${dataMode}&page=${page}&number=5000&start=${_s}&end=${_e}&gateway=${dataSearch}`
+          `getReports?mode=${dataMode}&page=${page}&number=5000&username=${userSearch}&start=${_s}&end=${_e}&gateway=${dataSearch}`
         );
       }
 
@@ -159,6 +163,7 @@ function Admin(prop) {
     setDataSortedDir(sortDirection);
   };
   const gettotal = (data, status, target) => {
+    if (!data) return 0;
     var _data = data.filter(
       (d) => d.status.toLowerCase() === status.toLowerCase() && d.amount != 0
     );
@@ -174,6 +179,7 @@ function Admin(prop) {
     if (target == "count") return _data.length;
   };
   const gettotal2 = (data, status, target) => {
+    if (!data) return 0;
     var _data = data.filter(
       (d) => d.status.toLowerCase() === status.toLowerCase() && d.amount2 != 0
     );
@@ -187,258 +193,151 @@ function Admin(prop) {
     if (target == "total") return _totalReward;
     if (target == "count") return _data.length;
   };
-
+  const getDesc = (link, ftxt) => {
+    ftxt = ftxt + "@" + link.toUpperCase() + "@";
+    if (
+      doCurrency(
+        gettotal2(
+          filteredItems.filter((f) => f.mode.toLowerCase() == link),
+          "Done",
+          "count"
+        )
+      ) > 0
+    ) {
+      ftxt =
+        ftxt +
+        "Done (" +
+        doCurrency(
+          gettotal2(
+            filteredItems.filter((f) => f.mode.toLowerCase() == link),
+            "Done",
+            "count"
+          )
+        ) +
+        "): " +
+        doCurrency(
+          gettotal2(
+            filteredItems.filter((f) => f.mode.toLowerCase() == link),
+            "Done",
+            "total"
+          )
+        ) +
+        "$  َ  َ  َ |  َ  َ  َ  ";
+    }
+    if (
+      doCurrency(
+        gettotal2(
+          filteredItems.filter((f) => f.mode.toLowerCase() == link),
+          "Pending",
+          "count"
+        )
+      ) > 0
+    ) {
+      ftxt =
+        ftxt +
+        " Pending (" +
+        doCurrency(
+          gettotal2(
+            filteredItems.filter((f) => f.mode.toLowerCase() == link),
+            "Pending",
+            "count"
+          )
+        ) +
+        "): " +
+        doCurrency(
+          gettotal2(
+            filteredItems.filter((f) => f.mode.toLowerCase() == link),
+            "Pending",
+            "total"
+          )
+        ) +
+        "$  َ  َ  َ |  َ  َ  َ  ";
+    }
+    if (
+      doCurrency(
+        gettotal(
+          filteredItems.filter((f) => f.mode.toLowerCase() == link),
+          "Done",
+          "count"
+        )
+      ) > 0
+    ) {
+      ftxt =
+        ftxt +
+        "Done (" +
+        doCurrency(
+          gettotal(
+            filteredItems.filter((f) => f.mode.toLowerCase() == link),
+            "Done",
+            "count"
+          )
+        ) +
+        "): " +
+        doCurrency(
+          gettotal(
+            filteredItems.filter((f) => f.mode.toLowerCase() == link),
+            "Done",
+            "total"
+          )
+        ) +
+        "  َ  َ  َ |  َ  َ  َ  ";
+    }
+    if (
+      doCurrency(
+        gettotal(
+          filteredItems.filter((f) => f.mode.toLowerCase() == link),
+          "Pending",
+          "count"
+        )
+      ) > 0
+    ) {
+      ftxt =
+        ftxt +
+        " Pending (" +
+        doCurrency(
+          gettotal(
+            filteredItems.filter((f) => f.mode.toLowerCase() == link),
+            "Pending",
+            "count"
+          )
+        ) +
+        "): " +
+        doCurrency(
+          gettotal(
+            filteredItems.filter((f) => f.mode.toLowerCase() == link),
+            "Pending",
+            "total"
+          )
+        ) +
+        "  َ  َ  َ |  َ  َ  َ  ";
+    }
+    ftxt = ftxt + "@";
+    return ftxt;
+  };
   useEffect(() => {
     var ftxt = "";
-
-    try {
-      if (filteredItems.length) {
+    if (filteredItems.length) {
+      try {
         {
           dataMode.map((link, i) => {
-            ftxt = ftxt + " . [";
-            ftxt = ftxt + link.toUpperCase() + " [ ";
-            if (
-              doCurrency(
-                gettotal2(
-                  filteredItems.filter((f) => f.mode.toLowerCase() == link),
-                  "Done",
-                  "count"
-                )
-              ) > 0
-            ) {
-              ftxt =
-                ftxt +
-                "Done (" +
-                doCurrency(
-                  gettotal2(
-                    filteredItems.filter((f) => f.mode.toLowerCase() == link),
-                    "Done",
-                    "count"
-                  )
-                ) +
-                "): " +
-                doCurrency(
-                  gettotal2(
-                    filteredItems.filter((f) => f.mode.toLowerCase() == link),
-                    "Done",
-                    "total"
-                  )
-                ) +
-                "$  َ  َ  َ |  َ  َ  َ  ";
-            }
-            if (
-              doCurrency(
-                gettotal2(
-                  filteredItems.filter((f) => f.mode.toLowerCase() == link),
-                  "Pending",
-                  "count"
-                )
-              ) > 0
-            ) {
-              ftxt =
-                ftxt +
-                " Pending (" +
-                doCurrency(
-                  gettotal2(
-                    filteredItems.filter((f) => f.mode.toLowerCase() == link),
-                    "Pending",
-                    "count"
-                  )
-                ) +
-                "): " +
-                doCurrency(
-                  gettotal2(
-                    filteredItems.filter((f) => f.mode.toLowerCase() == link),
-                    "Pending",
-                    "total"
-                  )
-                ) +
-                "$  َ  َ  َ |  َ  َ  َ  ";
-            }
-            if (
-              doCurrency(
-                gettotal(
-                  filteredItems.filter((f) => f.mode.toLowerCase() == link),
-                  "Done",
-                  "count"
-                )
-              ) > 0
-            ) {
-              ftxt =
-                ftxt +
-                "Done (" +
-                doCurrency(
-                  gettotal(
-                    filteredItems.filter((f) => f.mode.toLowerCase() == link),
-                    "Done",
-                    "count"
-                  )
-                ) +
-                "): " +
-                doCurrency(
-                  gettotal(
-                    filteredItems.filter((f) => f.mode.toLowerCase() == link),
-                    "Done",
-                    "total"
-                  )
-                ) +
-                "  َ  َ  َ |  َ  َ  َ  ";
-            }
-            if (
-              doCurrency(
-                gettotal(
-                  filteredItems.filter((f) => f.mode.toLowerCase() == link),
-                  "Pending",
-                  "count"
-                )
-              ) > 0
-            ) {
-              ftxt =
-                ftxt +
-                " Pending (" +
-                doCurrency(
-                  gettotal(
-                    filteredItems.filter((f) => f.mode.toLowerCase() == link),
-                    "Pending",
-                    "count"
-                  )
-                ) +
-                "): " +
-                doCurrency(
-                  gettotal(
-                    filteredItems.filter((f) => f.mode.toLowerCase() == link),
-                    "Pending",
-                    "total"
-                  )
-                ) +
-                "  َ  َ  َ |  َ  َ  َ  ";
-            }
-            ftxt = ftxt + "] ] .";
+            ftxt = getDesc(link, ftxt);
           });
         }
-      }
-    } catch (error) {
-      var link = dataMode;
-      ftxt = ftxt + link.toUpperCase() + " [ ";
-      if (
-        doCurrency(
-          gettotal2(
-            filteredItems.filter((f) => f.mode.toLowerCase() == link),
-            "Done",
-            "count"
-          )
-        ) > 0
-      ) {
-        ftxt =
-          ftxt +
-          "Done (" +
-          doCurrency(
-            gettotal2(
-              filteredItems.filter((f) => f.mode.toLowerCase() == link),
-              "Done",
-              "count"
-            )
-          ) +
-          "): " +
-          doCurrency(
-            gettotal2(
-              filteredItems.filter((f) => f.mode.toLowerCase() == link),
-              "Done",
-              "total"
-            )
-          ) +
-          "$  َ  َ  َ |  َ  َ  َ  ";
-      }
-      if (
-        doCurrency(
-          gettotal2(
-            filteredItems.filter((f) => f.mode.toLowerCase() == link),
-            "Pending",
-            "count"
-          )
-        ) > 0
-      ) {
-        ftxt =
-          ftxt +
-          " Pending (" +
-          doCurrency(
-            gettotal2(
-              filteredItems.filter((f) => f.mode.toLowerCase() == link),
-              "Pending",
-              "count"
-            )
-          ) +
-          "): " +
-          doCurrency(
-            gettotal2(
-              filteredItems.filter((f) => f.mode.toLowerCase() == link),
-              "Pending",
-              "total"
-            )
-          ) +
-          "$  َ  َ  َ |  َ  َ  َ  ";
-      }
-      if (
-        doCurrency(
-          gettotal(
-            filteredItems.filter((f) => f.mode.toLowerCase() == link),
-            "Done",
-            "count"
-          )
-        ) > 0
-      ) {
-        ftxt =
-          ftxt +
-          "Done (" +
-          doCurrency(
-            gettotal(
-              filteredItems.filter((f) => f.mode.toLowerCase() == link),
-              "Done",
-              "count"
-            )
-          ) +
-          "): " +
-          doCurrency(
-            gettotal(
-              filteredItems.filter((f) => f.mode.toLowerCase() == link),
-              "Done",
-              "total"
-            )
-          ) +
-          "  َ  َ  َ |  َ  َ  َ  ";
-      }
-      if (
-        doCurrency(
-          gettotal(
-            filteredItems.filter((f) => f.mode.toLowerCase() == link),
-            "Pending",
-            "count"
-          )
-        ) > 0
-      ) {
-        ftxt =
-          ftxt +
-          " Pending (" +
-          doCurrency(
-            gettotal(
-              filteredItems.filter((f) => f.mode.toLowerCase() == link),
-              "Pending",
-              "count"
-            )
-          ) +
-          "): " +
-          doCurrency(
-            gettotal(
-              filteredItems.filter((f) => f.mode.toLowerCase() == link),
-              "Pending",
-              "total"
-            )
-          ) +
-          "  َ  َ  َ |  َ  َ  َ  ";
-      }
-      ftxt = ftxt + "]";
-    }
+      } catch (error) {
+        try {
+          var modes = dataMode.split(",");
 
+          {
+            modes.map((link, i) => {
+              ftxt = getDesc(link, ftxt);
+            });
+          }
+        } catch (error) {
+          var link = dataMode;
+          ftxt = getDesc(link, ftxt);
+        }
+      }
+    }
     setFooterTxt(ftxt);
   }, [filteredItems, data]);
 
@@ -455,11 +354,15 @@ function Admin(prop) {
       selector: (row) => row.username,
       format: (row) => (
         <>
+          <span onClick={() => setUserSearch(row.username)}>
+            {row.username}
+          </span>{" "}
+          -{" "}
           <span
             className="msglink fw-bold"
             onClick={() => prop.addTabData(row.username)}
           >
-            {row.username}
+            Open
           </span>
         </>
       ),
@@ -582,7 +485,7 @@ function Admin(prop) {
                 value={dataMode}
               />
             </Grid.Column>
-            <Grid.Column>
+            <Grid.Column textAlign="right">
               <Button
                 size="small"
                 floating="left"
@@ -590,21 +493,30 @@ function Admin(prop) {
               >
                 {_s} / {_e}
               </Button>
-              <Button
-                className="float-end"
-                color="red"
-                onClick={() => fetchUsers(1)}
-              >
+              <Button color="red" onClick={() => fetchUsers(1)}>
                 Search
               </Button>
-              {dataSearch != "" ? (
+              {userSearch != "" ? (
                 <Label
                   as="a"
-                  color="red"
-                  className="float-end"
+                  color="orange"
                   tag
-                  onClick={() => setDataSearch("")}
+                  onClick={() => setUserSearch("")}
                 >
+                  {userSearch}
+                </Label>
+              ) : (
+                <FilterModeGateway
+                  onFilter={(e) => {
+                    setUserSearch(e.target.value);
+                  }}
+                  value={userSearch}
+                  placeholder={"Username"}
+                />
+              )}
+
+              {dataSearch != "" ? (
+                <Label as="a" color="red" tag onClick={() => setDataSearch("")}>
                   {dataSearch}
                 </Label>
               ) : (
@@ -629,6 +541,7 @@ function Admin(prop) {
     dataMode,
     startDate,
     endDate,
+    userSearch,
   ]);
 
   return (
@@ -648,41 +561,51 @@ function Admin(prop) {
         />
       </Modal>
 
-      <div
-        className="reportTable"
-        style={{ height: "calc(100vh - 250px)", overflow: "auto" }}
-      >
-        {subHeaderComponentMemo}
-        <DataTable
-          columns={columns}
-          data={filteredItems}
-          progressPending={loading}
-          defaultSortFieldId={dataSortedID}
-          //onChangeRowsPerPage={handlePerRowsChange}
-          paginationPerPage={perPage}
-          defaultSortAsc={false}
-          expandOnRowClicked={true}
-          expandableRowsHideExpander={true}
-          conditionalRowStyles={conditionalRowStyles}
-          noDataComponent={noDataComponent}
-          pagination
-          paginationResetDefaultPage={resetPaginationToggle} // optionally, a hook to reset pagination to page 1
-          persistTableHead
-          expandableRows
-          expandableRowsComponent={ExpandedComponent}
-          paginationComponentOptions={{
-            rangeSeparatorText: "of",
-            noRowsPerPage: false,
-            selectAllRowsItem: false,
-            selectAllRowsItemText: "All",
-          }}
-          //onChangePage={handlePageChange}
-          //paginationServer
-          paginationRowsPerPageOptions={[10, 25, 50, 100, 500, 1000, 5000]}
-          paginationTotalRows={totalRows}
-        />
-        <div>{footerTxt}</div>
-      </div>
+      {subHeaderComponentMemo}
+      <DataTable
+        columns={columns}
+        data={filteredItems}
+        progressPending={loading}
+        defaultSortFieldId={dataSortedID}
+        //onChangeRowsPerPage={handlePerRowsChange}
+        paginationPerPage={perPage}
+        defaultSortAsc={false}
+        expandOnRowClicked={true}
+        expandableRowsHideExpander={true}
+        conditionalRowStyles={conditionalRowStyles}
+        noDataComponent={noDataComponent}
+        pagination
+        paginationResetDefaultPage={resetPaginationToggle} // optionally, a hook to reset pagination to page 1
+        persistTableHead
+        expandableRows
+        expandableRowsComponent={ExpandedComponent}
+        paginationComponentOptions={{
+          rangeSeparatorText: "of",
+          noRowsPerPage: false,
+          selectAllRowsItem: false,
+          selectAllRowsItemText: "All",
+        }}
+        //onChangePage={handlePageChange}
+        //paginationServer
+        paginationRowsPerPageOptions={[10, 25, 50, 100, 500, 1000, 5000]}
+        paginationTotalRows={totalRows}
+      />
+
+      <Segment inverted>
+        <Grid doubling columns={1}>
+          <Grid.Column>
+            {footerTxt.split("@").map((item, key) => {
+              return (
+                <div key={key}>
+                  {item}
+                  <br />
+                </div>
+              );
+            })}
+          </Grid.Column>
+          <Grid.Column>{prop.mychaty && <>{prop.mychaty}</>}</Grid.Column>
+        </Grid>
+      </Segment>
     </>
   );
 }

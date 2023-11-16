@@ -210,7 +210,7 @@ export const useLastReward = () => {
   const handleGetLastReward = async () => {
     try {
       const res = await getReportPenService(
-        "getLastRewards?page=1&number=100",
+        "getLastRewards?page=1&number=500",
         false
       );
 

@@ -572,18 +572,18 @@ function Admin(prop) {
     startDate,
     endDate,
   ]);
-
+  const mychaty = (
+    <div
+      style={{
+        width: "100%",
+        margin: "auto",
+      }}
+      id="chart"
+    ></div>
+  );
   return (
     <>
-      <List setData={setData} />
-
-      <div
-        style={{
-          width: "calc(70vw)",
-          margin: "auto",
-        }}
-        id="chart"
-      ></div>
+      <List setData={setData} mychaty={mychaty} />
     </>
   );
 }

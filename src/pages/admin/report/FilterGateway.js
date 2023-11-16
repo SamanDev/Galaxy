@@ -9,7 +9,6 @@ const DropdownExampleMultipleSelection = (prop) => {
       defaultValue={prop.value}
       placeholder={prop.placeholder}
       onBlur={prop.onFilter}
-      className="float-end"
       style={{ position: "relative", zIndex: 100000 }}
     />
   );

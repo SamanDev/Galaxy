@@ -358,6 +358,7 @@ function Admin(prop) {
     if (dataSearch) {
       _name = "level";
       _val = dataSearch.toString();
+
       if (_val.indexOf("up") == -1) {
         _contain = false;
       }
@@ -366,7 +367,21 @@ function Admin(prop) {
         _name = "chip";
         _val = "";
         _contain = false;
-        setDataSortedID(5);
+      }
+      if (_val == "gpass") {
+        _name = "glevel";
+        _val = "";
+        _contain = false;
+      }
+      if (_val == "vip") {
+        _name = "vipPlaySecond";
+        _val = "";
+        _contain = false;
+      }
+      if (_val == "dailypoint") {
+        _name = "dailypoint";
+        _val = "";
+        _contain = false;
       }
     }
     if (_name == "") {
@@ -414,7 +429,18 @@ function Admin(prop) {
   }
 
   useEffect(() => {
-    //fetchUsers(1); // fetch page 1 of users
+    if (dataSearch) {
+      var _val = dataSearch.toString();
+      setDataSortedID(2);
+
+      _val = _val.replace("up", "");
+      if (_val == "chip") {
+        setDataSortedID(6);
+      }
+      if (_val == "point") {
+        setDataSortedID(8);
+      }
+    }
   }, [dataSearch]);
 
   useEffect(() => {
@@ -427,7 +453,7 @@ function Admin(prop) {
   }, [data]);
   const handleChange = ({ selectedRows }) => {
     // You can set state or dispatch with something like Redux so we can use the retrieved data
-    console.log("Selected Rows: ", selectedRows);
+
     var newSelect = [];
     {
       selectedRows.map((user, i) => {
@@ -505,6 +531,7 @@ function Admin(prop) {
         setFilterText("");
       }
     };
+    console.log(dataSortedID);
     return (
       <>
         <Grid
@@ -560,7 +587,16 @@ function Admin(prop) {
         </Grid>
       </>
     );
-  }, [filterText, resetPaginationToggle, data, selectedList]);
+  }, [
+    filterText,
+    resetPaginationToggle,
+    data,
+    selectedList,
+    dataLoginDay,
+    dataSearch,
+    dataSortedID,
+    perPage,
+  ]);
   const CustomLoader = () => (
     <>
       <Segment
@@ -573,7 +609,7 @@ function Admin(prop) {
       </Segment>
     </>
   );
-  if (loading && 1 == 2) {
+  if (loading) {
     return (
       <>
         <Segment
