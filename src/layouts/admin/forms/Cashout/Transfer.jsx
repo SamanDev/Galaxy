@@ -9,27 +9,23 @@ import { cashierService } from "../../../../services/cashier";
 import { getCashAmount, doCurrency } from "../../../../const";
 import { Alert } from "../../../../utils/alerts";
 import AnimIcon from "../../../../utils/inviteIcon";
-
-const initialValues = {
-  amount: 100000,
-
-  transferUser: "",
-  username: "",
-  password: "",
-};
+import { Button, Progress, Label } from "semantic-ui-react";
 
 const onSubmit = async (values, submitMethods, navigate, prop, setRefresh) => {
+  //submitMethods.resetForm();
+  //return false;
   try {
     const res = await cashierService(values, "transferChip", "");
     if (res.status == 200) {
       if (res.data?.accessToken) {
-        setRefresh(true);
+        submitMethods.resetForm();
+        //etRefresh(true);
+        //submitMethods.setSubmitting(false);
         //Alert("Done", "انجام شد.", "success");
       }
     } else {
       Alert("متاسفم...!", res.data.message, "error");
     }
-    submitMethods.setSubmitting(false);
   } catch (error) {
     submitMethods.setSubmitting(false);
 
@@ -56,9 +52,16 @@ const depositArea = (prop) => {
       .required("کلمه عبور حداقل باشد 8 کاراکتر باشد.")
       .min(8, "کلمه عبور حداقل باشد 8 کاراکتر باشد."),
   });
+
   return (
     <Formik
-      initialValues={initialValues}
+      initialValues={{
+        amount: 100000,
+        amount2: doCurrency("100000"),
+        transferUser: "",
+        username: "",
+        password: "",
+      }}
       onSubmit={(values, submitMethods) =>
         onSubmit(values, submitMethods, navigate, prop, setRefresh)
       }
@@ -89,12 +92,37 @@ const depositArea = (prop) => {
                 />
               </div>
             </div>
+            <span className="hiddenmenu">
+              <FormikControl
+                formik={formik}
+                control="amount"
+                label="مبلغ به تومان"
+                className="farsi"
+                name="amount"
+                labelcolor={prop.labelcolor}
+                size={prop.size}
+              />
+            </span>
+            {formik.errors["amount"] && (
+              <Label
+                className="farsi"
+                basic
+                color="red"
+                pointing="below"
+                size={prop.size}
+              >
+                {formik.errors["amount"]}
+              </Label>
+            )}
             <FormikControl
               formik={formik}
-              control="amount"
-              name="amount"
+              type="text"
+              control="input"
+              label="مبلغ به تومان"
+              name="amount2"
               labelcolor={prop.labelcolor}
               size={prop.size}
+              inputmode="numeric"
             />
             <FormikControl
               formik={formik}
@@ -104,7 +132,7 @@ const depositArea = (prop) => {
               labelcolor="black"
               size={prop.size}
               label="انتقال به کاربر"
-              autoComplete="receiver"
+              autoComplete="transferUser"
             />
             <span style={{ position: "absolute", opacity: 0, zIndex: -1 }}>
               <FormikControl
@@ -115,6 +143,9 @@ const depositArea = (prop) => {
                 labelcolor={prop.labelcolor}
                 size={prop.size}
                 autoComplete="username"
+                readOnly={true}
+                defaultValue={loginToken?.username}
+                disabled={formik.errors ? true : false}
               />
             </span>
             <FormikControl

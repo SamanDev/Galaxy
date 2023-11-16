@@ -91,22 +91,13 @@ const InputF = ({
   };
   React.useEffect(() => {
     if (inputmode == "numeric") {
-      var _val = formik.values[name].toPersianCharacter().replace(/\W/g, "");
+      var _val = formik.values[name]
+        .toString()
+        .toPersianCharacter()
+        .replace(/\W/g, "");
 
-      if (_val != formik.values[name]) {
-        if (name.indexOf("2") > -1) {
-          formik.setFieldValue(name, doCurrency(_val));
-          formik.setFieldValue(name.replace("2", ""), _val);
-        } else {
-          formik.setFieldValue(name, _val);
-        }
-      } else {
-        if (name.indexOf("2") > -1) {
-          if (_val != formik.values[name.replace("2", "")]) {
-            formik.setFieldValue(name.replace("2", ""), _val);
-          }
-        }
-      }
+      if (_val != formik.values[name])
+        formik.setFieldValue(name, parseInt(_val));
     }
   }, [formik.values[name]]);
   return (

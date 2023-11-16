@@ -1172,7 +1172,9 @@ export const getCashAmount = (balance) => {
   }
 
   var _balance = parseInt(balance / defMod) * defMod;
-
+  if (_balance > 50000000) {
+    _balance = 50000000;
+  }
   return _balance;
 };
 export const getCashAmountUsd = (balance) => {

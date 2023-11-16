@@ -8,7 +8,7 @@ import * as Yup from "yup";
 import { Alert } from "../../../../utils/alerts";
 import { getCashAmount, doCurrency } from "../../../../const";
 import { cashierService } from "../../../../services/cashier";
-
+import { Button, Progress, Label } from "semantic-ui-react";
 const onSubmit = async (values, submitMethods, navigate, prop, setRefresh) => {
   try {
     const res = await cashierService(values, "bankTransfer", "");
@@ -41,12 +41,13 @@ const depositArea = (prop) => {
       .max(loginToken.balance, "موجودی ناکافی است.")
       .integer(),
   });
-
+  var defamount = getCashAmount(loginToken.balance);
   return (
     <Formik
       initialValues={{
-        amount: getCashAmount(loginToken.balance),
         action: "cashout",
+        amount: getCashAmount(loginToken.balance),
+        amount2: doCurrency(getCashAmount(loginToken.balance)),
         amountDollar: 0,
       }}
       onSubmit={(values, submitMethods) =>
@@ -57,12 +58,38 @@ const depositArea = (prop) => {
       {(formik) => {
         return (
           <Form>
+            <span className="hiddenme7nu">
+              <FormikControl
+                formik={formik}
+                control="amount"
+                label="مبلغ به تومان"
+                className="farsi"
+                name="amount"
+                labelcolor={prop.labelcolor}
+                size={prop.size}
+                inputmode="numeric"
+              />
+            </span>
+            {formik.errors["amount"] && (
+              <Label
+                className="farsi"
+                basic
+                color="red"
+                pointing="below"
+                size={prop.size}
+              >
+                {formik.errors["amount"]}
+              </Label>
+            )}
             <FormikControl
               formik={formik}
-              control="amount"
-              name="amount"
+              type="text"
+              control="input"
+              label="مبلغ به تومان"
+              name="amount2"
               labelcolor={prop.labelcolor}
               size={prop.size}
+              inputmode="numeric"
             />
 
             <CashoutButton

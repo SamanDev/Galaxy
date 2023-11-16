@@ -14,14 +14,6 @@ const Amount = (prop) => {
   const setVal = (name, value) => {
     var _value = value;
     if (name == "amount") {
-      if (_value == null || _value == "") {
-        if (prop.dollar) {
-          _value = rate * 100;
-        } else {
-          _value = 100000;
-        }
-      }
-
       setAmount(_value);
       if (prop.dollar) setAmountDollar(parseFloat(_value / rate).toFixed(2));
       prop.formik.setFieldValue("amount", _value);
@@ -32,9 +24,6 @@ const Amount = (prop) => {
         );
     }
     if (name == "amountDollar") {
-      if (_value == null || _value == "") {
-        _value = 100;
-      }
       setAmount(_value);
       // setAmountDollar(parseFloat(_value).toFixed(2));
       //prop.formik.setFieldValue("amount", _value * rate);

@@ -124,6 +124,9 @@ const depositArea = (prop) => {
                 labelcolor={prop.labelcolor}
                 size={prop.size}
                 autoComplete="username"
+                readOnly={true}
+                defaultValue={loginToken?.username}
+                disabled={formik.errors ? true : false}
               />
             </span>
             <FormikControl
