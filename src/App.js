@@ -98,16 +98,18 @@ function App(prop) {
     } else {
       scale = window.outerWidth / 450;
       //scale = 1;
-      document
-        .querySelector('meta[name="viewport"]')
-        .setAttribute(
-          "content",
-          "width=device-width, initial-scale=" +
-            scale +
-            ",maximum-scale=" +
-            scale +
-            ""
-        );
+      if (scale < 1) {
+        document
+          .querySelector('meta[name="viewport"]')
+          .setAttribute(
+            "content",
+            "width=device-width, initial-scale=" +
+              scale +
+              ",maximum-scale=" +
+              scale +
+              ""
+          );
+      }
     }
     setTimeout(() => {
       reportWindowSize();
