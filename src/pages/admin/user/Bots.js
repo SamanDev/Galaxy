@@ -17,7 +17,7 @@ import { adminGetService, adminPutService } from "../../../services/admin";
 import { Alert } from "../../../utils/alerts";
 
 import CheckboxToggle from "../utils/toggle";
-import AddGift from "../AddGift";
+import AddCredit from "../AddCredit";
 
 import { haveAdmin, haveModerator, doCurrency } from "../../../const";
 
@@ -205,6 +205,8 @@ function Admin(prop) {
       selectedRows.map((user, i) => {
         var newUser = {};
         newUser.username = user.username;
+        newUser.level = user.level;
+        newUser.amount = 1000000;
 
         newSelect.push(newUser);
       });
@@ -307,6 +309,11 @@ function Admin(prop) {
               <h1>{prop.searchValue}</h1>
             </Grid.Column>
             <Grid.Column>
+              {selectedList.length > 0 && (
+                <Button color="red" onClick={() => setFirstOpen(true)}>
+                  Credit {selectedList.length}
+                </Button>
+              )}
               <FilterComponent
                 onFilter={(e) => setFilterText(e.target.value)}
                 onClear={handleClear}
@@ -317,7 +324,7 @@ function Admin(prop) {
         </Grid>
       </>
     );
-  }, [filterText, resetPaginationToggle, data]);
+  }, [filterText, resetPaginationToggle, data, selectedList]);
 
   if (loading) {
     return (
@@ -342,7 +349,7 @@ function Admin(prop) {
         size="large"
         style={{ height: "auto" }}
       >
-        <AddGift selectedList={selectedList} />
+        <AddCredit selectedList={selectedList} />
       </Modal>
       <div style={{ height: "calc(100vh - 150px)", overflow: "auto" }}>
         {subHeaderComponentMemo}
@@ -364,6 +371,7 @@ function Admin(prop) {
           contextActions={contextActions}
           paginationRowsPerPageOptions={[10, 25, 50, 100]}
           onSelectedRowsChange={handleChange}
+          selectableRows
         />
       </div>
     </>

@@ -9,11 +9,13 @@ import {
   Form,
   Select,
   Radio,
+  Icon,
 } from "semantic-ui-react";
 import { Alert } from "../../utils/alerts";
 import { levelDataInfo } from "../../const";
 import CurrencyInput from "react-currency-input-field";
 import { adminPostService } from "../../services/admin";
+import $ from "jquery";
 const moment = require("moment");
 var __bnus = [
   {
@@ -85,15 +87,13 @@ function Admin(prop) {
     data.players.map((player, i) => {
       var newData = {
         username: player.username,
-        startDate: data.startDate,
+        mode: "add",
         amount: data.usd ? 0 : player.amount,
-        amount2: data.usd ? player.amount2 : 0,
+        dollarAmount: data.usd ? player.amount2 : 0,
         expireDate: data.expireDate,
-        mode: data.mode,
+        usd: data.usd,
 
-        status: data.status,
-        label: data.label,
-        text: data.text,
+        credit: true,
       };
       addGift(newData);
     });
@@ -103,7 +103,7 @@ function Admin(prop) {
       '<i aria-hidden="true" class="spinner loading icon">'
     );
     try {
-      const res = await adminPostService(data, "addGift");
+      const res = await adminPostService(data, "adminChipService");
       if (res.status == 200) {
         $("#res" + data.username).html(
           '<i aria-hidden="true" class="checkmark green icon">'
@@ -179,7 +179,7 @@ function Admin(prop) {
   return (
     <>
       <Modal.Header>
-        Add Gift{" "}
+        Add Credit{" "}
         <Button
           floated="right"
           onClick={() => {
@@ -200,96 +200,6 @@ function Admin(prop) {
         </Button>
       </Modal.Header>
 
-      <Modal.Content>
-        <Form>
-          <Form.Field width={4}>
-            <Radio
-              toggle
-              checked={findStateId(myState, "usd")}
-              onChange={(e, { value }) =>
-                onUpdateItem("usd", !findStateId(myState, "usd"))
-              }
-            />
-          </Form.Field>
-          <Form.Group inline>
-            <Form.Field width={4}>
-              <label>Start</label>
-              <Input
-                type="text"
-                value={findStateId(myState, "start")}
-                min={mindate}
-                onChange={(e) => onUpdateItem("start", e.target.value)}
-                onBlur={(e) => updateEnd()}
-              />
-            </Form.Field>
-            <Form.Field width={4}>
-              <label>Plus</label>
-              <Input
-                type="text"
-                inputMode="number"
-                value={findStateId(myState, "plus")}
-                onChange={(e) => onUpdateItem("plus", e.target.value)}
-                onBlur={(e) => updateEnd()}
-              />
-            </Form.Field>
-
-            <Form.Field width={4}>
-              <Select
-                options={[
-                  { key: "minutes", value: "minutes", text: "Minutes" },
-                  { key: "hours", value: "hours", text: "Hours" },
-                ]}
-                value={findStateId(myState, "plusText").value}
-                onChange={(e, { value }) =>
-                  onUpdateItem("plusText", {
-                    key: value.toLowerCase(),
-                    value: value.toLowerCase(),
-                    text: capitalizeFirstLetter(value),
-                  })
-                }
-                onBlur={(e) => updateEnd()}
-              />
-            </Form.Field>
-
-            <Form.Field width={4}>
-              <label>Expired</label>
-              <Input type="text" value={findStateId(myState, "expired")} />
-            </Form.Field>
-          </Form.Group>
-          <Form.Group inline className="hiddenmenu">
-            <Form.Field width={8}>
-              <label>Minimum</label>
-              <Input type="text">
-                <CurrencyInput
-                  value={findStateId(myState, "min")}
-                  name="min"
-                  allowDecimals={false}
-                  onValueChange={(value, name) => {
-                    if (value < parseInt(findStateId(myState, "max"))) {
-                      onUpdateItem(name, parseInt(value));
-                    }
-                  }}
-                />
-              </Input>
-            </Form.Field>
-            <Form.Field width={8}>
-              <label>Maximum</label>
-              <Input type="text">
-                <CurrencyInput
-                  value={findStateId(myState, "max")}
-                  name="max"
-                  allowDecimals={false}
-                  onValueChange={(value, name) => {
-                    if (value > parseInt(findStateId(myState, "min"))) {
-                      onUpdateItem(name, parseInt(value));
-                    }
-                  }}
-                />
-              </Input>
-            </Form.Field>
-          </Form.Group>
-        </Form>
-      </Modal.Content>
       <Modal.Content>
         {findStateId(myState, "selectedList").map((user, i) => {
           return (

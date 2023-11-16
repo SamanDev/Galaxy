@@ -30,9 +30,7 @@ const BonusArea = (prop) => {
         </div>
       </Grid.Column>
       <Grid.Column width={10} textAlign="right">
-        <div className="farsi">
-          <span className="text-gold">{doCurrency(loginToken.dailyPoint)}</span>{" "}
-        </div>
+        <div className="farsi">آخرین ورود</div>
 
         {convertDateToJalali(loginToken.lastLogin)}
       </Grid.Column>

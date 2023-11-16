@@ -608,6 +608,7 @@ function Admin(prop) {
             >
               Search
             </Button>
+            {subHeaderComponentMemo}
             <DataTable
               columns={columnsDownLine}
               data={filteredItems}
@@ -629,6 +630,7 @@ function Admin(prop) {
               contextActions={contextActions}
               paginationRowsPerPageOptions={[10, 25, 50, 100]}
               onSelectedRowsChange={handleChange}
+              selectableRows
             />
           </>
         ) : (
