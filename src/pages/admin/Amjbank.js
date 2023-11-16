@@ -16,7 +16,7 @@ import { adminGetService, adminPutService } from "../../services/admin";
 import { Alert } from "../../utils/alerts";
 import AmountColor from "../../utils/AmountColor";
 import CheckboxToggle from "./utils/toggle";
-import AddGift from "./AddGift";
+import AddGift from "./AddAmjReport";
 import { convertDateToJalali } from "../../utils/convertDate";
 import { doCurrency, levelDataInfo } from "../../const";
 
@@ -128,7 +128,7 @@ function Admin(prop) {
   const loginToken = prop.loginToken;
   const [totalRows, setTotalRows] = useState(1000);
   const [dataSortedID, setDataSortedID] = useState(1);
-  const [perPage, setPerPage] = useState(10);
+  const [perPage, setPerPage] = useState(100);
   const [bank, setBank] = useState();
   const params = useParams();
   const [dataSearch, setDataSearch] = useState("");
@@ -290,7 +290,7 @@ function Admin(prop) {
     }
     try {
       const res = await adminGetService(
-        `getVgcReport?name=${_name}&value=${_val}&page=${page}&number=${perPage}&login=${dataLoginDay}&contain=${_contain}`
+        `getVgcReport?name=${_name}&value=${_val}&page=${page}&number=500&login=${dataLoginDay}&contain=${_contain}`
       );
       if (res.status === 200) {
         setData(res.data.content);
@@ -377,7 +377,14 @@ function Admin(prop) {
                 color="red"
                 onClick={() => fetchUsers(1)}
               >
-                Search
+                Reload
+              </Button>
+              <Button
+                color="blue"
+                className="float-end"
+                onClick={() => setFirstOpen(true)}
+              >
+                Cashier
               </Button>
             </Grid.Column>
 
@@ -424,7 +431,7 @@ function Admin(prop) {
         size="large"
         style={{ height: "auto" }}
       >
-        <AddGift selectedList={selectedList} />
+        <AddGift selectedList={selectedList} setFirstOpen={setFirstOpen} />
       </Modal>
       <div style={{ height: "calc(100vh - 150px)", overflow: "auto" }}>
         {prop.search == "refer" && prop.searchValue != "bots" ? (
