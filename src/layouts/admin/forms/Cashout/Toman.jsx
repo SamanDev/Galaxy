@@ -58,7 +58,7 @@ const depositArea = (prop) => {
       {(formik) => {
         return (
           <Form>
-            <span className="hiddenme7nu">
+            <span className="hiddenmenu">
               <FormikControl
                 formik={formik}
                 control="amount"
