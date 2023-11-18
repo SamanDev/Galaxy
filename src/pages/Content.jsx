@@ -6,6 +6,7 @@ const Game = lazy(() => import("./dashboard/Game"));
 const Admin = lazy(() => import("./admin/Index"));
 import MenuLoader from "../utils/menuLoader";
 const Content = (prop) => {
+  const dayOfWeekDigit = new Date().getDay();
   return (
     <section id="content_section" className={`py-2 px-3`}>
       <Routes>
@@ -72,7 +73,10 @@ const Content = (prop) => {
       </Routes>
       <div className="fullscreen-bg">
         <video loop muted autoPlay className="fullscreen-bg__video">
-          <source src="/assets/images/bg3.mp4" type="video/mp4" />
+          <source
+            src={"/assets/images/bg" + dayOfWeekDigit + ".mp4"}
+            type="video/mp4"
+          />
         </video>
       </div>
     </section>
