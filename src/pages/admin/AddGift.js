@@ -14,6 +14,7 @@ import { Alert } from "../../utils/alerts";
 import { levelDataInfo } from "../../const";
 import CurrencyInput from "react-currency-input-field";
 import { adminPostService } from "../../services/admin";
+import $ from "jquery";
 const moment = require("moment");
 var __bnus = [
   {
@@ -24,6 +25,8 @@ var __bnus = [
     text: "Free Gift",
   },
 ];
+var _deflevels = [30, 25, 20, 15, 10, 5];
+var _deflevelsAmount = [3, 2, 1.5, 1, 0.5, 0.2];
 function generateRandomInteger(min, max) {
   return Math.floor(min + Math.random() * (max - min + 1));
 }
@@ -71,8 +74,9 @@ function Admin(prop) {
       { id: "plusText", val: { key: "hours", value: "hours", text: "Hours" } },
 
       { id: "expired", val: expdate },
-      { id: "usd", val: false },
       { id: "min", val: 100000 },
+      { id: "usd", val: false },
+      { id: "defbol", val: false },
       { id: "max", val: 3000000 },
       { id: "mode", val: __bnus[0].value },
       { id: "text", val: __bnus[0].text },
@@ -83,10 +87,14 @@ function Admin(prop) {
 
   const setUsers = (data) => {
     data.players.map((player, i) => {
+      var _amount = data.usd ? 0 : player.amount;
+      if (findStateId(myState, "defbol") && !findStateId(myState, "usd")) {
+        _amount = getLevelGift(player.level);
+      }
       var newData = {
         username: player.username,
         startDate: data.startDate,
-        amount: data.usd ? 0 : player.amount,
+        amount: _amount,
         amount2: data.usd ? player.amount2 : 0,
         expireDate: data.expireDate,
         mode: data.mode,
@@ -156,13 +164,26 @@ function Admin(prop) {
   function capitalizeFirstLetter(str) {
     return str[0].toUpperCase() + str.slice(1);
   }
-  function updateUserSelected(i, value, name) {
-    var _new = selectedList;
-    _new[i].min = parseInt(value);
-    console.log(_new);
-    console.log(i);
+  function getLevelGift(level) {
+    var amount = _deflevelsAmount[0];
+    if (level <= 25) {
+      amount = _deflevelsAmount[1];
+    }
+    if (level <= 20) {
+      amount = _deflevelsAmount[2];
+    }
+    if (level <= 15) {
+      amount = _deflevelsAmount[3];
+    }
+    if (level <= 10) {
+      amount = _deflevelsAmount[4];
+    }
+    if (level <= 5) {
+      amount = _deflevelsAmount[5];
+    }
 
-    //setSelected(selectedList);
+    amount = amount * 1000000;
+    return amount;
   }
 
   if (loading) {
@@ -203,12 +224,22 @@ function Admin(prop) {
       <Modal.Content>
         <Form>
           <Form.Field width={4}>
+            Dollar:
             <Radio
               toggle
               checked={findStateId(myState, "usd")}
               onChange={(e, { value }) =>
                 onUpdateItem("usd", !findStateId(myState, "usd"))
               }
+            />{" "}
+            | DefaultGift:
+            <Radio
+              toggle
+              checked={findStateId(myState, "defbol")}
+              onChange={(e, { value }) => {
+                onUpdateItem("usd", false);
+                onUpdateItem("defbol", !findStateId(myState, "defbol"));
+              }}
             />
           </Form.Field>
           <Form.Group inline>
@@ -256,37 +287,26 @@ function Admin(prop) {
               <Input type="text" value={findStateId(myState, "expired")} />
             </Form.Field>
           </Form.Group>
-          <Form.Group inline className="hiddenmenu">
-            <Form.Field width={8}>
-              <label>Minimum</label>
-              <Input type="text">
-                <CurrencyInput
-                  value={findStateId(myState, "min")}
-                  name="min"
-                  allowDecimals={false}
-                  onValueChange={(value, name) => {
-                    if (value < parseInt(findStateId(myState, "max"))) {
-                      onUpdateItem(name, parseInt(value));
-                    }
-                  }}
-                />
-              </Input>
-            </Form.Field>
-            <Form.Field width={8}>
-              <label>Maximum</label>
-              <Input type="text">
-                <CurrencyInput
-                  value={findStateId(myState, "max")}
-                  name="max"
-                  allowDecimals={false}
-                  onValueChange={(value, name) => {
-                    if (value > parseInt(findStateId(myState, "min"))) {
-                      onUpdateItem(name, parseInt(value));
-                    }
-                  }}
-                />
-              </Input>
-            </Form.Field>
+          <Form.Group inline>
+            {_deflevels.map((def, i) => {
+              return (
+                <Form.Field width={16} key={i}>
+                  <label>{_deflevels[i]}</label>
+                  <Input type="text" disabled={!findStateId(myState, "defbol")}>
+                    <CurrencyInput
+                      value={_deflevelsAmount[i] * 1000000}
+                      name="min"
+                      allowDecimals={false}
+                      onValueChange={(value, name) => {
+                        if (value < parseInt(findStateId(myState, "max"))) {
+                          onUpdateItem(name, parseInt(value));
+                        }
+                      }}
+                    />
+                  </Input>
+                </Form.Field>
+              );
+            })}
           </Form.Group>
         </Form>
       </Modal.Content>
@@ -302,7 +322,13 @@ function Admin(prop) {
                   <span id={"res" + user.username}></span>
                 </Form.Field>
                 <Form.Field width={6}>
-                  <Input type="text" disabled={findStateId(myState, "usd")}>
+                  <Input
+                    type="text"
+                    disabled={
+                      findStateId(myState, "usd") ||
+                      findStateId(myState, "defbol")
+                    }
+                  >
                     <CurrencyInput
                       name="minuses"
                       allowDecimals={false}
@@ -316,7 +342,28 @@ function Admin(prop) {
                   </Input>
                 </Form.Field>
                 <Form.Field width={6}>
-                  <Input type="text" disabled={!findStateId(myState, "usd")}>
+                  <Input
+                    type="text"
+                    disabled={
+                      findStateId(myState, "usd") ||
+                      !findStateId(myState, "defbol")
+                    }
+                  >
+                    <CurrencyInput
+                      name="minuses"
+                      allowDecimals={false}
+                      defaultValue={getLevelGift(user.level)}
+                    />
+                  </Input>
+                </Form.Field>
+                <Form.Field width={6}>
+                  <Input
+                    type="text"
+                    disabled={
+                      !findStateId(myState, "usd") ||
+                      findStateId(myState, "defbol")
+                    }
+                  >
                     <CurrencyInput
                       name="minuses"
                       allowDecimals={false}
