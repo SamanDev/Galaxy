@@ -84,7 +84,7 @@ function App(prop) {
     //return false;
     //alert(agel);
     var scale = window.outerWidth / 1000;
-    if (agel == 90 && scale < 1) {
+    if (agel == 90 && scale <= 1) {
       document
         .querySelector('meta[name="viewport"]')
         .setAttribute(
@@ -98,7 +98,7 @@ function App(prop) {
     } else {
       scale = window.outerWidth / 450;
       //scale = 1;
-      if (scale < 1) {
+      if (scale <= 1) {
         document
           .querySelector('meta[name="viewport"]')
           .setAttribute(

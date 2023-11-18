@@ -458,6 +458,7 @@ body.fullscreen .framegame,
   -webkit-font-smoothing: antialiased;
   background: rgba(0, 0, 0, 0.9);
 }
+
 .framegame.casframe,
 body.fullscreen .framegame.casframe {
   min-width: 450px !important;
@@ -2403,6 +2404,12 @@ table {
 @media (max-width: 1001px) {
   .framegame.casframe {
     border: 4px solid #d2d2d2;
+  }
+}
+@media (max-width: 900px) {
+  .banner [class*="sixteen wide tablet"].column,
+  .banner [class*="sixteen wide tablet"].column * {
+    text-align: center !important;
   }
 }
 @media (max-width: 768px) {
