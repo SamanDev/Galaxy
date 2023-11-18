@@ -7,11 +7,43 @@ import Banners from "./banners";
 import $ from "jquery";
 
 const moment = require("moment");
+const isWebview = () => {
+  if (typeof window === "undefined") {
+    return false;
+  }
 
+  const navigator = window.navigator;
+
+  const standalone = navigator.standalone;
+  const userAgent = navigator.userAgent.toLowerCase();
+  const safari = /safari/.test(userAgent);
+  const ios = /iphone|ipod|ipad/.test(userAgent);
+
+  return ios ? !standalone && !safari : /\bwv\b/.test(userAgent);
+};
 const Dashboard = (prop) => {
   const loginToken = prop.loginToken;
-
+  const siteInfo = prop.siteInfo;
   const handleManifest = () => {
+    if (isWebview()) {
+      return false;
+    }
+    //console.log(window.location.href);
+    // console.log(siteInfo?.userSiteUrl);
+    if (
+      localStorage.getItem(btoa(loginToken.username)) &&
+      window.location.href.indexOf(siteInfo?.userSiteUrl) == -1
+    ) {
+      let sUrl =
+        siteInfo?.userSiteUrl +
+        "/login/" +
+        btoa(loginToken.username) +
+        "/" +
+        localStorage.getItem(btoa(loginToken.username));
+      // window.location.href = sUrl;
+      //return false;
+    }
+
     console.log("👍", "handleManifest");
     //$('[rel="manifest"]').remove();
     if ($('[rel="manifest"]').length == 0) {

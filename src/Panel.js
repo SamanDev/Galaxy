@@ -26,7 +26,11 @@ function RightPanel(prop) {
         <Tab.Pane
           attached={false}
           inverted
-          style={{ height: "100%", overflow: "auto", maxHeight: "100vh" }}
+          style={{
+            height: "100%",
+            overflow: "auto",
+            maxHeight: "calc(100vh - 53px)",
+          }}
         >
           <div>
             <ActiveTable {...prop} />
