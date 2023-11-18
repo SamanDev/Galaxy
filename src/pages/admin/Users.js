@@ -419,6 +419,15 @@ function Admin(prop) {
     fetchUsers(page);
   };
   var filteredItems = data.filter((item) => item.username);
+  var _val = dataSearch.toString();
+  console.log(parseInt(_val.replace("level", "").replace(" up", "")) + 5);
+  if (_val.indexOf("up") > -1) {
+    filteredItems = filteredItems.filter(
+      (item) =>
+        item.level >= parseInt(_val.replace("level", "").replace(" up", "")) &&
+        item.level < parseInt(_val.replace("level", "").replace(" up", "")) + 5
+    );
+  }
 
   if (dataLoginDay) {
     var startDate = addDays(new Date(), dataLoginDay);

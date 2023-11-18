@@ -213,7 +213,7 @@ const ActiveTable = (prop) => {
       var aarName = x.name.split(" ");
 
       if (
-        x.minstack < loginToken?.balance &&
+        x.minstack < loginToken?.balance * 100000000 &&
         x.status.indexOf("1/") > -1 &&
         x?.class.indexOf("update") > -1 &&
         x.name.indexOf(fil) !== -1 &&

@@ -87,23 +87,25 @@ function Admin(prop) {
 
   const setUsers = (data) => {
     data.players.map((player, i) => {
-      var _amount = data.usd ? 0 : player.amount;
-      if (findStateId(myState, "defbol") && !findStateId(myState, "usd")) {
-        _amount = getLevelGift(player.level);
-      }
-      var newData = {
-        username: player.username,
-        startDate: data.startDate,
-        amount: _amount,
-        amount2: data.usd ? player.amount2 : 0,
-        expireDate: data.expireDate,
-        mode: data.mode,
+      setTimeout(() => {
+        var _amount = data.usd ? 0 : player.amount;
+        if (findStateId(myState, "defbol") && !findStateId(myState, "usd")) {
+          _amount = getLevelGift(player.level);
+        }
+        var newData = {
+          username: player.username,
+          startDate: data.startDate,
+          amount: _amount,
+          amount2: data.usd ? player.amount2 : 0,
+          expireDate: data.expireDate,
+          mode: data.mode,
 
-        status: data.status,
-        label: data.label,
-        text: data.text,
-      };
-      addGift(newData);
+          status: data.status,
+          label: data.label,
+          text: data.text,
+        };
+        addGift(newData);
+      }, 500 * i);
     });
   };
   const addGift = async (data) => {
