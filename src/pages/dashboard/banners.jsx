@@ -134,10 +134,10 @@ const Dashboard = (prop) => {
 
   const getHour = (date, format) => {
     if (format) {
-      var nowDay = moment(date).format("HH:mm");
+      var nowDay = moment(date.replace("-08:00", "")).format("HH:mm");
       return nowDay.toPersianCharacter();
     } else {
-      var nowDay = moment(date).format("HHmm");
+      var nowDay = moment(date.replace("-08:00", "")).format("HHmm");
       return nowDay;
     }
   };
@@ -161,7 +161,6 @@ const Dashboard = (prop) => {
             d.status == "Pending" &&
             d.mode.toLowerCase() == "gift" &&
             d.received == false &&
-            Date.parse(d.date) < end &&
             Date.parse(d.expireDate) > end
         );
       } catch (error) {
@@ -228,17 +227,33 @@ const Dashboard = (prop) => {
                 <>
                   <Banner
                     title="هدیه گلکسی"
-                    text={"ساعت " + getHour(haveGift()[0].startDate, true)}
+                    text={
+                      "ساعت " +
+                      getHour(
+                        haveGift()[0].startDate.replace("-08:00", ""),
+                        true
+                      )
+                    }
                     icon="gifts"
                     amin="inline animated swing "
                     iconamin="swing"
                     link=".giftarea"
                     showtime={
                       <ShowTimeLeft
-                        startDay={moment(haveGift()[0].startDate).format("D")}
-                        startHour={getHour(haveGift()[0].startDate, false)}
-                        endDay={moment(haveGift()[0].expireDate).format("D")}
-                        endHour={getHour(haveGift()[0].expireDate, false)}
+                        startDay={moment(
+                          haveGift()[0].startDate.replace("-08:00", "")
+                        ).format("D")}
+                        startHour={getHour(
+                          haveGift()[0].startDate.replace("-08:00", ""),
+                          false
+                        )}
+                        endDay={moment(
+                          haveGift()[0].expireDate.replace("-08:00", "")
+                        ).format("D")}
+                        endHour={getHour(
+                          haveGift()[0].expireDate.replace("-08:00", ""),
+                          false
+                        )}
                       />
                     }
                     {...prop}
