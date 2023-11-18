@@ -340,7 +340,12 @@ function Admin(prop) {
     }
     setFooterTxt(ftxt);
   }, [filteredItems, data]);
-
+  useEffect(() => {
+    try {
+      prop.setStartDate(startDate);
+      prop.setEndDate(endDate);
+    } catch (error) {}
+  }, [startDate, endDate]);
   const columns = [
     {
       name: "id",
@@ -592,20 +597,16 @@ function Admin(prop) {
       />
 
       <Segment inverted>
-        <Grid doubling columns={1}>
-          <Grid.Column>
-            {footerTxt.split("@").map((item, key) => {
-              return (
-                <div key={key}>
-                  {item}
-                  <br />
-                </div>
-              );
-            })}
-          </Grid.Column>
-          <Grid.Column>{prop.mychaty && <>{prop.mychaty}</>}</Grid.Column>
-        </Grid>
+        {footerTxt.split("@").map((item, key) => {
+          return (
+            <div key={key}>
+              {item}
+              <br />
+            </div>
+          );
+        })}
       </Segment>
+      {prop.mychaty && <>{prop.mychaty}</>}
     </>
   );
 }

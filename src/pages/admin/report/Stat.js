@@ -21,54 +21,7 @@ import FilterModeGateway from "./FilterGateway";
 import Chart from "chart.js/auto";
 import { convertDateToJalali } from "../../../utils/convertDate";
 const moment = require("moment");
-const conditionalRowStyles = [
-  {
-    when: (row) => row.status == "Pending",
-    style: {
-      backgroundColor: "rgba(0,0,255,.1)",
-    },
-  },
-  // You can also pass a callback to style for additional customization
-  {
-    when: (row) =>
-      (row.endBalance > row.startBalance ||
-        row.endBalance2 > row.startBalance2) &&
-      row.status == "Done",
-    style: {
-      backgroundColor: "rgba(0,255,0,.1)",
-    },
-  },
-  {
-    when: (row) => row.endBalance < row.startBalance,
-    style: {
-      backgroundColor: "rgba(255,0,0,.1)",
-    },
-  },
-];
-const noDataComponent = (
-  <div
-    style={{
-      minHeight: 300,
-      position: "relative",
-      marginTop: 20,
-      width: "100%",
-    }}
-  >
-    <Dimmer active inverted>
-      <div
-        style={{
-          textAlign: "center",
-          color: "rgba(0,0,0,.5)",
-          paddingTop: 30,
-          width: "100%",
-        }}
-      >
-        <Icon size="huge" color="grey" name="list ul" />
-        <h4>Empty List.</h4>
-      </div>
-    </Dimmer>
-  </div>
-);
+
 const groupBy = (array, key) => {
   // Return the end result
   return array.reduce((result, currentValue) => {
@@ -166,52 +119,6 @@ function Admin(prop) {
 
   // data provides access to your row data
 
-  const sortData = (data) => {
-    return data.sort((a, b) => (a.id < b.id ? 1 : -1));
-  };
-  const ExpandedComponent = ({ data }) => (
-    <div style={{ overflow: "auto", width: "90vw" }}>
-      <pre>{JSON.stringify(data, null, 2)}</pre>
-    </div>
-  );
-  const fetchUsers = async (page) => {
-    setLoading(true);
-    var _s = moment(startDate).format("YYYY-MM-DD");
-    var _e = moment(endDate).format("YYYY-MM-DD");
-    if (_s == _e) {
-      _e = moment(_s).add("day", 1).format("YYYY-MM-DD");
-    }
-    if (prop?.user?.username) {
-      var res = await adminGetService(
-        `getReports?mode=${dataMode}&page=${page}&number=5000&username=${prop.user.username}&start=${_s}&end=${_e}&gateway=${dataSearch}`
-      );
-    } else {
-      var res = await adminGetService(
-        `getReports?mode=${dataMode}&page=${page}&number=5000&start=${_s}&end=${_e}&gateway=${dataSearch}`
-      );
-    }
-    try {
-      if (res.status === 200) {
-        setData(res.data);
-
-        setFilterOk(false);
-      }
-    } catch (error) {
-      //console.log(error.message);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handlePageChange = (page) => {
-    fetchUsers(page);
-  };
-  const handleSort = (column, sortDirection) => {
-    console.log(sortDirection);
-    setDataSortedID(column.id);
-    setDataSorted(column.name);
-    setDataSortedDir(sortDirection);
-  };
   const gettotal = (data, status, target) => {
     var _data = data.filter(
       (d) => d.status.toLowerCase() === status.toLowerCase() && d.amount2 == 0
@@ -240,17 +147,7 @@ function Admin(prop) {
     if (target == "total") return _totalReward;
     if (target == "count") return _data.length;
   };
-  const handlePerRowsChange = async (newPerPage, page) => {
-    setPerPage(newPerPage);
-  };
 
-  useEffect(() => {
-    //fetchUsers(1); // fetch page 1 of users
-  }, [dataSorted, dataSortedDir, dataMode, dataSearch]);
-
-  useEffect(() => {
-    //if (!firstOpen && filterOk) fetchUsers(1); // fetch page 1 of users
-  }, [filterOk, firstOpen]);
   useEffect(() => {
     var labels = [];
 
@@ -583,7 +480,12 @@ function Admin(prop) {
   );
   return (
     <>
-      <List setData={setData} mychaty={mychaty} />
+      <List
+        setData={setData}
+        mychaty={mychaty}
+        setEndDate={setEndDate}
+        setStartDate={setStartDate}
+      />
     </>
   );
 }
