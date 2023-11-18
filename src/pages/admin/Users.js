@@ -459,15 +459,17 @@ function Admin(prop) {
     var newSelect = [];
     {
       selectedRows.map((user, i) => {
-        var newUser = {};
-        newUser.username = user.username;
-        newUser.level = user.level;
-        newUser.amount = setGiftAmount(user.level);
-        newUser.amount2 = parseFloat(
-          setGiftAmount(user.level) / getRate
-        ).toFixed(2);
+        if (!user?.multiAccount) {
+          var newUser = {};
+          newUser.username = user.username;
+          newUser.level = user.level;
+          newUser.amount = setGiftAmount(user.level);
+          newUser.amount2 = parseFloat(
+            setGiftAmount(user.level) / getRate
+          ).toFixed(2);
 
-        newSelect.push(newUser);
+          newSelect.push(newUser);
+        }
       });
     }
     setSelected(newSelect);
