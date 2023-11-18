@@ -33,10 +33,9 @@ const validationSchema = Yup.object({
     ),
 });
 const onSubmit = async (values, submitMethods, navigate, prop, setRefresh) => {
-  return false;
   setRefresh(true);
   try {
-    const res = await adminPostService(values, "adminChipService");
+    const res = await adminPostService(values, "setCost");
     if (res.status == 200) {
       setRefresh(false);
       prop.setCashierOpen(false);
@@ -108,16 +107,6 @@ const depositArea = (prop) => {
                   autoComplete="off"
                 />
 
-                <FormikControl
-                  formik={formik}
-                  control="input"
-                  type="text"
-                  name="username"
-                  label="username"
-                  labelcolor={"grey"}
-                  size={"large"}
-                  autoComplete="off"
-                />
                 <FormikControl
                   formik={formik}
                   control="input"
