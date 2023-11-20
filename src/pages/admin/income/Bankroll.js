@@ -108,7 +108,8 @@ function Admin(prop) {
     parseInt(data.ringGame) +
     parseInt(data.ringGame2 * rate) +
     parseInt(data.finalTotal) +
-    parseInt(data.finalTotal2 * rate);
+    parseInt(data.finalTotal2 * rate) -
+    data.pendingCashout;
   return (
     <>
       <Statistic.Group
