@@ -98,7 +98,9 @@ const Reward = (prop) => {
           <small className="farsi rewardtext">{_txt}</small>
           {convertDateToJalali(prop.item.date)}
         </Grid.Column>
-        {prop.item?.detail && 1 == 1 && <CshList item={prop.item.detail} />}
+        {prop.item?.detail && prop.item.username == loginToken.username && (
+          <CshList item={prop.item.detail} />
+        )}
       </Grid.Row>
     </Grid>
   );
