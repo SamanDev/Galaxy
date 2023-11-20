@@ -22,15 +22,6 @@ const validationSchema = Yup.object({
     .required("لطفا این فیلد را وارد کنید.")
     .min(100, "لطفا این فیلد را درست وارد کنید.")
     .integer(),
-  username: Yup.string()
-
-    .required("نام کاربری حداقل باشد 3 کاراکتر باشد.")
-    .min(3, "نام کاربری حداقل باشد 3 کاراکتر باشد.")
-    .max(12, "نام کاربری حداکثر باشد 12 کاراکتر باشد.")
-    .matches(
-      /^[a-zA-Z0-9]+$/,
-      "نام کاربری فقط می تواند شامل حروف لاتین و اعداد باشد."
-    ),
 });
 const onSubmit = async (values, submitMethods, navigate, prop, setRefresh) => {
   setRefresh(true);
@@ -125,6 +116,7 @@ const depositArea = (prop) => {
                   loading={refresh}
                   disabled={refresh}
                   fluid
+                  type="submit"
                 >
                   Save
                 </Button>

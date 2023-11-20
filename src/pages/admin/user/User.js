@@ -226,15 +226,17 @@ function Admin(prop) {
         ",username,level,balance,balance2,email,mobile,fullName,refer,firstLogin,lastLogin,bankInfos,cashierGateways,userBlock,userActivate,multiAccount,totalDeposit,totalDeposit2,totalCashout,totalCashout2,totalCommission,totalCommission2,vipPlaySecond,totalPoint,levelPoint,dailyPoint,glevel,glevelSecond,"
       ),
     ];
+  } else {
+    if (haveModerator(loginToken.roles)) {
+      var newdataInfo = [
+        getPathOfKey2(
+          user,
+          ",username,level,balance,balance2,fullName,refer,firstLogin,lastLogin,bankInfos,cashierGateways,multiAccount,totalDeposit,totalDeposit2,totalCashout,totalCashout2,totalCommission,totalCommission2,vipPlaySecond,totalPoint,levelPoint,dailyPoint,glevel,glevelSecond,"
+        ),
+      ];
+    }
   }
-  if (haveModerator(loginToken.roles)) {
-    var newdataInfo = [
-      getPathOfKey2(
-        user,
-        ",username,level,balance,balance2,fullName,refer,firstLogin,lastLogin,bankInfos,cashierGateways,multiAccount,totalDeposit,totalDeposit2,totalCashout,totalCashout2,totalCommission,totalCommission2,vipPlaySecond,totalPoint,levelPoint,dailyPoint,glevel,glevelSecond,"
-      ),
-    ];
-  }
+
   var newdataBankInfo = [getPathOfKey(user, ",bankInfos,")];
 
   var newdataGetways = [getPathOfKey(user, ",cashierGateways,", getGateways)];
