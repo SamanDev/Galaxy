@@ -321,13 +321,12 @@ const ActiveTable = (prop) => {
             {_filterData?.map(function (x, i) {
               var minstack = 1000000;
               if (loginToken?.balance) {
-                minstack = loginToken?.balance;
+                minstack = loginToken?.balance * 2;
               }
-              if (
-                x.minstack < minstack ||
-                x.minstack < loginToken?.balance ||
-                x.status.indexOf("0/") == -1
-              ) {
+              if (minstack < 1000000) {
+                minstack = 1000000;
+              }
+              if (x.minstack < minstack || x.status.indexOf("0/") == -1) {
                 return (
                   <List.Item
                     key={i}
