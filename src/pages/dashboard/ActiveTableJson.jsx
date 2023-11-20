@@ -213,7 +213,7 @@ const ActiveTable = (prop) => {
       var aarName = x.name.split(" ");
 
       if (
-        x.minstack < loginToken?.balance * 100000000 &&
+        x.minstack < loginToken?.balance &&
         x.status.indexOf("1/") > -1 &&
         x?.class.indexOf("update") > -1 &&
         x.name.indexOf(fil) !== -1 &&
@@ -319,7 +319,7 @@ const ActiveTable = (prop) => {
         ) : (
           <>
             {_filterData?.map(function (x, i) {
-              var minstack = 100000;
+              var minstack = 1000000;
               if (loginToken?.balance) {
                 minstack = loginToken?.balance;
               }

@@ -122,7 +122,6 @@ const depositArea = (prop) => {
                 <Button
                   size="large"
                   color="red"
-                  icon="times"
                   loading={refresh}
                   disabled={refresh}
                   fluid

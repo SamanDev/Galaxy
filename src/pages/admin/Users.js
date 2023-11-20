@@ -420,7 +420,7 @@ function Admin(prop) {
   };
   var filteredItems = data.filter((item) => item.username);
   var _val = dataSearch.toString();
-  console.log(parseInt(_val.replace("level", "").replace(" up", "")) + 5);
+
   if (_val.indexOf("up") > -1) {
     filteredItems = filteredItems.filter(
       (item) =>
@@ -544,7 +544,7 @@ function Admin(prop) {
         setFilterText("");
       }
     };
-    console.log(dataSortedID);
+
     return (
       <>
         <Grid

@@ -6,6 +6,7 @@ import Tickets from "./support/List";
 import Reports from "./report/List";
 import Cashout from "./request/CashoutList";
 import Costs from "./request/Costs";
+import Credits from "./request/Credits";
 import Stats from "./report/Stat";
 var panes = [];
 function Admin(prop) {
@@ -58,6 +59,14 @@ function Admin(prop) {
         ),
       },
 
+      {
+        menuItem: "Credits",
+        render: () => (
+          <Tab.Pane>
+            <Credits {...prop} />
+          </Tab.Pane>
+        ),
+      },
       {
         menuItem: "Costs",
         render: () => (

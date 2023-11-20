@@ -18,10 +18,6 @@ import {
 } from "semantic-ui-react";
 
 const validationSchema = Yup.object({
-  amount: Yup.number()
-    .required("لطفا این فیلد را وارد کنید.")
-    .min(100, "لطفا این فیلد را درست وارد کنید.")
-    .integer(),
   username: Yup.string()
 
     .required("نام کاربری حداقل باشد 3 کاراکتر باشد.")
@@ -44,8 +40,7 @@ const onSubmit = async (values, submitMethods, navigate, prop, setRefresh) => {
     submitMethods.setSubmitting(false);
   } catch (error) {
     submitMethods.setSubmitting(false);
-
-    Alert("متاسفم...!", "متاسفانه مشکلی از سمت سرور رخ داده", "error");
+    setRefresh(false);
   }
 };
 
@@ -66,7 +61,7 @@ const depositArea = (prop) => {
             usd: false,
             credit: false,
 
-            username: prop.username ? prop.username : "",
+            username: prop?.username ? prop?.username : "",
           }}
           onSubmit={(values, submitMethods) =>
             onSubmit(values, submitMethods, navigate, prop, setRefresh)
@@ -160,7 +155,6 @@ const depositArea = (prop) => {
                 <Button
                   size="large"
                   color="red"
-                  icon="times"
                   loading={refresh}
                   disabled={refresh}
                   fluid
