@@ -29,9 +29,11 @@ const validationSchema = Yup.object({
     ),
 });
 const onSubmit = async (values, submitMethods, navigate, prop, setRefresh) => {
+  var _values = values;
+  _values.dollarAmount = parseInt(values.dollarAmount);
   setRefresh(true);
   try {
-    const res = await adminPostService(values, "adminChipService");
+    const res = await adminPostService(_values, "adminChipService");
     if (res.status == 200) {
       setRefresh(false);
       prop.setCashierOpen(false);
@@ -55,11 +57,11 @@ const depositArea = (prop) => {
       <Modal.Content className="myaccount popup">
         <Formik
           initialValues={{
-            mode: "add",
-            amount: 0,
-            dollarAmount: 0,
-            usd: false,
-            credit: false,
+            mode: prop?.depmode ? prop?.depmode : "add",
+            amount: prop?.defamount ? prop?.defamount : 0,
+            dollarAmount: prop?.defamount2 ? prop?.defamount2 : 0,
+            usd: prop?.usd ? prop?.usd : false,
+            credit: prop?.credit ? prop?.credit : false,
 
             username: prop?.username ? prop?.username : "",
           }}
@@ -107,7 +109,7 @@ const depositArea = (prop) => {
                     type="button"
                     onClick={() => {
                       if (formik.values.usd) {
-                        formik.setFieldValue("amount", 0);
+                        formik.setFieldValue("amount", 1);
                       } else {
                         formik.setFieldValue("dollarAmount", 0);
                       }

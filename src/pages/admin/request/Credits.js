@@ -83,7 +83,6 @@ const noDataComponent = (
 );
 var _timer = 10000;
 function Admin(prop) {
-  console.log(prop);
   const [data, setData] = useState([]);
 
   const [totalRows, setTotalRows] = useState(0);
@@ -93,6 +92,11 @@ function Admin(prop) {
   const loginToken = prop.loginToken;
 
   const [loading, setLoading] = useState(false);
+  const [defmode, setDefmode] = useState("add");
+  const [defuser, setDefuser] = useState("");
+  const [defamount, setAmount] = useState(0);
+  const [defamount2, setAmount2] = useState(0);
+  const [defusd, setDefusd] = useState(false);
 
   const [filterOk, setFilterOk] = React.useState(false);
   var filteredItems = data;
@@ -130,7 +134,12 @@ function Admin(prop) {
       selector: (row) => row.username,
       format: (row) => (
         <>
-          <span className="msglink fw-bold">{row.username}</span>
+          <span
+            className="msglink fw-bold"
+            onClick={() => prop.addTabData(row.username, prop.getwaysList)}
+          >
+            {row.username}
+          </span>
         </>
       ),
       sortable: true,
@@ -140,7 +149,7 @@ function Admin(prop) {
       selector: (row) => row.admin,
       format: (row) => (
         <>
-          <span className="msglink fw-bold">{row.admin}</span>
+          <span>{row.admin}</span>
         </>
       ),
       sortable: true,
@@ -150,9 +159,18 @@ function Admin(prop) {
       name: "Amount",
       selector: (row) => row.amount,
       format: (row) => (
-        <>
+        <span
+          onClick={() => {
+            setAmount(row.amount > 0 ? row.amount : row.amount * -1);
+            setDefmode(row.amount > 0 ? "add" : "remove");
+            setAmount2(0);
+            setDefusd(false);
+            setCashierOpen(true);
+            setDefuser(row.username);
+          }}
+        >
           <AmountColor amount={row.amount} sign={true} />
-        </>
+        </span>
       ),
       sortable: true,
       width: "200px",
@@ -162,9 +180,18 @@ function Admin(prop) {
       name: "Amount2",
       selector: (row) => row.amount2,
       format: (row) => (
-        <>
+        <span
+          onClick={() => {
+            setAmount(0);
+            setDefmode(row.amount2 > 0 ? "add" : "remove");
+            setAmount2(row.amount2 > 0 ? row.amount2 : row.amount2 * -1);
+            setDefusd(true);
+            setCashierOpen(true);
+            setDefuser(row.username);
+          }}
+        >
           <AmountColor amount={row.amount2} sign={true} />
-        </>
+        </span>
       ),
       sortable: true,
       width: "200px",
@@ -206,7 +233,14 @@ function Admin(prop) {
                   <Button
                     color="blue"
                     className="float-end"
-                    onClick={() => setCashierOpen(true)}
+                    onClick={() => {
+                      setAmount(0);
+                      setDefmode("add");
+                      setAmount2(0);
+                      setDefusd(false);
+                      setCashierOpen(true);
+                      setDefuser("");
+                    }}
                   >
                     Cashier
                   </Button>
@@ -231,7 +265,15 @@ function Admin(prop) {
         size="large"
         style={{ height: "auto" }}
       >
-        <AddCashier setCashierOpen={setCashierOpen} />
+        <AddCashier
+          username={defuser}
+          defamount={defamount}
+          defamount2={defamount2}
+          usd={defusd}
+          depmode={defmode}
+          credit={defuser ? true : false}
+          setCashierOpen={setCashierOpen}
+        />
       </Modal>
 
       <div
