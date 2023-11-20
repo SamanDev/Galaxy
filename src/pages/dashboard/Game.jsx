@@ -209,7 +209,7 @@ const Dashboard = (prop) => {
         <Tab.Pane key="tab1" attached={false}>
           <div
             id="gamesec1"
-            className="gamesec"
+            className="gamesec panelfull"
             style={
               isFull
                 ? { overflowX: "auto", overflowY: "hidden" }
@@ -234,7 +234,7 @@ const Dashboard = (prop) => {
               )}
             {mainGame == "poker" ? (
               <>
-                {sessionKey != "" && (
+                {sessionKey != "" && siteInfo?.pokerUrl && (
                   <iframe
                     src={
                       localStorage.getItem("tableName")
@@ -259,7 +259,7 @@ const Dashboard = (prop) => {
               </>
             ) : (
               <>
-                {activeIndex == 0 && (
+                {activeIndex == 0 && siteInfo?.gamesUrl && (
                   <iframe
                     src={
                       siteInfo.gamesUrl +
@@ -304,7 +304,7 @@ const Dashboard = (prop) => {
                 </Dimmer>
               </div>
             )}
-            {(activeIndex > 0 || activeIndexLoad) && (
+            {(activeIndex > 0 || activeIndexLoad) && siteInfo?.gamesUrl && (
               <iframe
                 src={
                   siteInfo.gamesUrl +

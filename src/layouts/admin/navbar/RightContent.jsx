@@ -78,7 +78,7 @@ const Rightcontent = (prop) => {
     var _old = prop.loginToken;
     _old.logout = true;
     eventBus.dispatch("updateUser", _old);
-    localStorage.setItem("galaxyUserkeyToken", value);
+    //localStorage.setItem("galaxyUserkeyToken", value);
     //handleCheckLogin(value);
     //window.location.reload();
   };

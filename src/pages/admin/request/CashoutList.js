@@ -292,10 +292,20 @@ function Admin(prop) {
         row.endBalance >= row.startBalance ? row.amount : row.amount * -1,
       format: (row) => (
         <>
-          <AmountColor
-            amount={row.amount}
-            sign={row.endBalance - row.startBalance}
-          />
+          {row.amount2 ? (
+            <>
+              <AmountColor
+                amount={row.amount2}
+                sign={row.endBalance2 - row.startBalance2}
+              />{" "}
+              $
+            </>
+          ) : (
+            <AmountColor
+              amount={row.amount}
+              sign={row.endBalance - row.startBalance}
+            />
+          )}
         </>
       ),
       sortable: true,

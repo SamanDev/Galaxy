@@ -13,7 +13,7 @@ const Actios = (prop) => {
           disabled={loading}
           onClick={() => prop.updateStatus(prop.row, "Done", setLoading)}
         />{" "}
-        {(prop.row.pendingAmount > 0 || prop.row.mode === "Deposit") && (
+        {prop.row.status === "Pendin3g" && prop.row.mode === "Cashout" && (
           <Button
             size="mini"
             color="red"
