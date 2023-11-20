@@ -16,25 +16,14 @@ const BonusArea = (prop) => {
 
   var _lvl = loginToken.level;
   return (
-    <Grid.Row style={{ paddingBottom: 0 }}>
+    <Grid.Row style={{ padding: 0 }}>
       <Grid.Column width={6} style={{ margin: 0 }}>
-        <div style={{ marginLeft: 10 }}>
-          <LevelIcon
-            level={_lvl}
-            number={_lvl}
-            mode={"levels"}
-            text={loginToken.username}
-            classinside={levelClassInside(_lvl - 1)}
-            width="36px"
-          />
-        </div>
+        <div style={{ marginLeft: 10 }}>{loginToken.username}</div>
       </Grid.Column>
       <Grid.Column width={10} textAlign="right">
         <div className="farsi">
-          <span className="text-gold">{doCurrency(loginToken.dailyPoint)}</span>{" "}
+          <span className="text-gold">{doCurrency(loginToken.rake)}</span>{" "}
         </div>
-
-        {convertDateToJalali(loginToken.lastLogin)}
       </Grid.Column>
     </Grid.Row>
   );

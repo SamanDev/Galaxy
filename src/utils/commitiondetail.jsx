@@ -6,20 +6,25 @@ import { doCurrency } from "../const";
 const moment = require("moment");
 
 const depositArea = (prop) => {
-  var desc = prop.item.split("ReferCommissionDetailModel");
+  try {
+    var desc = JSON.parse(prop.item);
+  } catch (error) {
+    return null;
+  }
+  var desc = JSON.parse(prop.item);
 
   const [user, setUser] = useState(desc);
 
   return (
     <Grid
       verticalAlign="middle"
-      divided="vertically"
+      attached="top"
       inverted
       padded="vertically"
+      as={Segment}
     >
       {user.map(function (use, i) {
-        if (use.indexOf("rake=") > -1)
-          return <Bonus key={i} user={use} {...prop} />;
+        if (use.rake) return <Bonus key={i} user={use} {...prop} />;
       })}
     </Grid>
   );
