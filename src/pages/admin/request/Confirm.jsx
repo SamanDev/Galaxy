@@ -24,41 +24,55 @@ import { doCurrency } from "../../../const";
 
 const onSubmit = async (values, submitMethods, prop) => {
   submitMethods.setSubmitting(true);
-  if (values.mode == "CartToCart") {
-    var newValues = {
-      orderId: values.id,
-      cardNumber: values.toobj.cardNumber,
-      shebaNumber: "IR" + values.toobj.shebaNumber,
-    };
 
-    const res = await adminPostService(newValues, "cardService/cashout", "");
-    if (res.status == 200) {
-      submitMethods.resetForm();
-      prop.setFirstDone(false);
-      prop.setFirstStatus("reload");
-    }
-  } else if (values.mode == "PerfectMoney") {
+  if (prop.status == "Canceled") {
     var newValues = {
       orderId: values.id,
     };
 
-    const res = await adminPutService(newValues, "perfectMoney/done", "");
+    const res = await adminPostService(newValues, "cancelCashout", "");
     if (res.status == 200) {
       submitMethods.resetForm();
       prop.setFirstDone(false);
       prop.setFirstStatus("reload");
     }
   } else {
-    var newValues = {
-      orderId: values.id,
-      cardNumber: values.toobj.cardNumber,
-      shebaNumber: "IR" + values.toobj.shebaNumber,
-    };
-    const res = await adminPostService(newValues, "visaGiftCode/cashout", "");
-    if (res.status == 200) {
-      submitMethods.resetForm();
-      prop.setFirstDone(false);
-      prop.setFirstStatus("reload");
+    if (values.mode == "CartToCart") {
+      var newValues = {
+        orderId: values.id,
+        cardNumber: values.toobj.cardNumber,
+        shebaNumber: "IR" + values.toobj.shebaNumber,
+      };
+
+      const res = await adminPostService(newValues, "cardService/cashout", "");
+      if (res.status == 200) {
+        submitMethods.resetForm();
+        prop.setFirstDone(false);
+        prop.setFirstStatus("reload");
+      }
+    } else if (values.mode == "PerfectMoney") {
+      var newValues = {
+        orderId: values.id,
+      };
+
+      const res = await adminPutService(newValues, "perfectMoney/done", "");
+      if (res.status == 200) {
+        submitMethods.resetForm();
+        prop.setFirstDone(false);
+        prop.setFirstStatus("reload");
+      }
+    } else {
+      var newValues = {
+        orderId: values.id,
+        cardNumber: values.toobj.cardNumber,
+        shebaNumber: "IR" + values.toobj.shebaNumber,
+      };
+      const res = await adminPostService(newValues, "visaGiftCode/cashout", "");
+      if (res.status == 200) {
+        submitMethods.resetForm();
+        prop.setFirstDone(false);
+        prop.setFirstStatus("reload");
+      }
     }
   }
 
@@ -84,6 +98,7 @@ const updateCartInfoTo = (cartOptions, id, formik) => {
 };
 
 const depositArea = (prop) => {
+  console.log(prop);
   const validationSchema = Yup.object({
     amount: Yup.number()
       .required("لطفا این فیلد را وارد کنید.")
@@ -229,7 +244,7 @@ const depositArea = (prop) => {
                         labelcolor={prop.labelcolor}
                         size={prop.size}
                       />
-
+                      {/* 
                       <Divider />
                       <Select
                         placeholder="علت"
@@ -237,7 +252,7 @@ const depositArea = (prop) => {
                         fluid
                         options={carOptions}
                         onChange={handleChange}
-                      />
+                      /> */}
 
                       <Divider />
                       <Button
@@ -268,6 +283,7 @@ const depositArea = (prop) => {
             action: prop.status,
             id: prop.item.id,
             amount: prop.item.amount,
+            status: prop.item.status,
             geteway: prop.gateway.replace(/ /g, ""),
             bankId: "",
             userBankId: "",
@@ -354,14 +370,14 @@ const depositArea = (prop) => {
                         size={prop.size}
                       />
 
-                      <Divider />
+                      {/*  <Divider />
                       <Select
                         placeholder="علت"
                         className="farsi"
                         fluid
                         options={carOptions}
                         onChange={handleChange}
-                      />
+                      /> */}
 
                       <Divider />
                       <Button
