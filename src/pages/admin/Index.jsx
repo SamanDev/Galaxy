@@ -4,6 +4,7 @@ import Users from "./Users";
 import { Navigate } from "react-router-dom";
 
 import Bankroll from "./income/Bankroll";
+import Runner from "./user/runner";
 import Bots from "./user/Bots";
 import Income from "./income/Income";
 import GetwaysList from "./setting/GetwaysList";
@@ -11,8 +12,9 @@ import SiteCartsList from "./setting/SiteCartsList";
 import User from "./user/User";
 import Amj from "./Amjbank";
 
-import Requests from "./Requests";
 import Setting from "./JsonSetting";
+import Requests from "./Requests";
+import Notification from "./Notification";
 import RisingPitch from "./utils/PlayAlert";
 import { adminGetService } from "../../services/admin";
 import { haveAdmin, haveModerator, haveOperator, haveRoot } from "../../const";
@@ -119,21 +121,38 @@ function Admin(prop) {
       });
     }
     if (haveRoot(loginToken.roles)) {
-      panes.push({
-        menuItem: "Settings",
-        pane: (
-          <Tab.Pane key="Setting">
-            <Setting
-              addTabData={addTabData}
-              addMainTabData={addMainTabData}
-              setGetwaysData={setGetwaysData}
-              addGatewayTabData={addGatewayTabData}
-              removeTabData={removeTabData}
-              {...prop}
-            />
-          </Tab.Pane>
-        ),
-      });
+      panes.push(
+        {
+          menuItem: "Notification",
+          pane: (
+            <Tab.Pane key="Notification">
+              <Notification
+                addTabData={addTabData}
+                addMainTabData={addMainTabData}
+                setGetwaysData={setGetwaysData}
+                addGatewayTabData={addGatewayTabData}
+                removeTabData={removeTabData}
+                {...prop}
+              />
+            </Tab.Pane>
+          ),
+        },
+        {
+          menuItem: "Settings",
+          pane: (
+            <Tab.Pane key="Setting">
+              <Setting
+                addTabData={addTabData}
+                addMainTabData={addMainTabData}
+                setGetwaysData={setGetwaysData}
+                addGatewayTabData={addGatewayTabData}
+                removeTabData={removeTabData}
+                {...prop}
+              />
+            </Tab.Pane>
+          ),
+        }
+      );
     }
   }, [loadingtickets]);
   useEffect(() => {
@@ -194,6 +213,13 @@ function Admin(prop) {
           className="ui inverted segment"
           style={{ height: "calc(100vh - 150px)", overflow: "auto" }}
         >
+          <Runner
+            addTabData={addTabData}
+            setGetwaysData={setGetwaysData}
+            removeTabData={removeTabData}
+            search="refer"
+            searchValue={mode}
+          />
           <Bots
             addTabData={addTabData}
             setGetwaysData={setGetwaysData}

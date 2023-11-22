@@ -66,6 +66,7 @@ const Reward = (prop) => {
       divided="vertically"
       inverted
       padded="vertically"
+      relaxed
     >
       <Grid.Row
         className={
@@ -99,7 +100,9 @@ const Reward = (prop) => {
           {convertDateToJalali(prop.item.date)}
         </Grid.Column>
         {prop.item?.detail && prop.item.username == loginToken.username && (
-          <CshList item={prop.item.detail} />
+          <Grid.Column width={16}>
+            <CshList item={prop.item.detail} />
+          </Grid.Column>
         )}
       </Grid.Row>
     </Grid>

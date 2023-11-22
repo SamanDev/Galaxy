@@ -349,6 +349,7 @@ const Balance = (prop) => {
                     color="green"
                     link
                     id="opendepicon"
+                    className="cashierarea"
                   />
                 }
               >
@@ -374,6 +375,7 @@ const Balance = (prop) => {
                     inverted
                     color="red"
                     name="minus"
+                    className="cashierarea"
                     link
                   />
                 }
@@ -412,8 +414,8 @@ const Balance = (prop) => {
                   size="small"
                   className={
                     gCount == 0
-                      ? "animated step0-4"
-                      : "animated heartBeat slow step0-4"
+                      ? "cashierarea animated step0-4"
+                      : "cashierarea animated heartBeat slow step0-4"
                   }
                   link
                   onClick={() => {

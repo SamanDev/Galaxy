@@ -16,8 +16,8 @@ const BonusArea = (prop) => {
 
   var _lvl = loginToken.level;
   return (
-    <Grid.Row style={{ padding: 0 }}>
-      <Grid.Column width={6} style={{ margin: 0 }}>
+    <Grid.Row style={{ paddingTop: 0 }}>
+      <Grid.Column width={6}>
         <div style={{ marginLeft: 10 }}>{loginToken.username}</div>
       </Grid.Column>
       <Grid.Column width={10} textAlign="right">

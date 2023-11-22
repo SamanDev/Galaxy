@@ -110,7 +110,7 @@ const Dashboard = (prop) => {
 
       setTimeout(function () {
         addHome();
-      }, 10000);
+      }, 2000);
     }
   };
 

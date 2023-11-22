@@ -8,14 +8,14 @@ const StatisticExampleEvenlyDivided = () => {
     <Statistic.Group widths="three" inverted size="tiny">
       <Statistic color="red" inverted>
         <Statistic.Value>
-          +<CountUp balance={16000} />
+          +<CountUp balance={16000} set={true} />
         </Statistic.Value>
         <Statistic.Label className="farsi">بازیکن</Statistic.Label>
       </Statistic>
 
       <Statistic color="violet" inverted size="tiny">
         <Statistic.Value className="farsi">
-          <CountUp balance={year} /> سال
+          <CountUp balance={year} set={true} /> سال
         </Statistic.Value>
         <Statistic.Label className="farsi">سابقه فعالیت</Statistic.Label>
       </Statistic>

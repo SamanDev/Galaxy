@@ -238,11 +238,26 @@ input.farsi {
     rgba(0, 0, 0, 0) 87%
   );
 }
-.cashierarea {
+.cashierarea.mm-listitem {
   background: rgba(255, 0, 0, 0.3);
 }
 .garea {
   background: rgba(255, 255, 0, 0.03);
+}
+.ui.piled.segment:after,
+.ui.piled.segment:before,
+.ui.piled.segments:after,
+.ui.piled.segments:before {
+  background-color: rgba(227, 227, 227, 0.9);
+  visibility: visible;
+  content: "";
+  display: block;
+  height: 100%;
+  left: 0;
+  position: absolute;
+  width: 100%;
+  border: 1px solid rgba(34, 36, 38, 0.15);
+  box-shadow: "";
 }
 .swal2-container {
   z-index: 100000000 !important;

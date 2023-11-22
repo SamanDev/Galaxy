@@ -59,15 +59,17 @@ const LevelList = (prop) => {
               </>
             )}
             <div style={{ paddingLeft: 15 }}>
-              {data.map((x, i) => {
-                totalReward += levelLeagueReward(i);
+              {data
+                .sort((a, b) => (a.date < b.date ? 1 : -1))
+                .map((x, i) => {
+                  totalReward += levelLeagueReward(i);
 
-                return (
-                  <div className={"rewardname"} mode={x.mode} key={i}>
-                    <Reward item={x} {...prop} color={true} />
-                  </div>
-                );
-              })}
+                  return (
+                    <div className={"rewardname"} mode={x.mode} key={i}>
+                      <Reward item={x} {...prop} color={true} />
+                    </div>
+                  );
+                })}
             </div>
           </li>
         </ul>

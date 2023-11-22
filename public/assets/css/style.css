@@ -182,7 +182,7 @@ input.farsi {
     rgba(0, 0, 0, 0) 87%
   );
 }
-.cashierarea {
+.cashierarea.mm-listitem {
   background: rgba(255, 0, 0, 0.3);
 }
 .garea {

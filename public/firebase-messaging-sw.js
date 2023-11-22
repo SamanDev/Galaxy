@@ -4,6 +4,7 @@ importScripts("https://www.gstatic.com/firebasejs/8.2.0/firebase-messaging.js");
 var firebaseConfig = {
   apiKey: "AIzaSyA4NlmazdAOEweehYLywZgOGtUm_INKAA0",
   authDomain: "galaxy-c1178.firebaseapp.com",
+  databaseURL: "https://galaxy-c1178-default-rtdb.firebaseio.com",
   projectId: "galaxy-c1178",
   storageBucket: "galaxy-c1178.appspot.com",
   messagingSenderId: "231752062766",

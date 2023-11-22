@@ -35,6 +35,7 @@ const onSubmit = async (values, submitMethods, navigate, prop) => {
 const depositArea = (prop) => {
   const [depMode, setDepMode] = useState(false);
   const navigate = useNavigate();
+  const loginToken = prop.loginToken;
   return (
     <Formik
       initialValues={initialValues}
@@ -46,52 +47,57 @@ const depositArea = (prop) => {
       {(formik) => {
         return (
           <Form>
-            <MyMsg
-              icon="num"
-              num=""
-              color="yellow"
-              size="mini"
-              text={
-                <>
-                  <p>
-                    برای استفاده از این سرویس کافیست ویزا گیفت کد تهیه نمایید.
-                  </p>
-                  <p>
-                    برای راحتی شما عزیزان چند سایت فروشنده ویزا گیفت کد در زیر
-                    معرفی شده است.
-                  </p>
-                  <p>
-                    {" "}
-                    شما براحتی می توانید با استفاده از درگاه آنلاین سایت های
-                    فروشنده تا سقف 50 میلیون تومان گیفت کد خریداری کرده و با
-                    وارد کردن کد دریافت شده از فروشنده در سایت بلافاصله چیپ
-                    دریافت کنید.
-                  </p>
-                  <p>نیاز به احراز هویت فقط برای اولین خرید</p>
-                </>
-              }
-            />
-            <MyMsg
-              icon="num"
-              num=""
-              color="red"
-              size="mini"
-              text={
-                <>
-                  <p>
-                    فروشنده شماره یک:{" "}
-                    <a
-                      href="http://asanarz.net"
-                      target="_blank"
-                      className="pull-left"
-                      style={{ fontSize: 15 }}
-                    >
-                      AsanArz.Net
-                    </a>
-                  </p>
-                </>
-              }
-            />
+            {loginToken?.level >= 7 && (
+              <>
+                <MyMsg
+                  icon="num"
+                  num=""
+                  color="yellow"
+                  size="mini"
+                  text={
+                    <>
+                      <p>
+                        برای استفاده از این سرویس کافیست ویزا گیفت کد تهیه
+                        نمایید.
+                      </p>
+                      <p>
+                        برای راحتی شما عزیزان چند سایت فروشنده ویزا گیفت کد در
+                        زیر معرفی شده است.
+                      </p>
+                      <p>
+                        {" "}
+                        شما براحتی می توانید با استفاده از درگاه آنلاین سایت های
+                        فروشنده تا سقف 50 میلیون تومان گیفت کد خریداری کرده و با
+                        وارد کردن کد دریافت شده از فروشنده در سایت بلافاصله چیپ
+                        دریافت کنید.
+                      </p>
+                      <p>نیاز به احراز هویت فقط برای اولین خرید</p>
+                    </>
+                  }
+                />
+                <MyMsg
+                  icon="num"
+                  num=""
+                  color="red"
+                  size="mini"
+                  text={
+                    <>
+                      <p>
+                        فروشنده شماره یک:{" "}
+                        <a
+                          href="http://asanarz.net"
+                          target="_blank"
+                          className="pull-left"
+                          style={{ fontSize: 15 }}
+                        >
+                          AsanArz.Net
+                        </a>
+                      </p>
+                    </>
+                  }
+                />
+              </>
+            )}
 
             <FormikControl
               formik={formik}

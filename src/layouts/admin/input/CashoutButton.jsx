@@ -17,7 +17,7 @@ if (nowzne > nowzne1 && nowzne < nowzne2) {
 
 function getchatTime(date) {
   var thisDate2 = date;
-  var dateExpired = moment(thisDate2).format("YYYYMMDDTHHmmss" + zones);
+  var dateExpired = moment(thisDate2.replace("-08:00", ""));
 
   return dateExpired;
 }

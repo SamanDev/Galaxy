@@ -25,7 +25,7 @@ const depositArea = (prop) => {
 
   const loginToken = prop.loginToken;
   var _now = moment();
-  var _block = moment(loginToken.blockDateOut);
+  var _block = moment(loginToken.blockDateOut.replace("-08:00", ""));
   //var _block = moment("2022-12-08T19:09:55+03:30");
   //console.log(_now);
   var blnBlock = false;

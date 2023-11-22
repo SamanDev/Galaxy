@@ -90,6 +90,7 @@ function Active(prop) {
     var firebaseConfig = {
       apiKey: "AIzaSyA4NlmazdAOEweehYLywZgOGtUm_INKAA0",
       authDomain: "galaxy-c1178.firebaseapp.com",
+      databaseURL: "https://galaxy-c1178-default-rtdb.firebaseio.com",
       projectId: "galaxy-c1178",
       storageBucket: "galaxy-c1178.appspot.com",
       messagingSenderId: "231752062766",
@@ -140,6 +141,11 @@ function Active(prop) {
     } catch (e) {
       setToken("err");
     }
+    /*  persistentNotification({
+      body: "hi",
+      icon: "",
+      dir: "rtl",
+    }); */
   }, []);
   if (token == "err" || 1 == 1) {
     return (

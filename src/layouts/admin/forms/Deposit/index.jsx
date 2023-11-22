@@ -11,6 +11,7 @@ const selColBtn = "orange";
 const depositArea = (prop) => {
   const [depMode, setDepMode] = useState(false);
   const loginToken = prop.loginToken;
+  const siteInfo = prop.siteInfo;
   function getBonus(gateway) {
     try {
       var data_filter = loginToken.cashierGateways.filter(
@@ -119,7 +120,10 @@ const depositArea = (prop) => {
                     pointing="left"
                     className="myfloat"
                   >
-                    {dep.limit}
+                    {dep.limit.replace(
+                      "$100 ",
+                      "$" + siteInfo?.cashoutLimitDollar + " "
+                    )}
                   </Label>
                   {dep.bonus && (
                     <Label
@@ -184,7 +188,10 @@ const depositArea = (prop) => {
                     pointing="left"
                     className="myfloat"
                   >
-                    {dep.limit}
+                    {dep.limit.replace(
+                      "$100 ",
+                      "$" + siteInfo?.cashoutLimitDollar + " "
+                    )}
                   </Label>
                   {dep.bonus && (
                     <Label

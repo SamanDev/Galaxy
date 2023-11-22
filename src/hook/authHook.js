@@ -48,8 +48,8 @@ export const useIsLogin = () => {
             setLoading(false);
           }
 
-          setIsLogin(false);
-          setLoading(false);
+          //setIsLogin(false);
+          //setLoading(false);
         }
       } catch (error) {
         UserWebsocket.connect();
@@ -61,11 +61,10 @@ export const useIsLogin = () => {
       }
     } else {
       UserWebsocket.connect();
-      localStorage.removeItem(loginKey + "Token");
+      localStorage.removeItem("galaxyUserkeyToken");
       localStorage.setItem("balance", 0);
       setIsLogin(false);
       setLoading(false);
-      localStorage.removeItem("galaxyUserkeyToken");
     }
   }, []);
 

@@ -11,6 +11,7 @@ const selColBtn = "orange";
 const depositArea = (prop) => {
   const [depMode, setDepMode] = useState(false);
   const loginToken = prop.loginToken;
+  const siteInfo = prop.siteInfo;
   return (
     <>
       <div id="dep1" className="deparea" style={{ margin: "5px 0" }}>
@@ -55,7 +56,10 @@ const depositArea = (prop) => {
                     pointing="left"
                     className="myfloat"
                   >
-                    {dep.limit}
+                    {dep.limit.replace(
+                      "$100 ",
+                      "$" + siteInfo?.cashoutLimitDollar + " "
+                    )}
                   </Label>
                   {dep.bonus && (
                     <Label
@@ -114,7 +118,10 @@ const depositArea = (prop) => {
                         pointing="left"
                         className="myfloat"
                       >
-                        {dep.limit}
+                        {dep.limit.replace(
+                          "$100 ",
+                          "$" + siteInfo?.cashoutLimitDollar + " "
+                        )}
                       </Label>
                       {dep.bonus && (
                         <Label

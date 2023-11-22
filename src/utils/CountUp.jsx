@@ -6,9 +6,11 @@ const CompleteHook = (prop) => {
     ? localStorage.getItem("balance")
     : 0;
   useEffect(() => {
-    setTimeout(() => {
-      localStorage.setItem("balance", prop.balance);
-    }, 500);
+    if (!prop.set) {
+      setTimeout(() => {
+        localStorage.setItem("balance", prop.balance);
+      }, 500);
+    }
   }, [prop.balance]);
   const [loading, setLoading] = React.useState(false);
 
@@ -29,7 +31,7 @@ const CompleteHook = (prop) => {
       <CountUp
         start={oldbalance}
         end={prop.balance}
-        duration="1"
+        duration="2"
         separator=","
         onStart={onStart}
         onEnd={onEnd}

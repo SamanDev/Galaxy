@@ -143,7 +143,7 @@ function App(prop) {
     setsize = true;
 
     $("body").removeAttr("style");
-
+    $("#lazyarea").removeAttr("id");
     //clearTimeout(btime);
 
     btime = setTimeout(() => {
@@ -185,6 +185,11 @@ function App(prop) {
         .bind("scroll", function () {
           bindLastReward();
           bindAddLink();
+          if ($(".mm-panel--opened:visible").find(".lazyarea").length > 0) {
+            $(".mm-panel--opened:visible")
+              .find(".mm-listview:first")
+              .attr("id", "lazyarea");
+          }
         });
       $("#lazyareapael")
         .unbind("scroll")
@@ -808,7 +813,7 @@ function App(prop) {
   };
 
   const printmenu = () => {
-    var menuData = GetMenu(siteInfo);
+    var menuData = GetMenu(siteInfo, loginToken);
     finalMenu = menuData.map(function (menu, i) {
       return doMenu(menu, i, false, isUser);
     });
@@ -984,6 +989,9 @@ function App(prop) {
       // finalMenu = "";
       setIsUser(isLogin);
       startServiceWorker();
+      if (loginToken?.refer == "runner") {
+        $(".cashierarea").remove();
+      }
     }
   }, [isLogin]);
 
@@ -1083,12 +1091,14 @@ function App(prop) {
   useEffect(() => {
     printmenu();
   }, [
+    siteInfo,
     activeMenu,
     history,
     activeMenuOpen,
-    loginToken?.logout,
     loginToken?.accessToken,
     loginToken?.userActivate,
+
+    loginToken?.logout,
     loginToken?.userBlock,
     loginToken?.blockDateOut,
     loginToken?.bankInfos,
