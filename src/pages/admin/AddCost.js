@@ -51,7 +51,7 @@ const depositArea = (prop) => {
       <Modal.Content className="myaccount popup">
         <Formik
           initialValues={{
-            mode: "add",
+            mode: "poker",
             amount: 0,
             description: "",
 
@@ -69,21 +69,21 @@ const depositArea = (prop) => {
                   <Button
                     type="button"
                     onClick={() => {
-                      formik.setFieldValue("mode", "remove");
+                      formik.setFieldValue("mode", "poker");
                     }}
-                    positive={formik.values.mode === "remove"}
+                    positive={formik.values.mode === "poker"}
                   >
-                    Remove
+                    Poker
                   </Button>
                   <Button.Or text="or" />
                   <Button
                     type="button"
                     onClick={() => {
-                      formik.setFieldValue("mode", "add");
+                      formik.setFieldValue("mode", "casino");
                     }}
-                    positive={formik.values.mode === "add"}
+                    positive={formik.values.mode === "casino"}
                   >
-                    Add
+                    Casino
                   </Button>
                 </Button.Group>
 
