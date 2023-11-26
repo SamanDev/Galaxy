@@ -164,7 +164,7 @@ function Admin(prop) {
         `getCost?mode=cashout&page=${page}&number=500&start=${_s}&end=${_e}`
       );
       if (res.status === 200) {
-        setData(res.data);
+        setData(res.data.content);
 
         setFilterOk(false);
       }
