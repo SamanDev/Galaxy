@@ -5,8 +5,9 @@ import { adminGetService } from "../../../services/admin";
 import TableAdmin from "../utils/table";
 import Report from "../report/List";
 import Not from "./Not";
-import Reward from "./Reward";
 import Tickets from "../support/List";
+import Reward from "./Reward";
+import Maven from "../report/Maven";
 import Users from "../Users";
 import { Alert } from "../../../utils/alerts";
 import { adminPutService } from "../../../services/admin";
@@ -279,6 +280,18 @@ function Admin(prop) {
       render: () => (
         <Tab.Pane as="span">
           <Report
+            user={user}
+            addTabData={prop.addTabData}
+            removeTabData={prop.removeTabData}
+          />
+        </Tab.Pane>
+      ),
+    },
+    {
+      menuItem: "Maven",
+      render: () => (
+        <Tab.Pane as="span">
+          <Maven
             user={user}
             addTabData={prop.addTabData}
             removeTabData={prop.removeTabData}

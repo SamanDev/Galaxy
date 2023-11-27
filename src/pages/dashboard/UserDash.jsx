@@ -25,6 +25,14 @@ const Dashboard = (prop) => {
   const loginToken = prop.loginToken;
   const siteInfo = prop.siteInfo;
   const handleManifest = () => {
+    window.addEventListener("beforeinstallprompt", (e) => {
+      //$("#pushactive").trigger("click");
+      // Prevent Chrome 67 and earlier from automatically showing the prompt
+      //e.preventDefault();
+      // Stash the event so it can be triggered later.
+      window.deferredPrompt = e;
+      // Update UI to notify the user they can add to home screen
+    });
     if (isWebview()) {
       return false;
     }
@@ -44,17 +52,9 @@ const Dashboard = (prop) => {
       //return false;
     }
 
-    console.log("👍", "handleManifest");
     //$('[rel="manifest"]').remove();
     if ($('[rel="manifest"]').length == 0) {
-      window.addEventListener("beforeinstallprompt", (e) => {
-        //$("#pushactive").trigger("click");
-        // Prevent Chrome 67 and earlier from automatically showing the prompt
-        //e.preventDefault();
-        // Stash the event so it can be triggered later.
-        window.deferredPrompt = e;
-        // Update UI to notify the user they can add to home screen
-      });
+      console.log("👍", "handleManifest");
       window.addEventListener(
         "focus",
         () => {
@@ -110,7 +110,7 @@ const Dashboard = (prop) => {
 
       setTimeout(function () {
         addHome();
-      }, 2000);
+      }, 3000);
     }
   };
 
@@ -124,15 +124,17 @@ const Dashboard = (prop) => {
           // The deferred prompt isn't available.
           return;
         }
+        try {
+          promptEvent.prompt();
+          // Log the result
+          const result = await promptEvent.userChoice;
+          console.log("👍", "userChoice", result);
+          localStorage.removeItem("notificationAllow");
+          // Reset the deferred prompt variable, since
+          // prompt() can only be called once.
+          //window.deferredPrompt = null;
+        } catch (error) {}
         // Show the install prompt.
-        promptEvent.prompt();
-        // Log the result
-        const result = await promptEvent.userChoice;
-        console.log("👍", "userChoice", result);
-        localStorage.removeItem("notificationAllow");
-        // Reset the deferred prompt variable, since
-        // prompt() can only be called once.
-        window.deferredPrompt = null;
       },
       { once: true }
     );

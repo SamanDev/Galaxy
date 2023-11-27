@@ -4,6 +4,8 @@ import { Tab, Menu, Label } from "semantic-ui-react";
 import Carts from "./request/CartList";
 import Tickets from "./support/List";
 import Reports from "./report/List";
+import Maven from "./report/Maven";
+import Gifts from "./report/Gifts";
 import Cashout from "./request/CashoutList";
 import Costs from "./request/Costs";
 import Credits from "./request/Credits";
@@ -80,6 +82,22 @@ function Admin(prop) {
         render: () => (
           <Tab.Pane>
             <Stats {...prop} />
+          </Tab.Pane>
+        ),
+      },
+      {
+        menuItem: "Gifts",
+        render: () => (
+          <Tab.Pane>
+            <Gifts {...prop} />
+          </Tab.Pane>
+        ),
+      },
+      {
+        menuItem: "Maven",
+        render: () => (
+          <Tab.Pane>
+            <Maven {...prop} />
           </Tab.Pane>
         ),
       },

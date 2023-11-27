@@ -37,8 +37,8 @@ function Admin(prop) {
     var key =
       "AAAANfV_1y4:APA91bFHck-BWMnLILoZAEdxkgMcrMt8ejdEPds67021cn24H2t1aXuP9_FiKlY970_MbHeDCAqNWv58oFiRBa3nBkFB_SIGfmEjqjMjOOTG6k3dYyd-syETfSFBZtigxCZS4t1HrLww";
     var to =
-      "df3i1wAfQsihK3FVdkmkvt:APA91bFkGes9UfhfX84xB2UDRCjqGYxumZ7GcqEk5_4_sghgC90LKSpnM3gVa1Qbd6mwgZmc0HKOEm5b1TZBh3-lHzBiwK08uxck3aomsrYuyJeQ5Z4O4nQa9ngyvlDa-OlPxy98X-Zm";
-    var notification = {
+      "ev1yB74FUpuepGoGPDvTvY:APA91bG1iseLX2vMw-KuVOs18coCvF7qfiFmQY14U1yOdpJK6vgTf14qs_Z0Fo9Qin04cxRqz3HhQvwMxHOxgj2gJxYouOc0f3-x2x7TnUx0F1_hgQXg1dkieeMFdeAon0WtbEh_wr-1";
+    var notification2 = {
       title: title,
       body: notMessage,
       icon: image,
@@ -53,7 +53,7 @@ function Admin(prop) {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        notification: notification,
+        notification: notification2,
         to: to,
       }),
     })
@@ -64,7 +64,7 @@ function Admin(prop) {
       .catch(function (error) {
         console.error(error);
       });
-    /* notification(cashUser, title, notMessage, image).then((response) => {
+    notification(cashUser, title, notMessage, image).then((response) => {
       if (response) {
         Swal.fire({
           title: "Success",
@@ -74,8 +74,9 @@ function Admin(prop) {
           confirmButtonText: `Ok`,
         }).then(() => {
           setCashLoad(false);
-        }); } 
-    });*/
+        });
+      }
+    });
   };
   const titleList =
     "لیگ روزانه,تورنومنت ۲۵+۲۵,گلکسی پَس,میز VIP,هدایای گلکسی".split(",");

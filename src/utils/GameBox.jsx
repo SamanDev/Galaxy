@@ -4,7 +4,7 @@ import AnimIcon from "./inviteIcon";
 const SegmentExampleInverted = (prop) => {
   var icon = "sroxggda";
   var classn = "text-secondary-emphasis2 opacity-75 farsi";
-  var bbackground = "rgba(0,0,0,.5)";
+  var bbackground = "rgba(0,0,0,.8)";
   var name = prop.game;
   if (prop.game == "more") {
     name = "بازی ها";
