@@ -42,7 +42,7 @@ const gettotal = (data, mode, target) => {
   if (target == "total") return _totalReward;
   if (target == "count") return _data.length;
 };
-const printreward = (data, mode) => {
+const printreward = (data, mode, prop) => {
   var _data = data
     .filter((d) => d.mode.toLowerCase() === mode)
     .sort((a, b) => (a.date < b.date ? 1 : -1));
@@ -63,7 +63,7 @@ const printreward = (data, mode) => {
         return (
           <LazyLoad height={91} key={i}>
             <div className={"rewardname animated fadeIn"} mode={x.mode} key={i}>
-              <Reward item={x} color={true} />
+              <Reward item={x} {...prop} color={true} />
             </div>
           </LazyLoad>
         );
@@ -158,7 +158,11 @@ const Balance = (prop) => {
           className="fadeoutend"
           style={{ overflow: "hidden", height: 200 }}
         >
-          {printreward(loginToken.userGifts, mode.replace("gifts", "gift"))}
+          {printreward(
+            loginToken.userGifts,
+            mode.replace("gifts", "gift"),
+            prop
+          )}
         </Accordion.Content>
       </>
     );
