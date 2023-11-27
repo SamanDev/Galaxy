@@ -1081,8 +1081,10 @@ function App(prop) {
     eventBus.on("eventsConnect", () => {
       setDcOpen(false);
     });
-    document.querySelector("video").defaultPlaybackRate = 1.0;
-    document.querySelector("video").play();
+    try {
+      document.querySelector("video").defaultPlaybackRate = 1.0;
+      document.querySelector("video").play();
+    } catch (error) {}
 
     /* now play three times as fast just for the heck of it */
     //document.querySelector("video").playbackRate = 0.6;

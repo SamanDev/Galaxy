@@ -14,6 +14,14 @@ const Content = (prop) => {
           path="*"
           element={
             <Suspense fallback={<MenuLoader />}>
+              <div className="fullscreen-bg">
+                <video loop muted autoPlay className="fullscreen-bg__video">
+                  <source
+                    src={"/assets/images/bg" + dayOfWeekDigit + ".mp4"}
+                    type="video/mp4"
+                  />
+                </video>
+              </div>
               <Dashboard {...prop} />
             </Suspense>
           }
@@ -71,14 +79,6 @@ const Content = (prop) => {
           />
         </Route>
       </Routes>
-      <div className="fullscreen-bg">
-        <video loop muted autoPlay className="fullscreen-bg__video">
-          <source
-            src={"/assets/images/bg" + dayOfWeekDigit + ".mp4"}
-            type="video/mp4"
-          />
-        </video>
-      </div>
     </section>
   );
 };

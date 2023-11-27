@@ -200,7 +200,7 @@ const depositArea = (prop) => {
                 disabled={formik.isSubmitting}
                 loading={formik.isSubmitting}
               />
-              {!prop.departman && <Social />}
+              {!prop.departman && <Social {...prop} />}
             </Form>
           );
         }}

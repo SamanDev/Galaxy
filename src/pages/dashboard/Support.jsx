@@ -118,7 +118,7 @@ const Balance = (prop) => {
       </span>
     );
   } else {
-    return <AccessMsg />;
+    return <AccessMsg {...prop} />;
   }
 };
 
