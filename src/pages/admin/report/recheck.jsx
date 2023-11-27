@@ -18,7 +18,7 @@ const depositArea = (prop) => {
         false
       );
       if (res.status === 200) {
-        if (res.data.accessToken) {
+        if (res.data.id == prop.id) {
           setUser(true);
         } else {
           setUser("Canceled");
