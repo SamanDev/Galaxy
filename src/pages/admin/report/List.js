@@ -17,6 +17,7 @@ import { convertDateToJalali } from "../../../utils/convertDate";
 import DateReng from "../utils/dateReng";
 import FilterMode from "./Filter";
 import FilterModeGateway from "./FilterGateway";
+import CshList from "./recheck";
 const moment = require("moment");
 const conditionalRowStyles = [
   // You can also pass a callback to style for additional customization
@@ -455,7 +456,12 @@ function Admin(prop) {
       name: "Gateway",
       selector: (row) => (row.gateway ? row.gateway : ""),
       format: (row) => (
-        <span onClick={() => setDataSearch(row.gateway)}>{row.gateway}</span>
+        <>
+          <span onClick={() => setDataSearch(row.gateway)}>{row.gateway}</span>
+          {row.status === "Canceled" && row.gateway == "NewCard" && (
+            <CshList id={row.id} />
+          )}
+        </>
       ),
       sortable: true,
     },
