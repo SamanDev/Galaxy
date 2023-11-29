@@ -13,7 +13,7 @@ import { Alert } from "../../../utils/alerts";
 import { adminPutService } from "../../../services/admin";
 import { isJson, haveAdmin, haveModerator } from "../../../const";
 import AddCashier from "../AddCashier";
-const getGateways = JSON.parse(localStorage.getItem("getGateways"));
+
 function getPathOfKey(object, keys, getwaysList) {
   var newO = JSON.parse(JSON.stringify(object));
   var newOb = {};
@@ -81,7 +81,7 @@ function getPathOfKey(object, keys, getwaysList) {
   getwaysList?.map(function (ways) {
     var blnIs = false;
     for (const y in finalObj2) {
-      if (finalObj2[y].name == ways.name) {
+      if (finalObj2[y].name == ways.name || !ways.active) {
         blnIs = true;
       }
     }
@@ -128,7 +128,7 @@ function getPathOfKey2(object, keys, getwaysList) {
   getwaysList?.map(function (ways) {
     var blnIs = false;
     for (const y in finalObj2) {
-      if (finalObj2[y].name == ways.name) {
+      if (finalObj2[y].name == ways.name || !ways.active) {
         blnIs = true;
       }
     }
@@ -148,6 +148,7 @@ function getPathOfKey2(object, keys, getwaysList) {
 }
 
 function Admin(prop) {
+  const getGateways = JSON.parse(localStorage.getItem("getGateways"));
   const [activeIndex, setActiveIndex] = useState(0);
   const [cashierOpen, setCashierOpen] = React.useState(false);
   const loginToken = prop.loginToken;
