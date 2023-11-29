@@ -10,6 +10,7 @@ options.push({ key: 5, text: "Bonus", value: "bonus" });
 options.push({ key: 6, text: "Poker", value: "poker" });
 options.push({ key: 7, text: "Casino", value: "casino" });
 options.push({ key: 8, text: "TotalIncome", value: "totalincome" });
+options.push({ key: 8, text: "RunnerCommission", value: "RunnerCommission" });
 
 const DropdownExampleMultipleSelection = (prop) => {
   return (

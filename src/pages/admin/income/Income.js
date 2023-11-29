@@ -8,6 +8,7 @@ import {
   Icon,
   Modal,
   Grid,
+  Header,
 } from "semantic-ui-react";
 import { useParams } from "react-router-dom";
 import { addDays } from "date-fns";
@@ -68,8 +69,8 @@ function listgames(list) {
     <small key={i} className="dplock">
       {link.gameName}:
       <span className="float-end">
-        {link.currency == "Dollar" && <>$</>}
         {doCurrency(link.amount)}
+        {link.currency == "Dollar" && <>$</>}
       </span>
     </small>
   ));
@@ -77,19 +78,70 @@ function listgames(list) {
 
 function listadmin(list) {
   var newlist = [];
+  const result = list
 
-  return list
+    .filter(
+      (item, pos, self) =>
+        self.findIndex((v) => v.pokerPercent === item.pokerPercent) === pos
+    )
+    .sort((a, b) =>
+      a.pokerPercent < b.pokerPercent ? 1 : a.user < b.user ? -1 : 1
+    );
+
+  return result
     .sort((a, b) => (a.pokerPercent < b.pokerPercent ? 1 : -1))
     .map((link, i) => (
-      <Grid.Column key={i}>
-        <Segment inverted color="black" size="tiny" attached="top">
+      <Segment
+        key={i}
+        color="red"
+        size="tiny"
+        attached="top"
+        style={{ margin: 0 }}
+      >
+        <Header>
           {link.user}
-        </Segment>
-        <Segment raised attached>
+          <br />
+          {doCurrency(link.total)}
+          <span className="float-end">{doCurrency(link.total2)}$</span>
+        </Header>
+        <Segment attached style={{ margin: "0px !important" }}>
           {listadminchild(link)}
         </Segment>
-      </Grid.Column>
+      </Segment>
     ));
+}
+function listpercent(list, amount, amount2) {
+  var newlist = [];
+  const result = list
+
+    .filter(
+      (item, pos, self) =>
+        self.findIndex((v) => v.pokerPercent === item.pokerPercent) === pos
+    )
+    .sort((a, b) => (a.pokerPercent < b.pokerPercent ? 1 : -1));
+  return result.map((link, i) => (
+    <small key={i} className="dplock">
+      <span className="float-start">{link.user}:</span>
+      <div className="text-end">
+        {amount != 0 && (
+          <>{doCurrency(parseInt((link.pokerPercent * amount) / 100))}</>
+        )}
+        {amount2 != 0 && (
+          <>
+            {amount != 0 && (
+              <>
+                <br />
+              </>
+            )}
+            {doCurrency(
+              parseFloat((link.casinoPercent * amount2) / 100).toFixed(2)
+            )}
+            $
+          </>
+        )}
+      </div>
+    </small>
+  ));
 }
 function listadminchild(list) {
   var newlist = [];
@@ -98,9 +150,21 @@ function listadminchild(list) {
       key != "id" &&
       key != "date" &&
       key != "user" &&
+      value != 0 &&
       key.indexOf("Percent") == -1
     ) {
-      newlist.push({ name: key, value: value });
+      if (
+        key.indexOf("total") == -1 &&
+        key.indexOf("casinoToman") == -1 &&
+        key.indexOf("casinoAmount") == -1 &&
+        key.indexOf("casinoGamesSet") == -1
+      ) {
+        if (key.indexOf("rewards") > -1) {
+          newlist.push({ name: key, value: value * -1 });
+        } else {
+          newlist.push({ name: key, value: value });
+        }
+      }
     }
   }
   return newlist
@@ -109,8 +173,8 @@ function listadminchild(list) {
       <small key={i} className="dplock">
         {link.name}:
         <span className="float-end">
-          {link.name.indexOf("2") > -1 && <>$</>}
           {doCurrency(link.value)}
+          {link.name.indexOf("2") > -1 && <>$</>}
         </span>
       </small>
     ));
@@ -119,7 +183,11 @@ function listpoker(list) {
   var newlist = [];
   for (const [key, value] of Object.entries(list)) {
     if (key.indexOf("poker") > -1 || key.indexOf("tourney") > -1) {
-      if (key.indexOf("Total") == -1 && key.indexOf("Cost") == -1) {
+      if (
+        key.indexOf("Total") == -1 &&
+        key.indexOf("Cost") == -1 &&
+        value != 0
+      ) {
         newlist.push({ name: key, value: value });
       }
     }
@@ -130,8 +198,8 @@ function listpoker(list) {
       <small key={i} className="dplock">
         {link.name}:
         <span className="float-end">
-          {link.name.indexOf("2") > -1 && <>$</>}
           {doCurrency(link.value)}
+          {link.name.indexOf("2") > -1 && <>$</>}
         </span>
       </small>
     ));
@@ -147,6 +215,11 @@ function listfinal(list) {
     ) {
       if (
         key.indexOf("finalTotal") == -1 &&
+        key.indexOf("casinoCost") == -1 &&
+        key.indexOf("casinoToman") == -1 &&
+        key.indexOf("totalRewards") == -1 &&
+        key.indexOf("pokerTotalFinal") == -1 &&
+        key.indexOf("pokerCost") == -1 &&
         key.indexOf("casinoGamesSet") == -1
       ) {
         newlist.push({ name: key, value: value });
@@ -159,9 +232,9 @@ function listfinal(list) {
       <small key={i} className="dplock">
         {link.name}:
         <span className="float-end">
+          {doCurrency(link.value)}
           {(link.name.indexOf("2") > -1 || link.name.indexOf("Dollar")) >
             -1 && <>$</>}
-          {doCurrency(link.value)}
         </span>
       </small>
     ));
@@ -169,7 +242,7 @@ function listfinal(list) {
 function listreward(list) {
   var newlist = [];
   for (const [key, value] of Object.entries(list)) {
-    if (key != "id" && key != "date") {
+    if (key != "id" && key != "date" && value != 0) {
       newlist.push({ name: key, value: value });
     }
   }
@@ -179,8 +252,28 @@ function listreward(list) {
       <small key={i} className="dplock">
         {link.name}:
         <span className="float-end">
-          {link.name.indexOf("2") > -1 && <>$</>}
           {doCurrency(link.value)}
+          {link.name.indexOf("2") > -1 && <>$</>}
+        </span>
+      </small>
+    ));
+}
+function listcosts(list) {
+  var newlist = [];
+  for (const [key, value] of Object.entries(list)) {
+    if (key == "pokerCost" || key == "casinoCost") {
+      newlist.push({ name: key, value: value });
+    }
+  }
+  return newlist
+    .sort((a, b) => (a.value < b.value ? 1 : -1))
+    .map((link, i) => (
+      <small key={i} className="dplock">
+        {link.name}:
+        <span className="float-end">
+          {doCurrency(link.value)}
+          {(link.name.indexOf("2") > -1 || link.name.indexOf("casinoCost")) >
+            -1 && <>$</>}
         </span>
       </small>
     ));
@@ -190,7 +283,7 @@ function Admin(prop) {
   const loginToken = prop.loginToken;
   const [totalRows, setTotalRows] = useState(1000);
   const [perPage, setPerPage] = useState(100);
-  const [dataSortedID, setDataSortedID] = useState(1);
+  const [dataSortedID, setDataSortedID] = useState(0);
   const params = useParams();
   const [dataSearch, setDataSearch] = useState("");
   const [live, setLive] = useState(false);
@@ -207,89 +300,142 @@ function Admin(prop) {
 
   var columns = [
     {
-      name: "Date",
-      selector: (row) => row.date,
-      format: (row) => (
-        <div className="blacktext">{convertDateToJalali(row.date)}</div>
-      ),
-      sortable: true,
-    },
-
-    {
-      name: "pokerTotal",
+      name: "Income",
       selector: (row) => row.pokerTotal,
-      width: "240px",
-      format: (row) => (
-        <>
-          <Segment inverted color="green" size="tiny" attached="top">
-            {doCurrency(row.pokerTotal)}
-            <span className="float-end">${doCurrency(row.pokerTotal2)}</span>
-          </Segment>
-          <Segment raised inverted attached>
-            {listpoker(row)}
-          </Segment>
-        </>
-      ),
-    },
-    {
-      name: "casino",
-      selector: (row) => row.casinoToman,
-      width: "240px",
-      format: (row) => (
-        <>
-          <Segment inverted color="blue" size="tiny" attached="top">
-            {doCurrency(row.casinoToman)}
-            <span className="float-end">${doCurrency(row.casinoDollar)}</span>
-          </Segment>
-          <Segment raised inverted attached>
-            {listgames(row.casinoGamesSet)}
-          </Segment>
-        </>
-      ),
-    },
-    {
-      name: "totalRewards",
-      selector: (row) => row.totalRewards,
-      width: "240px",
-      format: (row) => (
-        <>
-          <Segment inverted color="red" size="tiny" attached="top">
-            {doCurrency(row.totalRewards)}
-            <span className="float-end">${doCurrency(row.totalRewards2)}</span>
-          </Segment>
-          <Segment raised inverted attached>
-            {listreward(row.rewards)}
-          </Segment>
-        </>
-      ),
-    },
-
-    {
-      name: "finalTotal",
-      selector: (row) => row.finalTotal,
-      width: "240px",
-      format: (row) => (
-        <>
-          <Segment inverted color="grey" size="tiny" attached="top">
-            {doCurrency(row.finalTotal)}
-            <span className="float-end">${doCurrency(row.finalTotal2)}</span>
-          </Segment>
-          <Segment raised inverted attached>
-            {listfinal(row)}
-          </Segment>
-        </>
-      ),
-    },
-
-    {
-      name: "Result",
-      selector: (row) => row.finalTotal,
       width: "100%",
       format: (row) => (
         <>
-          <Grid centered divided inverted columns={row.adminIncomeSet.length}>
+          <br />
+          <Segment
+            inverted
+            color="black"
+            size="large"
+            style={{ margin: "20px 0px 0px 0px", width: "calc(100vw - 102px)" }}
+          >
+            <Header>
+              <div className="blacktext">{row.date}</div>
+            </Header>
+          </Segment>
+          <Segment.Group
+            horizontal
+            attached="top"
+            style={{ margin: 0, width: "100%" }}
+          >
+            <Segment inverted color="green" size="tiny" attached="top">
+              <Header>
+                Poker
+                <br />
+                {doCurrency(row.pokerTotal)}
+                <span className="float-end">
+                  {doCurrency(row.pokerTotal2)}$
+                </span>
+              </Header>
+              <Segment raised inverted attached>
+                {listpoker(row)}
+                <br />
+                {listpercent(
+                  row.adminIncomeSet,
+                  row.pokerTotal,
+                  row.pokerTotal2
+                )}
+              </Segment>
+            </Segment>
+
+            <Segment inverted color="blue" size="tiny" attached="top">
+              <Header>
+                Casino
+                <br />
+                {doCurrency(row.casinoToman)}
+                <span className="float-end">
+                  {doCurrency(row.casinoDollar)}$
+                </span>
+              </Header>
+              <Segment raised inverted attached>
+                {listgames(row.casinoGamesSet)}
+                <br />
+                {listpercent(
+                  row.adminIncomeSet,
+                  row.casinoToman,
+                  row.casinoDollar
+                )}
+              </Segment>
+            </Segment>
+            <Segment inverted color="red" size="tiny" attached="top">
+              <Header>
+                Rewards
+                <br />
+                {doCurrency((row.totalRewards - row.pokerCost) * -1)}
+                <span className="float-end">
+                  {doCurrency(row.totalRewards2 ? row.totalRewards2 * -1 : 0)}$
+                </span>
+              </Header>
+              <Segment raised inverted attached>
+                {listreward(row.rewards)}
+
+                <small className="dplock fw-bold">
+                  Total:
+                  <span className="float-end">
+                    {doCurrency(row.totalRewards * -1)}
+                  </span>
+                </small>
+                <small className="dplock fw-bold">
+                  Total2:
+                  <span className="float-end">
+                    {doCurrency(row.totalRewards2 ? row.totalRewards2 * -1 : 0)}
+                    $
+                  </span>
+                </small>
+                <br />
+                {listcosts(row)}
+              </Segment>
+            </Segment>
+            <Segment inverted color="grey" size="tiny" attached="top">
+              <Header>
+                Total
+                <br />
+                {doCurrency(row.finalTotal)}
+                <span className="float-end">
+                  {doCurrency(row.finalTotal2)}$
+                </span>
+              </Header>
+              <Segment raised inverted attached>
+                {listfinal(row)}
+                <small className="dplock">
+                  Rewards:
+                  <span className="float-end">
+                    {doCurrency((row.totalRewards - row.pokerCost) * -1)}
+                  </span>
+                </small>
+                <small className="dplock">
+                  Rewards2:
+                  <span className="float-end">
+                    {doCurrency(row.totalRewards2 ? row.totalRewards2 * -1 : 0)}
+                    $
+                  </span>
+                </small>
+              </Segment>
+            </Segment>
+            <Segment inverted color="black" size="tiny" attached="top">
+              <Header>
+                Admins
+                <br />
+                {doCurrency(row.finalTotal)}
+                <span className="float-end">
+                  {doCurrency(row.finalTotal2)}$
+                </span>
+              </Header>
+              <Segment raised attached>
+                {listpercent(
+                  row.adminIncomeSet,
+                  row.finalTotal,
+                  row.finalTotal2
+                )}
+              </Segment>
+            </Segment>
+          </Segment.Group>
+          <Segment.Group horizontal style={{ margin: 0, display: "none" }}>
             {listadmin(row.adminIncomeSet)}
-          </Grid>
+          </Segment.Group>
         </>
       ),
     },
@@ -328,7 +474,7 @@ function Admin(prop) {
   const handlePageChange = (page) => {
     fetchUsers(page);
   };
-  var filteredItems = data;
+  var filteredItems = data.sort((a, b) => (a.date < b.date ? 1 : -1));
 
   useEffect(() => {
     // fetchUsers(1); // fetch page 1 of users
@@ -471,18 +617,12 @@ function Admin(prop) {
           onChangeRowsPerPage={handlePerRowsChange}
           onChangePage={handlePageChange}
           paginationPerPage={perPage}
-          expandOnRowClicked={true}
           defaultSortFieldId={dataSortedID}
           defaultSortAsc={false}
-          expandableRowsHideExpander={true}
           conditionalRowStyles={conditionalRowStyles}
           noDataComponent={noDataComponent}
           pagination
-          paginationResetDefaultPage={resetPaginationToggle} // optionally, a hook to reset pagination to page 1
-          persistTableHead
-          paginationServer
           progressComponent={<CustomLoader />}
-          paginationTotalRows={totalRows}
         />
       </div>
     </>

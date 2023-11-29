@@ -22,11 +22,7 @@ const depositArea = (prop) => {
   };
 
   useEffect(() => {
-    if (
-      prop.item &&
-      prop.item?.destinationCardNumber &&
-      prop.item?.remainedAmount == 0
-    ) {
+    if (prop.item && prop.item?.destinationCardNumber) {
       setUser(prop.item);
     } else {
       handleGetReports();
@@ -48,24 +44,35 @@ const depositArea = (prop) => {
           </span>
         </div>
         <div className="text-gold fs-3 p-3">
-          {(user.paidAmount * 100) / user.totalWithdrawalAmount}%
+          {parseFloat(
+            (user.paidAmount * 100) / user.totalWithdrawalAmount
+          ).toFixed(0)}
+          %
+          {(user.paidAmount * 100) / user.totalWithdrawalAmount < 100 && (
+            <Button onClick={handleGetReports}>Get</Button>
+          )}
         </div>
 
         {ste.length > 0 && <Divider />}
         {ste
           .sort((a, b) => (a.id > b.id ? 1 : -1))
           .map((f, i) => {
-            _tot = _tot + f.Amount;
+            var _a = f?.amount ? f.amount : f.Amount;
+            _tot = _tot + _a;
             return (
               <div key={i.toString()}>
                 <span className="text-gold  float-start">
-                  {doCurrency(f.Amount)}
+                  {doCurrency(f?.amount ? f.amount : f.Amount)}
                 </span>
                 <span className="rightfloat">
                   <div className="date">
-                    {moment(f.DateTime).format("YYYY/MM/DD")}{" "}
+                    {moment(f?.DateTime ? f.DateTime : f.dateTime).format(
+                      "YYYY/MM/DD"
+                    )}{" "}
                     <span className="time">
-                      {moment(f.DateTime).format("HH:mm")}
+                      {moment(f?.DateTime ? f.DateTime : f.dateTime).format(
+                        "HH:mm"
+                      )}
                     </span>
                   </div>
                 </span>
@@ -74,7 +81,14 @@ const depositArea = (prop) => {
                   مجموع: <span className="text-gold">{doCurrency(_tot)}</span>
                 </div>
 
-                <ConvertCart cartNo={f.SourceCardNumber} isLock={true} />
+                <ConvertCart
+                  cartNo={
+                    f?.sourceCardNumber
+                      ? f?.sourceCardNumber
+                      : f.SourceCardNumber
+                  }
+                  isLock={true}
+                />
                 {ste.length > i + 1 && <Divider />}
               </div>
             );

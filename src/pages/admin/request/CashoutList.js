@@ -95,7 +95,19 @@ function Admin(prop) {
   const [filterText, setFilterText] = React.useState("");
   const [filterOk, setFilterOk] = React.useState(false);
   var filteredItems = data.filter((item) => item.gateway != "Cancele Cashout");
-  if (dataMode != "All") {
+  if (dataMode == "Pending") {
+    filteredItems = data.filter((item) => {
+      return (
+        dataMode == item.status ||
+        item.cashoutDescription.remainedAmount > 90000 ||
+        (item.cashoutDescription.checkoutListSet.length == 0 &&
+          item.gateway == "IranShetab" &&
+          item.status != "Canceled" &&
+          item.description.indexOf("V-G-C") == -1)
+      );
+    });
+  }
+  if (dataMode != "All" && dataMode != "Pending") {
     filteredItems = data.filter((item) => {
       return dataMode == item.status;
     });

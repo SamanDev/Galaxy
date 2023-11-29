@@ -16,7 +16,7 @@ body {
 }
 .dplock {
   display: block;
-  min-width: 170px;
+  min-width: 190px;
   width: 100%;
 }
 .w-50 {
@@ -70,7 +70,7 @@ video::-webkit-media-controls-panel {
   margin: 0 !important;
 }
 .ttotal .segment:not(.raised) {
-  margin-top: 10px !important;
+  margin-top: 0px !important;
   min-width: 100%;
 }
 .ttotal .segment.raised {

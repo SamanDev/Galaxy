@@ -83,6 +83,11 @@ const noDataComponent = (
 );
 var _timer = 10000;
 function Admin(prop) {
+  if (prop?.user?.username) {
+    var defmde = ["cashout", "deposit", "transfer", "bonus", "poker", "casino"];
+  } else {
+    var defmde = ["credit"];
+  }
   const [data, setData] = useState([]);
 
   const [totalRows, setTotalRows] = useState(0);
@@ -90,14 +95,14 @@ function Admin(prop) {
   const [dataSortedID, setDataSortedID] = useState(6);
 
   const loginToken = prop.loginToken;
-
+  const [footerTxt, setFooterTxt] = useState("");
   const [loading, setLoading] = useState(false);
   const [defmode, setDefmode] = useState("add");
   const [defuser, setDefuser] = useState("");
   const [defamount, setAmount] = useState(0);
   const [defamount2, setAmount2] = useState(0);
   const [defusd, setDefusd] = useState(false);
-
+  const [dataMode, setDataMode] = useState(defmde);
   const [filterOk, setFilterOk] = React.useState(false);
   var filteredItems = data;
 
@@ -105,7 +110,14 @@ function Admin(prop) {
     React.useState(false);
   const [cashierOpen, setCashierOpen] = React.useState(false);
   // data provides access to your row data
-
+  useEffect(() => {
+    var ftxt = "";
+    if (filteredItems.length) {
+      var link = dataMode;
+      ftxt = getDesc(link, ftxt);
+    }
+    setFooterTxt(ftxt);
+  }, [filteredItems, data]);
   const fetchUsers = async (page, load) => {
     setLoading(true);
 
@@ -216,6 +228,36 @@ function Admin(prop) {
       width: "200px",
     },
   ];
+  const gettotal = (data, status, target) => {
+    if (!data) return 0;
+    var _data = data;
+    var _totalReward = 0;
+    {
+      _data.map((x, i) => {
+        var _am = x.amount;
+
+        _totalReward = _totalReward + _am;
+      });
+    }
+    if (target == "total") return _totalReward;
+    if (target == "count") return _data.length;
+  };
+  const getDesc = (link, ftxt) => {
+    ftxt = ftxt + "@" + link + "@";
+
+    if (doCurrency(gettotal(filteredItems, "Done", "count")) > 0) {
+      ftxt =
+        ftxt +
+        "Done (" +
+        doCurrency(gettotal(filteredItems, "Done", "count")) +
+        "): " +
+        doCurrency(gettotal(filteredItems, "Done", "total")) +
+        "  َ  َ  َ |  َ  َ  َ  ";
+    }
+
+    ftxt = ftxt + "@";
+    return ftxt;
+  };
   const subHeaderComponentMemo = React.useMemo(() => {
     return (
       <>
@@ -305,6 +347,16 @@ function Admin(prop) {
           paginationRowsPerPageOptions={[10, 25, 50, 100, 500, 1000, 5000]}
           paginationTotalRows={totalRows}
         />
+        <Segment inverted>
+          {footerTxt.split("@").map((item, key) => {
+            return (
+              <div key={key}>
+                {item}
+                <br />
+              </div>
+            );
+          })}
+        </Segment>
       </div>
     </>
   );

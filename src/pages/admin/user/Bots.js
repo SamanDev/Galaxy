@@ -262,11 +262,24 @@ function Admin(prop) {
             onClick={() => prop.addTabData(row.username)}
           >
             {row.username}
+          </span>{" "}
+          -{" "}
+          <span
+            className="msglink fw-bold"
+            onClick={() => prop.addTabData(row.username)}
+          >
+            {row.refer}
           </span>
         </>
       ),
       sortable: true,
       width: "180px",
+    },
+    {
+      name: "Email",
+      selector: (row) => row.email,
+      format: (row) => <>{row.email}</>,
+      sortable: true,
     },
     {
       name: "Balance",

@@ -67,6 +67,9 @@ const getChartColor = (name) => {
     case "Bonus":
       text = "rgba(255, 170, 0, 1)";
       break;
+    case "TotalIncome":
+      text = "rgba(25, 170, 190, 1)";
+      break;
 
     default:
       text = "green";
@@ -80,6 +83,9 @@ const getChartColor = (name) => {
   }
   if (name.indexOf("Deposit ") > -1) {
     text = "rgba(0,255,0,0.3)";
+  }
+  if (name.indexOf("TotalIncome ") > -1) {
+    text = "rgba(25, 170, 190,0.3)";
   }
   if (name.indexOf("Cashout ") > -1) {
     text = "rgba(255,0,0,0.3)";
@@ -112,7 +118,12 @@ function Admin(prop) {
   const [filterOk, setFilterOk] = React.useState(false);
   const filteredItems = data
     .sort((a, b) => (a.id < b.id ? 1 : -1))
-    .filter((item) => item.status != "Canceled");
+    .filter(
+      (item) =>
+        item.status != "Canceled" &&
+        item.gateway != "AdminSystem" &&
+        item.gateway
+    );
   const [firstOpen, setFirstOpen] = React.useState(false);
   const [resetPaginationToggle, setResetPaginationToggle] =
     React.useState(false);
