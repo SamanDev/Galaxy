@@ -171,19 +171,21 @@ const LevelList = (prop) => {
             </List.Content>
           </List.Item>
         </List>
-        {loginToken?.accessToken && !loginToken?.logout && (
-          <LazyLoad height={300}>
-            <ul className="mm-listview">
-              <li className="menutitle mm-listitem"></li>
-              <li className="menutitle mm-listitem">
-                <span className="mm-listitem__text"> جوایز من</span>
-              </li>
-            </ul>
-            <div style={{ padding: "0 15px" }}>
-              <BonusArea {...prop} />
-            </div>
-          </LazyLoad>
-        )}
+        {loginToken?.accessToken &&
+          !loginToken?.logout &&
+          loginToken?.refer != "runner" && (
+            <LazyLoad height={300}>
+              <ul className="mm-listview">
+                <li className="menutitle mm-listitem"></li>
+                <li className="menutitle mm-listitem">
+                  <span className="mm-listitem__text"> جوایز من</span>
+                </li>
+              </ul>
+              <div style={{ padding: "0 15px" }}>
+                <BonusArea {...prop} />
+              </div>
+            </LazyLoad>
+          )}
 
         <LazyLoad height={300}>
           <LastRewardList mode="gift" {...prop} />

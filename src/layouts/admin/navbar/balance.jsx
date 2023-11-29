@@ -324,121 +324,126 @@ const Balance = (prop) => {
                 </Reveal.Content>
               </Reveal>
             </Label>
-            <div
-              className="step0-3"
-              style={{
-                display: "inline-block",
-                position: "relative",
-                zIndex: 10,
-              }}
-            >
-              <Popup
-                on="click"
-                className="myaccount"
-                inverted
-                position="bottom center"
-                offset={[-50, 0]}
-                basic
-                pinned
-                trigger={
-                  <Icon
-                    circular
-                    size="small"
-                    inverted
-                    name="plus"
-                    color="green"
-                    link
-                    id="opendepicon"
-                    className="cashierarea"
-                  />
-                }
-              >
-                <DepositArea
-                  mode="deposit"
-                  size="mini"
-                  labelcolor="orange"
-                  {...prop}
-                />
-              </Popup>{" "}
-              <Popup
-                on="click"
-                className="myaccount"
-                inverted
-                position="bottom center"
-                offset={[-78, 0]}
-                basic
-                pinned
-                trigger={
-                  <Icon
-                    circular
-                    size="small"
-                    inverted
-                    color="red"
-                    name="minus"
-                    className="cashierarea"
-                    link
-                  />
-                }
-              >
-                <DepositArea
-                  mode="cashout"
-                  size="mini"
-                  labelcolor="orange"
-                  {...prop}
-                />
-              </Popup>
-            </div>{" "}
-            <Popup
-              on="click"
-              className="myaccount"
-              inverted
-              position="bottom center"
-              offset={[-106, 0]}
-              basic
-              pinned
-              onClose={() => {
-                $("#opengifts").removeClass("open");
-              }}
-              onOpen={() => {
-                $("#opengifts").addClass("open");
-              }}
-              defaultOpen={gCount > 0 ? true : false}
-              disabled={gCount == 0 ? true : false}
-              trigger={
-                <Icon
-                  circular
-                  id="opengifts"
-                  color={color}
-                  inverted={color == "grey" ? false : true}
-                  name="gift"
-                  size="small"
-                  className={
-                    gCount == 0
-                      ? "cashierarea animated step0-4"
-                      : "cashierarea animated heartBeat slow step0-4"
-                  }
-                  link
-                  onClick={() => {
-                    if (gCount == 0) {
-                      prop.openPanel(".giftarea");
-                    }
+            {loginToken?.refer != "runner" && (
+              <>
+                <div
+                  className="step0-3"
+                  style={{
+                    display: "inline-block",
+                    position: "relative",
+                    zIndex: 10,
                   }}
                 >
-                  <Label
-                    color="red"
-                    floating
-                    size="mini"
-                    className="farsi-inline"
-                    hidden={gCount == 0 ? true : false}
-                    style={{ top: 5, left: "95%" }}
+                  <Popup
+                    on="click"
+                    className="myaccount"
+                    inverted
+                    position="bottom center"
+                    offset={[-50, 0]}
+                    basic
+                    pinned
+                    trigger={
+                      <Icon
+                        circular
+                        size="small"
+                        inverted
+                        name="plus"
+                        color="green"
+                        link
+                        id="opendepicon"
+                        className="cashierarea"
+                      />
+                    }
                   >
-                    {gCount}
-                  </Label>
-                </Icon>
-              }
-            >
-              <BonusArea {...prop} ChangeGift={ChangeGift} />
-            </Popup>
+                    <DepositArea
+                      mode="deposit"
+                      size="mini"
+                      labelcolor="orange"
+                      {...prop}
+                    />
+                  </Popup>{" "}
+                  <Popup
+                    on="click"
+                    className="myaccount"
+                    inverted
+                    position="bottom center"
+                    offset={[-78, 0]}
+                    basic
+                    pinned
+                    trigger={
+                      <Icon
+                        circular
+                        size="small"
+                        inverted
+                        color="red"
+                        name="minus"
+                        className="cashierarea"
+                        link
+                      />
+                    }
+                  >
+                    <DepositArea
+                      mode="cashout"
+                      size="mini"
+                      labelcolor="orange"
+                      {...prop}
+                    />
+                  </Popup>
+                </div>{" "}
+                <Popup
+                  on="click"
+                  className="myaccount"
+                  inverted
+                  position="bottom center"
+                  offset={[-106, 0]}
+                  basic
+                  pinned
+                  onClose={() => {
+                    $("#opengifts").removeClass("open");
+                  }}
+                  onOpen={() => {
+                    $("#opengifts").addClass("open");
+                  }}
+                  defaultOpen={gCount > 0 ? true : false}
+                  disabled={gCount == 0 ? true : false}
+                  trigger={
+                    <Icon
+                      circular
+                      id="opengifts"
+                      color={color}
+                      inverted={color == "grey" ? false : true}
+                      name="gift"
+                      size="small"
+                      className={
+                        gCount == 0
+                          ? "cashierarea animated step0-4"
+                          : "cashierarea animated heartBeat slow step0-4"
+                      }
+                      link
+                      onClick={() => {
+                        if (gCount == 0) {
+                          prop.openPanel(".giftarea");
+                        }
+                      }}
+                    >
+                      <Label
+                        color="red"
+                        floating
+                        size="mini"
+                        className="farsi-inline"
+                        hidden={gCount == 0 ? true : false}
+                        style={{ top: 5, left: "95%" }}
+                      >
+                        {gCount}
+                      </Label>
+                    </Icon>
+                  }
+                >
+                  <BonusArea {...prop} ChangeGift={ChangeGift} />
+                </Popup>
+              </>
+            )}
+
             <Popup
               trigger={
                 <Progress
