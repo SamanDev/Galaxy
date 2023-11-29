@@ -52,7 +52,7 @@ const depositArea = (prop) => {
             (user.paidAmount * 100) / user.totalWithdrawalAmount
           ).toFixed(0)}
           %
-          {(user.paidAmount * 100) / user.totalWithdrawalAmount < 100 && (
+          {(user.paidAmount * 100) / user.totalWithdrawalAmount <= 100 && (
             <Button onClick={handleGetReports}>Get</Button>
           )}
         </div>

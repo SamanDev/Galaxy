@@ -122,7 +122,7 @@ function Admin(prop) {
       (item) =>
         item.status != "Canceled" &&
         item.gateway != "AdminSystem" &&
-        item.gateway
+        (item.gateway || item.mode == "TotalIncome")
     );
   const [firstOpen, setFirstOpen] = React.useState(false);
   const [resetPaginationToggle, setResetPaginationToggle] =

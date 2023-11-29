@@ -99,7 +99,7 @@ function Admin(prop) {
     filteredItems = data.filter((item) => {
       return (
         dataMode == item.status ||
-        item.cashoutDescription.remainedAmount > 90000 ||
+        item.cashoutDescription.remainedAmount >= 100000 ||
         (item.cashoutDescription.checkoutListSet.length == 0 &&
           item.gateway == "IranShetab" &&
           item.status != "Canceled" &&
