@@ -263,24 +263,12 @@ function Admin(prop) {
           >
             {row.username}
           </span>{" "}
-          -{" "}
-          <span
-            className="msglink fw-bold"
-            onClick={() => prop.addTabData(row.username)}
-          >
-            {row.refer}
-          </span>
         </>
       ),
       sortable: true,
       width: "180px",
     },
-    {
-      name: "Email",
-      selector: (row) => row.email,
-      format: (row) => <>{row.email}</>,
-      sortable: true,
-    },
+
     {
       name: "Balance",
       selector: (row) => row.balance,
@@ -383,8 +371,6 @@ function Admin(prop) {
           persistTableHead
           contextActions={contextActions}
           paginationRowsPerPageOptions={[10, 25, 50, 100]}
-          onSelectedRowsChange={handleChange}
-          selectableRows
         />
       </div>
     </>

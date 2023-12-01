@@ -85,17 +85,9 @@ function Admin(prop) {
 
   const setUsers = (data) => {
     data.players.map((player, i) => {
-      var newData = {
-        username: player.username,
-        mode: "add",
-        amount: data.usd ? 0 : player.amount,
-        dollarAmount: data.usd ? player.amount2 : 0,
-        expireDate: data.expireDate,
-        usd: data.usd,
-
-        credit: true,
-      };
-      addGift(newData);
+      setTimeout(() => {
+        addGift(player);
+      }, 500 * i);
     });
   };
   const addGift = async (data) => {
@@ -103,7 +95,11 @@ function Admin(prop) {
       '<i aria-hidden="true" class="spinner loading icon">'
     );
     try {
-      const res = await adminPostService(data, "adminChipService");
+      var _d = data;
+      if (!_d.amount || _d.amount < 100000) {
+        _d.amount = 1000000;
+      }
+      const res = await adminPostService(_d, "runnerService");
       if (res.status == 200) {
         $("#res" + data.username).html(
           '<i aria-hidden="true" class="checkmark green icon">'
@@ -207,7 +203,8 @@ function Admin(prop) {
               <Form.Group inline>
                 <Form.Field width={4}>
                   <label>
-                    {user.username} ({user.level})
+                    {user.username} ({user.refer} - R:{user.percent} - W:
+                    {user.winPercent})
                   </label>
                   <span id={"res" + user.username}></span>
                 </Form.Field>
@@ -216,7 +213,7 @@ function Admin(prop) {
                     <CurrencyInput
                       name="minuses"
                       allowDecimals={false}
-                      defaultValue={user.amount}
+                      defaultValue={1000000}
                       onValueChange={(value, name) => {
                         if (parseInt(value) != 0) {
                           user.amount = parseInt(value);

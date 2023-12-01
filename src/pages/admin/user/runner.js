@@ -180,10 +180,7 @@ function Admin(prop) {
     var newSelect = [];
     {
       selectedRows.map((user, i) => {
-        var newUser = {};
-        newUser.username = user.username;
-        newUser.level = user.level;
-        newUser.amount = 1000000;
+        var newUser = user;
 
         newSelect.push(newUser);
       });
@@ -299,6 +296,9 @@ function Admin(prop) {
               <h1>{prop.searchValue}</h1>
             </Grid.Column>
             <Grid.Column>
+              <Button color="red" onClick={() => fetchUsers(1)}>
+                Reload
+              </Button>
               <Button
                 color="blue"
                 className="float-end"
@@ -340,7 +340,10 @@ function Admin(prop) {
   return (
     <>
       <Modal
-        onClose={() => setFirstOpen(false)}
+        onClose={() => {
+          setFirstOpen(false);
+          fetchUsers(1);
+        }}
         onOpen={() => setFirstOpen(true)}
         open={firstOpen}
         size="large"
@@ -349,7 +352,10 @@ function Admin(prop) {
         <AddCredit selectedList={selectedList} />
       </Modal>
       <Modal
-        onClose={() => setCashierOpen(false)}
+        onClose={() => {
+          setCashierOpen(false);
+          fetchUsers(1);
+        }}
         onOpen={() => setCashierOpen(true)}
         open={cashierOpen}
         size="large"

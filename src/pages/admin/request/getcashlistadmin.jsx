@@ -91,7 +91,6 @@ const depositArea = (prop) => {
                       ? f?.sourceCardNumber
                       : f.SourceCardNumber
                   }
-                  isLock={true}
                 />
                 {ste.length > i + 1 && <Divider />}
               </div>
