@@ -49,7 +49,7 @@ body {
   -ms-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
   filter: grayscale(80%);
-  opacity: 0.5;
+  opacity: 0.6;
 }
 .bankroll .statistic > .value {
   width: 200px;

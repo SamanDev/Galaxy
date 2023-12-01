@@ -15,7 +15,14 @@ const Content = (prop) => {
           element={
             <Suspense fallback={<MenuLoader />}>
               <div className="fullscreen-bg">
-                <video loop muted autoPlay className="fullscreen-bg__video">
+                <video
+                  loop
+                  muted
+                  autoPlay
+                  className="fullscreen-bg__video"
+                  disablePictureInPicture={true}
+                  playsInline
+                >
                   <source
                     src={"/assets/images/bg" + dayOfWeekDigit + ".mp4"}
                     type="video/mp4"
