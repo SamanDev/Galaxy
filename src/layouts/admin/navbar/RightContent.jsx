@@ -58,7 +58,7 @@ const Rightcontent = (prop) => {
           position: "absolute",
           top: 20,
           color: "white",
-          zindex: 1000000,
+          zIndex: 1000000,
         }}
         className="d-none d-md-block"
       >
@@ -67,7 +67,6 @@ const Rightcontent = (prop) => {
           basic
           pointing="top right"
           options={_key}
-          defaultValue={_key[0].value}
           onChange={handleChange}
         />
       </div>
@@ -78,9 +77,9 @@ const Rightcontent = (prop) => {
     var _old = prop.loginToken;
     _old.logout = true;
     eventBus.dispatch("updateUser", _old);
-    //localStorage.setItem("galaxyUserkeyToken", value);
+    localStorage.setItem("galaxyUserkeyToken", value);
     //handleCheckLogin(value);
-    //window.location.reload();
+    window.location.reload();
   };
   return (
     <>

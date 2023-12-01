@@ -17,10 +17,10 @@ const BonusArea = (prop) => {
   var _lvl = loginToken.level;
   return (
     <Grid.Row style={{ paddingTop: 0 }}>
-      <Grid.Column width={6}>
-        <div style={{ marginLeft: 10 }}>{loginToken.username}</div>
+      <Grid.Column width={8}>
+        <div style={{ marginLeft: 20 }}>{loginToken.username}</div>
       </Grid.Column>
-      <Grid.Column width={10} textAlign="right">
+      <Grid.Column width={8} textAlign="right">
         <div className="farsi">
           <span className="text-gold">{doCurrency(loginToken.rake)}</span>{" "}
         </div>

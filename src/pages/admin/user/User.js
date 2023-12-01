@@ -6,12 +6,12 @@ import TableAdmin from "../utils/table";
 import Report from "../report/List";
 import Not from "./Not";
 import Tickets from "../support/List";
-import Reward from "./Reward";
+import Reward from "../report/Gifts";
 import Maven from "../report/Maven";
 import Users from "../Users";
 import { Alert } from "../../../utils/alerts";
 import { adminPutService } from "../../../services/admin";
-import { isJson, haveAdmin, haveModerator } from "../../../const";
+import { isJson, haveAdmin, haveModerator, haveRoot } from "../../../const";
 import AddCashier from "../AddCashier";
 
 function getPathOfKey(object, keys, getwaysList) {
@@ -363,6 +363,19 @@ function Admin(prop) {
       >
         <AddCashier username={user.username} setCashierOpen={setCashierOpen} />
       </Modal>
+      {haveRoot(loginToken.roles) && (
+        <Button
+          color="blue"
+          className="float-end"
+          disabled={!user.accessToken}
+          onClick={() =>
+            localStorage.setItem(user.username + "Token", JSON.stringify(user))
+          }
+        >
+          Lginas
+        </Button>
+      )}
+
       <Button
         color="blue"
         className="float-end"

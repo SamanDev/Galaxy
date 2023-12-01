@@ -8,6 +8,7 @@ import {
   Modal,
   Grid,
   Divider,
+  Input,
 } from "semantic-ui-react";
 import { convertDateToJalali } from "../../../utils/convertDate";
 import ActionBtn from "../../../utils/actionBtn";
@@ -95,8 +96,14 @@ function Admin(prop) {
   const [filterText, setFilterText] = React.useState("");
   const [filterOk, setFilterOk] = React.useState(false);
   var filteredItems = data.filter((item) => item.gateway != "Cancele Cashout");
+  if (filterText)
+    filteredItems = filteredItems.filter(
+      (item) =>
+        item.username &&
+        item.username.toLowerCase().includes(filterText.toLowerCase())
+    );
   if (dataMode == "Pending") {
-    filteredItems = data.filter((item) => {
+    filteredItems = filteredItems.filter((item) => {
       return (
         dataMode == item.status ||
         item.cashoutDescription.remainedAmount >= 100000 ||
@@ -108,7 +115,7 @@ function Admin(prop) {
     });
   }
   if (dataMode != "All" && dataMode != "Pending") {
-    filteredItems = data.filter((item) => {
+    filteredItems = filteredItems.filter((item) => {
       return dataMode == item.status;
     });
   }
@@ -375,9 +382,36 @@ function Admin(prop) {
       width: "200px",
     },
   ];
+  const FilterComponent = ({
+    filterText,
+    onFilterOk,
+    onFilter,
+    onClear,
+    setExMode,
+  }) => (
+    <>
+      <Input
+        icon="search"
+        placeholder="Search..."
+        id="search"
+        type="text"
+        aria-label="Search Input"
+        className="float-end"
+        value={filterText}
+        onChange={onFilter}
+        onBlur={onFilterOk}
+      />
+    </>
+  );
   const subHeaderComponentMemo = React.useMemo(() => {
     var _s = moment(startDate).format("YYYY-MM-DD");
     var _e = moment(endDate).format("YYYY-MM-DD");
+    const handleClear = () => {
+      if (filterText) {
+        setResetPaginationToggle(!resetPaginationToggle);
+        setFilterText("");
+      }
+    };
     return (
       <>
         <Grid
@@ -401,6 +435,11 @@ function Admin(prop) {
               </Button>
             </Grid.Column>
             <Grid.Column>
+              <FilterComponent
+                onFilter={(e) => setFilterText(e.target.value)}
+                onClear={handleClear}
+                filterText={filterText}
+              />
               <FilterMode
                 onFilter={(e, { value }) => {
                   setDataMode(value.toString());

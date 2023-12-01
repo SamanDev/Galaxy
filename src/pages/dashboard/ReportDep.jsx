@@ -12,7 +12,10 @@ const Report = (prop) => {
   const loginToken = prop.loginToken;
   const [data, setData] = useState([]);
   var gateway = prop.gateway
-    ? prop.gateway.replace(/ /g, "").replace("BTC", "Bitcoin")
+    ? prop.gateway
+        .replace(/ /g, "")
+        .replace("BTC", "Bitcoin")
+        .replace("OnlineCarttoCart", "NewCard")
     : "";
   const [loading, setLoading] = useState(true);
   const handleGetReports = async () => {
@@ -119,9 +122,9 @@ const Report = (prop) => {
                         {(gateway == "VisaGiftCode" ||
                           gateway == "PerfectMoney") && (
                           <>
-                            <span className="text-gold">
+                            <div className="text-gold">
                               {desc ? desc.VOUCHER_NUMBER : item.description}
-                            </span>
+                            </div>
                           </>
                         )}
 
@@ -152,7 +155,11 @@ const Report = (prop) => {
                       />
                       {!prop.pending && (
                         <div>
-                          {item.gateway && item.gateway}{" "}
+                          {item.gateway &&
+                            item.gateway.replace(
+                              "NewCard",
+                              "Cart to Cart"
+                            )}{" "}
                           {item.coin && " - " + item.coin}
                         </div>
                       )}
@@ -170,7 +177,9 @@ const Report = (prop) => {
                             Rate
                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{" "}
                             <span className="text-gold">
-                              {doCurrency(desc.dollarPrice)}
+                              {doCurrency(
+                                parseInt(desc.dollarPrice).toFixed(0)
+                              )}
                             </span>
                           </>
                         )}
@@ -178,9 +187,9 @@ const Report = (prop) => {
                         {(gateway == "VisaGiftCode" ||
                           gateway == "PerfectMoney") && (
                           <>
-                            <span className="text-gold">
+                            <div className="text-gold">
                               {desc ? desc.VOUCHER_NUMBER : item.description}
-                            </span>
+                            </div>
                           </>
                         )}
                         {(gateway == "Bitcoin" || gateway == "USDT") &&

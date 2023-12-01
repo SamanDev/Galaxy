@@ -9,6 +9,7 @@ import { doCurrency } from "../../const";
 import ConvertCart from "../../utils/convertCart";
 import NoData from "../../utils/noData";
 import CshList from "./getcashlist";
+import CshListVgc from "./getcashlistVgc";
 const sumOf = (array, id) => {
   try {
     return array.reduce((sum, currentValue) => {
@@ -231,6 +232,11 @@ const Report = (prop) => {
                       item.gateway == "IranShetab" &&
                       item.description.indexOf("V-G-C") == -1 && (
                         <CshList id={item.id} item={item.cashoutDescription} />
+                      )}
+                    {item.status === "Done" &&
+                      item.gateway == "IranShetab" &&
+                      item.description.indexOf("V-G-C") > -1 && (
+                        <CshListVgc id={item.id} item={item.description} />
                       )}
                   </List.Content>
                 )}{" "}

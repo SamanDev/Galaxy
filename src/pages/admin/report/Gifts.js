@@ -17,8 +17,9 @@ import { convertDateToJalali } from "../../../utils/convertDate";
 import DateReng from "../utils/dateReng";
 import FilterMode from "./FilterGift";
 import FilterModeGateway from "./FilterGateway";
-import CshList from "./recheck";
+
 import Moment from "react-moment";
+import CshList from "../../../utils/commitiondetail";
 const moment = require("moment");
 const conditionalRowStyles = [
   // You can also pass a callback to style for additional customization
@@ -88,9 +89,9 @@ function Admin(prop) {
     prop?.user?.username ? prop.user.username : ""
   );
   if (prop?.user?.username) {
-    var defmde = ["League", "Vip", "transfer", "bonus", "poker", "casino"];
+    var defmde = [""];
   } else {
-    var defmde = ["League", "Vip"];
+    var defmde = [""];
   }
 
   const [dataMode, setDataMode] = useState(defmde);
@@ -115,6 +116,20 @@ function Admin(prop) {
   };
   const ExpandedComponent = ({ data }) => (
     <div style={{ overflow: "auto", width: "90vw" }}>
+      {data?.detail && (
+        <Grid
+          verticalAlign="middle"
+          divided="vertically"
+          inverted
+          padded="vertically"
+        >
+          <Grid.Row>
+            <Grid.Column width={16} style={{ margin: 0 }}>
+              <CshList item={data.detail} />
+            </Grid.Column>
+          </Grid.Row>
+        </Grid>
+      )}
       <pre>{JSON.stringify(data, null, 2)}</pre>
     </div>
   );
@@ -135,10 +150,14 @@ function Admin(prop) {
       }
 
       if (res.status === 200) {
-        setData(res.data.content);
-        try {
-          prop.setData(res.data.content);
-        } catch (error) {}
+        if (res.data?.content) {
+          setData(res.data.content);
+          try {
+            prop.setData(res.data.content);
+          } catch (error) {}
+        } else {
+          setData(res.data);
+        }
 
         setFilterOk(false);
       }
@@ -318,7 +337,7 @@ function Admin(prop) {
   };
   useEffect(() => {
     var ftxt = "";
-    if (filteredItems.length) {
+    if (filteredItems?.length > 0) {
       try {
         {
           dataMode.map((link, i) => {
@@ -341,7 +360,7 @@ function Admin(prop) {
       }
     }
     setFooterTxt(ftxt);
-  }, [filteredItems, data]);
+  }, [filteredItems]);
   useEffect(() => {
     try {
       prop.setStartDate(startDate);

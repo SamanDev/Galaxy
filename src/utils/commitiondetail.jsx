@@ -16,13 +16,12 @@ const depositArea = (prop) => {
   const [user, setUser] = useState(desc);
 
   return (
-    <div style={{ padding: "0px 5px" }}>
+    <div style={{ padding: "0px 5px" }} className={prop.className}>
       <Grid
         as={Segment}
         inverted
         size="mini"
-        relaxed
-        style={{ padding: "10px 0px" }}
+        style={{ padding: "6px 0px", marginTop: 0 }}
       >
         {user.map(function (use, i) {
           if (use.rake) return <Bonus key={i} user={use} {...prop} />;

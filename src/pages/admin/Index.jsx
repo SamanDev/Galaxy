@@ -24,7 +24,9 @@ const getGateways = JSON.parse(localStorage.getItem("getGateways"));
 function Admin(prop) {
   const loginToken = prop.loginToken;
   const [activeIndex, setActiveIndex] = useState(0);
-  const [loadingtickets, tickets] = useAdminTicket();
+  const [loadingtickets, tickets] = useAdminTicket(
+    haveOperator(loginToken.roles)
+  );
   const handleTabChange = (e, { activeIndex }) => setActiveIndex(activeIndex);
   const [tabData, setTabData] = useState([]);
   const [getwaysData, setGetwaysData] = useState([]);

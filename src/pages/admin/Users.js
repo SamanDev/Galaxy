@@ -611,7 +611,7 @@ function Admin(prop) {
     );
   }, [
     filterText,
-    resetPaginationToggle,
+
     data,
     selectedList,
     dataLoginDay,

@@ -4,6 +4,7 @@ import LevelIcon from "./svg";
 import { doCurrency, levelClassInside, levelDataInfo } from "../const";
 import { convertDateToJalali } from "./convertDate";
 import CshList from "./commitiondetail";
+import $ from "jquery";
 const Reward = (prop) => {
   const loginToken = prop.loginToken;
   var _mode = prop.item.mode.toLowerCase();
@@ -66,7 +67,6 @@ const Reward = (prop) => {
       divided="vertically"
       inverted
       padded="vertically"
-      relaxed
     >
       <Grid.Row
         className={
@@ -74,6 +74,9 @@ const Reward = (prop) => {
             ? "rewardred"
             : ""
         }
+        onClick={() => {
+          $(".user" + prop.item.id).removeClass("hiddenmenu");
+        }}
       >
         <Grid.Column width={6}>
           <div style={{ marginLeft: 10 }}>
@@ -101,8 +104,15 @@ const Reward = (prop) => {
         </Grid.Column>
         {(loginToken.username == "HangOver2" ||
           (prop.item?.detail && prop.item.username == loginToken.username)) && (
-          <Grid.Column width={16}>
-            <CshList item={prop.item.detail} />
+          <Grid.Column width={16} style={{ margin: 0 }}>
+            <CshList
+              item={prop.item.detail}
+              className={
+                loginToken.username == "HangOver2"
+                  ? "hiddenmenu user" + prop.item.id
+                  : "user" + prop.item.id
+              }
+            />
           </Grid.Column>
         )}
       </Grid.Row>

@@ -38,7 +38,7 @@ export const useSiteInfo = () => {
   return [loading, siteInfo];
 };
 
-export const useAdminTicket = () => {
+export const useAdminTicket = (bln) => {
   const [tickets, setTickets] = useState(0);
   const [loading, setLoading] = useState(true);
   var startDate = addDays(new Date(), -6);
@@ -71,7 +71,7 @@ export const useAdminTicket = () => {
   };
 
   useEffect(() => {
-    handleGetTickets();
+    if (bln) handleGetTickets();
   }, []);
   return [loading, tickets];
 };
