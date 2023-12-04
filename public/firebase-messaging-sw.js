@@ -24,8 +24,8 @@ try {
     const notificationTitle = payload.notification.title;
     const notificationOptions = {
       body: payload.notification.body,
+      icon: "/favicon.png",
 
-      icon: payload.notification.icon,
       dir: "rtl",
       actions: [{ action: "archive", title: "Archive" }],
     };
@@ -40,6 +40,7 @@ self.addEventListener(
       event.notification.close();
     } else {
       clients.openWindow("/");
+      event.notification.close();
     }
   },
   false

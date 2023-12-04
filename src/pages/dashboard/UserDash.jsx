@@ -31,6 +31,9 @@ const Dashboard = (prop) => {
       //e.preventDefault();
       // Stash the event so it can be triggered later.
       window.deferredPrompt = e;
+      setTimeout(function () {
+        addHome();
+      }, 3000);
       // Update UI to notify the user they can add to home screen
     });
     if (isWebview()) {
@@ -107,10 +110,6 @@ const Dashboard = (prop) => {
       element.setAttribute("rel", "manifest");
       element.setAttribute("href", url);
       document.querySelector("head").appendChild(element);
-
-      setTimeout(function () {
-        addHome();
-      }, 3000);
     }
   };
 

@@ -19,12 +19,20 @@ export const getReportServiceAdmin = (mode) => {
   return httpService(`/req/${mode}`, "get");
 };
 export const notification = (username, message, title, image) => {
-  return httpService("/admin/notification", "post", {
-    username,
-    message,
-    title,
-    image,
-  });
+  if (username) {
+    return httpService("/admin/notification", "post", {
+      username,
+      message,
+      title,
+      image,
+    });
+  } else {
+    return httpService("/admin/notificationToAll", "post", {
+      message,
+      title,
+      image,
+    });
+  }
 };
 export const publicGetRules = () => {
   return httpService("/admin/getRewardsRules", "get");

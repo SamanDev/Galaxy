@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Divider, Segment, Progress } from "semantic-ui-react";
+import { Divider, Segment, Button } from "semantic-ui-react";
 import ConvertCart from "../../utils/convertCart";
 import { cashierService } from "../../services/cashier";
 import { doCurrency } from "../../const";
@@ -22,7 +22,11 @@ const depositArea = (prop) => {
   };
 
   useEffect(() => {
-    if (prop.item && prop.item?.destinationCardNumber) {
+    if (
+      prop.item &&
+      prop.item?.destinationCardNumber &&
+      prop.item?.paidAmount == prop.item?.totalWithdrawalAmount
+    ) {
       setUser(prop.item);
     } else {
       handleGetReports();
@@ -48,9 +52,6 @@ const depositArea = (prop) => {
             (user.paidAmount * 100) / user.totalWithdrawalAmount
           ).toFixed(0)}
           %
-          {(user.paidAmount * 100) / user.totalWithdrawalAmount < 100 && (
-            <Button onClick={handleGetReports}>Get</Button>
-          )}
         </div>
 
         {ste.length > 0 && <Divider />}

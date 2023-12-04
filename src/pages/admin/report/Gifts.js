@@ -104,7 +104,9 @@ function Admin(prop) {
 
   const [filterText, setFilterText] = React.useState("");
   const [filterOk, setFilterOk] = React.useState(false);
-  const filteredItems = data;
+  const filteredItems = data.filter(
+    (f) => new Date(f.startDate) > new Date(startDate)
+  );
   const [firstOpen, setFirstOpen] = React.useState(false);
   const [resetPaginationToggle, setResetPaginationToggle] =
     React.useState(false);
@@ -188,6 +190,7 @@ function Admin(prop) {
     var _data = data.filter(
       (d) => d.status.toLowerCase() === status.toLowerCase() && d.amount != 0
     );
+
     var _totalReward = 0;
     {
       _data.map((x, i) => {
@@ -304,12 +307,10 @@ function Admin(prop) {
         "  َ  َ  َ |  َ  َ  َ  ";
     }
     if (
-      doCurrency(
-        gettotal(
-          filteredItems.filter((f) => f.mode.toLowerCase() == link),
-          "Pending",
-          "count"
-        )
+      gettotal(
+        filteredItems.filter((f) => f.mode.toLowerCase() == link),
+        "Pending",
+        "count"
       ) > 0
     ) {
       ftxt =
@@ -337,30 +338,12 @@ function Admin(prop) {
   };
   useEffect(() => {
     var ftxt = "";
-    if (filteredItems?.length > 0) {
-      try {
-        {
-          dataMode.map((link, i) => {
-            ftxt = getDesc(link, ftxt);
-          });
-        }
-      } catch (error) {
-        try {
-          var modes = dataMode.split(",");
-
-          {
-            modes.map((link, i) => {
-              ftxt = getDesc(link, ftxt);
-            });
-          }
-        } catch (error) {
-          var link = dataMode;
-          ftxt = getDesc(link, ftxt);
-        }
-      }
+    var link = dataMode;
+    if (link != "") {
+      ftxt = getDesc(link.toLowerCase(), ftxt);
     }
     setFooterTxt(ftxt);
-  }, [filteredItems]);
+  }, [filteredItems, dataMode]);
   useEffect(() => {
     try {
       prop.setStartDate(startDate);

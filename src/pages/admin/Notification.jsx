@@ -4,6 +4,7 @@ import { Button, Form } from "semantic-ui-react";
 import Swal from "sweetalert2";
 
 import { notification } from "../../services/admin";
+import { doCurrency } from "../../const";
 
 function Admin(prop) {
   const [cashUser, setCashUser] = React.useState("hangover2");
@@ -12,9 +13,33 @@ function Admin(prop) {
   const [title, setTitle] = React.useState("");
   const [image, setImage] = React.useState("");
   const [notMessage, setNotMessage] = React.useState("");
+  const siteInfo = prop.siteInfo;
+  const loginToken = prop.loginToken;
+  siteInfo?.galaxyPassSet?.sort((a, b) => (a.id > b.id ? 1 : -1));
 
   const setNotTitle = (e) => {
-    setTitle(e.target.value);
+    setTitle(e.target.value + " شروع شد");
+    if (e.target.value == "لیگ روزانه") {
+      var rules = siteInfo?.dailyLeagueSet[0];
+      setNotMessage(
+        doCurrency(rules.totalRewards) + " تومان\nبرای هر بازیکن\n"
+      );
+      setImage("https://www.galaxypoker.vip/assets/images/icons/league.png");
+    }
+    if (e.target.value == "گلکسی پَس") {
+      var rules = siteInfo?.galaxyPassSet[0];
+      setNotMessage(
+        doCurrency(rules.totalRewards) + " تومان\nبرای هر بازیکن\n"
+      );
+      setImage("https://www.galaxypoker.vip/assets/images/icons/gpass.png");
+    }
+    if (e.target.value == "میز VIP") {
+      var rules = siteInfo?.vipTables[0];
+      setNotMessage(
+        doCurrency(rules.totalRewards) + " تومان\nبرای هر بازیکن\n"
+      );
+      setImage("https://www.galaxypoker.vip/assets/images/icons/vip.png");
+    }
   };
   const setNotImage = (e) => {
     setImage(
@@ -37,7 +62,7 @@ function Admin(prop) {
     var key =
       "AAAANfV_1y4:APA91bFHck-BWMnLILoZAEdxkgMcrMt8ejdEPds67021cn24H2t1aXuP9_FiKlY970_MbHeDCAqNWv58oFiRBa3nBkFB_SIGfmEjqjMjOOTG6k3dYyd-syETfSFBZtigxCZS4t1HrLww";
     var to =
-      "ev1yB74FUpuepGoGPDvTvY:APA91bG1iseLX2vMw-KuVOs18coCvF7qfiFmQY14U1yOdpJK6vgTf14qs_Z0Fo9Qin04cxRqz3HhQvwMxHOxgj2gJxYouOc0f3-x2x7TnUx0F1_hgQXg1dkieeMFdeAon0WtbEh_wr-1";
+      "dGcxXqSf79ngUr2-BYzX6i:APA91bEJj79IpURgSk5m7OnsNhoTn_IIYjNw8BnR2GMAC_mxxmL8YrdagiY91njhsi2EFGWLGDhuQ7wrZUYLkiRPuueSLIVWx_GDHqgIqTMgEAmEheAZ5UH1ADbVK-ijMzVqeNexrFDS";
     var notification2 = {
       title: title,
       body: notMessage,
@@ -46,7 +71,7 @@ function Admin(prop) {
       actions: [{ action: "archive", title: "Archive" }],
     };
 
-    fetch("https://fcm.googleapis.com/fcm/send", {
+    /*  fetch("https://fcm.googleapis.com/fcm/send", {
       method: "POST",
       headers: {
         Authorization: "key=" + key,
@@ -63,7 +88,7 @@ function Admin(prop) {
       })
       .catch(function (error) {
         console.error(error);
-      });
+      }); */
     notification(cashUser, title, notMessage, image).then((response) => {
       if (response) {
         Swal.fire({
@@ -93,6 +118,7 @@ function Admin(prop) {
           <label>Title: </label>
           <input value={title} className="farsi" onChange={setNotTitle} />
           <select value={title} className="farsi" onChange={setNotTitle}>
+            <option value={""}></option>
             {titleList.map((name, i) => {
               return (
                 <option key={i} value={name}>
@@ -104,16 +130,17 @@ function Admin(prop) {
         </Form.Field>
         <Form.Field>
           <label>Meessage</label>
-          <input
+          <textarea
             value={notMessage}
             className="farsi"
             onChange={setNotMessageVal}
           />
         </Form.Field>
-        <Form.Field>
+        <Form.Field className="hiddenmenu">
           <label>Image</label>
           <img src={image} />
           <select value={image} onChange={setNotImage}>
+            <option value={""}></option>
             {imgList.map((name, i) => {
               return (
                 <option key={i} value={name}>
