@@ -119,7 +119,7 @@ function Admin(prop) {
 
   const [filterText, setFilterText] = React.useState("");
   const [filterOk, setFilterOk] = React.useState(false);
-
+  const [footerTxt, setFooterTxt] = useState("");
   const [resetPaginationToggle, setResetPaginationToggle] =
     React.useState(false);
   const handleChangeSearch = (e, { value }) => {
@@ -196,6 +196,45 @@ function Admin(prop) {
   const [firstOpen, setFirstOpen] = React.useState(false);
   const contextActions = React.useMemo(() => {
     return <Button onClick={() => setFirstOpen(true)}>Gift</Button>;
+  }, [data]);
+  const gettotal = (data, status, target) => {
+    if (!data) return 0;
+    var _data = data.filter((d) => d.balance != 0);
+    var _totalReward = 0;
+    {
+      _data.map((x, i) => {
+        var _am = x.balance;
+
+        _totalReward = _totalReward + _am;
+      });
+    }
+    if (target == "total") return _totalReward;
+    if (target == "count") return _data.length;
+  };
+
+  const getDesc = (link, ftxt) => {
+    ftxt = ftxt + "@" + link.toUpperCase() + "@";
+
+    if (doCurrency(gettotal(filteredItems, "Done", "count")) > 0) {
+      ftxt =
+        ftxt +
+        "Done (" +
+        doCurrency(gettotal(filteredItems, "Done", "count")) +
+        "): " +
+        doCurrency(gettotal(filteredItems, "Done", "total")) +
+        "  َ  َ  َ |  َ  َ  َ  ";
+    }
+
+    ftxt = ftxt + "@";
+    return ftxt;
+  };
+  useEffect(() => {
+    var ftxt = "";
+
+    var link = "Total";
+    ftxt = getDesc(link, ftxt);
+
+    setFooterTxt(ftxt);
   }, [data]);
   const handleChange = ({ selectedRows }) => {
     // You can set state or dispatch with something like Redux so we can use the retrieved data
@@ -396,6 +435,16 @@ function Admin(prop) {
           contextActions={contextActions}
           paginationRowsPerPageOptions={[10, 25, 50, 100]}
         />
+        <Segment inverted>
+          {footerTxt.split("@").map((item, key) => {
+            return (
+              <div key={key}>
+                {item}
+                <br />
+              </div>
+            );
+          })}
+        </Segment>
       </div>
     </>
   );

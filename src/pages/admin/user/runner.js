@@ -118,7 +118,7 @@ function Admin(prop) {
   const [getwaysList, setGetwaysData] = useState([]);
   const [obj, setObj] = useState({});
   const [loading, setLoading] = useState(true);
-
+  const [footerTxt, setFooterTxt] = useState("");
   const [filterText, setFilterText] = React.useState("");
   const [filterOk, setFilterOk] = React.useState(false);
   const [cashierOpen, setCashierOpen] = React.useState(false);
@@ -299,6 +299,91 @@ function Admin(prop) {
       sortable: true,
     },
   ];
+  const gettotal = (data, status, target) => {
+    if (!data) return 0;
+    var _data = data.filter((d) => d.amount != 0);
+    var _totalReward = 0;
+    {
+      _data.map((x, i) => {
+        var _am = x.amount;
+
+        _totalReward = _totalReward + _am;
+      });
+    }
+    if (target == "total") return _totalReward;
+    if (target == "count") return _data.length;
+  };
+  const gettotal2 = (data, status, target) => {
+    if (!data) return 0;
+    var _data = data.filter((d) => d.totalRake != 0);
+    var _totalReward = 0;
+    {
+      _data.map((x, i) => {
+        var _am = x.totalRake;
+
+        _totalReward = _totalReward + _am;
+      });
+    }
+    if (target == "total") return _totalReward;
+    if (target == "count") return _data.length;
+  };
+  const gettotal3 = (data, status, target) => {
+    if (!data) return 0;
+    var _data = data.filter((d) => d.total != 0);
+    var _totalReward = 0;
+    {
+      _data.map((x, i) => {
+        var _am = x.total;
+
+        _totalReward = _totalReward + _am;
+      });
+    }
+    if (target == "total") return _totalReward;
+    if (target == "count") return _data.length;
+  };
+
+  const getDesc = (link, ftxt) => {
+    ftxt = ftxt + "@" + link.toUpperCase() + "@";
+
+    if (doCurrency(gettotal(filteredItems, "Done", "count")) > 0) {
+      ftxt =
+        ftxt +
+        "credit (" +
+        doCurrency(gettotal(filteredItems, "Done", "count")) +
+        "): " +
+        doCurrency(gettotal(filteredItems, "Done", "total")) +
+        "  َ  َ  َ |  َ  َ  َ  ";
+    }
+    if (doCurrency(gettotal2(filteredItems, "Done", "count")) > 0) {
+      ftxt =
+        ftxt +
+        "rake (" +
+        doCurrency(gettotal2(filteredItems, "Done", "count")) +
+        "): " +
+        doCurrency(gettotal2(filteredItems, "Done", "total")) +
+        "  َ  َ  َ |  َ  َ  َ  ";
+    }
+    if (doCurrency(gettotal3(filteredItems, "Done", "count")) > 0) {
+      ftxt =
+        ftxt +
+        "total (" +
+        doCurrency(gettotal3(filteredItems, "Done", "count")) +
+        "): " +
+        doCurrency(gettotal3(filteredItems, "Done", "total")) +
+        "  َ  َ  َ |  َ  َ  َ  ";
+    }
+
+    ftxt = ftxt + "@";
+    return ftxt;
+  };
+  useEffect(() => {
+    var ftxt = "";
+    if (filteredItems.length) {
+      var link = "Total";
+      ftxt = getDesc(link, ftxt);
+    }
+    setFooterTxt(ftxt);
+  }, [filteredItems, data]);
   const subHeaderComponentMemo = React.useMemo(() => {
     const handleClear = () => {
       if (filterText) {
@@ -404,6 +489,16 @@ function Admin(prop) {
           onSelectedRowsChange={handleChange}
           selectableRows
         />
+        <Segment inverted>
+          {footerTxt.split("@").map((item, key) => {
+            return (
+              <div key={key}>
+                {item}
+                <br />
+              </div>
+            );
+          })}
+        </Segment>
       </div>
     </>
   );
