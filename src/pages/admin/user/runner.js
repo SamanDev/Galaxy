@@ -13,6 +13,7 @@ import {
 import Moment from "react-moment";
 import { addDays } from "date-fns";
 const moment = require("moment");
+import AmountColor from "../../../utils/AmountColor";
 import { adminGetService, adminPutService } from "../../../services/admin";
 import { Alert } from "../../../utils/alerts";
 import AddCashier from "../AddRunner";
@@ -260,7 +261,7 @@ function Admin(prop) {
     },
     {
       name: "Rake%",
-      selector: (row) => row.percent,
+      selector: (row) => row.totalRake,
       format: (row) => (
         <span
           onClick={() => {
@@ -268,7 +269,10 @@ function Admin(prop) {
             setCashierOpen(true);
           }}
         >
-          {row.percent}
+          {doCurrency(row.totalRake)}
+          <br />
+          {doCurrency(parseInt((row.totalRake * row.percent) / 100))} (
+          {row.percent}%)
         </span>
       ),
       sortable: true,
@@ -276,7 +280,22 @@ function Admin(prop) {
     {
       name: "Win%",
       selector: (row) => row.winPercent,
-      format: (row) => <>{row.winPercent}</>,
+      format: (row) => <>{row.winPercent}%</>,
+      sortable: true,
+    },
+    {
+      name: "Total",
+      selector: (row) => row.total,
+      format: (row) => (
+        <>
+          <AmountColor amount={row.total} sign={row.total} />
+          <br />
+          <AmountColor
+            amount={parseInt((row.total * row.winPercent) / 100)}
+            sign={parseInt((row.total * row.winPercent) / 100)}
+          />
+        </>
+      ),
       sortable: true,
     },
   ];

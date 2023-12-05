@@ -159,7 +159,7 @@ function Admin(prop) {
     setLoading(true);
     try {
       const res = await adminGetService(
-        `getUsersByAdmin?name=${_name}&value=${_val}&page=${page}&number=500&login=${dataLoginDay}&contain=${_contain}`
+        `getUsersByAdmin?name=${_name}&value=${_val}&page=${page}&number=200&login=${dataLoginDay}&contain=${_contain}`
       );
       if (res.status === 200) {
         setData(res.data.users);
@@ -253,6 +253,12 @@ function Admin(prop) {
       width: "100px",
     },
     {
+      name: "Glevel",
+      selector: (row) => row.glevel,
+      format: (row) => <>{row.glevel}</>,
+      sortable: true,
+    },
+    {
       name: "Username",
       selector: (row) => row.username,
       format: (row) => (
@@ -276,9 +282,27 @@ function Admin(prop) {
       sortable: true,
     },
     {
-      name: "Credit",
-      selector: (row) => row.balance,
-      format: (row) => <>{doCurrency(row.balance)}</>,
+      name: "balance2",
+      selector: (row) => row.balance2,
+      format: (row) => <>{doCurrency(row.balance2)}</>,
+      sortable: true,
+    },
+    {
+      name: "point",
+      selector: (row) => row.dailyPoint,
+      format: (row) => <>{row.dailyPoint}</>,
+      sortable: true,
+    },
+    {
+      name: "vip",
+      selector: (row) => row.vipPlaySecond,
+      format: (row) => <>{row.vipPlaySecond}</>,
+      sortable: true,
+    },
+    {
+      name: "gpass",
+      selector: (row) => row.glevelSecond,
+      format: (row) => <>{row.glevelSecond}</>,
       sortable: true,
     },
     {
