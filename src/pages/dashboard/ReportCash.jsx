@@ -8,8 +8,10 @@ import { getReportService } from "../../services/report";
 import { doCurrency } from "../../const";
 import ConvertCart from "../../utils/convertCart";
 import NoData from "../../utils/noData";
-import CshList from "./getcashlist";
 import CshListVgc from "./getcashlistVgc";
+import CshList from "./getcashlist";
+
+import CanceleCash from "./cancelecash";
 const sumOf = (array, id) => {
   try {
     return array.reduce((sum, currentValue) => {
@@ -228,6 +230,13 @@ const Report = (prop) => {
                         )}
                       </div>
                     </List.Description>
+                    {item.status === "Pending" &&
+                      item.gateway == "IranShetab" && (
+                        <CanceleCash
+                          id={item.id}
+                          item={item.cashoutDescription}
+                        />
+                      )}
                     {item.status === "Done" &&
                       item.gateway == "IranShetab" &&
                       item.description.indexOf("V-G-C") == -1 && (
