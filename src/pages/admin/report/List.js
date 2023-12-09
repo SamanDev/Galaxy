@@ -458,7 +458,7 @@ function Admin(prop) {
       format: (row) => (
         <>
           <span onClick={() => setDataSearch(row.gateway)}>{row.gateway}</span>
-          {row.status === "Canceled" && row.gateway == "NewCard" && (
+          {row.status !== "Done" && row.gateway == "NewCard" && (
             <CshList id={row.id} />
           )}
         </>

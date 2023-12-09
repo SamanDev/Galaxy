@@ -10,7 +10,8 @@ import Reward from "../report/Gifts";
 import Maven from "../report/Maven";
 import Users from "../Users";
 import { Alert } from "../../../utils/alerts";
-import { adminPutService } from "../../../services/admin";
+import { MyConfirm } from "../../../utils/myAlert";
+import { adminPutService, adminPostService } from "../../../services/admin";
 import { isJson, haveAdmin, haveModerator, haveRoot } from "../../../const";
 import AddCashier from "../AddCashier";
 
@@ -184,6 +185,35 @@ function Admin(prop) {
 
   const handleTabChange = (e, { activeIndex }) => setActiveIndex(activeIndex);
 
+  const confirmdeleteBankInfo = async (e, data) => {
+    MyConfirm("تایید حذف", "", deleteBankInfo(data));
+  };
+  const deleteBankInfo = async (data) => {
+    console.log(data);
+    var _key = data.userkey;
+    var _childid = data.childid;
+    if (_childid && _key.indexOf("-") == -1) {
+      _key = "GateWays";
+    }
+    if (_childid && _key.indexOf("-") > -1) {
+      _key = "BankCards";
+    }
+    var curU = JSON.parse(JSON.stringify(data.user));
+    var values = {
+      id: _childid,
+    };
+
+    try {
+      const res = await adminPostService(values, "deleteUserBankInfo");
+      if (res.status == 200) {
+        Alert("Done!", "", "success");
+      } else {
+        Alert("متاسفم...!", res.data.message, "error");
+      }
+    } catch (error) {
+      Alert("متاسفم...!", "متاسفانه مشکلی از سمت سرور رخ داده", "error");
+    }
+  };
   const updateUserObj = async (e, data) => {
     var _key = data.userkey;
     var _childid = data.childid;
@@ -265,7 +295,7 @@ function Admin(prop) {
           />
           <TableAdmin
             data={newdatabankInfoData}
-            updateUserObj={updateUserObj}
+            updateUserObj={confirmdeleteBankInfo}
           />
           <TableAdmin
             data={newdataGetwaysData}
