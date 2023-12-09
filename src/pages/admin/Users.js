@@ -230,9 +230,7 @@ function Admin(prop) {
       selector: (row) => row.lastLogin,
       format: (row) => (
         <>
-          <Moment fromNow ago>
-            {row.lastLogin}
-          </Moment>
+          <Moment fromNow>{row.lastLogin.replace("-08:00", "")}</Moment>
         </>
       ),
       sortable: true,
@@ -345,7 +343,7 @@ function Admin(prop) {
       format: (row) => (
         <>
           <Moment fromNow ago>
-            {row.lastLogin}
+            {row.lastLogin.replace("-08:00", "")}
           </Moment>
         </>
       ),

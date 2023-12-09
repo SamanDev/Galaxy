@@ -76,23 +76,12 @@ function isDate(
       </a>
     );
   } else {
-    var res = myDate;
+    var res = myDate.replace("-08:00", "");
     if (
       myDate?.toString().indexOf(":") > -1 &&
-      myDate?.toString().indexOf("T") > -1 &&
-      myDate?.toString().indexOf(":00:00") == -1
+      myDate?.toString().indexOf("T") > -1
     )
-      res = moment(myDate).startOf("second").fromNow();
-    if (
-      myDate?.toString().indexOf(":") > -1 &&
-      myDate?.toString().indexOf("T") > -1 &&
-      myDate?.toString().indexOf(":00:00") > -1
-    )
-      res =
-        moment(myDate).format("MM-DD-YYYY") +
-        " (" +
-        moment(myDate).startOf("second").fromNow() +
-        ")";
+      res = moment(res).fromNow();
   }
 
   return res;
