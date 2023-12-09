@@ -19,77 +19,6 @@ const InputF = ({
   maxLength,
   disabled,
 }) => {
-  String.prototype.replaceAll = function (search, replacement) {
-    var target = this;
-    return target.replace(new RegExp(search, "g"), replacement);
-  };
-
-  String.prototype.toPersianCharacter = function () {
-    var string = this;
-    if (inputmode == "numeric") {
-      var obj = {
-        "١": "۱",
-        "٢": "۲",
-        "٣": "۳",
-        "٤": "۴",
-        "٥": "۵",
-        "٦": "۶",
-        "٧": "۷",
-        "٨": "۸",
-        "٩": "۹",
-        "٠": "۰",
-        "۱": "1",
-        "۲": "2",
-        "۳": "3",
-        "۴": "4",
-        "۵": "5",
-        "۶": "6",
-        "۷": "7",
-        "۸": "8",
-        "۹": "9",
-        "۰": "0",
-      };
-    } else {
-      var obj = {
-        ك: "ک",
-        دِ: "د",
-        بِ: "ب",
-        زِ: "ز",
-        ذِ: "ذ",
-        شِ: "ش",
-        سِ: "س",
-        ى: "ی",
-        ي: "ی",
-        ئ: "ی",
-        ي: "ی",
-        "١": "۱",
-        "٢": "۲",
-        "٣": "۳",
-        "٤": "۴",
-        "٥": "۵",
-        "٦": "۶",
-        "٧": "۷",
-        "٨": "۸",
-        "٩": "۹",
-        "٠": "۰",
-        "۱": "1",
-        "۲": "2",
-        "۳": "3",
-        "۴": "4",
-        "۵": "5",
-        "۶": "6",
-        "۷": "7",
-        "۸": "8",
-        "۹": "9",
-        "۰": "0",
-      };
-    }
-
-    Object.keys(obj).forEach(function (key) {
-      string = string.replaceAll(key, obj[key]);
-    });
-    return string;
-  };
   function toEnDigit(s) {
     return s.replace(
       /[\u0660-\u0669\u06f0-\u06f9]/g, // Detect all Persian/Arabic Digit in range of their Unicode with a global RegEx character set
@@ -145,10 +74,12 @@ const InputF = ({
         }
       }
     } else {
-      var _val = convertArabicCharToPersian(formik.values[name]);
-      if (_val != formik.values[name]) {
-        formik.setFieldValue(name, _val);
-      }
+      try {
+        var _val = convertArabicCharToPersian(formik.values[name]);
+        if (_val != formik.values[name]) {
+          formik.setFieldValue(name, _val);
+        }
+      } catch (error) {}
     }
   }, [formik.values[name]]);
   return (
