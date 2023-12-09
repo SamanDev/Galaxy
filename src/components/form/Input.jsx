@@ -61,6 +61,7 @@ const InputF = ({
         ى: "ی",
         ي: "ی",
         ئ: "ی",
+        ي: "ی",
         "١": "۱",
         "٢": "۲",
         "٣": "۳",
@@ -89,9 +90,45 @@ const InputF = ({
     });
     return string;
   };
+  function toEnDigit(s) {
+    return s.replace(
+      /[\u0660-\u0669\u06f0-\u06f9]/g, // Detect all Persian/Arabic Digit in range of their Unicode with a global RegEx character set
+      function (a) {
+        return a.charCodeAt(0) & 0xf;
+      } // Remove the Unicode base(2) range that not match
+    );
+  }
+  function convertArabicCharToPersian(str) {
+    const charsMapping = {
+      ك: "ک",
+      دِ: "د",
+      بِ: "ب",
+      زِ: "ز",
+      ذِ: "ذ",
+      شِ: "ش",
+      سِ: "س",
+      ى: "ی",
+      ي: "ی",
+      ئ: "ی",
+      "١": "۱",
+      "٢": "۲",
+      "٣": "۳",
+      "٤": "۴",
+      "٥": "۵",
+      "٦": "۶",
+      "٧": "۷",
+      "٨": "۸",
+      "٩": "۹",
+      "٠": "۰",
+    };
+
+    return Object.keys(charsMapping).reduce((prev, curr) => {
+      return prev.replaceAll(curr, charsMapping[curr]);
+    }, str || "");
+  }
   React.useEffect(() => {
     if (inputmode == "numeric") {
-      var _val = formik.values[name].toPersianCharacter().replace(/\W/g, "");
+      var _val = toEnDigit(formik.values[name]).replace(/\W/g, "");
 
       if (_val != formik.values[name]) {
         if (name.indexOf("2") > -1) {
@@ -106,6 +143,11 @@ const InputF = ({
             formik.setFieldValue(name.replace("2", ""), _val);
           }
         }
+      }
+    } else {
+      var _val = convertArabicCharToPersian(formik.values[name]);
+      if (_val != formik.values[name]) {
+        formik.setFieldValue(name, _val);
       }
     }
   }, [formik.values[name]]);

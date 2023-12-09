@@ -202,6 +202,7 @@ const depositArea = (prop) => {
               labelcolor="red"
               size={prop.size}
               className="farsi"
+              inputmode="text"
               readOnly={_name}
               autoComplete="name"
             />
