@@ -216,7 +216,7 @@ function Admin(prop) {
           className="ui inverted segment"
           style={{ height: "calc(100vh - 150px)", overflow: "auto" }}
         >
-          {mode == "runner" ? (
+          {mode == "Runner" ? (
             <Runner
               addTabData={addTabData}
               setGetwaysData={setGetwaysData}
@@ -225,13 +225,15 @@ function Admin(prop) {
               searchValue={mode}
             />
           ) : (
-            <Botlist
-              addTabData={addTabData}
-              setGetwaysData={setGetwaysData}
-              removeTabData={removeTabData}
-              search="refer"
-              searchValue={mode}
-            />
+            <>
+              <Botlist
+                addTabData={addTabData}
+                setGetwaysData={setGetwaysData}
+                removeTabData={removeTabData}
+                search="refer"
+                searchValue={"bots"}
+              />
+            </>
           )}
           <Bots
             addTabData={addTabData}

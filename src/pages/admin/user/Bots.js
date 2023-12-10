@@ -273,10 +273,6 @@ function Admin(prop) {
     }
   };
 
-  useEffect(() => {
-    handleGetGeteways();
-  }, []);
-
   const columns = [
     {
       name: "id",
@@ -350,7 +346,7 @@ function Admin(prop) {
       format: (row) => (
         <>
           <Moment fromNow ago>
-            {row.lastLogin}
+            {row.lastLogin.replace("-08:00", "")}
           </Moment>
         </>
       ),

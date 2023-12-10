@@ -209,10 +209,6 @@ function Admin(prop) {
     }
   };
 
-  useEffect(() => {
-    handleGetGeteways();
-  }, []);
-
   const columns = [
     {
       name: "id",

@@ -299,6 +299,19 @@ function Admin(prop) {
     if (target == "total") return _totalReward;
     if (target == "count") return _data.length;
   };
+  const getusers = (data, status, target) => {
+    var _data = data;
+    var _totalReward = [];
+    {
+      _data.map((x, i) => {
+        var _am = x.amount;
+
+        _totalReward.push("" + x.username + "");
+      });
+    }
+    if (target == "total") return _totalReward;
+    if (target == "count") return _data.length;
+  };
   const gettotal2 = (data, status, target) => {
     if (!data) return 0;
     var _data = data.filter((d) => d.totalRake != 0);
@@ -330,7 +343,7 @@ function Admin(prop) {
 
   const getDesc = (link, ftxt) => {
     ftxt = ftxt + "@" + link.toUpperCase() + "@";
-
+    console.log(getusers(filteredItems, "Done", "total"));
     if (doCurrency(gettotal(filteredItems, "Done", "count")) > 0) {
       ftxt =
         ftxt +
