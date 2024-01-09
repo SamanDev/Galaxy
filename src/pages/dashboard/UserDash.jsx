@@ -35,7 +35,7 @@ const Dashboard = (prop) => {
         addHome();
       }, 3000);
       // Update UI to notify the user they can add to home screen
-    });
+    },{once:true});
     if (isWebview()) {
       return false;
     }

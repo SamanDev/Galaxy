@@ -3,7 +3,7 @@ import CurrencyInput from "react-currency-input-field";
 import FormikControl from "./FormikControl";
 import { Label, Input } from "semantic-ui-react";
 import { rateService } from "../../services/cashier";
-
+import { doCurrency } from "../../const";
 const Amount = (prop) => {
   const getRate = localStorage.getItem("getRate");
   const [amount, setAmount] = useState(prop.def || 100000);
@@ -40,14 +40,23 @@ const Amount = (prop) => {
     if (prop.dollar) setVal("amountDollar", prop.formik.values.amountDollar);
   }, [prop.formik.values.amountDollar, rate]);
   const setVal = (name, value) => {
-    var _value = value;
+    
+    var _value = parseInt(value);
     if (!_value) {
       _value = 0;
     }
+    if (!prop.dollar) {
+    _value=parseInt(_value/100000)*100000
+    }
     if (name == "amount") {
       setAmount(_value);
+    
       if (prop.dollar) setAmountDollar(parseFloat(_value / rate).toFixed(2));
       prop.formik.setFieldValue("amount", _value);
+      if(parseInt(value)>0){
+        //prop.formik.setFieldValue("amount2", doCurrency(value));
+      }
+      
       if (prop.dollar)
         prop.formik.setFieldValue(
           "amountDollar",

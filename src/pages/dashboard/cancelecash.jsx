@@ -37,8 +37,8 @@ const depositArea = (prop) => {
       <Button
         size="tiny"
         color="red"
-        disabled={user}
-        loading={user}
+        disabled={user?true:false}
+        loading={user?true:false}
         fluid
         basic
         style={{ marginTop: 20 }}

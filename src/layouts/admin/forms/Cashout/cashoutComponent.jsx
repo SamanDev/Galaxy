@@ -51,7 +51,8 @@ const depositArea = (prop) => {
                     {prop.menu?.usd ? (
                       <>
                         <span className="text-gold">$</span>{" "}
-                        {doCurrency(loginToken?.balance2)}
+                       
+                        {doCurrency((loginToken?.balance2).toFixed(2))}
                       </>
                     ) : (
                       doCurrency(loginToken?.balance)

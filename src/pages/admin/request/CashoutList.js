@@ -107,7 +107,7 @@ function Admin(prop) {
       return (
         dataMode == item.status ||
         item.cashoutDescription.remainedAmount >= 100000 ||
-        (item.cashoutDescription.checkoutListSet.length == 0 &&
+        (
           item.gateway == "IranShetab" &&
           item.status != "Canceled" &&
           item.description.indexOf("V-G-C") == -1)

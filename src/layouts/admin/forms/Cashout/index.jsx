@@ -87,7 +87,8 @@ const depositArea = (prop) => {
               <Statistic inverted size="mini">
                 <Statistic.Value>
                   <span className="text-gold">$</span>{" "}
-                  {doCurrency(loginToken?.balance2)}
+                 
+                  {doCurrency((loginToken?.balance2).toFixed(2))}
                 </Statistic.Value>
                 <Statistic.Label className="farsi">
                   موجودی دلاری شما

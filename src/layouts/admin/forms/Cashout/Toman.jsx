@@ -70,6 +70,7 @@ const depositArea = (prop) => {
                 inputmode="numeric"
               />
             </span>
+            {formik.values.amount}
             {formik.errors["amount"] && (
               <Label
                 className="farsi"

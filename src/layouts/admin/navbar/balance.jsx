@@ -320,7 +320,8 @@ const Balance = (prop) => {
                 </Reveal.Content>
                 <Reveal.Content hidden>
                   <span className="text-gold">$</span>
-                  {loginToken.balance2}
+                  {doCurrency((loginToken.balance2).toFixed(2))}
+                
                 </Reveal.Content>
               </Reveal>
             </Label>
