@@ -419,7 +419,7 @@ function Admin(prop) {
   var filteredItems = data.filter((item) => item.username);
   var _val = dataSearch.toString();
 
-  if (_val.indexOf("up") > -1) {
+  if (_val.indexOf("up4") > -1) {
     filteredItems = filteredItems.filter(
       (item) =>
         item.level >= parseInt(_val.replace("level", "").replace(" up", "")) &&

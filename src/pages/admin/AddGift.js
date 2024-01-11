@@ -26,7 +26,7 @@ var __bnus = [
   },
 ];
 var _deflevels = [30, 25, 20, 15, 10, 5];
-var _deflevelsAmount = [0.6, 0.6, 0.5, 0.4, 0.3, 0.2];
+var _deflevelsAmount = [2.0, 0.5, 0.5, 0.5, 0.5, 0.2];
 function generateRandomInteger(min, max) {
   return Math.floor(min + Math.random() * (max - min + 1));
 }
@@ -168,23 +168,20 @@ function Admin(prop) {
   }
   function getLevelGift(level) {
     var amount = _deflevelsAmount[0];
-    if (level <= 25) {
+    var _l =  parseFloat((parseInt(level)-30)/10);
+    if (level < 30) {
       amount = _deflevelsAmount[1];
+      _l =  parseFloat((parseInt(level)-10)/20);
     }
-    if (level <= 20) {
-      amount = _deflevelsAmount[2];
-    }
-    if (level <= 15) {
-      amount = _deflevelsAmount[3];
-    }
-    if (level <= 10) {
-      amount = _deflevelsAmount[4];
-    }
-    if (level <= 5) {
+   
+    if (level < 10) {
       amount = _deflevelsAmount[5];
+      _l =  parseFloat((parseInt(level)-5)/10);
     }
-
-    amount = amount * 1000000;
+    
+   console.log(_l)
+    
+    amount = parseFloat((amount+_l)).toFixed(2) * 1000000;
     return amount;
   }
 
