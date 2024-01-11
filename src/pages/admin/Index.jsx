@@ -16,7 +16,7 @@ import Amj from "./Amjbank";
 import Setting from "./JsonSetting";
 import Requests from "./Requests";
 import Notification from "./Notification";
-import RisingPitch from "./utils/PlayAlert";
+
 import { adminGetService } from "../../services/admin";
 import { haveAdmin, haveModerator, haveOperator, haveRoot } from "../../const";
 import { useAdminTicket } from "../../hook/infoHook";
@@ -330,7 +330,7 @@ function Admin(prop) {
 
   return (
     <Segment>
-      <RisingPitch />
+    
       <Tab
         panes={tabData}
         activeIndex={activeIndex}

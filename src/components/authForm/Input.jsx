@@ -11,6 +11,7 @@ const InputF = ({
   size,
   autoComplete,
   maxLength,
+  placeholder
 }) => {
   return (
     <Form as="div">
@@ -39,7 +40,7 @@ const InputF = ({
         <FastField
           type={type}
           name={name}
-          placeholder={name}
+          placeholder={placeholder?placeholder:name}
           autoComplete={autoComplete}
           maxLength={maxLength}
         />

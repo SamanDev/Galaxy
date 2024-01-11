@@ -21,6 +21,7 @@ export const MyConfirm = (
     cancelButtonText: "بازگشت",
   }).then((result) => {
     if (result.isConfirmed) {
+      console.log(result.isConfirmed)
       callBack(bonus, _bonuses, i, loginToken);
     }
   });

@@ -186,10 +186,10 @@ function Admin(prop) {
   const handleTabChange = (e, { activeIndex }) => setActiveIndex(activeIndex);
 
   const confirmdeleteBankInfo = async (e, data) => {
-    MyConfirm("تایید حذف", "", deleteBankInfo(data));
+    MyConfirm("تایید حذف", "", deleteBankInfo,data);
   };
   const deleteBankInfo = async (data) => {
-    console.log(data);
+   
     var _key = data.userkey;
     var _childid = data.childid;
     if (_childid && _key.indexOf("-") == -1) {
@@ -230,7 +230,7 @@ function Admin(prop) {
       childId: _childid,
       value: data.checked,
     };
-
+ 
     try {
       const res = await adminPutService(values, "updateUserByAdmin");
       if (res.status == 200) {
@@ -255,7 +255,7 @@ function Admin(prop) {
     var newdataInfo = [
       getPathOfKey2(
         user,
-        ",username,level,balance,balance2,email,mobile,fullName,refer,createDate,lastLogin,blockDateOut,inviteBlockDate,bankInfos,cashierGateways,userBlock,userActivate,multiAccount,totalDeposit,totalDeposit2,totalCashout,totalCashout2,totalCommission,totalCommission2,vipPlaySecond,totalPoint,levelPoint,dailyPoint,glevel,glevelSecond,"
+        ",id,username,level,balance,balance2,email,mobile,fullName,refer,createDate,lastLogin,blockDateOut,inviteBlockDate,bankInfos,cashierGateways,userBlock,userActivate,multiAccount,totalDeposit,totalDeposit2,totalCashout,totalCashout2,totalCommission,totalCommission2,vipPlaySecond,totalPoint,levelPoint,dailyPoint,glevel,glevelSecond,"
       ),
     ];
   } else {
@@ -263,7 +263,7 @@ function Admin(prop) {
       var newdataInfo = [
         getPathOfKey2(
           user,
-          ",username,level,balance,balance2,fullName,refer,createDate,lastLogin,bankInfos,cashierGateways,multiAccount,totalDeposit,totalDeposit2,totalCashout,totalCashout2,totalCommission,totalCommission2,vipPlaySecond,totalPoint,levelPoint,dailyPoint,glevel,glevelSecond,"
+          ",id,username,level,balance,balance2,email,fullName,refer,createDate,lastLogin,bankInfos,cashierGateways,multiAccount,totalDeposit,totalDeposit2,totalCashout,totalCashout2,totalCommission,totalCommission2,vipPlaySecond,totalPoint,levelPoint,dailyPoint,glevel,glevelSecond,"
         ),
       ];
     }

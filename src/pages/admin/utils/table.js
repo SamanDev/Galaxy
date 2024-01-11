@@ -1,6 +1,7 @@
 import React from "react";
-import { Table } from "semantic-ui-react";
+import { Table,Input } from "semantic-ui-react";
 import CheckboxToggle from "./toggle";
+import ChangeEmail from "./changemailform";
 import { doCurrency } from "../../../const";
 import CartFormat from "../../../utils/CartFormat";
 var moment = require("moment");
@@ -90,6 +91,7 @@ function getList(obj) {
   return obj[0];
 }
 const TableExampleWarningShorthand = (prop) => {
+
   const renderBodyRow = ({ name, value, user, card }, i) => ({
     key: `row-${name}`,
     cells: [
@@ -107,6 +109,20 @@ const TableExampleWarningShorthand = (prop) => {
                   onChange={prop.updateUserObj}
                 />
               </span>
+            ),
+          }:value.toString().indexOf("@")>-1?{
+            key: `statusrow-${name}`,
+            content: (
+              
+                <ChangeEmail
+                  value={value}
+                  user={user}
+                  id={prop.data[0][0]?.user?.id}
+                  userkey={name}
+                 size="mini"
+                  onChange={prop.updateUserObj}
+                />
+             
             ),
           }
         : {
