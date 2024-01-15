@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Divider, Icon, Button } from "semantic-ui-react";
+import { Divider, Icon, Button,Label } from "semantic-ui-react";
 import DepositButton from "../../../input/DepositButton";
 import FormikControl from "../../../../../components/form/FormikControl";
 import { Form, Formik } from "formik";
@@ -75,18 +75,30 @@ const depositArea = (prop) => {
     return (
       <Formik
         initialValues={{
-          amountDollar: loginToken.balance > 10 * rate ? 10 : 0,
+          amountDollar: 0,
           username: loginToken.username,
           password: "",
         }}
         onSubmit={(values, submitMethods) =>
-          onSubmit(values, submitMethods, rate, prop)
+          onSubmit(values, submitMethods, getRate, prop)
         }
         validationSchema={validationSchema}
       >
         {(formik) => {
           return (
             <Form>
+               {formik.errors["amountDollar"]  &&formik.touched["amountDollar"] && (
+                  <Label
+                    className="farsi"
+                    basic
+                    color="red"
+                    pointing="below"
+                    size="mini"
+                    
+                  >
+                    {formik.errors["amountDollar"]}
+                  </Label>
+                )}
               <Button.Group vertical fluid size="mini" type="button">
                 {amounts.map((amo) => {
                   return (
@@ -105,35 +117,17 @@ const depositArea = (prop) => {
                         formik.setFieldValue("amountDollar", amo.value);
                       }}
                       disabled={
-                        loginToken.balance < amo.value * rate ? true : false
+                        loginToken.balance < amo.value * getRate ? true : false
                       }
                     >
-                      <Icon className="usdbtn">${amo.value}</Icon> <> </>
-                      {doCurrency(amo.value * getRate)}
+                      <Icon className="usdbtn"><small style={{fontSize:10,fontFamily:'cursive',fontWeight:200,opacity:.5}}>$</small><small style={{fontSize:10,fontFamily:'cursive',fontWeight:200}}>{amo.value}</small></Icon> <> </>
+                        {doCurrency(amo.value * getRate)}
                     </Button>
                   );
                 })}
               </Button.Group>
-
-              <span style={{ position: "absolute", opacity: 0, zIndex: -1 }}>
-                <FormikControl
-                  formik={formik}
-                  control="amountusd"
-                  name="amountDollar"
-                  labelcolor={prop.labelcolor}
-                  size={prop.size}
-                  rate={true}
-                  dollar={true}
-                />
-                <FormikControl
-                  formik={formik}
-                  control="input"
-                  type="text"
-                  name="username"
-                  labelcolor={prop.labelcolor}
-                  size={prop.size}
-                />
-              </span>
+              <Divider/>
+           
               <FormikControl
                 formik={formik}
                 control="input"
@@ -143,7 +137,7 @@ const depositArea = (prop) => {
                 labelcolor="red"
                 size={prop.size}
                 autoComplete="password"
-                disabled={formik.values.amountDollar == 0}
+              
               />
               <Divider inverted />
 
@@ -152,7 +146,7 @@ const depositArea = (prop) => {
                 val="تبدیل"
                 type="submit"
                 disabled={
-                  formik.isSubmitting || formik.values.amountDollar == 0
+                  formik.isSubmitting 
                 }
                 loading={formik.isSubmitting}
               />

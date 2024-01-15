@@ -8,7 +8,19 @@ import * as Yup from "yup";
 import { Alert } from "../../../../utils/alerts";
 import { getCashAmount, doCurrency } from "../../../../const";
 import { cashierService } from "../../../../services/cashier";
-import { Button, Progress, Label } from "semantic-ui-react";
+import { Button, Progress, Label,Icon } from "semantic-ui-react";
+var amounts = [
+  { value: 5 },
+  { value: 10 },
+  { value: 15 },
+  { value: 20 },
+  { value: 25 },
+  { value: 30 },
+  { value: 50 },
+  { value: 100 },
+  { value: 200 },
+  { value: 500 },
+];
 const onSubmit = async (values, submitMethods, navigate, prop, setRefresh) => {
   try {
     const res = await cashierService(values, "bankTransfer", "");
@@ -46,9 +58,8 @@ const depositArea = (prop) => {
     <Formik
       initialValues={{
         action: "cashout",
-        amount: getCashAmount(loginToken.balance),
-        amount2: doCurrency(getCashAmount(loginToken.balance)),
-        amountDollar: 0,
+        amount: 0,
+      
       }}
       onSubmit={(values, submitMethods) =>
         onSubmit(values, submitMethods, navigate, prop, setRefresh)
@@ -58,40 +69,50 @@ const depositArea = (prop) => {
       {(formik) => {
         return (
           <Form>
-            <span className="hiddenmenu">
-              <FormikControl
-                formik={formik}
-                control="amount"
-                label="مبلغ به تومان"
-                className="farsi"
-                name="amount"
-                labelcolor={prop.labelcolor}
-                size={prop.size}
-                inputmode="numeric"
-              />
-            </span>
-           
-            {formik.errors["amount"] && (
-              <Label
-                className="farsi"
-                basic
-                color="red"
-                pointing="below"
-                size={prop.size}
-              >
-                {formik.errors["amount"]}
-              </Label>
-            )}
-            <FormikControl
-              formik={formik}
-              type="text"
-              control="input"
-              label="مبلغ به تومان"
-              name="amount2"
-              labelcolor={prop.labelcolor}
-              size={prop.size}
-              inputmode="numeric"
-            />
+             {formik.errors["amount"]  &&formik.touched["amount"] && (
+                  <Label
+                    className="farsi"
+                    basic
+                    color="red"
+                    pointing="below"
+                    size="mini"
+                    
+                  >
+                    {formik.errors["amount"]}
+                  </Label>
+                )}
+            <Button.Group vertical fluid size="mini" type="button">
+                {amounts.map((amo,i) => {
+                  if(loginToken.balance >= amo.value*100000 || i < 4){
+                      return (
+                    <Button
+                      icon
+                      labelPosition="left"
+                      type="button"
+                      key={amo.value}
+                      active={
+                        formik.values.amount == amo.value*100000 ? true : false
+                      }
+                      color={
+                        formik.values.amount == amo.value*100000 ? "red" : "grey"
+                      }
+                      onClick={() => {
+                        formik.setFieldValue("amount", amo.value*100000);
+                      }}
+                      disabled={
+                        loginToken.balance < amo.value*100000  ? true : false
+                      }
+                    >
+                     <Icon className="usdbtn farsi"><small style={{fontSize:8}}>تومان</small></Icon> <> </>
+                      {doCurrency(amo.value*100000)}
+                    </Button>
+                  );
+                  }
+                
+                })}
+              </Button.Group>
+      
+          
 
             <CashoutButton
               {...prop}

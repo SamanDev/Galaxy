@@ -8,7 +8,8 @@ import * as Yup from "yup";
 import { Alert } from "../../../../utils/alerts";
 import { cashierService } from "../../../../services/cashier";
 import { doCurrency } from "../../../../const";
-
+import { Button, Progress,Icon, Divider,Label } from "semantic-ui-react";
+import DollarSelect from "../../../../components/form/dollarSelect";
 const onSubmit = async (values, submitMethods, navigate, prop, setRefresh) => {
   try {
     const res = await cashierService(values, "coinPayments", "");
@@ -61,12 +62,12 @@ const depositArea = (prop) => {
   return (
     <Formik
       initialValues={{
-        amount: _bal,
+        amount: 0,
 
         action: "cashout",
         usd: false,
         coin: "USDT.TRC20",
-        amountDollar: _bal / getRate,
+        amountDollar: 0,
         userWalletAddress: "",
         username: "",
         password: "",
@@ -79,15 +80,17 @@ const depositArea = (prop) => {
       {(formik) => {
         return (
           <Form>
-            <FormikControl
+               <DollarSelect loginToken={loginToken} formik={formik} getRate={getRate}/>
+              <FormikControl
               formik={formik}
               control="amount"
               name="amount"
               labelcolor={prop.labelcolor}
               size={prop.size}
-              dollar={true}
+              dollar={false}
+              rate={true}
               setGetRate={setGetRate}
-            />
+            /><Divider/>
             <FormikControl
               formik={formik}
               control="input"

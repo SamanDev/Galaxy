@@ -2,12 +2,14 @@ import React, { useState } from "react";
 
 import CashoutButton from "../../input/CashoutButton";
 import FormikControl from "../../../../components/form/FormikControl";
+import DollarSelect from "../../../../components/form/dollarSelect";
 import { useNavigate } from "react-router-dom";
 import { Form, Formik } from "formik";
 import * as Yup from "yup";
 import { Alert } from "../../../../utils/alerts";
 import { cashierService } from "../../../../services/cashier";
 import { doCurrency } from "../../../../const";
+
 const onSubmit = async (values, submitMethods, navigate, prop, setRefresh) => {
   try {
     const res = await cashierService(values, "createCashoutPM", "");
@@ -58,9 +60,9 @@ const depositArea = (prop) => {
   return (
     <Formik
       initialValues={{
-        amount: _bal,
+        amount: 0,
 
-        amountDollar: _bal / getRate,
+        amountDollar: 0,
       }}
       onSubmit={(values, submitMethods) =>
         onSubmit(values, submitMethods, navigate, prop, setRefresh)
@@ -70,13 +72,16 @@ const depositArea = (prop) => {
       {(formik) => {
         return (
           <Form>
-            <FormikControl
+            <DollarSelect loginToken={loginToken} formik={formik} getRate={getRate}/>
+            
+              <FormikControl
               formik={formik}
               control="amount"
               name="amount"
               labelcolor={prop.labelcolor}
               size={prop.size}
-              dollar={true}
+              dollar={false}
+              rate={true}
               setGetRate={setGetRate}
             />
 

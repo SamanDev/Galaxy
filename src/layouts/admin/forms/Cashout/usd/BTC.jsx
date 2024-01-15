@@ -8,6 +8,9 @@ import * as Yup from "yup";
 import { Alert } from "../../../../../utils/alerts";
 import { cashierService } from "../../../../../services/cashier";
 import { getCashAmountUsd } from "../../../../../const";
+import { doCurrency } from "../../../../../const";
+import { Button, Progress, Divider,Icon,Label } from "semantic-ui-react";
+import DollarSelect from "../../../../../components/form/dollarSelectDollar";
 
 const onSubmit = async (values, submitMethods, navigate, prop, setRefresh) => {
   var _val = values;
@@ -52,12 +55,12 @@ const depositArea = (prop) => {
   return (
     <Formik
       initialValues={{
-        amount: _bal,
+        amount: 0,
 
         action: "cashout",
         usd: true,
         coin: "BTC",
-        amountDollar: _bal,
+        amountDollar: 0,
         userWalletAddress: "",
         username: "",
         password: "",
@@ -70,15 +73,21 @@ const depositArea = (prop) => {
       {(formik) => {
         return (
           <Form autoComplete="off">
-            <FormikControl
-              formik={formik}
-              control="amountusd"
-              name="amount"
-              labelcolor={prop.labelcolor}
-              size={prop.size}
-              dollar={false}
-              def={_bal}
-            />
+             <DollarSelect loginToken={loginToken} formik={formik} />
+            {formik.errors["amount"] &&formik.touched["amount"] && (
+                  <Label
+                    className="farsi"
+                    basic
+                    color="red"
+                    pointing="below"
+                    size="mini"
+                    
+                  >
+                    {formik.errors["amount"]}
+                  </Label>
+                )}
+            
+    
             <FormikControl
               formik={formik}
               control="input"

@@ -8,6 +8,7 @@ import * as Yup from "yup";
 import { Alert } from "../../../../../utils/alerts";
 import { cashierService } from "../../../../../services/cashier";
 import { getCashAmountUsd } from "../../../../../const";
+import DollarSelect from "../../../../../components/form/dollarSelectDollar";
 const onSubmit = async (values, submitMethods, navigate, prop, setRefresh) => {
   var _val = values;
   _val.amountDollar = _val.amount;
@@ -46,9 +47,9 @@ const depositArea = (prop) => {
   return (
     <Formik
       initialValues={{
-        amount: _bal,
+        amount: 0,
         usd: true,
-        amountDollar: _bal,
+        amountDollar: 0,
       }}
       onSubmit={(values, submitMethods) =>
         onSubmit(values, submitMethods, navigate, prop, setRefresh)
@@ -58,15 +59,8 @@ const depositArea = (prop) => {
       {(formik) => {
         return (
           <Form>
-            <FormikControl
-              formik={formik}
-              control="amountusd"
-              name="amount"
-              labelcolor={prop.labelcolor}
-              size={prop.size}
-              dollar={false}
-              def={_bal}
-            />
+            <DollarSelect loginToken={loginToken} formik={formik} />
+     
 
             <CashoutButton
               {...prop}
