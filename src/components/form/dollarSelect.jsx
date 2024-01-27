@@ -11,6 +11,10 @@ var amounts = [
   { value: 300 },
   { value: 500 },
   { value: 1000 },
+  { value: 1500 },
+  { value: 2000 },
+  { value: 5000 },
+  { value: 10000 },
 
 ];
 
@@ -59,7 +63,7 @@ const depositArea = (prop) => {
                           loginToken.balance < amo.value * getRate ? true : false
                         }
                       >
-                         <Icon className="usdbtn"><small style={{fontSize:10,fontFamily:'cursive',fontWeight:200,opacity:.5}}>$</small><small style={{fontSize:10,fontFamily:'cursive',fontWeight:200}}>{amo.value}</small></Icon> <> </>
+                         <Icon className="usdbtn"><small style={{fontSize:10,fontFamily:'verdana',fontWeight:200,opacity:.8}}>$</small><small style={{fontSize:10,fontFamily:'verdana',fontWeight:200}}>{amo.value}</small></Icon> <> </>
                         {doCurrency(amo.value * getRate)}
                       </Button>
                   );

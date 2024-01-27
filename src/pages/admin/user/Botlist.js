@@ -20,7 +20,7 @@ import {
   adminPostService,
 } from "../../../services/admin";
 import { Alert } from "../../../utils/alerts";
-import AddCashier from "../AddRunner";
+import AddCashier from "../AddBot";
 import CheckboxToggle from "../utils/toggle";
 import AddCredit from "../AddCredit";
 

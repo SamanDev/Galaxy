@@ -233,15 +233,16 @@ function Admin(prop) {
                 search="refer"
                 searchValue={"bots"}
               />
-            </>
-          )}
-          <Bots
+               <Bots
             addTabData={addTabData}
             setGetwaysData={setGetwaysData}
             removeTabData={removeTabData}
             search="refer"
             searchValue={mode}
           />
+            </>
+          )}
+         
         </Tab.Pane>
       ),
     });

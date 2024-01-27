@@ -16,8 +16,10 @@ var amounts = [
   { value: 20 },
   { value: 25 },
   { value: 30 },
+  { value: 40 },
   { value: 50 },
   { value: 100 },
+  { value: 150 },
   { value: 200 },
   { value: 500 },
 ];

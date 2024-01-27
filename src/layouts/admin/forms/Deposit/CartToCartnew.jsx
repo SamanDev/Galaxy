@@ -14,24 +14,20 @@ import { cashierService } from "../../../../services/cashier";
 
 var countryOptions = [];
 var amounts = [
-  { value: 100000 },
-  { value: 200000 },
-  { value: 300000 },
-  { value: 400000 },
+
   { value: 500000 },
-  { value: 600000 },
-  { value: 700000 },
-  { value: 800000 },
-  { value: 900000 },
+
   { value: 1000000 },
-  { value: 1200000 },
+
   { value: 1500000 },
-  { value: 1700000 },
+
   { value: 2000000 },
-  { value: 2200000 },
+ 
   { value: 2500000 },
-  { value: 2700000 },
+
   { value: 3000000 },
+  { value: 3500000 },
+  { value: 4000000 },
 ];
 
 const localAmount = (values, prop) => {

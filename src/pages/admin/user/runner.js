@@ -160,7 +160,7 @@ function Admin(prop) {
   var filteredItems = data.filter(
     (item) =>
       item.username &&
-      item.username.toLowerCase().includes(filterText.toLowerCase())
+      (item.username.toLowerCase().includes(filterText.toLowerCase())||item.refer.toLowerCase().includes(filterText.toLowerCase()))
   );
   if (dataLoginDay) {
     var startDate = addDays(new Date(), dataLoginDay);
@@ -256,6 +256,12 @@ function Admin(prop) {
       sortable: true,
     },
     {
+      name: "liveChip",
+      selector: (row) => row.liveChip,
+      format: (row) => <>{doCurrency(row.liveChip)}</>,
+      sortable: true,
+    },
+    {
       name: "Rake%",
       selector: (row) => row.totalRake,
       format: (row) => (
@@ -337,6 +343,20 @@ function Admin(prop) {
     if (target == "total") return _totalReward;
     if (target == "count") return _data.length;
   };
+  const gettotal4 = (data, status, target) => {
+    if (!data) return 0;
+    var _data = data.filter((d) => d.liveChip != 0);
+    var _totalReward = 0;
+    {
+      _data.map((x, i) => {
+        var _am = x.liveChip;
+
+        _totalReward = _totalReward + _am;
+      });
+    }
+    if (target == "total") return _totalReward;
+    if (target == "count") return _data.length;
+  };
 
   const getDesc = (link, ftxt) => {
     ftxt = ftxt + "@" + link.toUpperCase() + "@";
@@ -348,6 +368,15 @@ function Admin(prop) {
         doCurrency(gettotal(filteredItems, "Done", "count")) +
         "): " +
         doCurrency(gettotal(filteredItems, "Done", "total")) +
+        "  َ  َ  َ |  َ  َ  َ  ";
+    }
+    if (doCurrency(gettotal4(filteredItems, "Done", "count")) > 0) {
+      ftxt =
+        ftxt +
+        "Chips (" +
+        doCurrency(gettotal4(filteredItems, "Done", "count")) +
+        "): " +
+        doCurrency(gettotal4(filteredItems, "Done", "total")) +
         "  َ  َ  َ |  َ  َ  َ  ";
     }
     if (doCurrency(gettotal2(filteredItems, "Done", "count")) > 0) {
@@ -377,6 +406,7 @@ function Admin(prop) {
     if (filteredItems.length) {
       var link = "Total";
       ftxt = getDesc(link, ftxt);
+      
     }
     setFooterTxt(ftxt);
   }, [filteredItems, data]);
