@@ -11,6 +11,7 @@ options.push({ key: 5, text: "Commission", value: "Commission" });
 options.push({ key: 6, text: "RakeBack", value: "RakeBack" });
 options.push({ key: 7, text: "Gift", value: "Gift" });
 options.push({ key: 8, text: "GPass", value: "GPass" });
+options.push({ key: 9, text: "Bonus", value: "Bonus" });
 
 const DropdownExampleMultipleSelection = (prop) => {
   return (

@@ -281,8 +281,12 @@ function Admin(prop) {
     },
     {
       name: "Win%",
-      selector: (row) => row.winPercent,
-      format: (row) => <>{row.winPercent}%</>,
+      selector: (row) => row.win,
+      format: (row) => <>{row.winPercent}%<br />
+      <AmountColor
+        amount={parseInt(row.win)}
+        sign={parseInt(row.win)}
+      /></>,
       sortable: true,
     },
     {

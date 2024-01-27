@@ -26,7 +26,7 @@ const editAmount = (amounts, mode, formik) => {
           item.value == old.amount
         ) {
           if (blnDate) {
-            canShow = false;
+            //canShow = false;
             _newAmount.push(old);
           } else {
           }
