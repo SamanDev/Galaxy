@@ -1528,7 +1528,7 @@ svg text {
 .bonuslist .ui.label > .icon {
   margin: 0 !important;
 }
-*::-webkit-scrollbar,
+
 #content_section::-webkit-scrollbar,
 .bonuslist::-webkit-scrollbar,
 .mm-navbar__breadcrumbs::-webkit-scrollbar,

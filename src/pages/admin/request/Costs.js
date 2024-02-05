@@ -7,7 +7,7 @@ import {
   Icon,
   Modal,
   Grid,
-  Divider,
+  Divider,  Input,
 } from "semantic-ui-react";
 import { convertDateToJalali } from "../../../utils/convertDate";
 import ActionBtn from "../../../utils/actionBtn";
@@ -74,6 +74,19 @@ const noDataComponent = (
     </Dimmer>
   </div>
 );
+const gettotal = (data, status, target) => {
+  var _data = data
+  var _totalReward = 0;
+  {
+    _data.map((x, i) => {
+      var _am = x.amount ;
+      _totalReward = _totalReward + _am;
+    });
+  }
+  if (target == "total") return _totalReward;
+  if (target == "count") return _data.length;
+};
+
 var _timer = 10000;
 function Admin(prop) {
   const [data, setData] = useState([]);
@@ -87,14 +100,18 @@ function Admin(prop) {
   const [dataSearch, setDataSearch] = useState("");
   const [dataMode, setDataMode] = useState("Pending");
   const [getwaysList, setGetwaysData] = useState([]);
-
-  const [startDate, setStartDate] = useState(addDays(new Date(), -14));
+  const [footerTxt, setFooterTxt] = useState("");
+  const [startDate, setStartDate] = useState(addDays(new Date(), -1));
   const [endDate, setEndDate] = useState(addDays(new Date(), 1));
   const [loading, setLoading] = useState(false);
 
   const [filterText, setFilterText] = React.useState("");
   const [filterOk, setFilterOk] = React.useState(false);
-  var filteredItems = data;
+  var filteredItems = data.filter(
+    (item) =>
+     
+      item.description.toLowerCase().includes(filterText.toLowerCase())
+  );
   const [firstOpen, setFirstOpen] = React.useState(false);
   const [firstDone, setFirstDone] = React.useState(false);
   const [firstDoneRow, setFirstDoneRow] = React.useState(false);
@@ -153,6 +170,48 @@ function Admin(prop) {
     setFirstDoneRow(row);
     setFirstStatus(status);
   };
+  const FilterComponent = ({
+    filterText,
+    onFilterOk,
+    onFilter,
+    onClear,
+    setExMode,
+  }) => (
+    <>
+      <Input
+        icon="search"
+        placeholder="Search..."
+        id="search"
+        type="text"
+        aria-label="Search Input"
+        value={filterText}
+        onChange={onFilter}
+        onBlur={onFilterOk}
+      />
+    </>
+  );
+  const getDesc = (link, ftxt) => {
+    if (doCurrency(gettotal(filteredItems, "Done", "count")) > 0) {
+      ftxt =
+      ftxt +
+        "Done (" +
+        doCurrency(gettotal(filteredItems, "Done", "count")) +
+        "): " +
+        doCurrency(gettotal(filteredItems, "Done", "total"))
+    }
+
+   
+    return ftxt;
+  };
+  useEffect(() => {
+    var ftxt = "";
+    if (filteredItems.length) {
+      var link = "Total";
+      ftxt = getDesc(link, ftxt);
+    }
+    setFooterTxt(ftxt);
+  }, [filteredItems, data]);
+ 
   const fetchUsers = async (page, load) => {
     setLoading(true);
 
@@ -241,6 +300,12 @@ function Admin(prop) {
   const subHeaderComponentMemo = React.useMemo(() => {
     var _s = moment(startDate).format("YYYY-MM-DD");
     var _e = moment(endDate).format("YYYY-MM-DD");
+    const handleClear = () => {
+      if (filterText) {
+        setResetPaginationToggle(!resetPaginationToggle);
+        setFilterText("");
+      }
+    };
     return (
       <>
         <Grid
@@ -271,11 +336,11 @@ function Admin(prop) {
               </Button>
             </Grid.Column>
             <Grid.Column>
-              <FilterMode
-                onFilter={(e, { value }) => {
-                  setDataMode(value.toString());
-                }}
-                value={dataMode}
+              
+              <FilterComponent
+                onFilter={(e) => setFilterText(e.target.value)}
+                onClear={handleClear}
+                filterText={filterText}
               />
             </Grid.Column>
           </Grid.Row>
@@ -309,28 +374,7 @@ function Admin(prop) {
       >
         <AddCashier setCashierOpen={setCashierOpen} />
       </Modal>
-      <Modal
-        onClose={() => setFirstDone(false)}
-        onOpen={() => setFirstDone(true)}
-        open={firstDone}
-        style={{ height: "auto" }}
-        basic
-        closeOnDimmerClick={false}
-        closeIcon
-      >
-        <div className="myaccount popupmenu" style={{ margin: 50 }}>
-          <Confirm
-            {...prop}
-            carts={carts}
-            gateway="BankTransfer"
-            setFilterOk={setFilterOk}
-            item={firstDoneRow}
-            status={firstStatus}
-            setFirstDone={setFirstDone}
-            setFirstStatus={setFirstStatus}
-          />
-        </div>
-      </Modal>
+     
 
       <div
         className="reportTable"
@@ -349,7 +393,7 @@ function Admin(prop) {
           noDataComponent={noDataComponent}
           pagination
           paginationResetDefaultPage={resetPaginationToggle} // optionally, a hook to reset pagination to page 1
-          persistTableHead
+      
           paginationComponentOptions={{
             rangeSeparatorText: "of",
             noRowsPerPage: false,
@@ -361,6 +405,7 @@ function Admin(prop) {
           paginationRowsPerPageOptions={[10, 25, 50, 100, 500, 1000, 5000]}
           paginationTotalRows={totalRows}
         />
+        {footerTxt}
       </div>
     </>
   );

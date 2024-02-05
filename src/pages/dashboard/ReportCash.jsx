@@ -125,8 +125,9 @@ const Report = (prop) => {
                             <div>
                               {item.description
                                 .replace("Remove transfer chip from:", "")
+                                .replace("Add transfer chip to", "")
                                 .replace("Remove usd transfer chip from:", "")
-                                .replace(":", "")}
+                                .replace(/:/g, "")}
                             </div>
                           )}
                           {item.coin && " - " + item.coin}
@@ -191,7 +192,9 @@ const Report = (prop) => {
                             <div>
                               {item.description
                                 .replace("Remove transfer chip from:", "")
-                                .replace(":", "")}
+                                .replace("Add transfer chip to", "")
+                                .replace("Remove usd transfer chip from:", "")
+                                .replace(/:/g, "")}
                             </div>
                           )}
                           {item.coin && " - " + item.coin}

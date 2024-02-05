@@ -141,7 +141,11 @@ function Admin(prop) {
 
   const [filterText, setFilterText] = React.useState("");
   const [filterOk, setFilterOk] = React.useState(false);
-
+var filteredItems = data.filter(
+    (item) =>
+      item.username &&
+      item.username.toLowerCase().includes(filterText.toLowerCase())
+  );
   const [resetPaginationToggle, setResetPaginationToggle] =
     React.useState(false);
   const handleChangeSearch = (e, { value }) => {
@@ -252,29 +256,7 @@ function Admin(prop) {
     var _name = prop.search;
     var _val = prop.searchValue;
     var _contain = true;
-    if (dataSearch) {
-      _name = "level";
-      _val = dataSearch.toString();
-      if (_val.indexOf("up") == -1) {
-        _contain = false;
-      }
-      _val = _val.replace("up", "");
-      if (_val == "chip") {
-        _name = "chip";
-        _val = "";
-        _contain = false;
-        setDataSortedID(5);
-      }
-    }
-    if (_name == "") {
-      _name = "username";
-    }
-    if (filterText) {
-      _name = "username";
-      _val = filterText;
-      _contain = true;
-    }
-
+ 
     setLoading(true);
     try {
       const res = await adminGetService(`getVgcBank`);
@@ -286,7 +268,7 @@ function Admin(prop) {
     } catch (error) {
       //console.log(error.message);
     } finally {
-      setLoading(false);
+      //setLoading(false);
     }
     try {
       const res = await adminGetService(
@@ -311,8 +293,12 @@ function Admin(prop) {
   const handlePageChange = (page) => {
     fetchUsers(page);
   };
-  var filteredItems = data;
-
+  
+  var filteredItems = data.filter(
+    (item) =>
+     
+      item.description.toLowerCase().includes(filterText.toLowerCase())
+  );
   useEffect(() => {
     //fetchUsers(1); // fetch page 1 of users
   }, [dataSearch]);
@@ -351,7 +337,7 @@ function Admin(prop) {
       prop.addTabData(params.username, prop.getwaysList);
     }
   }, []);
-
+  
   const subHeaderComponentMemo = React.useMemo(() => {
     const handleClear = () => {
       if (filterText) {
@@ -390,6 +376,11 @@ function Admin(prop) {
 
             <Grid.Column style={{ textAlign: "right" }}>
               Total: {doCurrency(bank?.amount + bank?.liveAmount)}
+              <FilterComponent
+                onFilter={(e) => setFilterText(e.target.value)}
+                onClear={handleClear}
+                filterText={filterText}
+              />
             </Grid.Column>
           </Grid.Row>
         </Grid>

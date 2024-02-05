@@ -2,7 +2,7 @@ import React, { useState } from "react";
 
 import FormikControl from "../../components/form/FormikControl";
 import { useNavigate } from "react-router-dom";
-import { Form, Formik } from "formik";
+import { Form, Formik ,FastField} from "formik";
 import * as Yup from "yup";
 import { Alert } from "../../utils/alerts";
 import { adminPostService } from "../../services/admin";
@@ -14,12 +14,51 @@ import {
   Loader,
   Modal,
   Select,
-  Radio,
+  Radio, Label,Dropdown
 } from "semantic-ui-react";
+var cartsOptions = [{
+  key: -1,
+
+  text: "...",
+  value: "",
+},{
+  key: 0,
+
+  text: "HangOver2",
+  value: "HangOver2",
+},{
+  key: 1,
+
+  text: "jonsnow2",
+  value: "jonsnow2",
+},{
+  key: 2,
+
+  text: "JamieW2",
+  value: "JamieW2",
+},{
+  key: 3,
+
+  text: "NeverHood2",
+  value: "NeverHood2",
+},{
+  key: 4,
+
+  text: "King2",
+  value: "King2",
+
+},{
+  key: 5,
+
+  text: "Toni",
+  value: "Toni",
+}];
+
 const initialValues = {
   mode: "remove",
   amount: 0,
   description: "",
+  adminName: "",
 };
 const validationSchema = Yup.object({
   amount: Yup.number()
@@ -55,7 +94,7 @@ const depositArea = (prop) => {
     <>
       {" "}
       <Modal.Header>Add VGC Report</Modal.Header>
-      <Modal.Content className="myaccount popup">
+      <Modal.Content className="myaccount popup" style={{minHeight:500}}>
         <Formik
           initialValues={initialValues}
           onSubmit={(values, submitMethods) =>
@@ -65,7 +104,7 @@ const depositArea = (prop) => {
         >
           {(formik) => {
             return (
-              <Form>
+              <Form >
                 <Button.Group fluid widths={3}>
                   <Button
                     type="button"
@@ -80,6 +119,7 @@ const depositArea = (prop) => {
                   <Button
                     type="button"
                     onClick={() => {
+                      formik.setFieldValue("adminName", "");
                       formik.setFieldValue("mode", "add");
                     }}
                     positive={formik.values.mode === "add"}
@@ -87,7 +127,7 @@ const depositArea = (prop) => {
                     Add
                   </Button>
                 </Button.Group>
-
+               
                 <FormikControl
                   formik={formik}
                   control="amount"
@@ -99,6 +139,31 @@ const depositArea = (prop) => {
                   autoComplete="off"
                   inputmode="numeric"
                 />
+                {formik.values.mode === "remove"  && 
+                 <Input size={"large"} fluid labelPosition="left" defaultValue="">
+        <Label
+          size={"large"}
+          pointing="right"
+         color="orange"
+          className="farsi"
+        >
+         Admin Name
+        </Label>
+
+        <FastField
+          as={Dropdown}
+          placeholder="..."
+          name={"adminName"}
+    
+          selection
+          fluid
+          options={cartsOptions}
+          onChange={(e, data) => {
+            formik.setFieldValue("adminName", data.value);
+       
+          }}
+        />
+      </Input>}
                 <FormikControl
                   formik={formik}
                   control="input"
