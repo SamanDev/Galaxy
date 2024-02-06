@@ -989,7 +989,7 @@ function App(prop) {
       // finalMenu = "";
       setIsUser(isLogin);
       startServiceWorker();
-      if (loginToken?.refer == "runner") {
+      if (loginToken?.refer == "runner" || loginToken?.refer == "bots") {
         $(".cashierarea").remove();
       }
     }

@@ -173,7 +173,7 @@ const LevelList = (prop) => {
         </List>
         {loginToken?.accessToken &&
           !loginToken?.logout &&
-          loginToken?.refer != "runner" && (
+          loginToken?.refer != "runner"  && loginToken?.refer != "bots" && (
             <LazyLoad height={300}>
               <ul className="mm-listview">
                 <li className="menutitle mm-listitem"></li>

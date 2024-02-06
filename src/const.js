@@ -395,7 +395,7 @@ export const GetMenu = (siteInfo, loginToken) => {
       idname: "admin",
     },
   ];
-  if (loginToken?.refer != "runner") {
+  if (loginToken?.refer != "runner" && loginToken?.refer != "bots") {
     _ret.push({
       label: "صندوق",
       title: "صندوق",
@@ -652,7 +652,7 @@ export const GetMenu = (siteInfo, loginToken) => {
           }, */
     ],
   });
-  if (loginToken?.refer != "runner") {
+  if (loginToken?.refer != "runner" && loginToken?.refer != "bots") {
     _ret.push({
       label: "دعوت دوستان و کسب درآمد",
       title: "دعوت دوستان و کسب درآمد",

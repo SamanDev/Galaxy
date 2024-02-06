@@ -99,8 +99,8 @@ function Admin(prop) {
   if (filterText)
     filteredItems = filteredItems.filter(
       (item) =>
-        item.username &&
-        item.username.toLowerCase().includes(filterText.toLowerCase())
+   
+        item.username.toLowerCase().includes(filterText.toLowerCase()) || item.description.toLowerCase().includes(filterText.toLowerCase())
     );
   if (dataMode == "Pending") {
     filteredItems = filteredItems.filter((item) => {
@@ -109,6 +109,7 @@ function Admin(prop) {
         item.cashoutDescription.remainedAmount >= 100000 ||
         (
           item.gateway == "IranShetab" &&
+          item.cashoutDescription.remainedAmount > 0 &&
           item.status != "Canceled" &&
           item.description.indexOf("V-G-C") == -1)
       );
@@ -332,7 +333,7 @@ function Admin(prop) {
     },
     {
       name: "PendingAmount",
-      selector: (row) => row.cashoutDescription,
+      selector: (row) => row.cashoutDescription.remainedAmount,
       format: (row) => (
         <span className=" fw-bold">
           <AmountColor amount={row.cashoutDescription.remainedAmount} />

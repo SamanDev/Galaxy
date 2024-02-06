@@ -404,10 +404,10 @@ function Admin(prop) {
         row.amount2
           ? row.endBalance2 >= row.startBalance2
             ? row.amount2
-            : row.amount2 * -1
+            : row.amount2
           : row.endBalance >= row.startBalance
           ? row.amount
-          : row.amount * -1,
+          : row.amount ,
       format: (row) => (
         <>
           {row.amount2 ? (
