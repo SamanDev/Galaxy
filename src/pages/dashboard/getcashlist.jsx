@@ -38,7 +38,7 @@ const depositArea = (prop) => {
     var ste = user.checkoutList ? user.checkoutList : user.checkoutListSet;
     return (
       <Segment inverted size="mini">
-        <div className="farsi text-secondary rightfloat">
+        {user.destinationCardNumber && <><div className="farsi text-secondary rightfloat">
           واریز به <br />
           <span
             className="text-gold"
@@ -52,7 +52,8 @@ const depositArea = (prop) => {
             (user.paidAmount * 100) / user.totalWithdrawalAmount
           ).toFixed(0)}
           %
-        </div>
+        </div></>}
+        
 
         {ste.length > 0 && <Divider />}
         {ste

@@ -333,10 +333,10 @@ function Admin(prop) {
     },
     {
       name: "PendingAmount",
-      selector: (row) => row.cashoutDescription.remainedAmount,
+      selector: (row) => row.pendingAmount,
       format: (row) => (
         <span className=" fw-bold">
-          <AmountColor amount={row.cashoutDescription.remainedAmount} />
+          <AmountColor amount={row.pendingAmount} />
         </span>
       ),
       sortable: true,

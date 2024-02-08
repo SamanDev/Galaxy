@@ -40,7 +40,7 @@ const Report = (prop) => {
               ? item.endBalance2 != item.startBalance2
               : item.endBalance != item.startBalance
           )
-          .sort((a, b) => (a.updateDate < b.updateDate ? 1 : -1));
+          .sort((a, b) => (a.id < b.id ? 1 : -1));
         setData(_res);
       }
       setLoading(false);

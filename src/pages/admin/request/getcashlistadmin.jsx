@@ -38,7 +38,7 @@ const depositArea = (prop) => {
     var ste = user.checkoutList ? user.checkoutList : user.checkoutListSet;
     return (
       <Segment inverted size="mini" style={{ minWidth: 300 }}>
-        <div className="farsi text-secondary rightfloat">
+        {user.destinationCardNumber && <div className="farsi text-secondary rightfloat">
           واریز به <br />
           <span
             className="text-gold"
@@ -46,7 +46,8 @@ const depositArea = (prop) => {
           >
             <ConvertCart cartNo={user.destinationCardNumber} isLock={true} />
           </span>
-        </div>
+        </div>}
+        
         <div className="text-gold fs-3 p-3">
           {parseFloat(
             (user.paidAmount * 100) / user.totalWithdrawalAmount

@@ -27,7 +27,7 @@ const Actios = (prop) => {
     );
   } else {
     if (
-      (prop.row.status === "Done" && prop.row.pendingAmount > 0) ||
+      (prop.row.status === "Done" && prop.row.pendingAmount > 0 && prop.row.paid==false && prop.row.mode != "Cashout") ||
       prop.row.mode === "Deposit"
     ) {
       return (
@@ -39,6 +39,25 @@ const Actios = (prop) => {
             loading={loading}
             disabled={loading}
             onClick={() => prop.updateStatus(prop.row, "Pending", setLoading)}
+          />
+        </>
+      );
+    }
+  
+    if (
+      ( prop.row.pendingAmount > 0) &&
+      prop.row.mode === "Cashout"
+    ) {
+      return (
+        <>
+          <Button
+            size="mini"
+            color="yellow"
+            icon="refresh"
+            loading={loading}
+            disabled={loading}
+            onClick={() => prop.updateStatus(prop.row, "Canceled", setLoading)}
+            content={"refound "+ prop.row.pendingAmount}
           />
         </>
       );

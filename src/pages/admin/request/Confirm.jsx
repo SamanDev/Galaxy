@@ -28,6 +28,8 @@ const onSubmit = async (values, submitMethods, prop) => {
   if (prop.status == "Canceled") {
     var newValues = {
       orderId: values.id,
+      mode: values.mode,
+
     };
 
     const res = await adminPostService(newValues, "cancelCashout", "");
@@ -369,7 +371,29 @@ const depositArea = (prop) => {
                         labelcolor={prop.labelcolor}
                         size={prop.size}
                       />
-
+<br /> <br />
+                <Button.Group fluid widths={3}>
+                  <Button
+                    type="button"
+                    onClick={() => {
+                      formik.setFieldValue("mode", "Canceled");
+                    }}
+                    positive={formik.values.mode === "Canceled"}
+                  >
+                    Canceled
+                  </Button>
+                  <Button.Or text="or" />
+                  <Button
+                    type="button"
+                    onClick={() => {
+                      formik.setFieldValue("mode", "Refund");
+                    }}
+                    positive={formik.values.mode === "Refund"}
+               
+                  >
+                    Canceled and Refund
+                  </Button>
+                </Button.Group>
                       {/*  <Divider />
                       <Select
                         placeholder="علت"
