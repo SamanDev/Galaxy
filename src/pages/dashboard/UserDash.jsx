@@ -80,7 +80,7 @@ const Dashboard = (prop) => {
 
         display: "fullscreen",
         theme_color: "#000000",
-        orientation: "portrait",
+        orientation: "landscape",
 
         start_url: sUrl,
         scope: dd,
