@@ -148,7 +148,7 @@ function Admin(prop) {
 const children = newdata.concat(res.data.topWinners); 
      
         setData(children);
-
+        setTotalRows(res.data.totalUser)
         setFilterOk(false);
       }
     } catch (error) {
@@ -381,7 +381,7 @@ const children = newdata.concat(res.data.topWinners);
         <Grid verticalAlign="middle" columns={2} as={Segment} color="red">
           <Grid.Row>
             <Grid.Column>
-              <h1>{prop.searchValue}</h1>
+              <h1>{prop.searchValue} - TotalUsers: {totalRows}</h1>
             </Grid.Column>
             <Grid.Column>
             <Input
