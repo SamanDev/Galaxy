@@ -57,6 +57,45 @@ const Report = (prop) => {
         );
 
         setData(_res);
+        if(gateway=="IranShetab"){
+          handleGetReports2(_res,gateway)
+        }
+      }
+    } catch (error) {
+      //console.log(error.message);
+    } finally {
+      setLoading(false);
+     
+      
+    }
+  };
+  const handleGetReports2 = async (data,getGateways) => {
+    var gateway = getGateways
+        
+        .replace("IranShetab", "VisaGiftCode")
+    ;
+    setLoading(true);
+    try {
+      const res = await getReportService(
+        loginToken.id,
+        prop.mode,
+        gateway,
+
+        prop.menu?.usd
+      );
+      if (res.status === 200) {
+        var _res = res.data.filter((item) =>
+          prop.menu?.usd
+            ? item.endBalance2 != item.startBalance2
+            : item.endBalance != item.startBalance
+        );
+        var newdata = data
+    
+
+        const children = newdata.concat(_res).sort((a, b) => (a.createDate < b.createDate ? 1 : -1)); 
+             
+                setData(children);
+        //setData(_res);
       }
     } catch (error) {
       //console.log(error.message);
@@ -246,7 +285,7 @@ const Report = (prop) => {
                         <CshList id={item.id} item={item.cashoutDescription} />
                       )}
                     {item.status === "Done" &&
-                      item.gateway == "IranShetab" &&
+                      item.gateway == "VisaGiftCode" &&
                       item.description.indexOf("V-G-C") > -1 && (
                         <CshListVgc id={item.id} item={item.description} />
                       )}

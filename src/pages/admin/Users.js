@@ -568,7 +568,9 @@ function Admin(prop) {
                   </Button>
                 </>
               )}
-
+<Button onClick={() => prop.addMainTabData("Winners")}>
+                Winners
+              </Button>
               <Button onClick={() => prop.addMainTabData("Runner")}>
                 Runners
               </Button>

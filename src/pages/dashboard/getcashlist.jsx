@@ -25,7 +25,7 @@ const depositArea = (prop) => {
     if (
       prop.item &&
       prop.item?.destinationCardNumber &&
-      prop.item?.paidAmount == prop.item?.totalWithdrawalAmount
+      (prop.item?.paidAmount == prop.item?.totalWithdrawalAmount || prop.item?.paidAmount<0)
     ) {
       setUser(prop.item);
     } else {

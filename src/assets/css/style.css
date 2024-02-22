@@ -1535,6 +1535,7 @@ svg text {
 .framegame::-webkit-scrollbar {
   display: none;
 }
+
 .bonuslist .item {
   padding: 7px 0 !important;
   font-size: 11px;

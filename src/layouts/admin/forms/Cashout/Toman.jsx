@@ -18,10 +18,15 @@ var amounts = [
   { value: 30 },
   { value: 40 },
   { value: 50 },
+
+];
+var amountsPer = [
+  { value: 25 },
+  { value: 50 },
+  { value: 75 },
+  { value: 90 },
   { value: 100 },
-  { value: 150 },
-  { value: 200 },
-  { value: 500 },
+
 ];
 const onSubmit = async (values, submitMethods, navigate, prop, setRefresh) => {
   try {
@@ -84,7 +89,7 @@ const depositArea = (prop) => {
                   </Label>
                 )}
             <Button.Group vertical fluid size="mini" type="button">
-                {amounts.map((amo,i) => {
+            {amounts.map((amo,i) => {
                   if(loginToken.balance >= amo.value*100000 || i < 4){
                       return (
                     <Button
@@ -107,6 +112,34 @@ const depositArea = (prop) => {
                     >
                      <Icon className="usdbtn farsi"><small style={{fontSize:8}}>تومان</small></Icon> <> </>
                       {doCurrency(amo.value*100000)}
+                    </Button>
+                  );
+                  }
+                
+                })}
+                {amountsPer.map((amo,i) => {
+                  var newbal = parseInt(loginToken.balance/1000)*1000
+                  if(newbal*amo.value/100 > 5000000){
+                    
+                      return (
+                    <Button
+                      icon
+                      labelPosition="left"
+                      type="button"
+                      key={amo.value}
+                      active={
+                        formik.values.amount == newbal*amo.value/100 ? true : false
+                      }
+                      color={
+                        formik.values.amount == newbal*amo.value/100 ? "red" : "grey"
+                      }
+                      onClick={() => {
+                        formik.setFieldValue("amount", newbal*amo.value/100);
+                      }}
+                  
+                    >
+                     <Icon className="usdbtn farsi"><small style={{fontSize:8}}>تومان</small></Icon> <> </>
+                      {doCurrency(parseInt(newbal*amo.value/100))}  - ({amo.value}%)
                     </Button>
                   );
                   }

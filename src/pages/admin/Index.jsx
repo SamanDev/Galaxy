@@ -5,6 +5,7 @@ import { Navigate } from "react-router-dom";
 
 import Bankroll from "./income/Bankroll";
 import Runner from "./user/runner";
+import Winners from "./user/winner";
 import Botlist from "./user/Botlist";
 import Bots from "./user/Bots";
 import Income from "./income/Income";
@@ -216,7 +217,15 @@ function Admin(prop) {
           className="ui inverted segment"
           style={{ height: "calc(100vh - 150px)", overflow: "auto" }}
         >
-          {mode == "Runner" ? (
+          {mode == "Winners" ? (
+            <Winners
+              addTabData={addTabData}
+              setGetwaysData={setGetwaysData}
+              removeTabData={removeTabData}
+              search="refer"
+              searchValue={mode}
+            />
+          ) : mode == "Runner" ? (
             <Runner
               addTabData={addTabData}
               setGetwaysData={setGetwaysData}

@@ -8,7 +8,7 @@ import { Image } from "semantic-ui-react";
 const Index = (prop) => {
   return (
     <>
-      {prop.loginToken?.accessToken && (
+      {prop.loginToken?.accessToken && !prop.loginToken?.logout && (
         <PWAPrompt
           timesToShow={300}
           delay={1000}
