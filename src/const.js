@@ -18,16 +18,16 @@ export const pokerUrl =
 function getAPI() {
   //let host = document.location.host;
   var host = {
-    onlinePath: "https://api.khodekhalse.com",
-    offlinePath: "https://api.khodekhalse.com",
+    onlinePath: "https://api.glxypkr.com",
+    offlinePath: "https://api.glxypkr.com",
   };
   //let host = "loole.gg:443";
   let protocol2 = document.location.protocol;
 
   if (protocol2 == "https:") {
     host = {
-      onlinePath: "https://api.khodekhalse.com",
-      offlinePath: "https://api.khodekhalse.com",
+      onlinePath: "https://api.glxypkr.com",
+      offlinePath: "https://api.glxypkr.com",
     };
   }
 
@@ -53,18 +53,18 @@ function getPort() {
   return loc;
 }
 function getPortPablic() {
-  //let host = "khodekhalse.com";
+  //let host = "glxypkr.com";
   let host =
     process.env.NODE_ENV === "production" ? document.location.host : "";
   let protocol2 = document.location.protocol;
   let protocol = "";
   if (protocol2 == "https:") {
     protocol = "wss://";
-    host = "khodekhalse.com";
+    host = "glxypkr.com";
     // host = "";
   } else {
     protocol = "wss://";
-    host = "khodekhalse.com";
+    host = "glxypkr.com";
   }
   //protocol = "wss://";
   let loc = protocol + host + "";

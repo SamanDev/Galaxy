@@ -26,7 +26,7 @@ export function startServiceWorker() {
 }
 export const gamesUrl =
   process.env.NODE_ENV === "production"
-    ? "https://wheel.khodekhalse.com/"
+    ? "https://wheel.glxypkr.com/"
     : "http://localhost:3000/";
 function getAPI() {
   //let host = document.location.host;
@@ -70,7 +70,7 @@ function getPort() {
 function getPortPablic() {
   //let host = "51.195.176.97:8081";
   //let host = "139.99.144.72:8081";
-  //let host = "khodekhalse.com";
+  //let host = "glxypkr.com";
   let host =
     process.env.NODE_ENV === "production"
       ? document.location.host
