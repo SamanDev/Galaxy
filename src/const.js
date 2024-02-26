@@ -60,11 +60,11 @@ function getPortPablic() {
   let protocol = "";
   if (protocol2 == "https:") {
     protocol = "wss://";
-    host = "glxypkr.com";
+    host = "api.glxypkr.com";
     // host = "";
   } else {
     protocol = "wss://";
-    host = "glxypkr.com";
+    host = "api.glxypkr.com";
   }
   //protocol = "wss://";
   let loc = protocol + host + "";
