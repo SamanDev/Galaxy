@@ -213,7 +213,7 @@ function Admin(prop) {
                     <CurrencyInput
                       name="minuses"
                       allowDecimals={false}
-                      defaultValue={1000000}
+                      defaultValue={3000000}
                       onValueChange={(value, name) => {
                         if (parseInt(value) != 0) {
                           user.amount = parseInt(value);
