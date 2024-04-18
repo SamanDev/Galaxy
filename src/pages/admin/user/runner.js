@@ -106,7 +106,7 @@ const updateUserObj = async (e, data) => {
 const getGateways = JSON.parse(localStorage.getItem("getGateways"));
 function Admin(prop) {
   const [data, setData] = useState([]);
-
+  const [dataStat, setDataStat] = useState();
   const [totalRows, setTotalRows] = useState(0);
   const [perPage, setPerPage] = useState(10);
   const [dataSortedID, setDataSortedID] = useState(1);
@@ -138,10 +138,10 @@ function Admin(prop) {
 
     setLoading(true);
     try {
-      const res = await adminGetService(`getRunners`);
+      const res = await adminGetService(`getRunners2`);
       if (res.status === 200) {
-        setData(res.data);
-
+        setData(res.data.runnerList);
+        setDataStat(res.data)
         setFilterOk(false);
       }
     } catch (error) {
@@ -263,7 +263,7 @@ function Admin(prop) {
     },
     {
       name: "Rake%",
-      selector: (row) => row.totalRake,
+      selector: (row) => row.liveRake,
       format: (row) => (
         <span
           onClick={() => {
@@ -271,9 +271,9 @@ function Admin(prop) {
             setCashierOpen(true);
           }}
         >
-          {doCurrency(row.totalRake)}
+          {doCurrency(row.liveRake)}
           <br />
-          {doCurrency(parseInt((row.totalRake * row.percent) / 100))} (
+          {doCurrency(parseInt((row.liveRake * row.percent) / 100))} (
           {row.percent}%)
         </span>
       ),
@@ -321,11 +321,11 @@ function Admin(prop) {
   };
   const gettotal2 = (data, status, target) => {
     if (!data) return 0;
-    var _data = data.filter((d) => d.totalRake != 0);
+    var _data = data.filter((d) => d.liveRake != 0);
     var _totalReward = 0;
     {
       _data.map((x, i) => {
-        var _am = x.totalRake;
+        var _am = x.liveRake;
 
         _totalReward = _totalReward + _am;
       });
@@ -335,11 +335,11 @@ function Admin(prop) {
   };
   const gettotal3 = (data, status, target) => {
     if (!data) return 0;
-    var _data = data.filter((d) => d.total != 0);
+    var _data = data.filter((d) => d.win != 0);
     var _totalReward = 0;
     {
       _data.map((x, i) => {
-        var _am = x.total;
+        var _am = x.win;
 
         _totalReward = _totalReward + _am;
       });
@@ -528,6 +528,7 @@ function Admin(prop) {
               </div>
             );
           })}
+          <br/>botTotalLive: {doCurrency(dataStat?.botTotalLive)} || botTotalRakeLive: {doCurrency(dataStat?.botTotalRakeLive)} || runnerTotalLive: {doCurrency(dataStat?.runnerTotalLive)} || runnerTotalRakeLive: {doCurrency(dataStat?.runnerTotalRakeLive)}
         </Segment>
       </div>
     </>
