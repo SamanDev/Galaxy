@@ -1145,7 +1145,8 @@ function App(prop) {
             </nav>
           </div>
 
-          {loginToken?.accessToken && !loginToken?.logout ? (
+          {loginToken?.accessToken && !loginToken?.logout  && (haveAdmin(loginToken?.roles) ||
+                haveModerator(loginToken?.roles))? (
             <>
               <Modal
                 basic
