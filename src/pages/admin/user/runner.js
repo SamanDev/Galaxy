@@ -262,6 +262,12 @@ function Admin(prop) {
       sortable: true,
     },
     {
+      name: "onTables",
+      selector: (row) => row.onTables,
+      format: (row) => <>{doCurrency(row.onTables)}</>,
+      sortable: true,
+    },
+    {
       name: "Rake%",
       selector: (row) => row.liveRake,
       format: (row) => (
@@ -339,7 +345,7 @@ function Admin(prop) {
     var _totalReward = 0;
     {
       _data.map((x, i) => {
-        var _am = x.win;
+        var _am = x.onTables;
 
         _totalReward = _totalReward + _am;
       });
@@ -395,7 +401,7 @@ function Admin(prop) {
     if (doCurrency(gettotal3(filteredItems, "Done", "count")) > 0) {
       ftxt =
         ftxt +
-        "total (" +
+        "ontable (" +
         doCurrency(gettotal3(filteredItems, "Done", "count")) +
         "): " +
         doCurrency(gettotal3(filteredItems, "Done", "total")) +
