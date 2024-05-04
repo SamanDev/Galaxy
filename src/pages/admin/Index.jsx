@@ -17,6 +17,7 @@ import Amj from "./Amjbank";
 import Setting from "./JsonSetting";
 import Requests from "./Requests";
 import Notification from "./Notification";
+import SendMail from "./SendMail";
 
 import { adminGetService } from "../../services/admin";
 import { haveAdmin, haveModerator, haveOperator, haveRoot } from "../../const";
@@ -131,6 +132,21 @@ function Admin(prop) {
           pane: (
             <Tab.Pane key="Notification">
               <Notification
+                addTabData={addTabData}
+                addMainTabData={addMainTabData}
+                setGetwaysData={setGetwaysData}
+                addGatewayTabData={addGatewayTabData}
+                removeTabData={removeTabData}
+                {...prop}
+              />
+            </Tab.Pane>
+          ),
+        },
+        {
+          menuItem: "SendMail",
+          pane: (
+            <Tab.Pane key="SendMail">
+              <SendMail
                 addTabData={addTabData}
                 addMainTabData={addMainTabData}
                 setGetwaysData={setGetwaysData}
