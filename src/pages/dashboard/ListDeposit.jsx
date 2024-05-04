@@ -2,7 +2,6 @@ import React from "react";
 import { List, Divider } from "semantic-ui-react";
 import Status from "../../utils/Status";
 import AmountColor from "../../utils/AmountColor";
-import Accordion from "../../pages/dashboard/Accordion";
 import { doCurrency } from "../../const";
 const ListExampleInverted = (prop) => (
   <List inverted relaxed size="mini" className="mylist">

@@ -1,13 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { Divider, List, Grid } from "semantic-ui-react";
+import { Grid } from "semantic-ui-react";
 import Bonus from "./bonus";
 
-import Status from "../../../utils/Status";
 import MenuLoader from "../../../utils/menuLoader";
-import { convertDateToJalali } from "../../../utils/convertDate";
-import AmountColor from "../../../utils/AmountColor";
 import { getRefferService } from "../../../services/report";
-import NoData from "../../../utils/noData";
 const BonusArea = (prop) => {
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);

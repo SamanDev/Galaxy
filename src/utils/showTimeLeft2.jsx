@@ -1,7 +1,5 @@
 import React from "react";
-import AddToCalendarHOC from "react-add-to-calendar-hoc";
 import $ from "jquery";
-import { Button, Icon } from "semantic-ui-react";
 import Moment from "react-moment";
 const moment = require("moment");
 moment.updateLocale("en", {

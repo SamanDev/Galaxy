@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Divider, Segment, Progress } from "semantic-ui-react";
+import { Divider, Segment } from "semantic-ui-react";
 import ConvertCart from "../../utils/convertCart";
 import { cashierService } from "../../services/cashier";
 import { doCurrency } from "../../const";

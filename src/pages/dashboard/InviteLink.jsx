@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { Label, Input, Button, Icon, Divider } from "semantic-ui-react";
 import AnimIcon from "../../utils/inviteIcon";
-import Swal from "sweetalert2";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import MyMsg from "../../utils/MsgDesc";
 

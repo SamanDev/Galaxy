@@ -4,7 +4,6 @@ import { siteInfoDef, isJson } from "../const";
 import { publicGetRules, userGetRules } from "../services/public";
 import { getReportPenService } from "../services/report";
 import eventBus from "../services/eventBus";
-import $ from "jquery";
 function sendMessage(message) {
   try {
     const iframe = document.querySelector("iframe[name=gameframe]");

@@ -36,7 +36,7 @@ function SegmentExamplePlaceholderInline(prop) {
           <Header icon>
             <Icon>
               <Image
-                src="/assets/images/logo.webp"
+                src="/assets/images/logo.png"
                 centered
                 alt="گلکسی کازینو"
                 style={{
@@ -86,6 +86,7 @@ function SegmentExamplePlaceholderInline(prop) {
         <Segment inverted padded="very" className="fadeoutend">
           <Grid reversed="computer tablet">
             <Grid.Column mobile={16} tablet={10} computer={10}>
+       
               <div className="farsi">
                 <h2 className="farsi">بازی پوکر آنلاین با پول واقعی</h2>
                 <p className="lh-base">
