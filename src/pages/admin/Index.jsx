@@ -123,7 +123,22 @@ function Admin(prop) {
             />
           </Tab.Pane>
         ),
-      });
+        
+      }, {
+        menuItem: "SendMail",
+        pane: (
+          <Tab.Pane key="SendMail">
+            <SendMail
+              addTabData={addTabData}
+              addMainTabData={addMainTabData}
+              setGetwaysData={setGetwaysData}
+              addGatewayTabData={addGatewayTabData}
+              removeTabData={removeTabData}
+              {...prop}
+            />
+          </Tab.Pane>
+        ),
+      },);
     }
     if (haveRoot(loginToken.roles)) {
       panes.push(
@@ -142,21 +157,7 @@ function Admin(prop) {
             </Tab.Pane>
           ),
         },
-        {
-          menuItem: "SendMail",
-          pane: (
-            <Tab.Pane key="SendMail">
-              <SendMail
-                addTabData={addTabData}
-                addMainTabData={addMainTabData}
-                setGetwaysData={setGetwaysData}
-                addGatewayTabData={addGatewayTabData}
-                removeTabData={removeTabData}
-                {...prop}
-              />
-            </Tab.Pane>
-          ),
-        },
+       
         {
           menuItem: "Settings",
           pane: (
