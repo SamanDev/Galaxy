@@ -7,6 +7,7 @@ import Status from "../../../utils/Status";
 import { cashierService } from "../../../services/cashier";
 import Moment from "react-moment";
 import $ from "jquery";
+import LevelBar from "../../../utils/GiftLevelBar";
 const moment = require("moment");
 
 const openDeposit = () => {
@@ -162,7 +163,9 @@ const BonusArea = (prop) => {
     //s_txt = "هدیه قرمز";
     _lvl = _lvl - 1;
   }
-
+  var lvlPercent = parseFloat(
+    (loginToken.giftPlaySecond * 100) / (siteInfo.secondForGift)
+  ).toFixed(2);
   return (
     <List.Item>
       <List.Content floated="right">
@@ -228,7 +231,7 @@ const BonusArea = (prop) => {
           start.isBefore(end) &&
           end.isBefore(expire) && (
             <>
-              <Button
+            {lvlPercent>=100 || bonus.mode != "Gift"? <Button
                 size="mini"
                 color="orange"
                 floated="right"
@@ -242,7 +245,21 @@ const BonusArea = (prop) => {
                 }}
               >
                 {doCurrency(_amount)} <small className="farsi">{_cur}</small>
-              </Button>
+              </Button>:<Button
+                size="mini"
+                color="grey"
+                floated="right"
+                className="rtl"
+                style={{ opacity: 1, width: 140, marginRight: 10 }}
+                compact
+              
+                
+              >
+                {doCurrency(_amount)} <small className="farsi">{_cur}</small><br/>{lvlPercent}%
+              </Button>}
+             
+             
+                
             </>
           )}
         {((bonus.status == "Pending" &&
@@ -272,10 +289,11 @@ const BonusArea = (prop) => {
               color="grey"
               compact
               floated="right"
-              className="farsi"
+              className="rtl"
               style={{ opacity: 1, width: 140, marginRight: 10 }}
             >
               {doCurrency(_amount)} <small className="farsi">{_cur}</small>
+              {bonus.mode == "Gift"&&<><br/>{lvlPercent}%</>}
             </Button>
           </>
         )}

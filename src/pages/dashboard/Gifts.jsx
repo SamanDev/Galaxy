@@ -1,5 +1,5 @@
 import React from "react";
-import { List } from "semantic-ui-react";
+import { List,Segment } from "semantic-ui-react";
 import { doCurrency, levelDataInfo } from "../../const";
 import GiftsDesc from "../../utils/GiftsDesc";
 import GalaxyIcon from "../../utils/svganim";
@@ -8,13 +8,14 @@ import BonusArea from "../../layouts/admin/bonus/index.jsx";
 import LevelIcon from "../../utils/svg";
 import LazyLoad from "react-lazyload";
 import LastRewardList from "./LastRewardList";
+import LevelBar from "../../utils/GiftLevelBar";
 const LevelList = (prop) => {
   const loginToken = prop.loginToken;
   return (
     <span className="myaccount popupmenu">
       <span className="lazyarea">
         <ConfettiArea recycle={false} numberOfPieces="50" />
-
+        
         <List
           divided
           inverted
@@ -24,7 +25,8 @@ const LevelList = (prop) => {
         >
           <List.Item>
             <List.Content className="rtl text-center">
-              <div>
+            
+            <div style={{direction:"ltr",textAlign:"center"}}>
                 <GalaxyIcon
                   mode="gifts"
                   level="1"
@@ -35,6 +37,9 @@ const LevelList = (prop) => {
                   amin="inline animated swing fast"
                   iconamin="swing inline animated"
                 />
+                <Segment inverted basic>
+                <div className="levelbar" style={{margin:"auto"}}><LevelBar progress {...prop} /></div></Segment>
+                
               </div>
             </List.Content>
           </List.Item>

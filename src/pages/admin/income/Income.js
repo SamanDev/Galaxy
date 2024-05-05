@@ -371,7 +371,7 @@ function Admin(prop) {
               </Header>
               <Segment raised inverted attached>
                 {listreward(row.rewards)}
-
+               
                 <small className="dplock fw-bold">
                   Total:
                   <span className="float-end">
@@ -386,6 +386,7 @@ function Admin(prop) {
                   </span>
                 </small>
                 <br />
+                
                 {listcosts(row)}
               </Segment>
             </Segment>
@@ -393,7 +394,7 @@ function Admin(prop) {
               <Header>
                 Total
                 <br />
-                {doCurrency(row.finalTotal)}
+                {doCurrency(row.finalTotal+row.botsTotal+row.runnersTotal)}
                 <span className="float-end">
                   {doCurrency(row.finalTotal2)}$
                 </span>
@@ -419,7 +420,7 @@ function Admin(prop) {
               <Header>
                 Admins
                 <br />
-                {doCurrency(row.finalTotal)}
+                {doCurrency(row.finalTotal+row.botsTotal+row.runnersTotal)}
                 <span className="float-end">
                   {doCurrency(row.finalTotal2)}$
                 </span>
@@ -427,7 +428,7 @@ function Admin(prop) {
               <Segment raised attached>
                 {listpercent(
                   row.adminIncomeSet,
-                  row.finalTotal,
+                  row.finalTotal+row.botsTotal+row.runnersTotal,
                   row.finalTotal2
                 )}
               </Segment>
