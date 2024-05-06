@@ -229,8 +229,8 @@ function Admin(prop) {
     if (eData.value) {
       var _val = eData.value.toPersianCharacter();
       var val = parseInt(_val);
-      if (val > 30) {
-        val = 30;
+      if (val > 130) {
+        val = 130;
       }
       if (val === null || isNaN(val)) {
         val = 0;

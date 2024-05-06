@@ -20,10 +20,10 @@ const depositArea = (prop) => {
         inverted
         size="mini"
         style={{ padding: "6px 0px", marginTop: 0 }}
-      >
-        {user.map(function (use, i) {
-          if (use.rake) return <Bonus key={i} user={use} {...prop} />;
-        })}
+      >{user && <> {user.map(function (use, i) {
+        if (use.rake) return <Bonus key={i} user={use} {...prop} />;
+      })}</>}
+       
       </Grid>
     </div>
   );
