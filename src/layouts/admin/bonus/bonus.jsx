@@ -166,6 +166,9 @@ const BonusArea = (prop) => {
   var lvlPercent = parseFloat(
     (loginToken.giftPlaySecond * 100) / (siteInfo.secondForGift)
   ).toFixed(2);
+  if (lvlPercent > 100) {
+    lvlPercent = 100;
+  }
   return (
     <List.Item>
       <List.Content floated="right">
@@ -252,7 +255,9 @@ const BonusArea = (prop) => {
                 className="rtl"
                 style={{ opacity: 1, width: 140, marginRight: 10 }}
                 compact
-              
+                onClick={() => {
+                  prop.openPanel(".giftarea", "");
+                }}
                 
               >
                 {doCurrency(_amount)} <small className="farsi">{_cur}</small><br/>{lvlPercent}%
@@ -291,9 +296,15 @@ const BonusArea = (prop) => {
               floated="right"
               className="rtl"
               style={{ opacity: 1, width: 140, marginRight: 10 }}
+              onClick={() => {
+                if(bonus.mode == "Gift" && lvlPercent< 100){
+                  prop.openPanel(".giftarea", "");
+                }
+                
+              }}
             >
               {doCurrency(_amount)} <small className="farsi">{_cur}</small>
-              {bonus.mode == "Gift"&&<><br/>{lvlPercent}%</>}
+              {bonus.mode == "Gift" && lvlPercent< 100 &&<><br/>{lvlPercent}%</>}
             </Button>
           </>
         )}

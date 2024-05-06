@@ -20,7 +20,7 @@ const LevelList = (prop) => {
         prop.mode == "levels" ? 500 : 500
       );
       if (res.status === 200) {
-        setData(res.data.sort((a, b) => (a.date < b.date ? 1 : -1)));
+        setData(res.data.filter((d) => d.amount>0 ||d.amount2>0 ).sort((a, b) => (a.date < b.date ? 1 : -1)));
         setLoading(false);
       }
     } catch (error) {

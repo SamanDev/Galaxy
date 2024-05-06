@@ -11,6 +11,7 @@ import LastRewardList from "./LastRewardList";
 import LevelBar from "../../utils/GiftLevelBar";
 const LevelList = (prop) => {
   const loginToken = prop.loginToken;
+  const siteInfo = prop.siteInfo;
   return (
     <span className="myaccount popupmenu">
       <span className="lazyarea">
@@ -37,8 +38,9 @@ const LevelList = (prop) => {
                   amin="inline animated swing fast"
                   iconamin="swing inline animated"
                 />
-                <Segment inverted basic>
-                <div className="levelbar" style={{margin:"auto"}}><LevelBar progress {...prop} /></div></Segment>
+                <Segment inverted basic >
+                  <p className="farsi mywrap lh-lg">برای دریافت هدیه باید <span className="text-gold">{siteInfo.secondForGift/60} دقیقه</span> روی میزهای گلکسی بازی نمایید.</p>
+                <div className="giftlevelbar"><LevelBar progress {...prop} /></div></Segment>
                 
               </div>
             </List.Content>

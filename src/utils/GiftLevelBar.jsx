@@ -25,16 +25,11 @@ const Balance = (prop) => {
           percent={prop.val ? prop.val : lvlPercent}
           disabled={prop.val ? true : false}
           inverted
-          indicating
-          size="tiny"
+          progress
+          color="red"
+          size="small"
         />
-        {!prop.val && <Icon as="small">%{lvlPercent}</Icon>}
-        {prop.val == "0" && (
-          <Icon as="small" className="text-muted" style={{ opacity: 0.5 }}>
-            %0
-          </Icon>
-        )}
-        {prop.val == "100" && <Icon name="check" color="green" />}
+       
       </>
     );
   } else {

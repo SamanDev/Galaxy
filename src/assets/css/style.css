@@ -982,6 +982,9 @@ i.star.big {
   top: -3px;
   left: 80px;
 }
+.giftlevelbar .progress:not(.ui){
+  background-color: transparent !important;
+}
 .avatar-center > .levelText {
   font-size: 12px !important;
   width: 32px;
