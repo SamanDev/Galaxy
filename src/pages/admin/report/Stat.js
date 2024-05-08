@@ -1,25 +1,9 @@
 import React, { useEffect, useState } from "react";
-import DataTable from "react-data-table-component";
-import {
-  Segment,
-  Button,
-  Dimmer,
-  Icon,
-  Modal,
-  Label,
-  Grid,
-} from "semantic-ui-react";
 import { doCurrency } from "../../../const";
 import { addDays } from "date-fns";
-import AmountColor from "../../../utils/AmountColor";
 import $ from "jquery";
-import { adminGetService } from "../../../services/admin";
-import DateReng from "../utils/dateReng";
-import FilterMode from "./Filter";
 import List from "./List";
-import FilterModeGateway from "./FilterGateway";
 import Chart from "chart.js/auto";
-import { convertDateToJalali } from "../../../utils/convertDate";
 const moment = require("moment");
 
 const groupBy = (array, key) => {
@@ -45,7 +29,7 @@ const sumOf = (array) => {
         ? currentValue.amount
         : currentValue.amount2 * desc.dollarPrice;
     if (_am < 0) {
-      _am = _am * -1;
+      _am = _am*-1;
     }
     return sum + _am;
   }, 0);
@@ -92,14 +76,10 @@ const getChartColor = (name) => {
   }
   return text;
 };
+var footerTxt = "";
 function Admin(prop) {
   const [data, setData] = useState([]);
-  const loginToken = prop.loginToken;
-  const [totalRows, setTotalRows] = useState([]);
-  const [perPage, setPerPage] = useState(10);
-  const [dataSortedID, setDataSortedID] = useState(9);
-  const [dataSorted, setDataSorted] = useState("id");
-  const [dataSortedDir, setDataSortedDir] = useState("desc");
+ 
   const [dataSearch, setDataSearch] = useState("");
   if (prop?.user?.username) {
     var defmde = ["cashout", "deposit"];
@@ -112,56 +92,19 @@ function Admin(prop) {
 
   const [startDate, setStartDate] = useState(addDays(new Date(), -6));
   const [endDate, setEndDate] = useState(addDays(new Date(), 1));
-  const [loading, setLoading] = useState(false);
 
-  const [filterText, setFilterText] = React.useState("");
-  const [filterOk, setFilterOk] = React.useState(false);
   const filteredItems = data
     .sort((a, b) => (a.id < b.id ? 1 : -1))
     .filter(
       (item) =>
         item.status != "Canceled" &&
-        item.gateway != "AdminSystem" &&
+      (item.gateway != "AdminSystem" || dataSearch=="AdminSystem") &&
         (item.gateway || item.mode == "TotalIncome")
     );
-  const [firstOpen, setFirstOpen] = React.useState(false);
-  const [resetPaginationToggle, setResetPaginationToggle] =
-    React.useState(false);
-
-  // data provides access to your row data
-
-  const gettotal = (data, status, target) => {
-    var _data = data.filter(
-      (d) => d.status.toLowerCase() === status.toLowerCase() && d.amount2 == 0
-    );
-    var _totalReward = 0;
-    {
-      _data.map((x, i) => {
-        var _am = x.endBalance >= x.startBalance ? x.amount : x.amount * -1;
-        _totalReward = _totalReward + _am;
-      });
-    }
-    if (target == "total") return _totalReward;
-    if (target == "count") return _data.length;
-  };
-  const gettotal2 = (data, status, target) => {
-    var _data = data.filter(
-      (d) => d.status.toLowerCase() === status.toLowerCase() && d.amount == 0
-    );
-    var _totalReward = 0;
-    {
-      _data.map((x, i) => {
-        var _am = x.endBalance2 >= x.startBalance2 ? x.amount2 : x.amount2 * -1;
-        _totalReward = _totalReward + _am;
-      });
-    }
-    if (target == "total") return _totalReward;
-    if (target == "count") return _data.length;
-  };
-
+ 
   useEffect(() => {
     var labels = [];
-
+    footerTxt = "";
     var _s = moment(startDate);
     var _e = moment(endDate);
     if (_s == _e) {
@@ -173,6 +116,7 @@ function Admin(prop) {
 
       labels.push(_day);
     }
+    
     const getdays = (data) => {
       var _data = data;
       var newdata = [];
@@ -217,11 +161,13 @@ function Admin(prop) {
             borderColor: getChartColor(property + " " + rec),
             backgroundColor: getChartColor(property + " " + rec),
           });
-          //console.log(rec + ": " + sumOf(_ggateway[rec]));
+          footerTxt = footerTxt + " @ " + rec + " "+ property + " (" + (_ggateway[rec].length) + "): " + doCurrency(sumOf(_ggateway[rec])) + "  "
+         
         }
-      }
+      }footerTxt = footerTxt + " @ "
     }
-    console.log(tdata);
+    console.log(footerTxt);
+    //console.log(tdata);
     var data = {
       labels: labels,
       datasets: tdata,
@@ -256,230 +202,7 @@ function Admin(prop) {
       },
     });
   }, [getwaysList]);
-  const columns = [
-    {
-      name: "id",
-      selector: (row) => row.id,
-      sortable: true,
-      width: "80px",
-    },
-    {
-      name: "Username",
-      selector: (row) => row.username,
-      format: (row) => (
-        <>
-          <span
-            className="msglink fw-bold"
-            onClick={() => prop.addTabData(row.username)}
-          >
-            {row.username}
-          </span>
-        </>
-      ),
-      sortable: true,
-      width: "180px",
-    },
-
-    {
-      name: "Status",
-      selector: (row) => row.status,
-      format: (row) => <>{row.status}</>,
-      sortable: true,
-      width: "120px",
-    },
-    {
-      name: "Start",
-      selector: (row) => (row.amount2 ? row.startBalance2 : row.startBalance),
-      format: (row) => (
-        <>
-          {row.amount2 ? (
-            <>{doCurrency(row.startBalance2)} $</>
-          ) : (
-            doCurrency(row.startBalance)
-          )}
-        </>
-      ),
-      sortable: true,
-      width: "100px",
-    },
-    {
-      name: "Amount",
-      selector: (row) =>
-        row.amount2
-          ? row.endBalance2 >= row.startBalance2
-            ? row.amount2
-            : row.amount2 * -1
-          : row.endBalance >= row.startBalance
-          ? row.amount
-          : row.amount * -1,
-      format: (row) => (
-        <>
-          {row.amount2 ? (
-            <>
-              <AmountColor
-                amount={row.amount2}
-                sign={row.endBalance2 - row.startBalance2}
-              />{" "}
-              $
-            </>
-          ) : (
-            <AmountColor
-              amount={row.amount}
-              sign={row.endBalance - row.startBalance}
-            />
-          )}
-        </>
-      ),
-      sortable: true,
-      width: "100px",
-    },
-    {
-      name: "End",
-      selector: (row) => (row.amount2 ? row.endBalance2 : row.endBalance),
-
-      format: (row) => (
-        <>
-          {row.amount2 ? (
-            <>{doCurrency(row.endBalance2)} $</>
-          ) : (
-            doCurrency(row.endBalance)
-          )}
-        </>
-      ),
-      sortable: true,
-      width: "100px",
-    },
-    {
-      name: "Mode",
-      selector: (row) => row.mode,
-      format: (row) => <>{row.mode}</>,
-      sortable: true,
-      width: "120px",
-    },
-    {
-      name: "Gateway",
-      selector: (row) => (row.gateway ? row.gateway : ""),
-      format: (row) => (
-        <span onClick={() => setDataSearch(row.gateway)}>{row.gateway}</span>
-      ),
-      sortable: true,
-    },
-    {
-      name: "Date",
-      selector: (row) => row.createDate,
-      format: (row) => (
-        <div className="blacktext">{convertDateToJalali(row.createDate)}</div>
-      ),
-      sortable: true,
-    },
-  ];
-  var footerTxt = "";
-  if (doCurrency(gettotal2(filteredItems, "Done", "count")) > 0) {
-    footerTxt =
-      footerTxt +
-      "Done (" +
-      doCurrency(gettotal2(filteredItems, "Done", "count")) +
-      "): " +
-      doCurrency(gettotal2(filteredItems, "Done", "total")) +
-      "$  َ  َ  َ |  َ  َ  َ  ";
-  }
-  if (doCurrency(gettotal2(filteredItems, "Pending", "count")) > 0) {
-    footerTxt =
-      footerTxt +
-      " Pending (" +
-      doCurrency(gettotal2(filteredItems, "Pending", "count")) +
-      "): " +
-      doCurrency(gettotal2(filteredItems, "Pending", "total")) +
-      "$  َ  َ  َ |  َ  َ  َ  ";
-  }
-  if (doCurrency(gettotal(filteredItems, "Done", "count")) > 0) {
-    footerTxt =
-      footerTxt +
-      "Done (" +
-      doCurrency(gettotal(filteredItems, "Done", "count")) +
-      "): " +
-      doCurrency(gettotal(filteredItems, "Done", "total")) +
-      "  َ  َ  َ |  َ  َ  َ  ";
-  }
-  if (doCurrency(gettotal(filteredItems, "Pending", "count")) > 0) {
-    footerTxt =
-      footerTxt +
-      " Pending (" +
-      doCurrency(gettotal(filteredItems, "Pending", "count")) +
-      "): " +
-      doCurrency(gettotal(filteredItems, "Pending", "total")) +
-      "  َ  َ  َ |  َ  َ  َ  ";
-  }
-  footerTxt = footerTxt + "Rows per page:";
-  const subHeaderComponentMemo = React.useMemo(() => {
-    var _s = moment(startDate).format("YY-MM-DD");
-    var _e = moment(endDate).format("YY-MM-DD");
-    return (
-      <>
-        <Grid
-          verticalAlign="middle"
-          columns={2}
-          centered
-          as={Segment}
-          color="red"
-        >
-          <Grid.Row>
-            <Grid.Column>
-              <FilterMode
-                onFilter={(e, { value }) => {
-                  setDataMode(value.toString());
-                }}
-                value={dataMode}
-              />
-            </Grid.Column>
-            <Grid.Column>
-              <Button
-                size="small"
-                floating="left"
-                onClick={() => setFirstOpen(true)}
-              >
-                {_s} / {_e}
-              </Button>
-              <Button
-                className="float-end"
-                color="red"
-                onClick={() => fetchUsers(1)}
-              >
-                Search
-              </Button>
-              {dataSearch != "" ? (
-                <Label
-                  as="a"
-                  color="red"
-                  className="float-end"
-                  tag
-                  onClick={() => setDataSearch("")}
-                >
-                  {dataSearch}
-                </Label>
-              ) : (
-                <FilterModeGateway
-                  onFilter={(e) => {
-                    setDataSearch(e.target.value);
-                  }}
-                  value={dataSearch}
-                  placeholder={"Gateway filter"}
-                />
-              )}
-            </Grid.Column>
-          </Grid.Row>
-        </Grid>
-      </>
-    );
-  }, [
-    filterText,
-    resetPaginationToggle,
-    data,
-    dataSearch,
-    dataMode,
-    startDate,
-    endDate,
-  ]);
+ 
   const mychaty = (
     <div
       style={{
@@ -496,6 +219,7 @@ function Admin(prop) {
         mychaty={mychaty}
         setEndDate={setEndDate}
         setStartDate={setStartDate}
+        footer={footerTxt}
       />
     </>
   );
