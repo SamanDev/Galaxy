@@ -325,33 +325,27 @@ function Admin(prop) {
               <Header>
                 Poker
                 <br />
-                {doCurrency(row.pokerTotal)}
-                <span className="float-end">
-                  {doCurrency(row.pokerTotal2)}$
-                </span>
-              </Header>
-              <Segment raised inverted attached>
-                {listpoker(row)}
-                <br />
-                {listpercent(
-                  row.adminIncomeSet,
-                  row.pokerTotal,
-                  row.pokerTotal2
-                )}
-              </Segment>
-            </Segment>
-            <Segment inverted color="green" size="tiny" attached="top">
-              <Header>
-                Bot+Runner
-                <br />
                 {doCurrency(row.pokerTotal-row.botsRake-row.runnersRake)}
-           
                 <span className="float-end">
                   {doCurrency(row.pokerTotal2)}$
                 </span>
               </Header>
               <Segment raised inverted attached>
-                
+              <small className="dplock">
+              botsRake:
+        <span className="float-end">
+          -{doCurrency(row.botsRake)}
+         
+        </span>
+      </small>
+      <small className="dplock">
+      runnersRake:
+        <span className="float-end">
+          -{doCurrency(row.runnersRake)}
+         
+        </span>
+      </small>
+                {listpoker(row)}
                 <br />
                 {listpercent(
                   row.adminIncomeSet,
@@ -360,6 +354,7 @@ function Admin(prop) {
                 )}
               </Segment>
             </Segment>
+            
 
             <Segment inverted color="blue" size="tiny" attached="top">
               <Header>
