@@ -1341,7 +1341,7 @@ function App(prop) {
             handleOpenTable={handleOpenTable}
           />
 
-          <div style={{ position: "absolute", top: -10000 }}>
+          <div style={{ position: "fixed", left: -100000 }}>
             <svg
               version="1.1"
               xmlns="http://www.w3.org/2000/svg"

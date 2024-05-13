@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Segment, Tab } from "semantic-ui-react";
 import Users from "./Users";
+import Dashboard from "./dashboard";
 import { Navigate } from "react-router-dom";
 
 import Bankroll from "./income/Bankroll";
@@ -51,6 +52,24 @@ function Admin(prop) {
   };
   useEffect(() => {
     panes = [
+      {
+        menuItem: "Dashboard",
+        pane: (
+          <Tab.Pane key="Dashboard">
+            <Dashboard
+              addTabData={addTabData}
+              addMainTabData={addMainTabData}
+              handleGetGeteways={handleGetGeteways}
+              addGatewayTabData={addGatewayTabData}
+              removeTabData={removeTabData}
+              getwaysList={getwaysData}
+              search="username"
+              searchValue=""
+              {...prop}
+            />
+          </Tab.Pane>
+        ),
+      },
       {
         menuItem: "Users",
         pane: (
@@ -356,9 +375,10 @@ function Admin(prop) {
   }
 
   return (
-    <Segment>
+    <Segment inverted>
     
       <Tab
+      menu={{ color:"black", inverted: true, pointing: true }}
         panes={tabData}
         activeIndex={activeIndex}
         renderActiveOnly={false}

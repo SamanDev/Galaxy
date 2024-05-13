@@ -325,7 +325,7 @@ function Admin(prop) {
               <Header>
                 Poker
                 <br />
-                {doCurrency(row.pokerTotal-row.botsRake-row.runnersRake)}
+                {doCurrency(row.pokerTotal)}
                 <span className="float-end">
                   {doCurrency(row.pokerTotal2)}$
                 </span>
@@ -334,14 +334,21 @@ function Admin(prop) {
               <small className="dplock">
               botsRake:
         <span className="float-end">
-          -{doCurrency(row.botsRake)}
+          {doCurrency(row.botsRake)}
          
         </span>
       </small>
       <small className="dplock">
       runnersRake:
         <span className="float-end">
-          -{doCurrency(row.runnersRake)}
+          {doCurrency(row.runnersRake)}
+         
+        </span>
+      </small>
+      <small className="dplock">
+      playersRake:
+        <span className="float-end">
+          {doCurrency(row.pokerTotal-row.botsRake-row.runnersRake)}
          
         </span>
       </small>
@@ -349,7 +356,7 @@ function Admin(prop) {
                 <br />
                 {listpercent(
                   row.adminIncomeSet,
-                  row.pokerTotal-row.botsRake-row.runnersRake,
+                  row.pokerTotal,
                   row.pokerTotal2
                 )}
               </Segment>
@@ -409,7 +416,7 @@ function Admin(prop) {
               <Header>
                 Total
                 <br />
-                {doCurrency(row.finalTotal+row.botsTotal+row.runnersTotal)}
+                {doCurrency(row.finalTotal)}
                 <span className="float-end">
                   {doCurrency(row.finalTotal2)}$
                 </span>
@@ -431,23 +438,7 @@ function Admin(prop) {
                 </small>
               </Segment>
             </Segment>
-            <Segment inverted color="black" size="tiny" attached="top">
-              <Header>
-                Admins
-                <br />
-                {doCurrency(row.finalTotal+row.botsTotal+row.runnersTotal)}
-                <span className="float-end">
-                  {doCurrency(row.finalTotal2)}$
-                </span>
-              </Header>
-              <Segment raised attached>
-                {listpercent(
-                  row.adminIncomeSet,
-                  row.finalTotal+row.botsTotal+row.runnersTotal,
-                  row.finalTotal2
-                )}
-              </Segment>
-            </Segment>
+            
             <Segment inverted color="black" size="tiny" attached="top">
               <Header>
                 Admins Final
