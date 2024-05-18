@@ -288,9 +288,9 @@ function Admin(prop) {
       width: "100px",
     },
     {
-      name: "Glevel",
-      selector: (row) => row.glevel,
-      format: (row) => <>{row.glevel}</>,
+      name: "Email",
+      selector: (row) => row.email,
+      format: (row) => <>{row.email}</>,
       sortable: true,
     },
     {

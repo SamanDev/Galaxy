@@ -37,25 +37,23 @@ const groupBy = (array, key) => {
 function RisingPitch(prop) {
     const [data, setData] = useState([]);
     const [startDate, setStartDate] = useState(addDays(new Date(), prop.day-1));
-  const [endDate, setEndDate] = useState(addDays(new Date(), prop.day));
+  const [endDate, setEndDate] = useState(addDays(new Date(), prop.day-1));
   const filteredItems = data
-    .sort((a, b) => (a.id < b.id ? 1 : -1))
-    .filter(
-      (item) =>
-      item.status != "Canceled" &&
-      item.status != "Pending" &&
-      (item.gateway != "AdminSystem" ) &&
-        (item.gateway || item.mode == "TotalIncome")
-    );
+  data.sort((a, b) => (a.date < b.date ? 1 : -1));
     const fetchUsers = async (mode) => {
     
         var _s = moment(startDate).format("YYYY-MM-DD");
         var _e = moment(endDate).format("YYYY-MM-DD");
         try {
        
-            const res = await adminGetService(
-              `getReports?mode=${mode}&page=1&number=5000&username=&start=${_s}&end=${_e}&gateway=`
-            );
+            var res;
+      if (prop.day == 1) {
+        res = await adminGetService(`getIncome?page=1&number=10`);
+      } else {
+        res = await adminGetService(
+          `getIncome?page=1&number=10&startDate=${_s}&endDate=${_e}`
+        );
+      }
           
     
           if (res.status === 200) {
@@ -70,20 +68,20 @@ function RisingPitch(prop) {
         }
       };
       useEffect(() => {
-        if(filteredItems.length>0){
+   if(filteredItems.length>0){
 
         
         $("#chart"+prop.mode+prop.day).html("");
         $("#chart"+prop.mode+prop.day).append('<canvas id="acquisitions'+prop.mode+prop.day+'"></canvas>');
-        var _gmode = groupBy(filteredItems, "gateway");
+     
         var modedata = [];
         var valdata = [];
-        
-    for (const property in _gmode) {
-      modedata.push(property);
-      valdata.push((sumOf(_gmode[property])) )
-  
-    }
+        modedata.push("botsRake");
+      valdata.push((filteredItems[0].botsRake+filteredItems[0].runnersRake) )
+        modedata.push("pokerRake");
+      valdata.push((filteredItems[0].pokerRake-filteredItems[0].botsRake+filteredItems[0].runnersRake) )
+      
+
  
         var chartdata = {
           labels: modedata,
@@ -91,7 +89,7 @@ function RisingPitch(prop) {
            
             data: valdata,
             borderWidth: 2,
-            backgroundColor: ['#CB4335', '#1F618D', '#F1C40F', '#27AE60', '#884EA0', '#D35400'],
+            backgroundColor: ['#CB4335', '#27AE60', '#F1C40F', '#27AE60', '#884EA0', '#D35400'],
           }]
         };
         console.log(chartdata)
@@ -102,7 +100,7 @@ function RisingPitch(prop) {
               plugins: {
                 title: {
                   display: true,
-                  text: doCurrency(sumOf(filteredItems)) + " ("+filteredItems.length+")",
+                  text: doCurrency(filteredItems[0].pokerRake-filteredItems[0].botsRake+filteredItems[0].runnersRake) + " ("+filteredItems.length+")",
                   font: {
                     size: 17,
               
@@ -130,10 +128,9 @@ function RisingPitch(prop) {
               }
             }
         });
-      }
+    }
       }, [filteredItems]);
       useEffect(() => {
-        console.log(prop)
         fetchUsers(prop.mode);
       }, []);
      

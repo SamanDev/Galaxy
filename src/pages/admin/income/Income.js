@@ -416,7 +416,7 @@ function Admin(prop) {
               <Header>
                 Total
                 <br />
-                {doCurrency(row.finalTotal)}
+                {doCurrency(row.finalTotal+row.botsTotal+row.runnersTotal)}
                 <span className="float-end">
                   {doCurrency(row.finalTotal2)}$
                 </span>
@@ -438,7 +438,23 @@ function Admin(prop) {
                 </small>
               </Segment>
             </Segment>
-            
+            <Segment inverted color="black" size="tiny" attached="top" style={{display:'none'}}>
+              <Header>
+                Admins
+                <br />
+                {doCurrency(row.finalTotal+row.botsTotal+row.runnersTotal)}
+                <span className="float-end">
+                  {doCurrency(row.finalTotal2)}$
+                </span>
+              </Header>
+              <Segment raised attached>
+                {listpercent(
+                  row.adminIncomeSet,
+                  row.finalTotal+row.botsTotal+row.runnersTotal,
+                  row.finalTotal2
+                )}
+              </Segment>
+            </Segment>
             <Segment inverted color="black" size="tiny" attached="top">
               <Header>
                 Admins Final
