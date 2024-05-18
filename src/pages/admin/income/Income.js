@@ -325,7 +325,7 @@ function Admin(prop) {
               <Header>
                 Poker
                 <br />
-                {doCurrency(row.pokerRake)}
+                {doCurrency(row.pokerTotal)}
                 <span className="float-end">
                   {doCurrency(row.pokerTotal2)}$
                 </span>
