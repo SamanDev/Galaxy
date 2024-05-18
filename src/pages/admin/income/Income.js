@@ -325,7 +325,7 @@ function Admin(prop) {
               <Header>
                 Poker
                 <br />
-                {doCurrency(row.pokerTotal)}
+                {doCurrency(row.pokerRake)}
                 <span className="float-end">
                   {doCurrency(row.pokerTotal2)}$
                 </span>
@@ -348,7 +348,7 @@ function Admin(prop) {
       <small className="dplock">
       playersRake:
         <span className="float-end">
-          {doCurrency(row.pokerTotal-row.botsRake-row.runnersRake)}
+          {doCurrency(row.pokerRake-row.botsRake-row.runnersRake)}
          
         </span>
       </small>
@@ -356,7 +356,7 @@ function Admin(prop) {
                 <br />
                 {listpercent(
                   row.adminIncomeSet,
-                  row.pokerTotal,
+                  row.pokerRake,
                   row.pokerTotal2
                 )}
               </Segment>
@@ -438,23 +438,7 @@ function Admin(prop) {
                 </small>
               </Segment>
             </Segment>
-            <Segment inverted color="black" size="tiny" attached="top" style={{display:'none'}}>
-              <Header>
-                Admins
-                <br />
-                {doCurrency(row.finalTotal+row.botsTotal+row.runnersTotal)}
-                <span className="float-end">
-                  {doCurrency(row.finalTotal2)}$
-                </span>
-              </Header>
-              <Segment raised attached>
-                {listpercent(
-                  row.adminIncomeSet,
-                  row.finalTotal+row.botsTotal+row.runnersTotal,
-                  row.finalTotal2
-                )}
-              </Segment>
-            </Segment>
+            
             <Segment inverted color="black" size="tiny" attached="top">
               <Header>
                 Admins Final

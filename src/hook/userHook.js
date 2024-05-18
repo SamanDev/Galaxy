@@ -30,9 +30,14 @@ export const useUser = () => {
   }
   function sordData(siteInfo) {
     var _siteInfo = siteInfo;
-    _siteInfo.userGifts = _siteInfo.userGifts.sort((a, b) =>
+    try {
+      _siteInfo.userGifts = _siteInfo.userGifts.sort((a, b) =>
       a.id < b.id ? 1 : -1
     );
+    } catch (error) {
+      
+    }
+    
 
     return _siteInfo;
   }
