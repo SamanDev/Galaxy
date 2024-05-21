@@ -19,6 +19,7 @@ import { Alert } from "../../utils/alerts";
 
 import CheckboxToggle from "./utils/toggle";
 import AddGift from "./AddGift";
+import SendMail from "./SendMail.js";
 import AddCashier from "./AddCashier";
 import Filter from "./Filter";
 
@@ -456,6 +457,8 @@ function Admin(prop) {
   }, [filterOk]);
 
   const [firstOpen, setFirstOpen] = React.useState(false);
+  const [mailOpen, setMailOpen] = React.useState(false);
+  
   const [cashierOpen, setCashierOpen] = React.useState(false);
   const contextActions = React.useMemo(() => {
     return <Button onClick={() => setFirstOpen(true)}>Gift</Button>;
@@ -470,6 +473,7 @@ function Admin(prop) {
           var newUser = {};
           newUser.username = user.username;
           newUser.level = user.level;
+          newUser.email = user.email;
           newUser.amount = setGiftAmount(user.level);
           newUser.amount2 = parseFloat(
             setGiftAmount(user.level) / getRate
@@ -580,6 +584,11 @@ function Admin(prop) {
                   Gift {selectedList.length}
                 </Button>
               )}
+               {selectedList.length > 0 && (
+                <Button color="blue" onClick={() => setMailOpen(true)}>
+                  Mail {selectedList.length}
+                </Button>
+              )}
               <Button
                 className="float-end"
                 color="red"
@@ -667,6 +676,15 @@ function Admin(prop) {
         style={{ height: "auto" }}
       >
         <AddGift selectedList={selectedList} />
+      </Modal>
+      <Modal
+        onClose={() => setMailOpen(false)}
+        onOpen={() => setMailOpen(true)}
+        open={mailOpen}
+        size="large"
+        style={{ height: "auto" }}
+      >
+        <SendMail selectedList={selectedList} {...prop} />
       </Modal>
       <div style={{ height: "calc(100vh - 150px)", overflow: "auto" }}>
         {prop.search == "refer" && prop.searchValue != "bots" ? (

@@ -51,7 +51,7 @@ const Dashboard = (prop) => {
         btoa(loginToken.username) +
         "/" +
         localStorage.getItem(btoa(loginToken.username));
-      // window.location.href = sUrl;
+       //window.location.href = sUrl;
       //return false;
     }
 

@@ -1,7 +1,7 @@
 import React,{ useEffect, useState } from "react";
 import $ from "jquery";
 import Chart from "chart.js/auto";
-import { doCurrency } from "../../../const";
+import { doCurrencyMil } from "../../../const";
 import { addDays } from "date-fns";
 import { adminGetService } from "../../../services/admin";
 const moment = require("moment");
@@ -77,9 +77,11 @@ function RisingPitch(prop) {
         var modedata = [];
         var valdata = [];
         modedata.push("botsRake");
-      valdata.push((filteredItems[0].botsRake+filteredItems[0].runnersRake) )
+      valdata.push((filteredItems[0].botsRake) )
+      modedata.push("runnersRake");
+      valdata.push((filteredItems[0].runnersRake) )
         modedata.push("pokerRake");
-      valdata.push((filteredItems[0].pokerRake-filteredItems[0].botsRake+filteredItems[0].runnersRake) )
+      valdata.push((filteredItems[0].pokerTotal-filteredItems[0].botsRake-filteredItems[0].runnersRake) )
       
 
  
@@ -89,7 +91,7 @@ function RisingPitch(prop) {
            
             data: valdata,
             borderWidth: 2,
-            backgroundColor: ['#CB4335', '#27AE60', '#F1C40F', '#27AE60', '#884EA0', '#D35400'],
+            backgroundColor: ['#CB4335', '#F1C40F', '#27AE60', '#884EA0', '#D35400'],
           }]
         };
         console.log(chartdata)
@@ -100,7 +102,7 @@ function RisingPitch(prop) {
               plugins: {
                 title: {
                   display: true,
-                  text: doCurrency(filteredItems[0].pokerRake-filteredItems[0].botsRake+filteredItems[0].runnersRake) + " ("+filteredItems.length+")",
+                  text: doCurrencyMil(filteredItems[0].pokerRake-filteredItems[0].botsRake-filteredItems[0].runnersRake),
                   font: {
                     size: 17,
               

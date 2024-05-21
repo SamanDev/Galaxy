@@ -17,7 +17,7 @@ function Admin(prop) {
   const siteInfo = prop.siteInfo;
   const loginToken = prop.loginToken;
   siteInfo?.galaxyPassSet?.sort((a, b) => (a.id > b.id ? 1 : -1));
-
+var onUpdateItem = prop.onUpdateItem
   const setNotTitle = (e) => {
     setSubject(e.target.value + " شروع شد");
     if (e.target.value == "لیگ روزانه") {
@@ -57,13 +57,25 @@ function Admin(prop) {
   };
   const setNotsubjectVal = (e) => {
     setSubject(e.target.value);
+    onUpdateItem("subject",e.target.value)
   };
   const setNotTitleVal = (e) => {
     setTitle(e.target.value);
+    onUpdateItem("title",e.target.value.replace(/\n/g,"<br/>"))
   };
   const setNotMessageVal = (e) => {
     setNotMessage(e.target.value);
+    onUpdateItem("body",e.target.value.replace(/\n/g,"<br/>"))
   };
+  useEffect(() => {
+    onUpdateItem("title",title.replace(/\n/g,"<br/>"))
+  }, [title]);
+  useEffect(() => {
+    onUpdateItem("subject",subject)
+  }, [subject]);
+  useEffect(() => {
+    onUpdateItem("body",notMessage.replace(/\n/g,"<br/>"))
+  }, [notMessage]);
   const sendNot = (e, data) => {
     if (notMessage == "") {
       return false;
@@ -90,11 +102,9 @@ console.log(notification2)
   return (
     <>
       <Form>
-      
-        <Form.Field>
-          <label>Title: </label>
-          <input value={subject} className="farsi" onChange={setNotsubjectVal} />
-          <select value={subject} className="farsi" onChange={setNotTitle}>
+      <Form.Field>
+      <label>Select Themeplate: </label>
+          <select  className="farsi" onChange={setNotTitle}>
             <option value={""}></option>
             {titleList.map((name, i) => {
               return (
@@ -104,6 +114,11 @@ console.log(notification2)
               );
             })}
           </select>
+        </Form.Field>
+        <Form.Field>
+          <label>Subject: </label>
+          <input value={subject} className="farsi" onChange={setNotsubjectVal} />
+         
         </Form.Field>
         <Form.Field>
        

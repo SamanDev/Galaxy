@@ -1,7 +1,7 @@
 import React,{ useEffect, useState } from "react";
 import $ from "jquery";
 import Chart from "chart.js/auto";
-import { doCurrency } from "../../../const";
+import { doCurrency,doCurrencyMil } from "../../../const";
 import { addDays } from "date-fns";
 import { adminGetService } from "../../../services/admin";
 const moment = require("moment");
@@ -80,7 +80,7 @@ function RisingPitch(prop) {
         var valdata = [];
         
     for (const property in _gmode) {
-      modedata.push(property);
+      modedata.push(property + " ("+_gmode[property].length+")");
       valdata.push((sumOf(_gmode[property])) )
   
     }
@@ -102,7 +102,7 @@ function RisingPitch(prop) {
               plugins: {
                 title: {
                   display: true,
-                  text: doCurrency(sumOf(filteredItems)) + " ("+filteredItems.length+")",
+                  text: doCurrencyMil(sumOf(filteredItems)) + " ("+filteredItems.length+")",
                   font: {
                     size: 17,
               

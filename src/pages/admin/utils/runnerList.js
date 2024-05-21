@@ -7,8 +7,12 @@ import {
   Dimmer,
   Loader,
   Icon,
-  Modal,
-  Grid,
+  Modal,Image,
+  Grid, StatisticValue,
+  StatisticLabel,
+  StatisticGroup,
+  Divider,
+  Statistic,
 } from "semantic-ui-react";
 import Moment from "react-moment";
 import { addDays } from "date-fns";
@@ -17,10 +21,10 @@ import AmountColor from "../../../utils/AmountColor";
 import { adminGetService, adminPutService } from "../../../services/admin";
 import { Alert } from "../../../utils/alerts";
 import AddCashier from "../AddRunner";
-import CheckboxToggle from "../utils/toggle";
+import CheckboxToggle from "./toggle";
 import AddCredit from "../AddCredit";
 
-import { haveAdmin, haveModerator, doCurrency } from "../../../const";
+import { haveAdmin, haveModerator, doCurrency,doCurrencyMil } from "../../../const";
 
 const conditionalRowStyles = [
   {
@@ -117,7 +121,7 @@ function Admin(prop) {
   const [selectedList, setSelected] = useState([]);
   const [getwaysList, setGetwaysData] = useState([]);
   const [obj, setObj] = useState({});
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [footerTxt, setFooterTxt] = useState("");
   const [filterText, setFilterText] = React.useState("");
   const [filterOk, setFilterOk] = React.useState(false);
@@ -132,6 +136,7 @@ function Admin(prop) {
   };
 
   const fetchUsers = async (page) => {
+   
     var _name = prop.search;
     var _val = prop.searchValue;
     var _contain = true;
@@ -151,7 +156,7 @@ function Admin(prop) {
     }
   };
   useEffect(() => {
-    fetchUsers(1); // fetch page 1 of users
+    //fetchUsers(1); // fetch page 1 of users
   }, [dataSearch]);
   const handlePerRowsChange = async (newPerPage, page) => {
     setPerPage(newPerPage);
@@ -159,56 +164,11 @@ function Admin(prop) {
 
   var filteredItems = data.filter(
     (item) =>
-      item.username &&
+    item.username &&
+    item.amount != item.liveChip &&
       (item.username.toLowerCase().includes(filterText.toLowerCase())||item.refer.toLowerCase().includes(filterText.toLowerCase()))
   );
-  if (dataLoginDay) {
-    var startDate = addDays(new Date(), dataLoginDay);
-
-    filteredItems = data.filter((item) => {
-      var _Date = new Date(item.lastLogin);
-      return _Date <= startDate;
-    });
-  }
-
-  const [firstOpen, setFirstOpen] = React.useState(false);
-  const contextActions = React.useMemo(() => {
-    return <Button onClick={() => setFirstOpen(true)}>Gift</Button>;
-  }, [data]);
-  const handleChange = ({ selectedRows }) => {
-    // You can set state or dispatch with something like Redux so we can use the retrieved data
-    console.log("Selected Rows: ", selectedRows);
-    var newSelect = [];
-    {
-      selectedRows.map((user, i) => {
-        var newUser = user;
-
-        newSelect.push(newUser);
-      });
-    }
-    setSelected(newSelect);
-  };
-
-  const handleGetGeteways = async () => {
-    if (getGateways) {
-      setGetwaysData(getGateways);
-    } else {
-      setLoading(true);
-      try {
-        const res = await adminGetService("getGateways");
-        if (res.status === 200) {
-          var sorted = res.data?.sort((a, b) => (a.id > b.id ? 1 : -1));
-          localStorage.setItem("getGateways", JSON.stringify(sorted));
-          setGetwaysData(sorted);
-        }
-      } catch (error) {
-        //console.log(error.message);
-      } finally {
-        setLoading(false);
-      }
-    }
-  };
-
+ 
   const columns = [
     {
       name: "id",
@@ -367,22 +327,10 @@ function Admin(prop) {
     if (target == "total") return _totalReward;
     if (target == "count") return _data.length;
   };
-  const getusers = (data, status, target) => {
-    var _data = data;
-    var _totalReward = [];
-    {
-      _data.map((x, i) => {
-        var _am = x.amount;
 
-        _totalReward.push("" + x.username + "");
-      });
-    }
-    if (target == "total") return _totalReward;
-    if (target == "count") return _data.length;
-  };
   const getDesc = (link, ftxt) => {
     ftxt = ftxt + "@" + link.toUpperCase() + "@";
-    console.log(getusers(filteredItems, "Done", "total"));
+
     if (doCurrency(gettotal(filteredItems, "Done", "count")) > 0) {
       ftxt =
         ftxt +
@@ -474,81 +422,81 @@ function Admin(prop) {
       </>
     );
   }, [filterText, resetPaginationToggle, data, selectedList]);
-
+  const ontable  = gettotal3(filteredItems, "Done", "total")
+  const botTotalLive  = gettotal4(filteredItems, "Done", "total")-gettotal(filteredItems, "Done", "total")-dataStat?.runnerTotalLive
+  const tot = botTotalLive +dataStat?.runnerTotalLive +ontable
   if (loading) {
     return (
       <>
-        <Segment
-          basic
-          style={{ height: "calc(100vh - 150px)", overflow: "auto" }}
-        >
-          <Dimmer active inverted>
-            <Loader size="large">Loading</Loader>
-          </Dimmer>
-        </Segment>
+     
+       <Segment basic>
+      <Dimmer  active >
+        <Loader size='huge'>Loading</Loader>
+      </Dimmer>
+      <Image src='https://react.semantic-ui.com/images/wireframe/paragraph.png' />
+      
+    </Segment>
+      </>
+    );
+  }
+  if (filteredItems.length==0) {
+    return (
+      <>
+     
+       <Segment basic>
+      <Button color="teal" size="huge" inverted style={{marginTop:50}} onClick={() => fetchUsers(1)}>
+                  Click to Load
+                </Button>
+      
+    </Segment>
       </>
     );
   }
   return (
     <>
-      <Modal
-        onClose={() => {
-          setFirstOpen(false);
-          fetchUsers(1);
-        }}
-        onOpen={() => setFirstOpen(true)}
-        open={firstOpen}
-        size="large"
-        style={{ height: "auto" }}
-      >
-        <AddCredit selectedList={selectedList} />
-      </Modal>
-      <Modal
-        onClose={() => {
-          setCashierOpen(false);
-          fetchUsers(1);
-        }}
-        onOpen={() => setCashierOpen(true)}
-        open={cashierOpen}
-        size="large"
-        style={{ height: "auto" }}
-      >
-        <AddCashier obj={obj} setCashierOpen={setCashierOpen} />
-      </Modal>
-      <div style={{ height: "calc(100vh - 150px)", overflow: "auto" }}>
-        {subHeaderComponentMemo}
-        <DataTable
-          columns={columns}
-          data={filteredItems}
-          progressPending={loading}
-          onChangeRowsPerPage={handlePerRowsChange}
-          paginationPerPage={perPage}
-          defaultSortFieldId={dataSortedID}
-          defaultSortAsc={false}
-          expandOnRowClicked={true}
-          expandableRowsHideExpander={true}
-          conditionalRowStyles={conditionalRowStyles}
-          noDataComponent={noDataComponent}
-          pagination
-          paginationResetDefaultPage={resetPaginationToggle} // optionally, a hook to reset pagination to page 1
-          persistTableHead
-          contextActions={contextActions}
-          paginationRowsPerPageOptions={[10, 25, 50, 100]}
-          onSelectedRowsChange={handleChange}
-          selectableRows
-        />
-        <Segment inverted>
-          {footerTxt.split("@").map((item, key) => {
-            return (
-              <div key={key}>
-                {item}
-                <br />
-              </div>
-            );
-          })}
-          <br/>botTotalLive: {doCurrency(dataStat?.botTotalLive)} || botTotalRakeLive: {doCurrency(dataStat?.botTotalRakeLive)} || runnerTotalLive: {doCurrency(dataStat?.runnerTotalLive)} || runnerTotalRakeLive: {doCurrency(dataStat?.runnerTotalRakeLive)}
-        </Segment>
-      </div>
+     
+     <Button color="teal" size="mini" onClick={() => fetchUsers(1)}  style={{position:'absolute',top:-42,right:20}}>
+                  Reload
+                </Button>
+                <Segment attached    >
+              
+        <StatisticGroup  widths='two' size={'small'}>
+          <Statistic  color={botTotalLive>0?"green":"red"}>
+            <StatisticValue>{botTotalLive>0?"+":""}{doCurrencyMil(botTotalLive)}</StatisticValue>
+            <StatisticLabel>bots</StatisticLabel>
+          </Statistic>
+          <Statistic   color={"grey"}>
+            <StatisticValue>{dataStat?.botTotalRakeLive>0?"+":""}{doCurrencyMil(dataStat?.botTotalRakeLive)}</StatisticValue>
+            <StatisticLabel>bots rake</StatisticLabel>
+          </Statistic>
+         
+        </StatisticGroup>
+        <Divider />
+        <StatisticGroup  widths='two' size={'small'}>
+          <Statistic  color={dataStat?.runnerTotalLive>0?"green":"red"}>
+            <StatisticValue>{dataStat?.runnerTotalLive>0?"+":""}{doCurrencyMil(dataStat?.runnerTotalLive)}</StatisticValue>
+            <StatisticLabel>runners</StatisticLabel>
+          </Statistic>
+          <Statistic  color={"grey"}>
+            <StatisticValue>{dataStat?.runnerTotalRakeLive>0?"+":""}{doCurrencyMil(dataStat?.runnerTotalRakeLive)}</StatisticValue>
+            <StatisticLabel>runners rake</StatisticLabel>
+          </Statistic>
+         
+        </StatisticGroup>
+        <Divider />
+        <StatisticGroup  widths='two' size={'small'}>
+          <Statistic  color="green">
+            <StatisticValue>+{doCurrencyMil(ontable)}</StatisticValue>
+            <StatisticLabel>onTables</StatisticLabel>
+          </Statistic>
+          <Statistic  color={tot>0?"green":"red"}>
+            <StatisticValue>{tot>0?"+":""}{doCurrencyMil(tot)}</StatisticValue>
+            <StatisticLabel>Total</StatisticLabel>
+          </Statistic>
+         
+        </StatisticGroup>
+      
+      </Segment>
     </>
   );
 }

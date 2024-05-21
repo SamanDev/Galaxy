@@ -18,7 +18,7 @@ import Amj from "./Amjbank";
 import Setting from "./JsonSetting";
 import Requests from "./Requests";
 import Notification from "./Notification";
-import SendMail from "./SendMail";
+import SendMail from "./SendMail.jsx";
 
 import { adminGetService } from "../../services/admin";
 import { haveAdmin, haveModerator, haveOperator, haveRoot } from "../../const";
@@ -55,7 +55,7 @@ function Admin(prop) {
       {
         menuItem: "Dashboard",
         pane: (
-          <Tab.Pane key="Dashboard">
+          <Tab.Pane key="Dashboard" inverted>
             <Dashboard
               addTabData={addTabData}
               addMainTabData={addMainTabData}
@@ -143,21 +143,7 @@ function Admin(prop) {
           </Tab.Pane>
         ),
         
-      }, {
-        menuItem: "SendMail",
-        pane: (
-          <Tab.Pane key="SendMail">
-            <SendMail
-              addTabData={addTabData}
-              addMainTabData={addMainTabData}
-              setGetwaysData={setGetwaysData}
-              addGatewayTabData={addGatewayTabData}
-              removeTabData={removeTabData}
-              {...prop}
-            />
-          </Tab.Pane>
-        ),
-      },);
+      });
     }
     if (haveRoot(loginToken.roles)) {
       panes.push(

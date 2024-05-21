@@ -1538,6 +1538,13 @@ svg text {
 .framegame::-webkit-scrollbar {
   display: none;
 }
+.leadr .rdt_TableBody{
+  height: 250px;
+  overflow: auto;
+}
+.leadr .rdt_TableRow,.leadr .rdt_TableHeadRow{
+  min-height: 30px !important;
+}
 
 .bonuslist .item {
   padding: 7px 0 !important;

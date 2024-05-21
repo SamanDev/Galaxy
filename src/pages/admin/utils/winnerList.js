@@ -8,7 +8,7 @@ import {
   Loader,
   Icon,
   Modal,
-  Grid,
+  Grid,Image
 } from "semantic-ui-react";
 import Moment from "react-moment";
 import { addDays } from "date-fns";
@@ -17,21 +17,21 @@ import AmountColor from "../../../utils/AmountColor";
 import { adminGetService, adminPutService } from "../../../services/admin";
 import { Alert } from "../../../utils/alerts";
 import AddCashier from "../AddRunner";
-import CheckboxToggle from "../utils/toggle";
+import CheckboxToggle from "./toggle";
 import AddCredit from "../AddCredit";
 
-import { haveAdmin, haveModerator, doCurrency } from "../../../const";
+import { haveAdmin, haveModerator, doCurrency, doCurrencyMil } from "../../../const";
 
 const conditionalRowStyles = [
   {
-    when: (row) => row.endBalance < row.startBalance,
+    when: (row) => row.amount < 0,
     style: {
       backgroundColor: "rgba(255,0,0,.1)",
     },
   },
   // You can also pass a callback to style for additional customization
   {
-    when: (row) => row.endBalance > row.startBalance,
+    when: (row) => row.amount > 0,
     style: {
       backgroundColor: "rgba(0,255,0,.1)",
     },
@@ -106,10 +106,10 @@ const updateUserObj = async (e, data) => {
 const getGateways = JSON.parse(localStorage.getItem("getGateways"));
 function Admin(prop) {
   const [data, setData] = useState([]);
-  const [dataStat, setDataStat] = useState();
+
   const [totalRows, setTotalRows] = useState(0);
   const [perPage, setPerPage] = useState(10);
-  const [dataSortedID, setDataSortedID] = useState(1);
+  const [dataSortedID, setDataSortedID] = useState(2);
 
   const [dataSearch, setDataSearch] = useState("");
   const [dataLoginDay, setDataLoginDay] = useState("");
@@ -117,7 +117,9 @@ function Admin(prop) {
   const [selectedList, setSelected] = useState([]);
   const [getwaysList, setGetwaysData] = useState([]);
   const [obj, setObj] = useState({});
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
+  const [dayNum, setDayNum] = useState(2);
+  const [resNum, setResNum] = useState(15);
   const [footerTxt, setFooterTxt] = useState("");
   const [filterText, setFilterText] = React.useState("");
   const [filterOk, setFilterOk] = React.useState(false);
@@ -138,10 +140,15 @@ function Admin(prop) {
 
     setLoading(true);
     try {
-      const res = await adminGetService(`getRunners2`);
+      const res = await adminGetService(`getTopLoserWinner?dayNumber=3&resultNumber=15`);
       if (res.status === 200) {
-        setData(res.data.runnerList);
-        setDataStat(res.data)
+        var newdata = res.data.topLosers
+    
+
+const children = newdata.concat(res.data.topWinners); 
+     
+        setData(children);
+        setTotalRows(res.data.totalUser)
         setFilterOk(false);
       }
     } catch (error) {
@@ -151,7 +158,7 @@ function Admin(prop) {
     }
   };
   useEffect(() => {
-    fetchUsers(1); // fetch page 1 of users
+    //fetchUsers(1); // fetch page 1 of users
   }, [dataSearch]);
   const handlePerRowsChange = async (newPerPage, page) => {
     setPerPage(newPerPage);
@@ -160,7 +167,7 @@ function Admin(prop) {
   var filteredItems = data.filter(
     (item) =>
       item.username &&
-      (item.username.toLowerCase().includes(filterText.toLowerCase())||item.refer.toLowerCase().includes(filterText.toLowerCase()))
+      (item.username.toLowerCase().includes(filterText.toLowerCase()))
   );
   if (dataLoginDay) {
     var startDate = addDays(new Date(), dataLoginDay);
@@ -210,12 +217,7 @@ function Admin(prop) {
   };
 
   const columns = [
-    {
-      name: "id",
-      selector: (row) => row.id,
-      sortable: true,
-      width: "100px",
-    },
+   
 
     {
       name: "Username",
@@ -233,83 +235,14 @@ function Admin(prop) {
       sortable: true,
       width: "180px",
     },
-    {
-      name: "Username2",
-      selector: (row) => row.refer,
-      format: (row) => (
-        <>
-          <span
-            className="msglink fw-bold"
-            onClick={() => prop.addTabData(row.refer)}
-          >
-            {row.refer}
-          </span>
-        </>
-      ),
-      sortable: true,
-      width: "180px",
-    },
+   
     {
       name: "Amount",
       selector: (row) => row.amount,
-      format: (row) => <>{doCurrency(row.amount)}</>,
+      format: (row) => <>{doCurrencyMil(row.amount)}</>,
       sortable: true,
     },
-    {
-      name: "liveChip",
-      selector: (row) => row.liveChip,
-      format: (row) => <>{doCurrency(row.liveChip)}</>,
-      sortable: true,
-    },
-    {
-      name: "onTables",
-      selector: (row) => row.onTables,
-      format: (row) => <>{doCurrency(row.onTables)}</>,
-      sortable: true,
-    },
-    {
-      name: "Rake%",
-      selector: (row) => row.liveRake,
-      format: (row) => (
-        <span
-          onClick={() => {
-            setObj(row);
-            setCashierOpen(true);
-          }}
-        >
-          {doCurrency(row.liveRake)}
-          <br />
-          {doCurrency(parseInt((row.liveRake * row.percent) / 100))} (
-          {row.percent}%)
-        </span>
-      ),
-      sortable: true,
-    },
-    {
-      name: "Win%",
-      selector: (row) => row.win,
-      format: (row) => <>{row.winPercent}%<br />
-      <AmountColor
-        amount={parseInt(row.win)}
-        sign={parseInt(row.win)}
-      /></>,
-      sortable: true,
-    },
-    {
-      name: "Total",
-      selector: (row) => row.total,
-      format: (row) => (
-        <>
-          <AmountColor amount={row.total} sign={row.total} />
-          <br />
-          <AmountColor
-            amount={parseInt((row.total * row.winPercent) / 100)}
-            sign={parseInt((row.total * row.winPercent) / 100)}
-          />
-        </>
-      ),
-      sortable: true,
-    },
+   
   ];
   const gettotal = (data, status, target) => {
     if (!data) return 0;
@@ -327,11 +260,11 @@ function Admin(prop) {
   };
   const gettotal2 = (data, status, target) => {
     if (!data) return 0;
-    var _data = data.filter((d) => d.liveRake != 0);
+    var _data = data.filter((d) => d.totalRake != 0);
     var _totalReward = 0;
     {
       _data.map((x, i) => {
-        var _am = x.liveRake;
+        var _am = x.totalRake;
 
         _totalReward = _totalReward + _am;
       });
@@ -341,11 +274,11 @@ function Admin(prop) {
   };
   const gettotal3 = (data, status, target) => {
     if (!data) return 0;
-    var _data = data.filter((d) => d.win != 0);
+    var _data = data.filter((d) => d.total != 0);
     var _totalReward = 0;
     {
       _data.map((x, i) => {
-        var _am = x.onTables;
+        var _am = x.total;
 
         _totalReward = _totalReward + _am;
       });
@@ -367,22 +300,10 @@ function Admin(prop) {
     if (target == "total") return _totalReward;
     if (target == "count") return _data.length;
   };
-  const getusers = (data, status, target) => {
-    var _data = data;
-    var _totalReward = [];
-    {
-      _data.map((x, i) => {
-        var _am = x.amount;
 
-        _totalReward.push("" + x.username + "");
-      });
-    }
-    if (target == "total") return _totalReward;
-    if (target == "count") return _data.length;
-  };
   const getDesc = (link, ftxt) => {
     ftxt = ftxt + "@" + link.toUpperCase() + "@";
-    console.log(getusers(filteredItems, "Done", "total"));
+
     if (doCurrency(gettotal(filteredItems, "Done", "count")) > 0) {
       ftxt =
         ftxt +
@@ -413,7 +334,7 @@ function Admin(prop) {
     if (doCurrency(gettotal3(filteredItems, "Done", "count")) > 0) {
       ftxt =
         ftxt +
-        "ontable (" +
+        "total (" +
         doCurrency(gettotal3(filteredItems, "Done", "count")) +
         "): " +
         doCurrency(gettotal3(filteredItems, "Done", "total")) +
@@ -445,19 +366,25 @@ function Admin(prop) {
         <Grid verticalAlign="middle" columns={2} as={Segment} color="red">
           <Grid.Row>
             <Grid.Column>
-              <h1>{prop.searchValue}</h1>
+              <h1>{prop.searchValue} - TotalUsers: {totalRows}</h1>
             </Grid.Column>
             <Grid.Column>
+            <Input
+      defaultValue={dayNum}
+    
+      onChange={(e)=>{setDayNum(e.target.value)}}
+      style={{ position: "relative", zIndex: 100000 }}
+    />
+    <Input
+      defaultValue={resNum}
+    
+      onChange={(e)=>{setResNum(e.target.value)}}
+      style={{ position: "relative", zIndex: 100000 }}
+    />
               <Button color="red" onClick={() => fetchUsers(1)}>
                 Reload
               </Button>
-              <Button
-                color="blue"
-                className="float-end"
-                onClick={() => setCashierOpen(true)}
-              >
-                Add
-              </Button>
+              
               {selectedList.length > 0 && (
                 <Button color="red" onClick={() => setFirstOpen(true)}>
                   Credit {selectedList.length}
@@ -473,50 +400,43 @@ function Admin(prop) {
         </Grid>
       </>
     );
-  }, [filterText, resetPaginationToggle, data, selectedList]);
+  }, [filterText,dayNum,resNum, resetPaginationToggle, data, selectedList]);
+
+ 
 
   if (loading) {
     return (
       <>
-        <Segment
-          basic
-          style={{ height: "calc(100vh - 150px)", overflow: "auto" }}
-        >
-          <Dimmer active inverted>
-            <Loader size="large">Loading</Loader>
-          </Dimmer>
-        </Segment>
+     
+       <Segment basic>
+      <Dimmer  active >
+        <Loader size='huge'>Loading</Loader>
+      </Dimmer>
+      <Image src='https://react.semantic-ui.com/images/wireframe/paragraph.png' />
+      
+    </Segment>
+      </>
+    );
+  }
+  if (filteredItems.length==0) {
+    return (
+      <>
+     
+       <Segment basic>
+      <Button color="purple" size="huge" inverted style={{marginTop:50}} onClick={() => fetchUsers(1)}>
+                  Click to Load
+                </Button>
+      
+    </Segment>
       </>
     );
   }
   return (
     <>
-      <Modal
-        onClose={() => {
-          setFirstOpen(false);
-          fetchUsers(1);
-        }}
-        onOpen={() => setFirstOpen(true)}
-        open={firstOpen}
-        size="large"
-        style={{ height: "auto" }}
-      >
-        <AddCredit selectedList={selectedList} />
-      </Modal>
-      <Modal
-        onClose={() => {
-          setCashierOpen(false);
-          fetchUsers(1);
-        }}
-        onOpen={() => setCashierOpen(true)}
-        open={cashierOpen}
-        size="large"
-        style={{ height: "auto" }}
-      >
-        <AddCashier obj={obj} setCashierOpen={setCashierOpen} />
-      </Modal>
-      <div style={{ height: "calc(100vh - 150px)", overflow: "auto" }}>
-        {subHeaderComponentMemo}
+     
+     <Button color="purple" size="mini" onClick={() => fetchUsers(1)}  style={{position:'absolute',top:-42,right:20}}>
+                  Reload
+                </Button>
         <DataTable
           columns={columns}
           data={filteredItems}
@@ -529,26 +449,10 @@ function Admin(prop) {
           expandableRowsHideExpander={true}
           conditionalRowStyles={conditionalRowStyles}
           noDataComponent={noDataComponent}
-          pagination
-          paginationResetDefaultPage={resetPaginationToggle} // optionally, a hook to reset pagination to page 1
-          persistTableHead
-          contextActions={contextActions}
-          paginationRowsPerPageOptions={[10, 25, 50, 100]}
-          onSelectedRowsChange={handleChange}
-          selectableRows
+         
         />
-        <Segment inverted>
-          {footerTxt.split("@").map((item, key) => {
-            return (
-              <div key={key}>
-                {item}
-                <br />
-              </div>
-            );
-          })}
-          <br/>botTotalLive: {doCurrency(dataStat?.botTotalLive)} || botTotalRakeLive: {doCurrency(dataStat?.botTotalRakeLive)} || runnerTotalLive: {doCurrency(dataStat?.runnerTotalLive)} || runnerTotalRakeLive: {doCurrency(dataStat?.runnerTotalRakeLive)}
-        </Segment>
-      </div>
+       
+     
     </>
   );
 }
