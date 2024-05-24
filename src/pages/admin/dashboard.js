@@ -49,10 +49,10 @@ const GridExampleTextAlignmentCenter = (prop) => {
               <Chart mode="Cashout" day={data[1]} /></Segment>
           </GridColumn>
           <GridColumn>
-            <Header as='h2' attached='top' inverted color='orange'>
+            <Header as='h2' attached='top' inverted color='pink'>
               PokerRakes
             </Header>
-            <Segment color='blue' attached>
+            <Segment color='pink' attached>
 
               <ChartIncome mode="Income" day={data[0]} />
 
@@ -68,7 +68,7 @@ const GridExampleTextAlignmentCenter = (prop) => {
             <Header as='h2' attached='top' inverted color='blue'>
               Leaders
             </Header>
-            <Segment inverted size='mini' attached className="leadr" style={{height:300}}>
+            <Segment inverted size='tiny' attached className="leadr" style={{height:300}}>
               <UserList  {...prop} />
             </Segment>
           </GridColumn>
@@ -76,7 +76,7 @@ const GridExampleTextAlignmentCenter = (prop) => {
             <Header as='h2' attached='top' inverted color='teal' onClick={() => prop.addMainTabData("Runner")}>
               Runners
             </Header>
-            <Segment  attached inverted  style={{height:300}}>
+            <Segment  attached inverted  className="leadr" style={{height:300}}>
             <RunnerList  {...prop} search="refer"
               searchValue={"Runner"} />
              </Segment>

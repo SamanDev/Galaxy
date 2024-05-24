@@ -22,7 +22,7 @@ var onUpdateItem = prop.onUpdateItem
     setSubject(e.target.value + " شروع شد");
     if (e.target.value == "لیگ روزانه") {
       var rules = siteInfo?.dailyLeagueSet[0];
-      setTitle(doCurrency(rules.totalRewards) + " تومان\nبرای هر بازیکن");
+      setTitle(doCurrency(rules.totalRewards) + " تومان\nهر روز برای " +rules.totalPlayer+" نفر");
       setNotMessage(
         "لیگ گلکسی هر روز از بیست و چهارم تا پایان هر ماه میلادی برگزار می شود.\n\nجوایز در پایان هر روز به "+rules.totalPlayer+" نفری که بیشترین امتیاز را در طول هر روز از گلکسی کسب کرده اند, اهدا خواهد شد.\n\nبرای شرکت در لیگ گلکسی یا باید لول شما "+rules.minLevel+" یا بالاتر باشد یا موجودی اکانت شما بیش از "+doCurrency(rules.minAmount)+" تومان باشد.\n\nتوجه داشته باشید اگر لِوِل شما کمتر از "+rules.minLevel+" باشد، با دریافت هر پاداش، برداشت و انتقال شما به مدت "+rules.hoursUnderLevel+" ساعت بسته خواهد شد."
       );
@@ -138,17 +138,6 @@ console.log(notification2)
   
         </Form.Field>
    
-        <Button
-          type="submit"
-          loading={cashLoad}
-          disabled={cashLoad}
-          color="red"
-          fluid
-          onClick={sendNot}
-          style={{ marginTop: 20 }}
-        >
-          Send
-        </Button>
       </Form>
     </>
   );

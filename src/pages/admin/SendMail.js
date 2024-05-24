@@ -97,13 +97,13 @@ function Admin(prop) {
             
       
           username: player.username,
-          subject: data.subject + "@@" + siteInfo.referUrl + "@@" + siteInfo.instagram + "@@" + siteInfo.telegramChanel + "@@" + siteInfo.telegramSupport + "@@" + siteInfo.userSiteUrl,
+          subject: data.subject,
           title: data.title,
           body: data.body,
          
         };
         console.log(newData)
-        //addGift(newData);
+        addGift(newData);
       }, 500 * i);
     });
   };
@@ -112,7 +112,7 @@ function Admin(prop) {
       '<i aria-hidden="true" class="spinner loading icon">'
     );
     try {
-      const res = await adminPostService(data, "addGift");
+      const res = await adminPostService(data, "mailService");
       if (res.status == 200) {
         $("#res" + data.username).html(
           '<i aria-hidden="true" class="checkmark green icon">'
@@ -230,15 +230,16 @@ function Admin(prop) {
             />
       </Modal.Content>
       <Modal.Content>
+        <Segment inverted>
         {findStateId(myState, "selectedList").map((user, i) => {
           return (
             <Form key={i}>
               <Form.Group inline>
                 <Form.Field width={4}>
-                  <label>
+                  <label style={{color:"#fff"}}>
                   {user.username}  ({user.level})
                   </label>
-                  <span id={"res" + user.username}></span>
+                  <span id={"res" + user.username} style={{color:"#fff"}}></span>
                 </Form.Field>
                 <Form.Field width={6}>
                 <Input
@@ -248,16 +249,14 @@ function Admin(prop) {
                     
                     
                   </Input>
-                  <Input
-                    type="text"
-                    value={findStateId(myState, "subject")}
-                  ></Input>
+            
                 </Form.Field>
              
               </Form.Group>
             </Form>
           );
         })}
+        </Segment>
       </Modal.Content>
     </>
   );

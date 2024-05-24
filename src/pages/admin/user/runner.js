@@ -256,6 +256,12 @@ function Admin(prop) {
       sortable: true,
     },
     {
+      name: "baseAmount",
+      selector: (row) => row.baseAmount,
+      format: (row) => <>{doCurrency(row.baseAmount)}</>,
+      sortable: true,
+    },
+    {
       name: "liveChip",
       selector: (row) => row.liveChip,
       format: (row) => <>{doCurrency(row.liveChip)}</>,

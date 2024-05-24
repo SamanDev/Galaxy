@@ -70,21 +70,24 @@ function RisingPitch(prop) {
         }
       };
       useEffect(() => {
-        if(filteredItems.length>0){
-
-        
         $("#chart"+prop.mode+prop.day).html("");
         $("#chart"+prop.mode+prop.day).append('<canvas id="acquisitions'+prop.mode+prop.day+'"></canvas>');
         var _gmode = groupBy(filteredItems, "gateway");
         var modedata = [];
         var valdata = [];
+        if(filteredItems.length>0){
+
+        
+       
         
     for (const property in _gmode) {
       modedata.push(property + " ("+_gmode[property].length+")");
       valdata.push((sumOf(_gmode[property])) )
   
     }
- 
+  }else{
+
+  }
         var chartdata = {
           labels: modedata,
           datasets: [{
@@ -130,7 +133,7 @@ function RisingPitch(prop) {
               }
             }
         });
-      }
+      
       }, [filteredItems]);
       useEffect(() => {
         console.log(prop)

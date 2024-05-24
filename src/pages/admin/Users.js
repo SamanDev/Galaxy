@@ -8,7 +8,7 @@ import {
   Loader,
   Icon,
   Modal,
-  Grid,
+  Grid,Label
 } from "semantic-ui-react";
 import Moment from "react-moment";
 import { useParams } from "react-router-dom";
@@ -28,7 +28,7 @@ import {
   haveModerator,
   haveRoot,
   doCurrency,
-  levelDataInfo,
+  levelDataInfo,doCurrencyMil
 } from "../../const";
 
 const conditionalRowStyles = [
@@ -321,6 +321,14 @@ function Admin(prop) {
       sortable: true,
     },
     {
+      name: "Tot",
+      selector: (row) => row.totalCashout-row.totalDeposit,
+      format: (row) => <><Label size="tiny" color={row.totalCashout-row.totalDeposit>0?"green":"red"}>
+      {doCurrencyMil(row.totalCashout-row.totalDeposit)}
+  </Label></>,
+      sortable: true,
+    },
+    {
       name: "point",
       selector: (row) => row.dailyPoint,
       format: (row) => <>{row.dailyPoint}</>,
@@ -420,7 +428,7 @@ function Admin(prop) {
   var filteredItems = data.filter((item) => item.username);
   var _val = dataSearch.toString();
 
-  if (_val.indexOf("up4") > -1) {
+  if (_val.indexOf("up") > -1) {
     filteredItems = filteredItems.filter(
       (item) =>
         item.level >= parseInt(_val.replace("level", "").replace(" up", "")) &&
@@ -441,8 +449,11 @@ function Admin(prop) {
     if (dataSearch) {
       var _val = dataSearch.toString();
       setDataSortedID(2);
-
+      if (_val.indexOf("up") > -1) {
+        setPerPage(2500);
+      }
       _val = _val.replace("up", "");
+      
       if (_val == "chip") {
         setDataSortedID(6);
       }
@@ -469,7 +480,7 @@ function Admin(prop) {
     var newSelect = [];
     {
       selectedRows.map((user, i) => {
-        if (!user?.multiAccount) {
+        if (!user?.multiAccount && user?.refer !="runner" && user?.refer !="bots") {
           var newUser = {};
           newUser.username = user.username;
           newUser.level = user.level;
@@ -683,6 +694,7 @@ function Admin(prop) {
         open={mailOpen}
         size="large"
         style={{ height: "auto" }}
+        
       >
         <SendMail selectedList={selectedList} {...prop} />
       </Modal>

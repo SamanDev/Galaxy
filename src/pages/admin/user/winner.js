@@ -19,7 +19,7 @@ import { Alert } from "../../../utils/alerts";
 import AddCashier from "../AddRunner";
 import CheckboxToggle from "../utils/toggle";
 import AddCredit from "../AddCredit";
-
+import AddGift from "../AddGift";
 import { haveAdmin, haveModerator, doCurrency } from "../../../const";
 
 const conditionalRowStyles = [
@@ -402,9 +402,10 @@ const children = newdata.concat(res.data.topWinners);
               
               {selectedList.length > 0 && (
                 <Button color="red" onClick={() => setFirstOpen(true)}>
-                  Credit {selectedList.length}
+                  Gift {selectedList.length}
                 </Button>
               )}
+            
               <FilterComponent
                 onFilter={(e) => setFilterText(e.target.value)}
                 onClear={handleClear}
@@ -437,17 +438,14 @@ const children = newdata.concat(res.data.topWinners);
   }
   return (
     <>
-      <Modal
-        onClose={() => {
-          setFirstOpen(false);
-          fetchUsers(1);
-        }}
+       <Modal
+        onClose={() => setFirstOpen(false)}
         onOpen={() => setFirstOpen(true)}
         open={firstOpen}
         size="large"
         style={{ height: "auto" }}
       >
-        <AddCredit selectedList={selectedList} />
+        <AddGift selectedList={selectedList} />
       </Modal>
       <Modal
         onClose={() => {

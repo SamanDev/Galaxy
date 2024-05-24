@@ -81,7 +81,7 @@ function RisingPitch(prop) {
       modedata.push("runnersRake");
       valdata.push((filteredItems[0].runnersRake) )
         modedata.push("pokerRake");
-      valdata.push((filteredItems[0].pokerTotal-filteredItems[0].botsRake-filteredItems[0].runnersRake) )
+      valdata.push((filteredItems[0].pokerRake-filteredItems[0].botsRake-filteredItems[0].runnersRake) )
       
 
  

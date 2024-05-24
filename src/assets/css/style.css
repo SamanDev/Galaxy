@@ -1544,6 +1544,7 @@ svg text {
 }
 .leadr .rdt_TableRow,.leadr .rdt_TableHeadRow{
   min-height: 30px !important;
+  font-size: 11px;
 }
 
 .bonuslist .item {

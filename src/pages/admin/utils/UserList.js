@@ -4,7 +4,7 @@ import {
   Segment,
   Dimmer,
   Loader,
-  Icon,Button,Image
+  Icon,Button,Image,Label
 } from "semantic-ui-react";
 import Moment from "react-moment";
 const moment = require("moment");
@@ -96,6 +96,8 @@ function Admin(prop) {
                     />
             {row.username}
           </span>
+          
+          
         </>
       ),
       sortable: true,
@@ -103,18 +105,13 @@ function Admin(prop) {
     },
 
     {
-      name: "refer",
-      selector: (row) => (row.refer ? row.refer : ""),
+      name: "Point",
+      selector: (row) => (row.dailyPoint),
       format: (row) => (
         <>
-          {row.refer && (
-            <span
-              className="msglink"
-              onClick={() => prop.addTabData(row.refer, prop.getwaysList)}
-            >
-              {row.refer}
-            </span>
-          )}
+         
+              {doCurrencyMil(row.dailyPoint)}
+            
         </>
       ),
       sortable: true,
@@ -127,9 +124,11 @@ function Admin(prop) {
       sortable: true,
     },
     {
-      name: "balance2",
-      selector: (row) => row.balance2,
-      format: (row) => <>{doCurrency(row.balance2)}</>,
+      name: "Tot",
+      selector: (row) => row.totalCashout-row.totalDeposit,
+      format: (row) => <><Label size="tiny" color={row.totalCashout-row.totalDeposit>0?"green":"red"}>
+      {doCurrencyMil(row.totalCashout-row.totalDeposit)}
+  </Label></>,
       sortable: true,
     },
    

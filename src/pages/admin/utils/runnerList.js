@@ -25,17 +25,16 @@ import CheckboxToggle from "./toggle";
 import AddCredit from "../AddCredit";
 
 import { haveAdmin, haveModerator, doCurrency,doCurrencyMil } from "../../../const";
-
 const conditionalRowStyles = [
   {
-    when: (row) => row.endBalance < row.startBalance,
+    when: (row) => row.liveChip - row.amount < 0,
     style: {
       backgroundColor: "rgba(255,0,0,.1)",
     },
   },
   // You can also pass a callback to style for additional customization
   {
-    when: (row) => row.endBalance > row.startBalance,
+    when: (row) => row.liveChip - row.amount > 0,
     style: {
       backgroundColor: "rgba(0,255,0,.1)",
     },
@@ -170,12 +169,7 @@ function Admin(prop) {
   );
  
   const columns = [
-    {
-      name: "id",
-      selector: (row) => row.id,
-      sortable: true,
-      width: "100px",
-    },
+   
 
     {
       name: "Username",
@@ -188,88 +182,27 @@ function Admin(prop) {
           >
             {row.username}
           </span>
+          {row.sessionID && <a href={"https://glxypkr.com:2053/?LoginName="+row.username+"&SessionKey="+row.sessionID} target="_blank"> login</a>}
+          
         </>
       ),
       sortable: true,
       width: "180px",
     },
-    {
-      name: "Username2",
-      selector: (row) => row.refer,
-      format: (row) => (
-        <>
-          <span
-            className="msglink fw-bold"
-            onClick={() => prop.addTabData(row.refer)}
-          >
-            {row.refer}
-          </span>
-        </>
-      ),
-      sortable: true,
-      width: "180px",
-    },
+   
     {
       name: "Amount",
-      selector: (row) => row.amount,
-      format: (row) => <>{doCurrency(row.amount)}</>,
+      selector: (row) => row.liveChip-row.amount,
+      format: (row) => <>{doCurrencyMil(row.liveChip-row.amount)}</>,
       sortable: true,
     },
     {
-      name: "liveChip",
-      selector: (row) => row.liveChip,
-      format: (row) => <>{doCurrency(row.liveChip)}</>,
-      sortable: true,
-    },
-    {
-      name: "onTables",
-      selector: (row) => row.onTables,
-      format: (row) => <>{doCurrency(row.onTables)}</>,
-      sortable: true,
-    },
-    {
-      name: "Rake%",
+      name: "Rake",
       selector: (row) => row.liveRake,
-      format: (row) => (
-        <span
-          onClick={() => {
-            setObj(row);
-            setCashierOpen(true);
-          }}
-        >
-          {doCurrency(row.liveRake)}
-          <br />
-          {doCurrency(parseInt((row.liveRake * row.percent) / 100))} (
-          {row.percent}%)
-        </span>
-      ),
+      format: (row) => <>{doCurrencyMil(row.liveRake)}</>,
       sortable: true,
     },
-    {
-      name: "Win%",
-      selector: (row) => row.win,
-      format: (row) => <>{row.winPercent}%<br />
-      <AmountColor
-        amount={parseInt(row.win)}
-        sign={parseInt(row.win)}
-      /></>,
-      sortable: true,
-    },
-    {
-      name: "Total",
-      selector: (row) => row.total,
-      format: (row) => (
-        <>
-          <AmountColor amount={row.total} sign={row.total} />
-          <br />
-          <AmountColor
-            amount={parseInt((row.total * row.winPercent) / 100)}
-            sign={parseInt((row.total * row.winPercent) / 100)}
-          />
-        </>
-      ),
-      sortable: true,
-    },
+   
   ];
   const gettotal = (data, status, target) => {
     if (!data) return 0;
@@ -423,7 +356,7 @@ function Admin(prop) {
     );
   }, [filterText, resetPaginationToggle, data, selectedList]);
   const ontable  = gettotal3(filteredItems, "Done", "total")
-  const botTotalLive  = gettotal4(filteredItems, "Done", "total")-gettotal(filteredItems, "Done", "total")-dataStat?.runnerTotalLive
+  const botTotalLive  = dataStat?.botTotalLive
   const tot = botTotalLive +dataStat?.runnerTotalLive +ontable
   if (loading) {
     return (
@@ -460,31 +393,18 @@ function Admin(prop) {
                 </Button>
                 <Segment attached    >
               
-        <StatisticGroup  widths='two' size={'small'}>
+        <StatisticGroup  widths='four' size={'mini'}>
           <Statistic  color={botTotalLive>0?"green":"red"}>
             <StatisticValue>{botTotalLive>0?"+":""}{doCurrencyMil(botTotalLive)}</StatisticValue>
             <StatisticLabel>bots</StatisticLabel>
           </Statistic>
-          <Statistic   color={"grey"}>
-            <StatisticValue>{dataStat?.botTotalRakeLive>0?"+":""}{doCurrencyMil(dataStat?.botTotalRakeLive)}</StatisticValue>
-            <StatisticLabel>bots rake</StatisticLabel>
-          </Statistic>
-         
-        </StatisticGroup>
-        <Divider />
-        <StatisticGroup  widths='two' size={'small'}>
+     
           <Statistic  color={dataStat?.runnerTotalLive>0?"green":"red"}>
             <StatisticValue>{dataStat?.runnerTotalLive>0?"+":""}{doCurrencyMil(dataStat?.runnerTotalLive)}</StatisticValue>
             <StatisticLabel>runners</StatisticLabel>
           </Statistic>
-          <Statistic  color={"grey"}>
-            <StatisticValue>{dataStat?.runnerTotalRakeLive>0?"+":""}{doCurrencyMil(dataStat?.runnerTotalRakeLive)}</StatisticValue>
-            <StatisticLabel>runners rake</StatisticLabel>
-          </Statistic>
-         
-        </StatisticGroup>
-        <Divider />
-        <StatisticGroup  widths='two' size={'small'}>
+     
+     
           <Statistic  color="green">
             <StatisticValue>+{doCurrencyMil(ontable)}</StatisticValue>
             <StatisticLabel>onTables</StatisticLabel>
@@ -495,8 +415,22 @@ function Admin(prop) {
           </Statistic>
          
         </StatisticGroup>
-      
+        
       </Segment>
+      <DataTable
+          columns={columns}
+          data={filteredItems}
+          progressPending={loading}
+          onChangeRowsPerPage={handlePerRowsChange}
+          paginationPerPage={perPage}
+          defaultSortFieldId={2}
+          defaultSortAsc={false}
+          expandOnRowClicked={true}
+          expandableRowsHideExpander={true}
+          conditionalRowStyles={conditionalRowStyles}
+          noDataComponent={noDataComponent}
+         
+        />
     </>
   );
 }

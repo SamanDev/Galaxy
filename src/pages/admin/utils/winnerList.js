@@ -140,7 +140,7 @@ function Admin(prop) {
 
     setLoading(true);
     try {
-      const res = await adminGetService(`getTopLoserWinner?dayNumber=3&resultNumber=15`);
+      const res = await adminGetService(`getTopLoserWinner?dayNumber=5&resultNumber=15`);
       if (res.status === 200) {
         var newdata = res.data.topLosers
     
