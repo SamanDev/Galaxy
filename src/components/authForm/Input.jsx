@@ -11,7 +11,7 @@ const InputF = ({
   size,
   autoComplete,
   maxLength,
-  placeholder
+  placeholder,disabled
 }) => {
   return (
     <Form as="div">
@@ -26,10 +26,12 @@ const InputF = ({
         labelPosition="left"
         defaultValue=""
         style={{ marginBottom: 10 }}
+        disabled={disabled}
       >
         <Label
           size="tiny"
           pointing="right"
+         
           color={
             formik.errors[name] && formik.touched[name] ? "red" : labelcolor
           }
@@ -43,6 +45,7 @@ const InputF = ({
           placeholder={placeholder?placeholder:name}
           autoComplete={autoComplete}
           maxLength={maxLength}
+          disabled={disabled}
         />
       </Form.Input>
     </Form>

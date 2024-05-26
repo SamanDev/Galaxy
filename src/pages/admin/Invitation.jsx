@@ -2,22 +2,22 @@ import React, { useEffect, useState, useContext } from "react";
 import { Button, Form } from "semantic-ui-react";
 
 import Swal from "sweetalert2";
-
+import $ from "jquery";
 import { notification } from "../../services/admin";
 import { doCurrency } from "../../const";
-
+import { adminPostService } from "../../services/admin";
 function Admin(prop) {
   const [cashUser, setCashUser] = React.useState("hangover2");
   const [cashLoad, setCashLoad] = React.useState(false);
-
-  const [subject, setSubject] = React.useState("");
+  const [loading, setLoading] = useState(false);
+  const [subject, setSubject] = React.useState("CRoyale7");
   const [title, setTitle] = React.useState("");
   const [image, setImage] = React.useState("");
   const [notMessage, setNotMessage] = React.useState("");
   const siteInfo = prop.siteInfo;
   const loginToken = prop.loginToken;
   siteInfo?.galaxyPassSet?.sort((a, b) => (a.id > b.id ? 1 : -1));
-var onUpdateItem = prop.onUpdateItem
+
   const setNotTitle = (e) => {
     setSubject(e.target.value + " شروع شد");
     if (e.target.value == "لیگ روزانه") {
@@ -57,43 +57,39 @@ var onUpdateItem = prop.onUpdateItem
   };
   const setNotsubjectVal = (e) => {
     setSubject(e.target.value);
-    onUpdateItem("subject",e.target.value)
+
   };
   const setNotTitleVal = (e) => {
     setTitle(e.target.value);
-    onUpdateItem("title",e.target.value.replace(/\n/g,"<br/>"))
+
   };
   const setNotMessageVal = (e) => {
     setNotMessage(e.target.value);
-    onUpdateItem("body",e.target.value.replace(/\n/g,"<br/>"))
+  
   };
-  useEffect(() => {
-    onUpdateItem("title",title.replace(/\n/g,"<br/>"))
-  }, [title]);
-  useEffect(() => {
-    onUpdateItem("subject",subject)
-  }, [subject]);
-  useEffect(() => {
-    onUpdateItem("body",notMessage.replace(/\n/g,"<br/>"))
-  }, [notMessage]);
+  
   const sendNot = (e, data) => {
-    if (notMessage == "") {
-      return false;
-    }
-    setCashLoad(true);
+  
     
     var notification2 = {
-        subject:subject,
-      title: title.replace(/\n/g,"<br/>"),
-      body: notMessage.replace(/\n/g,"<br/>"),
-      "username": "Tira",
-  "userSiteUrl":"https://galaxy15x.site",
-  "referUrl": "https://www.referglxy.com/",
- "instagram":"glxycasino",
-"telegramChanel":"GlxyChannel",
-"telegramSupport":"GlxySupport",
+        username:subject,
+      emails: title,
+    
     };
-console.log(notification2)
+    addGift(notification2)
+  };
+  const addGift = async (data) => {
+    setLoading(true)
+    try {
+      const res = await adminPostService(data, "inviteMailService");
+      if (res.status == 200) {
+        setLoading(false)
+      } else {
+        Alert("متاسفم...!", res.data.message, "error");
+      }
+    } catch (error) {
+ 
+    }
   };
   const titleList =
     "لیگ روزانه,تورنومنت ۲۵+۲۵,گلکسی پَس,میز VIP".split(",");
@@ -102,43 +98,27 @@ console.log(notification2)
   return (
     <>
       <Form>
-      <Form.Field>
-      <label>Select Themeplate: </label>
-          <select  className="farsi" onChange={setNotTitle}>
-            <option value={""}></option>
-            {titleList.map((name, i) => {
-              return (
-                <option key={i} value={name}>
-                  {name}
-                </option>
-              );
-            })}
-          </select>
-        </Form.Field>
+   
         <Form.Field>
-          <label>Subject: </label>
-          <input value={subject} className="farsi" onChange={setNotsubjectVal} />
+          <label>UserName: </label>
+          <input value={subject} onChange={setNotsubjectVal} />
          
         </Form.Field>
         <Form.Field>
        
-        <label>Title</label>
+        <label>Email</label>
           <textarea
             value={title}
-            className="farsi"
+            
             onChange={setNotTitleVal}
           />
          
-          <label>Meessage</label>
-          <textarea
-            value={notMessage}
-            className="farsi"
-            onChange={setNotMessageVal}
-          />
+       
   
         </Form.Field>
-   
+   <Button onClick={sendNot} loading={loading}>Send</Button>
       </Form>
+      <div id="invres"></div>
     </>
   );
 }

@@ -86,7 +86,7 @@ export const useUser = () => {
   }, [loginToken]);
   return [loginToken];
 };
-export const useSiteInfo = () => {
+export const useSiteInfo = (login) => {
   const [siteInfo, setSiteInfo] = useState(
     localStorage.getItem("siteInfo") && isJson(localStorage.getItem("siteInfo"))
       ? JSON.parse(localStorage.getItem("siteInfo"))
@@ -94,7 +94,7 @@ export const useSiteInfo = () => {
   );
   var loginKey = localStorage.getItem("galaxyUserkeyToken");
 
-  const [loginToken, setLoginToken] = useState(
+  const [loginToken, setLoginToken] = useState(login?login:
     localStorage.getItem(loginKey + "Token") &&
       isJson(localStorage.getItem(loginKey + "Token"))
       ? JSON.parse(localStorage.getItem(loginKey + "Token"))
@@ -147,7 +147,7 @@ export const useSiteInfo = () => {
         handleCheckLoginUser();
       }
     });
-  }, []);
+  }, [loginToken.accessToken,loginToken.logout]);
   useEffect(() => {
     var _data = siteInfo;
     _data.updateday = new Date();

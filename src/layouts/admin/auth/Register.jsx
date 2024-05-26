@@ -41,6 +41,8 @@ const onSubmit = async (values, submitMethods, navigate, prop) => {
       prop.setSecondOpen(false);
       prop.setIsUser(true);
       localStorage.setItem(btoa(values.username), btoa(values.password));
+      localStorage.removeItem("email");
+        localStorage.removeItem("refer");
     }
   }
   submitMethods.setSubmitting(false);
@@ -48,6 +50,7 @@ const onSubmit = async (values, submitMethods, navigate, prop) => {
 
 const depositArea = (prop) => {
   var reffer = localStorage.getItem("refer");
+  var email = localStorage.getItem("email");
   const [depMode, setDepMode] = useState(false);
   const navigate = useNavigate();
 
@@ -55,7 +58,7 @@ const depositArea = (prop) => {
     <Formik
       initialValues={{
         username: "",
-        email: "",
+        email: email!=null?email:"",
         password: "",
         newPassword: "",
         refer: reffer,
@@ -115,7 +118,8 @@ const depositArea = (prop) => {
                 maxLength="12"
                 autoComplete="username"
               />
-              <AuthFormikControl
+           
+              {email!=null &&email.indexOf("@")>-1?<AuthFormikControl
                 formik={formik}
                 control="input"
                 type="email"
@@ -124,7 +128,20 @@ const depositArea = (prop) => {
                 labelcolor={prop.labelcolor}
                 size={prop.size}
                 autoComplete="email"
-              />
+                disabled={true}
+               
+              />:<AuthFormikControl
+              formik={formik}
+              control="input"
+              type="email"
+              name="email"
+              label="ایمیل"
+              labelcolor={prop.labelcolor}
+              size={prop.size}
+              autoComplete="email"
+             
+            />}
+              
 
               <Divider inverted />
               <AuthFormikControl

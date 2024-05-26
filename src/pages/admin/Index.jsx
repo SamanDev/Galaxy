@@ -18,7 +18,7 @@ import Amj from "./Amjbank";
 import Setting from "./JsonSetting";
 import Requests from "./Requests";
 import Notification from "./Notification";
-import SendMail from "./SendMail.jsx";
+import Invitation from "./Invitation.jsx";
 
 import { adminGetService } from "../../services/admin";
 import { haveAdmin, haveModerator, haveOperator, haveRoot } from "../../const";
@@ -147,6 +147,21 @@ function Admin(prop) {
     }
     if (haveRoot(loginToken.roles)) {
       panes.push(
+        {
+          menuItem: "Invitation",
+          pane: (
+            <Tab.Pane key="Invitation">
+              <Invitation
+                addTabData={addTabData}
+                addMainTabData={addMainTabData}
+                setGetwaysData={setGetwaysData}
+                addGatewayTabData={addGatewayTabData}
+                removeTabData={removeTabData}
+                {...prop}
+              />
+            </Tab.Pane>
+          ),
+        },
         {
           menuItem: "Notification",
           pane: (

@@ -400,6 +400,11 @@ function Admin(prop) {
       _val = filterText;
       _contain = true;
     }
+    if (filterText.indexOf("@")>-1) {
+      _name = "email";
+      _val = filterText;
+      _contain = true;
+    }
 
     setLoading(true);
     try {

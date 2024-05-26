@@ -69,17 +69,19 @@ function App(prop) {
   const [firstOpen, setFirstOpen] = useState(false);
   const [secondOpen, setSecondOpen] = useState(false);
   const [thirdOpen, setThirdOpen] = useState(false);
-  const [siteInfo] = useSiteInfo();
+  
 
   const [activeMenu, setActiveMenu] = useState("");
   const [activePanel, setActivePanel] = useState(false);
   const [activeMenuOpen, setActiveMenuOpen] = useState(false);
   const [activeMenuOld, setActiveMenuOld] = useState(activeMenu);
   const navigate = useNavigate();
-  var _event = getEvent(siteInfo);
+  
   const location = useLocation();
   const history = window.location.pathname.split("/").pop();
   const [loginToken] = useUser();
+  const [siteInfo] = useSiteInfo(loginToken);
+  var _event = getEvent(siteInfo);
   const AppOrtion = (agel) => {
     //return false;
     //alert(agel);
@@ -1049,7 +1051,13 @@ function App(prop) {
     }
     if (window.location.href.toString().indexOf("/ref/") > -1) {
       var arrAdd = window.location.href.toString().split("/");
-      localStorage.setItem("refer", arrAdd[arrAdd.length - 1]);
+      if(arrAdd[arrAdd.length - 1].indexOf("@")>-1){
+        localStorage.setItem("email", arrAdd[arrAdd.length - 1]);
+        localStorage.setItem("refer", arrAdd[arrAdd.length - 2]);
+      }else{
+        localStorage.setItem("refer", arrAdd[arrAdd.length - 1]);
+      }
+     
       navigate("/register");
       setSecondOpen(true);
     }

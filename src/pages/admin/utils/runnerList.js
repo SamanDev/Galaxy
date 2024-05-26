@@ -192,8 +192,8 @@ function Admin(prop) {
    
     {
       name: "Amount",
-      selector: (row) => row.liveChip-row.amount,
-      format: (row) => <>{doCurrencyMil(row.liveChip-row.amount)}</>,
+      selector: (row) => row.liveChip-row.baseAmount,
+      format: (row) => <>{doCurrencyMil(row.liveChip-row.baseAmount)}</>,
       sortable: true,
     },
     {

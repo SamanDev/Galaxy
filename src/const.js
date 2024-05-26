@@ -1284,1134 +1284,1125 @@ export const siteMethodDef = [
   },
 ];
 export const siteInfoDef = {
-    "id": 1,
-    "depositLimit": 500000,
-    "depositLimitMax": 30000000,
-    "cashoutLimit": 500000,
-    "cardAmountLimit": 5000000,
-    "cashoutLimitMax": 50000000,
-    "cashoutLimitDollar": 50,
-    "startTimeRakeBack": 1,
-    "referUrl": "https://www.referglxy.com/",
-    "telegramChanel": "GlxyChannel",
-    "pokerUrl": "https://glxypkr.com:2053",
-    "gamesUrl": "https://www.wheelofpersia.com/",
-    "userSiteUrl": "https://www.glx2205.com",
-    "telegramSupport": "GlxySupport",
-    "instagram": "glxycasino",
-    "startTimeCommission": 23,
-    "startTimeLevelUp": 0,
-    "startTimeGPass": 23,
-    "startTimeVipTable": 1,
-    "startTimeDailyLeague": 1,
-    "durationTime": 0,
-    "durationTimeBonus": 6,
-    "durationTimeCommission": 24,
-    "durationTimeLevelUp": 6,
-    "durationTimeVipTable": 36,
-    "durationTimeDailyLeague": 6,
-    "durationTimeGPass": 4,
-    "depositTimer": 30,
-    "rakeBackPercent": 10,
-    "extraRakeBackPercent": 100,
-    "extraRakeBackDay": 0,
-    "extraRakeBack": true,
-    "secondForGift": 3600,
-    "giftTransferBlockLevel": 20,
-    "giftTransferBlockTime": 24,
-    "botChipAmount": 5000000,
-    "runnerChipAmount": 10000000,
-    "levelUps": [
-        {
-            "id": 77,
-            "level": 77,
-            "commission": 35,
-            "point": 2240000000,
-            "reward": 112000000
-        },
-        {
-            "id": 68,
-            "level": 68,
-            "commission": 32,
-            "point": 1560000000,
-            "reward": 78000000
-        },
-        {
-            "id": 64,
-            "level": 64,
-            "commission": 30,
-            "point": 1320000000,
-            "reward": 66000000
-        },
-        {
-            "id": 63,
-            "level": 63,
-            "commission": 29,
-            "point": 1260000000,
-            "reward": 63000000
-        },
-        {
-            "id": 30,
-            "level": 30,
-            "commission": 16,
-            "point": 210000000,
-            "reward": 10500000
-        },
-        {
-            "id": 25,
-            "level": 25,
-            "commission": 15,
-            "point": 140000000,
-            "reward": 7000000
-        },
-        {
-            "id": 7,
-            "level": 7,
-            "commission": 11,
-            "point": 14000000,
-            "reward": 700000
-        },
-        {
-            "id": 33,
-            "level": 33,
-            "commission": 16,
-            "point": 300000000,
-            "reward": 15000000
-        },
-        {
-            "id": 66,
-            "level": 66,
-            "commission": 31,
-            "point": 1440000000,
-            "reward": 72000000
-        },
-        {
-            "id": 45,
-            "level": 45,
-            "commission": 20,
-            "point": 660000000,
-            "reward": 33000000
-        },
-        {
-            "id": 55,
-            "level": 55,
-            "commission": 24,
-            "point": 960000000,
-            "reward": 48000000
-        },
-        {
-            "id": 48,
-            "level": 48,
-            "commission": 21,
-            "point": 750000000,
-            "reward": 37500000
-        },
-        {
-            "id": 56,
-            "level": 56,
-            "commission": 25,
-            "point": 990000000,
-            "reward": 49500000
-        },
-        {
-            "id": 1,
-            "level": 1,
-            "commission": 10,
-            "point": 2000000,
-            "reward": 100000
-        },
-        {
-            "id": 19,
-            "level": 19,
-            "commission": 13,
-            "point": 72000000,
-            "reward": 3600000
-        },
-        {
-            "id": 75,
-            "level": 75,
-            "commission": 35,
-            "point": 2080000000,
-            "reward": 104000000
-        },
-        {
-            "id": 57,
-            "level": 57,
-            "commission": 25,
-            "point": 1020000000,
-            "reward": 51000000
-        },
-        {
-            "id": 27,
-            "level": 27,
-            "commission": 15,
-            "point": 168000000,
-            "reward": 8400000
-        },
-        {
-            "id": 39,
-            "level": 39,
-            "commission": 18,
-            "point": 480000000,
-            "reward": 24000000
-        },
-        {
-            "id": 11,
-            "level": 11,
-            "commission": 12,
-            "point": 24000000,
-            "reward": 1200000
-        },
-        {
-            "id": 58,
-            "level": 58,
-            "commission": 26,
-            "point": 1050000000,
-            "reward": 52500000
-        },
-        {
-            "id": 29,
-            "level": 29,
-            "commission": 15,
-            "point": 196000000,
-            "reward": 9800000
-        },
-        {
-            "id": 86,
-            "level": 86,
-            "commission": 35,
-            "point": 2960000000,
-            "reward": 148000000
-        },
-        {
-            "id": 81,
-            "level": 81,
-            "commission": 35,
-            "point": 2560000000,
-            "reward": 128000000
-        },
-        {
-            "id": 18,
-            "level": 18,
-            "commission": 13,
-            "point": 66000000,
-            "reward": 3300000
-        },
-        {
-            "id": 3,
-            "level": 3,
-            "commission": 10,
-            "point": 6000000,
-            "reward": 300000
-        },
-        {
-            "id": 38,
-            "level": 38,
-            "commission": 18,
-            "point": 450000000,
-            "reward": 22500000
-        },
-        {
-            "id": 62,
-            "level": 62,
-            "commission": 29,
-            "point": 1200000000,
-            "reward": 60000000
-        },
-        {
-            "id": 79,
-            "level": 79,
-            "commission": 35,
-            "point": 2400000000,
-            "reward": 120000000
-        },
-        {
-            "id": 20,
-            "level": 20,
-            "commission": 14,
-            "point": 78000000,
-            "reward": 3900000
-        },
-        {
-            "id": 84,
-            "level": 84,
-            "commission": 35,
-            "point": 2800000000,
-            "reward": 140000000
-        },
-        {
-            "id": 76,
-            "level": 76,
-            "commission": 35,
-            "point": 2160000000,
-            "reward": 108000000
-        },
-        {
-            "id": 67,
-            "level": 67,
-            "commission": 31,
-            "point": 1500000000,
-            "reward": 75000000
-        },
-        {
-            "id": 26,
-            "level": 26,
-            "commission": 15,
-            "point": 154000000,
-            "reward": 7700000
-        },
-        {
-            "id": 43,
-            "level": 43,
-            "commission": 19,
-            "point": 600000000,
-            "reward": 30000000
-        },
-        {
-            "id": 13,
-            "level": 13,
-            "commission": 12,
-            "point": 36000000,
-            "reward": 1800000
-        },
-        {
-            "id": 53,
-            "level": 53,
-            "commission": 23,
-            "point": 900000000,
-            "reward": 45000000
-        },
-        {
-            "id": 50,
-            "level": 50,
-            "commission": 22,
-            "point": 810000000,
-            "reward": 40500000
-        },
-        {
-            "id": 4,
-            "level": 4,
-            "commission": 10,
-            "point": 8000000,
-            "reward": 400000
-        },
-        {
-            "id": 34,
-            "level": 34,
-            "commission": 16,
-            "point": 330000000,
-            "reward": 16500000
-        },
-        {
-            "id": 36,
-            "level": 36,
-            "commission": 17,
-            "point": 390000000,
-            "reward": 19500000
-        },
-        {
-            "id": 78,
-            "level": 78,
-            "commission": 35,
-            "point": 2320000000,
-            "reward": 116000000
-        },
-        {
-            "id": 70,
-            "level": 70,
-            "commission": 33,
-            "point": 1680000000,
-            "reward": 84000000
-        },
-        {
-            "id": 87,
-            "level": 87,
-            "commission": 35,
-            "point": 3040000000,
-            "reward": 152000000
-        },
-        {
-            "id": 42,
-            "level": 42,
-            "commission": 19,
-            "point": 570000000,
-            "reward": 28500000
-        },
-        {
-            "id": 15,
-            "level": 15,
-            "commission": 13,
-            "point": 48000000,
-            "reward": 2400000
-        },
-        {
-            "id": 40,
-            "level": 40,
-            "commission": 18,
-            "point": 510000000,
-            "reward": 25500000
-        },
-        {
-            "id": 17,
-            "level": 17,
-            "commission": 13,
-            "point": 60000000,
-            "reward": 3000000
-        },
-        {
-            "id": 65,
-            "level": 65,
-            "commission": 30,
-            "point": 1380000000,
-            "reward": 69000000
-        },
-        {
-            "id": 54,
-            "level": 54,
-            "commission": 24,
-            "point": 930000000,
-            "reward": 46500000
-        },
-        {
-            "id": 61,
-            "level": 61,
-            "commission": 27,
-            "point": 1140000000,
-            "reward": 57000000
-        },
-        {
-            "id": 89,
-            "level": 89,
-            "commission": 35,
-            "point": 3200000000,
-            "reward": 160000000
-        },
-        {
-            "id": 47,
-            "level": 47,
-            "commission": 21,
-            "point": 720000000,
-            "reward": 36000000
-        },
-        {
-            "id": 82,
-            "level": 82,
-            "commission": 35,
-            "point": 2640000000,
-            "reward": 132000000
-        },
-        {
-            "id": 44,
-            "level": 44,
-            "commission": 20,
-            "point": 630000000,
-            "reward": 31500000
-        },
-        {
-            "id": 85,
-            "level": 85,
-            "commission": 35,
-            "point": 2880000000,
-            "reward": 144000000
-        },
-        {
-            "id": 60,
-            "level": 60,
-            "commission": 27,
-            "point": 1110000000,
-            "reward": 55500000
-        },
-        {
-            "id": 6,
-            "level": 6,
-            "commission": 11,
-            "point": 12000000,
-            "reward": 600000
-        },
-        {
-            "id": 10,
-            "level": 10,
-            "commission": 12,
-            "point": 20000000,
-            "reward": 1000000
-        },
-        {
-            "id": 24,
-            "level": 24,
-            "commission": 14,
-            "point": 126000000,
-            "reward": 6300000
-        },
-        {
-            "id": 16,
-            "level": 16,
-            "commission": 13,
-            "point": 54000000,
-            "reward": 2700000
-        },
-        {
-            "id": 74,
-            "level": 74,
-            "commission": 34,
-            "point": 2000000000,
-            "reward": 100000000
-        },
-        {
-            "id": 21,
-            "level": 21,
-            "commission": 14,
-            "point": 84000000,
-            "reward": 4200000
-        },
-        {
-            "id": 46,
-            "level": 46,
-            "commission": 20,
-            "point": 690000000,
-            "reward": 34500000
-        },
-        {
-            "id": 32,
-            "level": 32,
-            "commission": 16,
-            "point": 270000000,
-            "reward": 13500000
-        },
-        {
-            "id": 88,
-            "level": 88,
-            "commission": 35,
-            "point": 3120000000,
-            "reward": 156000000
-        },
-        {
-            "id": 72,
-            "level": 72,
-            "commission": 34,
-            "point": 1840000000,
-            "reward": 92000000
-        },
-        {
-            "id": 59,
-            "level": 59,
-            "commission": 26,
-            "point": 1080000000,
-            "reward": 54000000
-        },
-        {
-            "id": 14,
-            "level": 14,
-            "commission": 12,
-            "point": 42000000,
-            "reward": 2100000
-        },
-        {
-            "id": 2,
-            "level": 2,
-            "commission": 10,
-            "point": 4000000,
-            "reward": 200000
-        },
-        {
-            "id": 41,
-            "level": 41,
-            "commission": 19,
-            "point": 540000000,
-            "reward": 27000000
-        },
-        {
-            "id": 71,
-            "level": 71,
-            "commission": 33,
-            "point": 1760000000,
-            "reward": 88000000
-        },
-        {
-            "id": 28,
-            "level": 28,
-            "commission": 15,
-            "point": 182000000,
-            "reward": 9100000
-        },
-        {
-            "id": 90,
-            "level": 90,
-            "commission": 35,
-            "point": 3280000000,
-            "reward": 164000000
-        },
-        {
-            "id": 49,
-            "level": 49,
-            "commission": 21,
-            "point": 780000000,
-            "reward": 39000000
-        },
-        {
-            "id": 5,
-            "level": 5,
-            "commission": 11,
-            "point": 10000000,
-            "reward": 500000
-        },
-        {
-            "id": 37,
-            "level": 37,
-            "commission": 17,
-            "point": 420000000,
-            "reward": 21000000
-        },
-        {
-            "id": 35,
-            "level": 35,
-            "commission": 17,
-            "point": 360000000,
-            "reward": 18000000
-        },
-        {
-            "id": 12,
-            "level": 12,
-            "commission": 12,
-            "point": 30000000,
-            "reward": 1500000
-        },
-        {
-            "id": 9,
-            "level": 9,
-            "commission": 11,
-            "point": 18000000,
-            "reward": 900000
-        },
-        {
-            "id": 69,
-            "level": 69,
-            "commission": 32,
-            "point": 1620000000,
-            "reward": 81000000
-        },
-        {
-            "id": 83,
-            "level": 83,
-            "commission": 35,
-            "point": 2720000000,
-            "reward": 136000000
-        },
-        {
-            "id": 23,
-            "level": 23,
-            "commission": 14,
-            "point": 112000000,
-            "reward": 5600000
-        },
-        {
-            "id": 51,
-            "level": 51,
-            "commission": 22,
-            "point": 840000000,
-            "reward": 42000000
-        },
-        {
-            "id": 8,
-            "level": 8,
-            "commission": 11,
-            "point": 16000000,
-            "reward": 800000
-        },
-        {
-            "id": 31,
-            "level": 31,
-            "commission": 16,
-            "point": 240000000,
-            "reward": 12000000
-        },
-        {
-            "id": 80,
-            "level": 80,
-            "commission": 35,
-            "point": 2480000000,
-            "reward": 124000000
-        },
-        {
-            "id": 52,
-            "level": 52,
-            "commission": 23,
-            "point": 870000000,
-            "reward": 43500000
-        },
-        {
-            "id": 73,
-            "level": 73,
-            "commission": 34,
-            "point": 1920000000,
-            "reward": 96000000
-        },
-        {
-            "id": 22,
-            "level": 22,
-            "commission": 14,
-            "point": 98000000,
-            "reward": 4900000
-        }
-    ],
-    "galaxyPassSet": [
-        {
-            "id": 1,
-            "level": 1,
-            "startDay": 1,
-            "endDay": 15,
-            "hoursLimit": 3,
-            "bigBlindLimit": 50,
-            "totalRewards": 110000000,
-            "reward": 500000,
-            "minLevel": 10,
-            "hoursUnderLevel": 48,
-            "minAmount": 5000000
-        },
-        {
-            "id": 2,
-            "level": 2,
-            "startDay": 1,
-            "endDay": 15,
-            "hoursLimit": 5,
-            "bigBlindLimit": 100,
-            "totalRewards": 1500000,
-            "reward": 1000000,
-            "minLevel": 10,
-            "hoursUnderLevel": 48,
-            "minAmount": 5000000
-        },
-        {
-            "id": 3,
-            "level": 3,
-            "startDay": 1,
-            "endDay": 15,
-            "hoursLimit": 5,
-            "bigBlindLimit": 100,
-            "totalRewards": 2500000,
-            "reward": 1000000,
-            "minLevel": 10,
-            "hoursUnderLevel": 48,
-            "minAmount": 5000000
-        },
-        {
-            "id": 4,
-            "level": 4,
-            "startDay": 1,
-            "endDay": 15,
-            "hoursLimit": 5,
-            "bigBlindLimit": 100,
-            "totalRewards": 4500000,
-            "reward": 2000000,
-            "minLevel": 10,
-            "hoursUnderLevel": 48,
-            "minAmount": 5000000
-        },
-        {
-            "id": 5,
-            "level": 5,
-            "startDay": 1,
-            "endDay": 15,
-            "hoursLimit": 5,
-            "bigBlindLimit": 100,
-            "totalRewards": 7000000,
-            "reward": 2500000,
-            "minLevel": 10,
-            "hoursUnderLevel": 48,
-            "minAmount": 5000000
-        },
-        {
-            "id": 6,
-            "level": 6,
-            "startDay": 1,
-            "endDay": 15,
-            "hoursLimit": 5,
-            "bigBlindLimit": 100,
-            "totalRewards": 10000000,
-            "reward": 3000000,
-            "minLevel": 10,
-            "hoursUnderLevel": 48,
-            "minAmount": 5000000
-        },
-        {
-            "id": 7,
-            "level": 7,
-            "startDay": 1,
-            "endDay": 15,
-            "hoursLimit": 5,
-            "bigBlindLimit": 100,
-            "totalRewards": 14000000,
-            "reward": 4000000,
-            "minLevel": 10,
-            "hoursUnderLevel": 48,
-            "minAmount": 5000000
-        },
-        {
-            "id": 8,
-            "level": 8,
-            "startDay": 1,
-            "endDay": 15,
-            "hoursLimit": 5,
-            "bigBlindLimit": 100,
-            "totalRewards": 19000000,
-            "reward": 5000000,
-            "minLevel": 10,
-            "hoursUnderLevel": 48,
-            "minAmount": 5000000
-        },
-        {
-            "id": 9,
-            "level": 9,
-            "startDay": 1,
-            "endDay": 15,
-            "hoursLimit": 5,
-            "bigBlindLimit": 100,
-            "totalRewards": 25000000,
-            "reward": 6000000,
-            "minLevel": 10,
-            "hoursUnderLevel": 48,
-            "minAmount": 5000000
-        },
-        {
-            "id": 10,
-            "level": 10,
-            "startDay": 1,
-            "endDay": 15,
-            "hoursLimit": 5,
-            "bigBlindLimit": 100,
-            "totalRewards": 32000000,
-            "reward": 7000000,
-            "minLevel": 10,
-            "hoursUnderLevel": 48,
-            "minAmount": 5000000
-        },
-        {
-            "id": 11,
-            "level": 11,
-            "startDay": 1,
-            "endDay": 15,
-            "hoursLimit": 5,
-            "bigBlindLimit": 100,
-            "totalRewards": 40000000,
-            "reward": 8000000,
-            "minLevel": 10,
-            "hoursUnderLevel": 48,
-            "minAmount": 5000000
-        },
-        {
-            "id": 12,
-            "level": 12,
-            "startDay": 1,
-            "endDay": 15,
-            "hoursLimit": 5,
-            "bigBlindLimit": 100,
-            "totalRewards": 50000000,
-            "reward": 10000000,
-            "minLevel": 10,
-            "hoursUnderLevel": 48,
-            "minAmount": 5000000
-        },
-        {
-            "id": 13,
-            "level": 13,
-            "startDay": 1,
-            "endDay": 15,
-            "hoursLimit": 5,
-            "bigBlindLimit": 100,
-            "totalRewards": 65000000,
-            "reward": 15000000,
-            "minLevel": 10,
-            "hoursUnderLevel": 48,
-            "minAmount": 5000000
-        },
-        {
-            "id": 14,
-            "level": 14,
-            "startDay": 1,
-            "endDay": 15,
-            "hoursLimit": 5,
-            "bigBlindLimit": 100,
-            "totalRewards": 85000000,
-            "reward": 20000000,
-            "minLevel": 10,
-            "hoursUnderLevel": 48,
-            "minAmount": 5000000
-        },
-        {
-            "id": 15,
-            "level": 15,
-            "startDay": 1,
-            "endDay": 15,
-            "hoursLimit": 5,
-            "bigBlindLimit": 100,
-            "totalRewards": 110000000,
-            "reward": 25000000,
-            "minLevel": 10,
-            "hoursUnderLevel": 48,
-            "minAmount": 5000000
-        }
-    ],
-    "vipTables": [
-        {
-            "id": 1,
-            "startDay": 16,
-            "endDay": 23,
-            "hoursLimit": 1,
-            "bigBlindLimit": 100,
-            "reward": 1000000,
-            "totalRewards": "192000000",
-            "minLevel": 25,
-            "hoursUnderLevel": 24,
-            "minAmount": 5000000
-        }
-    ],
-    "dailyLeagueSet": [
-        {
-            "id": 1,
-            "startDay": 24,
-            "endDay": 30,
-            "totalPlayer": 20,
-            "place": 1,
-            "totalRewards": 45000000,
-            "reward": 10000000,
-            "minLevel": 8,
-            "hoursUnderLevel": 12,
-            "minAmount": 3000000
-        },
-        {
-            "id": 2,
-            "startDay": 24,
-            "endDay": 31,
-            "totalPlayer": 20,
-            "place": 2,
-            "totalRewards": 10000034,
-            "reward": 8000000,
-            "minLevel": 8,
-            "hoursUnderLevel": 12,
-            "minAmount": 3000000
-        },
-        {
-            "id": 3,
-            "startDay": 24,
-            "endDay": 31,
-            "totalPlayer": 20,
-            "place": 3,
-            "totalRewards": 10000030,
-            "reward": 6000000,
-            "minLevel": 8,
-            "hoursUnderLevel": 12,
-            "minAmount": 3000000
-        },
-        {
-            "id": 4,
-            "startDay": 24,
-            "endDay": 31,
-            "totalPlayer": 20,
-            "place": 4,
-            "totalRewards": 10000012,
-            "reward": 5000000,
-            "minLevel": 8,
-            "hoursUnderLevel": 12,
-            "minAmount": 3000000
-        },
-        {
-            "id": 5,
-            "startDay": 24,
-            "endDay": 31,
-            "totalPlayer": 20,
-            "place": 5,
-            "totalRewards": 10000008,
-            "reward": 4000000,
-            "minLevel": 8,
-            "hoursUnderLevel": 12,
-            "minAmount": 3000000
-        },
-        {
-            "id": 6,
-            "startDay": 24,
-            "endDay": 31,
-            "totalPlayer": 20,
-            "place": 6,
-            "totalRewards": 10000026,
-            "reward": 3000000,
-            "minLevel": 8,
-            "hoursUnderLevel": 12,
-            "minAmount": 3000000
-        },
-        {
-            "id": 7,
-            "startDay": 24,
-            "endDay": 31,
-            "totalPlayer": 20,
-            "place": 7,
-            "totalRewards": 10000036,
-            "reward": 2000000,
-            "minLevel": 8,
-            "hoursUnderLevel": 12,
-            "minAmount": 3000000
-        },
-        {
-            "id": 8,
-            "startDay": 24,
-            "endDay": 31,
-            "totalPlayer": 20,
-            "place": 8,
-            "totalRewards": 10000020,
-            "reward": 1000000,
-            "minLevel": 8,
-            "hoursUnderLevel": 12,
-            "minAmount": 3000000
-        },
-        {
-            "id": 9,
-            "startDay": 24,
-            "endDay": 31,
-            "totalPlayer": 20,
-            "place": 9,
-            "totalRewards": 10000002,
-            "reward": 500000,
-            "minLevel": 8,
-            "hoursUnderLevel": 12,
-            "minAmount": 3000000
-        },
-        {
-            "id": 10,
-            "startDay": 24,
-            "endDay": 31,
-            "totalPlayer": 20,
-            "place": 10,
-            "totalRewards": 10000010,
-            "reward": 500000,
-            "minLevel": 8,
-            "hoursUnderLevel": 12,
-            "minAmount": 3000000
-        },
-        {
-            "id": 11,
-            "startDay": 24,
-            "endDay": 31,
-            "totalPlayer": 20,
-            "place": 11,
-            "totalRewards": 10000032,
-            "reward": 500000,
-            "minLevel": 8,
-            "hoursUnderLevel": 12,
-            "minAmount": 3000000
-        },
-        {
-            "id": 12,
-            "startDay": 24,
-            "endDay": 31,
-            "totalPlayer": 20,
-            "place": 12,
-            "totalRewards": 10000028,
-            "reward": 500000,
-            "minLevel": 8,
-            "hoursUnderLevel": 12,
-            "minAmount": 3000000
-        },
-        {
-            "id": 13,
-            "startDay": 24,
-            "endDay": 31,
-            "totalPlayer": 20,
-            "place": 13,
-            "totalRewards": 10000004,
-            "reward": 500000,
-            "minLevel": 8,
-            "hoursUnderLevel": 12,
-            "minAmount": 3000000
-        },
-        {
-            "id": 14,
-            "startDay": 24,
-            "endDay": 31,
-            "totalPlayer": 20,
-            "place": 14,
-            "totalRewards": 10000018,
-            "reward": 500000,
-            "minLevel": 8,
-            "hoursUnderLevel": 12,
-            "minAmount": 3000000
-        },
-        {
-            "id": 15,
-            "startDay": 24,
-            "endDay": 31,
-            "totalPlayer": 20,
-            "place": 15,
-            "totalRewards": 10000000,
-            "reward": 500000,
-            "minLevel": 8,
-            "hoursUnderLevel": 12,
-            "minAmount": 3000000
-        },
-        {
-            "id": 16,
-            "startDay": 24,
-            "endDay": 31,
-            "totalPlayer": 20,
-            "place": 16,
-            "totalRewards": 10000014,
-            "reward": 500000,
-            "minLevel": 8,
-            "hoursUnderLevel": 12,
-            "minAmount": 3000000
-        },
-        {
-            "id": 17,
-            "startDay": 24,
-            "endDay": 31,
-            "totalPlayer": 20,
-            "place": 17,
-            "totalRewards": 10000006,
-            "reward": 500000,
-            "minLevel": 8,
-            "hoursUnderLevel": 12,
-            "minAmount": 3000000
-        },
-        {
-            "id": 18,
-            "startDay": 24,
-            "endDay": 31,
-            "totalPlayer": 20,
-            "place": 18,
-            "totalRewards": 10000016,
-            "reward": 500000,
-            "minLevel": 8,
-            "hoursUnderLevel": 12,
-            "minAmount": 3000000
-        },
-        {
-            "id": 19,
-            "startDay": 24,
-            "endDay": 31,
-            "totalPlayer": 20,
-            "place": 19,
-            "totalRewards": 10000024,
-            "reward": 500000,
-            "minLevel": 8,
-            "hoursUnderLevel": 12,
-            "minAmount": 3000000
-        },
-        {
-            "id": 20,
-            "startDay": 24,
-            "endDay": 31,
-            "totalPlayer": 20,
-            "place": 20,
-            "totalRewards": 10000038,
-            "reward": 500000,
-            "minLevel": 8,
-            "hoursUnderLevel": 12,
-            "minAmount": 3000000
-        }
-    ],
-    "depositBonus": {
-        "id": 1,
-        "minLevel": 10,
-        "hoursUnderLevel": 48,
-        "minAmount": 10000000
+  "id": 1,
+  "depositLimit": 500000,
+  "depositLimitMax": 30000000,
+  "cashoutLimit": 500000,
+  "cardAmountLimit": 5000000,
+  "cashoutLimitMax": 50000000,
+  "cashoutLimitDollar": 50,
+  "startTimeRakeBack": 1,
+  "telegramChanel": "GlxyChannel",
+  "gamesUrl": "https://www.wheelofpersia.com/",
+  "userSiteUrl": "/",
+  "telegramSupport": "GlxySupport",
+  "instagram": "glxycasino",
+  "startTimeCommission": 23,
+  "startTimeLevelUp": 0,
+  "startTimeGPass": 23,
+  "startTimeVipTable": 1,
+  "startTimeDailyLeague": 1,
+  "durationTime": 0,
+  "durationTimeBonus": 6,
+  "durationTimeCommission": 24,
+  "durationTimeLevelUp": 6,
+  "durationTimeVipTable": 36,
+  "durationTimeDailyLeague": 6,
+  "durationTimeGPass": 4,
+  "depositTimer": 30,
+  "extraRakeBack": false,
+  "secondForGift": 3600,
+  "giftTransferBlockLevel": 15,
+  "giftTransferBlockTime": 24,
+  "levelUps": [
+    {
+      "id": 67,
+      "level": 67,
+      "commission": 31,
+      "point": 1500000000,
+      "reward": 75000000
     },
-    "updateday": "2024-05-06T19:36:03.315Z"
-
+    {
+      "id": 18,
+      "level": 18,
+      "commission": 13,
+      "point": 66000000,
+      "reward": 3300000
+    },
+    {
+      "id": 81,
+      "level": 81,
+      "commission": 35,
+      "point": 2560000000,
+      "reward": 128000000
+    },
+    {
+      "id": 37,
+      "level": 37,
+      "commission": 17,
+      "point": 420000000,
+      "reward": 21000000
+    },
+    {
+      "id": 40,
+      "level": 40,
+      "commission": 18,
+      "point": 510000000,
+      "reward": 25500000
+    },
+    {
+      "id": 71,
+      "level": 71,
+      "commission": 33,
+      "point": 1760000000,
+      "reward": 88000000
+    },
+    {
+      "id": 28,
+      "level": 28,
+      "commission": 15,
+      "point": 182000000,
+      "reward": 9100000
+    },
+    {
+      "id": 69,
+      "level": 69,
+      "commission": 32,
+      "point": 1620000000,
+      "reward": 81000000
+    },
+    {
+      "id": 52,
+      "level": 52,
+      "commission": 23,
+      "point": 870000000,
+      "reward": 43500000
+    },
+    {
+      "id": 49,
+      "level": 49,
+      "commission": 21,
+      "point": 780000000,
+      "reward": 39000000
+    },
+    {
+      "id": 78,
+      "level": 78,
+      "commission": 35,
+      "point": 2320000000,
+      "reward": 116000000
+    },
+    {
+      "id": 12,
+      "level": 12,
+      "commission": 12,
+      "point": 30000000,
+      "reward": 1500000
+    },
+    {
+      "id": 30,
+      "level": 30,
+      "commission": 16,
+      "point": 210000000,
+      "reward": 10500000
+    },
+    {
+      "id": 76,
+      "level": 76,
+      "commission": 35,
+      "point": 2160000000,
+      "reward": 108000000
+    },
+    {
+      "id": 89,
+      "level": 89,
+      "commission": 35,
+      "point": 3200000000,
+      "reward": 160000000
+    },
+    {
+      "id": 54,
+      "level": 54,
+      "commission": 24,
+      "point": 930000000,
+      "reward": 46500000
+    },
+    {
+      "id": 60,
+      "level": 60,
+      "commission": 27,
+      "point": 1110000000,
+      "reward": 55500000
+    },
+    {
+      "id": 50,
+      "level": 50,
+      "commission": 22,
+      "point": 810000000,
+      "reward": 40500000
+    },
+    {
+      "id": 43,
+      "level": 43,
+      "commission": 19,
+      "point": 600000000,
+      "reward": 30000000
+    },
+    {
+      "id": 63,
+      "level": 63,
+      "commission": 29,
+      "point": 1260000000,
+      "reward": 63000000
+    },
+    {
+      "id": 70,
+      "level": 70,
+      "commission": 33,
+      "point": 1680000000,
+      "reward": 84000000
+    },
+    {
+      "id": 47,
+      "level": 47,
+      "commission": 21,
+      "point": 720000000,
+      "reward": 36000000
+    },
+    {
+      "id": 61,
+      "level": 61,
+      "commission": 27,
+      "point": 1140000000,
+      "reward": 57000000
+    },
+    {
+      "id": 56,
+      "level": 56,
+      "commission": 25,
+      "point": 990000000,
+      "reward": 49500000
+    },
+    {
+      "id": 39,
+      "level": 39,
+      "commission": 18,
+      "point": 480000000,
+      "reward": 24000000
+    },
+    {
+      "id": 13,
+      "level": 13,
+      "commission": 12,
+      "point": 36000000,
+      "reward": 1800000
+    },
+    {
+      "id": 36,
+      "level": 36,
+      "commission": 17,
+      "point": 390000000,
+      "reward": 19500000
+    },
+    {
+      "id": 82,
+      "level": 82,
+      "commission": 35,
+      "point": 2640000000,
+      "reward": 132000000
+    },
+    {
+      "id": 34,
+      "level": 34,
+      "commission": 16,
+      "point": 330000000,
+      "reward": 16500000
+    },
+    {
+      "id": 25,
+      "level": 25,
+      "commission": 15,
+      "point": 140000000,
+      "reward": 7000000
+    },
+    {
+      "id": 58,
+      "level": 58,
+      "commission": 26,
+      "point": 1050000000,
+      "reward": 52500000
+    },
+    {
+      "id": 51,
+      "level": 51,
+      "commission": 22,
+      "point": 840000000,
+      "reward": 42000000
+    },
+    {
+      "id": 86,
+      "level": 86,
+      "commission": 35,
+      "point": 2960000000,
+      "reward": 148000000
+    },
+    {
+      "id": 20,
+      "level": 20,
+      "commission": 14,
+      "point": 78000000,
+      "reward": 3900000
+    },
+    {
+      "id": 2,
+      "level": 2,
+      "commission": 10,
+      "point": 4000000,
+      "reward": 200000
+    },
+    {
+      "id": 77,
+      "level": 77,
+      "commission": 35,
+      "point": 2240000000,
+      "reward": 112000000
+    },
+    {
+      "id": 38,
+      "level": 38,
+      "commission": 18,
+      "point": 450000000,
+      "reward": 22500000
+    },
+    {
+      "id": 80,
+      "level": 80,
+      "commission": 35,
+      "point": 2480000000,
+      "reward": 124000000
+    },
+    {
+      "id": 44,
+      "level": 44,
+      "commission": 20,
+      "point": 630000000,
+      "reward": 31500000
+    },
+    {
+      "id": 72,
+      "level": 72,
+      "commission": 34,
+      "point": 1840000000,
+      "reward": 92000000
+    },
+    {
+      "id": 48,
+      "level": 48,
+      "commission": 21,
+      "point": 750000000,
+      "reward": 37500000
+    },
+    {
+      "id": 68,
+      "level": 68,
+      "commission": 32,
+      "point": 1560000000,
+      "reward": 78000000
+    },
+    {
+      "id": 90,
+      "level": 90,
+      "commission": 35,
+      "point": 3280000000,
+      "reward": 164000000
+    },
+    {
+      "id": 23,
+      "level": 23,
+      "commission": 14,
+      "point": 112000000,
+      "reward": 5600000
+    },
+    {
+      "id": 9,
+      "level": 9,
+      "commission": 11,
+      "point": 18000000,
+      "reward": 900000
+    },
+    {
+      "id": 14,
+      "level": 14,
+      "commission": 12,
+      "point": 42000000,
+      "reward": 2100000
+    },
+    {
+      "id": 65,
+      "level": 65,
+      "commission": 30,
+      "point": 1380000000,
+      "reward": 69000000
+    },
+    {
+      "id": 57,
+      "level": 57,
+      "commission": 25,
+      "point": 1020000000,
+      "reward": 51000000
+    },
+    {
+      "id": 32,
+      "level": 32,
+      "commission": 16,
+      "point": 270000000,
+      "reward": 13500000
+    },
+    {
+      "id": 27,
+      "level": 27,
+      "commission": 15,
+      "point": 168000000,
+      "reward": 8400000
+    },
+    {
+      "id": 8,
+      "level": 8,
+      "commission": 11,
+      "point": 16000000,
+      "reward": 800000
+    },
+    {
+      "id": 62,
+      "level": 62,
+      "commission": 29,
+      "point": 1200000000,
+      "reward": 60000000
+    },
+    {
+      "id": 83,
+      "level": 83,
+      "commission": 35,
+      "point": 2720000000,
+      "reward": 136000000
+    },
+    {
+      "id": 17,
+      "level": 17,
+      "commission": 13,
+      "point": 60000000,
+      "reward": 3000000
+    },
+    {
+      "id": 1,
+      "level": 1,
+      "commission": 10,
+      "point": 2000000,
+      "reward": 100000
+    },
+    {
+      "id": 79,
+      "level": 79,
+      "commission": 35,
+      "point": 2400000000,
+      "reward": 120000000
+    },
+    {
+      "id": 26,
+      "level": 26,
+      "commission": 15,
+      "point": 154000000,
+      "reward": 7700000
+    },
+    {
+      "id": 33,
+      "level": 33,
+      "commission": 16,
+      "point": 300000000,
+      "reward": 15000000
+    },
+    {
+      "id": 85,
+      "level": 85,
+      "commission": 35,
+      "point": 2880000000,
+      "reward": 144000000
+    },
+    {
+      "id": 73,
+      "level": 73,
+      "commission": 34,
+      "point": 1920000000,
+      "reward": 96000000
+    },
+    {
+      "id": 16,
+      "level": 16,
+      "commission": 13,
+      "point": 54000000,
+      "reward": 2700000
+    },
+    {
+      "id": 84,
+      "level": 84,
+      "commission": 35,
+      "point": 2800000000,
+      "reward": 140000000
+    },
+    {
+      "id": 45,
+      "level": 45,
+      "commission": 20,
+      "point": 660000000,
+      "reward": 33000000
+    },
+    {
+      "id": 22,
+      "level": 22,
+      "commission": 14,
+      "point": 98000000,
+      "reward": 4900000
+    },
+    {
+      "id": 15,
+      "level": 15,
+      "commission": 13,
+      "point": 48000000,
+      "reward": 2400000
+    },
+    {
+      "id": 21,
+      "level": 21,
+      "commission": 14,
+      "point": 84000000,
+      "reward": 4200000
+    },
+    {
+      "id": 6,
+      "level": 6,
+      "commission": 11,
+      "point": 12000000,
+      "reward": 600000
+    },
+    {
+      "id": 3,
+      "level": 3,
+      "commission": 10,
+      "point": 6000000,
+      "reward": 300000
+    },
+    {
+      "id": 7,
+      "level": 7,
+      "commission": 11,
+      "point": 14000000,
+      "reward": 700000
+    },
+    {
+      "id": 64,
+      "level": 64,
+      "commission": 30,
+      "point": 1320000000,
+      "reward": 66000000
+    },
+    {
+      "id": 35,
+      "level": 35,
+      "commission": 17,
+      "point": 360000000,
+      "reward": 18000000
+    },
+    {
+      "id": 31,
+      "level": 31,
+      "commission": 16,
+      "point": 240000000,
+      "reward": 12000000
+    },
+    {
+      "id": 55,
+      "level": 55,
+      "commission": 24,
+      "point": 960000000,
+      "reward": 48000000
+    },
+    {
+      "id": 74,
+      "level": 74,
+      "commission": 34,
+      "point": 2000000000,
+      "reward": 100000000
+    },
+    {
+      "id": 66,
+      "level": 66,
+      "commission": 31,
+      "point": 1440000000,
+      "reward": 72000000
+    },
+    {
+      "id": 19,
+      "level": 19,
+      "commission": 13,
+      "point": 72000000,
+      "reward": 3600000
+    },
+    {
+      "id": 41,
+      "level": 41,
+      "commission": 19,
+      "point": 540000000,
+      "reward": 27000000
+    },
+    {
+      "id": 42,
+      "level": 42,
+      "commission": 19,
+      "point": 570000000,
+      "reward": 28500000
+    },
+    {
+      "id": 11,
+      "level": 11,
+      "commission": 12,
+      "point": 24000000,
+      "reward": 1200000
+    },
+    {
+      "id": 29,
+      "level": 29,
+      "commission": 15,
+      "point": 196000000,
+      "reward": 9800000
+    },
+    {
+      "id": 53,
+      "level": 53,
+      "commission": 23,
+      "point": 900000000,
+      "reward": 45000000
+    },
+    {
+      "id": 59,
+      "level": 59,
+      "commission": 26,
+      "point": 1080000000,
+      "reward": 54000000
+    },
+    {
+      "id": 87,
+      "level": 87,
+      "commission": 35,
+      "point": 3040000000,
+      "reward": 152000000
+    },
+    {
+      "id": 4,
+      "level": 4,
+      "commission": 10,
+      "point": 8000000,
+      "reward": 400000
+    },
+    {
+      "id": 88,
+      "level": 88,
+      "commission": 35,
+      "point": 3120000000,
+      "reward": 156000000
+    },
+    {
+      "id": 75,
+      "level": 75,
+      "commission": 35,
+      "point": 2080000000,
+      "reward": 104000000
+    },
+    {
+      "id": 10,
+      "level": 10,
+      "commission": 12,
+      "point": 20000000,
+      "reward": 1000000
+    },
+    {
+      "id": 5,
+      "level": 5,
+      "commission": 11,
+      "point": 10000000,
+      "reward": 500000
+    },
+    {
+      "id": 24,
+      "level": 24,
+      "commission": 14,
+      "point": 126000000,
+      "reward": 6300000
+    },
+    {
+      "id": 46,
+      "level": 46,
+      "commission": 20,
+      "point": 690000000,
+      "reward": 34500000
+    }
+  ],
+  "galaxyPassSet": [
+    {
+      "id": 2,
+      "level": 2,
+      "startDay": 1,
+      "endDay": 15,
+      "hoursLimit": 5,
+      "bigBlindLimit": 100,
+      "totalRewards": 1500000,
+      "reward": 1000000,
+      "minLevel": 10,
+      "hoursUnderLevel": 48,
+      "minAmount": 5000000
+    },
+    {
+      "id": 8,
+      "level": 8,
+      "startDay": 1,
+      "endDay": 15,
+      "hoursLimit": 5,
+      "bigBlindLimit": 100,
+      "totalRewards": 19000000,
+      "reward": 5000000,
+      "minLevel": 10,
+      "hoursUnderLevel": 48,
+      "minAmount": 5000000
+    },
+    {
+      "id": 14,
+      "level": 14,
+      "startDay": 1,
+      "endDay": 15,
+      "hoursLimit": 5,
+      "bigBlindLimit": 100,
+      "totalRewards": 85000000,
+      "reward": 20000000,
+      "minLevel": 10,
+      "hoursUnderLevel": 48,
+      "minAmount": 5000000
+    },
+    {
+      "id": 1,
+      "level": 1,
+      "startDay": 1,
+      "endDay": 15,
+      "hoursLimit": 3,
+      "bigBlindLimit": 50,
+      "totalRewards": 110000000,
+      "reward": 500000,
+      "minLevel": 10,
+      "hoursUnderLevel": 48,
+      "minAmount": 5000000
+    },
+    {
+      "id": 9,
+      "level": 9,
+      "startDay": 1,
+      "endDay": 15,
+      "hoursLimit": 5,
+      "bigBlindLimit": 100,
+      "totalRewards": 25000000,
+      "reward": 6000000,
+      "minLevel": 10,
+      "hoursUnderLevel": 48,
+      "minAmount": 5000000
+    },
+    {
+      "id": 13,
+      "level": 13,
+      "startDay": 1,
+      "endDay": 15,
+      "hoursLimit": 5,
+      "bigBlindLimit": 100,
+      "totalRewards": 65000000,
+      "reward": 15000000,
+      "minLevel": 10,
+      "hoursUnderLevel": 48,
+      "minAmount": 5000000
+    },
+    {
+      "id": 11,
+      "level": 11,
+      "startDay": 1,
+      "endDay": 15,
+      "hoursLimit": 5,
+      "bigBlindLimit": 100,
+      "totalRewards": 40000000,
+      "reward": 8000000,
+      "minLevel": 10,
+      "hoursUnderLevel": 48,
+      "minAmount": 5000000
+    },
+    {
+      "id": 6,
+      "level": 6,
+      "startDay": 1,
+      "endDay": 15,
+      "hoursLimit": 5,
+      "bigBlindLimit": 100,
+      "totalRewards": 10000000,
+      "reward": 3000000,
+      "minLevel": 10,
+      "hoursUnderLevel": 48,
+      "minAmount": 5000000
+    },
+    {
+      "id": 7,
+      "level": 7,
+      "startDay": 1,
+      "endDay": 15,
+      "hoursLimit": 5,
+      "bigBlindLimit": 100,
+      "totalRewards": 14000000,
+      "reward": 4000000,
+      "minLevel": 10,
+      "hoursUnderLevel": 48,
+      "minAmount": 5000000
+    },
+    {
+      "id": 12,
+      "level": 12,
+      "startDay": 1,
+      "endDay": 15,
+      "hoursLimit": 5,
+      "bigBlindLimit": 100,
+      "totalRewards": 50000000,
+      "reward": 10000000,
+      "minLevel": 10,
+      "hoursUnderLevel": 48,
+      "minAmount": 5000000
+    },
+    {
+      "id": 10,
+      "level": 10,
+      "startDay": 1,
+      "endDay": 15,
+      "hoursLimit": 5,
+      "bigBlindLimit": 100,
+      "totalRewards": 32000000,
+      "reward": 7000000,
+      "minLevel": 10,
+      "hoursUnderLevel": 48,
+      "minAmount": 5000000
+    },
+    {
+      "id": 5,
+      "level": 5,
+      "startDay": 1,
+      "endDay": 15,
+      "hoursLimit": 5,
+      "bigBlindLimit": 100,
+      "totalRewards": 7000000,
+      "reward": 2500000,
+      "minLevel": 10,
+      "hoursUnderLevel": 48,
+      "minAmount": 5000000
+    },
+    {
+      "id": 4,
+      "level": 4,
+      "startDay": 1,
+      "endDay": 15,
+      "hoursLimit": 5,
+      "bigBlindLimit": 100,
+      "totalRewards": 4500000,
+      "reward": 2000000,
+      "minLevel": 10,
+      "hoursUnderLevel": 48,
+      "minAmount": 5000000
+    },
+    {
+      "id": 15,
+      "level": 15,
+      "startDay": 1,
+      "endDay": 15,
+      "hoursLimit": 5,
+      "bigBlindLimit": 100,
+      "totalRewards": 110000000,
+      "reward": 25000000,
+      "minLevel": 10,
+      "hoursUnderLevel": 48,
+      "minAmount": 5000000
+    },
+    {
+      "id": 3,
+      "level": 3,
+      "startDay": 1,
+      "endDay": 15,
+      "hoursLimit": 5,
+      "bigBlindLimit": 100,
+      "totalRewards": 2500000,
+      "reward": 1000000,
+      "minLevel": 10,
+      "hoursUnderLevel": 48,
+      "minAmount": 5000000
+    }
+  ],
+  "vipTables": [
+    {
+      "id": 1,
+      "startDay": 16,
+      "endDay": 23,
+      "hoursLimit": 1,
+      "bigBlindLimit": 100,
+      "reward": 1000000,
+      "totalRewards": 192000000,
+      "minLevel": 25,
+      "hoursUnderLevel": 24,
+      "minAmount": 5000000
+    }
+  ],
+  "dailyLeagueSet": [
+    {
+      "id": 8,
+      "startDay": 24,
+      "endDay": 31,
+      "totalPlayer": 20,
+      "place": 8,
+      "totalRewards": 10000020,
+      "reward": 1000000,
+      "minLevel": 8,
+      "hoursUnderLevel": 12,
+      "minAmount": 3000000
+    },
+    {
+      "id": 15,
+      "startDay": 24,
+      "endDay": 31,
+      "totalPlayer": 20,
+      "place": 15,
+      "totalRewards": 10000000,
+      "reward": 500000,
+      "minLevel": 8,
+      "hoursUnderLevel": 12,
+      "minAmount": 3000000
+    },
+    {
+      "id": 20,
+      "startDay": 24,
+      "endDay": 31,
+      "totalPlayer": 20,
+      "place": 20,
+      "totalRewards": 10000038,
+      "reward": 500000,
+      "minLevel": 8,
+      "hoursUnderLevel": 12,
+      "minAmount": 3000000
+    },
+    {
+      "id": 19,
+      "startDay": 24,
+      "endDay": 31,
+      "totalPlayer": 20,
+      "place": 19,
+      "totalRewards": 10000024,
+      "reward": 500000,
+      "minLevel": 8,
+      "hoursUnderLevel": 12,
+      "minAmount": 3000000
+    },
+    {
+      "id": 12,
+      "startDay": 24,
+      "endDay": 31,
+      "totalPlayer": 20,
+      "place": 12,
+      "totalRewards": 10000028,
+      "reward": 500000,
+      "minLevel": 8,
+      "hoursUnderLevel": 12,
+      "minAmount": 3000000
+    },
+    {
+      "id": 14,
+      "startDay": 24,
+      "endDay": 31,
+      "totalPlayer": 20,
+      "place": 14,
+      "totalRewards": 10000018,
+      "reward": 500000,
+      "minLevel": 8,
+      "hoursUnderLevel": 12,
+      "minAmount": 3000000
+    },
+    {
+      "id": 16,
+      "startDay": 24,
+      "endDay": 31,
+      "totalPlayer": 20,
+      "place": 16,
+      "totalRewards": 10000014,
+      "reward": 500000,
+      "minLevel": 8,
+      "hoursUnderLevel": 12,
+      "minAmount": 3000000
+    },
+    {
+      "id": 9,
+      "startDay": 24,
+      "endDay": 31,
+      "totalPlayer": 20,
+      "place": 9,
+      "totalRewards": 10000002,
+      "reward": 500000,
+      "minLevel": 8,
+      "hoursUnderLevel": 12,
+      "minAmount": 3000000
+    },
+    {
+      "id": 7,
+      "startDay": 24,
+      "endDay": 31,
+      "totalPlayer": 20,
+      "place": 7,
+      "totalRewards": 10000036,
+      "reward": 2000000,
+      "minLevel": 8,
+      "hoursUnderLevel": 12,
+      "minAmount": 3000000
+    },
+    {
+      "id": 5,
+      "startDay": 24,
+      "endDay": 31,
+      "totalPlayer": 20,
+      "place": 5,
+      "totalRewards": 10000008,
+      "reward": 4000000,
+      "minLevel": 8,
+      "hoursUnderLevel": 12,
+      "minAmount": 3000000
+    },
+    {
+      "id": 18,
+      "startDay": 24,
+      "endDay": 31,
+      "totalPlayer": 20,
+      "place": 18,
+      "totalRewards": 10000016,
+      "reward": 500000,
+      "minLevel": 8,
+      "hoursUnderLevel": 12,
+      "minAmount": 3000000
+    },
+    {
+      "id": 4,
+      "startDay": 24,
+      "endDay": 31,
+      "totalPlayer": 20,
+      "place": 4,
+      "totalRewards": 10000012,
+      "reward": 5000000,
+      "minLevel": 8,
+      "hoursUnderLevel": 12,
+      "minAmount": 3000000
+    },
+    {
+      "id": 6,
+      "startDay": 24,
+      "endDay": 31,
+      "totalPlayer": 20,
+      "place": 6,
+      "totalRewards": 10000026,
+      "reward": 3000000,
+      "minLevel": 8,
+      "hoursUnderLevel": 12,
+      "minAmount": 3000000
+    },
+    {
+      "id": 3,
+      "startDay": 24,
+      "endDay": 31,
+      "totalPlayer": 20,
+      "place": 3,
+      "totalRewards": 10000030,
+      "reward": 6000000,
+      "minLevel": 8,
+      "hoursUnderLevel": 12,
+      "minAmount": 3000000
+    },
+    {
+      "id": 10,
+      "startDay": 24,
+      "endDay": 31,
+      "totalPlayer": 20,
+      "place": 10,
+      "totalRewards": 10000010,
+      "reward": 500000,
+      "minLevel": 8,
+      "hoursUnderLevel": 12,
+      "minAmount": 3000000
+    },
+    {
+      "id": 17,
+      "startDay": 24,
+      "endDay": 31,
+      "totalPlayer": 20,
+      "place": 17,
+      "totalRewards": 10000006,
+      "reward": 500000,
+      "minLevel": 8,
+      "hoursUnderLevel": 12,
+      "minAmount": 3000000
+    },
+    {
+      "id": 13,
+      "startDay": 24,
+      "endDay": 31,
+      "totalPlayer": 20,
+      "place": 13,
+      "totalRewards": 10000004,
+      "reward": 500000,
+      "minLevel": 8,
+      "hoursUnderLevel": 12,
+      "minAmount": 3000000
+    },
+    {
+      "id": 11,
+      "startDay": 24,
+      "endDay": 31,
+      "totalPlayer": 20,
+      "place": 11,
+      "totalRewards": 10000032,
+      "reward": 500000,
+      "minLevel": 8,
+      "hoursUnderLevel": 12,
+      "minAmount": 3000000
+    },
+    {
+      "id": 2,
+      "startDay": 24,
+      "endDay": 31,
+      "totalPlayer": 20,
+      "place": 2,
+      "totalRewards": 10000034,
+      "reward": 8000000,
+      "minLevel": 8,
+      "hoursUnderLevel": 12,
+      "minAmount": 3000000
+    },
+    {
+      "id": 1,
+      "startDay": 24,
+      "endDay": 30,
+      "totalPlayer": 20,
+      "place": 1,
+      "totalRewards": 45000000,
+      "reward": 10000000,
+      "minLevel": 8,
+      "hoursUnderLevel": 12,
+      "minAmount": 3000000
+    }
+  ],
+  "depositBonus": {
+    "id": 1,
+    "minLevel": 10,
+    "hoursUnderLevel": 48,
+    "minAmount": 10000000
+  }
 };
