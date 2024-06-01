@@ -162,21 +162,6 @@ function Admin(prop) {
             </Tab.Pane>
           ),
         },
-        {
-          menuItem: "Notification",
-          pane: (
-            <Tab.Pane key="Notification">
-              <Notification
-                addTabData={addTabData}
-                addMainTabData={addMainTabData}
-                setGetwaysData={setGetwaysData}
-                addGatewayTabData={addGatewayTabData}
-                removeTabData={removeTabData}
-                {...prop}
-              />
-            </Tab.Pane>
-          ),
-        },
        
         {
           menuItem: "Settings",

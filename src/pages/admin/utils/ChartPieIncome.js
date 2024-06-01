@@ -94,7 +94,7 @@ function RisingPitch(prop) {
             backgroundColor: ['#CB4335', '#F1C40F', '#27AE60', '#884EA0', '#D35400'],
           }]
         };
-        console.log(chartdata)
+       // console.log(chartdata)
         new Chart(document.getElementById("acquisitions"+prop.mode+prop.day), {
             type: 'doughnut',
             data: chartdata,

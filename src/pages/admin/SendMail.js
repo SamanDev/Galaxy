@@ -15,8 +15,11 @@ import { levelDataInfo } from "../../const";
 import CurrencyInput from "react-currency-input-field";
 import { adminPostService } from "../../services/admin";
 import SendMail from "./SendMail.jsx";
+import SendNotif from "./Notification.jsx";
 import $ from "jquery";
+import { notification,adminGetService } from "../../services/admin";
 const moment = require("moment");
+
 var __bnus = [
   {
     key: 1,
@@ -147,6 +150,8 @@ function Admin(prop) {
   };
 
   const [loading, setLoading] = useState(false);
+  const [tokenlist, setTokenlist] = useState([]);
+  
 
   const updateEnd = () => {
     var now = new Date(findStateId(myState, "start"));
@@ -187,8 +192,128 @@ function Admin(prop) {
     amount = parseFloat((amount+_l)).toFixed(2) * 1000000;
     return amount;
   }
- 
-  
+  function userAgentDetect(userAgent) {
+    if(userAgent.match(/Mobile/i)
+    || userAgent.match(/iPhone/i)
+    || userAgent.match(/iPod/i)
+    || userAgent.match(/IEMobile/i)
+    || userAgent.match(/Windows Phone/i)
+    || userAgent.match(/Android/i)
+    || userAgent.match(/BlackBerry/i)
+    || userAgent.match(/webOS/i)) {
+      return "Mobile"
+    }
+    if(userAgent.match(/Tablet/i)
+    || userAgent.match(/iPad/i)
+    || userAgent.match(/Nexus 7/i)
+    || userAgent.match(/Nexus 10/i)
+    || userAgent.match(/KFAPWI/i)) {
+      return "Tablet"
+    } else {
+      return "Desktop"
+    }
+  }
+  const getTokens = async (id,user) => {
+    var old = tokenlist;
+    $(".gettk"+user+"").remove();
+    try {
+      
+      const res = await adminGetService(
+        "getConnectionInfoByUser?id=" +
+        id
+      );
+      if (res.status === 200) {
+        
+         var listtojen = res.data.filter((e)=>e.token && e.origin.indexOf("local")==-1)
+         listtojen.map((x, i) => {
+          $("#"+user+"tokens").append("<div id='tk"+x.id+"'>"+i+": "+userAgentDetect(x.userAgent)+"</div>");
+          
+          old.push({x})
+          
+        
+         
+          //$("#res"+user).append("<div>"+x.token+"</div>")
+        });
+        console.log(listtojen)
+          if(listtojen.length==0){
+            $("#"+user+"tokens").parents('form').remove()
+          }
+        setTokenlist(old);
+        
+      }
+    } catch (error) {
+
+      //console.log(error.message);
+    } finally {
+      $(".gettk:first").trigger('click');
+    }
+  };
+  const sendNot =  (tit,body,image) => {
+    console.log(tokenlist)
+    tokenlist.map((x, i) => {
+          setTimeout(() => {
+            sendNotTo(x,tit,body,image)
+          }, 500 * i);
+         
+        });
+
+  };
+
+const sendNotTo = (too,tit,body,image) => {
+  if (body == "") {
+    return false;
+  }
+  var to = too["x"]
+console.log(to)
+  $("#tk" + to.id).html(
+    '<i aria-hidden="true" class="spinner loading icon">'
+  );
+  var key =
+    "AAAANfV_1y4:APA91bFHck-BWMnLILoZAEdxkgMcrMt8ejdEPds67021cn24H2t1aXuP9_FiKlY970_MbHeDCAqNWv58oFiRBa3nBkFB_SIGfmEjqjMjOOTG6k3dYyd-syETfSFBZtigxCZS4t1HrLww";
+  //var to =
+    //"dGcxXqSf79ngUr2-BYzX6i:APA91bEJj79IpURgSk5m7OnsNhoTn_IIYjNw8BnR2GMAC_mxxmL8YrdagiY91njhsi2EFGWLGDhuQ7wrZUYLkiRPuueSLIVWx_GDHqgIqTMgEAmEheAZ5UH1ADbVK-ijMzVqeNexrFDS";
+  var notification2 = {
+    title: tit,
+    body: body,
+    icon: image,
+    dir: "rtl",
+    actions: [{ action: "archive", title: "Archive" }],
+  };
+
+    fetch("https://fcm.googleapis.com/fcm/send", {
+    method: "POST",
+    headers: {
+      Authorization: "key=" + key,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      notification: notification2,
+      to: to.token,
+    }),
+  })
+    .then(function (response) {
+      $("#tk" + to.id).html(
+        '<i aria-hidden="true" class="checkmark green icon">'
+      );
+     
+    })
+    .catch(function (error) {
+      console.error(error);
+    }); 
+  /* notification(cashUser, title, notMessage, image).then((response) => {
+    if (response) {
+      Swal.fire({
+        title: "Success",
+        text: "Saved",
+        icon: "success",
+        showCancelButton: false,
+        confirmButtonText: `Ok`,
+      }).then(() => {
+        setCashLoad(false);
+      });
+    }
+  }); */
+};
   if (loading) {
     return (
       <>
@@ -199,6 +324,56 @@ function Admin(prop) {
         </Segment>
       </>
     );
+  }
+  if(prop.mode=="notif"){
+    return (
+      <>
+        <Modal.Header>
+          Send Notif{" "}
+          <Button
+            floated="right"
+            disabled={tokenlist.length==0?true:false}
+            onClick={() => {
+              sendNot(findStateId(myState, "title"),findStateId(myState, "body"),findStateId(myState, "subject"));
+            }}
+          >
+            Send
+          </Button>
+        </Modal.Header>
+  
+        <Modal.Content>
+        <SendNotif
+              onUpdateItem={onUpdateItem}
+              {...prop}
+       
+            />
+        </Modal.Content>
+        <Modal.Content>
+          <Segment inverted>
+          {findStateId(myState, "selectedList").map((user, i) => {
+            return (
+              <Form key={i}>
+                <Form.Group inline>
+                  <Form.Field width={4}>
+                    <label style={{color:"#fff"}}>
+                    {user.username}  ({user.level})
+                    </label>
+                    <Button className={"gettk gettk"+user.username} onClick={()=>getTokens(user.id,user.username)}>get</Button>
+                  </Form.Field>
+                  <Form.Field width={6}>
+              <div  id={user.username+"tokens"}></div>
+              
+                  </Form.Field>
+               
+                </Form.Group>
+              </Form>
+            );
+          })}
+          </Segment>
+        </Modal.Content>
+      </>
+    );
+  
   }
   return (
     <>

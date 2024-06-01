@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Header, Divider, Button, Segment } from "semantic-ui-react";
 import { checkBlock } from "../../../services/httpService";
+import { getUserService } from "../../../services/auth";
 const depositArea = (prop) => {
   const [depMode, setDepMode] = useState(false);
   const loginToken = prop.loginToken;
@@ -32,9 +33,9 @@ const depositArea = (prop) => {
         style={{ margin: "10px 0" }}
         disabled={depMode}
         loading={depMode}
-        id="reconn"
+        //id="reconn"
         onClick={() => {
-          checkBlock(loginToken);
+          getUserService()
           setDepMode(true);
           //window.location.reload();
         }}

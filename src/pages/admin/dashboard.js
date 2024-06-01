@@ -12,9 +12,7 @@ const GridExampleTextAlignmentCenter = (prop) => {
     setData(newPerPage);
 
   };
-  useEffect(() => {
-    console.log(data)
-  }, []);
+
   return (
     <Segment inverted>
       <ButtonGroup style={{ display: 'none' }}>

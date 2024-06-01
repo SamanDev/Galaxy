@@ -857,8 +857,8 @@ export const doCurrency = (value) => {
   }
   return val;
 };
-export const doCurrencyMil = (value) => {
-  var val = doCurrency(parseFloat(value/1000000).toFixed(2))+" M"
+export const doCurrencyMil = (value,fix) => {
+  var val = doCurrency(parseFloat(value/1000000).toFixed(fix || fix==0?fix:2))+" M"
   return val;
   if (value >= 1000000000 || value <= -10000000000) {
     val =

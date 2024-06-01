@@ -97,7 +97,7 @@ function RisingPitch(prop) {
             backgroundColor: ['#CB4335', '#1F618D', '#F1C40F', '#27AE60', '#884EA0', '#D35400'],
           }]
         };
-        console.log(chartdata)
+        //console.log(chartdata)
         new Chart(document.getElementById("acquisitions"+prop.mode+prop.day), {
             type: 'doughnut',
             data: chartdata,
@@ -136,7 +136,7 @@ function RisingPitch(prop) {
       
       }, [filteredItems]);
       useEffect(() => {
-        console.log(prop)
+       // console.log(prop)
         fetchUsers(prop.mode);
       }, []);
      

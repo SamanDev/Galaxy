@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Dimmer, Loader, Icon } from "semantic-ui-react";
+import { Dimmer, Loader, Icon, Divider } from "semantic-ui-react";
 import { Tab, Modal, Button } from "semantic-ui-react";
 import { adminGetService } from "../../../services/admin";
 import TableAdmin from "../utils/table";
@@ -188,6 +188,28 @@ function Admin(prop) {
   const confirmdeleteBankInfo = async (e, data) => {
     MyConfirm("تایید حذف", "", deleteBankInfo,data);
   };
+  const confirmchangePass = async (data) => {
+    MyConfirm("تایید تغییر کلمه عبور", "", changePass,data);
+  };
+  const changePass = async (data) => {
+   
+    
+    
+    var values = {
+      username: data,
+    };
+
+    try {
+      const res = await adminPostService(values, "changePassAdmin");
+      if (res.status == 200) {
+        Alert("Done!", res.data, "success");
+      } else {
+        Alert("متاسفم...!", res.data.message, "error");
+      }
+    } catch (error) {
+      Alert("متاسفم...!", "متاسفانه مشکلی از سمت سرور رخ داده", "error");
+    }
+  };
   const deleteBankInfo = async (data) => {
    
     var _key = data.userkey;
@@ -284,7 +306,7 @@ function Admin(prop) {
       menuItem: user.username,
       render: () => (
         <Tab.Pane as="span">
-          <Not user={user} />
+          {/* <Not user={user} /> */}
           <TableAdmin
             data={newdataInfoData}
             getwaysList={getGateways}
@@ -367,23 +389,7 @@ function Admin(prop) {
   ];
   return (
     <>
-      <h4>
-        <Icon
-          link
-          name="close"
-          onClick={() => {
-            prop.removeTabData(user.username + "profile");
-          }}
-        />{" "}
-        <span
-          className="text-gold"
-          onClick={() => {
-            openProfile(user.username);
-          }}
-        >
-          {user.username}
-        </span>
-      </h4>
+      
       <Modal
         onClose={() => setCashierOpen(false)}
         onOpen={() => setCashierOpen(true)}
@@ -406,13 +412,39 @@ function Admin(prop) {
         </Button>
       )}
 
-      <Button
+<Button
         color="blue"
         className="float-end"
         onClick={() => setCashierOpen(true)}
       >
         Cashier
       </Button>
+      <Button
+        color="red"
+        className="float-end"
+        onClick={() => confirmchangePass(user.username)}
+      >
+        ChangePass
+      </Button>
+      
+      <h4>
+        <Icon
+          link
+          name="close"
+          onClick={() => {
+            prop.removeTabData(user.username + "profile");
+          }}
+        />{" "}
+        <span
+          className="text-gold"
+          onClick={() => {
+            openProfile(user.username);
+          }}
+        >
+          {user.username}
+        </span>
+      </h4>
+      <Divider/>
       <Tab
         panes={panes}
         activeIndex={activeIndex}

@@ -3,20 +3,21 @@ import { Button, Form } from "semantic-ui-react";
 
 import Swal from "sweetalert2";
 
-import { notification } from "../../services/admin";
+import { notification,adminGetService } from "../../services/admin";
 import { doCurrency } from "../../const";
 
 function Admin(prop) {
-  const [cashUser, setCashUser] = React.useState("hangover2");
-  const [cashLoad, setCashLoad] = React.useState(false);
-
-  const [title, setTitle] = React.useState("");
-  const [image, setImage] = React.useState("");
-  const [notMessage, setNotMessage] = React.useState("");
+  const [cashUser, setCashUser] = useState("hangover2");
+  const [cashLoad, setCashLoad] = useState(false);
+  console.log(prop)
+  var onUpdateItem = prop.onUpdateItem;
+  const [title, setTitle] = useState("");
+  const [image, setImage] = useState("");
+  const [notMessage, setNotMessage] = useState("");
   const siteInfo = prop.siteInfo;
   const loginToken = prop.loginToken;
   siteInfo?.galaxyPassSet?.sort((a, b) => (a.id > b.id ? 1 : -1));
-
+  
   const setNotTitle = (e) => {
     setTitle(e.target.value + " شروع شد");
     if (e.target.value == "لیگ روزانه") {
@@ -54,55 +55,17 @@ function Admin(prop) {
   const setNotMessageVal = (e) => {
     setNotMessage(e.target.value);
   };
-  const sendNot = (e, data) => {
-    if (notMessage == "") {
-      return false;
-    }
-    setCashLoad(true);
-    var key =
-      "AAAANfV_1y4:APA91bFHck-BWMnLILoZAEdxkgMcrMt8ejdEPds67021cn24H2t1aXuP9_FiKlY970_MbHeDCAqNWv58oFiRBa3nBkFB_SIGfmEjqjMjOOTG6k3dYyd-syETfSFBZtigxCZS4t1HrLww";
-    var to =
-      "dGcxXqSf79ngUr2-BYzX6i:APA91bEJj79IpURgSk5m7OnsNhoTn_IIYjNw8BnR2GMAC_mxxmL8YrdagiY91njhsi2EFGWLGDhuQ7wrZUYLkiRPuueSLIVWx_GDHqgIqTMgEAmEheAZ5UH1ADbVK-ijMzVqeNexrFDS";
-    var notification2 = {
-      title: title,
-      body: notMessage,
-      icon: image,
-      dir: "rtl",
-      actions: [{ action: "archive", title: "Archive" }],
-    };
+  useEffect(() => {
+    onUpdateItem("title",title)
+  }, [title]);
 
-    /*  fetch("https://fcm.googleapis.com/fcm/send", {
-      method: "POST",
-      headers: {
-        Authorization: "key=" + key,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        notification: notification2,
-        to: to,
-      }),
-    })
-      .then(function (response) {
-        console.log(response);
-        setCashLoad(false);
-      })
-      .catch(function (error) {
-        console.error(error);
-      }); */
-    notification(cashUser, title, notMessage, image).then((response) => {
-      if (response) {
-        Swal.fire({
-          title: "Success",
-          text: "Saved",
-          icon: "success",
-          showCancelButton: false,
-          confirmButtonText: `Ok`,
-        }).then(() => {
-          setCashLoad(false);
-        });
-      }
-    });
-  };
+  useEffect(() => {
+    onUpdateItem("body",notMessage.replace(/\n/g," "))
+  }, [notMessage]);
+  useEffect(() => {
+    onUpdateItem("subject",image)
+  }, [image]);
+
   const titleList =
     "لیگ روزانه,تورنومنت ۲۵+۲۵,گلکسی پَس,میز VIP,هدایای گلکسی".split(",");
   const imgList = "gift3,gift2,gift1".split(",");
@@ -110,10 +73,7 @@ function Admin(prop) {
   return (
     <>
       <Form>
-        <Form.Field>
-          <label>UserName: </label>
-          <input value={cashUser} onChange={setNotUsser} />
-        </Form.Field>
+    
         <Form.Field>
           <label>Title: </label>
           <input value={title} className="farsi" onChange={setNotTitle} />
@@ -150,17 +110,7 @@ function Admin(prop) {
             })}
           </select>
         </Form.Field>
-        <Button
-          type="submit"
-          loading={cashLoad}
-          disabled={cashLoad}
-          color="red"
-          fluid
-          onClick={sendNot}
-          style={{ marginTop: 20 }}
-        >
-          Send
-        </Button>
+    
       </Form>
     </>
   );

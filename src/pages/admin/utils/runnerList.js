@@ -18,7 +18,7 @@ import Moment from "react-moment";
 import { addDays } from "date-fns";
 const moment = require("moment");
 import AmountColor from "../../../utils/AmountColor";
-import { adminGetService, adminPutService } from "../../../services/admin";
+import { adminGetService, adminPutService,adminPostService } from "../../../services/admin";
 import { Alert } from "../../../utils/alerts";
 import AddCashier from "../AddRunner";
 import CheckboxToggle from "./toggle";
@@ -27,14 +27,14 @@ import AddCredit from "../AddCredit";
 import { haveAdmin, haveModerator, doCurrency,doCurrencyMil } from "../../../const";
 const conditionalRowStyles = [
   {
-    when: (row) => row.liveChip - row.amount < 0,
+    when: (row) => row.liveChip - row.baseAmount < 0,
     style: {
       backgroundColor: "rgba(255,0,0,.1)",
     },
   },
   // You can also pass a callback to style for additional customization
   {
-    when: (row) => row.liveChip - row.amount > 0,
+    when: (row) => row.liveChip - row.baseAmount > 0,
     style: {
       backgroundColor: "rgba(0,255,0,.1)",
     },
@@ -116,7 +116,7 @@ function Admin(prop) {
 
   const [dataSearch, setDataSearch] = useState("");
   const [dataLoginDay, setDataLoginDay] = useState("");
-
+  const siteInfo = prop.siteInfo;
   const [selectedList, setSelected] = useState([]);
   const [getwaysList, setGetwaysData] = useState([]);
   const [obj, setObj] = useState({});
@@ -154,6 +154,25 @@ function Admin(prop) {
       setLoading(false);
     }
   };
+  const fetchSession = async (username) => {
+   
+    var values = {'username':username}
+    
+
+    //setLoading(true);
+    try {
+      const res = await adminPostService(values,`getPokerSession`);
+      if (res.status === 200) {
+        window.open(siteInfo.pokerUrl+"?LoginName="+username+"&SessionKey="+res.data.SessionKey,"_blank")
+        //console.log(res.data.SessionKey);
+        
+      }
+    } catch (error) {
+      //console.log(error.message);
+    } finally {
+     
+    }
+  };
   useEffect(() => {
     //fetchUsers(1); // fetch page 1 of users
   }, [dataSearch]);
@@ -164,7 +183,8 @@ function Admin(prop) {
   var filteredItems = data.filter(
     (item) =>
     item.username &&
-    item.amount != item.liveChip &&
+    item.refer=="Admin" &&
+    //item.amount != item.liveChip &&
       (item.username.toLowerCase().includes(filterText.toLowerCase())||item.refer.toLowerCase().includes(filterText.toLowerCase()))
   );
  
@@ -176,13 +196,14 @@ function Admin(prop) {
       selector: (row) => row.username,
       format: (row) => (
         <>
+        {row.refer=="Admin" &&<Button onClick={()=>{ fetchSession(row.username)}} size="mini">login</Button> }
           <span
             className="msglink fw-bold"
             onClick={() => prop.addTabData(row.username)}
           >
             {row.username}
-          </span>
-          {row.sessionID && <a href={"https://glxypkr.com:2053/?LoginName="+row.username+"&SessionKey="+row.sessionID} target="_blank"> login</a>}
+          </span>  {" "}
+          
           
         </>
       ),

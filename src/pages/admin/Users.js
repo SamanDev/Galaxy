@@ -21,6 +21,7 @@ import CheckboxToggle from "./utils/toggle";
 import AddGift from "./AddGift";
 import SendMail from "./SendMail.js";
 import AddCashier from "./AddCashier";
+import AddOverCashier from "./AddOverCashier.js";
 import Filter from "./Filter";
 
 import {
@@ -323,9 +324,9 @@ function Admin(prop) {
     {
       name: "Tot",
       selector: (row) => row.totalCashout-row.totalDeposit,
-      format: (row) => <><Label size="tiny" color={row.totalCashout-row.totalDeposit>0?"green":"red"}>
-      {doCurrencyMil(row.totalCashout-row.totalDeposit)}
-  </Label></>,
+      format: (row) => <>{row.totalCashout-row.totalDeposit!=0 &&<Label size="tiny" color={row.totalCashout-row.totalDeposit>0?"green":"red"}>
+      {doCurrencyMil(row.totalCashout-row.totalDeposit,0)}
+  </Label>}</>,
       sortable: true,
     },
     {
@@ -474,8 +475,10 @@ function Admin(prop) {
 
   const [firstOpen, setFirstOpen] = React.useState(false);
   const [mailOpen, setMailOpen] = React.useState(false);
+  const [notOpen, setNotOpen] = React.useState(false);
   
   const [cashierOpen, setCashierOpen] = React.useState(false);
+  const [overCashierOpen, setOverCashierOpen] = React.useState(false);
   const contextActions = React.useMemo(() => {
     return <Button onClick={() => setFirstOpen(true)}>Gift</Button>;
   }, [data]);
@@ -490,6 +493,7 @@ function Admin(prop) {
           newUser.username = user.username;
           newUser.level = user.level;
           newUser.email = user.email;
+          newUser.id = user.id;
           newUser.amount = setGiftAmount(user.level);
           newUser.amount2 = parseFloat(
             setGiftAmount(user.level) / getRate
@@ -574,7 +578,7 @@ function Admin(prop) {
         >
           <Grid.Row>
             <Grid.Column>
-              {haveAdmin(loginToken.roles) && (
+            {haveAdmin(loginToken.roles) && (
                 <>
                   <Button onClick={() => prop.addGatewayTabData("Gateways")}>
                     Gateways
@@ -586,8 +590,16 @@ function Admin(prop) {
                   >
                     Cashier
                   </Button>
+                  <Button
+                    color="orange"
+                    className="float-end"
+                    onClick={() => setOverCashierOpen(true)}
+                  >
+                    OverCashout
+                  </Button>
                 </>
               )}
+              
 <Button onClick={() => prop.addMainTabData("Winners")}>
                 Winners
               </Button>
@@ -605,6 +617,70 @@ function Admin(prop) {
                   Mail {selectedList.length}
                 </Button>
               )}
+                {selectedList.length > 0 && (
+                <Button color="yellow" onClick={() => setNotOpen(true)}>
+                  Notif {selectedList.length}
+                </Button>
+              )}
+              <Button
+                className="float-end"
+                color="red"
+                onClick={() => fetchUsers(1)}
+              >
+                Search
+              </Button>
+            </Grid.Column>
+
+            <Grid.Column style={{ textAlign: "right" }}>
+              <Filter onFilter={handleChangeSearch} value={dataSearch} />
+              <Filter
+                onFilter={handleChangeLogin}
+                value={dataLoginDay}
+                mymode="login"
+              />
+              <FilterComponent
+                onFilter={(e) => setFilterText(e.target.value)}
+                onClear={handleClear}
+                filterText={filterText}
+                onFilterOk={() => {
+                  setFilterOk(true);
+                }}
+              />
+            </Grid.Column>
+          </Grid.Row>
+        </Grid>
+      </>
+    );
+  }, [
+    filterText,
+
+    data,
+    selectedList,
+    dataLoginDay,
+    dataSearch,
+    dataSortedID,
+    perPage,
+  ]);
+  const subHeaderComponentMemoDown = React.useMemo(() => {
+    const handleClear = () => {
+      if (filterText) {
+        setResetPaginationToggle(!resetPaginationToggle);
+        setFilterText("");
+      }
+    };
+
+    return (
+      <>
+        <Grid
+          verticalAlign="middle"
+          columns={2}
+          centered
+          as={Segment}
+          color="red"
+        >
+          <Grid.Row>
+            <Grid.Column>
+            
               <Button
                 className="float-end"
                 color="red"
@@ -685,6 +761,18 @@ function Admin(prop) {
         />
       </Modal>
       <Modal
+        onClose={() => setOverCashierOpen(false)}
+        onOpen={() => setOverCashierOpen(true)}
+        open={overCashierOpen}
+        size="tiny"
+        style={{ height: "auto" }}
+      >
+        <AddOverCashier
+       
+        />
+      </Modal>
+      
+      <Modal
         onClose={() => setFirstOpen(false)}
         onOpen={() => setFirstOpen(true)}
         open={firstOpen}
@@ -703,17 +791,21 @@ function Admin(prop) {
       >
         <SendMail selectedList={selectedList} {...prop} />
       </Modal>
+      <Modal
+        onClose={() => setNotOpen(false)}
+        onOpen={() => setNotOpen(true)}
+        open={notOpen}
+        size="large"
+        style={{ height: "auto" }}
+        
+      >
+        <SendMail mode="notif" selectedList={selectedList} {...prop} />
+      </Modal>
       <div style={{ height: "calc(100vh - 150px)", overflow: "auto" }}>
         {prop.search == "refer" && prop.searchValue != "bots" ? (
           <>
-            <Button
-              className="float-end"
-              color="red"
-              onClick={() => fetchUsers(1)}
-            >
-              Search
-            </Button>
-            {subHeaderComponentMemo}
+      
+            {subHeaderComponentMemoDown}
             <DataTable
               columns={columnsDownLine}
               data={filteredItems}
