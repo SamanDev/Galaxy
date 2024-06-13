@@ -248,21 +248,34 @@ function Admin(prop) {
       $(".gettk:first").trigger('click');
     }
   };
+ 
   const sendNot =  (tit,body,image) => {
-    console.log(tokenlist)
-    tokenlist.map((x, i) => {
+    findStateId(myState, "selectedList").map((user, i) => {
           setTimeout(() => {
-            sendNotTo(x,tit,body,image)
-          }, 500 * i);
+            sendNotTo(user,tit,body,image)
+          }, 3000 * i);
          
         });
 
   };
 
-const sendNotTo = (too,tit,body,image) => {
+const sendNotTo = async (too,tit,body,image) => {
   if (body == "") {
     return false;
   }
+  var data = {
+    "username": too.username,
+    "message": body,
+    "title": tit,
+    "image": image
+  }
+  try {
+    const res = await adminPostService(data, "notification");
+    
+  } catch (error) {
+
+  }
+  return false
   var to = too["x"]
 console.log(to)
   $("#tk" + to.id).html(
@@ -332,7 +345,7 @@ console.log(to)
           Send Notif{" "}
           <Button
             floated="right"
-            disabled={tokenlist.length==0?true:false}
+           
             onClick={() => {
               sendNot(findStateId(myState, "title"),findStateId(myState, "body"),findStateId(myState, "subject"));
             }}

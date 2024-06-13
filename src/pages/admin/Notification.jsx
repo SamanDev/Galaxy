@@ -9,7 +9,7 @@ import { doCurrency } from "../../const";
 function Admin(prop) {
   const [cashUser, setCashUser] = useState("hangover2");
   const [cashLoad, setCashLoad] = useState(false);
-  console.log(prop)
+  
   var onUpdateItem = prop.onUpdateItem;
   const [title, setTitle] = useState("");
   const [image, setImage] = useState("");

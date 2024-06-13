@@ -4,6 +4,7 @@ import MenuLoader from "../../utils/menuLoader";
 //import UserDash from "./UserDash";
 import PushNot from "../../pushNot.component";
 import Index from "./index";
+
 //const Index = lazy(() => import("./index"));
 const UserDash = lazy(() => import("./UserDash"));
 import $ from "jquery";
@@ -64,11 +65,14 @@ const Dashboard = (prop) => {
           <>
             <Suspense fallback={<MenuLoader />}>
               <PushNot {...prop} />
-              <UserDash
+              
+            <UserDash
                 loginToken={prop.loginToken}
                 siteInfo={prop.siteInfo}
                 openPanel={prop.openPanel}
               />
+         
+              
             </Suspense>
           </>
         ) : (
