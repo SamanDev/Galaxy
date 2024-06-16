@@ -39,10 +39,12 @@ const onSubmit = async (values, submitMethods, navigate, prop) => {
           localStorage.removeItem("oldgalaxyUserkey");
           prop.setIsUser(true);
           prop.setFirstOpen(false);
+
           localStorage.setItem(
             btoa(res.data.username),
             btoa(_newValues.password)
           );
+
           //window.location.reload();
         }
       }

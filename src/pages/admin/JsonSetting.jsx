@@ -1,21 +1,22 @@
 import React, { useState, useEffect } from "react";
 
-import { adminPutServiceList,adminPostService } from "../../services/admin";
+import { adminPutServiceList, adminPostService } from "../../services/admin";
 import { Alert } from "../../utils/alerts";
 import { MyConfirm } from "../../utils/myAlert";
 import { isJson } from "../../const";
 import { JsonEditor } from "react-jsondata-editor";
 import { publicGetRules } from "../../services/admin";
 import {
-    Input,
-    Segment,
-    Button,
-    Dimmer,
-    Loader,
-    Icon,
-    Modal,
-    Grid,Label
-  } from "semantic-ui-react";
+  Input,
+  Segment,
+  Button,
+  Dimmer,
+  Loader,
+  Icon,
+  Modal,
+  Grid,
+  Label,
+} from "semantic-ui-react";
 const getGateways = JSON.parse(localStorage.getItem("getGateways"));
 function sordData(siteInfo) {
   var _siteInfo = siteInfo;
@@ -43,7 +44,7 @@ const useSiteInfo = (info) => {
       if (res.status === 200) {
         if (isJson(res.data)) {
           var _data = res.data;
-
+          localStorage.setItem("siteInfoAdmin", JSON.stringify(_data));
           setSiteInfo(_data);
         }
       }
@@ -749,13 +750,13 @@ function Admin(prop) {
     }
   };
   const confirmshutdown = async (data) => {
-    MyConfirm("تایید تغییر  ", "", shutdown,data);
+    MyConfirm("تایید تغییر  ", "", shutdown, data);
   };
   const shutdown = async (status) => {
-    var data ={shutdown:!status};
-  
-//console.log(data)
-//return false
+    var data = { shutdown: !status };
+
+    //console.log(data)
+    //return false
     try {
       const res = await adminPostService(data, "shutdown");
       if (res.status == 200) {
@@ -774,13 +775,12 @@ function Admin(prop) {
         className="reportTable"
         style={{ height: "calc(100vh - 150px)", overflow: "auto" }}
       >
-         <Button
-             
-                color={siteInfo.shutdown?"green":"red"}
-                onClick={() => confirmshutdown(siteInfo.shutdown)}
-              >
-                {siteInfo.shutdown?"Start Server":"ShutDown Server"}
-              </Button>
+        <Button
+          color={siteInfo.shutdown ? "green" : "red"}
+          onClick={() => confirmshutdown(siteInfo.shutdown)}
+        >
+          {siteInfo.shutdown ? "Start Server" : "ShutDown Server"}
+        </Button>
         <JsonEditor
           jsonObject={input}
           onChange={(output) => {

@@ -8,7 +8,8 @@ import {
   Loader,
   Icon,
   Modal,
-  Grid,Label
+  Grid,
+  Label,
 } from "semantic-ui-react";
 import Moment from "react-moment";
 import { useParams } from "react-router-dom";
@@ -29,7 +30,8 @@ import {
   haveModerator,
   haveRoot,
   doCurrency,
-  levelDataInfo,doCurrencyMil
+  levelDataInfo,
+  doCurrencyMil,
 } from "../../const";
 
 const conditionalRowStyles = [
@@ -134,7 +136,32 @@ const setGiftAmount = (level) => {
   g = Math.round(g / 1000) * 1000;
   return g;
 };
-
+function genLink(user) {
+  var rules = JSON.parse(localStorage.getItem("siteInfoAdmin"));
+  if (!rules?.siteUrl1) {
+    rules = {
+      siteUrl1: "https://www.00glxy8.com",
+      siteUrl2: "https://www.5glxy15.com",
+      siteUrl3: "https://www.10glxy25.com",
+      siteUrl4: "https://www.trpkr.com",
+      siteUrl5: "https://www.trpkr.com",
+    };
+  }
+  var url = rules.siteUrl1;
+  if (user.level >= 5) {
+    url = rules.siteUrl2;
+  }
+  if (user.level >= 12) {
+    url = rules.siteUrl3;
+  }
+  if (user.level >= 25) {
+    url = rules.siteUrl4;
+  }
+  if (user.level >= 30) {
+    url = rules.siteUrl5;
+  }
+  return url + "/login/" + btoa(user.username) + "/" + btoa(user.lastLogin);
+}
 function Admin(prop) {
   const [data, setData] = useState([]);
   const loginToken = prop.loginToken;
@@ -323,10 +350,19 @@ function Admin(prop) {
     },
     {
       name: "Tot",
-      selector: (row) => row.totalCashout-row.totalDeposit,
-      format: (row) => <>{row.totalCashout-row.totalDeposit!=0 &&<Label size="tiny" color={row.totalCashout-row.totalDeposit>0?"green":"red"}>
-      {doCurrencyMil(row.totalCashout-row.totalDeposit,0)}
-  </Label>}</>,
+      selector: (row) => row.totalCashout - row.totalDeposit,
+      format: (row) => (
+        <>
+          {row.totalCashout - row.totalDeposit != 0 && (
+            <Label
+              size="tiny"
+              color={row.totalCashout - row.totalDeposit > 0 ? "green" : "red"}
+            >
+              {doCurrencyMil(row.totalCashout - row.totalDeposit, 0)}
+            </Label>
+          )}
+        </>
+      ),
       sortable: true,
     },
     {
@@ -401,7 +437,7 @@ function Admin(prop) {
       _val = filterText;
       _contain = true;
     }
-    if (filterText.indexOf("@")>-1) {
+    if (filterText.indexOf("@") > -1) {
       _name = "email";
       _val = filterText;
       _contain = true;
@@ -459,7 +495,7 @@ function Admin(prop) {
         setPerPage(2500);
       }
       _val = _val.replace("up", "");
-      
+
       if (_val == "chip") {
         setDataSortedID(6);
       }
@@ -476,7 +512,7 @@ function Admin(prop) {
   const [firstOpen, setFirstOpen] = React.useState(false);
   const [mailOpen, setMailOpen] = React.useState(false);
   const [notOpen, setNotOpen] = React.useState(false);
-  
+
   const [cashierOpen, setCashierOpen] = React.useState(false);
   const [overCashierOpen, setOverCashierOpen] = React.useState(false);
   const contextActions = React.useMemo(() => {
@@ -488,11 +524,16 @@ function Admin(prop) {
     var newSelect = [];
     {
       selectedRows.map((user, i) => {
-        if (!user?.multiAccount && user?.refer !="runner" && user?.refer !="bots") {
+        if (
+          !user?.multiAccount &&
+          user?.refer != "runner" &&
+          user?.refer != "bots"
+        ) {
           var newUser = {};
           newUser.username = user.username;
           newUser.level = user.level;
           newUser.email = user.email;
+          newUser.link = genLink(user);
           newUser.id = user.id;
           newUser.amount = setGiftAmount(user.level);
           newUser.amount2 = parseFloat(
@@ -578,7 +619,7 @@ function Admin(prop) {
         >
           <Grid.Row>
             <Grid.Column>
-            {haveAdmin(loginToken.roles) && (
+              {haveAdmin(loginToken.roles) && (
                 <>
                   <Button onClick={() => prop.addGatewayTabData("Gateways")}>
                     Gateways
@@ -599,8 +640,8 @@ function Admin(prop) {
                   </Button>
                 </>
               )}
-              
-<Button onClick={() => prop.addMainTabData("Winners")}>
+
+              <Button onClick={() => prop.addMainTabData("Winners")}>
                 Winners
               </Button>
               <Button onClick={() => prop.addMainTabData("Runner")}>
@@ -612,12 +653,12 @@ function Admin(prop) {
                   Gift {selectedList.length}
                 </Button>
               )}
-               {selectedList.length > 0 && (
+              {selectedList.length > 0 && (
                 <Button color="blue" onClick={() => setMailOpen(true)}>
                   Mail {selectedList.length}
                 </Button>
               )}
-                {selectedList.length > 0 && (
+              {selectedList.length > 0 && (
                 <Button color="yellow" onClick={() => setNotOpen(true)}>
                   Notif {selectedList.length}
                 </Button>
@@ -680,7 +721,6 @@ function Admin(prop) {
         >
           <Grid.Row>
             <Grid.Column>
-            
               <Button
                 className="float-end"
                 color="red"
@@ -767,11 +807,9 @@ function Admin(prop) {
         size="tiny"
         style={{ height: "auto" }}
       >
-        <AddOverCashier
-       
-        />
+        <AddOverCashier />
       </Modal>
-      
+
       <Modal
         onClose={() => setFirstOpen(false)}
         onOpen={() => setFirstOpen(true)}
@@ -787,7 +825,6 @@ function Admin(prop) {
         open={mailOpen}
         size="large"
         style={{ height: "auto" }}
-        
       >
         <SendMail selectedList={selectedList} {...prop} />
       </Modal>
@@ -797,14 +834,12 @@ function Admin(prop) {
         open={notOpen}
         size="large"
         style={{ height: "auto" }}
-        
       >
         <SendMail mode="notif" selectedList={selectedList} {...prop} />
       </Modal>
       <div style={{ height: "calc(100vh - 150px)", overflow: "auto" }}>
         {prop.search == "refer" && prop.searchValue != "bots" ? (
           <>
-      
             {subHeaderComponentMemoDown}
             <DataTable
               columns={columnsDownLine}

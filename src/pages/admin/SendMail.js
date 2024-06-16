@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Input,
   Segment,
@@ -17,7 +17,7 @@ import { adminPostService } from "../../services/admin";
 import SendMail from "./SendMail.jsx";
 import SendNotif from "./Notification.jsx";
 import $ from "jquery";
-import { notification,adminGetService } from "../../services/admin";
+import { notification, adminGetService } from "../../services/admin";
 const moment = require("moment");
 
 var __bnus = [
@@ -30,7 +30,7 @@ var __bnus = [
   },
 ];
 var _deflevels = [30, 25, 20, 15, 10, 5];
-var _deflevelsAmount = [2.0, 0.5, 0.5, 0.5, 0.5, 0.2,0.2];
+var _deflevelsAmount = [2.0, 0.5, 0.5, 0.5, 0.5, 0.2, 0.2];
 function generateRandomInteger(min, max) {
   return Math.floor(min + Math.random() * (max - min + 1));
 }
@@ -92,22 +92,15 @@ function Admin(prop) {
   const setUsers = (data) => {
     data.players.map((player, i) => {
       setTimeout(() => {
-        var _amount = data.usd ? 0 : player.amount;
-        if (findStateId(myState, "defbol") && !findStateId(myState, "usd")) {
-          _amount = getLevelGift(player.level);
-        }
         var newData = {
-            
-      
           username: player.username,
           subject: data.subject,
           title: data.title,
-          body: data.body,
-         
+          body: data.body + " " + player.link,
         };
-        console.log(newData)
+        console.log(newData);
         addGift(newData);
-      }, 500 * i);
+      }, 3000 * i);
     });
   };
   const addGift = async (data) => {
@@ -151,7 +144,6 @@ function Admin(prop) {
 
   const [loading, setLoading] = useState(false);
   const [tokenlist, setTokenlist] = useState([]);
-  
 
   const updateEnd = () => {
     var now = new Date(findStateId(myState, "start"));
@@ -172,148 +164,149 @@ function Admin(prop) {
   }
   function getLevelGift(level) {
     var amount = _deflevelsAmount[0];
-    var _l =  parseFloat((parseInt(level)-30)/10);
+    var _l = parseFloat((parseInt(level) - 30) / 10);
     if (level < 30) {
       amount = _deflevelsAmount[1];
-      _l =  parseFloat((parseInt(level)-10)/20);
+      _l = parseFloat((parseInt(level) - 10) / 20);
     }
-   
+
     if (level < 10) {
       amount = _deflevelsAmount[5];
-      _l =  parseFloat((parseInt(level)-5)/10);
+      _l = parseFloat((parseInt(level) - 5) / 10);
     }
     if (level < 4) {
       amount = _deflevelsAmount[6];
-      _l =  parseFloat((parseInt(level)-2)/10);
+      _l = parseFloat((parseInt(level) - 2) / 10);
     }
-    
-   console.log(_l)
-    
-    amount = parseFloat((amount+_l)).toFixed(2) * 1000000;
+
+    console.log(_l);
+
+    amount = parseFloat(amount + _l).toFixed(2) * 1000000;
     return amount;
   }
   function userAgentDetect(userAgent) {
-    if(userAgent.match(/Mobile/i)
-    || userAgent.match(/iPhone/i)
-    || userAgent.match(/iPod/i)
-    || userAgent.match(/IEMobile/i)
-    || userAgent.match(/Windows Phone/i)
-    || userAgent.match(/Android/i)
-    || userAgent.match(/BlackBerry/i)
-    || userAgent.match(/webOS/i)) {
-      return "Mobile"
+    if (
+      userAgent.match(/Mobile/i) ||
+      userAgent.match(/iPhone/i) ||
+      userAgent.match(/iPod/i) ||
+      userAgent.match(/IEMobile/i) ||
+      userAgent.match(/Windows Phone/i) ||
+      userAgent.match(/Android/i) ||
+      userAgent.match(/BlackBerry/i) ||
+      userAgent.match(/webOS/i)
+    ) {
+      return "Mobile";
     }
-    if(userAgent.match(/Tablet/i)
-    || userAgent.match(/iPad/i)
-    || userAgent.match(/Nexus 7/i)
-    || userAgent.match(/Nexus 10/i)
-    || userAgent.match(/KFAPWI/i)) {
-      return "Tablet"
+    if (
+      userAgent.match(/Tablet/i) ||
+      userAgent.match(/iPad/i) ||
+      userAgent.match(/Nexus 7/i) ||
+      userAgent.match(/Nexus 10/i) ||
+      userAgent.match(/KFAPWI/i)
+    ) {
+      return "Tablet";
     } else {
-      return "Desktop"
+      return "Desktop";
     }
   }
-  const getTokens = async (id,user) => {
+  const getTokens = async (id, user) => {
     var old = tokenlist;
-    $(".gettk"+user+"").remove();
+    $(".gettk" + user + "").remove();
     try {
-      
-      const res = await adminGetService(
-        "getConnectionInfoByUser?id=" +
-        id
-      );
+      const res = await adminGetService("getConnectionInfoByUser?id=" + id);
       if (res.status === 200) {
-        
-         var listtojen = res.data.filter((e)=>e.token && e.origin.indexOf("local")==-1)
-         listtojen.map((x, i) => {
-          $("#"+user+"tokens").append("<div id='tk"+x.id+"'>"+i+": "+userAgentDetect(x.userAgent)+"</div>");
-          
-          old.push({x})
-          
-        
-         
+        var listtojen = res.data.filter(
+          (e) => e.token && e.origin.indexOf("local") == -1
+        );
+        listtojen.map((x, i) => {
+          $("#" + user + "tokens").append(
+            "<div id='tk" +
+              x.id +
+              "'>" +
+              i +
+              ": " +
+              userAgentDetect(x.userAgent) +
+              "</div>"
+          );
+
+          old.push({ x });
+
           //$("#res"+user).append("<div>"+x.token+"</div>")
         });
-        console.log(listtojen)
-          if(listtojen.length==0){
-            $("#"+user+"tokens").parents('form').remove()
-          }
+        console.log(listtojen);
+        if (listtojen.length == 0) {
+          $("#" + user + "tokens")
+            .parents("form")
+            .remove();
+        }
         setTokenlist(old);
-        
       }
     } catch (error) {
-
       //console.log(error.message);
     } finally {
-      $(".gettk:first").trigger('click');
+      $(".gettk:first").trigger("click");
     }
   };
- 
-  const sendNot =  (tit,body,image) => {
+
+  const sendNot = (tit, body, image) => {
     findStateId(myState, "selectedList").map((user, i) => {
-          setTimeout(() => {
-            sendNotTo(user,tit,body,image)
-          }, 3000 * i);
-         
-        });
-
+      setTimeout(() => {
+        sendNotTo(user, tit, body, image);
+      }, 3000 * i);
+    });
   };
 
-const sendNotTo = async (too,tit,body,image) => {
-  if (body == "") {
+  const sendNotTo = async (too, tit, body, image) => {
+    if (body == "") {
+      return false;
+    }
+    var data = {
+      username: too.username,
+      message: body,
+      title: tit,
+      image: image,
+    };
+    try {
+      const res = await adminPostService(data, "notification");
+    } catch (error) {}
     return false;
-  }
-  var data = {
-    "username": too.username,
-    "message": body,
-    "title": tit,
-    "image": image
-  }
-  try {
-    const res = await adminPostService(data, "notification");
-    
-  } catch (error) {
-
-  }
-  return false
-  var to = too["x"]
-console.log(to)
-  $("#tk" + to.id).html(
-    '<i aria-hidden="true" class="spinner loading icon">'
-  );
-  var key =
-    "AAAANfV_1y4:APA91bFHck-BWMnLILoZAEdxkgMcrMt8ejdEPds67021cn24H2t1aXuP9_FiKlY970_MbHeDCAqNWv58oFiRBa3nBkFB_SIGfmEjqjMjOOTG6k3dYyd-syETfSFBZtigxCZS4t1HrLww";
-  //var to =
+    var to = too["x"];
+    console.log(to);
+    $("#tk" + to.id).html(
+      '<i aria-hidden="true" class="spinner loading icon">'
+    );
+    var key =
+      "AAAANfV_1y4:APA91bFHck-BWMnLILoZAEdxkgMcrMt8ejdEPds67021cn24H2t1aXuP9_FiKlY970_MbHeDCAqNWv58oFiRBa3nBkFB_SIGfmEjqjMjOOTG6k3dYyd-syETfSFBZtigxCZS4t1HrLww";
+    //var to =
     //"dGcxXqSf79ngUr2-BYzX6i:APA91bEJj79IpURgSk5m7OnsNhoTn_IIYjNw8BnR2GMAC_mxxmL8YrdagiY91njhsi2EFGWLGDhuQ7wrZUYLkiRPuueSLIVWx_GDHqgIqTMgEAmEheAZ5UH1ADbVK-ijMzVqeNexrFDS";
-  var notification2 = {
-    title: tit,
-    body: body,
-    icon: image,
-    dir: "rtl",
-    actions: [{ action: "archive", title: "Archive" }],
-  };
+    var notification2 = {
+      title: tit,
+      body: body,
+      icon: image,
+      dir: "rtl",
+      actions: [{ action: "archive", title: "Archive" }],
+    };
 
     fetch("https://fcm.googleapis.com/fcm/send", {
-    method: "POST",
-    headers: {
-      Authorization: "key=" + key,
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      notification: notification2,
-      to: to.token,
-    }),
-  })
-    .then(function (response) {
-      $("#tk" + to.id).html(
-        '<i aria-hidden="true" class="checkmark green icon">'
-      );
-     
+      method: "POST",
+      headers: {
+        Authorization: "key=" + key,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        notification: notification2,
+        to: to.token,
+      }),
     })
-    .catch(function (error) {
-      console.error(error);
-    }); 
-  /* notification(cashUser, title, notMessage, image).then((response) => {
+      .then(function (response) {
+        $("#tk" + to.id).html(
+          '<i aria-hidden="true" class="checkmark green icon">'
+        );
+      })
+      .catch(function (error) {
+        console.error(error);
+      });
+    /* notification(cashUser, title, notMessage, image).then((response) => {
     if (response) {
       Swal.fire({
         title: "Success",
@@ -326,7 +319,7 @@ console.log(to)
       });
     }
   }); */
-};
+  };
   if (loading) {
     return (
       <>
@@ -338,55 +331,56 @@ console.log(to)
       </>
     );
   }
-  if(prop.mode=="notif"){
+  if (prop.mode == "notif") {
     return (
       <>
         <Modal.Header>
           Send Notif{" "}
           <Button
             floated="right"
-           
             onClick={() => {
-              sendNot(findStateId(myState, "title"),findStateId(myState, "body"),findStateId(myState, "subject"));
+              sendNot(
+                findStateId(myState, "title"),
+                findStateId(myState, "body"),
+                findStateId(myState, "subject")
+              );
             }}
           >
             Send
           </Button>
         </Modal.Header>
-  
+
         <Modal.Content>
-        <SendNotif
-              onUpdateItem={onUpdateItem}
-              {...prop}
-       
-            />
+          <SendNotif onUpdateItem={onUpdateItem} {...prop} />
         </Modal.Content>
         <Modal.Content>
           <Segment inverted>
-          {findStateId(myState, "selectedList").map((user, i) => {
-            return (
-              <Form key={i}>
-                <Form.Group inline>
-                  <Form.Field width={4}>
-                    <label style={{color:"#fff"}}>
-                    {user.username}  ({user.level})
-                    </label>
-                    <Button className={"gettk gettk"+user.username} onClick={()=>getTokens(user.id,user.username)}>get</Button>
-                  </Form.Field>
-                  <Form.Field width={6}>
-              <div  id={user.username+"tokens"}></div>
-              
-                  </Form.Field>
-               
-                </Form.Group>
-              </Form>
-            );
-          })}
+            {findStateId(myState, "selectedList").map((user, i) => {
+              return (
+                <Form key={i}>
+                  <Form.Group inline>
+                    <Form.Field width={4}>
+                      <label style={{ color: "#fff" }}>
+                        {user.username} ({user.level})
+                      </label>
+                      <Button
+                        className={"gettk gettk" + user.username}
+                        onClick={() => getTokens(user.id, user.username)}
+                      >
+                        get
+                      </Button>
+                    </Form.Field>
+                    <Form.Field width={6}>
+                      <div id={user.username + "tokens"}></div>
+                    </Form.Field>
+                  </Form.Group>
+                </Form>
+              );
+            })}
           </Segment>
         </Modal.Content>
       </>
     );
-  
   }
   return (
     <>
@@ -396,13 +390,10 @@ console.log(to)
           floated="right"
           onClick={() => {
             setUsers({
-             
-                subject:findStateId(myState, "subject"),
+              subject: findStateId(myState, "subject"),
               title: findStateId(myState, "title"),
               body: findStateId(myState, "body"),
-         
-           
-            
+
               players: findStateId(myState, "selectedList"),
             });
           }}
@@ -412,38 +403,30 @@ console.log(to)
       </Modal.Header>
 
       <Modal.Content>
-      <SendMail
-              onUpdateItem={onUpdateItem}
-              {...prop}
-            />
+        <SendMail onUpdateItem={onUpdateItem} {...prop} />
       </Modal.Content>
       <Modal.Content>
         <Segment inverted>
-        {findStateId(myState, "selectedList").map((user, i) => {
-          return (
-            <Form key={i}>
-              <Form.Group inline>
-                <Form.Field width={4}>
-                  <label style={{color:"#fff"}}>
-                  {user.username}  ({user.level})
-                  </label>
-                  <span id={"res" + user.username} style={{color:"#fff"}}></span>
-                </Form.Field>
-                <Form.Field width={6}>
-                <Input
-                    type="text"
-                    value={user.email}
-                  >
-                    
-                    
-                  </Input>
-            
-                </Form.Field>
-             
-              </Form.Group>
-            </Form>
-          );
-        })}
+          {findStateId(myState, "selectedList").map((user, i) => {
+            return (
+              <Form key={i}>
+                <Form.Group inline>
+                  <Form.Field width={4}>
+                    <label style={{ color: "#fff" }}>
+                      {user.username} ({user.level})
+                    </label>
+                    <span
+                      id={"res" + user.username}
+                      style={{ color: "#fff" }}
+                    ></span>
+                  </Form.Field>
+                  <Form.Field width={6}>
+                    <Input type="text" value={user.link}></Input>
+                  </Form.Field>
+                </Form.Group>
+              </Form>
+            );
+          })}
         </Segment>
       </Modal.Content>
     </>

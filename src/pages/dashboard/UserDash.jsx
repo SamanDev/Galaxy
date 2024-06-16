@@ -25,17 +25,21 @@ const Dashboard = (prop) => {
   const loginToken = prop.loginToken;
   const siteInfo = prop.siteInfo;
   const handleManifest = () => {
-    window.addEventListener("beforeinstallprompt", (e) => {
-      //$("#pushactive").trigger("click");
-      // Prevent Chrome 67 and earlier from automatically showing the prompt
-      e.preventDefault();
-      // Stash the event so it can be triggered later.
-      window.deferredPrompt = e;
-      setTimeout(function () {
-        addHome();
-      }, 3000);
-      // Update UI to notify the user they can add to home screen
-    },{once:true});
+    window.addEventListener(
+      "beforeinstallprompt",
+      (e) => {
+        //$("#pushactive").trigger("click");
+        // Prevent Chrome 67 and earlier from automatically showing the prompt
+        e.preventDefault();
+        // Stash the event so it can be triggered later.
+        window.deferredPrompt = e;
+        setTimeout(function () {
+          addHome();
+        }, 3000);
+        // Update UI to notify the user they can add to home screen
+      },
+      { once: true }
+    );
     if (isWebview()) {
       return false;
     }
@@ -51,7 +55,7 @@ const Dashboard = (prop) => {
         btoa(loginToken.username) +
         "/" +
         localStorage.getItem(btoa(loginToken.username));
-       //window.location.href = sUrl;
+      //window.location.href = sUrl;
       //return false;
     }
 
@@ -66,50 +70,52 @@ const Dashboard = (prop) => {
         },
         { once: true }
       );
-      let dd = window.location.protocol + "//" + window.location.host;
-      let sUrl =
-        dd +
-        "/login/" +
-        btoa(loginToken.username) +
-        "/" +
-        localStorage.getItem(btoa(loginToken.username));
+      if (localStorage.getItem(btoa(loginToken.username))) {
+        let dd = window.location.protocol + "//" + window.location.host;
+        let sUrl =
+          dd +
+          "/login/" +
+          btoa(loginToken.username) +
+          "/" +
+          localStorage.getItem(btoa(loginToken.username));
 
-      let manifest = {
-        short_name: loginToken.username,
-        name: loginToken.username,
+        let manifest = {
+          short_name: loginToken.username,
+          name: loginToken.username,
 
-        display: "fullscreen",
-        theme_color: "#000000",
-        orientation: "Any",
+          display: "fullscreen",
+          theme_color: "#000000",
+          orientation: "Any",
 
-        start_url: sUrl,
-        scope: dd,
-        id: sUrl,
+          start_url: sUrl,
+          scope: dd,
+          id: sUrl,
 
-        background_color: "#000000",
-        icons: [
-          {
-            src: dd + "/maskable_icon_x192.png",
-            type: "image/png",
-            sizes: "192x192",
-            purpose: "any",
-          },
+          background_color: "#000000",
+          icons: [
+            {
+              src: dd + "/maskable_icon_x192.png",
+              type: "image/png",
+              sizes: "192x192",
+              purpose: "any",
+            },
 
-          {
-            src: dd + "/maskable_icon_x512.png",
-            type: "image/png",
-            sizes: "512x512",
-            purpose: "any",
-          },
-        ],
-        description: "معتبرترین و بهترین اپلیکیشن پوکر با پول واقعی در ایران",
-      };
-      let content = encodeURIComponent(JSON.stringify(manifest));
-      let url = "data:application/manifest+json," + content;
-      let element = document.createElement("link");
-      element.setAttribute("rel", "manifest");
-      element.setAttribute("href", url);
-      document.querySelector("head").appendChild(element);
+            {
+              src: dd + "/maskable_icon_x512.png",
+              type: "image/png",
+              sizes: "512x512",
+              purpose: "any",
+            },
+          ],
+          description: "معتبرترین و بهترین اپلیکیشن پوکر با پول واقعی در ایران",
+        };
+        let content = encodeURIComponent(JSON.stringify(manifest));
+        let url = "data:application/manifest+json," + content;
+        let element = document.createElement("link");
+        element.setAttribute("rel", "manifest");
+        element.setAttribute("href", url);
+        document.querySelector("head").appendChild(element);
+      }
     }
   };
 

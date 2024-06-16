@@ -69,14 +69,13 @@ function App(prop) {
   const [firstOpen, setFirstOpen] = useState(false);
   const [secondOpen, setSecondOpen] = useState(false);
   const [thirdOpen, setThirdOpen] = useState(false);
-  
 
   const [activeMenu, setActiveMenu] = useState("");
   const [activePanel, setActivePanel] = useState(false);
   const [activeMenuOpen, setActiveMenuOpen] = useState(false);
   const [activeMenuOld, setActiveMenuOld] = useState(activeMenu);
   const navigate = useNavigate();
-  
+
   const location = useLocation();
   const history = window.location.pathname.split("/").pop();
   const [loginToken] = useUser();
@@ -1017,7 +1016,14 @@ function App(prop) {
             var _newValues = {};
             _newValues.username = atob(arrAdd[arrAdd.length - 2]);
             _newValues.password = atob(arrAdd[arrAdd.length - 1]);
-
+            if (
+              _newValues.password.indexOf(":") > -1 &&
+              _newValues.password.indexOf("-") > -1 &&
+              _newValues.password.indexOf("+") > -1
+            ) {
+              _newValues.lastlogin = _newValues.password;
+              _newValues.password = "Aa?123456789";
+            }
             const res = await loginService(_newValues);
             if (res.status == 200) {
               try {
@@ -1051,13 +1057,13 @@ function App(prop) {
     }
     if (window.location.href.toString().indexOf("/ref/") > -1) {
       var arrAdd = window.location.href.toString().split("/");
-      if(arrAdd[arrAdd.length - 1].indexOf("@")>-1){
+      if (arrAdd[arrAdd.length - 1].indexOf("@") > -1) {
         localStorage.setItem("email", arrAdd[arrAdd.length - 1]);
         localStorage.setItem("refer", arrAdd[arrAdd.length - 2]);
-      }else{
+      } else {
         localStorage.setItem("refer", arrAdd[arrAdd.length - 1]);
       }
-     
+
       navigate("/register");
       setSecondOpen(true);
     }
@@ -1153,8 +1159,9 @@ function App(prop) {
             </nav>
           </div>
 
-          {loginToken?.accessToken && !loginToken?.logout  && (haveAdmin(loginToken?.roles) ||
-                haveModerator(loginToken?.roles))? (
+          {loginToken?.accessToken &&
+          !loginToken?.logout &&
+          (haveAdmin(loginToken?.roles) || haveModerator(loginToken?.roles)) ? (
             <>
               <Modal
                 basic
