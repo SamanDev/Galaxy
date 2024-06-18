@@ -136,9 +136,9 @@ export const useSiteInfo = (login) => {
       setSiteInfo(dataGet);
     });
     eventBus.on("updateUser", (dataGet) => {
-      setLoginToken(dataGet);
       if (!siteInfo?.pokerUrl) {
-        handleCheckLoginUser(dataGet);
+        setLoginToken(dataGet);
+        //handleCheckLoginUser(dataGet);
       }
     });
   }, [loginToken.accessToken, loginToken.logout]);
