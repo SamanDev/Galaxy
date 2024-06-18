@@ -111,7 +111,7 @@ export const useSiteInfo = (login) => {
       }
     } catch (error) {}
   };
-  const handleCheckLoginUser = async () => {
+  const handleCheckLoginUser = async (loginToken) => {
     if (loginToken.accessToken && !loginToken.logout) {
       try {
         const res = await userGetRules();
@@ -127,25 +127,18 @@ export const useSiteInfo = (login) => {
   };
   useEffect(() => {
     if (loginToken.accessToken && !loginToken.logout) {
-      handleCheckLoginUser();
+      handleCheckLoginUser(loginToken);
     } else {
       handleCheckLogin();
     }
-    if (!siteInfo?.updateday) {
-    } else {
-      var form_date = new Date(siteInfo?.updateday);
-      var today = new Date();
-      let difference =
-        form_date > today ? form_date - today : today - form_date;
-      let diff_days = Math.floor(difference / (1000 * 3600));
-      // if (diff_days > 5 || 1 == 1) handleCheckLogin();
-    }
+
     eventBus.on("updateSiteInfo", (dataGet) => {
       setSiteInfo(dataGet);
     });
     eventBus.on("updateUser", (dataGet) => {
+      setLoginToken(dataGet);
       if (!siteInfo?.pokerUrl) {
-        handleCheckLoginUser();
+        handleCheckLoginUser(dataGet);
       }
     });
   }, [loginToken.accessToken, loginToken.logout]);
