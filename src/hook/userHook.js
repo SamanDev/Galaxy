@@ -32,12 +32,9 @@ export const useUser = () => {
     var _siteInfo = siteInfo;
     try {
       _siteInfo.userGifts = _siteInfo.userGifts.sort((a, b) =>
-      a.id < b.id ? 1 : -1
-    );
-    } catch (error) {
-      
-    }
-    
+        a.id < b.id ? 1 : -1
+      );
+    } catch (error) {}
 
     return _siteInfo;
   }
@@ -94,9 +91,11 @@ export const useSiteInfo = (login) => {
   );
   var loginKey = localStorage.getItem("galaxyUserkeyToken");
 
-  const [loginToken, setLoginToken] = useState(login?login:
-    localStorage.getItem(loginKey + "Token") &&
-      isJson(localStorage.getItem(loginKey + "Token"))
+  const [loginToken, setLoginToken] = useState(
+    login
+      ? login
+      : localStorage.getItem(loginKey + "Token") &&
+        isJson(localStorage.getItem(loginKey + "Token"))
       ? JSON.parse(localStorage.getItem(loginKey + "Token"))
       : {}
   );
@@ -113,16 +112,18 @@ export const useSiteInfo = (login) => {
     } catch (error) {}
   };
   const handleCheckLoginUser = async () => {
-    try {
-      const res = await userGetRules();
-      if (res.status === 200) {
-        if (isJson(res.data)) {
-          var _data = res.data;
+    if (loginToken.accessToken && !loginToken.logout) {
+      try {
+        const res = await userGetRules();
+        if (res.status === 200) {
+          if (isJson(res.data)) {
+            var _data = res.data;
 
-          setSiteInfo(_data);
+            setSiteInfo(_data);
+          }
         }
-      }
-    } catch (error) {}
+      } catch (error) {}
+    }
   };
   useEffect(() => {
     if (loginToken.accessToken && !loginToken.logout) {
@@ -147,7 +148,7 @@ export const useSiteInfo = (login) => {
         handleCheckLoginUser();
       }
     });
-  }, [loginToken.accessToken,loginToken.logout]);
+  }, [loginToken.accessToken, loginToken.logout]);
   useEffect(() => {
     var _data = siteInfo;
     _data.updateday = new Date();

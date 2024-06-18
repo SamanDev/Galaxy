@@ -24,6 +24,7 @@ import SendMail from "./SendMail.js";
 import AddCashier from "./AddCashier";
 import AddOverCashier from "./AddOverCashier.js";
 import Filter from "./Filter";
+import LevelIcon from "../../utils/svg";
 
 import {
   haveAdmin,
@@ -32,6 +33,7 @@ import {
   doCurrency,
   levelDataInfo,
   doCurrencyMil,
+  levelClassInside,
 } from "../../const";
 
 const conditionalRowStyles = [
@@ -160,8 +162,29 @@ function genLink(user) {
   if (user.level >= 30) {
     url = rules.siteUrl5;
   }
+  //url = "http://localhost:3000";
   return url + "/login/" + btoa(user.username) + "/" + btoa(user.lastLogin);
 }
+function genWALink(number, user) {
+  var num = "+98" + number.slice(1);
+  var txt =
+    "با سلام (" +
+    user.username +
+    ") عزیز %0A %0A %0A %0A لینک ورود یکبار مصرف:%0A" +
+    genLink(user);
+  //url = "http://localhost:3000";
+  return (
+    <>
+      <a
+        href={"https://api.whatsapp.com/send?phone=" + num + "&text=" + txt}
+        target="_blank"
+      >
+        <i aria-hidden="true" className="whatsapp green icon" />
+      </a>
+    </>
+  );
+}
+
 function Admin(prop) {
   const [data, setData] = useState([]);
   const loginToken = prop.loginToken;
@@ -291,13 +314,30 @@ function Admin(prop) {
     {
       name: "level",
       selector: (row) => row.level,
-      format: (row) => <>{row.level}</>,
+      format: (row) => (
+        <>
+          <LevelIcon
+            level={row.level}
+            text=""
+            mode="levels"
+            classinside={levelClassInside(row.level)}
+            number=""
+            width="40px"
+          />
+        </>
+      ),
       sortable: true,
     },
     {
-      name: "Glevel",
-      selector: (row) => row.glevel,
-      format: (row) => <>{row.glevel}</>,
+      name: "msg",
+      selector: (row) => "+98" + row?.bankInfos[0]?.mobile,
+      format: (row) => (
+        <>
+          {haveAdmin(loginToken.roles) && row.bankInfos.length > 0 && (
+            <>{genWALink(row.bankInfos[0].mobile, row)}</>
+          )}
+        </>
+      ),
       sortable: true,
     },
     {
@@ -375,6 +415,12 @@ function Admin(prop) {
       name: "vip",
       selector: (row) => row.vipPlaySecond,
       format: (row) => <>{row.vipPlaySecond}</>,
+      sortable: true,
+    },
+    {
+      name: "Glevel",
+      selector: (row) => row.glevel,
+      format: (row) => <>{row.glevel}</>,
       sortable: true,
     },
     {

@@ -96,7 +96,7 @@ function Admin(prop) {
           username: player.username,
           subject: data.subject,
           title: data.title,
-          body: data.body + " " + player.link,
+          body: data.body + "<br/>" + player.link,
         };
         console.log(newData);
         addGift(newData);
@@ -266,8 +266,14 @@ function Admin(prop) {
       title: tit,
       image: image,
     };
+    $("#res" + too.username).html(
+      '<i aria-hidden="true" class="spinner loading icon">'
+    );
     try {
       const res = await adminPostService(data, "notification");
+      $("#res" + too.username).html(
+        '<i aria-hidden="true" class="checkmark green icon">'
+      );
     } catch (error) {}
     return false;
     var to = too["x"];
@@ -363,6 +369,25 @@ function Admin(prop) {
                       <label style={{ color: "#fff" }}>
                         {user.username} ({user.level})
                       </label>
+                      <span
+                        id={"res" + user.username}
+                        style={{ color: "#fff" }}
+                      ></span>
+                    </Form.Field>
+                  </Form.Group>
+                </Form>
+              );
+            })}
+          </Segment>
+          {/*   <Segment inverted hide>
+            {findStateId(myState, "selectedList").map((user, i) => {
+              return (
+                <Form key={i}>
+                  <Form.Group inline>
+                    <Form.Field width={4}>
+                      <label style={{ color: "#fff" }}>
+                        {user.username} ({user.level})
+                      </label>
                       <Button
                         className={"gettk gettk" + user.username}
                         onClick={() => getTokens(user.id, user.username)}
@@ -377,7 +402,7 @@ function Admin(prop) {
                 </Form>
               );
             })}
-          </Segment>
+          </Segment> */}
         </Modal.Content>
       </>
     );

@@ -186,15 +186,12 @@ function Admin(prop) {
   const handleTabChange = (e, { activeIndex }) => setActiveIndex(activeIndex);
 
   const confirmdeleteBankInfo = async (e, data) => {
-    MyConfirm("تایید حذف", "", deleteBankInfo,data);
+    MyConfirm("تایید حذف", "", deleteBankInfo, data);
   };
   const confirmchangePass = async (data) => {
-    MyConfirm("تایید تغییر کلمه عبور", "", changePass,data);
+    MyConfirm("تایید تغییر کلمه عبور", "", changePass, data);
   };
   const changePass = async (data) => {
-   
-    
-    
     var values = {
       username: data,
     };
@@ -211,7 +208,6 @@ function Admin(prop) {
     }
   };
   const deleteBankInfo = async (data) => {
-   
     var _key = data.userkey;
     var _childid = data.childid;
     if (_childid && _key.indexOf("-") == -1) {
@@ -252,7 +248,7 @@ function Admin(prop) {
       childId: _childid,
       value: data.checked,
     };
- 
+
     try {
       const res = await adminPutService(values, "updateUserByAdmin");
       if (res.status == 200) {
@@ -306,7 +302,7 @@ function Admin(prop) {
       menuItem: user.username,
       render: () => (
         <Tab.Pane as="span">
-          {/* <Not user={user} /> */}
+          <Not user={user} />
           <TableAdmin
             data={newdataInfoData}
             getwaysList={getGateways}
@@ -389,7 +385,6 @@ function Admin(prop) {
   ];
   return (
     <>
-      
       <Modal
         onClose={() => setCashierOpen(false)}
         onOpen={() => setCashierOpen(true)}
@@ -412,7 +407,7 @@ function Admin(prop) {
         </Button>
       )}
 
-<Button
+      <Button
         color="blue"
         className="float-end"
         onClick={() => setCashierOpen(true)}
@@ -426,7 +421,7 @@ function Admin(prop) {
       >
         ChangePass
       </Button>
-      
+
       <h4>
         <Icon
           link
@@ -444,7 +439,7 @@ function Admin(prop) {
           {user.username}
         </span>
       </h4>
-      <Divider/>
+      <Divider />
       <Tab
         panes={panes}
         activeIndex={activeIndex}
