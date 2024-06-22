@@ -142,9 +142,9 @@ function genLink(user) {
   var rules = JSON.parse(localStorage.getItem("siteInfoAdmin"));
   if (!rules?.siteUrl1) {
     rules = {
-      siteUrl1: "https://www.00glxy8.com",
-      siteUrl2: "https://www.5glxy15.com",
-      siteUrl3: "https://www.10glxy25.com",
+      siteUrl1: "https://www.gpkr0010.com",
+      siteUrl2: "https://www.gpkr15x.com",
+      siteUrl3: "https://www.gpkr15x.com",
       siteUrl4: "https://www.trpkr.com",
       siteUrl5: "https://www.trpkr.com",
     };

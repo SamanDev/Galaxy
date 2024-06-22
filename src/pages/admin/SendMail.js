@@ -96,7 +96,11 @@ function Admin(prop) {
           username: player.username,
           subject: data.subject,
           title: data.title,
-          body: data.body + "<br/>" + player.link,
+          body:
+            data.body +
+            "<br/><br/>لینک ورود مستقیم یکبار مصرف:<br/>" +
+            player.link +
+            "<br/><br/>",
         };
         console.log(newData);
         addGift(newData);
