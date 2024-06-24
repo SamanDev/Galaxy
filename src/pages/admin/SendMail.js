@@ -76,7 +76,7 @@ function Admin(prop) {
       { id: "subject", val: "" },
       { id: "title", val: "" },
       { id: "body", val: "" },
-
+      { id: "image", val: "" },
       { id: "expired", val: expdate },
       { id: "min", val: 100000 },
       { id: "usd", val: false },
@@ -89,6 +89,11 @@ function Admin(prop) {
     ],
   });
   const siteInfo = prop.siteInfo;
+  function genLinkurl(link, image) {
+    var rules = link.split("login/");
+
+    return image.replace("https://www.galaxypoker.vip/", rules[0]);
+  }
   const setUsers = (data) => {
     data.players.map((player, i) => {
       setTimeout(() => {
@@ -98,13 +103,14 @@ function Admin(prop) {
           title: data.title,
           body:
             data.body +
-            "<br/><br/>لینک ورود مستقیم یکبار مصرف:<br/>" +
+            "@@@" +
             player.link +
-            "<br/><br/>",
+            "@@@" +
+            genLinkurl(player.link, data.image),
         };
         console.log(newData);
         addGift(newData);
-      }, 3000 * i);
+      }, 5000 * i);
     });
   };
   const addGift = async (data) => {
@@ -112,7 +118,7 @@ function Admin(prop) {
       '<i aria-hidden="true" class="spinner loading icon">'
     );
     try {
-      const res = await adminPostService(data, "mailService");
+      const res = await adminPostService(data, "gMailService");
       if (res.status == 200) {
         $("#res" + data.username).html(
           '<i aria-hidden="true" class="checkmark green icon">'
@@ -422,7 +428,7 @@ function Admin(prop) {
               subject: findStateId(myState, "subject"),
               title: findStateId(myState, "title"),
               body: findStateId(myState, "body"),
-
+              image: findStateId(myState, "image"),
               players: findStateId(myState, "selectedList"),
             });
           }}

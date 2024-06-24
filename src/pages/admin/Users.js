@@ -516,14 +516,6 @@ function Admin(prop) {
   var filteredItems = data.filter((item) => item.username);
   var _val = dataSearch.toString();
 
-  if (_val.indexOf("up") > -1) {
-    filteredItems = filteredItems.filter(
-      (item) =>
-        item.level >= parseInt(_val.replace("level", "").replace(" up", "")) &&
-        item.level < parseInt(_val.replace("level", "").replace(" up", "")) + 5
-    );
-  }
-
   if (dataLoginDay) {
     var startDate = addDays(new Date(), dataLoginDay);
 
@@ -532,7 +524,13 @@ function Admin(prop) {
       return _Date <= startDate;
     });
   }
-
+  if (_val.indexOf("up") > -1) {
+    filteredItems = filteredItems.filter(
+      (item) =>
+        item.level >= parseInt(_val.replace("level", "").replace(" up", "")) &&
+        item.level < parseInt(_val.replace("level", "").replace(" up", "")) + 5
+    );
+  }
   useEffect(() => {
     if (dataSearch) {
       var _val = dataSearch.toString();
