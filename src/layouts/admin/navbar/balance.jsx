@@ -118,9 +118,11 @@ const Balance = (prop) => {
   };
   const ChangeStateMode = () => {
     var _n = stateMode;
-    _n += 1;
-    if (_n > 1) {
-      _n = 0;
+    if (_event == "League") {
+      _n += 1;
+      if (_n > 1) {
+        _n = 0;
+      }
     }
     setStateMode(_n);
   };
@@ -320,8 +322,7 @@ const Balance = (prop) => {
                 </Reveal.Content>
                 <Reveal.Content hidden>
                   <span className="text-gold">$</span>
-                  {doCurrency((loginToken.balance2).toFixed(2))}
-                
+                  {doCurrency(loginToken.balance2.toFixed(2))}
                 </Reveal.Content>
               </Reveal>
             </Label>

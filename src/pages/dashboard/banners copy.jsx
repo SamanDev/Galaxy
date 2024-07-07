@@ -176,19 +176,18 @@ const Dashboard = (prop) => {
   const goPrev = () => {
     var _ddef = activeSlide - 1;
     if (_ddef < 0) {
-      _ddef = 2;
+      _ddef = 4;
     }
     setActiveSlide(_ddef);
   };
   const goNext = () => {
     var _ddef = activeSlide + 1;
-    if (_ddef > 2) {
+    if (_ddef > 4) {
       _ddef = 0;
     }
     setActiveSlide(_ddef);
   };
   useEffect(() => {
-    defslide = 2;
     if (_event.toLowerCase() == "gpass") {
       defslide = 1;
     }
@@ -196,7 +195,7 @@ const Dashboard = (prop) => {
       defslide = 2;
     }
     if (_event.toLowerCase() == "league") {
-      defslide = 1;
+      defslide = 3;
     }
     if (dayOfTournament == nowDay) {
       defslide = 0;
@@ -308,6 +307,69 @@ const Dashboard = (prop) => {
             >
               <>
                 <Banner
+                  title={getMil(gpassrules?.totalRewards) + " میلیون تومان"}
+                  text="پاداش گلکسی پَس"
+                  link=".gpass"
+                  icon="gpass"
+                  amin="animated delay-1s charkhesh"
+                  iconamin="pulse"
+                  number="15"
+                  showtime={
+                    <ShowTimeLeft
+                      startDay={gpassrules?.startDay}
+                      endDay={gpassrules?.endDay}
+                      startHour="0000"
+                      endHour="2359"
+                    />
+                  }
+                  {...prop}
+                />
+              </>
+
+              {_event.toLowerCase() == "gpass" && activeSlide == 1 && (
+                <ConfettiArea recycle={false} numberOfPieces="50" />
+              )}
+            </div>
+
+            <div
+              className={
+                activeSlide == 2 ? "carousel-item active" : "carousel-item"
+              }
+              data-bs-interval="1000"
+            >
+              <>
+                <Banner
+                  title={getMil(viprules?.totalRewards) + " میلیون تومان"}
+                  text={"پاداش میز VIP"}
+                  link=".vip"
+                  icon="vip"
+                  amin="inline animated fast flipInY"
+                  iconamin="pulse"
+                  number=" "
+                  showtime={
+                    <ShowTimeLeft
+                      startDay={viprules?.startDay}
+                      endDay={viprules?.endDay}
+                      startHour="0000"
+                      endHour="2359"
+                    />
+                  }
+                  {...prop}
+                />
+                {_event.toLowerCase() == "vip" && activeSlide == 2 && (
+                  <ConfettiArea recycle={false} numberOfPieces="50" />
+                )}
+              </>
+            </div>
+
+            <div
+              className={
+                activeSlide == 3 ? "carousel-item active" : "carousel-item"
+              }
+              data-bs-interval="1000"
+            >
+              <>
+                <Banner
                   title={getMil(leaguerules?.totalRewards) + " میلیون تومان"}
                   text="برای لیگ روزانه"
                   link=".league"
@@ -335,7 +397,7 @@ const Dashboard = (prop) => {
 
             <div
               className={
-                activeSlide == 2 ? "carousel-item active" : "carousel-item"
+                activeSlide == 4 ? "carousel-item active" : "carousel-item"
               }
               data-bs-interval="1000"
             >

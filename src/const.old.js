@@ -90,6 +90,373 @@ function getPortPablic() {
   return loc;
 }
 const moment = require("moment");
+export const GetMenu = (siteInfo, loginToken) => {
+  if (siteInfo == null) return false;
+  siteInfo?.galaxyPassSet?.sort((a, b) => (a.id > b.id ? 1 : -1));
+  var gpassrules = siteInfo?.galaxyPassSet[0];
+  siteInfo?.vipTables?.sort((a, b) => (a.id > b.id ? 1 : -1));
+  var viprules = siteInfo?.vipTables[0];
+  siteInfo?.dailyLeagueSet?.sort((a, b) => (a.id > b.id ? 1 : -1));
+  var leaguerules = siteInfo?.dailyLeagueSet[0];
+  var levelData = siteInfo?.levelUps;
+  var _ret = [
+    {
+      label: "صفحه اصلی",
+      icon: "nxaaasqe.svg",
+      link: "/",
+      idname: "home",
+    },
+    {
+      label: "Admin",
+      icon: "rwotyanb.svg",
+      link: "/admin",
+      idname: "admin",
+    },
+  ];
+  if (loginToken?.refer != "runner" && loginToken?.refer != "bots") {
+    _ret.push({
+      label: "صندوق",
+      title: "صندوق",
+      aria: "cashierarea",
+      icon: "qhviklyi.svg",
+      submenu: [
+        {
+          label: "خرید چیپ",
+          title: "خرید چیپ",
+          icon: "fas fa-plus text-danger",
+          idname: "deposit",
+          aria: "giftsarea animated bounceIn delay-02s",
+          icongalaxy: "deposit",
+          submenu: doDeposit(loginToken),
+        },
+        {
+          label: "برداشت",
+          title: "برداشت",
+          aria: "giftsarea animated bounceIn delay-02s",
+          icon: "fas fa-dollar text-gold",
+          idname: "cashout",
+          icongalaxy: "cashout",
+          submenu: doCashout(siteInfo),
+        },
+        {
+          label: "انتقال",
+          title: "انتقال",
+          idname: "login",
+          getwaykey: "Transfer",
+          icon: "fas fa-exchange-alt",
+          icongalaxy: "transfer",
+          aria: "giftsarea animated bounceIn delay-02s",
+          component: "CashoutComponent",
+          mode: "transfer",
+          size: "mini",
+          usd: false,
+          labelcolor: "orange",
+        },
+        {
+          label: "تراکنش های مالی",
+          title: "تراکنش های مالی",
+          icongalaxy: "transaction",
+          aria: "giftsarea animated bounceIn delay-02s",
+          icon: "fas fa-stream",
+          idname: "login report",
+          component: "CashoutComponent",
+          cashMode: "Report",
+          size: "mini",
+          labelcolor: "orange",
+          usd: false,
+        },
+        {
+          label: "صندوق دلاری",
+          title: "صندوق دلاری",
+          aria: "cashierarea",
+          icon: "huwchbks.svg",
+          submenu: [
+            {
+              label: "خرید دلاری",
+              title: "خرید دلاری",
+              icon: "fas fa-plus text-danger",
+
+              idname: "login deposit openusdbank",
+              aria: "giftsarea animated bounceIn delay-02s",
+              icongalaxy: "depositusd",
+              submenu: doDepositDollar(),
+            },
+            {
+              label: "برداشت دلاری",
+              title: "برداشت دلاری",
+              aria: "giftsarea animated bounceIn delay-02s",
+              icon: "fas fa-dollar text-gold",
+              idname: "cashout",
+              icongalaxy: "cashout",
+              submenu: doCashoutDollar(),
+            },
+            {
+              label: "انتقال دلاری",
+              title: "انتقال دلاری",
+              idname: "login",
+              getwaykey: "Transfer",
+              icon: "fas fa-exchange-alt",
+              icongalaxy: "transfer",
+              aria: "giftsarea animated bounceIn delay-02s",
+              component: "CashoutComponent",
+              mode: "transfer",
+              size: "mini",
+              usd: true,
+              labelcolor: "orange",
+            },
+            {
+              label: "تراکنش های دلاری",
+              title: "تراکنش های دلاری",
+              icongalaxy: "transaction",
+              aria: "giftsarea animated bounceIn delay-02s",
+              icon: "fas fa-stream",
+              idname: "login report",
+              component: "CashoutComponent",
+              cashMode: "Report",
+              size: "mini",
+              usd: true,
+              labelcolor: "orange",
+            },
+          ],
+        },
+      ],
+    });
+  }
+  _ret.push({
+    label: "جوایز و پاداش ها ",
+    title: "جوایز و پاداش ها ",
+    icon: "nkmsrxys.svg",
+    aria: "garea",
+    idname: "gifts",
+    submenu: [
+      {
+        label: "پاداش لِوِل ها",
+        title: "پاداش لِوِل ها",
+        idname: "levels",
+        icon: "fas fa-star yellow",
+        aria: "giftsarea",
+        icongalaxy: "levels",
+        component: "levels",
+      },
+
+      {
+        label: "گلکسی پَس",
+        title: "گلکسی پَس",
+
+        idname: "gpass",
+        bonus: "Level " + gpassrules?.minLevel,
+        icon: "fab fa-google yellow",
+        icongalaxy: "gpass",
+        aria: "giftsarea animated bounceIn delay-02s",
+        component: "gpass",
+      },
+      {
+        label: "VIP Table",
+        title: "VIP Table",
+        idname: "vip",
+
+        bonus: "Level " + viprules?.minLevel,
+        icon: "fab fa-viacoin yellow",
+        icongalaxy: "vip",
+        aria: "giftsarea animated bounceIn delay-02s",
+        component: "vip",
+      },
+      {
+        label: "لیگ روزانه",
+        title: "لیگ روزانه",
+        aria: "giftsarea animated bounceIn delay-02s",
+        idname: "league",
+        bonus: "Level " + leaguerules?.minLevel,
+        icon: "fas fa-medal yellow",
+        icongalaxy: "league",
+        component: "league",
+      },
+      {
+        label: "کمیسیون معرفی دوستان",
+        title: "کمیسیون معرفی دوستان",
+        idname: "commission",
+
+        bonus: "",
+        icongalaxy: "commission",
+        icon: "fas fa-heart red",
+        getwaykey: "Commission",
+        aria: "giftsarea animated bounceIn delay-02s",
+        component: "commission",
+      },
+      {
+        label: "ریک بک پوکر",
+        title: "ریک بک پوکر",
+        idname: "rakeback",
+        icongalaxy: "rakeback",
+
+        bonus: "",
+        icon: "fas fa-heart red",
+        aria: "giftsarea animated bounceIn delay-02s",
+        getwaykey: "Rakeback",
+        component: "rakeback",
+      },
+
+      {
+        label: "تورنومنت ها",
+        title: "تورنومنت ها",
+        idname: "tournament",
+
+        icon: "fab fa-viacoin yellow",
+        icongalaxy: "tournament",
+        aria: "giftsarea animated bounceIn delay-02s",
+        component: "tournament",
+        submenu: [
+          {
+            label: "VIP Freeroll 50M",
+            title: "VIP Freeroll 50M",
+            icon: "fas fa-trophy text-gold",
+            bonus: "Level " + (levelDataInfo[3].minLevel + 20),
+            cashMode: "vip25",
+            size: "mini",
+            labelcolor: "orange",
+            component: "tournament",
+          },
+          {
+            label: "VIP Freeroll 30M",
+            title: "VIP Freeroll 30M",
+            icon: "fas fa-trophy",
+            bonus: "Level " + (levelDataInfo[3].minLevel + 10),
+            cashMode: "vip15",
+            size: "mini",
+            labelcolor: "orange",
+            component: "tournament",
+          },
+          {
+            label: "Freeroll 25M+25M",
+            title: "Freeroll 25M+25M",
+            icon: "fas fa-trophy text-danger",
+            bonus: "Level " + levelDataInfo[3].minLevel,
+            cashMode: "2525",
+            size: "mini",
+            labelcolor: "orange",
+            component: "tournament",
+          },
+        ],
+      },
+      {
+        label: "هدایای گلکسی",
+        title: "هدایای گلکسی",
+        idname: "giftarea",
+
+        icon: "fab fa-viacoin yellow",
+        icongalaxy: "gifts",
+        aria: "giftsarea animated bounceIn delay-02s",
+        component: "gifts",
+      },
+      /*  {
+            label: "برترین بازیکنان",
+            title: "برترین بازیکنان",
+            idname: "topplayer",
+  
+            icon: "fab fa-viacoin yellow",
+            icongalaxy: "topplayer",
+            aria: "giftsarea animated bounceIn delay-02s",
+            component: "topplayers",
+          },
+          {
+            label: "پادشاهان تورنومنت",
+            title: "پادشاهان تورنومنت",
+            idname: "topplayer",
+  
+            icon: "fab fa-viacoin yellow",
+            icongalaxy: "kingof",
+            aria: "giftsarea animated bounceIn delay-02s",
+            component: "kingsof",
+          }, */
+    ],
+  });
+  if (loginToken?.refer != "runner" && loginToken?.refer != "bots") {
+    _ret.push({
+      label: "دعوت دوستان و کسب درآمد",
+      title: "دعوت دوستان و کسب درآمد",
+      icon: "rjzlnunf.svg",
+
+      idname: "login invite",
+
+      submenu: [
+        {
+          component: "CashoutComponent",
+          cashMode: "Invite",
+          size: "mini",
+          labelcolor: "orange",
+        },
+      ],
+    });
+  }
+  _ret.push(
+    {
+      label: "پشتیبانی",
+      title: "پشتیبانی",
+      icon: "gxulgxck.svg",
+      idname: "login support",
+      submenu: [
+        {
+          label: "ثبت تیکت جدید",
+          title: "ثبت تیکت جدید",
+          icon: "fas fa-plus",
+          component: "CashoutComponent",
+          cashMode: "Ticket",
+          size: "mini",
+          labelcolor: "orange",
+        },
+        {
+          component: "support",
+
+          size: "mini",
+          labelcolor: "orange",
+        },
+      ],
+    },
+
+    {
+      label: "حساب کاربری",
+      title: "حساب کاربری",
+      icon: "rqqkvjqf.svg",
+      idname: "login settings",
+      link: "/logout",
+      submenu: [
+        {
+          label: "کارت های بانکی",
+          title: "ثبت کارت  بانکی",
+          idname: "addcart",
+          icon: "fas fa-plus text-danger",
+          component: "CashoutComponent",
+          cashMode: "addCart",
+
+          size: "mini",
+          labelcolor: "orange",
+        },
+        {
+          label: "تغییر رمز عبور",
+          title: "تغییر رمز عبور",
+          icon: "fas fa-lock",
+          component: "CashoutComponent",
+          cashMode: "ChangePass",
+          size: "mini",
+          labelcolor: "orange",
+        },
+        {
+          label: "جوایر من",
+          title: "جوایر من",
+          icon: "fas fa-gift",
+          component: "mygifts",
+        },
+      ],
+    },
+    {
+      label: "خروج",
+      icon: "moscwhoj.svg",
+      idname: "logout",
+      link: "/logout",
+    }
+  );
+  return _ret;
+};
 const levelDataInfoRules = () => {
   try {
     var siteinfo = JSON.parse(localStorage.getItem("siteInfo"));

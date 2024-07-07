@@ -48,32 +48,37 @@ const RewardStat = (prop) => {
   useEffect(() => {
     var stat = [];
     if (lastReward.length > 0) {
-      var _gmode = groupBy(lastReward, "mode");
+      var _gmode = groupBy(
+        lastReward.filter((d) => d.mode != "Bonus"),
+        "mode"
+      );
 
       for (const property in _gmode) {
-        var psum = sumOf(_gmode[property]);
-        const propOwn = Object.getOwnPropertyNames(
-          groupBy(_gmode[property], "username")
-        );
+        if (property != "Bonus") {
+          var psum = sumOf(_gmode[property]);
+          const propOwn = Object.getOwnPropertyNames(
+            groupBy(_gmode[property], "username")
+          );
 
-        stat.push({
-          title: property
-            .toLocaleLowerCase()
-            .replace("gift", "gifts")
-            .replace("levels", "پاداش لِوِل ها")
-            .replace("gpass", "گلکسی پَس")
-            .replace("vip", "VIP Table")
-            .replace("league", "لیگ روزانه")
-            .replace("commission", "کمیسیون معرفی دوستان")
-            .replace("rakeback", "ریک بک پوکر")
-            .replace("gifts", "هدایای گلکسی")
-            .replace("bonus", "بوناس خرید")
-            .replace("tournament", "تورنومنت ها"),
-          mode: property.toLocaleLowerCase().replace("gift", "gift3"),
-          sum: psum,
-          players: propOwn.length,
-          count: _gmode[property].length,
-        });
+          stat.push({
+            title: property
+              .toLocaleLowerCase()
+              .replace("gift", "gifts")
+              .replace("levels", "پاداش لِوِل ها")
+              .replace("gpass", "گلکسی پَس")
+              .replace("vip", "VIP Table")
+              .replace("league", "لیگ روزانه")
+              .replace("commission", "کمیسیون معرفی دوستان")
+              .replace("rakeback", "ریک بک پوکر")
+              .replace("gifts", "هدایای گلکسی")
+              .replace("bonus", "بوناس خرید")
+              .replace("tournament", "تورنومنت ها"),
+            mode: property.toLocaleLowerCase().replace("gift", "gift3"),
+            sum: psum,
+            players: propOwn.length,
+            count: _gmode[property].length,
+          });
+        }
       }
       setTotalRows(sumOf(lastReward));
     }

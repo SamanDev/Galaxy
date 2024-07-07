@@ -204,12 +204,18 @@ function listpoker(list) {
       </small>
     ));
 }
+String.prototype.capitalizeTxt =
+  String.prototype.capitalizeTxt ||
+  function () {
+    return this.charAt(0).toUpperCase() + this.slice(1);
+  };
 function listfinal(list) {
   var newlist = [];
   for (const [key, value] of Object.entries(list)) {
     if (
-      key.indexOf("Total") > -1 ||
+      key.indexOf("Tots") > -1 ||
       key.indexOf("Cost") > -1 ||
+      key.indexOf("playersRake") > -1 ||
       key.indexOf("Rewards") > -1 ||
       key.indexOf("casino") > -1
     ) {
@@ -226,13 +232,15 @@ function listfinal(list) {
       }
     }
   }
+
   return newlist
     .sort((a, b) => (a.name > b.name ? 1 : -1))
     .map((link, i) => (
       <small key={i} className="dplock">
         {link.name}:
         <span className="float-end">
-          {doCurrency(link.value)}
+          <>{doCurrency(link.value)}</>
+
           {(link.name.indexOf("2") > -1 || link.name.indexOf("Dollar")) >
             -1 && <>$</>}
         </span>
@@ -331,27 +339,22 @@ function Admin(prop) {
                 </span>
               </Header>
               <Segment raised inverted attached>
-              <small className="dplock">
-              botsRake:
-        <span className="float-end">
-          {doCurrency(row.botsRake)}
-         
-        </span>
-      </small>
-      <small className="dplock">
-      runnersRake:
-        <span className="float-end">
-          {doCurrency(row.runnersRake)}
-         
-        </span>
-      </small>
-      <small className="dplock">
-      playersRake:
-        <span className="float-end">
-          {doCurrency(row.pokerRake-row.botsRake-row.runnersRake)}
-         
-        </span>
-      </small>
+                <small className="dplock">
+                  botsRake:
+                  <span className="float-end">{doCurrency(row.botsRake)}</span>
+                </small>
+                <small className="dplock">
+                  runnersRake:
+                  <span className="float-end">
+                    {doCurrency(row.runnersRake)}
+                  </span>
+                </small>
+                <small className="dplock">
+                  playersRake:
+                  <span className="float-end">
+                    {doCurrency(row.playersRake)}
+                  </span>
+                </small>
                 {listpoker(row)}
                 <br />
                 {listpercent(
@@ -361,7 +364,6 @@ function Admin(prop) {
                 )}
               </Segment>
             </Segment>
-            
 
             <Segment inverted color="blue" size="tiny" attached="top">
               <Header>
@@ -393,7 +395,7 @@ function Admin(prop) {
               </Header>
               <Segment raised inverted attached>
                 {listreward(row.rewards)}
-               
+
                 <small className="dplock fw-bold">
                   Total:
                   <span className="float-end">
@@ -408,7 +410,7 @@ function Admin(prop) {
                   </span>
                 </small>
                 <br />
-                
+
                 {listcosts(row)}
               </Segment>
             </Segment>
@@ -416,7 +418,12 @@ function Admin(prop) {
               <Header>
                 Total
                 <br />
-                {doCurrency(row.finalTotal+row.botsTotal+row.runnersTotal)}
+                {doCurrency(
+                  row.playersRake +
+                    row?.botsTots +
+                    row?.runnersTots +
+                    (row.totalRewards - row.pokerCost) * -1
+                )}
                 <span className="float-end">
                   {doCurrency(row.finalTotal2)}$
                 </span>
@@ -438,7 +445,7 @@ function Admin(prop) {
                 </small>
               </Segment>
             </Segment>
-            
+
             <Segment inverted color="black" size="tiny" attached="top">
               <Header>
                 Admins Final
@@ -469,6 +476,7 @@ function Admin(prop) {
     var _s = moment(startDate).format("YYYY-MM-DD");
     var _e = moment(endDate).format("YYYY-MM-DD");
     setLoading(true);
+    setData([]);
     try {
       var res;
       if (page == 0) {
@@ -498,11 +506,27 @@ function Admin(prop) {
   const handlePageChange = (page) => {
     fetchUsers(page);
   };
-  var filteredItems = data.sort((a, b) => (a.date < b.date ? 1 : -1));
+  var filteredItems = data;
 
   useEffect(() => {
-    // fetchUsers(1); // fetch page 1 of users
-  }, [dataSearch]);
+    filteredItems = data;
+    filteredItems.map((link, i) => {
+      if (!filteredItems[i]?.botsTots && filteredItems[i]?.botsRake) {
+        filteredItems[i].botsTots =
+          filteredItems[i]?.botsRake + filteredItems[i]?.botsTotal;
+        filteredItems[i].runnersTots =
+          filteredItems[i].runnersRake + filteredItems[i].runnersTotal;
+        filteredItems[i].playersRake =
+          filteredItems[i].pokerRake -
+          filteredItems[i].botsRake -
+          filteredItems[i].runnersRake;
+      }
+
+      filteredItems = filteredItems.sort((a, b) => (a.name < b.name ? 1 : -1));
+    });
+
+    console.log(filteredItems);
+  }, [data]);
 
   useEffect(() => {
     //if (!firstOpen && filterOk) fetchUsers(1); // fetch page 1 of users
