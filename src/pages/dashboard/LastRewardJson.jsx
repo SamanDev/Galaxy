@@ -87,18 +87,20 @@ const ActiveTable = (prop) => {
             <RewardStat lastReward={_sortData} title="no" />
           </div>
 
-          {_sortData.map(function (bonus, i) {
-            return (
-              <LazyLoad key={i} height={100}>
-                <div
-                  className={bonus?.class + " rewardname"}
-                  mode={bonus?.mode.toLowerCase()}
-                >
-                  <Reward item={bonus} color={false} {...prop} />
-                </div>
-              </LazyLoad>
-            );
-          })}
+          {_sortData
+            .filter((d) => d.mode != "Bonus")
+            .map(function (bonus, i) {
+              return (
+                <LazyLoad key={i} height={100}>
+                  <div
+                    className={bonus?.class + " rewardname"}
+                    mode={bonus?.mode.toLowerCase()}
+                  >
+                    <Reward item={bonus} color={false} {...prop} />
+                  </div>
+                </LazyLoad>
+              );
+            })}
         </div>
       )}
     </>
