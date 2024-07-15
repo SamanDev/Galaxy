@@ -123,7 +123,7 @@ function Admin(prop) {
         };
         console.log(newData);
         addGift(newData);
-      }, 500 * i);
+      }, 5000 * i);
     });
   };
   const addGift = async (data) => {
