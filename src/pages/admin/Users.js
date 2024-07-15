@@ -197,6 +197,7 @@ function Admin(prop) {
   const getRate = localStorage.getItem("getRate")
     ? localStorage.getItem("getRate")
     : 50000;
+  var siteInfo = JSON.parse(localStorage.getItem("siteInfoAdmin"));
   const [selectedList, setSelected] = useState([]);
   const [loading, setLoading] = useState(false);
 
@@ -409,6 +410,20 @@ function Admin(prop) {
       name: "point",
       selector: (row) => row.dailyPoint,
       format: (row) => <>{row.dailyPoint}</>,
+      sortable: true,
+    },
+    {
+      name: "giftpoint",
+      selector: (row) => row.giftPlaySecond,
+      format: (row) => (
+        <>
+          {(row.giftPlaySecond * 100) / siteInfo.secondForGift > 100
+            ? 100
+            : parseFloat(
+                (row.giftPlaySecond * 100) / siteInfo.secondForGift
+              ).toFixed(2)}
+        </>
+      ),
       sortable: true,
     },
     {
