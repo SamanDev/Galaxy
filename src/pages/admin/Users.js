@@ -197,7 +197,7 @@ function Admin(prop) {
   const getRate = localStorage.getItem("getRate")
     ? localStorage.getItem("getRate")
     : 50000;
-  var siteInfo = JSON.parse(localStorage.getItem("siteInfoAdmin"));
+  var siteInfo = JSON.parse(localStorage.getItem("siteInfo"));
   const [selectedList, setSelected] = useState([]);
   const [loading, setLoading] = useState(false);
 
