@@ -142,7 +142,6 @@ function Admin(prop) {
             />
           </Tab.Pane>
         ),
-        
       });
     }
     if (haveRoot(loginToken.roles)) {
@@ -162,7 +161,7 @@ function Admin(prop) {
             </Tab.Pane>
           ),
         },
-       
+
         {
           menuItem: "Settings",
           pane: (
@@ -264,16 +263,15 @@ function Admin(prop) {
                 search="refer"
                 searchValue={"bots"}
               />
-               <Bots
-            addTabData={addTabData}
-            setGetwaysData={setGetwaysData}
-            removeTabData={removeTabData}
-            search="refer"
-            searchValue={mode}
-          />
+              <Bots
+                addTabData={addTabData}
+                setGetwaysData={setGetwaysData}
+                removeTabData={removeTabData}
+                search="refer"
+                searchValue={mode}
+              />
             </>
           )}
-         
         </Tab.Pane>
       ),
     });
@@ -362,9 +360,8 @@ function Admin(prop) {
 
   return (
     <Segment inverted>
-    
       <Tab
-      menu={{ color:"black", inverted: true, pointing: true }}
+        menu={{ color: "black", inverted: true, pointing: true }}
         panes={tabData}
         activeIndex={activeIndex}
         renderActiveOnly={false}
