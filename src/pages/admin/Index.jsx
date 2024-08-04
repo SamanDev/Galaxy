@@ -19,6 +19,7 @@ import Setting from "./JsonSetting";
 import Requests from "./Requests";
 import Notification from "./Notification";
 import Invitation from "./Invitation.jsx";
+import AddNewBot from "./AddNewBot.jsx";
 
 import { adminGetService } from "../../services/admin";
 import { haveAdmin, haveModerator, haveOperator, haveRoot } from "../../const";
@@ -146,6 +147,21 @@ function Admin(prop) {
     }
     if (haveRoot(loginToken.roles)) {
       panes.push(
+        {
+          menuItem: "AddNewBot",
+          pane: (
+            <Tab.Pane key="AddNewBot">
+              <AddNewBot
+                addTabData={addTabData}
+                addMainTabData={addMainTabData}
+                setGetwaysData={setGetwaysData}
+                addGatewayTabData={addGatewayTabData}
+                removeTabData={removeTabData}
+                {...prop}
+              />
+            </Tab.Pane>
+          ),
+        },
         {
           menuItem: "Invitation",
           pane: (
