@@ -510,18 +510,38 @@ export const GetMenu = (siteInfo, loginToken) => {
                 icongalaxy: "levels",
                 component: "levels",
             },
-
             {
+                label: "گلکسی پَس",
+                title: "گلکسی پَس",
+        
+                idname: "gpass",
+                bonus: "Level " + gpassrules?.minLevel,
+                icon: "fab fa-google yellow",
+                icongalaxy: "gpass",
+                aria: "giftsarea animated bounceIn delay-02s",
+                component: "gpass",
+              },
+              {
                 label: "VIP Table",
                 title: "VIP Table",
                 idname: "vip",
-
+        
                 bonus: "Level " + viprules?.minLevel,
                 icon: "fab fa-viacoin yellow",
                 icongalaxy: "vip",
                 aria: "giftsarea animated bounceIn delay-02s",
                 component: "vip",
-            },
+              },
+              {
+                label: "لیگ روزانه",
+                title: "لیگ روزانه",
+                aria: "giftsarea animated bounceIn delay-02s",
+                idname: "league",
+                bonus: "Level " + leaguerules?.minLevel,
+                icon: "fas fa-medal yellow",
+                icongalaxy: "league",
+                component: "league",
+              },
             {
                 label: "کمیسیون معرفی دوستان",
                 title: "کمیسیون معرفی دوستان",
@@ -839,7 +859,7 @@ export const dayOfTournament = 5;
 export const levelList = "1,5,15,30,50,100,200,300,400,500,600,700,800,900,1000,1200,1400,1600,1800,2000,2500,3000,3500,4000,4500,5000,6000,7000,8000,10000".split(",");
 
 export const activeColorList = "grey,grey,brown,pink,purple,violet,blue,teal,green,olive,yellow,orange,red".split(",");
-export const activeColorList2 = "#395400,#cbff2c,#f3ff2c,#ffc12c,#ff8a2c,#ff362c,#ff0d01,#62aee0,#0089e3,#9c46ec,#8a27e8,#395400".split(",");
+export const activeColorList2 = "#395400,#cbff2c,#f3ff2c,#ffc12c,#ff8a2c,#ff362c,#ff0d01,#62aee0,#0089e3,#9c46ec,#8a27e8,#395400,#395400,#395400".split(",");
 export const levelPassList = "500,1000,1000,2000,2500,3000,4000,5000,6000,7000,8000,10000,15000,20000,25000".split(",");
 export const levelLeagueList = "10000,8000,6000,5000,4000,3000,2000,1000,500,500,500,500,500,500,500,500,500,500,500,500".split(",");
 export const levelLeagueReward = (lvl) => {
@@ -1031,7 +1051,7 @@ export const updateBonusLabel = (bonusOld, loginToken, siteInfo) => {
     bonus.mymode = _mode;
     return bonus;
 };
-export const getEvent = (siteInfo) => {
+export const getEvent2 = (siteInfo) => {
     if (siteInfo == null) return "";
     siteInfo?.galaxyPassSet?.sort((a, b) => (a.id > b.id ? 1 : -1));
     var gpassrules = siteInfo?.galaxyPassSet[0];
@@ -1053,6 +1073,27 @@ export const getEvent = (siteInfo) => {
         return "Levels";
     }
 };
+export const getEvent = (siteInfo) => {
+    if (siteInfo == null) return "";
+    siteInfo?.galaxyPassSet?.sort((a, b) => (a.id > b.id ? 1 : -1));
+    var gpassrules = siteInfo?.galaxyPassSet[0];
+    siteInfo?.vipTables?.sort((a, b) => (a.id > b.id ? 1 : -1));
+    var viprules = siteInfo?.vipTables[0];
+    siteInfo?.dailyLeagueSet?.sort((a, b) => (a.id > b.id ? 1 : -1));
+    var leaguerules = siteInfo?.dailyLeagueSet[0];
+    var levelData = siteInfo?.levelUps;
+    var now = moment().format("YYYYMMDDTHHmmss");
+    var nowDay = moment(now).date();
+    var friDay = moment(now).day();
+  
+    if (nowDay <= gpassrules.endDay) {
+      return "GPass";
+    } else if (nowDay <= viprules.endDay) {
+      return "VIP";
+    } else {
+      return "League";
+    }
+  };
 export const haveRoot = (userTags) => {
     var isAdmin = false;
     if (userTags) {
