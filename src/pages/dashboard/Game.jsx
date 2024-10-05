@@ -217,7 +217,7 @@ const getFrameLink = (game) => {
                                     name="gameframe"
                                     className={"framegame casframe"}
                                     onLoad={removeFrameLoad2}
-                                ></iframe>
+                                ></iframe> 
                             ) : (
                                 <iframe src={siteInfo.casinoGamesUrl+"/"+getFrameLink(secondaryGame)+".html?code=" + loginToken.accessToken + ""} name="gameframe" className={"framegame casframe"} onLoad={removeFrameLoad2}></iframe>
                             )}</>
