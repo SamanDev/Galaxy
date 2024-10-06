@@ -53,7 +53,7 @@ const GameInbox = (prop) => {
                     </Grid.Column>
                     <Grid.Column mobile={16} tablet={8} computer={8} >
                         
-                        <Link  to={"/games/" + gameDataMain[3]} id={"open" + gameDataMain[3]}><Image src={"/assets/images/games/" + gameDataMain[3]+"-min.jpg"}  fluid    /></Link>
+                        <Link  to={"#/games/" + gameDataMain[3]} id={"open" + gameDataMain[3]}><Image src={"/assets/images/games/" + gameDataMain[3]+"-min.jpg"}  fluid    /></Link>
                     </Grid.Column>
                     
 
