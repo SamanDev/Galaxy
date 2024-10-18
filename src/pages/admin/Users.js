@@ -7,6 +7,7 @@ import { addDays } from "date-fns";
 const moment = require("moment");
 import { adminGetService, adminPutService } from "../../services/admin";
 import { Alert } from "../../utils/alerts";
+import $ from "jquery";
 
 import CheckboxToggle from "./utils/toggle";
 import AddGift from "./AddGift";
@@ -183,6 +184,8 @@ function Admin(prop) {
             selector: (row) => row.id,
             sortable: true,
             grow: 0.5,
+            hide: 'md',
+
         },
         {
             name: "level",
@@ -258,6 +261,8 @@ function Admin(prop) {
             selector: (row) => row.id,
             sortable: true,
             grow: 0.5,
+            		hide: 'md',
+
         },
         {
             name: "level",
@@ -268,6 +273,7 @@ function Admin(prop) {
                 </>
             ),
             sortable: true,
+            
         },
         {
             name: "msg",
@@ -416,6 +422,7 @@ function Admin(prop) {
             if (res.status === 200) {
                 setData(res.data.users);
                 setTotalRows(res.data.count);
+                
                 // setFilterOk(false);
             }
         } catch (error) {
@@ -453,14 +460,16 @@ function Admin(prop) {
     useEffect(() => {
         if (dataSearch) {
             var _val = dataSearch.toString();
-            setDataSortedID(2);
+           setDataSortedID(2);
+            
             if (_val.indexOf("up") > -1) {
-                setPerPage(2500);
+                setPerPage(1000);
             }
             _val = _val.replace("up", "");
 
             if (_val == "chip") {
                 setDataSortedID(6);
+                setPerPage(1000);
             }
             if (_val == "point") {
                 setDataSortedID(8);
@@ -472,8 +481,18 @@ function Admin(prop) {
     }, [dataSearch]);
 
     useEffect(() => {
-        // if (filterOk) fetchUsers(1); // fetch page 1 of users
-    }, [filterOk]);
+     // fetchUsers(1); // fetch page 1 of users
+  }, []);
+  useEffect(() => {
+    fetchUsers(1); // fetch page 1 of users
+}, [perPage]);
+useEffect(() => {
+  setTimeout(() => {
+   // $('[data-sort-id="'+dataSortedID+'"]').trigger('click')
+  }, 100);
+  
+}, [data]);
+
 
     const [firstOpen, setFirstOpen] = React.useState(false);
     const [mailOpen, setMailOpen] = React.useState(false);
@@ -516,7 +535,8 @@ function Admin(prop) {
     useEffect(() => {
         handleClearRows();
         setSelected([]);
-    }, [data, lvlFilter]);
+      
+    }, [data]);
 
     if (haveAdmin(loginToken.roles) && 1 == 2) {
         columns.push(
@@ -561,7 +581,7 @@ function Admin(prop) {
                         <Form unstackable>
                                 <FormGroup widths={1}>
                                     <FormInput label="Show Bots">
-                                    <Checkbox slider  value={showBots} onChange={(e, data) => setShowBots(data.checked)} />
+                                    <Checkbox slider  onChange={(e, data) => setShowBots(data.checked)} />
                                     </FormInput>
                                     {selectedList.length == 0 && (
                                 <>
@@ -737,10 +757,10 @@ function Admin(prop) {
                         />
                     </>
                 ) : (
-                    <>
+                  (           <>
                         <span>{subHeaderComponentMemo}</span>
-                        <DataTable columns={columns} data={filteredItems} progressPending={loading} onChangeRowsPerPage={handlePerRowsChange} onChangePage={handlePageChange} paginationPerPage={perPage} expandOnRowClicked={true} defaultSortFieldId={dataSortedID} defaultSortAsc={false} expandableRowsHideExpander={true} conditionalRowStyles={conditionalRowStyles} noDataComponent={noDataComponent} pagination persistTableHead paginationServer contextActions={contextActions} paginationRowsPerPageOptions={[10, 25, 50, 100, 500, 1000, 5000]} paginationTotalRows={totalRows} onSelectedRowsChange={handleChange} clearSelectedRows={toggledClearRows} selectableRows />
-                    </>
+                        <DataTable columns={columns} data={filteredItems} progressPending={loading} onChangeRowsPerPage={handlePerRowsChange} onChangePage={handlePageChange} paginationPerPage={perPage} expandOnRowClicked={true}  expandableRowsHideExpander={true} conditionalRowStyles={conditionalRowStyles} noDataComponent={noDataComponent} pagination persistTableHead paginationServer contextActions={contextActions} paginationRowsPerPageOptions={[10, 25, 50, 100, 500, 1000, 5000]} paginationTotalRows={totalRows} onSelectedRowsChange={handleChange} clearSelectedRows={toggledClearRows} selectableRows />
+                    </>)
                 )}
             </div>
         </>
