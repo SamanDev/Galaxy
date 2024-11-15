@@ -741,7 +741,7 @@ function App(prop) {
             // finalMenu = "";
             setIsUser(isLogin);
             startServiceWorker();
-            if (loginToken?.refer == "runner" || loginToken?.refer == "bots") {
+            if (loginToken?.refer == "Runner" || loginToken?.refer == "bots") {
                 $(".cashierarea").remove();
             }
         }
