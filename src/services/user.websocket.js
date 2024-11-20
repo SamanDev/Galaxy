@@ -10,18 +10,17 @@ var usr;
 var tkn = false;
 var count = 0;
 function isJson(str) {
-  // alert("str00 = "+str)
-  try {
-      JSON.parse(str);
-  } catch (e) {
-      // alert('no JSON')
-      return false;
-  }
-  // alert('yes JSON')
-  return true;
+    // alert("str00 = "+str)
+    try {
+        JSON.parse(str);
+    } catch (e) {
+        // alert('no JSON')
+        return false;
+    }
+    // alert('yes JSON')
+    return true;
 }
 class UserWebsocket {
-  
     connect(token, user) {
         var _t = token && !user?.logout ? "/users?token=" + token : "/public";
 
@@ -44,7 +43,7 @@ class UserWebsocket {
                     try {
                         ws.send("ping");
                     } catch (error) {
-                      clearInterval(timerId);
+                        clearInterval(timerId);
                     }
                 }, 10000);
                 // console.log("Socket is connected.");
@@ -57,7 +56,7 @@ class UserWebsocket {
         ws.onmessage = function (data) {
             var message = data.data;
             //  new UserWebsocket().serverMessage(data.data);
-            
+
             if (isJson(message)) {
                 var msg = JSON.parse(message);
 
@@ -73,7 +72,10 @@ class UserWebsocket {
                 }
             } else {
                 if (message === "closeConnection") {
-                    ws?.close();
+                    clearInterval(timerId);
+                    try {
+                        ws?.close();
+                    } catch (error) {}
                     ws = null;
                     if (tkn) {
                         eventBus.dispatch("eventsDC", "");
@@ -89,8 +91,14 @@ class UserWebsocket {
             }
         };
         ws.onerror = function (e) {
-            
-            disconnect()
+            clearInterval(timerId);
+            try {
+                ws?.close();
+            } catch (error) {}
+            ws = null;
+            if (tkn) {
+                eventBus.dispatch("eventsDC", "");
+            }
         };
     }
 
@@ -98,9 +106,7 @@ class UserWebsocket {
         clearInterval(timerId);
         try {
             ws?.close();
-        } catch (error) {
-            
-        }
+        } catch (error) {}
         ws = null;
         if (tkn) {
             eventBus.dispatch("eventsDC", "");
