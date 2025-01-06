@@ -9,7 +9,7 @@ import { GetMenu, haveAdmin, haveModerator, getEvent, dayOfTournament, haveOpera
 import LazyLoad from "react-lazyload";
 import { forceCheck } from "react-lazyload";
 import { Link } from "react-router-dom";
-import { startServiceWorker, activeDollarBalance } from "./const";
+import { startServiceWorker,activeDollarBalance } from "./const";
 import $ from "jquery";
 import { useIsLogin } from "./hook/authHook";
 import { useUser, useSiteInfo } from "./hook/userHook";
