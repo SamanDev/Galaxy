@@ -104,6 +104,7 @@ const Dashboard = (prop) => {
     };
     const removeFrameLoad = () => {
         setGameLoader(false);
+        $('.step0-1').trigger('click');
         //prop.reportWindowSize();
     };
     const removeFrameLoad2 = () => {
@@ -123,9 +124,10 @@ const Dashboard = (prop) => {
     useEffect(() => {
         if (sessionKey == "") {
             setMainGame("poker");
-$('.step0-1').trigger('click');
+
             // setSessionKey("");
             if (loginToken?.accessToken && !loginToken?.logout && mainGame == "poker") {
+                $('.step0-1').trigger('click');
                 handleSession();
             }
         }
