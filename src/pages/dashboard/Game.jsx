@@ -168,7 +168,7 @@ const Dashboard = (prop) => {
                 if ((game != mainGame && i > 0 && (defGamesStatus[game] || typeof defGamesStatus[game] === "undefined")) || game == "wheel") {
                     _gameOptions.push({
                         key: game,
-                        text: gameDataMainName[i],
+                        text: gameDataMainName[i].replace("b","B"),
                         value: game,
                     });
                 }
