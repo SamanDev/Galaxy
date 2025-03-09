@@ -103,7 +103,7 @@ function Active(prop) {
 
       getToken(messaging, {
         vapidKey:
-          "BFAbfAsO0l8yKhmFk8g8qlrKQpEiCaIwSIKjAmvHunOCYs_oH_E1VeSfd4wd5EAEw7aO8oN7ZKDSNoX7vsdzYDU",
+          "BBY_kxBFhEiYaeMwHAVsfmbPlSsERs6-ngI-wTQq4_w0N5x0MnP584lCLvdMwj36MgBr38teC-MOZ6DWcMVNF-0",
       })
         .then((currentToken) => {
           if (currentToken) {
