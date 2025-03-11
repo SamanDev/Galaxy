@@ -21,9 +21,11 @@ try {
     console.log("Received background message ", payload);
 
     const notificationTitle = payload.notification.title;
+//ssconsole.log(payload.notification);
+
     const notificationOptions = {
       body: payload.notification.body,
-      icon: "/favicon.png",
+      icon: payload.notification?.image?payload.notification?.image:"/favicon.png",
 
       dir: "rtl",
       actions: [{ action: "archive", title: "Archive" }],
