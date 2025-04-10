@@ -49,7 +49,7 @@ const depositArea = (prop) => {
               formik={formik}
               control="input"
               type="text"
-              inputmode="numeric"
+              
               name="voucherCode"
               label="eVoucher Number"
               labelcolor={prop.labelcolor}
