@@ -72,6 +72,25 @@ function Admin(prop) {
             </Tab.Pane>
           ),
         }]
+        panes.push(
+      {
+          menuItem: "Users",
+          pane: (
+            <Tab.Pane key="Users">
+              <Users
+                addTabData={addTabData}
+                addMainTabData={addMainTabData}
+                handleGetGeteways={handleGetGeteways}
+                addGatewayTabData={addGatewayTabData}
+                removeTabData={removeTabData}
+                getwaysList={getwaysData}
+                search="username"
+                searchValue=""
+                {...prop}
+              />
+            </Tab.Pane>
+          )
+        })
     } else {
       panes = [
         {
