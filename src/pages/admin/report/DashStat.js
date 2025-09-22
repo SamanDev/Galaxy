@@ -135,22 +135,38 @@ function Admin(prop) {
 
             labels.push(_day);
         }
+const convertDateTimeToBrowserTime = (dateTimeWithTimeZone,mode) => {
+    var newdate = moment(dateTimeWithTimeZone, 'YYYY-MM-DDTHH:mm:ssZ').local().format('YYYY-MM-DD HH:mm:ss')
+    
+    
+    if(mode=="day"){
+        var date = new Date(newdate);
+        console.log(newdate,date,date.toString());
+return moment(newdate).date();
+    }else{
+return moment(newdate).month()
+
+    }
+     
+}
 
         const getdays = (data) => {
             var _data = data;
             var newdata = [];
-
+ 
             for (let index = 0; index < _d; index++) {
                 var i = moment(_s).add(index, "days").format("YYYY-MM-DD");
                 var ffdata = _data.filter(
-                    (d) =>
-                        parseInt(moment(d.createDate).date()) ===
+                    (d) => 
+                        convertDateTimeToBrowserTime(d.createDate,"day") ===
                         parseInt(moment(i).date()) &&
-                        parseInt(moment(d.createDate).month()) ===
+                        convertDateTimeToBrowserTime(d.createDate) ===
                         parseInt(moment(i).month()) &&
                         d.status == "Done"
                 );
                 //console.log(ffdata);
+                //console.log(ffdata[0].createDate,convertDateTimeToBrowserTime(ffdata[0].createDate,"day"),convertDateTimeToBrowserTime(ffdata[0].createDate));
+
                 newdata.push(sumOf(ffdata));
             }
             return newdata;
