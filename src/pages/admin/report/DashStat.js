@@ -29,7 +29,7 @@ const sumOf = (array) => {
                 ? currentValue.amount
                 : currentValue.amount2 * desc.dollarPrice;
         if (_am < 0) {
-            _am = _am * -1;
+            //_am = _am * -1;
         }
         return sum + _am;
     }, 0);
@@ -220,7 +220,7 @@ function Admin(prop) {
     }, [data]);
     useEffect(() => {
         $("#chart").html("");
-        $("#chart").append('<canvas style="height:300px" id="acquisitions"></canvas>');
+        $("#chart").append('<canvas style="height:300px;min-width:600px;" id="acquisitions"></canvas></div>');
 
         new Chart(document.getElementById("acquisitions"), {
             type: "line",
