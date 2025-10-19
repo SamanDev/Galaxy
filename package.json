@@ -1,6 +1,6 @@
 {
     "name": "galaxy",
-    "version": "0.3.23",
+    "version": "1.3.23",
     "private": true,
     "dependencies": {
         "@reactour/tour": "^3.3.0",
