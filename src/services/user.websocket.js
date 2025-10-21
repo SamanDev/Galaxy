@@ -34,20 +34,13 @@ class UserWebsocket {
                     tkn = false;
                 }
                 eventBus.dispatch("eventsConnect", "");
-                clearInterval(timerId);
-                timerId = setInterval(() => {
-                    try {
-                        ws.send("ping");
-                    } catch (error) {
-                        clearInterval(timerId);
-                    }
-                }, 10000);
+                ws.send("ping");
                 // console.log("Socket is connected.");
             };
             ws.onmessage = function (data) {
                 var message = data.data;
                 //  new UserWebsocket().serverMessage(data.data);
-
+                ws.send("ping");
                 if (isJson(message)) {
                     var msg = JSON.parse(message);
 
@@ -63,8 +56,9 @@ class UserWebsocket {
                     }
                 } else {
                     if (message === "closeConnection") {
+                      //  clearInterval(timerId);
                         if (tkn) {
-                            clearInterval(timerId);
+                            
                             try {
                                 ws?.close();
                             } catch (error) {}
@@ -77,12 +71,14 @@ class UserWebsocket {
                         eventBus.dispatch("eventsDataActive", "Your account has been activated.");
                         //eventBus.dispatch("eventsDC", '');
                     } else if (message == "Pong") {
+                        
                         res = true;
                     }
                 }
+               
             };
             ws.onerror = function (e) {
-                clearInterval(timerId);
+                //clearInterval(timerId);
                 try {
                     ws?.close();
                 } catch (error) {}
@@ -92,6 +88,7 @@ class UserWebsocket {
                 }
             };
         } else {
+           // clearInterval(timerId);
             //console.log(tkn);
             //token = null;
             //tkn = false;
@@ -99,7 +96,7 @@ class UserWebsocket {
     }
 
     disconnect() {
-        clearInterval(timerId);
+        //clearInterval(timerId);
         try {
             ws?.close();
         } catch (error) {}
